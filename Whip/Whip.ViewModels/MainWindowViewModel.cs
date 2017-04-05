@@ -57,11 +57,6 @@ namespace Whip.ViewModels
 
         private void OnSaveLibrary()
         {
-            if (_library.Artists == null)
-            {
-                OnPopulateLibrary();
-            }
-
             _libraryService.SaveLibrary(_library.Artists);
         }
     }

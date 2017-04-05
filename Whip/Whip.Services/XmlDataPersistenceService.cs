@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml.Linq;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
@@ -20,6 +21,69 @@ namespace Whip.Services
         private string XmlDirectory => Path.Combine(_userSettingsService.MusicDirectory, string.Format("_{0}", ApplicationTitle));
 
         private string XmlFilePath => Path.Combine(XmlDirectory, "library.xml");
+
+        public Library GetLibrary()
+        {
+            var xml = XDocument.Load(XmlFilePath);
+
+            var rootXml = xml.Root;
+
+            var dateUpdatedXml = rootXml.Element(XmlPropertyNames.LastUpdated);
+
+            var library = new Library
+            {
+                LastUpdated = DateTime.Parse(dateUpdatedXml.Value)
+            };
+
+            var artistsXml = rootXml.Element(XmlPropertyNames.Artists);
+
+            foreach (var artistXml in artistsXml.Elements(XmlPropertyNames.Artist))
+            {
+                var artist = GetArtist(artistXml);
+
+                library.Artists.Add(artist);
+            }
+
+            foreach (var artistXml in artistsXml.Elements(XmlPropertyNames.Artist))
+            {
+                var albumArtist = library.Artists.Single(a => a.Name == artistXml.Attribute(XmlPropertyNames.Name).Value);
+
+                var albumsXml = artistXml.Element(XmlPropertyNames.Albums);
+
+                foreach (var albumXml in albumsXml.Elements(XmlPropertyNames.Album))
+                {
+                    var album = GetAlbum(albumXml, albumArtist);
+
+                    var discsXml = albumXml.Element(XmlPropertyNames.Discs);
+
+                    foreach (var discXml in discsXml.Elements(XmlPropertyNames.Disc))
+                    {
+                        var disc = GetDisc(discXml, album);
+
+                        var tracksXml = discXml.Element(XmlPropertyNames.Tracks);
+
+                        foreach (var trackXml in tracksXml.Elements(XmlPropertyNames.Track))
+                        {
+                            var artistNameXml = trackXml.Attribute(XmlPropertyNames.Artist);
+
+                            var artist = artistNameXml == null
+                                ? albumArtist
+                                : library.Artists.Single(a => a.Name == trackXml.Attribute(XmlPropertyNames.Artist).Value);
+
+                            var track = GetTrack(trackXml, disc, artist);
+
+                            disc.Tracks.Add(track);
+                        }
+
+                        album.Discs.Add(disc);
+                    }
+
+                    albumArtist.Albums.Add(album);
+                }
+            }
+
+            return library;
+        }
 
         public void Save(ICollection<Artist> artists)
         {
@@ -66,6 +130,45 @@ namespace Whip.Services
             xml.Save(XmlFilePath);
         }
 
+        private Artist GetArtist(XElement xml)
+        {
+            return new Artist
+            {
+                Name = xml.Attribute(XmlPropertyNames.Name).Value
+            };
+        }
+
+        private Album GetAlbum(XElement xml, Artist artist)
+        {
+            return new Album
+            {
+                Artist = artist,
+                Title = xml.Attribute(XmlPropertyNames.Title).Value,
+                Year = xml.Attribute(XmlPropertyNames.Year).Value
+            };
+        }
+
+        private Disc GetDisc(XElement xml, Album album)
+        {
+            return new Disc
+            {
+                Album = album,
+                DiscNo = Convert.ToInt16(xml.Attribute(XmlPropertyNames.DiscNo).Value)
+            };
+        }
+
+        private Track GetTrack(XElement xml, Disc disc, Artist artist)
+        {
+            return new Track
+            {
+                Disc = disc,
+                Artist = artist,
+                Title = xml.Attribute(XmlPropertyNames.Title).Value,
+                RelativeFilepath = xml.Attribute(XmlPropertyNames.RelativeFilepath).Value,
+                TrackNo = Convert.ToInt16(xml.Attribute(XmlPropertyNames.TrackNo).Value)
+            };
+        }
+
         private XElement GetXElement(Artist artist)
         {
             var xml = new XElement(XmlPropertyNames.Artist);
@@ -101,6 +204,11 @@ namespace Whip.Services
             xml.Add(new XAttribute(XmlPropertyNames.RelativeFilepath, track.RelativeFilepath));
             xml.Add(new XAttribute(XmlPropertyNames.Title, track.Title));
             xml.Add(new XAttribute(XmlPropertyNames.TrackNo, track.TrackNo));
+
+            if (track.Artist != track.Disc.Album.Artist)
+            {
+                xml.Add(new XAttribute(XmlPropertyNames.Artist, track.Artist.Name));
+            }
 
             return xml;
         }

@@ -26,11 +26,15 @@ namespace Whip.Services
         {
             return await Task.Run(() =>
             {
-                progressHandler?.Report(new ProgressArgs(25, "Fetching files"));
+                progressHandler?.Report(new ProgressArgs(25, "Processing XML"));
+
+                var library = _dataPersistenceService.GetLibrary();
+
+                progressHandler?.Report(new ProgressArgs(50, "Fetching files"));
 
                 var files = _fileService.GetFiles(directory, extensions);
 
-                progressHandler?.Report(new ProgressArgs(50, "Processing files"));
+                progressHandler?.Report(new ProgressArgs(75, "Processing files"));
 
                 var artists = new List<Artist>();
 
