@@ -1,0 +1,28 @@
+﻿<Window x:Class="Whip.Windows.Dialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Whip.Windows"
+        xmlns:viewModels="clr-namespace:Whip.ViewModels.Windows;assembly=Whip.ViewModels"
+        xmlns:windows="clr-namespace:Whip.Windows"
+        mc:Ignorable="d"
+        Title="{Binding Title}" 
+        ResizeMode="NoResize"
+        ShowInTaskbar="false" 
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen"
+        Height="300" 
+        Width="300">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModels:ProgressBarViewModel}">
+            <windows:ProgressBarView />
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <ContentControl Content="{Binding}"
+                        BorderThickness="0"
+			            Height="Auto"
+			            Width="Auto"/>
+    </Grid>
+</Window>

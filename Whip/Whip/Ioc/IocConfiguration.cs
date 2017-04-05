@@ -1,10 +1,12 @@
-﻿using Ninject.Modules;
+﻿using GalaSoft.MvvmLight.Messaging;
+using Ninject.Modules;
 using TagLibSharp;
 using Whip.Services;
 using Whip.Services.Interfaces;
 using Whip.ViewModels;
 using Whip.ViewModels.Singletons;
 using Whip.ViewModels.Singletons.Interfaces;
+using Whip.MessageHandlers;
 
 namespace Whip.Ioc
 {
@@ -18,7 +20,7 @@ namespace Whip.Ioc
             
             BindServices();
 
-            BindThirdPartyServices();
+            BindMessageHandlers();
         }
 
         private void BindViewModels()
@@ -31,6 +33,7 @@ namespace Whip.Ioc
         private void BindSingletons()
         {
             Bind<ILibrary>().To<Library>().InSingletonScope();
+            Bind<IMessenger>().To<Messenger>().InSingletonScope();
         }
 
         private void BindServices()
@@ -40,11 +43,12 @@ namespace Whip.Ioc
             Bind<IUserSettingsService>().To<UserSettingsService>().InTransientScope();
             Bind<ILibraryDataOrganiserService>().To<LibraryDataOrganiserService>().InTransientScope();
             Bind<IDataPersistenceService>().To<XmlDataPersistenceService>().InTransientScope();
+            Bind<ITaggingService>().To<TagLibService>().InTransientScope();
         }
 
-        private void BindThirdPartyServices()
+        private void BindMessageHandlers()
         {
-            Bind<ITaggingService>().To<TagLibService>().InTransientScope();
+            Bind<DialogMessageHandler>().ToSelf().InSingletonScope();
         }
     }
 }

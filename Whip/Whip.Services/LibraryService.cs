@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Whip.Common.Model;
+using Whip.Common.Utilities;
 using Whip.Services.Interfaces;
 
 namespace Whip.Services
@@ -20,18 +22,27 @@ namespace Whip.Services
             _dataPersistenceService = dataPersistenceService;
         }
 
-        public ICollection<Artist> GetLibrary(string directory, params string[] extensions)
+        public async Task<ICollection<Artist>> GetLibraryAsync(string directory, string[] extensions, IProgress<ProgressArgs> progressHandler)
         {
-            var files = _fileService.GetFiles(directory, extensions);
-
-            var artists = new List<Artist>();
-
-            foreach (var file in files)
+            return await Task.Run(() =>
             {
-                _libraryDataOrganiserService.AddTrack(Path.Combine(directory, file.RelativePath), file, artists);
-            }
+                progressHandler?.Report(new ProgressArgs(25, "Fetching files"));
 
-            return artists;
+                var files = _fileService.GetFiles(directory, extensions);
+
+                progressHandler?.Report(new ProgressArgs(50, "Processing files"));
+
+                var artists = new List<Artist>();
+
+                foreach (var file in files)
+                {
+                    _libraryDataOrganiserService.AddTrack(Path.Combine(directory, file.RelativePath), file, artists);
+                }
+
+                progressHandler?.Report(new ProgressArgs(100, "Done"));
+
+                return artists;
+            });
         }
 
         public void SaveLibrary(ICollection<Artist> artists)

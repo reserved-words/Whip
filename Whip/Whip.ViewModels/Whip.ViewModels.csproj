@@ -61,12 +61,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationSettings.cs" />
+    <Compile Include="Messages\IMessageHandler.cs" />
+    <Compile Include="Messages\ShowDialogMessage.cs" />
+    <Compile Include="Messages\HideDialogMessage.cs" />
     <Compile Include="Singletons\Interfaces\ILibrary.cs" />
     <Compile Include="Singletons\Library.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SidebarViewModel.cs" />
+    <Compile Include="Windows\DialogViewModel.cs" />
+    <Compile Include="Windows\ProgressBarViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Whip.Common\Whip.Common.csproj">

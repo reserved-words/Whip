@@ -17,8 +17,16 @@ namespace Whip
         protected override void OnStartup(StartupEventArgs e)
         {
             IocKernel.Initialize(new IocConfiguration());
+            IocKernel.StartMessageHandlers();
 
             base.OnStartup(e);
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            IocKernel.StopMessageHandlers();
+
+            base.OnExit(e);
         }
     }
 }

@@ -1,10 +1,6 @@
 ﻿using Ninject;
 using Ninject.Modules;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Whip.MessageHandlers;
 
 namespace Whip.Ioc
 {
@@ -23,6 +19,16 @@ namespace Whip.Ioc
             {
                 _kernel = new StandardKernel(modules);
             }
+        }
+
+        public static void StartMessageHandlers()
+        {
+            _kernel.Get<DialogMessageHandler>().Start();
+        }
+
+        public static void StopMessageHandlers()
+        {
+            _kernel.Get<DialogMessageHandler>().Stop();
         }
     }
 }
