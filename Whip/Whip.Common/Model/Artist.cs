@@ -11,10 +11,12 @@ namespace Whip.Common.Model
         public Artist()
         {
             Albums = new List<Album>();
+            Tracks = new List<Track>();
         }
 
         public string Name { get; set; }
 
         public ICollection<Album> Albums { get; set; }
+        public ICollection<Track> Tracks { get; set; }
     }
 }

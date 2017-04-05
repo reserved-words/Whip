@@ -64,8 +64,6 @@
     <Compile Include="Messages\IMessageHandler.cs" />
     <Compile Include="Messages\ShowDialogMessage.cs" />
     <Compile Include="Messages\HideDialogMessage.cs" />
-    <Compile Include="Singletons\Interfaces\ILibrary.cs" />
-    <Compile Include="Singletons\Library.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

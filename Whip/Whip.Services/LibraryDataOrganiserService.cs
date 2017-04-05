@@ -73,9 +73,55 @@ namespace Whip.Services
             }
 
             disc.Tracks.Add(track);
+            artist.Tracks.Add(track);
 
             track.Disc = disc;
             track.Artist = artist;
+        }
+
+        public void SyncTracks(ICollection<Artist> artists, ICollection<string> filepathsToKeep)
+        {
+            foreach (var artist in artists)
+            {
+                foreach (var album in artist.Albums)
+                {
+                    foreach (var disc in album.Discs)
+                    {
+                        var tracksToRemove = new List<Track>();
+
+                        foreach (var track in disc.Tracks)
+                        {
+                            if (!filepathsToKeep.Contains(track.RelativeFilepath))
+                            {
+                                tracksToRemove.Add(track);
+                            }
+                            else
+                            {
+                                filepathsToKeep.Remove(track.RelativeFilepath);
+                            }
+                        }
+
+                        foreach (var track in tracksToRemove)
+                        {
+                            disc.Tracks.Remove(track);
+                            track.Artist.Tracks.Remove(track);
+                        }
+
+                    }
+
+                    album.Discs.Where(d => !d.Tracks.Any())
+                        .ToList()
+                        .ForEach(d => album.Discs.Remove(d));
+                }
+
+                artist.Albums.Where(a => !a.Discs.Any())
+                    .ToList()
+                    .ForEach(a => artist.Albums.Remove(a));
+            }
+
+            artists.Where(a => !a.Albums.Any() && !a.Tracks.Any())
+                .ToList()
+                .ForEach(a => artists.Remove(a));
         }
     }
 }

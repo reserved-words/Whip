@@ -9,6 +9,6 @@ namespace Whip.Services.Interfaces
 {
     public interface IFileService
     {
-        ICollection<File> GetFiles(string directory, params string[] extensions);
+        FilesWithStatus GetFiles(string directory, string[] extensions, DateTime lastUpdated);
     }
 }

@@ -22,36 +22,42 @@ namespace Whip.Services
             _dataPersistenceService = dataPersistenceService;
         }
 
-        public async Task<ICollection<Artist>> GetLibraryAsync(string directory, string[] extensions, IProgress<ProgressArgs> progressHandler)
+        public async Task<Library> GetLibraryAsync(string directory, string[] extensions, IProgress<ProgressArgs> progressHandler)
         {
             return await Task.Run(() =>
             {
-                progressHandler?.Report(new ProgressArgs(25, "Processing XML"));
+                progressHandler?.Report(new ProgressArgs(20, "Processing XML"));
 
                 var library = _dataPersistenceService.GetLibrary();
 
-                progressHandler?.Report(new ProgressArgs(50, "Fetching files"));
+                var libraryLastUpdated = library.LastUpdated;
 
-                var files = _fileService.GetFiles(directory, extensions);
+                library.LastUpdated = DateTime.Now;
 
-                progressHandler?.Report(new ProgressArgs(75, "Processing files"));
+                progressHandler?.Report(new ProgressArgs(40, "Fetching files"));
 
-                var artists = new List<Artist>();
+                var files = _fileService.GetFiles(directory, extensions, libraryLastUpdated);
 
-                foreach (var file in files)
+                progressHandler?.Report(new ProgressArgs(60, "Removing deleted files"));
+
+                _libraryDataOrganiserService.SyncTracks(library.Artists, files.ToKeep);
+
+                progressHandler?.Report(new ProgressArgs(80, "Adding new and modified files"));
+
+                foreach (var file in files.AddedOrModified)
                 {
-                    _libraryDataOrganiserService.AddTrack(Path.Combine(directory, file.RelativePath), file, artists);
+                    _libraryDataOrganiserService.AddTrack(Path.Combine(directory, file.RelativePath), file, library.Artists);
                 }
 
                 progressHandler?.Report(new ProgressArgs(100, "Done"));
-
-                return artists;
+                
+                return library;
             });
         }
 
-        public void SaveLibrary(ICollection<Artist> artists)
+        public void SaveLibrary(Library library)
         {
-            _dataPersistenceService.Save(artists);
+            _dataPersistenceService.Save(library);
         }
     }
 }

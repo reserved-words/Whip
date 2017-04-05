@@ -10,7 +10,7 @@ namespace Whip.Services.Interfaces
 {
     public interface ILibraryService
     {
-        Task<ICollection<Artist>> GetLibraryAsync(string directory, string[] extensions, IProgress<ProgressArgs> progressHandler);
-        void SaveLibrary(ICollection<Artist> artists);
+        Task<Library> GetLibraryAsync(string directory, string[] extensions, IProgress<ProgressArgs> progressHandler);
+        void SaveLibrary(Library library);
     }
 }

@@ -7,8 +7,6 @@ using System.Collections.Generic;
 using Whip.Common.Model;
 using Whip.Common.Utilities;
 using Whip.Services.Interfaces;
-using Whip.ViewModels.Singletons;
-using Whip.ViewModels.Singletons.Interfaces;
 
 namespace Whip.ViewModels.Tests
 {

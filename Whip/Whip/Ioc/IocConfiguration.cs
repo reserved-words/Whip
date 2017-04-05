@@ -4,9 +4,8 @@ using TagLibSharp;
 using Whip.Services;
 using Whip.Services.Interfaces;
 using Whip.ViewModels;
-using Whip.ViewModels.Singletons;
-using Whip.ViewModels.Singletons.Interfaces;
 using Whip.MessageHandlers;
+using Whip.Common.Model;
 
 namespace Whip.Ioc
 {
@@ -32,7 +31,7 @@ namespace Whip.Ioc
 
         private void BindSingletons()
         {
-            Bind<ILibrary>().To<Library>().InSingletonScope();
+            Bind<Library>().ToSelf().InSingletonScope();
             Bind<IMessenger>().To<Messenger>().InSingletonScope();
         }
 

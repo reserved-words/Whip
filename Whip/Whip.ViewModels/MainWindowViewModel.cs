@@ -1,10 +1,10 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using System;
+using Whip.Common.Model;
 using Whip.Common.Utilities;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
-using Whip.ViewModels.Singletons.Interfaces;
 using Whip.ViewModels.Windows;
 
 namespace Whip.ViewModels
@@ -13,10 +13,11 @@ namespace Whip.ViewModels
     {
         private readonly ILibraryService _libraryService;
         private readonly IUserSettingsService _userSettingsService;
-        private readonly ILibrary _library;
         private readonly IMessenger _messenger;
 
-        public MainWindowViewModel(ILibraryService libraryService, IUserSettingsService userSettingsService, ILibrary library,
+        private Library _library;
+
+        public MainWindowViewModel(ILibraryService libraryService, IUserSettingsService userSettingsService, Library library,
             IMessenger messenger)
         {
             _libraryService = libraryService;
@@ -36,7 +37,7 @@ namespace Whip.ViewModels
 
         private void OnPopulateLibrary()
         {
-            var guid = new Guid();
+            var guid = Guid.NewGuid();
             var progressBarViewModel = new ProgressBarViewModel("Populating Library");
             var startProgressBarMessage = new ShowDialogMessage(guid, progressBarViewModel);
 
@@ -50,14 +51,14 @@ namespace Whip.ViewModels
             var progressHandler = new Progress<ProgressArgs>(progressBarViewModel.Update);
             var stopProgressBarMessage = new HideDialogMessage(guid);
 
-            _library.Artists = await _libraryService.GetLibraryAsync(_userSettingsService.MusicDirectory, ApplicationSettings.FileExtensions, progressHandler);
+            _library = await _libraryService.GetLibraryAsync(_userSettingsService.MusicDirectory, ApplicationSettings.FileExtensions, progressHandler);
 
             _messenger.Send(stopProgressBarMessage);
         }
 
         private void OnSaveLibrary()
         {
-            _libraryService.SaveLibrary(_library.Artists);
+            _libraryService.SaveLibrary(_library);
         }
     }
 }

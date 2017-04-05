@@ -5,7 +5,7 @@ namespace Whip.Services.Interfaces
 {
     public interface IDataPersistenceService
     {
-        void Save(ICollection<Artist> artists);
+        void Save(Library library);
 
         Library GetLibrary();
     }

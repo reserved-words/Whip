@@ -24,6 +24,14 @@ namespace Whip.Services
 
         public Library GetLibrary()
         {
+            if (!System.IO.File.Exists(XmlFilePath))
+            {
+                return new Library
+                {
+                    LastUpdated = DateTime.MinValue
+                };
+            }
+
             var xml = XDocument.Load(XmlFilePath);
 
             var rootXml = xml.Root;
@@ -73,6 +81,7 @@ namespace Whip.Services
                             var track = GetTrack(trackXml, disc, artist);
 
                             disc.Tracks.Add(track);
+                            artist.Tracks.Add(track);
                         }
 
                         album.Discs.Add(disc);
@@ -85,20 +94,20 @@ namespace Whip.Services
             return library;
         }
 
-        public void Save(ICollection<Artist> artists)
+        public void Save(Library library)
         {
             var xml = new XDocument();
 
             var rootXml = new XElement(XmlPropertyNames.Root);
             xml.Add(rootXml);
 
-            var dateUpdatedXml = new XElement(XmlPropertyNames.LastUpdated, DateTime.Now.ToString(StandardDateFormat));
+            var dateUpdatedXml = new XElement(XmlPropertyNames.LastUpdated, library.LastUpdated.ToString(StandardDateFormat));
             rootXml.Add(dateUpdatedXml);
 
             var artistsXml = new XElement(XmlPropertyNames.Artists);
             rootXml.Add(artistsXml);
 
-            foreach (var artist in artists)
+            foreach (var artist in library.Artists)
             {
                 var artistXml = GetXElement(artist);
                 var albumsXml = new XElement(XmlPropertyNames.Albums);
