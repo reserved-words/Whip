@@ -15,5 +15,7 @@ namespace Whip.Common.Model
         public int TrackNo { get; set; }
         public int DiscNo { get; set; }
         public string AlbumYear { get; set; }
+        public string Genre { get; set; }
+        public TimeSpan Duration { get; set; }
     }
 }

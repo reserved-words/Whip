@@ -129,6 +129,9 @@
   <data name="Artists" xml:space="preserve">
     <value>artists</value>
   </data>
+  <data name="Artwork" xml:space="preserve">
+    <value>artwork</value>
+  </data>
   <data name="Disc" xml:space="preserve">
     <value>disc</value>
   </data>
@@ -138,6 +141,15 @@
   <data name="Discs" xml:space="preserve">
     <value>discs</value>
   </data>
+  <data name="Duration" xml:space="preserve">
+    <value>duration</value>
+  </data>
+  <data name="FullFilepath" xml:space="preserve">
+    <value>full_filepath</value>
+  </data>
+  <data name="Genre" xml:space="preserve">
+    <value>genre</value>
+  </data>
   <data name="LastUpdated" xml:space="preserve">
     <value>last_updated</value>
   </data>
@@ -145,7 +157,7 @@
     <value>name</value>
   </data>
   <data name="RelativeFilepath" xml:space="preserve">
-    <value>filepath</value>
+    <value>relative_filepath</value>
   </data>
   <data name="Root" xml:space="preserve">
     <value>library</value>

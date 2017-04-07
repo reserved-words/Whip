@@ -97,6 +97,15 @@ namespace Whip.Services {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to artwork.
+        /// </summary>
+        internal static string Artwork {
+            get {
+                return ResourceManager.GetString("Artwork", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to disc.
         /// </summary>
         internal static string Disc {
@@ -124,6 +133,33 @@ namespace Whip.Services {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to duration.
+        /// </summary>
+        internal static string Duration {
+            get {
+                return ResourceManager.GetString("Duration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to full_filepath.
+        /// </summary>
+        internal static string FullFilepath {
+            get {
+                return ResourceManager.GetString("FullFilepath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to genre.
+        /// </summary>
+        internal static string Genre {
+            get {
+                return ResourceManager.GetString("Genre", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to last_updated.
         /// </summary>
         internal static string LastUpdated {
@@ -142,7 +178,7 @@ namespace Whip.Services {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to filepath.
+        ///   Looks up a localized string similar to relative_filepath.
         /// </summary>
         internal static string RelativeFilepath {
             get {

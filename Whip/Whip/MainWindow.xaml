@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Whip"
         xmlns:res="clr-namespace:Whip.Resources;assembly=Whip.Resources"
         mc:Ignorable="d"
-        Title="{x:Static res:Resources.ApplicationTitle}" Height="600" Width="800"
+        Title="{x:Static res:Resources.ApplicationTitle}" Height="800" Width="1200"
         DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator} }">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
@@ -22,10 +22,12 @@
                 <ColumnDefinition Width="200" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <local:SidebarView Grid.Column="0">
+            <local:SidebarView Grid.Column="0"
+                               DataContext="{Binding SidebarViewModel}">
                 
             </local:SidebarView>
-            <local:MainView Grid.Column="1">
+            <local:MainView Grid.Column="1"
+                            DataContext="{Binding MainViewModel}">
 
             </local:MainView>
         </Grid>

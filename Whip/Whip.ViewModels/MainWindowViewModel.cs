@@ -1,35 +1,41 @@
-﻿using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using System;
 using Whip.Common.Model;
 using Whip.Common.Utilities;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
+using Whip.ViewModels.TabViewModels;
 using Whip.ViewModels.Windows;
 
 namespace Whip.ViewModels
 {
-    public class MainWindowViewModel
+    public class MainWindowViewModel : ViewModelBase
     {
         private readonly ILibraryService _libraryService;
         private readonly IUserSettingsService _userSettingsService;
         private readonly IMessenger _messenger;
 
+        private readonly LibraryViewModel _libraryViewModel;
+
         private Library _library;
 
         public MainWindowViewModel(ILibraryService libraryService, IUserSettingsService userSettingsService, Library library,
-            IMessenger messenger)
+            IMessenger messenger, LibraryViewModel libraryViewModel)
         {
             _libraryService = libraryService;
             _userSettingsService = userSettingsService;
             _library = library;
             _messenger = messenger;
 
+            _libraryViewModel = libraryViewModel;
+
             PopulateLibraryCommand = new RelayCommand(OnPopulateLibrary);
             SaveLibraryCommand = new RelayCommand(OnSaveLibrary);
         }
         
-        public MainViewModel MainViewModel => new MainViewModel();
+        public MainViewModel MainViewModel => new MainViewModel(_libraryViewModel);
         public SidebarViewModel SidebarViewModel => new SidebarViewModel();
 
         public RelayCommand PopulateLibraryCommand { get; private set; }
@@ -54,6 +60,8 @@ namespace Whip.ViewModels
             _library = await _libraryService.GetLibraryAsync(_userSettingsService.MusicDirectory, ApplicationSettings.FileExtensions, progressHandler);
 
             _messenger.Send(stopProgressBarMessage);
+
+            _libraryViewModel.OnLibraryUpdated(_library);
         }
 
         private void OnSaveLibrary()

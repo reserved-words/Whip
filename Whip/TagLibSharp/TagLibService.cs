@@ -31,7 +31,9 @@ namespace TagLibSharp
                     AlbumTitle = track.Tag.Album,
                     AlbumYear = track.Tag.Year.ToString(),
                     TrackNo = (int)track.Tag.Track,
-                    DiscNo = (int)track.Tag.Disc
+                    DiscNo = (int)track.Tag.Disc,
+                    Genre = track.Tag.Genres.FirstOrDefault(),
+                    Duration = track.Properties.Duration
                 };
             }
         }

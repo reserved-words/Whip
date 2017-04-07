@@ -79,6 +79,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Ioc\IocConfiguration.cs" />
     <Compile Include="Ioc\IocKernel.cs" />
     <Compile Include="Ioc\ViewModelLocator.cs" />
@@ -89,6 +90,9 @@
     <Compile Include="Services\UserSettingsService.cs" />
     <Compile Include="SidebarView.xaml.cs">
       <DependentUpon>SidebarView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TabControls\TabLibrary.xaml.cs">
+      <DependentUpon>TabLibrary.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Dialog.xaml.cs">
       <DependentUpon>Dialog.xaml</DependentUpon>
@@ -113,6 +117,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="SidebarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TabControls\TabLibrary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

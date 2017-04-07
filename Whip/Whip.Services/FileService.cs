@@ -24,6 +24,7 @@ namespace Whip.Services
                     if (fileInfo.LastWriteTime > lastUpdated || fileInfo.CreationTime > lastUpdated)
                     {
                         files.AddedOrModified.Add(new File(
+                            filepath,
                             relativeFilepath,
                             fileInfo.CreationTime,
                             fileInfo.LastWriteTime));

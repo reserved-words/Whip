@@ -15,8 +15,9 @@ namespace Whip.Common.Model
         }
 
         public string Name { get; set; }
+        public string Genre { get; set; }
 
-        public ICollection<Album> Albums { get; set; }
-        public ICollection<Track> Tracks { get; set; }
+        public List<Album> Albums { get; set; }
+        public List<Track> Tracks { get; set; }
     }
 }

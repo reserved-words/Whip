@@ -10,7 +10,7 @@ namespace Whip.Common.Model
             Artists = new List<Artist>();
         }
 
-        public ICollection<Artist> Artists { get; set; }
+        public List<Artist> Artists { get; set; }
         public DateTime LastUpdated { get; set; }
     }
 }

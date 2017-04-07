@@ -77,5 +77,14 @@ namespace Whip.Resources {
                 return ResourceManager.GetString("StandardDateFormat", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to mm\:ss.
+        /// </summary>
+        public static string StandardTimeSpanFormat {
+            get {
+                return ResourceManager.GetString("StandardTimeSpanFormat", resourceCulture);
+            }
+        }
     }
 }

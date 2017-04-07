@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -143,7 +143,8 @@ namespace Whip.Services
         {
             return new Artist
             {
-                Name = xml.Attribute(XmlPropertyNames.Name).Value
+                Name = xml.Attribute(XmlPropertyNames.Name).Value,
+                Genre = xml.Attribute(XmlPropertyNames.Genre).Value
             };
         }
 
@@ -174,7 +175,9 @@ namespace Whip.Services
                 Artist = artist,
                 Title = xml.Attribute(XmlPropertyNames.Title).Value,
                 RelativeFilepath = xml.Attribute(XmlPropertyNames.RelativeFilepath).Value,
-                TrackNo = Convert.ToInt16(xml.Attribute(XmlPropertyNames.TrackNo).Value)
+                FullFilepath = xml.Attribute(XmlPropertyNames.FullFilepath).Value,
+                TrackNo = Convert.ToInt16(xml.Attribute(XmlPropertyNames.TrackNo).Value),
+                Duration = TimeSpan.ParseExact(xml.Attribute(XmlPropertyNames.Duration).Value, StandardTimeSpanFormat, CultureInfo.InvariantCulture)
             };
         }
 
@@ -183,6 +186,7 @@ namespace Whip.Services
             var xml = new XElement(XmlPropertyNames.Artist);
 
             xml.Add(new XAttribute(XmlPropertyNames.Name, artist.Name));
+            xml.Add(new XAttribute(XmlPropertyNames.Genre, artist.Genre));
 
             return xml;
         }
@@ -211,8 +215,10 @@ namespace Whip.Services
             var xml = new XElement(XmlPropertyNames.Track);
 
             xml.Add(new XAttribute(XmlPropertyNames.RelativeFilepath, track.RelativeFilepath));
+            xml.Add(new XAttribute(XmlPropertyNames.FullFilepath, track.FullFilepath));
             xml.Add(new XAttribute(XmlPropertyNames.Title, track.Title));
             xml.Add(new XAttribute(XmlPropertyNames.TrackNo, track.TrackNo));
+            xml.Add(new XAttribute(XmlPropertyNames.Duration, track.Duration.ToString(StandardTimeSpanFormat)));
 
             if (track.Artist != track.Disc.Album.Artist)
             {

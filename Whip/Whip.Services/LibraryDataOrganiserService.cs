@@ -20,9 +20,11 @@ namespace Whip.Services
 
             var track = new Track
             {
+                FullFilepath = file.FullPath,
                 RelativeFilepath = file.RelativePath,
                 Title = id3TrackData.Title,
-                TrackNo = id3TrackData.TrackNo
+                TrackNo = id3TrackData.TrackNo,
+                Duration = id3TrackData.Duration
             };
 
             var artist = artists.SingleOrDefault(a => a.Name == id3TrackData.Artist);
@@ -31,7 +33,8 @@ namespace Whip.Services
             {
                 artist = new Artist
                 {
-                    Name = id3TrackData.Artist
+                    Name = id3TrackData.Artist,
+                    Genre = id3TrackData.Genre
                 };
                 artists.Add(artist);
             }

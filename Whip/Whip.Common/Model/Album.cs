@@ -15,9 +15,13 @@ namespace Whip.Common.Model
 
         public string Title { get; set; }
         public string Year { get; set; }
+        public string Artwork { get; set; }
 
         public Artist Artist { get; set; }
 
-        public ICollection<Disc> Discs { get; set; }
+        public List<Disc> Discs { get; set; }
+
+
+        public bool MultiDisc => Discs.Count > 1;
     }
 }
