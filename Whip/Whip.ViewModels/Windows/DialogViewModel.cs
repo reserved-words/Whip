@@ -9,17 +9,21 @@ namespace Whip.ViewModels.Windows
 {
     public class DialogViewModel : ViewModelBase
     {
-        private string title;
+        private Guid _guid;
+        private string _title;
 
         public DialogViewModel(string title)
         {
             Title = title;
+            _guid = Guid.NewGuid();
         }
+
+        public Guid Guid => _guid;
 
         public string Title
         {
-            get { return title; }
-            set { Set(ref title, value); }
+            get { return _title; }
+            set { Set(ref _title, value); }
         }
     }
 }

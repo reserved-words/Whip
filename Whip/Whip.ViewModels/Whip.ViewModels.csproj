@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationSettings.cs" />
+    <Compile Include="Windows\ApplicationSettingsViewModel.cs" />
     <Compile Include="Messages\IMessageHandler.cs" />
     <Compile Include="Messages\ShowDialogMessage.cs" />
     <Compile Include="Messages\HideDialogMessage.cs" />

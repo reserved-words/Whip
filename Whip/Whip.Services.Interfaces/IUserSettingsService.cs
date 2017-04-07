@@ -8,6 +8,8 @@ namespace Whip.Services.Interfaces
 {
     public interface IUserSettingsService
     {
-        string MusicDirectory { get; }
+        bool EssentialSettingsSet { get; }
+        string MusicDirectory { get; set; }
+        void Save();
     }
 }

@@ -10,13 +10,11 @@ namespace Whip.ViewModels.Messages
 {
     public class ShowDialogMessage : MessageBase
     {
-        public ShowDialogMessage(Guid guid, DialogViewModel viewModel)
+        public ShowDialogMessage(DialogViewModel viewModel)
         {
-            Guid = guid;
             ViewModel = viewModel;
         }
 
-        public Guid Guid { get; set; }
         public DialogViewModel ViewModel { get; set; }
     }
 }

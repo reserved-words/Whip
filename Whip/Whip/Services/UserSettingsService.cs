@@ -9,6 +9,17 @@ namespace Whip.Services
 {
     public class UserSettingsService : IUserSettingsService
     {
-        public string MusicDirectory => Properties.Settings.Default.MusicDirectory;
+        public bool EssentialSettingsSet => !string.IsNullOrEmpty(MusicDirectory);
+
+        public string MusicDirectory
+        {
+            get { return Properties.Settings.Default.MusicDirectory; }
+            set { Properties.Settings.Default.MusicDirectory = value; }
+        }
+
+        public void Save()
+        {
+            Properties.Settings.Default.Save();
+        }
     }
 }

@@ -31,6 +31,7 @@ namespace Whip.ViewModels
 
             _libraryViewModel = libraryViewModel;
 
+            ApplicationSettingsCommand = new RelayCommand(OnApplicationSettings);
             PopulateLibraryCommand = new RelayCommand(OnPopulateLibrary);
             SaveLibraryCommand = new RelayCommand(OnSaveLibrary);
         }
@@ -38,24 +39,37 @@ namespace Whip.ViewModels
         public MainViewModel MainViewModel => new MainViewModel(_libraryViewModel);
         public SidebarViewModel SidebarViewModel => new SidebarViewModel();
 
+        public RelayCommand ApplicationSettingsCommand { get; private set; }
         public RelayCommand PopulateLibraryCommand { get; private set; }
         public RelayCommand SaveLibraryCommand { get; private set; }
 
+        private void OnApplicationSettings()
+        {
+            var applicationSettingsViewModel = new ApplicationSettingsViewModel(_userSettingsService, _messenger);
+
+            _messenger.Send(new ShowDialogMessage(applicationSettingsViewModel));
+        }
+
         private void OnPopulateLibrary()
         {
-            var guid = Guid.NewGuid();
-            var progressBarViewModel = new ProgressBarViewModel("Populating Library");
-            var startProgressBarMessage = new ShowDialogMessage(guid, progressBarViewModel);
+            if (!_userSettingsService.EssentialSettingsSet)
+            {
+                OnApplicationSettings();
+                return;
+            }
 
-            OnPopulateLibraryAsync(guid, progressBarViewModel);
+            var progressBarViewModel = new ProgressBarViewModel("Populating Library");
+            var startProgressBarMessage = new ShowDialogMessage(progressBarViewModel);
+
+            OnPopulateLibraryAsync(progressBarViewModel);
 
             _messenger.Send(startProgressBarMessage);
         }
 
-        private async void OnPopulateLibraryAsync(Guid guid, ProgressBarViewModel progressBarViewModel)
+        private async void OnPopulateLibraryAsync(ProgressBarViewModel progressBarViewModel)
         {
             var progressHandler = new Progress<ProgressArgs>(progressBarViewModel.Update);
-            var stopProgressBarMessage = new HideDialogMessage(guid);
+            var stopProgressBarMessage = new HideDialogMessage(progressBarViewModel.Guid);
 
             _library = await _libraryService.GetLibraryAsync(_userSettingsService.MusicDirectory, ApplicationSettings.FileExtensions, progressHandler);
 

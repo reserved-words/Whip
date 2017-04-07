@@ -18,6 +18,9 @@
         <DataTemplate DataType="{x:Type viewModels:ProgressBarViewModel}">
             <windows:ProgressBarView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:ApplicationSettingsViewModel}">
+            <windows:ApplicationSettingsView />
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <ContentControl Content="{Binding}"

@@ -32,12 +32,12 @@ namespace Whip.MessageHandlers
         private void ShowDialog(ShowDialogMessage message)
         {
             Dialog dialog;
-            if (!_dialogs.TryGetValue(message.Guid, out dialog)){
+            if (!_dialogs.TryGetValue(message.ViewModel.Guid, out dialog)){
                 dialog = new Dialog
                 {
                     DataContext = message.ViewModel
                 };
-                _dialogs.Add(message.Guid, dialog);
+                _dialogs.Add(message.ViewModel.Guid, dialog);
                 dialog.Show();
             }
         }

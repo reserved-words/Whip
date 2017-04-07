@@ -16,6 +16,10 @@
                 <MenuItem Header="_Save Library"
                           Command="{Binding SaveLibraryCommand}" />
             </MenuItem>
+            <MenuItem Header="_Options">
+                <MenuItem Header="_Application Settings"
+                          Command="{Binding ApplicationSettingsCommand}" />
+            </MenuItem>
         </Menu>
         <Grid DockPanel.Dock="Bottom">
             <Grid.ColumnDefinitions>
