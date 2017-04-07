@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Whip.Common.Enums;
 using Whip.Common.Model;
+using Whip.Common.Utilities;
 using Whip.Services.Interfaces;
 
 namespace Whip.Services
@@ -68,7 +70,8 @@ namespace Whip.Services
                     Artist = albumArtist,
                     Title = id3TrackData.AlbumTitle,
                     Year = id3TrackData.AlbumYear,
-                    DiscCount = id3TrackData.DiscCount
+                    DiscCount = id3TrackData.DiscCount,
+                    ReleaseType = EnumHelpers.Parse<ReleaseType>(id3TrackData.ReleaseType)
                 };
                 albumArtist.Albums.Add(album);
             }

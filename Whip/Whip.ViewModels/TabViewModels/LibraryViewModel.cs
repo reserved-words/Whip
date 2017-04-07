@@ -49,7 +49,10 @@ namespace Whip.ViewModels.TabViewModels
             set
             {
                 Set(ref _selectedArtist, value);
-                Albums = _selectedArtist.Albums.OrderBy(a => a.Year).ToList();
+                Albums = _selectedArtist.Albums
+                    .OrderBy(a => a.ReleaseType)
+                    .ThenBy(a => a.Year)
+                    .ToList();
                 SelectedAlbum = null;
             }
         }

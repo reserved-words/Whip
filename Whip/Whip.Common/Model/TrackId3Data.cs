@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Whip.Common.Model
 {
@@ -22,5 +18,6 @@ namespace Whip.Common.Model
         public TimeSpan Duration { get; set; }
         public string Comment { get; set; }
         public string Lyrics { get; set; }
+        public string ReleaseType { get; set; }
     }
 }

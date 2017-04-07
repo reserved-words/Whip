@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using Whip.Common.Enums;
 using Whip.Common.Model;
 using Whip.Common.Utilities;
 using Whip.Services.Interfaces;
@@ -163,7 +164,8 @@ namespace Whip.Services
                 Artist = artist,
                 Title = xml.GetAttribute(XmlPropertyNames.Title),
                 Year = xml.GetAttribute(XmlPropertyNames.Year),
-                DiscCount = xml.GetIntAttribute(XmlPropertyNames.DiscCount)
+                DiscCount = xml.GetIntAttribute(XmlPropertyNames.DiscCount),
+                ReleaseType = EnumHelpers.Parse<ReleaseType>(xml.GetAttribute(XmlPropertyNames.ReleaseType))
             };
         }
 
@@ -218,6 +220,7 @@ namespace Whip.Services
             xml.AddAttribute(XmlPropertyNames.Title, album.Title);
             xml.AddAttribute(XmlPropertyNames.Year, album.Year);
             xml.AddAttribute(XmlPropertyNames.DiscCount, album.DiscCount);
+            xml.AddAttribute(XmlPropertyNames.ReleaseType, album.ReleaseType.ToString());
 
             return xml;
         }

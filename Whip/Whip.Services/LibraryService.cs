@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Whip.Common.Enums;
 using Whip.Common.Model;
 using Whip.Common.Utilities;
 using Whip.Services.Interfaces;
@@ -57,6 +58,7 @@ namespace Whip.Services
                 foreach (var album in library.Artists.SelectMany(a => a.Albums))
                 {
                     album.Artwork = _directoryStructureService.GetArtworkPath(album);
+                    album.Grouping = album.ReleaseType.GetReleaseTypeGrouping();
                 }
 
                 progressHandler?.Report(new ProgressArgs(100, "Done"));

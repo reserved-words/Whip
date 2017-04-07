@@ -11,7 +11,9 @@
              d:DesignHeight="600" d:DesignWidth="800">
     <UserControl.Resources>
         <conv:BoolToVisibilityConverter x:Key="BoolVisibilityConverter" />
+        <conv:BoolToVisibilityConverter x:Key="NegBoolVisibilityConverter" Negate="True" />
         <conv:StringToVisibilityConverter x:Key="StringVisibilityConverter" />
+        <conv:EnumToStringConverter x:Key="EnumToStringConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -75,18 +77,18 @@
                                        SnapsToDevicePixels="True"/>
                             </controls:HyperlinkLabel>
                             <controls:HyperlinkLabel Username="{Binding Facebook}" 
-                                                 UrlFormat="{x:Static res:Resources.FacebookUrl}"
-                                                 Visibility="{Binding Facebook, Converter={StaticResource StringVisibilityConverter}}"
-                                                 Padding="0,5,5,5">
+                                                     UrlFormat="{x:Static res:Resources.FacebookUrl}"
+                                                     Visibility="{Binding Facebook, Converter={StaticResource StringVisibilityConverter}}"
+                                                     Padding="0,5,5,5">
                                 <Image Source="/Images/facebook.png"
-                                   Width="32"
-                                   Height="32"
-                                   SnapsToDevicePixels="True"/>
+                                       Width="32"
+                                       Height="32"
+                                       SnapsToDevicePixels="True"/>
                             </controls:HyperlinkLabel>
                             <controls:HyperlinkLabel Username="{Binding Twitter}" 
-                                                 UrlFormat="{x:Static res:Resources.TwitterUrl}"
-                                                 Visibility="{Binding Twitter, Converter={StaticResource StringVisibilityConverter}}"
-                                                 Padding="0,5,5,5">
+                                                     UrlFormat="{x:Static res:Resources.TwitterUrl}"
+                                                     Visibility="{Binding Twitter, Converter={StaticResource StringVisibilityConverter}}"
+                                                     Padding="0,5,5,5">
                                 <Image Source="/Images/twitter.png"
                                        Width="32"
                                        Height="32"
@@ -119,30 +121,44 @@
                       Grid.Row="2"
                       ItemsSource="{Binding Albums}"
                       SelectedItem="{Binding SelectedAlbum}"
-                      BorderThickness="0">
+                      BorderThickness="0"
+                      HorizontalContentAlignment="Stretch">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="110" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Image Grid.Column="0"
-                                       Grid.Row="0" Grid.RowSpan="2"
+                        <StackPanel>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="110" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Image Grid.Column="0"
+                                       Grid.Row="0" Grid.RowSpan="3"
                                        Source="{Binding Artwork}"
                                        Height="100"
                                        Width="100"/>
-                            <Label Grid.Column="1"
-                                   Grid.Row="0"
-                                   Content="{Binding Title}" />
-                            <Label Grid.Column="1"
-                                   Grid.Row="1"
-                                   Content="{Binding Year}" />
-                        </Grid>
+                                <Label Grid.Column="1"
+                                       Grid.Row="0"
+                                       Content="{Binding Title}" />
+                                <Label Grid.Column="1"
+                                       Grid.Row="1"
+                                       Content="{Binding ReleaseType, Converter={StaticResource EnumToStringConverter}}"
+                                       Visibility="{Binding IsAlbum, Converter={StaticResource NegBoolVisibilityConverter}}"/>
+                                <Label Grid.Column="1"
+                                       Grid.Row="2"
+                                       Content="{Binding Year}" />
+                            </Grid>
+
+                            <Border BorderThickness="0,0,0,1"
+                                    BorderBrush="Silver"
+                                    Margin="5,5,5,0"/>
+                        </StackPanel>
+
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

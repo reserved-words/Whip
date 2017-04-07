@@ -213,4 +213,7 @@
   <data name="Year" xml:space="preserve">
     <value>year</value>
   </data>
+  <data name="ReleaseType" xml:space="preserve">
+    <value>release_type</value>
+  </data>
 </root>

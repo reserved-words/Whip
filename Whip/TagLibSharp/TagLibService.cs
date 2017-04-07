@@ -38,7 +38,8 @@ namespace TagLibSharp
                     Grouping = track.Tag.Grouping,
                     Duration = track.Properties.Duration,
                     Comment = track.Tag.Comment,
-                    Lyrics = track.Tag.Lyrics
+                    Lyrics = track.Tag.Lyrics,
+                    ReleaseType = track.Tag.MusicBrainzReleaseType
                 };
             }
         }

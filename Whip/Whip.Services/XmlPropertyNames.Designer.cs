@@ -241,6 +241,15 @@ namespace Whip.Services {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to release_type.
+        /// </summary>
+        internal static string ReleaseType {
+            get {
+                return ResourceManager.GetString("ReleaseType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to library.
         /// </summary>
         internal static string Root {

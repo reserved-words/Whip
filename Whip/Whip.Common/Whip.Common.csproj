@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\ReleaseType.cs" />
     <Compile Include="Model\Album.cs" />
     <Compile Include="Model\Artist.cs" />
     <Compile Include="Model\City.cs" />
@@ -50,12 +51,14 @@
     <Compile Include="Model\Track.cs" />
     <Compile Include="Model\TrackId3Data.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\DefaultValueAttribute.cs" />
+    <Compile Include="Utilities\EnumExtensionMethods.cs" />
+    <Compile Include="Utilities\EnumHelpers.cs" />
+    <Compile Include="Utilities\MetaDataAttribute.cs" />
     <Compile Include="Utilities\ProgressArgs.cs" />
     <Compile Include="Utilities\XElementExtensionMethods.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Enums\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
