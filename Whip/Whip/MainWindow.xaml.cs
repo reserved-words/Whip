@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Whip.ViewModels;
 
 namespace Whip
 {
@@ -23,6 +24,18 @@ namespace Whip
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            // There's probably a better MVVM way to do this
+            ((MainWindowViewModel)DataContext).PopulateLibraryCommand.Execute(null);
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            // There's probably a better MVVM way to do this
+            ((MainWindowViewModel)DataContext).SaveLibraryCommand.Execute(null);
         }
     }
 }
