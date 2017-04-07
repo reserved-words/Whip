@@ -8,28 +8,53 @@
              xmlns:res="clr-namespace:Whip.Resources;assembly=Whip.Resources"
              xmlns:controls="clr-namespace:Whip.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800">
+             d:DesignHeight="600" d:DesignWidth="800"
+             x:Name="libraryView">
     <UserControl.Resources>
-        <conv:BoolToVisibilityConverter x:Key="BoolVisibilityConverter" />
-        <conv:BoolToVisibilityConverter x:Key="NegBoolVisibilityConverter" Negate="True" />
-        <conv:StringToVisibilityConverter x:Key="StringVisibilityConverter" />
-        <conv:EnumToStringConverter x:Key="EnumToStringConverter" />
+        <CollectionViewSource x:Key="AlbumsGrouped"                               
+                              Source="{Binding Path=Albums}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Grouping" />
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250"
                               Name="colArtists" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*"
                               Name="colAlbums" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*"
                               Name="colTracks" />
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Column="1"
+                Grid.Row="0" Grid.RowSpan="3"
+                BorderBrush="Silver"
+                BorderThickness="0,0,1,0" />
+
+        <Border Grid.Column="3"
+                Grid.Row="0" Grid.RowSpan="3"
+                BorderBrush="Silver"
+                BorderThickness="0,0,1,0" />
+
+        <Border Grid.Row="1"
+                Grid.Column="2" Grid.ColumnSpan="3"
+                BorderBrush="Silver"
+                BorderThickness="0,0,0,1"/>
 
         <ListView Grid.Column="0"
+                  Grid.Row="0" Grid.RowSpan="3"
                   ItemsSource="{Binding Artists}"
                   SelectedItem="{Binding SelectedArtist}"
-                  BorderThickness="0,0,1,0"
-                  BorderBrush="Silver">
+                  BorderThickness="0">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Label Content="{Binding Name}" />
@@ -37,137 +62,141 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <Grid Grid.Column="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+        <StackPanel Grid.Column="2"
+                    Grid.Row="0"
+                    DataContext="{Binding SelectedArtist}">
 
-            <StackPanel Grid.Column="0" Grid.ColumnSpan="2"
-                        Grid.Row="0"
-                        DataContext="{Binding SelectedArtist}">
+            <Grid VerticalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <StackPanel Grid.Column="0">
-                        <Label Content="{Binding Name}"
+                <StackPanel Grid.Column="0"
+                            Grid.Row="0" Grid.RowSpan="2">
+                    <Label Content="{Binding Name}"
                                FontWeight="Bold"/>
-                        <Label Content="{Binding Genre}"/>
-                        <Label Content="{Binding City.Description}"/>
+                    <Label Content="{Binding Genre}"/>
+                    <Label Content="{Binding City.Description}"/>
+                </StackPanel>
 
-                    </StackPanel>
-                    
-                    <StackPanel Grid.Column="1">
-                        <WrapPanel>
-                            <controls:HyperlinkLabel Url="{Binding Website}" 
-                                                     Visibility="{Binding Website, Converter={StaticResource StringVisibilityConverter}}"
-                                                     Padding="0,5,5,5">
-                                <Image Source="/Images/web.png"
+                <WrapPanel Grid.Column="1"
+                           Grid.Row="0">
+                    <controls:HyperlinkLabel Url="{Binding Website}" 
+                                             Visibility="{Binding Website, Converter={StaticResource StringVisibilityConverter}}"
+                                             Padding="0,5,5,5">
+                        <Image Source="/Images/web.png"
+                                   Width="32"
+                                   Height="32"
+                                   SnapsToDevicePixels="True"/>
+                    </controls:HyperlinkLabel>
+                    <controls:HyperlinkLabel Username="{Binding Facebook}" 
+                                                 UrlFormat="{x:Static res:Resources.FacebookUrl}"
+                                                 Visibility="{Binding Facebook, Converter={StaticResource StringVisibilityConverter}}"
+                                                 Padding="0,5,5,5">
+                        <Image Source="/Images/facebook.png"
                                        Width="32"
                                        Height="32"
                                        SnapsToDevicePixels="True"/>
-                            </controls:HyperlinkLabel>
-                            <controls:HyperlinkLabel Username="{Binding Facebook}" 
-                                                     UrlFormat="{x:Static res:Resources.FacebookUrl}"
-                                                     Visibility="{Binding Facebook, Converter={StaticResource StringVisibilityConverter}}"
-                                                     Padding="0,5,5,5">
-                                <Image Source="/Images/facebook.png"
-                                       Width="32"
-                                       Height="32"
-                                       SnapsToDevicePixels="True"/>
-                            </controls:HyperlinkLabel>
-                            <controls:HyperlinkLabel Username="{Binding Twitter}" 
+                    </controls:HyperlinkLabel>
+                    <controls:HyperlinkLabel Username="{Binding Twitter}" 
                                                      UrlFormat="{x:Static res:Resources.TwitterUrl}"
                                                      Visibility="{Binding Twitter, Converter={StaticResource StringVisibilityConverter}}"
                                                      Padding="0,5,5,5">
-                                <Image Source="/Images/twitter.png"
+                        <Image Source="/Images/twitter.png"
                                        Width="32"
                                        Height="32"
                                        SnapsToDevicePixels="True"/>
-                            </controls:HyperlinkLabel>
-                        </WrapPanel>
-                    </StackPanel>
-                    
-                </Grid>
-                
-                <Border BorderThickness="0,0,0,1"
-                        BorderBrush="Silver"
-                        Margin="5,10,5,5"/>
+                    </controls:HyperlinkLabel>
+                </WrapPanel>
 
-            </StackPanel>
+            </Grid>
 
-            <Label Grid.Column="0"
-                   Grid.Row="1"
-                   Content="Releases"
-                   FontWeight="Bold"/>
+        </StackPanel>
 
-            <Button Grid.Column="1"
-                    Grid.Row="1"
-                    Command="{Binding ClearSelectedAlbum}"
-                    Content="Show All"
+        <WrapPanel Grid.Column="4"
+                   Grid.Row="0">
+            <Button Command="{Binding ClearSelectedAlbum}"
+                    Content="Show All Tracks"
+                    Height="25"
                     Padding="10,2,10,2"
-                    Margin="0,0,5,5"/>
+                    Margin="5"/>
+        </WrapPanel>
 
-            <ListView Grid.Column="0" Grid.ColumnSpan="2"
-                      Grid.Row="2"
-                      ItemsSource="{Binding Albums}"
-                      SelectedItem="{Binding SelectedAlbum}"
-                      BorderThickness="0"
-                      HorizontalContentAlignment="Stretch">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
+        <ListView Grid.Column="2"
+                Grid.Row="2"
+                DataContext="{StaticResource AlbumsGrouped}"
+                ItemsSource="{Binding}"
+                SelectedItem="{Binding DataContext.SelectedAlbum, ElementName=libraryView}"
+                BorderThickness="0"
+                HorizontalContentAlignment="Stretch">
+            <ListView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock FontWeight="Bold" 
+                                       Text="{Binding Name, Converter={StaticResource EnumToStringConverter}}"
+                                       Padding="5"/>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </ListView.GroupStyle>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="Margin" Value="0" />
+                    <Setter Property="Padding" Value="0,0,0,5" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="0">
 
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="110" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-                                <Image Grid.Column="0"
+                        <Border BorderThickness="0,0,0,1"
+                                BorderBrush="Silver"
+                                Margin="0,0,5,5"/>
+
+                        <Grid Margin="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="110" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Image Grid.Column="0"
                                        Grid.Row="0" Grid.RowSpan="3"
                                        Source="{Binding Artwork}"
+                                       Margin="0"
                                        Height="100"
                                        Width="100"/>
-                                <Label Grid.Column="1"
+                            <Label Grid.Column="1"
                                        Grid.Row="0"
                                        Content="{Binding Title}" />
-                                <Label Grid.Column="1"
+                            <Label Grid.Column="1"
                                        Grid.Row="1"
                                        Content="{Binding ReleaseType, Converter={StaticResource EnumToStringConverter}}"
                                        Visibility="{Binding IsAlbum, Converter={StaticResource NegBoolVisibilityConverter}}"/>
-                                <Label Grid.Column="1"
+                            <Label Grid.Column="1"
                                        Grid.Row="2"
                                        Content="{Binding Year}" />
-                            </Grid>
+                        </Grid>
 
-                            <Border BorderThickness="0,0,0,1"
-                                    BorderBrush="Silver"
-                                    Margin="5,5,5,0"/>
-                        </StackPanel>
+                    </StackPanel>
 
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
-        <ListView Grid.Column="2"
-                  ItemsSource="{Binding SelectedAlbums}"
-                  BorderThickness="1,0,0,0"
-                  BorderBrush="Silver">
+        <ListView Grid.Column="4"
+                  Grid.Row="2"
+                  BorderThickness="0"
+                  ItemsSource="{Binding SelectedAlbums}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>

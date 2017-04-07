@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="MusicDirectory" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">C:\Users\rhian\Music\Test</Value>
     </Setting>
   </Settings>
 </SettingsFile>
