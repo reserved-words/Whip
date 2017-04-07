@@ -45,7 +45,12 @@ namespace Whip.ViewModels
 
         private void OnApplicationSettings()
         {
-            var applicationSettingsViewModel = new ApplicationSettingsViewModel(_userSettingsService, _messenger);
+            OnApplicationSettings(null);
+        }
+
+        private void OnApplicationSettings(Action callback)
+        {
+            var applicationSettingsViewModel = new ApplicationSettingsViewModel(_userSettingsService, _messenger, callback);
 
             _messenger.Send(new ShowDialogMessage(applicationSettingsViewModel));
         }
@@ -54,7 +59,7 @@ namespace Whip.ViewModels
         {
             if (!_userSettingsService.EssentialSettingsSet)
             {
-                OnApplicationSettings();
+                OnApplicationSettings(OnPopulateLibrary);
                 return;
             }
 

@@ -13,8 +13,8 @@ namespace Whip.ViewModels.Windows
 
         private string _musicDirectory;
 
-        public ApplicationSettingsViewModel(IUserSettingsService userSettingsService, IMessenger messenger) 
-            : base("Application Settings")
+        public ApplicationSettingsViewModel(IUserSettingsService userSettingsService, IMessenger messenger, Action callback = null) 
+            : base("Application Settings", callback)
         {
             _userSettingsService = userSettingsService;
             _messenger = messenger;
@@ -46,9 +46,11 @@ namespace Whip.ViewModels.Windows
             Close();
         }
 
-        private void Close()
+        protected override void Close()
         {
             _messenger.Send(new HideDialogMessage(Guid));
+
+            base.Close();
         }
     }
 }
