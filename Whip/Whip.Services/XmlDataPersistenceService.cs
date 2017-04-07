@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Whip.Common.Model;
+using Whip.Common.Utilities;
 using Whip.Services.Interfaces;
 using static Whip.Resources.Resources;
 
@@ -11,6 +12,8 @@ namespace Whip.Services
 {
     public class XmlDataPersistenceService : IDataPersistenceService
     {
+        private const char TagsDelimiter = '|';
+
         private readonly IUserSettingsService _userSettingsService;
 
         public XmlDataPersistenceService(IUserSettingsService userSettingsService)
@@ -143,8 +146,13 @@ namespace Whip.Services
         {
             return new Artist
             {
-                Name = xml.Attribute(XmlPropertyNames.Name).Value,
-                Genre = xml.Attribute(XmlPropertyNames.Genre).Value
+                Name = xml.GetAttribute(XmlPropertyNames.Name),
+                Genre = xml.GetAttribute(XmlPropertyNames.Genre),
+                Grouping = xml.GetAttribute(XmlPropertyNames.Grouping),
+                Website = xml.GetAttribute(XmlPropertyNames.Website),
+                Twitter = xml.GetAttribute(XmlPropertyNames.Twitter),
+                Facebook = xml.GetAttribute(XmlPropertyNames.Facebook),
+                City = new City(xml.GetAttribute(XmlPropertyNames.City), xml.GetAttribute(XmlPropertyNames.State), xml.GetAttribute(XmlPropertyNames.Country))
             };
         }
 
@@ -153,8 +161,9 @@ namespace Whip.Services
             return new Album
             {
                 Artist = artist,
-                Title = xml.Attribute(XmlPropertyNames.Title).Value,
-                Year = xml.Attribute(XmlPropertyNames.Year).Value
+                Title = xml.GetAttribute(XmlPropertyNames.Title),
+                Year = xml.GetAttribute(XmlPropertyNames.Year),
+                DiscCount = xml.GetIntAttribute(XmlPropertyNames.DiscCount)
             };
         }
 
@@ -163,7 +172,8 @@ namespace Whip.Services
             return new Disc
             {
                 Album = album,
-                DiscNo = Convert.ToInt16(xml.Attribute(XmlPropertyNames.DiscNo).Value)
+                DiscNo = xml.GetIntAttribute(XmlPropertyNames.DiscNo),
+                TrackCount = xml.GetIntAttribute(XmlPropertyNames.TrackCount)
             };
         }
 
@@ -173,11 +183,14 @@ namespace Whip.Services
             {
                 Disc = disc,
                 Artist = artist,
-                Title = xml.Attribute(XmlPropertyNames.Title).Value,
-                RelativeFilepath = xml.Attribute(XmlPropertyNames.RelativeFilepath).Value,
-                FullFilepath = xml.Attribute(XmlPropertyNames.FullFilepath).Value,
-                TrackNo = Convert.ToInt16(xml.Attribute(XmlPropertyNames.TrackNo).Value),
-                Duration = TimeSpan.ParseExact(xml.Attribute(XmlPropertyNames.Duration).Value, StandardTimeSpanFormat, CultureInfo.InvariantCulture)
+                Title = xml.GetAttribute(XmlPropertyNames.Title),
+                RelativeFilepath = xml.GetAttribute(XmlPropertyNames.RelativeFilepath),
+                FullFilepath = xml.GetAttribute(XmlPropertyNames.FullFilepath),
+                TrackNo = xml.GetIntAttribute(XmlPropertyNames.TrackNo),
+                Duration = TimeSpan.ParseExact(xml.GetAttribute(XmlPropertyNames.Duration), StandardTimeSpanFormat, CultureInfo.InvariantCulture),
+                Tags = xml.GetAttribute(XmlPropertyNames.Tags).Split(TagsDelimiter).ToList(),
+                Year = xml.GetAttribute(XmlPropertyNames.TrackYear),
+                Lyrics = xml.GetAttribute(XmlPropertyNames.Lyrics)
             };
         }
 
@@ -185,8 +198,15 @@ namespace Whip.Services
         {
             var xml = new XElement(XmlPropertyNames.Artist);
 
-            xml.Add(new XAttribute(XmlPropertyNames.Name, artist.Name));
-            xml.Add(new XAttribute(XmlPropertyNames.Genre, artist.Genre));
+            xml.AddAttribute(XmlPropertyNames.Name, artist.Name);
+            xml.AddAttribute(XmlPropertyNames.Genre, artist.Genre);
+            xml.AddAttribute(XmlPropertyNames.Grouping, artist.Grouping);
+            xml.AddAttribute(XmlPropertyNames.Website, artist.Website);
+            xml.AddAttribute(XmlPropertyNames.Twitter, artist.Twitter);
+            xml.AddAttribute(XmlPropertyNames.Facebook, artist.Facebook);
+            xml.AddAttribute(XmlPropertyNames.City, artist.City.Name);
+            xml.AddAttribute(XmlPropertyNames.State, artist.City.State);
+            xml.AddAttribute(XmlPropertyNames.Country, artist.City.Country);
 
             return xml;
         }
@@ -195,8 +215,9 @@ namespace Whip.Services
         {
             var xml = new XElement(XmlPropertyNames.Album);
 
-            xml.Add(new XAttribute(XmlPropertyNames.Title, album.Title));
-            xml.Add(new XAttribute(XmlPropertyNames.Year, album.Year));
+            xml.AddAttribute(XmlPropertyNames.Title, album.Title);
+            xml.AddAttribute(XmlPropertyNames.Year, album.Year);
+            xml.AddAttribute(XmlPropertyNames.DiscCount, album.DiscCount);
 
             return xml;
         }
@@ -205,7 +226,8 @@ namespace Whip.Services
         {
             var xml = new XElement(XmlPropertyNames.Disc);
 
-            xml.Add(new XAttribute(XmlPropertyNames.DiscNo, disc.DiscNo));
+            xml.AddAttribute(XmlPropertyNames.DiscNo, disc.DiscNo);
+            xml.AddAttribute(XmlPropertyNames.TrackCount, disc.TrackCount);
 
             return xml;
         }
@@ -214,15 +236,18 @@ namespace Whip.Services
         {
             var xml = new XElement(XmlPropertyNames.Track);
 
-            xml.Add(new XAttribute(XmlPropertyNames.RelativeFilepath, track.RelativeFilepath));
-            xml.Add(new XAttribute(XmlPropertyNames.FullFilepath, track.FullFilepath));
-            xml.Add(new XAttribute(XmlPropertyNames.Title, track.Title));
-            xml.Add(new XAttribute(XmlPropertyNames.TrackNo, track.TrackNo));
-            xml.Add(new XAttribute(XmlPropertyNames.Duration, track.Duration.ToString(StandardTimeSpanFormat)));
+            xml.AddAttribute(XmlPropertyNames.RelativeFilepath, track.RelativeFilepath);
+            xml.AddAttribute(XmlPropertyNames.FullFilepath, track.FullFilepath);
+            xml.AddAttribute(XmlPropertyNames.Title, track.Title);
+            xml.AddAttribute(XmlPropertyNames.TrackNo, track.TrackNo);
+            xml.AddAttribute(XmlPropertyNames.Duration, track.Duration.ToString(StandardTimeSpanFormat));
+            xml.AddAttribute(XmlPropertyNames.TrackYear, track.Year);
+            xml.AddAttribute(XmlPropertyNames.Tags, string.Join(TagsDelimiter.ToString(), track.Tags));
+            xml.AddAttribute(XmlPropertyNames.Lyrics, track.Lyrics);
 
             if (track.Artist != track.Disc.Album.Artist)
             {
-                xml.Add(new XAttribute(XmlPropertyNames.Artist, track.Artist.Name));
+                xml.AddAttribute(XmlPropertyNames.Artist, track.Artist.Name);
             }
 
             return xml;

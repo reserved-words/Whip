@@ -69,6 +69,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SidebarViewModel.cs" />
     <Compile Include="TabViewModels\LibraryViewModel.cs" />
+    <Compile Include="Utilities\Hyperlink.cs" />
     <Compile Include="Windows\DialogViewModel.cs" />
     <Compile Include="Windows\ProgressBarViewModel.cs" />
   </ItemGroup>

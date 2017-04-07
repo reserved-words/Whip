@@ -120,10 +120,16 @@
   <data name="ApplicationTitle" xml:space="preserve">
     <value>Whip</value>
   </data>
+  <data name="FacebookUrl" xml:space="preserve">
+    <value>https://facebook.com/{0}</value>
+  </data>
   <data name="StandardDateFormat" xml:space="preserve">
-    <value>dd/MM/yyyy HH:mm:ss</value>
+    <value>dd\/MM\/yyyy HH\:mm\:ss</value>
   </data>
   <data name="StandardTimeSpanFormat" xml:space="preserve">
     <value>mm\:ss</value>
+  </data>
+  <data name="TwitterUrl" xml:space="preserve">
+    <value>https://twitter.com/{0}</value>
   </data>
 </root>

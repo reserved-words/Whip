@@ -132,8 +132,17 @@
   <data name="Artwork" xml:space="preserve">
     <value>artwork</value>
   </data>
+  <data name="City" xml:space="preserve">
+    <value>city</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>country</value>
+  </data>
   <data name="Disc" xml:space="preserve">
     <value>disc</value>
+  </data>
+  <data name="DiscCount" xml:space="preserve">
+    <value>disc_count</value>
   </data>
   <data name="DiscNo" xml:space="preserve">
     <value>disc_no</value>
@@ -144,14 +153,23 @@
   <data name="Duration" xml:space="preserve">
     <value>duration</value>
   </data>
+  <data name="Facebook" xml:space="preserve">
+    <value>facebook</value>
+  </data>
   <data name="FullFilepath" xml:space="preserve">
     <value>full_filepath</value>
   </data>
   <data name="Genre" xml:space="preserve">
     <value>genre</value>
   </data>
+  <data name="Grouping" xml:space="preserve">
+    <value>grouping</value>
+  </data>
   <data name="LastUpdated" xml:space="preserve">
     <value>last_updated</value>
+  </data>
+  <data name="Lyrics" xml:space="preserve">
+    <value>lyrics</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>name</value>
@@ -162,17 +180,35 @@
   <data name="Root" xml:space="preserve">
     <value>library</value>
   </data>
+  <data name="State" xml:space="preserve">
+    <value>state</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>tags</value>
+  </data>
   <data name="Title" xml:space="preserve">
     <value>title</value>
   </data>
   <data name="Track" xml:space="preserve">
     <value>track</value>
   </data>
+  <data name="TrackCount" xml:space="preserve">
+    <value>track_count</value>
+  </data>
   <data name="TrackNo" xml:space="preserve">
     <value>track_no</value>
   </data>
   <data name="Tracks" xml:space="preserve">
     <value>tracks</value>
+  </data>
+  <data name="TrackYear" xml:space="preserve">
+    <value>track_year</value>
+  </data>
+  <data name="Twitter" xml:space="preserve">
+    <value>twitter</value>
+  </data>
+  <data name="Website" xml:space="preserve">
+    <value>website</value>
   </data>
   <data name="Year" xml:space="preserve">
     <value>year</value>

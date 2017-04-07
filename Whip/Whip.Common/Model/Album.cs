@@ -16,6 +16,7 @@ namespace Whip.Common.Model
         public string Title { get; set; }
         public string Year { get; set; }
         public string Artwork { get; set; }
+        public int DiscCount { get; set; }
 
         public Artist Artist { get; set; }
 

@@ -8,10 +8,12 @@ namespace Whip.Services
     public class LibraryDataOrganiserService : ILibraryDataOrganiserService
     {
         private readonly ITaggingService _taggingService;
+        private readonly ICommentProcessingService _commentProcessingService;
 
-        public LibraryDataOrganiserService(ITaggingService taggingService)
+        public LibraryDataOrganiserService(ITaggingService taggingService, ICommentProcessingService commentProcessingService)
         {
             _taggingService = taggingService;
+            _commentProcessingService = commentProcessingService;
         }
 
         public void AddTrack(string filepath, File file, ICollection<Artist> artists)
@@ -24,7 +26,8 @@ namespace Whip.Services
                 RelativeFilepath = file.RelativePath,
                 Title = id3TrackData.Title,
                 TrackNo = id3TrackData.TrackNo,
-                Duration = id3TrackData.Duration
+                Duration = id3TrackData.Duration,
+                Lyrics = id3TrackData.Lyrics
             };
 
             var artist = artists.SingleOrDefault(a => a.Name == id3TrackData.Artist);
@@ -34,9 +37,15 @@ namespace Whip.Services
                 artist = new Artist
                 {
                     Name = id3TrackData.Artist,
-                    Genre = id3TrackData.Genre
+                    Genre = id3TrackData.Genre,
+                    Grouping = id3TrackData.Grouping
                 };
                 artists.Add(artist);
+            }
+
+            if (!artist.Tracks.Any())
+            {
+                _commentProcessingService.Populate(artist, id3TrackData.Comment);
             }
 
             var albumArtist = artists.SingleOrDefault(a => a.Name == id3TrackData.AlbumArtist);
@@ -58,7 +67,8 @@ namespace Whip.Services
                 {
                     Artist = albumArtist,
                     Title = id3TrackData.AlbumTitle,
-                    Year = id3TrackData.AlbumYear
+                    Year = id3TrackData.AlbumYear,
+                    DiscCount = id3TrackData.DiscCount
                 };
                 albumArtist.Albums.Add(album);
             }
@@ -70,7 +80,8 @@ namespace Whip.Services
                 disc = new Disc
                 {
                     Album = album,
-                    DiscNo = id3TrackData.DiscNo
+                    DiscNo = id3TrackData.DiscNo,
+                    TrackCount = id3TrackData.TrackCount
                 };
                 album.Discs.Add(disc);
             }
@@ -80,6 +91,8 @@ namespace Whip.Services
 
             track.Disc = disc;
             track.Artist = artist;
+
+            _commentProcessingService.Populate(track, id3TrackData.Comment);
         }
 
         public void SyncTracks(ICollection<Artist> artists, ICollection<string> filepathsToKeep)

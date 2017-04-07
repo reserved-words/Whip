@@ -10,7 +10,7 @@ namespace Whip.Common.Model
     {
         public Track()
         {
-
+            Tags = new List<string>();
         }
 
         public string FullFilepath { get; set; }
@@ -18,6 +18,9 @@ namespace Whip.Common.Model
         public string Title { get; set; }
         public int TrackNo { get; set; }
         public TimeSpan Duration { get; set; }
+        public List<string> Tags { get; set; }
+        public string Year { get; set; }
+        public string Lyrics { get; set; }
 
         public Artist Artist { get; set; }
         public Disc Disc { get; set; }

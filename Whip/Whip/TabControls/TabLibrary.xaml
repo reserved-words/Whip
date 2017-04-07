@@ -5,10 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Whip.TabControls"
              xmlns:conv="clr-namespace:Whip.Converters"
+             xmlns:res="clr-namespace:Whip.Resources;assembly=Whip.Resources"
+             xmlns:controls="clr-namespace:Whip.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
     <UserControl.Resources>
-        <conv:BoolToVisibilityConverter x:Key="VisibilityConverter" />
+        <conv:BoolToVisibilityConverter x:Key="BoolVisibilityConverter" />
+        <conv:StringToVisibilityConverter x:Key="StringVisibilityConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -46,13 +49,57 @@
             <StackPanel Grid.Column="0" Grid.ColumnSpan="2"
                         Grid.Row="0"
                         DataContext="{Binding SelectedArtist}">
-                <Label Content="{Binding Name}"
-                       FontWeight="Bold"/>
-                <Label Content="{Binding Genre}"/>
 
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <Label Content="{Binding Name}"
+                               FontWeight="Bold"/>
+                        <Label Content="{Binding Genre}"/>
+                        <Label Content="{Binding City.Description}"/>
+
+                    </StackPanel>
+                    
+                    <StackPanel Grid.Column="1">
+                        <WrapPanel>
+                            <controls:HyperlinkLabel Url="{Binding Website}" 
+                                                     Visibility="{Binding Website, Converter={StaticResource StringVisibilityConverter}}"
+                                                     Padding="0,5,5,5">
+                                <Image Source="/Images/web.png"
+                                       Width="32"
+                                       Height="32"
+                                       SnapsToDevicePixels="True"/>
+                            </controls:HyperlinkLabel>
+                            <controls:HyperlinkLabel Username="{Binding Facebook}" 
+                                                 UrlFormat="{x:Static res:Resources.FacebookUrl}"
+                                                 Visibility="{Binding Facebook, Converter={StaticResource StringVisibilityConverter}}"
+                                                 Padding="0,5,5,5">
+                                <Image Source="/Images/facebook.png"
+                                   Width="32"
+                                   Height="32"
+                                   SnapsToDevicePixels="True"/>
+                            </controls:HyperlinkLabel>
+                            <controls:HyperlinkLabel Username="{Binding Twitter}" 
+                                                 UrlFormat="{x:Static res:Resources.TwitterUrl}"
+                                                 Visibility="{Binding Twitter, Converter={StaticResource StringVisibilityConverter}}"
+                                                 Padding="0,5,5,5">
+                                <Image Source="/Images/twitter.png"
+                                       Width="32"
+                                       Height="32"
+                                       SnapsToDevicePixels="True"/>
+                            </controls:HyperlinkLabel>
+                        </WrapPanel>
+                    </StackPanel>
+                    
+                </Grid>
+                
                 <Border BorderThickness="0,0,0,1"
                         BorderBrush="Silver"
-                        Margin="5,0,5,5"/>
+                        Margin="5,10,5,5"/>
 
             </StackPanel>
 
@@ -65,8 +112,8 @@
                     Grid.Row="1"
                     Command="{Binding ClearSelectedAlbum}"
                     Content="Show All"
-                    Padding="10,0,10,0"
-                    Margin="0,0,5,0"/>
+                    Padding="10,2,10,2"
+                    Margin="0,0,5,5"/>
 
             <ListView Grid.Column="0" Grid.ColumnSpan="2"
                       Grid.Row="2"
@@ -117,7 +164,7 @@
                                 <DataTemplate>
                                     <StackPanel>
                                         <TextBlock Text="{Binding DiscNo, StringFormat=Disc {0:#}}"
-                                                   Visibility="{Binding Album.MultiDisc, Converter={StaticResource VisibilityConverter}}"/>
+                                                   Visibility="{Binding Album.MultiDisc, Converter={StaticResource BoolVisibilityConverter}}"/>
                                         <ListView Grid.Column="0"
                                                   ItemsSource="{Binding Tracks}"
                                                   BorderThickness="0">
@@ -155,7 +202,7 @@
                         </ListView>
                         <Border BorderThickness="0,0,0,1"
                                 BorderBrush="Silver"
-                                Margin="5,0,5,5"/>
+                                Margin="5,5,5,5"/>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

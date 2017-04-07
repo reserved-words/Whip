@@ -70,7 +70,16 @@ namespace Whip.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to dd/MM/yyyy HH:mm:ss.
+        ///   Looks up a localized string similar to https://facebook.com/{0}.
+        /// </summary>
+        public static string FacebookUrl {
+            get {
+                return ResourceManager.GetString("FacebookUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to dd\/MM\/yyyy HH\:mm\:ss.
         /// </summary>
         public static string StandardDateFormat {
             get {
@@ -84,6 +93,15 @@ namespace Whip.Resources {
         public static string StandardTimeSpanFormat {
             get {
                 return ResourceManager.GetString("StandardTimeSpanFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://twitter.com/{0}.
+        /// </summary>
+        public static string TwitterUrl {
+            get {
+                return ResourceManager.GetString("TwitterUrl", resourceCulture);
             }
         }
     }

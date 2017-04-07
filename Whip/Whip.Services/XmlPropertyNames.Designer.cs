@@ -106,11 +106,38 @@ namespace Whip.Services {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to city.
+        /// </summary>
+        internal static string City {
+            get {
+                return ResourceManager.GetString("City", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to country.
+        /// </summary>
+        internal static string Country {
+            get {
+                return ResourceManager.GetString("Country", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to disc.
         /// </summary>
         internal static string Disc {
             get {
                 return ResourceManager.GetString("Disc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to disc_count.
+        /// </summary>
+        internal static string DiscCount {
+            get {
+                return ResourceManager.GetString("DiscCount", resourceCulture);
             }
         }
         
@@ -142,6 +169,15 @@ namespace Whip.Services {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to facebook.
+        /// </summary>
+        internal static string Facebook {
+            get {
+                return ResourceManager.GetString("Facebook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to full_filepath.
         /// </summary>
         internal static string FullFilepath {
@@ -160,11 +196,29 @@ namespace Whip.Services {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to grouping.
+        /// </summary>
+        internal static string Grouping {
+            get {
+                return ResourceManager.GetString("Grouping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to last_updated.
         /// </summary>
         internal static string LastUpdated {
             get {
                 return ResourceManager.GetString("LastUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to lyrics.
+        /// </summary>
+        internal static string Lyrics {
+            get {
+                return ResourceManager.GetString("Lyrics", resourceCulture);
             }
         }
         
@@ -196,6 +250,24 @@ namespace Whip.Services {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to state.
+        /// </summary>
+        internal static string State {
+            get {
+                return ResourceManager.GetString("State", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to tags.
+        /// </summary>
+        internal static string Tags {
+            get {
+                return ResourceManager.GetString("Tags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to title.
         /// </summary>
         internal static string Title {
@@ -214,6 +286,15 @@ namespace Whip.Services {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to track_count.
+        /// </summary>
+        internal static string TrackCount {
+            get {
+                return ResourceManager.GetString("TrackCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to track_no.
         /// </summary>
         internal static string TrackNo {
@@ -228,6 +309,33 @@ namespace Whip.Services {
         internal static string Tracks {
             get {
                 return ResourceManager.GetString("Tracks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to track_year.
+        /// </summary>
+        internal static string TrackYear {
+            get {
+                return ResourceManager.GetString("TrackYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to twitter.
+        /// </summary>
+        internal static string Twitter {
+            get {
+                return ResourceManager.GetString("Twitter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to website.
+        /// </summary>
+        internal static string Website {
+            get {
+                return ResourceManager.GetString("Website", resourceCulture);
             }
         }
         

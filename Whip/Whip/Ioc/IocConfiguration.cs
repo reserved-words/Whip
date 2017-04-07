@@ -44,6 +44,7 @@ namespace Whip.Ioc
             Bind<IDataPersistenceService>().To<XmlDataPersistenceService>().InTransientScope();
             Bind<ITaggingService>().To<TagLibService>().InTransientScope();
             Bind<IDirectoryStructureService>().To<DirectoryStructureService>().InTransientScope();
+            Bind<ICommentProcessingService>().To<CommentProcessingService>().InTransientScope();
         }
 
         private void BindMessageHandlers()

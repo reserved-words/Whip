@@ -15,6 +15,7 @@ namespace Whip.Common.Model
 
         public Album Album { get; set; }
         public int DiscNo { get; set; }
+        public int TrackCount { get; set; }
 
         public List<Track> Tracks { get; set; }
     }
