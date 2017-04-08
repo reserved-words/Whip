@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Whip.Common.Enums;
 using Whip.Common.Model;
+using Whip.Common.Singletons;
 using Whip.Common.Utilities;
 using Whip.Services.Interfaces;
 using static Whip.Resources.Resources;

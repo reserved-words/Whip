@@ -40,18 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommentProcessingService.cs" />
-    <Compile Include="DirectoryStructureService.cs" />
-    <Compile Include="FileService.cs" />
-    <Compile Include="LibraryDataOrganiserService.cs" />
-    <Compile Include="LibraryService.cs" />
+    <Compile Include="Library\CommentProcessingService.cs" />
+    <Compile Include="Utilities\DirectoryStructureService.cs" />
+    <Compile Include="Utilities\FileService.cs" />
+    <Compile Include="Library\LibraryDataOrganiserService.cs" />
+    <Compile Include="Library\LibraryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XmlPropertyNames.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>XmlPropertyNames.resx</DependentUpon>
     </Compile>
-    <Compile Include="XmlDataPersistenceService.cs" />
+    <Compile Include="Library\XmlDataPersistenceService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Whip.Common\Whip.Common.csproj">
@@ -72,6 +72,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>XmlPropertyNames.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Player\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

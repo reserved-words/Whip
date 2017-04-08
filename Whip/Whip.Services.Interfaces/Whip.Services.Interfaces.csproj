@@ -40,14 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ICommentXmlService.cs" />
-    <Compile Include="IDirectoryStructureService.cs" />
-    <Compile Include="ILibraryDataOrganiserService.cs" />
-    <Compile Include="IDataPersistenceService.cs" />
-    <Compile Include="IFileService.cs" />
-    <Compile Include="ILibraryService.cs" />
-    <Compile Include="ITaggingService.cs" />
-    <Compile Include="IUserSettingsService.cs" />
+    <Compile Include="Library\ICommentProcessingService.cs" />
+    <Compile Include="Player\IPlayerControlsService.cs" />
+    <Compile Include="Utilities\IDirectoryStructureService.cs" />
+    <Compile Include="Library\ILibraryDataOrganiserService.cs" />
+    <Compile Include="Library\IDataPersistenceService.cs" />
+    <Compile Include="Utilities\IFileService.cs" />
+    <Compile Include="Library\ILibraryService.cs" />
+    <Compile Include="Library\ITaggingService.cs" />
+    <Compile Include="Utilities\IUserSettingsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

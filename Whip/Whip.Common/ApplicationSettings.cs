@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Whip.ViewModels
+namespace Whip.Common
 {
     public static class ApplicationSettings
     {

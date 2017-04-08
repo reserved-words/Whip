@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using System.Collections.Generic;
 using System.Linq;
 using Whip.Common.Model;
+using Whip.Common.Singletons;
 
 namespace Whip.ViewModels.TabViewModels
 {
@@ -15,14 +16,17 @@ namespace Whip.ViewModels.TabViewModels
         private Album _selectedAlbum;
         private Artist _selectedArtist;
 
-        public LibraryViewModel()
+        public LibraryViewModel(Library library)
         {
+            _library = library;
+            _library.Updated += OnLibraryUpdated;
+
             Artists = new List<Artist>();
             Albums = new List<Album>();
 
             ClearSelectedAlbum = new RelayCommand(OnClearSelectedAlbum, CanClearSelectedAlbum);
         }
-        
+       
         public List<Artist> Artists
         {
             get { return _artists; }
@@ -49,7 +53,7 @@ namespace Whip.ViewModels.TabViewModels
             set
             {
                 Set(ref _selectedArtist, value);
-                Albums = _selectedArtist.Albums
+                Albums = _selectedArtist?.Albums
                     .OrderBy(a => a.ReleaseType)
                     .ThenBy(a => a.Year)
                     .ToList();
@@ -80,10 +84,8 @@ namespace Whip.ViewModels.TabViewModels
             SelectedAlbum = null;
         }
 
-        public void OnLibraryUpdated(Library library)
+        private void OnLibraryUpdated()
         {
-            _library = library;
-
             Artists = _library.Artists;
         }
     }

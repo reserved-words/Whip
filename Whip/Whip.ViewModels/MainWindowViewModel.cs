@@ -2,7 +2,7 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using System;
-using Whip.Common.Model;
+using Whip.Common.Singletons;
 using Whip.Common.Utilities;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
@@ -76,11 +76,9 @@ namespace Whip.ViewModels
             var progressHandler = new Progress<ProgressArgs>(progressBarViewModel.Update);
             var stopProgressBarMessage = new HideDialogMessage(progressBarViewModel.Guid);
 
-            _library = await _libraryService.GetLibraryAsync(_userSettingsService.MusicDirectory, ApplicationSettings.FileExtensions, progressHandler);
+            _library.Update(await _libraryService.GetLibraryAsync(progressHandler));
 
             _messenger.Send(stopProgressBarMessage);
-
-            _libraryViewModel.OnLibraryUpdated(_library);
         }
 
         private void OnSaveLibrary()

@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Whip.Common;
 using Whip.Common.Enums;
 using Whip.Common.Model;
+using Whip.Common.Singletons;
 using Whip.Common.Utilities;
 using Whip.Services.Interfaces;
 
@@ -16,17 +16,20 @@ namespace Whip.Services
         private readonly ILibraryDataOrganiserService _libraryDataOrganiserService;
         private readonly IDataPersistenceService _dataPersistenceService;
         private readonly IDirectoryStructureService _directoryStructureService;
+        private readonly IUserSettingsService _userSettingsService;
 
         public LibraryService(IFileService fileService, ILibraryDataOrganiserService libraryDataOrganiserService,
-            IDataPersistenceService dataPersistenceService, IDirectoryStructureService directoryStructureService)
+            IDataPersistenceService dataPersistenceService, IDirectoryStructureService directoryStructureService,
+            IUserSettingsService userSettingsService)
         {
             _fileService = fileService;
             _libraryDataOrganiserService = libraryDataOrganiserService;
             _dataPersistenceService = dataPersistenceService;
             _directoryStructureService = directoryStructureService;
+            _userSettingsService = userSettingsService;
         }
 
-        public async Task<Library> GetLibraryAsync(string directory, string[] extensions, IProgress<ProgressArgs> progressHandler)
+        public async Task<Library> GetLibraryAsync(IProgress<ProgressArgs> progressHandler)
         {
             return await Task.Run(() =>
             {
@@ -36,11 +39,11 @@ namespace Whip.Services
 
                 var libraryLastUpdated = library.LastUpdated;
 
-                library.LastUpdated = DateTime.Now;
+                var newUpdateDate = DateTime.Now;
 
                 progressHandler?.Report(new ProgressArgs(20, "Fetching files"));
 
-                var files = _fileService.GetFiles(directory, extensions, libraryLastUpdated);
+                var files = _fileService.GetFiles(_userSettingsService.MusicDirectory, ApplicationSettings.FileExtensions, libraryLastUpdated);
 
                 progressHandler?.Report(new ProgressArgs(40, "Removing deleted files"));
 

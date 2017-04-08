@@ -5,7 +5,7 @@ using Whip.Services;
 using Whip.Services.Interfaces;
 using Whip.ViewModels;
 using Whip.MessageHandlers;
-using Whip.Common.Model;
+using Whip.Common.Singletons;
 
 namespace Whip.Ioc
 {
@@ -32,6 +32,7 @@ namespace Whip.Ioc
         private void BindSingletons()
         {
             Bind<Library>().ToSelf().InSingletonScope();
+            Bind<Playlist>().ToSelf().InSingletonScope();
             Bind<IMessenger>().To<Messenger>().InSingletonScope();
         }
 
