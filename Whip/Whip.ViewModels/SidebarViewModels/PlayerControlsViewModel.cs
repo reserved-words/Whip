@@ -14,14 +14,15 @@ namespace Whip.ViewModels
 {
     public class PlayerControlsViewModel : ViewModelBase
     {
+        private enum PlayerStatus { Playing, Paused, Stopped }
+
         private readonly IMessenger _messenger;
         private readonly Playlist _playlist;
         private readonly ITrackFilterService _trackFilterService;
 
-        private Track _currentTrack;
         private Library _library;
         private List<string> _groupings;
-        private bool _playing;
+        private PlayerStatus _currentStatus;
         
         public PlayerControlsViewModel(Library library, Playlist playlist, ITrackFilterService trackFilterService, IMessenger messenger)
         {
@@ -44,34 +45,29 @@ namespace Whip.ViewModels
             TrackTimer = new TrackTimer();
             TrackTimer.TrackEnded += OnTrackEnded;
 
-            Playing = false;
+            CurrentStatus = PlayerStatus.Stopped;
         }
 
-        public Track CurrentTrack
-        {
-            get { return _currentTrack; }
-            set { Set(ref _currentTrack, value); }
-        }
-
+        public bool Playing => CurrentStatus == PlayerStatus.Playing;
+        
         public List<string> Groupings
         {
             get { return _groupings; }
             set { Set(ref _groupings, value); }
         }
 
-        public bool Playing
+        private PlayerStatus CurrentStatus
         {
-            get { return _playing; }
+            get { return _currentStatus; }
             set
             {
-                Set(ref _playing, value);
-                PauseCommand.RaiseCanExecuteChanged();
-                ResumeCommand.RaiseCanExecuteChanged();
+                Set(ref _currentStatus, value);
+                RaisePlayerStatusChanged();
             }
         }
 
         public TrackTimer TrackTimer { get; private set; }
-        
+
         public RelayCommand MoveNextCommand { get; private set; }
         public RelayCommand MovePreviousCommand { get; private set; }
         public RelayCommand PauseCommand { get; private set; }
@@ -80,9 +76,15 @@ namespace Whip.ViewModels
         public RelayCommand ShuffleLibraryCommand { get; private set; }
         public RelayCommand<double> SkipToPercentageCommand { get; private set; }
 
-        private bool CanPause() => Playing;
+        private bool CanMovePrevious() => CurrentStatus != PlayerStatus.Stopped;
 
-        private bool CanResume() => _playlist.Any() && !Playing;
+        private bool CanMoveNext() => CurrentStatus != PlayerStatus.Stopped;
+
+        private bool CanPause() => CurrentStatus == PlayerStatus.Playing;
+
+        private bool CanResume() => CurrentStatus == PlayerStatus.Paused;
+
+        private bool CanSkip(double newPercentage) => CurrentStatus != PlayerStatus.Stopped;
 
         private void OnLibraryUpdated()
         {
@@ -91,23 +93,21 @@ namespace Whip.ViewModels
 
         private void OnPlaylistUpdated()
         {
-            MoveNextCommand.RaiseCanExecuteChanged();
-            MovePreviousCommand.RaiseCanExecuteChanged();
-            PauseCommand.RaiseCanExecuteChanged();
-            ResumeCommand.RaiseCanExecuteChanged();
+            RaisePlayerStatusChanged();
         }
 
         public void OnCurrentTrackChanged(Track track)
         {
-            CurrentTrack = track;
-            SetTrackTimer(track);
+            if (track == null)
+            {
+                TrackTimer.Stop();
+                CurrentStatus = PlayerStatus.Stopped;
+                return;
+            }
+            CurrentStatus = PlayerStatus.Playing;
+            TrackTimer.Reset(track);
+            TrackTimer.Start();
         }
-
-        private bool CanMovePrevious() => _playlist.Any();
-
-        private bool CanMoveNext() => _playlist.Any();
-
-        private bool CanSkip(double newPercentage) => CurrentTrack != null;
 
         private void OnMoveNext() => _playlist.MoveNext();
 
@@ -117,26 +117,24 @@ namespace Whip.ViewModels
         {
             _messenger.Send(new PausePlayerMessage());
             TrackTimer.Stop();
-            Playing = false;
+            CurrentStatus = PlayerStatus.Paused;
         }
 
         private void OnResume()
         {
             _messenger.Send(new ResumePlayerMessage());
             TrackTimer.Start();
-            Playing = true;
+            CurrentStatus = PlayerStatus.Playing;
         }
 
         private void OnShuffleGrouping(string grouping)
         {
             _playlist.Set(_trackFilterService.GetAll(new RandomTrackSorter(), grouping));
-            Playing = true;
         }
 
         private void OnShuffleLibrary()
         {
             _playlist.Set(_trackFilterService.GetAll(new RandomTrackSorter()));
-            Playing = true;
         }
 
         private void OnSkip(double newPercentage)
@@ -150,10 +148,14 @@ namespace Whip.ViewModels
             _playlist.MoveNext();
         }
 
-        private void SetTrackTimer(Track track)
+        private void RaisePlayerStatusChanged()
         {
-            TrackTimer.Reset(track);
-            TrackTimer.Start();
+            MoveNextCommand.RaiseCanExecuteChanged();
+            MovePreviousCommand.RaiseCanExecuteChanged();
+            PauseCommand.RaiseCanExecuteChanged();
+            ResumeCommand.RaiseCanExecuteChanged();
+            SkipToPercentageCommand.RaiseCanExecuteChanged();
+            RaisePropertyChanged(nameof(Playing));
         }
     }
 }

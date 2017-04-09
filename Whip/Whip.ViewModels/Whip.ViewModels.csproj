@@ -65,6 +65,8 @@
     <Compile Include="Messages\PausePlayerMessage.cs" />
     <Compile Include="Messages\ResumePlayerMessage.cs" />
     <Compile Include="Messages\SkipPlayerMessage.cs" />
+    <Compile Include="SidebarViewModels\CurrentTrackMiniViewModel.cs" />
+    <Compile Include="SidebarViewModels\SidebarViewModel.cs" />
     <Compile Include="Utilities\TrackTimer.cs" />
     <Compile Include="Windows\ApplicationSettingsViewModel.cs" />
     <Compile Include="Messages\ShowDialogMessage.cs" />
@@ -72,7 +74,7 @@
     <Compile Include="MainViewModel.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PlayerControlsViewModel.cs" />
+    <Compile Include="SidebarViewModels\PlayerControlsViewModel.cs" />
     <Compile Include="TabViewModels\LibraryViewModel.cs" />
     <Compile Include="Utilities\Hyperlink.cs" />
     <Compile Include="Windows\DialogViewModel.cs" />

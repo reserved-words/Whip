@@ -81,6 +81,7 @@
     </ApplicationDefinition>
     <Compile Include="Controls\ClickableProgressBar.cs" />
     <Compile Include="Controls\HyperlinkLabel.cs" />
+    <Compile Include="Controls\PlayerControlButton.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\EnumToStringConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
@@ -92,8 +93,14 @@
     </Compile>
     <Compile Include="MessageHandlers\DialogMessageHandler.cs" />
     <Compile Include="Services\UserSettingsService.cs" />
-    <Compile Include="PlayerControlsView.xaml.cs">
+    <Compile Include="SidebarViews\CurrentTrackMiniView.xaml.cs">
+      <DependentUpon>CurrentTrackMiniView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SidebarViews\PlayerControlsView.xaml.cs">
       <DependentUpon>PlayerControlsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SidebarViews\SidebarView.xaml.cs">
+      <DependentUpon>SidebarView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TabControls\TabLibrary.xaml.cs">
       <DependentUpon>TabLibrary.xaml</DependentUpon>
@@ -123,7 +130,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="PlayerControlsView.xaml">
+    <Page Include="SidebarViews\CurrentTrackMiniView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SidebarViews\PlayerControlsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SidebarViews\SidebarView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -220,6 +235,9 @@
     <Resource Include="Images\web.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\lastfm.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

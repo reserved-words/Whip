@@ -15,12 +15,6 @@
     <conv:EnumToStringConverter x:Key="EnumToStringConverter" />
 
     <!-- DATA TEMPLATES -->
-    <DataTemplate DataType="{x:Type viewModel:MainViewModel}">
-        <local:MainView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type viewModel:PlayerControlsViewModel}">
-        <local:PlayerControlsView />
-    </DataTemplate>
 
     <!-- STYLES -->
 

@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Whip
 {
     /// <summary>
-    /// Interaction logic for SidebarView.xaml
+    /// Interaction logic for CurrentTrackMiniView.xaml
     /// </summary>
-    public partial class PlayerControlsView : UserControl
+    public partial class CurrentTrackMiniView : UserControl
     {
-        public PlayerControlsView()
+        public CurrentTrackMiniView()
         {
             InitializeComponent();
         }

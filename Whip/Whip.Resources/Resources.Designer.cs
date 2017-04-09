@@ -79,6 +79,15 @@ namespace Whip.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to https://www.last.fm/music/{0}.
+        /// </summary>
+        public static string LastFmUrl {
+            get {
+                return ResourceManager.GetString("LastFmUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to dd\/MM\/yyyy HH\:mm\:ss.
         /// </summary>
         public static string StandardDateFormat {

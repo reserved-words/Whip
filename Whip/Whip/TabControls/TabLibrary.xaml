@@ -30,7 +30,7 @@
                               Name="colTracks" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="110" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -79,21 +79,20 @@
                 <StackPanel Grid.Column="0"
                             Grid.Row="0" Grid.RowSpan="2">
                     <Label Content="{Binding Name}"
-                               FontWeight="Bold"/>
+                           FontWeight="Bold"/>
                     <Label Content="{Binding Genre}"/>
                     <Label Content="{Binding City.Description}"/>
+                    <controls:HyperlinkLabel Url="{Binding Website}" 
+                                             Visibility="{Binding Website, Converter={StaticResource StringVisibilityConverter}}"
+                                             Padding="5,5,5,5">
+                        <TextBlock Text="{Binding Website}" 
+                                   TextDecorations="Underline"
+                                   Foreground="Purple" />
+                    </controls:HyperlinkLabel>
                 </StackPanel>
 
                 <WrapPanel Grid.Column="1"
                            Grid.Row="0">
-                    <controls:HyperlinkLabel Url="{Binding Website}" 
-                                             Visibility="{Binding Website, Converter={StaticResource StringVisibilityConverter}}"
-                                             Padding="0,5,5,5">
-                        <Image Source="/Images/web.png"
-                                   Width="32"
-                                   Height="32"
-                                   SnapsToDevicePixels="True"/>
-                    </controls:HyperlinkLabel>
                     <controls:HyperlinkLabel Username="{Binding Facebook}" 
                                                  UrlFormat="{x:Static res:Resources.FacebookUrl}"
                                                  Visibility="{Binding Facebook, Converter={StaticResource StringVisibilityConverter}}"
@@ -108,6 +107,14 @@
                                                      Visibility="{Binding Twitter, Converter={StaticResource StringVisibilityConverter}}"
                                                      Padding="0,5,5,5">
                         <Image Source="/Images/twitter.png"
+                                       Width="32"
+                                       Height="32"
+                                       SnapsToDevicePixels="True"/>
+                    </controls:HyperlinkLabel>
+                    <controls:HyperlinkLabel Username="{Binding Name}" 
+                                             UrlFormat="{x:Static res:Resources.LastFmUrl}"
+                                             Padding="0,5,5,5">
+                        <Image Source="/Images/lastfm.ico"
                                        Width="32"
                                        Height="32"
                                        SnapsToDevicePixels="True"/>
@@ -128,12 +135,12 @@
         </WrapPanel>
 
         <ListView Grid.Column="2"
-                Grid.Row="2"
-                DataContext="{StaticResource AlbumsGrouped}"
-                ItemsSource="{Binding}"
-                SelectedItem="{Binding DataContext.SelectedAlbum, ElementName=libraryView}"
-                BorderThickness="0"
-                HorizontalContentAlignment="Stretch">
+                  Grid.Row="2"
+                  DataContext="{StaticResource AlbumsGrouped}"
+                  ItemsSource="{Binding}"
+                  SelectedItem="{Binding DataContext.SelectedAlbum, ElementName=libraryView}"
+                  BorderThickness="0"
+                  HorizontalContentAlignment="Stretch">
             <ListView.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.HeaderTemplate>
@@ -170,21 +177,21 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <Image Grid.Column="0"
-                                       Grid.Row="0" Grid.RowSpan="3"
-                                       Source="{Binding Artwork}"
-                                       Margin="0"
-                                       Height="100"
-                                       Width="100"/>
+                                   Grid.Row="0" Grid.RowSpan="3"
+                                   Source="{Binding Artwork}"
+                                   Margin="0"
+                                   Height="100"
+                                   Width="100"/>
                             <Label Grid.Column="1"
-                                       Grid.Row="0"
-                                       Content="{Binding Title}" />
+                                   Grid.Row="0"
+                                   Content="{Binding Title}" />
                             <Label Grid.Column="1"
-                                       Grid.Row="1"
-                                       Content="{Binding ReleaseType, Converter={StaticResource EnumToStringConverter}}"
-                                       Visibility="{Binding IsAlbum, Converter={StaticResource NegBoolVisibilityConverter}}"/>
+                                   Grid.Row="1"
+                                   Content="{Binding ReleaseType, Converter={StaticResource EnumToStringConverter}}"
+                                   Visibility="{Binding IsAlbum, Converter={StaticResource NegBoolVisibilityConverter}}"/>
                             <Label Grid.Column="1"
-                                       Grid.Row="2"
-                                       Content="{Binding Year}" />
+                                   Grid.Row="2"
+                                   Content="{Binding Year}" />
                         </Grid>
 
                     </StackPanel>

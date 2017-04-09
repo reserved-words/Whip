@@ -8,7 +8,6 @@ using Whip.Common.Singletons;
 using Whip.Common.Utilities;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
-using Whip.ViewModels.TabViewModels;
 using Whip.ViewModels.Windows;
 
 namespace Whip.ViewModels
@@ -23,8 +22,8 @@ namespace Whip.ViewModels
         private readonly Playlist _playlist;
 
         public MainWindowViewModel(ILibraryService libraryService, IUserSettingsService userSettingsService, Library library,
-            IMessenger messenger, LibraryViewModel libraryViewModel, Playlist playlist, ITrackFilterService trackFilterService,
-            IPlayer player)
+            IMessenger messenger, Playlist playlist, ITrackFilterService trackFilterService,
+            MainViewModel mainViewModel, SidebarViewModel sidebarViewModel)
         {
             _libraryService = libraryService;
             _userSettingsService = userSettingsService;
@@ -33,8 +32,8 @@ namespace Whip.ViewModels
             _library = library;
             _playlist = playlist;
 
-            MainViewModel = new MainViewModel(libraryViewModel);
-            SidebarViewModel = new PlayerControlsViewModel(_library, _playlist, trackFilterService, _messenger);
+            MainViewModel = mainViewModel;
+            SidebarViewModel = sidebarViewModel;
 
             ApplicationSettingsCommand = new RelayCommand(OnApplicationSettings);
             PopulateLibraryCommand = new RelayCommand(OnPopulateLibrary);
@@ -50,7 +49,7 @@ namespace Whip.ViewModels
         }
 
         public MainViewModel MainViewModel { get; private set; }
-        public PlayerControlsViewModel SidebarViewModel { get; private set; }
+        public SidebarViewModel SidebarViewModel { get; private set; }
 
         public RelayCommand ApplicationSettingsCommand { get; private set; }
         public RelayCommand PopulateLibraryCommand { get; private set; }

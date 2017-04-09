@@ -6,44 +6,34 @@
              xmlns:local="clr-namespace:Whip"
              xmlns:controls="clr-namespace:Whip.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"
-             x:Name="playerControlsView">
+             x:Name="playerControlsView"
+             d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel>
-
-        <StackPanel Height="300">
-            <Image Source="{Binding CurrentTrack.Disc.Album.Artwork}"
-               Width="150"
-               Height="150"
-               Margin="10"/>
-            <Label Content="{Binding CurrentTrack.Artist.Name}" />
-            <Label Content="{Binding CurrentTrack.Title}" />
-            <Label Content="{Binding CurrentTrack.Disc.Album.Title}" />
-            <Label Content="{Binding CurrentTrack.Disc.Album.Year}" />
-        </StackPanel>
-
-        <Grid Margin="5">
+        <Grid Margin="5"
+              Height="25"
+              VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            
-            <Button Grid.Column="0"
-                    Content="Previous"
-                    Command="{Binding MovePreviousCommand}" />
-            <Button Grid.Column="1"
-                    Content="Pause"
-                    Command="{Binding PauseCommand}"
-                    Visibility="{Binding Playing, Converter={StaticResource BoolVisibilityConverter}}"/>
-            <Button Grid.Column="1"
-                    Content="Resume"
-                    Command="{Binding ResumeCommand}"
-                    Visibility="{Binding Playing, Converter={StaticResource NegBoolVisibilityConverter}}"/>
-            <Button Grid.Column="2"
-                    Content="Next"
-                    Command="{Binding MoveNextCommand}" />
+
+            <controls:PlayerControlButton Grid.Column="0"
+                                          Type="Previous"
+                                          Command="{Binding MovePreviousCommand}"/>
+            <controls:PlayerControlButton Grid.Column="1"
+                                          Type="Pause"
+                                          Command="{Binding PauseCommand}"
+                                          Visibility="{Binding Playing, Converter={StaticResource BoolVisibilityConverter}}"/>
+            <controls:PlayerControlButton Grid.Column="1"
+                                          Type="Play"
+                                          Command="{Binding ResumeCommand}"
+                                          Visibility="{Binding Playing, Converter={StaticResource NegBoolVisibilityConverter}}"/>
+            <controls:PlayerControlButton Grid.Column="2"
+                                          Type="Next"
+                                          Command="{Binding MoveNextCommand}" />
         </Grid>
-        
+
         <Grid Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -66,6 +56,7 @@
         </Grid>
 
         <Button Margin="5"
+                Height="25"
                 Content="Shuffle Library"
                 Command="{Binding ShuffleLibraryCommand}" />
 
@@ -74,12 +65,13 @@
                   HorizontalContentAlignment="Stretch">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Button Content="{Binding}"
-                            Command="{Binding DataContext.PlayGroupingCommand, ElementName=playerControlsView}"
-                            CommandParameter="{Binding}"/>
+                    <Button Command="{Binding DataContext.PlayGroupingCommand, ElementName=playerControlsView}"
+                            CommandParameter="{Binding}"
+                            Height="25">
+                        <TextBlock Text="{Binding StringFormat=Shuffle {0}}" />
+                    </Button>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
     </StackPanel>
 </UserControl>
