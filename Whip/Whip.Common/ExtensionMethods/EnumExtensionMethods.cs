@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
+using Whip.Common.Utilities;
 
-namespace Whip.Common.Utilities
+namespace Whip.Common.ExtensionMethods
 {
     public static class EnumExtensionMethods
     {

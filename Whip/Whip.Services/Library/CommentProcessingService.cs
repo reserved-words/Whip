@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using Whip.Common.ExtensionMethods;
 using Whip.Common.Model;
 using Whip.Common.Utilities;
 using Whip.Services.Interfaces;

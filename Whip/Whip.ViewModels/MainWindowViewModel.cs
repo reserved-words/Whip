@@ -34,7 +34,7 @@ namespace Whip.ViewModels
             _playlist = playlist;
 
             MainViewModel = new MainViewModel(libraryViewModel);
-            SidebarViewModel = new PlayerControlsViewModel(_playlist, trackFilterService, _messenger);
+            SidebarViewModel = new PlayerControlsViewModel(_library, _playlist, trackFilterService, _messenger);
 
             ApplicationSettingsCommand = new RelayCommand(OnApplicationSettings);
             PopulateLibraryCommand = new RelayCommand(OnPopulateLibrary);

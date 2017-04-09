@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
+using Whip.Common.ExtensionMethods;
 using Whip.Common.Utilities;
 
 namespace Whip.Converters

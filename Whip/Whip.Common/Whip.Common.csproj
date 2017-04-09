@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="ApplicationSettings.cs" />
     <Compile Include="Enums\ReleaseType.cs" />
+    <Compile Include="ExtensionMethods\LibraryExtensionMethods.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Interfaces\IStartable.cs" />
     <Compile Include="Interfaces\ITrackSorter.cs" />
@@ -59,12 +60,12 @@
     <Compile Include="TrackSorters\DefaultTrackSorter.cs" />
     <Compile Include="TrackSorters\RandomTrackSorter.cs" />
     <Compile Include="Utilities\DefaultValueAttribute.cs" />
-    <Compile Include="Utilities\EnumExtensionMethods.cs" />
+    <Compile Include="ExtensionMethods\EnumExtensionMethods.cs" />
     <Compile Include="Utilities\EnumHelpers.cs" />
     <Compile Include="Utilities\MetaDataAttribute.cs" />
     <Compile Include="Utilities\ProgressArgs.cs" />
-    <Compile Include="Utilities\TrackSortExtensionMethods.cs" />
-    <Compile Include="Utilities\XElementExtensionMethods.cs" />
+    <Compile Include="ExtensionMethods\TrackSortExtensionMethods.cs" />
+    <Compile Include="ExtensionMethods\XElementExtensionMethods.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

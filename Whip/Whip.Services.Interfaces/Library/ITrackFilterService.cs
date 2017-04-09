@@ -9,6 +9,6 @@ namespace Whip.Services.Interfaces
 {
     public interface ITrackFilterService
     {
-        List<Track> GetAll(ITrackSorter sorter);
+        List<Track> GetAll(ITrackSorter sorter, string grouping = null);
     }
 }

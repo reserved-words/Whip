@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Whip.Common.Utilities
+namespace Whip.Common.ExtensionMethods
 {
     public static class XElementExtensionMethods
     {

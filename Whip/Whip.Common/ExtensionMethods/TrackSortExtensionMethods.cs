@@ -2,7 +2,7 @@
 using Whip.Common.Interfaces;
 using Whip.Common.Model;
 
-namespace Whip.Common.Utilities
+namespace Whip.Common.ExtensionMethods
 {
     public static class TrackSortExtensionMethods
     {
