@@ -26,10 +26,10 @@
                 <ColumnDefinition Width="250" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <local:SidebarView Grid.Column="0"
-                               DataContext="{Binding SidebarViewModel}">
+            <local:PlayerControlsView Grid.Column="0"
+                                      DataContext="{Binding SidebarViewModel}">
                 
-            </local:SidebarView>
+            </local:PlayerControlsView>
             <local:MainView Grid.Column="1"
                             DataContext="{Binding MainViewModel}">
 

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Whip.ViewModels.Messages
+namespace Whip.Common.Interfaces
 {
-    public interface IMessageHandler
+    public interface IStartable
     {
         void Start();
         void Stop();

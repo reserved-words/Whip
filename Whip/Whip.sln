@@ -33,6 +33,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Third Party Libraries", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whip.ThirdPartyLibraries.Tests", "Whip.ThirdPartyLibraries.Tests\Whip.ThirdPartyLibraries.Tests.csproj", "{F6055C2C-AEBD-45CD-9638-08DEB5208EEF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WmpPlayer", "WmpPlayer\WmpPlayer.csproj", "{C92C0139-3455-4C11-9456-BB5EB7B03B8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{F6055C2C-AEBD-45CD-9638-08DEB5208EEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6055C2C-AEBD-45CD-9638-08DEB5208EEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6055C2C-AEBD-45CD-9638-08DEB5208EEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C92C0139-3455-4C11-9456-BB5EB7B03B8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C92C0139-3455-4C11-9456-BB5EB7B03B8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C92C0139-3455-4C11-9456-BB5EB7B03B8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C92C0139-3455-4C11-9456-BB5EB7B03B8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,5 +100,6 @@ Global
 		{12CB240B-3A9B-4790-B523-2B170E6B75C3} = {4C1F814F-AE93-46E8-8894-3E13DE413524}
 		{CFBC7910-B952-4227-9294-810F4D6C17CB} = {CF53F406-75C1-4B02-A760-F0942D384A93}
 		{F6055C2C-AEBD-45CD-9638-08DEB5208EEF} = {596B4213-C770-47D8-8334-39F068CEDF84}
+		{C92C0139-3455-4C11-9456-BB5EB7B03B8A} = {CF53F406-75C1-4B02-A760-F0942D384A93}
 	EndGlobalSection
 EndGlobal

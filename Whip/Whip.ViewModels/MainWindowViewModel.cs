@@ -2,6 +2,8 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using System;
+using Whip.Common.Interfaces;
+using Whip.Common.Model;
 using Whip.Common.Singletons;
 using Whip.Common.Utilities;
 using Whip.Services.Interfaces;
@@ -17,27 +19,38 @@ namespace Whip.ViewModels
         private readonly IUserSettingsService _userSettingsService;
         private readonly IMessenger _messenger;
 
-        private readonly LibraryViewModel _libraryViewModel;
-
-        private Library _library;
+        private readonly Library _library;
+        private readonly Playlist _playlist;
 
         public MainWindowViewModel(ILibraryService libraryService, IUserSettingsService userSettingsService, Library library,
-            IMessenger messenger, LibraryViewModel libraryViewModel)
+            IMessenger messenger, LibraryViewModel libraryViewModel, Playlist playlist, ITrackFilterService trackFilterService,
+            IPlayer player)
         {
             _libraryService = libraryService;
             _userSettingsService = userSettingsService;
-            _library = library;
             _messenger = messenger;
 
-            _libraryViewModel = libraryViewModel;
+            _library = library;
+            _playlist = playlist;
+
+            MainViewModel = new MainViewModel(libraryViewModel);
+            SidebarViewModel = new PlayerControlsViewModel(_playlist, trackFilterService, _messenger);
 
             ApplicationSettingsCommand = new RelayCommand(OnApplicationSettings);
             PopulateLibraryCommand = new RelayCommand(OnPopulateLibrary);
             SaveLibraryCommand = new RelayCommand(OnSaveLibrary);
+
+            _playlist.CurrentTrackChanged += OnCurrentTrackChanged;
         }
-        
-        public MainViewModel MainViewModel => new MainViewModel(_libraryViewModel);
-        public SidebarViewModel SidebarViewModel => new SidebarViewModel();
+
+        private void OnCurrentTrackChanged(Track track)
+        {
+            SidebarViewModel.OnCurrentTrackChanged(track);
+            MainViewModel.OnCurrentTrackChanged(track);
+        }
+
+        public MainViewModel MainViewModel { get; private set; }
+        public PlayerControlsViewModel SidebarViewModel { get; private set; }
 
         public RelayCommand ApplicationSettingsCommand { get; private set; }
         public RelayCommand PopulateLibraryCommand { get; private set; }

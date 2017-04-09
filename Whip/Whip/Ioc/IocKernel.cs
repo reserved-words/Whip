@@ -1,6 +1,7 @@
 ﻿using Ninject;
 using Ninject.Modules;
 using Whip.MessageHandlers;
+using Whip.ViewModels.MessageHandlers;
 
 namespace Whip.Ioc
 {
@@ -24,11 +25,13 @@ namespace Whip.Ioc
         public static void StartMessageHandlers()
         {
             _kernel.Get<DialogMessageHandler>().Start();
+            _kernel.Get<PlayerCoordinator>().Start();
         }
 
         public static void StopMessageHandlers()
         {
             _kernel.Get<DialogMessageHandler>().Stop();
+            _kernel.Get<PlayerCoordinator>().Stop();
         }
     }
 }

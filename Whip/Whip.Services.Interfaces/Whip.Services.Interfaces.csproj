@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Library\ICommentProcessingService.cs" />
-    <Compile Include="Player\IPlayerControlsService.cs" />
+    <Compile Include="Library\ITrackFilterService.cs" />
     <Compile Include="Utilities\IDirectoryStructureService.cs" />
     <Compile Include="Library\ILibraryDataOrganiserService.cs" />
     <Compile Include="Library\IDataPersistenceService.cs" />

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Whip.Services.Interfaces.Player
+namespace Whip.Common.Interfaces
 {
-    public interface IPlayerControlsService
+    public interface IPlayer
     {
         void Play(string filepath);
         void Pause();

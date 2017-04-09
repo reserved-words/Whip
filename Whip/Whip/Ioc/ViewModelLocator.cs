@@ -11,6 +11,6 @@ namespace Whip.Ioc
     {
         public MainWindowViewModel MainWindowViewModel => IocKernel.Get<MainWindowViewModel>();
         public MainViewModel MainViewModel => IocKernel.Get<MainViewModel>();
-        public SidebarViewModel SidebarViewModel => IocKernel.Get<SidebarViewModel>();
+        public PlayerControlsViewModel SidebarViewModel => IocKernel.Get<PlayerControlsViewModel>();
     }
 }

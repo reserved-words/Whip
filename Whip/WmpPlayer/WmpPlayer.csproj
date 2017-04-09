@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B0ADACAB-F30C-4F94-B72A-32BF97A37E8B}</ProjectGuid>
+    <ProjectGuid>{C92C0139-3455-4C11-9456-BB5EB7B03B8A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Whip.Common</RootNamespace>
-    <AssemblyName>Whip.Common</AssemblyName>
+    <RootNamespace>WmpPlayer</RootNamespace>
+    <AssemblyName>WmpPlayer</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,33 +40,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationSettings.cs" />
-    <Compile Include="Enums\ReleaseType.cs" />
-    <Compile Include="Interfaces\IPlayer.cs" />
-    <Compile Include="Interfaces\IStartable.cs" />
-    <Compile Include="Interfaces\ITrackSorter.cs" />
-    <Compile Include="Model\Album.cs" />
-    <Compile Include="Model\Artist.cs" />
-    <Compile Include="Model\City.cs" />
-    <Compile Include="Model\Disc.cs" />
-    <Compile Include="Model\File.cs" />
-    <Compile Include="Model\FilesWithStatus.cs" />
-    <Compile Include="Singletons\Library.cs" />
-    <Compile Include="Model\Track.cs" />
-    <Compile Include="Model\TrackId3Data.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Singletons\Playlist.cs" />
-    <Compile Include="TrackSorters\DefaultTrackSorter.cs" />
-    <Compile Include="TrackSorters\RandomTrackSorter.cs" />
-    <Compile Include="Utilities\DefaultValueAttribute.cs" />
-    <Compile Include="Utilities\EnumExtensionMethods.cs" />
-    <Compile Include="Utilities\EnumHelpers.cs" />
-    <Compile Include="Utilities\MetaDataAttribute.cs" />
-    <Compile Include="Utilities\ProgressArgs.cs" />
-    <Compile Include="Utilities\TrackSortExtensionMethods.cs" />
-    <Compile Include="Utilities\XElementExtensionMethods.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Whip.Common\Whip.Common.csproj">
+      <Project>{B0ADACAB-F30C-4F94-B72A-32BF97A37E8B}</Project>
+      <Name>Whip.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

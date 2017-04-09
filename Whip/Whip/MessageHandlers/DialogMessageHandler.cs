@@ -1,12 +1,13 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
+using Whip.Common.Interfaces;
 using Whip.ViewModels.Messages;
 using Whip.Windows;
 
 namespace Whip.MessageHandlers
 {
-    public class DialogMessageHandler : IMessageHandler
+    public class DialogMessageHandler : IStartable
     {
         private readonly IMessenger _messenger;
 

@@ -18,9 +18,9 @@ namespace Whip
     /// <summary>
     /// Interaction logic for SidebarView.xaml
     /// </summary>
-    public partial class SidebarView : UserControl
+    public partial class PlayerControlsView : UserControl
     {
-        public SidebarView()
+        public PlayerControlsView()
         {
             InitializeComponent();
         }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Whip.Common.Model;
 using Whip.ViewModels.TabViewModels;
 
 namespace Whip.ViewModels
@@ -16,5 +17,10 @@ namespace Whip.ViewModels
         }
 
         public LibraryViewModel LibraryViewModel { get; private set; }
+
+        public void OnCurrentTrackChanged(Track track)
+        {
+
+        }
     }
 }

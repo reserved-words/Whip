@@ -46,6 +46,7 @@
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -60,14 +61,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessageHandlers\PlayerCoordinator.cs" />
+    <Compile Include="Messages\PausePlayerMessage.cs" />
+    <Compile Include="Messages\ResumePlayerMessage.cs" />
+    <Compile Include="Utilities\TrackTimer.cs" />
     <Compile Include="Windows\ApplicationSettingsViewModel.cs" />
-    <Compile Include="Messages\IMessageHandler.cs" />
     <Compile Include="Messages\ShowDialogMessage.cs" />
     <Compile Include="Messages\HideDialogMessage.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SidebarViewModel.cs" />
+    <Compile Include="PlayerControlsViewModel.cs" />
     <Compile Include="TabViewModels\LibraryViewModel.cs" />
     <Compile Include="Utilities\Hyperlink.cs" />
     <Compile Include="Windows\DialogViewModel.cs" />
@@ -77,6 +81,10 @@
     <ProjectReference Include="..\Whip.Common\Whip.Common.csproj">
       <Project>{b0adacab-f30c-4f94-b72a-32bf97a37e8b}</Project>
       <Name>Whip.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Whip.Resources\Whip.Resources.csproj">
+      <Project>{12cb240b-3a9b-4790-b523-2b170e6b75c3}</Project>
+      <Name>Whip.Resources</Name>
     </ProjectReference>
     <ProjectReference Include="..\Whip.Services.Interfaces\Whip.Services.Interfaces.csproj">
       <Project>{2107D5AB-8805-4C97-B657-46E5EAECB0E3}</Project>

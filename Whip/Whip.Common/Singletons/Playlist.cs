@@ -1,15 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Whip.Common.Model;
 
 namespace Whip.Common.Singletons
 {
     public class Playlist
     {
-        public event Action Updated;
+        public event Action ListUpdated;
+        public event Action<Track> CurrentTrackChanged;
 
-        private readonly Queue<Track> _toPlay = new Queue<Track>();
+        private readonly Stack<Track> _toPlay = new Stack<Track>();
         private readonly Stack<Track> _played = new Stack<Track>();
+
+        private Track _currentTrack;
+
+        private Track CurrentTrack
+        {
+            get { return _currentTrack; }
+            set
+            {
+                _currentTrack = value;
+                CurrentTrackChanged?.Invoke(_currentTrack);
+            }
+        }
+
+        public bool Any()
+        {
+            return _toPlay.Any() || _played.Any();
+        }
 
         public void Set(List<Track> tracks, int startAt = 0)
         {
@@ -21,24 +40,39 @@ namespace Whip.Common.Singletons
                 _played.Push(tracks[i]);
             }
 
-            for (var i = startAt; i < tracks.Count; i++)
+            for (var i = tracks.Count - 1; i >= startAt; i--)
             {
-                _toPlay.Enqueue(tracks[i]);
+                _toPlay.Push(tracks[i]);
             }
 
-            Updated?.Invoke();
+            ListUpdated?.Invoke();
         }
 
-        public Track GetNext()
+        public void MoveNext()
         {
-            _played.Push(_toPlay.Dequeue());
-            return _played.Peek();
+            if (!_toPlay.Any())
+            {
+                CurrentTrack = null;
+                return;
+            }
+            _played.Push(_toPlay.Pop());
+            CurrentTrack = _played.Peek();
         }
 
-        public Track GetPrevious()
+        public void MovePrevious()
         {
-            _toPlay.Enqueue(_played.Pop());
-            return _played.Peek();
+            if (!_played.Any())
+            {
+                CurrentTrack = null;
+                return;
+            }
+
+            if (_played.Count > 1)
+            {
+                _toPlay.Push(_played.Pop());
+            }
+            
+            CurrentTrack = _played.Peek();
         }
     }
 }

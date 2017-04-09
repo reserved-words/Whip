@@ -6,6 +6,10 @@ using Whip.Services.Interfaces;
 using Whip.ViewModels;
 using Whip.MessageHandlers;
 using Whip.Common.Singletons;
+using Whip.ViewModels.MessageHandlers;
+using Whip.ViewModels.TabViewModels;
+using Whip.Common.Interfaces;
+using WmpPlayer;
 
 namespace Whip.Ioc
 {
@@ -26,13 +30,15 @@ namespace Whip.Ioc
         {
             Bind<MainWindowViewModel>().ToSelf().InTransientScope();
             Bind<MainViewModel>().ToSelf().InTransientScope();
-            Bind<SidebarViewModel>().ToSelf().InTransientScope();
+            Bind<PlayerControlsViewModel>().ToSelf().InTransientScope();
+            Bind<LibraryViewModel>().ToSelf().InTransientScope();
         }
 
         private void BindSingletons()
         {
             Bind<Library>().ToSelf().InSingletonScope();
             Bind<Playlist>().ToSelf().InSingletonScope();
+            Bind<IPlayer>().To<Player>().InSingletonScope();
             Bind<IMessenger>().To<Messenger>().InSingletonScope();
         }
 
@@ -46,11 +52,13 @@ namespace Whip.Ioc
             Bind<ITaggingService>().To<TagLibService>().InTransientScope();
             Bind<IDirectoryStructureService>().To<DirectoryStructureService>().InTransientScope();
             Bind<ICommentProcessingService>().To<CommentProcessingService>().InTransientScope();
+            Bind<ITrackFilterService>().To<TrackFilterService>().InTransientScope();
         }
 
         private void BindMessageHandlers()
         {
             Bind<DialogMessageHandler>().ToSelf().InSingletonScope();
+            Bind<PlayerCoordinator>().ToSelf().InSingletonScope();
         }
     }
 }
