@@ -54,10 +54,18 @@
                   Grid.Row="0" Grid.RowSpan="3"
                   ItemsSource="{Binding Artists}"
                   SelectedItem="{Binding SelectedArtist}"
+                  HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Stretch"
                   BorderThickness="0">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Label Content="{Binding Name}" />
+                    <Label Content="{Binding Name}">
+                        <Label.InputBindings>
+                            <MouseBinding Gesture="LeftDoubleClick"
+                                          Command="{Binding DataContext.ShuffleArtistCommand, ElementName=libraryView}"
+                                          CommandParameter="{Binding}" />
+                        </Label.InputBindings>
+                    </Label>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
@@ -127,7 +135,7 @@
 
         <WrapPanel Grid.Column="4"
                    Grid.Row="0">
-            <Button Command="{Binding ClearSelectedAlbum}"
+            <Button Command="{Binding ClearSelectedAlbumCommand}"
                     Content="Show All Tracks"
                     Height="25"
                     Padding="10,2,10,2"
@@ -161,7 +169,12 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="0">
-
+                        <StackPanel.InputBindings>
+                            <MouseBinding Gesture="LeftDoubleClick"
+                                          Command="{Binding DataContext.PlayAlbumCommand, ElementName=libraryView}"
+                                          CommandParameter="{Binding}" />
+                        </StackPanel.InputBindings>
+                        
                         <Border BorderThickness="0,0,0,1"
                                 BorderBrush="Silver"
                                 Margin="0,0,5,5"/>
@@ -193,9 +206,7 @@
                                    Grid.Row="2"
                                    Content="{Binding Year}" />
                         </Grid>
-
                     </StackPanel>
-
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
@@ -223,6 +234,11 @@
                                             <ListView.ItemTemplate>
                                                 <DataTemplate>
                                                     <Grid>
+                                                        <Grid.InputBindings>
+                                                            <MouseBinding Gesture="LeftDoubleClick"
+                                                                          Command="{Binding DataContext.PlaySelectedAlbumsCommand, ElementName=libraryView}"
+                                                                          CommandParameter="{Binding}" />
+                                                        </Grid.InputBindings>
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="30"/>
                                                             <ColumnDefinition Width="*" />

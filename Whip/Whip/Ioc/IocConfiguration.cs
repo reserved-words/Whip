@@ -59,6 +59,7 @@ namespace Whip.Ioc
         {
             Bind<DialogMessageHandler>().ToSelf().InSingletonScope();
             Bind<PlayerCoordinator>().ToSelf().InSingletonScope();
+            Bind<PlayRequestHandler>().ToSelf().InSingletonScope();
         }
     }
 }

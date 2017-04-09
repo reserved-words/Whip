@@ -2,11 +2,10 @@
 using GalaSoft.MvvmLight.Command;
 using Whip.Common.Model;
 using Whip.Common.Singletons;
-using Whip.Services.Interfaces;
+using Whip.Common.Enums;
 using GalaSoft.MvvmLight.Messaging;
 using Whip.ViewModels.Messages;
 using Whip.ViewModels.Utilities;
-using Whip.Common.TrackSorters;
 using System.Collections.Generic;
 using Whip.Common.ExtensionMethods;
 
@@ -16,23 +15,18 @@ namespace Whip.ViewModels
     {
         private enum PlayerStatus { Playing, Paused, Stopped }
 
+        private readonly Library _library;
         private readonly IMessenger _messenger;
-        private readonly Playlist _playlist;
-        private readonly ITrackFilterService _trackFilterService;
 
-        private Library _library;
         private List<string> _groupings;
         private PlayerStatus _currentStatus;
         
-        public PlayerControlsViewModel(Library library, Playlist playlist, ITrackFilterService trackFilterService, IMessenger messenger)
+        public PlayerControlsViewModel(Library library, IMessenger messenger)
         {
             _library = library;
             _messenger = messenger;
-            _playlist = playlist;
-            _trackFilterService = trackFilterService;
 
             _library.Updated += OnLibraryUpdated;
-            _playlist.ListUpdated += OnPlaylistUpdated;
 
             MoveNextCommand = new RelayCommand(OnMoveNext, CanMoveNext);
             MovePreviousCommand = new RelayCommand(OnMovePrevious, CanMovePrevious);
@@ -91,27 +85,24 @@ namespace Whip.ViewModels
             Groupings = _library.GetGroupings();
         }
 
-        private void OnPlaylistUpdated()
-        {
-            RaisePlayerStatusChanged();
-        }
-
         public void OnCurrentTrackChanged(Track track)
         {
             if (track == null)
             {
+                TrackTimer.Reset(null);
                 TrackTimer.Stop();
                 CurrentStatus = PlayerStatus.Stopped;
                 return;
             }
+
             CurrentStatus = PlayerStatus.Playing;
             TrackTimer.Reset(track);
             TrackTimer.Start();
         }
 
-        private void OnMoveNext() => _playlist.MoveNext();
+        private void OnMoveNext() => _messenger.Send(new PlayNextMessage());
 
-        private void OnMovePrevious() => _playlist.MovePrevious();
+        private void OnMovePrevious() => _messenger.Send(new PlayPreviousMessage());
 
         private void OnPause()
         {
@@ -129,12 +120,12 @@ namespace Whip.ViewModels
 
         private void OnShuffleGrouping(string grouping)
         {
-            _playlist.Set(_trackFilterService.GetAll(new RandomTrackSorter(), grouping));
+            _messenger.Send(new PlayGroupingMessage(grouping, SortType.Random));
         }
 
         private void OnShuffleLibrary()
         {
-            _playlist.Set(_trackFilterService.GetAll(new RandomTrackSorter()));
+            _messenger.Send(new PlayMessage(SortType.Random));
         }
 
         private void OnSkip(double newPercentage)
@@ -145,7 +136,7 @@ namespace Whip.ViewModels
 
         private void OnTrackEnded()
         {
-            _playlist.MoveNext();
+            _messenger.Send(new PlayNextMessage());
         }
 
         private void RaisePlayerStatusChanged()

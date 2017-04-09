@@ -30,6 +30,12 @@ namespace Whip.Common.Singletons
             return _toPlay.Any() || _played.Any();
         }
 
+        public void Set(List<Track> tracks, Track startAt)
+        {
+            var index = tracks.IndexOf(startAt);
+            Set(tracks, index > 0 ? index : 0);
+        }
+
         public void Set(List<Track> tracks, int startAt = 0)
         {
             _played.Clear();

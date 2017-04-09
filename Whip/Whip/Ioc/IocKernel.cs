@@ -26,12 +26,14 @@ namespace Whip.Ioc
         {
             _kernel.Get<DialogMessageHandler>().Start();
             _kernel.Get<PlayerCoordinator>().Start();
+            _kernel.Get<PlayRequestHandler>().Start();
         }
 
         public static void StopMessageHandlers()
         {
             _kernel.Get<DialogMessageHandler>().Stop();
             _kernel.Get<PlayerCoordinator>().Stop();
+            _kernel.Get<PlayRequestHandler>().Stop();
         }
     }
 }

@@ -1,32 +1,42 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using System.Collections.Generic;
-using System.Linq;
+using Whip.Common.Enums;
+using Whip.Common.ExtensionMethods;
 using Whip.Common.Model;
 using Whip.Common.Singletons;
+using Whip.ViewModels.Messages;
 
 namespace Whip.ViewModels.TabViewModels
 {
     public class LibraryViewModel : ViewModelBase
     {
+        private readonly Library _library;
+        private readonly IMessenger _messenger;
+
         private List<Album> _albums;
         private List<Artist> _artists;
-        private Library _library;
         private List<Album> _selectedAlbums;
         private Album _selectedAlbum;
         private Artist _selectedArtist;
 
-        public LibraryViewModel(Library library)
+        public LibraryViewModel(Library library, IMessenger messenger)
         {
             _library = library;
-            _library.Updated += OnLibraryUpdated;
+            _messenger = messenger;
 
+            _library.Updated += OnLibraryUpdated;
+            
             Artists = new List<Artist>();
             Albums = new List<Album>();
 
-            ClearSelectedAlbum = new RelayCommand(OnClearSelectedAlbum, CanClearSelectedAlbum);
+            ClearSelectedAlbumCommand = new RelayCommand(OnClearSelectedAlbum, CanClearSelectedAlbum);
+            PlayAlbumCommand = new RelayCommand<Album>(OnPlayAlbum);
+            PlaySelectedAlbumsCommand = new RelayCommand<Track>(OnPlaySelectedAlbums);
+            ShuffleArtistCommand = new RelayCommand<Artist>(OnShuffleArtist);
         }
-       
+
         public List<Artist> Artists
         {
             get { return _artists; }
@@ -39,8 +49,11 @@ namespace Whip.ViewModels.TabViewModels
             private set { Set(ref _albums, value); }
         }
 
-        public RelayCommand ClearSelectedAlbum { get; private set; }
-
+        public RelayCommand ClearSelectedAlbumCommand { get; private set; }
+        public RelayCommand<Album> PlayAlbumCommand { get; private set; }
+        public RelayCommand<Track> PlaySelectedAlbumsCommand { get; private set; }
+        public RelayCommand<Artist> ShuffleArtistCommand { get; private set; }
+        
         public List<Album> SelectedAlbums
         {
             get { return _selectedAlbums; }
@@ -53,10 +66,7 @@ namespace Whip.ViewModels.TabViewModels
             set
             {
                 Set(ref _selectedArtist, value);
-                Albums = _selectedArtist?.Albums
-                    .OrderBy(a => a.ReleaseType)
-                    .ThenBy(a => a.Year)
-                    .ToList();
+                Albums = _selectedArtist?.GetAlbumsInOrder();
                 SelectedAlbum = null;
             }
         }
@@ -70,7 +80,7 @@ namespace Whip.ViewModels.TabViewModels
                 SelectedAlbums = _selectedAlbum == null
                     ? Albums
                     : new List<Album> { _selectedAlbum };
-                ClearSelectedAlbum.RaiseCanExecuteChanged();
+                ClearSelectedAlbumCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -87,6 +97,21 @@ namespace Whip.ViewModels.TabViewModels
         private void OnLibraryUpdated()
         {
             Artists = _library.Artists;
+        }
+
+        private void OnPlayAlbum(Album album)
+        {
+            _messenger.Send(new PlayAlbumsMessage(album, SortType.Ordered));
+        }
+
+        private void OnShuffleArtist(Artist artist)
+        {
+            _messenger.Send(new PlayArtistsMessage(artist, SortType.Random));
+        }
+
+        private void OnPlaySelectedAlbums(Track startAtTrack)
+        {
+            _messenger.Send(new PlayAlbumsMessage(SelectedAlbums, SortType.Ordered, startAtTrack));
         }
     }
 }

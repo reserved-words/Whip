@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="ApplicationSettings.cs" />
     <Compile Include="Enums\ReleaseType.cs" />
+    <Compile Include="Enums\SortType.cs" />
+    <Compile Include="ExtensionMethods\ArtistExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\LibraryExtensionMethods.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Interfaces\IStartable.cs" />

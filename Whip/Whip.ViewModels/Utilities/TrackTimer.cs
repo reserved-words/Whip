@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using System;
-using System.Timers;
+using System.Threading;
+using Timer = System.Timers.Timer;
 using Whip.Common.Model;
 using static Whip.Resources.Resources;
 
@@ -8,6 +9,7 @@ namespace Whip.ViewModels.Utilities
 {
     public class TrackTimer : ViewModelBase
     {
+        private SynchronizationContext _synchronizationContext;
         private readonly Timer _timer = new Timer(1000);
 
         private double _trackDurationInSeconds;
@@ -19,6 +21,8 @@ namespace Whip.ViewModels.Utilities
 
         public TrackTimer()
         {
+            _synchronizationContext = SynchronizationContext.Current;
+
             _timer.Elapsed += TimerElapsed;
 
             SetProperties();
@@ -47,7 +51,7 @@ namespace Whip.ViewModels.Utilities
         public void Reset(Track track)
         {
             _secondsPlayed = 0;
-            _trackDurationInSeconds = track.Duration.TotalSeconds;
+            _trackDurationInSeconds = track?.Duration.TotalSeconds ?? 0;
             SetProperties();
         }
 
@@ -82,7 +86,7 @@ namespace Whip.ViewModels.Utilities
             TimeToPlay = GetTimeSpanFormat(_trackDurationInSeconds - _secondsPlayed, true);
         }
 
-        private void TimerElapsed(object sender, ElapsedEventArgs e)
+        private void TimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             _secondsPlayed++;
 
@@ -91,7 +95,12 @@ namespace Whip.ViewModels.Utilities
             if (_secondsPlayed >= _trackDurationInSeconds)
             {
                 _timer.Stop();
-                TrackEnded?.Invoke();
+
+                _synchronizationContext.Send(state => 
+                {
+                    TrackEnded?.Invoke();
+                }
+                , null);
             }
         }
     }

@@ -19,6 +19,14 @@ namespace WmpPlayer
 
         public void Play(string filepath)
         {
+            if (string.IsNullOrEmpty(filepath))
+            {
+                _player.URL = string.Empty;
+                _player.controls.currentPosition = 0;
+                _player.controls.stop();
+                return;
+            }
+
             _player.URL = filepath;
             _player.controls.currentPosition = 0;
             _player.controls.play();
