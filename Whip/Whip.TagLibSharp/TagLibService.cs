@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
 
-namespace TagLibSharp
+namespace Whip.TagLibSharp
 {
     public class TagLibService : ITaggingService
     {

@@ -48,6 +48,7 @@
     <Compile Include="Utilities\IFileService.cs" />
     <Compile Include="Library\ILibraryService.cs" />
     <Compile Include="Library\ITaggingService.cs" />
+    <Compile Include="Utilities\IScrobblingRulesService.cs" />
     <Compile Include="Utilities\IUserSettingsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

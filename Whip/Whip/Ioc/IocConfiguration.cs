@@ -1,6 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using Ninject.Modules;
-using TagLibSharp;
+using Whip.TagLibSharp;
 using Whip.Services;
 using Whip.Services.Interfaces;
 using Whip.ViewModels;
@@ -9,7 +9,8 @@ using Whip.Common.Singletons;
 using Whip.ViewModels.MessageHandlers;
 using Whip.ViewModels.TabViewModels;
 using Whip.Common.Interfaces;
-using WmpPlayer;
+using Whip.WmpPlayer;
+using Whip.LastFm;
 
 namespace Whip.Ioc
 {
@@ -24,6 +25,8 @@ namespace Whip.Ioc
             BindServices();
 
             BindMessageHandlers();
+
+            BindPlayer();
         }
 
         private void BindViewModels()
@@ -38,7 +41,6 @@ namespace Whip.Ioc
         {
             Bind<Library>().ToSelf().InSingletonScope();
             Bind<Playlist>().ToSelf().InSingletonScope();
-            Bind<IPlayer>().To<Player>().InSingletonScope();
             Bind<IMessenger>().To<Messenger>().InSingletonScope();
         }
 
@@ -53,6 +55,7 @@ namespace Whip.Ioc
             Bind<IDirectoryStructureService>().To<DirectoryStructureService>().InTransientScope();
             Bind<ICommentProcessingService>().To<CommentProcessingService>().InTransientScope();
             Bind<ITrackFilterService>().To<TrackFilterService>().InTransientScope();
+            Bind<IScrobblingRulesService>().To<ScrobblingRulesService>().InTransientScope();
         }
 
         private void BindMessageHandlers()
@@ -60,6 +63,13 @@ namespace Whip.Ioc
             Bind<DialogMessageHandler>().ToSelf().InSingletonScope();
             Bind<PlayerCoordinator>().ToSelf().InSingletonScope();
             Bind<PlayRequestHandler>().ToSelf().InSingletonScope();
+        }
+
+        private void BindPlayer()
+        {
+            Bind<IPlayer>().To<ScrobblingPlayer>()
+                .InSingletonScope()
+                .WithConstructorArgument<IPlayer>(new Player());
         }
     }
 }

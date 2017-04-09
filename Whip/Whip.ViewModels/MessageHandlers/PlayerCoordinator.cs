@@ -46,7 +46,7 @@ namespace Whip.ViewModels.MessageHandlers
 
         private void OnCurrentTrackChanged(Track track)
         {
-            _player.Play(track?.FullFilepath);
+            _player.Play(track);
         }
 
         private void OnPausePlayer(PausePlayerMessage message)

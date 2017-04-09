@@ -1,7 +1,8 @@
 ﻿using Whip.Common.Interfaces;
+using Whip.Common.Model;
 using WMPLib;
 
-namespace WmpPlayer
+namespace Whip.WmpPlayer
 {
     public class Player : IPlayer
     {
@@ -17,9 +18,9 @@ namespace WmpPlayer
             _player.controls.pause();
         }
 
-        public void Play(string filepath)
+        public void Play(Track track)
         {
-            if (string.IsNullOrEmpty(filepath))
+            if (track == null)
             {
                 _player.URL = string.Empty;
                 _player.controls.currentPosition = 0;
@@ -27,7 +28,7 @@ namespace WmpPlayer
                 return;
             }
 
-            _player.URL = filepath;
+            _player.URL = track.FullFilepath;
             _player.controls.currentPosition = 0;
             _player.controls.play();
         }

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Whip.ExternalLibraries.Tests")]
+[assembly: AssemblyTitle("Whip.TagLibSharp")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Whip.ExternalLibraries.Tests")]
+[assembly: AssemblyProduct("Whip.TagLibSharp")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("f6055c2c-aebd-45cd-9638-08deb5208eef")]
+[assembly: Guid("cfbc7910-b952-4227-9294-810f4d6c17cb")]
 
 // Version information for an assembly consists of the following four values:
 //

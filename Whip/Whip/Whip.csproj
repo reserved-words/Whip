@@ -196,13 +196,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TagLibSharp\TagLibSharp.csproj">
-      <Project>{cfbc7910-b952-4227-9294-810f4d6c17cb}</Project>
-      <Name>TagLibSharp</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Whip.Common\Whip.Common.csproj">
       <Project>{b0adacab-f30c-4f94-b72a-32bf97a37e8b}</Project>
       <Name>Whip.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Whip.LastFm\Whip.LastFm.csproj">
+      <Project>{d045c31f-e8b5-41ac-b6c9-d0c9120aa799}</Project>
+      <Name>Whip.LastFm</Name>
     </ProjectReference>
     <ProjectReference Include="..\Whip.Resources\Whip.Resources.csproj">
       <Project>{12cb240b-3a9b-4790-b523-2b170e6b75c3}</Project>
@@ -216,13 +216,17 @@
       <Project>{6f9aac6c-7761-423b-a4fb-9c69e81e58f1}</Project>
       <Name>Whip.Services</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Whip.TagLibSharp\Whip.TagLibSharp.csproj">
+      <Project>{cfbc7910-b952-4227-9294-810f4d6c17cb}</Project>
+      <Name>Whip.TagLibSharp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Whip.ViewModels\Whip.ViewModels.csproj">
       <Project>{0d421905-07ec-46a2-b783-3744a1ceb4c8}</Project>
       <Name>Whip.ViewModels</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WmpPlayer\WmpPlayer.csproj">
+    <ProjectReference Include="..\Whip.WmpPlayer\Whip.WmpPlayer.csproj">
       <Project>{c92c0139-3455-4c11-9456-bb5eb7b03b8a}</Project>
-      <Name>WmpPlayer</Name>
+      <Name>Whip.WmpPlayer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

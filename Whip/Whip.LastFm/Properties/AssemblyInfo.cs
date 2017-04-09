@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WmpPlayer")]
+[assembly: AssemblyTitle("Whip.LastFm")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("WmpPlayer")]
+[assembly: AssemblyProduct("Whip.LastFm")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("c92c0139-3455-4c11-9456-bb5eb7b03b8a")]
+[assembly: Guid("d045c31f-e8b5-41ac-b6c9-d0c9120aa799")]
 
 // Version information for an assembly consists of the following four values:
 //

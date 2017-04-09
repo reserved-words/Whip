@@ -6,7 +6,7 @@
     <ProjectGuid>{F6055C2C-AEBD-45CD-9638-08DEB5208EEF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Whip.ThirdPartyLibraries.Tests</RootNamespace>
+    <RootNamespace>Whip.ExternalLibraries.Tests</RootNamespace>
     <AssemblyName>Whip.ThirdPartyLibraries.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
