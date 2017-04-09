@@ -64,6 +64,7 @@
     <Compile Include="MessageHandlers\PlayerCoordinator.cs" />
     <Compile Include="Messages\PausePlayerMessage.cs" />
     <Compile Include="Messages\ResumePlayerMessage.cs" />
+    <Compile Include="Messages\SkipPlayerMessage.cs" />
     <Compile Include="Utilities\TrackTimer.cs" />
     <Compile Include="Windows\ApplicationSettingsViewModel.cs" />
     <Compile Include="Messages\ShowDialogMessage.cs" />

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Whip"
+             xmlns:controls="clr-namespace:Whip.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              x:Name="playerControlsView">
@@ -53,10 +54,11 @@
             <TextBlock Grid.Column="0"
                        Text="{Binding TrackTimer.TimePlayed, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                        Margin="0,0,5,0" />
-            <ProgressBar Grid.Column="1"
-                         Value="{Binding TrackTimer.PercentagePlayed, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                         Height="15"
-                         Maximum="100"/>
+            <controls:ClickableProgressBar Grid.Column="1"
+                                           Value="{Binding TrackTimer.PercentagePlayed, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                           Command="{Binding SkipToPercentageCommand}"
+                                           Height="15"
+                                           Maximum="100"/>
             <TextBlock Grid.Column="2"
                        Text="{Binding TrackTimer.TimeToPlay, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                        Margin="5,0,0,0" />

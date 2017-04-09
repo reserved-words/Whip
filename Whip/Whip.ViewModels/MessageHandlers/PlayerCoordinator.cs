@@ -26,6 +26,7 @@ namespace Whip.ViewModels.MessageHandlers
 
             _messenger.Register<PausePlayerMessage>(this, OnPausePlayer);
             _messenger.Register<ResumePlayerMessage>(this, OnResumePlayer);
+            _messenger.Register<SkipToPercentageMessage>(this, OnSkipToPercentage);
         }
 
         public void Stop()
@@ -35,6 +36,7 @@ namespace Whip.ViewModels.MessageHandlers
 
             _messenger.Unregister<PausePlayerMessage>(this, OnPausePlayer);
             _messenger.Unregister<ResumePlayerMessage>(this, OnResumePlayer);
+            _messenger.Unregister<SkipToPercentageMessage>(this, OnSkipToPercentage);
         }
 
         private void OnCurrentTrackChanged(Track track)
@@ -55,6 +57,11 @@ namespace Whip.ViewModels.MessageHandlers
         private void OnResumePlayer(ResumePlayerMessage message)
         {
             _player.Resume();
+        }
+
+        private void OnSkipToPercentage(SkipToPercentageMessage message)
+        {
+            _player.SkipToPercentage(message.NewPercentage);
         }
     }
 }

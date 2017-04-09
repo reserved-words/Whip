@@ -28,5 +28,13 @@ namespace WmpPlayer
         {
             _player.controls.play();
         }
+
+        public void SkipToPercentage(double newPercentage)
+        {
+            if (_player.controls.currentItem == null)
+                return;
+
+            _player.controls.currentPosition = (newPercentage / 100) * _player.controls.currentItem.duration;
+        }
     }
 }

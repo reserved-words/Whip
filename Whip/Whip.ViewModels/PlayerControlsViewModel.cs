@@ -39,6 +39,7 @@ namespace Whip.ViewModels
             PlayGroupingCommand = new RelayCommand<string>(OnShuffleGrouping);
             ResumeCommand = new RelayCommand(OnResume, CanResume);
             ShuffleLibraryCommand = new RelayCommand(OnShuffleLibrary);
+            SkipToPercentageCommand = new RelayCommand<double>(OnSkip, CanSkip);
 
             TrackTimer = new TrackTimer();
             TrackTimer.TrackEnded += OnTrackEnded;
@@ -77,6 +78,7 @@ namespace Whip.ViewModels
         public RelayCommand<string> PlayGroupingCommand { get; private set; }
         public RelayCommand ResumeCommand { get; private set; }
         public RelayCommand ShuffleLibraryCommand { get; private set; }
+        public RelayCommand<double> SkipToPercentageCommand { get; private set; }
 
         private bool CanPause() => Playing;
 
@@ -104,6 +106,8 @@ namespace Whip.ViewModels
         private bool CanMovePrevious() => _playlist.Any();
 
         private bool CanMoveNext() => _playlist.Any();
+
+        private bool CanSkip(double newPercentage) => CurrentTrack != null;
 
         private void OnMoveNext() => _playlist.MoveNext();
 
@@ -133,6 +137,12 @@ namespace Whip.ViewModels
         {
             _playlist.Set(_trackFilterService.GetAll(new RandomTrackSorter()));
             Playing = true;
+        }
+
+        private void OnSkip(double newPercentage)
+        {
+            _messenger.Send(new SkipToPercentageMessage(newPercentage));
+            TrackTimer.SkipToPercentage(newPercentage);
         }
 
         private void OnTrackEnded()

@@ -48,6 +48,13 @@ namespace Whip.ViewModels.Utilities
         {
             _secondsPlayed = 0;
             _trackDurationInSeconds = track.Duration.TotalSeconds;
+            SetProperties();
+        }
+
+        public void SkipToPercentage(double newPercentage)
+        {
+            _secondsPlayed = (newPercentage / 100) * _trackDurationInSeconds;
+            SetProperties();
         }
 
         public void Start()

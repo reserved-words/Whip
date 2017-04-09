@@ -11,5 +11,6 @@ namespace Whip.Common.Interfaces
         void Play(string filepath);
         void Pause();
         void Resume();
+        void SkipToPercentage(double newPercentage);
     }
 }
