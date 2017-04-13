@@ -2,8 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Whip.Common;
-using Whip.Common.Enums;
-using Whip.Common.Model;
 using Whip.Common.Singletons;
 using Whip.Common.Utilities;
 using Whip.Services.Interfaces;
@@ -63,6 +61,10 @@ namespace Whip.Services
                     album.Artwork = _directoryStructureService.GetArtworkPath(album);
                     album.Grouping = album.ReleaseType.GetReleaseTypeGrouping();
                 }
+
+                progressHandler?.Report(new ProgressArgs(90, "Sorting artists"));
+
+                library.Artists = library.Artists.OrderBy(a => a.Name).ToList();
 
                 progressHandler?.Report(new ProgressArgs(100, "Done"));
                 

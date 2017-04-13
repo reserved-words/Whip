@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using System;
+using Whip.Common.Interfaces;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
 
@@ -14,7 +15,7 @@ namespace Whip.ViewModels.Windows
         private string _musicDirectory;
 
         public ApplicationSettingsViewModel(IUserSettingsService userSettingsService, IMessenger messenger, Action callback = null) 
-            : base("Application Settings", callback)
+            : base(messenger, "Application Settings", callback)
         {
             _userSettingsService = userSettingsService;
             _messenger = messenger;
@@ -44,13 +45,6 @@ namespace Whip.ViewModels.Windows
         private void OnCancel()
         {
             Close();
-        }
-
-        protected override void Close()
-        {
-            _messenger.Send(new HideDialogMessage(Guid));
-
-            base.Close();
         }
     }
 }

@@ -1,21 +1,17 @@
-﻿using LastFmApi.Interfaces;
-using System;
+﻿using System;
 using Whip.Common.Interfaces;
 using Whip.Services.Interfaces;
-using Track = Whip.Common.Model.Track;
-using LastFmTrack = LastFmApi.Track;
-using LastFmApi;
+using Whip.Common.Model;
 
-namespace Whip.LastFm
+namespace Whip.Services
 {
     public class ScrobblingPlayer : IPlayer
     {
         private readonly IPlayer _player;
         private readonly IScrobblingRulesService _scrobblingRulesService;
         private readonly IScrobblingService _scrobblingService;
-        private readonly IUserSettingsService _userSettingsService;
 
-        private LastFmTrack _currentTrack;
+        private Track _currentTrack;
 
         private double _totalSeconds;
         private double _secondsPlayed;
@@ -24,15 +20,11 @@ namespace Whip.LastFm
         private DateTime _pausedAt;
         private DateTime _playingAt;
 
-        private bool _scrobblingServiceStarted;
-
-        public ScrobblingPlayer(IPlayer player, IScrobblingRulesService scrobblingRulesService, IUserSettingsService userSettingsService)
+        public ScrobblingPlayer(IPlayer player, IScrobblingRulesService scrobblingRulesService, IScrobblingService scrobblingService)
         {
             _player = player;
             _scrobblingRulesService = scrobblingRulesService;
-            _userSettingsService = userSettingsService;
-
-            _scrobblingService = new ScrobblingService();
+            _scrobblingService = scrobblingService;
         }
 
         public void Pause()
@@ -43,14 +35,15 @@ namespace Whip.LastFm
 
             _player.Pause();
 
-            ScrobblingService.UpdateNowPlaying(_currentTrack, 30);
+            _scrobblingService.UpdateNowPlayingAsync(_currentTrack, 30);
         }
 
         public void Play(Track track)
         {
             var previousTrack = _currentTrack;
             _totalSeconds = track?.Duration.TotalSeconds ?? 0;
-            _currentTrack = CreateLastFmTrack(track);
+
+            UpdateCurrentTrack(track);
 
             _player.Play(track);
 
@@ -63,7 +56,7 @@ namespace Whip.LastFm
 
             _player.Resume();
 
-            ScrobblingService.UpdateNowPlaying(_currentTrack, _remainingSeconds);
+            _scrobblingService.UpdateNowPlayingAsync(_currentTrack, (int)_remainingSeconds);
         }
         
         public void SkipToPercentage(double newPercentage)
@@ -74,20 +67,18 @@ namespace Whip.LastFm
             _secondsPlayed = (newPercentage / 100) * _totalSeconds;
             UpdateRemainingSeconds();
 
-            ScrobblingService.UpdateNowPlaying(_currentTrack, _remainingSeconds);
+            _scrobblingService.UpdateNowPlayingAsync(_currentTrack, (int)_remainingSeconds);
         }
 
-        private void ProcessTrackChange(LastFmTrack previousTrack)
+        private void ProcessTrackChange(Track previousTrack)
         {
             if (previousTrack != null)
             {
                 var previousTrackPlayedFor = _secondsPlayed + (DateTime.Now - _playingAt).TotalSeconds;
 
-                ScrobblingService.UpdateNowPlaying(previousTrack, 0);
-
                 if (_scrobblingRulesService.CanScrobble(_totalSeconds, previousTrackPlayedFor))
                 {
-                    ScrobblingService.Scrobble(previousTrack, DateTime.Now);
+                    _scrobblingService.ScrobbleAsync(previousTrack, DateTime.Now);
                 }
             }
 
@@ -95,40 +86,26 @@ namespace Whip.LastFm
             {
                 _playingAt = DateTime.Now;
                 _secondsPlayed = 0;
+
                 UpdateRemainingSeconds();
 
-                ScrobblingService.UpdateNowPlaying(_currentTrack, _remainingSeconds);
+                _scrobblingService.UpdateNowPlayingAsync(_currentTrack, (int)_remainingSeconds);
             }
-        }
-
-        private IScrobblingService ScrobblingService
-        {
-            get
+            else
             {
-                if (!_scrobblingServiceStarted)
-                {
-                    var sessionKey = _scrobblingService.StartSession(
-                        _userSettingsService.LastFmApiKey,
-                        _userSettingsService.LastFmApiSecret,
-                        _userSettingsService.LastFmUsername,
-                        _userSettingsService.LastFmApiSessionKey);
-
-                    _userSettingsService.LastFmApiSessionKey = sessionKey;
-                    _userSettingsService.Save();
-
-                    _scrobblingServiceStarted = true;
-                }
-
-                return _scrobblingService;
+                _scrobblingService.UpdateNowPlayingAsync(previousTrack, 30);
             }
         }
 
-        private LastFmTrack CreateLastFmTrack(Track track)
+        private void UpdateCurrentTrack(Track track)
         {
             if (track == null)
-                return null;
+            {
+                _currentTrack = null;
+                return;
+            }
 
-            return new LastFmTrack(track.Title, track.Artist.Name, track.Disc.Album.Title, track.Disc.Album.Artist.Name);
+            _currentTrack = track;
         }
         
         private void UpdateRemainingSeconds()

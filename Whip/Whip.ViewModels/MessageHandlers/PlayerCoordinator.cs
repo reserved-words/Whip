@@ -1,5 +1,5 @@
-﻿using System;
-using GalaSoft.MvvmLight.Messaging;
+﻿using GalaSoft.MvvmLight.Messaging;
+using System;
 using Whip.Common.Interfaces;
 using Whip.Common.Model;
 using Whip.Common.Singletons;
@@ -23,7 +23,6 @@ namespace Whip.ViewModels.MessageHandlers
         public void Start()
         {
             _playlist.ListUpdated += OnPlaylistUpdated;
-            _playlist.CurrentTrackChanged += OnCurrentTrackChanged;
 
             _messenger.Register<PausePlayerMessage>(this, OnPausePlayer);
             _messenger.Register<ResumePlayerMessage>(this, OnResumePlayer);
@@ -35,18 +34,12 @@ namespace Whip.ViewModels.MessageHandlers
         public void Stop()
         {
             _playlist.ListUpdated -= OnPlaylistUpdated;
-            _playlist.CurrentTrackChanged -= OnCurrentTrackChanged;
 
             _messenger.Unregister<PausePlayerMessage>(this, OnPausePlayer);
             _messenger.Unregister<ResumePlayerMessage>(this, OnResumePlayer);
             _messenger.Unregister<SkipToPercentageMessage>(this, OnSkipToPercentage);
             _messenger.Unregister<PlayNextMessage>(this, OnPlayNext);
             _messenger.Unregister<PlayPreviousMessage>(this, OnPlayPrevious);
-        }
-
-        private void OnCurrentTrackChanged(Track track)
-        {
-            _player.Play(track);
         }
 
         private void OnPausePlayer(PausePlayerMessage message)

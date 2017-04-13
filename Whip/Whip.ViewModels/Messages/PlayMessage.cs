@@ -1,10 +1,9 @@
-﻿using GalaSoft.MvvmLight.Messaging;
-using Whip.Common.Model;
-using Whip.Common.Enums;
+﻿using Whip.Common.Model;
+using Whip.Common;
 
 namespace Whip.ViewModels.Messages
 {
-    public class PlayMessage : MessageBase
+    public class PlayMessage
     {
         public PlayMessage(SortType sortType, Track startAt = null)
         {

@@ -1,19 +1,19 @@
 ﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
-using System;
-using Whip.Common.Interfaces;
 using Whip.Common.Model;
 using Whip.Common.Singletons;
-using Whip.Common.Utilities;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
+using Whip.ViewModels.Utilities;
 using Whip.ViewModels.Windows;
 
 namespace Whip.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        private const string UserSettingsMissingTitle = "User Settings";
+        private const string UserSettingsMissingText = "Please populate the essential settings for the music player to work correctly";
+
         private readonly ILibraryService _libraryService;
         private readonly IUserSettingsService _userSettingsService;
         private readonly IMessenger _messenger;
@@ -35,10 +35,6 @@ namespace Whip.ViewModels
             MainViewModel = mainViewModel;
             SidebarViewModel = sidebarViewModel;
 
-            ApplicationSettingsCommand = new RelayCommand(OnApplicationSettings);
-            PopulateLibraryCommand = new RelayCommand(OnPopulateLibrary);
-            SaveLibraryCommand = new RelayCommand(OnSaveLibrary);
-
             _playlist.CurrentTrackChanged += OnCurrentTrackChanged;
         }
 
@@ -51,46 +47,29 @@ namespace Whip.ViewModels
         public MainViewModel MainViewModel { get; private set; }
         public SidebarViewModel SidebarViewModel { get; private set; }
 
-        public RelayCommand ApplicationSettingsCommand { get; private set; }
-        public RelayCommand PopulateLibraryCommand { get; private set; }
-        public RelayCommand SaveLibraryCommand { get; private set; }
-
-        private void OnApplicationSettings()
+        public void OnLoad()
         {
-            OnApplicationSettings(null);
+            OnPopulateLibrary();
         }
 
-        private void OnApplicationSettings(Action callback)
+        public void OnExit()
         {
-            var applicationSettingsViewModel = new ApplicationSettingsViewModel(_userSettingsService, _messenger, callback);
-
-            _messenger.Send(new ShowDialogMessage(applicationSettingsViewModel));
+            OnSaveLibrary();
         }
 
         private void OnPopulateLibrary()
         {
             if (!_userSettingsService.EssentialSettingsSet)
             {
-                OnApplicationSettings(OnPopulateLibrary);
+                MainViewModel.SelectTab(TabType.Settings);
+
+                var messageViewModel = new MessageViewModel(_messenger, UserSettingsMissingTitle, UserSettingsMissingText);
+                _messenger.Send(new ShowDialogMessage(messageViewModel));
+                
                 return;
             }
 
-            var progressBarViewModel = new ProgressBarViewModel("Populating Library");
-            var startProgressBarMessage = new ShowDialogMessage(progressBarViewModel);
-
-            OnPopulateLibraryAsync(progressBarViewModel);
-
-            _messenger.Send(startProgressBarMessage);
-        }
-
-        private async void OnPopulateLibraryAsync(ProgressBarViewModel progressBarViewModel)
-        {
-            var progressHandler = new Progress<ProgressArgs>(progressBarViewModel.Update);
-            var stopProgressBarMessage = new HideDialogMessage(progressBarViewModel.Guid);
-
-            _library.Update(await _libraryService.GetLibraryAsync(progressHandler));
-
-            _messenger.Send(stopProgressBarMessage);
+            _messenger.Send(new LibraryUpdateRequest());
         }
 
         private void OnSaveLibrary()

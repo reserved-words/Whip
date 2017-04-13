@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Whip.Common.Enums;
 
 namespace Whip.Common.Model
 {

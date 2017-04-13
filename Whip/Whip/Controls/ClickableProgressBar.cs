@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Whip.Controls
 {
@@ -11,7 +12,7 @@ namespace Whip.Controls
             MouseLeftButtonUp += ClickableProgressBar_MouseLeftButtonUp;
         }
 
-        private void ClickableProgressBar_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void ClickableProgressBar_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             var mousePosition = e.GetPosition(this).X;
             var percentage = 100 * mousePosition / ActualWidth;

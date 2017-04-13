@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Whip.Common.ExtensionMethods;
 using Whip.Common.Utilities;
 
-namespace Whip.Common.Enums
+namespace Whip.Common
 {
     [DefaultValue(Album)]
     public enum ReleaseType

@@ -7,9 +7,9 @@ using static Whip.Resources.Resources;
 
 namespace Whip.ViewModels.Utilities
 {
-    public class TrackTimer : ViewModelBase
+    public class TrackTimer : ViewModelBase, IDisposable
     {
-        private SynchronizationContext _synchronizationContext;
+        private readonly SynchronizationContext _synchronizationContext = SynchronizationContext.Current;
         private readonly Timer _timer = new Timer(1000);
 
         private double _trackDurationInSeconds;
@@ -21,8 +21,6 @@ namespace Whip.ViewModels.Utilities
 
         public TrackTimer()
         {
-            _synchronizationContext = SynchronizationContext.Current;
-
             _timer.Elapsed += TimerElapsed;
 
             SetProperties();
@@ -96,12 +94,26 @@ namespace Whip.ViewModels.Utilities
             {
                 _timer.Stop();
 
-                _synchronizationContext.Send(state => 
+                _synchronizationContext.Send(state =>
                 {
                     TrackEnded?.Invoke();
                 }
                 , null);
             }
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _timer.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

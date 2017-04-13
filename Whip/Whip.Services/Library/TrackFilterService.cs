@@ -5,7 +5,7 @@ using Whip.Common.Interfaces;
 using Whip.Common.Model;
 using Whip.Common.Singletons;
 using Whip.Common.TrackSorters;
-using Whip.Common.Enums;
+using Whip.Common;
 using Whip.Services.Interfaces;
 
 namespace Whip.Services

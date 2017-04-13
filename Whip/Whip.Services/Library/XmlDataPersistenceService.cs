@@ -3,7 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using Whip.Common.Enums;
+using Whip.Common;
 using Whip.Common.ExtensionMethods;
 using Whip.Common.Model;
 using Whip.Common.Singletons;

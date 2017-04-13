@@ -41,11 +41,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationSettings.cs" />
+    <Compile Include="Enums\IconType.cs" />
     <Compile Include="Enums\ReleaseType.cs" />
     <Compile Include="Enums\SortType.cs" />
     <Compile Include="ExtensionMethods\ArtistExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\LibraryExtensionMethods.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
+    <Compile Include="Interfaces\IPlayerUpdate.cs" />
     <Compile Include="Interfaces\IStartable.cs" />
     <Compile Include="Interfaces\ITrackSorter.cs" />
     <Compile Include="Model\Album.cs" />

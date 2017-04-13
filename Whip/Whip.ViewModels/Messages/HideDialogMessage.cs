@@ -1,13 +1,8 @@
-﻿using GalaSoft.MvvmLight.Messaging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace Whip.ViewModels.Messages
 {
-    public class HideDialogMessage : MessageBase
+    public class HideDialogMessage
     {
         public HideDialogMessage(Guid guid)
         {

@@ -1,31 +1,33 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Messaging;
 using System;
+using Whip.Common.Interfaces;
+using Whip.ViewModels.Messages;
 
 namespace Whip.ViewModels.Windows
 {
     public class DialogViewModel : ViewModelBase
     {
-        private Guid _guid;
-        private string _title;
-        private Action _callback;
+        private readonly IMessenger _messenger;
+        private readonly Action _callback;
 
-        public DialogViewModel(string title, Action callback = null)
+        public DialogViewModel(IMessenger messenger, string title, Action callback = null)
         {
-            Title = title;
+            _messenger = messenger;
             _callback = callback;
-            _guid = Guid.NewGuid();
+
+            Title = title;
+            Guid = Guid.NewGuid();
         }
 
-        public Guid Guid => _guid;
+        public Guid Guid { get; private set; }
 
-        public string Title
-        {
-            get { return _title; }
-            set { Set(ref _title, value); }
-        }
+        public string Title { get; private set; }
 
         protected virtual void Close()
         {
+            _messenger.Send(new HideDialogMessage(Guid));
+            
             _callback?.Invoke();
         }
     }

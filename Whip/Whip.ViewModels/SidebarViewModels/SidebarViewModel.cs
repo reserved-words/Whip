@@ -1,19 +1,19 @@
 ﻿using GalaSoft.MvvmLight;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Whip.Common.Interfaces;
 using Whip.Common.Model;
+using Whip.ViewModels.MessageHandlers;
 
 namespace Whip.ViewModels
 {
     public class SidebarViewModel : ViewModelBase
     {
-        public SidebarViewModel(CurrentTrackMiniViewModel currentTrackMiniViewModel, PlayerControlsViewModel playerControlsViewModel)
+        public SidebarViewModel(CurrentTrackMiniViewModel currentTrackMiniViewModel, PlayerControlsViewModel playerControlsViewModel,
+            IPlayerUpdate playerUpdate)
         {
             CurrentTrackMiniViewModel = currentTrackMiniViewModel;
             PlayerControlsViewModel = playerControlsViewModel;
+
+            playerUpdate.NewTrackStarted += OnNewTrackStarted;
         }
 
         public CurrentTrackMiniViewModel CurrentTrackMiniViewModel { get; private set; }
@@ -23,6 +23,12 @@ namespace Whip.ViewModels
         {
             CurrentTrackMiniViewModel.OnCurrentTrackChanged(track);
             PlayerControlsViewModel.OnCurrentTrackChanged(track);
+        }
+
+        private void OnNewTrackStarted(Track track)
+        {
+            PlayerControlsViewModel.OnNewTrackStarted(track);
+            CurrentTrackMiniViewModel.OnNewTrackStarted(track);
         }
     }
 }

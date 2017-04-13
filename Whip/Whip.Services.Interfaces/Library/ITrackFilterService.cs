@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Whip.Common.Enums;
+using Whip.Common;
 using Whip.Common.Model;
 
 namespace Whip.Services.Interfaces

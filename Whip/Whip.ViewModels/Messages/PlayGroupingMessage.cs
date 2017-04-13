@@ -1,5 +1,5 @@
 ﻿using Whip.Common.Model;
-using Whip.Common.Enums;
+using Whip.Common;
 
 namespace Whip.ViewModels.Messages
 {

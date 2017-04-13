@@ -1,4 +1,4 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Messaging;
 using Whip.Common.Utilities;
 
 namespace Whip.ViewModels.Windows
@@ -8,8 +8,8 @@ namespace Whip.ViewModels.Windows
         private string caption;
         private int percentage;
 
-        public ProgressBarViewModel(string title)
-            : base(title)
+        public ProgressBarViewModel(IMessenger messenger, string title)
+            : base(messenger, title)
         {
 
         }

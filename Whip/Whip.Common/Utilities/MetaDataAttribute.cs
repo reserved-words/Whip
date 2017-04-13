@@ -9,6 +9,13 @@ namespace Whip.Common.Utilities
             DisplayName = displayName;
         }
 
+        public MetaDataAttribute(string displayName, IconType iconType)
+            :this(displayName)
+        {
+            IconType = iconType;
+        }
+
         public string DisplayName { get; private set; }
+        public IconType? IconType { get; private set; }
     }
 }

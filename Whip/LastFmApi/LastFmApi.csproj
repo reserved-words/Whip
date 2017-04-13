@@ -40,10 +40,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\IScrobblingService.cs" />
+    <Compile Include="Interfaces\ILastFmDataService.cs" />
+    <Compile Include="Interfaces\ILastFmScrobblingService.cs" />
+    <Compile Include="Interfaces\ILastFmSessionService.cs" />
+    <Compile Include="Interfaces\ILastFmTrackLoveService.cs" />
+    <Compile Include="Internal\Session.cs" />
+    <Compile Include="Methods\Track\IsLovedMethod.cs" />
+    <Compile Include="Methods\Track\ScrobbleMethod.cs" />
+    <Compile Include="Methods\Track\UpdateNowPlayingMethod.cs" />
+    <Compile Include="Model\ApiClient.cs" />
+    <Compile Include="Internal\ExtensionMethods.cs" />
+    <Compile Include="Internal\MD5.cs" />
+    <Compile Include="Internal\ParameterKey.cs" />
+    <Compile Include="Internal\WebHelper.cs" />
+    <Compile Include="Methods\ApiMethodBase.cs" />
+    <Compile Include="Methods\Auth\GetSessionMethod.cs" />
+    <Compile Include="Methods\Auth\GetTokenMethod.cs" />
+    <Compile Include="Model\AuthorizedApiClient.cs" />
     <Compile Include="Model\Track.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ScrobblingService.cs" />
+    <Compile Include="Services\LastFmDataService.cs" />
+    <Compile Include="Services\LastFmScrobblingService.cs" />
+    <Compile Include="Services\LastFmSessionService.cs" />
+    <Compile Include="Services\LastFmTrackLoveService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

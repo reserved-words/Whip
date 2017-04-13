@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight.Messaging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +7,7 @@ using Whip.ViewModels.Windows;
 
 namespace Whip.ViewModels.Messages
 {
-    public class ShowDialogMessage : MessageBase
+    public class ShowDialogMessage
     {
         public ShowDialogMessage(DialogViewModel viewModel)
         {

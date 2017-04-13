@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Whip.Common.Enums
+namespace Whip.Common
 {
     public enum SortType { Random, Ordered }
 }

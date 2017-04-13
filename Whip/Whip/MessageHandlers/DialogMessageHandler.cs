@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Whip.Common.Interfaces;
 using Whip.ViewModels.Messages;
+using Whip.ViewModels.Windows;
 using Whip.Windows;
 
 namespace Whip.MessageHandlers
@@ -39,7 +40,7 @@ namespace Whip.MessageHandlers
                     DataContext = message.ViewModel
                 };
                 _dialogs.Add(message.ViewModel.Guid, dialog);
-                dialog.Show();
+                dialog.ShowDialog();
             }
         }
 

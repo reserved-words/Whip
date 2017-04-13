@@ -5,11 +5,28 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Whip"
              xmlns:tabs="clr-namespace:Whip.TabControls"
+             xmlns:controls="clr-namespace:Whip.Controls"
+             xmlns:vm="clr-namespace:Whip.ViewModels.TabViewModels;assembly=Whip.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
-    <TabControl>
-        <TabItem Header="Library">
-            <tabs:TabLibrary DataContext="{Binding LibraryViewModel}" />
-        </TabItem>
-    </TabControl>
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type vm:TabViewModelBase}" x:Key="TabHeaderTemplate">
+            <WrapPanel>
+                <controls:Icon16 Icon="{Binding Icon}"
+                                 Margin="2"
+                                 Foreground="Silver" />
+                <Label Content="{Binding Title}" />
+            </WrapPanel>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:TabViewModelBase}" x:Key="TabContentTemplate">
+            <ContentControl Content="{Binding}" />
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <controls:ReportingTabControl ItemsSource="{Binding Tabs}"
+                                  ItemTemplate="{StaticResource TabHeaderTemplate}"
+                                  SelectedTab="{Binding SelectedTab, Mode=TwoWay}"
+                                  ContentTemplate="{StaticResource TabContentTemplate}"
+                                  TabChangeCommand="{Binding ChangeTabCommand}"/>
+
 </UserControl>

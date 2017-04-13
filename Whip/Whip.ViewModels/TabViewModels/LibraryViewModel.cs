@@ -1,16 +1,17 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using System.Collections.Generic;
-using Whip.Common.Enums;
+using System.Linq;
+using Whip.Common;
 using Whip.Common.ExtensionMethods;
 using Whip.Common.Model;
 using Whip.Common.Singletons;
 using Whip.ViewModels.Messages;
+using Whip.ViewModels.Utilities;
 
 namespace Whip.ViewModels.TabViewModels
 {
-    public class LibraryViewModel : ViewModelBase
+    public class LibraryViewModel : TabViewModelBase
     {
         private readonly Library _library;
         private readonly IMessenger _messenger;
@@ -22,6 +23,7 @@ namespace Whip.ViewModels.TabViewModels
         private Artist _selectedArtist;
 
         public LibraryViewModel(Library library, IMessenger messenger)
+            :base(TabType.Library)
         {
             _library = library;
             _messenger = messenger;
@@ -97,6 +99,8 @@ namespace Whip.ViewModels.TabViewModels
         private void OnLibraryUpdated()
         {
             Artists = _library.Artists;
+
+            SelectedArtist = Artists.FirstOrDefault();
         }
 
         private void OnPlayAlbum(Album album)

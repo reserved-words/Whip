@@ -56,6 +56,7 @@
                   SelectedItem="{Binding SelectedArtist}"
                   HorizontalAlignment="Stretch"
                   HorizontalContentAlignment="Stretch"
+                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                   BorderThickness="0">
             <ListView.ItemTemplate>
                 <DataTemplate>

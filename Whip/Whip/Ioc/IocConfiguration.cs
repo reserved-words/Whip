@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight.Messaging;
-using Ninject.Modules;
+﻿using Ninject.Modules;
 using Whip.TagLibSharp;
 using Whip.Services;
 using Whip.Services.Interfaces;
@@ -11,6 +10,10 @@ using Whip.ViewModels.TabViewModels;
 using Whip.Common.Interfaces;
 using Whip.WmpPlayer;
 using Whip.LastFm;
+using LastFmApi.Interfaces;
+using LastFmApi;
+using Ninject;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace Whip.Ioc
 {
@@ -27,6 +30,8 @@ namespace Whip.Ioc
             BindMessageHandlers();
 
             BindPlayer();
+
+            BindLastFmComponents();
         }
 
         private void BindViewModels()
@@ -58,11 +63,36 @@ namespace Whip.Ioc
             Bind<IScrobblingRulesService>().To<ScrobblingRulesService>().InTransientScope();
         }
 
+        private void BindLastFmComponents()
+        {
+            Bind<ILastFmApiClientService>().To<LastFmApiClientService>().InTransientScope();
+            Bind<ILastFmSessionService>().To<LastFmSessionService>().InTransientScope();
+
+            Bind<AuthorizedScrobblingService>().ToSelf().InTransientScope();
+            Bind<AuthorizedTrackLoveService>().ToSelf().InTransientScope();
+
+            Bind<ILastFmScrobblingService>().To<AuthorizedScrobblingService>().InTransientScope();
+            Bind<ILastFmTrackLoveService>().To<AuthorizedTrackLoveService>().InTransientScope();
+
+            Bind<IScrobblingService>()
+                .To<CachingScrobbleService>()
+                .InTransientScope()
+                .WithConstructorArgument(typeof(IScrobblingService), ctx => ctx.Kernel.Get<ScrobblingService>());
+
+            Bind<ITrackLoveService>()
+                .To<TrackLoveService>()
+                .InTransientScope();
+        }
+
         private void BindMessageHandlers()
         {
             Bind<DialogMessageHandler>().ToSelf().InSingletonScope();
             Bind<PlayerCoordinator>().ToSelf().InSingletonScope();
             Bind<PlayRequestHandler>().ToSelf().InSingletonScope();
+            Bind<TrackChangeCoordinator>().ToSelf().InSingletonScope();
+            Bind<LibraryHandler>().ToSelf().InSingletonScope();
+
+            Bind<IPlayerUpdate>().ToMethod(ctx => ctx.Kernel.Get<TrackChangeCoordinator>());
         }
 
         private void BindPlayer()

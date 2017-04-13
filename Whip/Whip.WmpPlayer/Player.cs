@@ -12,7 +12,7 @@ namespace Whip.WmpPlayer
         {
             _player.settings.volume = 50;
         }
-
+        
         public void Pause()
         {
             _player.controls.pause();

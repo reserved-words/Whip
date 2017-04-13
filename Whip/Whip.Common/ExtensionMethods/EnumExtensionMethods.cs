@@ -22,5 +22,10 @@ namespace Whip.Common.ExtensionMethods
         {
             return en.GetAttribute<MetaDataAttribute>()?.DisplayName ?? en.ToString();
         }
+
+        public static IconType? GetIconType(this Enum en)
+        {
+            return en.GetAttribute<MetaDataAttribute>()?.IconType ?? null;
+        }
     }
 }

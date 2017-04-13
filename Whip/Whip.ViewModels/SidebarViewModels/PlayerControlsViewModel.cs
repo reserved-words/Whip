@@ -2,12 +2,13 @@
 using GalaSoft.MvvmLight.Command;
 using Whip.Common.Model;
 using Whip.Common.Singletons;
-using Whip.Common.Enums;
-using GalaSoft.MvvmLight.Messaging;
+using Whip.Common;
 using Whip.ViewModels.Messages;
 using Whip.ViewModels.Utilities;
 using System.Collections.Generic;
 using Whip.Common.ExtensionMethods;
+using GalaSoft.MvvmLight.Messaging;
+using System.Linq;
 
 namespace Whip.ViewModels
 {
@@ -21,13 +22,13 @@ namespace Whip.ViewModels
         private List<string> _groupings;
         private PlayerStatus _currentStatus;
         
-        public PlayerControlsViewModel(Library library, IMessenger messenger)
+        public PlayerControlsViewModel(Library library, IMessenger messenger) 
         {
             _library = library;
             _messenger = messenger;
 
             _library.Updated += OnLibraryUpdated;
-
+            
             MoveNextCommand = new RelayCommand(OnMoveNext, CanMoveNext);
             MovePreviousCommand = new RelayCommand(OnMovePrevious, CanMovePrevious);
             PauseCommand = new RelayCommand(OnPause, CanPause);
@@ -82,27 +83,39 @@ namespace Whip.ViewModels
 
         private void OnLibraryUpdated()
         {
-            Groupings = _library.GetGroupings();
+            Groupings = _library.GetGroupings().Where(g => !string.IsNullOrEmpty(g)).ToList();
         }
 
-        public void OnCurrentTrackChanged(Track track)
+        public void OnNewTrackStarted(Track track)
         {
-            if (track == null)
-            {
-                TrackTimer.Reset(null);
-                TrackTimer.Stop();
-                CurrentStatus = PlayerStatus.Stopped;
-                return;
-            }
-
-            CurrentStatus = PlayerStatus.Playing;
             TrackTimer.Reset(track);
             TrackTimer.Start();
         }
 
-        private void OnMoveNext() => _messenger.Send(new PlayNextMessage());
+        public void OnCurrentTrackChanged(Track track)
+        {
+            TrackTimer.Reset(null);
+            TrackTimer.Stop();
 
-        private void OnMovePrevious() => _messenger.Send(new PlayPreviousMessage());
+            if (track == null)
+            {
+                CurrentStatus = PlayerStatus.Stopped;
+            }
+            else
+            {
+                CurrentStatus = PlayerStatus.Playing;
+            }
+        }
+
+        private void OnMoveNext()
+        {
+            _messenger.Send(new PlayNextMessage());
+        }
+
+        private void OnMovePrevious()
+        {
+            _messenger.Send(new PlayPreviousMessage());
+        } 
 
         private void OnPause()
         {

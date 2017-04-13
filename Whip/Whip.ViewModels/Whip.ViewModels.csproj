@@ -61,8 +61,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessageHandlers\LibraryHandler.cs" />
     <Compile Include="MessageHandlers\PlayerCoordinator.cs" />
     <Compile Include="MessageHandlers\PlayRequestHandler.cs" />
+    <Compile Include="MessageHandlers\TrackChangeCoordinator.cs" />
+    <Compile Include="Messages\LibraryUpdateRequest.cs" />
     <Compile Include="Messages\PausePlayerMessage.cs" />
     <Compile Include="Messages\PlayAlbumsMessage.cs" />
     <Compile Include="Messages\PlayArtistsMessage.cs" />
@@ -74,6 +77,19 @@
     <Compile Include="Messages\SkipPlayerMessage.cs" />
     <Compile Include="SidebarViewModels\CurrentTrackMiniViewModel.cs" />
     <Compile Include="SidebarViewModels\SidebarViewModel.cs" />
+    <Compile Include="TabViewModels\CurrentPlaylistViewModel.cs" />
+    <Compile Include="TabViewModels\CurrentTrackViewModel.cs" />
+    <Compile Include="TabViewModels\EditableTabViewModelBase.cs" />
+    <Compile Include="TabViewModels\NewsViewModel.cs" />
+    <Compile Include="TabViewModels\CurrentArtistViewModel.cs" />
+    <Compile Include="TabViewModels\PlaylistsViewModel.cs" />
+    <Compile Include="TabViewModels\SearchViewModel.cs" />
+    <Compile Include="TabViewModels\LastFmViewModel.cs" />
+    <Compile Include="TabViewModels\ArchiveViewModel.cs" />
+    <Compile Include="TabViewModels\DashboardViewModel.cs" />
+    <Compile Include="TabViewModels\SettingsViewModel.cs" />
+    <Compile Include="TabViewModels\TabViewModelBase.cs" />
+    <Compile Include="Utilities\TabType.cs" />
     <Compile Include="Utilities\TrackTimer.cs" />
     <Compile Include="Windows\ApplicationSettingsViewModel.cs" />
     <Compile Include="Messages\ShowDialogMessage.cs" />
@@ -84,6 +100,8 @@
     <Compile Include="SidebarViewModels\PlayerControlsViewModel.cs" />
     <Compile Include="TabViewModels\LibraryViewModel.cs" />
     <Compile Include="Utilities\Hyperlink.cs" />
+    <Compile Include="Windows\MessageViewModel.cs" />
+    <Compile Include="Windows\ConfirmationViewModel.cs" />
     <Compile Include="Windows\DialogViewModel.cs" />
     <Compile Include="Windows\ProgressBarViewModel.cs" />
   </ItemGroup>
@@ -91,6 +109,10 @@
     <ProjectReference Include="..\Whip.Common\Whip.Common.csproj">
       <Project>{b0adacab-f30c-4f94-b72a-32bf97a37e8b}</Project>
       <Name>Whip.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Whip.LastFm\Whip.LastFm.csproj">
+      <Project>{D045C31F-E8B5-41AC-B6C9-D0C9120AA799}</Project>
+      <Name>Whip.LastFm</Name>
     </ProjectReference>
     <ProjectReference Include="..\Whip.Resources\Whip.Resources.csproj">
       <Project>{12cb240b-3a9b-4790-b523-2b170e6b75c3}</Project>

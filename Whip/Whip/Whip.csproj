@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
+      <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
       <Private>True</Private>
@@ -81,7 +85,10 @@
     </ApplicationDefinition>
     <Compile Include="Controls\ClickableProgressBar.cs" />
     <Compile Include="Controls\HyperlinkLabel.cs" />
+    <Compile Include="Controls\Icon16.cs" />
+    <Compile Include="Controls\Icon32.cs" />
     <Compile Include="Controls\PlayerControlButton.cs" />
+    <Compile Include="Controls\ReportingTabControl.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\EnumToStringConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
@@ -102,14 +109,26 @@
     <Compile Include="SidebarViews\SidebarView.xaml.cs">
       <DependentUpon>SidebarView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TabControls\TabGenericTemp.xaml.cs">
+      <DependentUpon>TabGenericTemp.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TabControls\TabLibrary.xaml.cs">
       <DependentUpon>TabLibrary.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TabControls\TabSettings.xaml.cs">
+      <DependentUpon>TabSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\ApplicationSettingsView.xaml.cs">
       <DependentUpon>ApplicationSettingsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\ConfirmationView.xaml.cs">
+      <DependentUpon>ConfirmationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Dialog.xaml.cs">
       <DependentUpon>Dialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\MessageView.xaml.cs">
+      <DependentUpon>MessageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\ProgressBarView.xaml.cs">
       <DependentUpon>ProgressBarView.xaml</DependentUpon>
@@ -146,7 +165,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="TabControls\TabGenericTemp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TabControls\TabLibrary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TabControls\TabSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -154,7 +181,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\ConfirmationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\Dialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MessageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -196,6 +231,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LastFmApi\LastFmApi.csproj">
+      <Project>{5143B7CD-60E1-4EE1-AC8A-91D1847D7C7B}</Project>
+      <Name>LastFmApi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Whip.Common\Whip.Common.csproj">
       <Project>{b0adacab-f30c-4f94-b72a-32bf97a37e8b}</Project>
       <Name>Whip.Common</Name>
@@ -243,6 +282,7 @@
   <ItemGroup>
     <Resource Include="Images\lastfm.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

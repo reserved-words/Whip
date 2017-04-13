@@ -4,9 +4,25 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Whip"
+             xmlns:controls="clr-namespace:Whip.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel Height="320">
+    <StackPanel Height="330">
+        <DockPanel>
+            <Label DockPanel.Dock="Left"
+                   Content="Currently Playing" />
+            <WrapPanel DockPanel.Dock="Right"
+                       HorizontalAlignment="Right">
+                <controls:Icon16 Icon="Heart"
+                                 Margin="5"
+                                 Foreground="DarkRed"
+                                 Visibility="{Binding Loved, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <controls:Icon16 Icon="HeartOutline"
+                                 Margin="5"
+                                 Foreground="DarkRed"
+                                 Visibility="{Binding Loved, Converter={StaticResource NegBoolVisibilityConverter}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </WrapPanel>
+        </DockPanel>
         <Image Source="{Binding Track.Disc.Album.Artwork}"
                Width="180"
                Height="180"

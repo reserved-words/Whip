@@ -21,6 +21,12 @@
         <DataTemplate DataType="{x:Type viewModels:ApplicationSettingsViewModel}">
             <windows:ApplicationSettingsView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:ConfirmationViewModel}">
+            <windows:ConfirmationView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:MessageViewModel}">
+            <windows:MessageView />
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <ContentControl Content="{Binding}"

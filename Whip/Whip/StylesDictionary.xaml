@@ -3,6 +3,9 @@
                     xmlns:local="clr-namespace:Whip"
                     xmlns:conv="clr-namespace:Whip.Converters"
                     xmlns:ioc="clr-namespace:Whip.Ioc"
+                    xmlns:tabs="clr-namespace:Whip.TabControls"
+                    xmlns:controls="clr-namespace:Whip.Controls"
+                    xmlns:tabsvm="clr-namespace:Whip.ViewModels.TabViewModels;assembly=Whip.ViewModels"
                     xmlns:viewModel="clr-namespace:Whip.ViewModels;assembly=Whip.ViewModels">
     
     <!-- VIEW MODEL LOCATOR -->
@@ -15,6 +18,39 @@
     <conv:EnumToStringConverter x:Key="EnumToStringConverter" />
 
     <!-- DATA TEMPLATES -->
+    <DataTemplate DataType="{x:Type tabsvm:LibraryViewModel}">
+        <tabs:TabLibrary />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type tabsvm:SettingsViewModel}">
+        <tabs:TabSettings />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type tabsvm:ArchiveViewModel}">
+        <tabs:TabGenericTemp />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type tabsvm:CurrentTrackViewModel}">
+        <tabs:TabGenericTemp />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type tabsvm:CurrentArtistViewModel}">
+        <tabs:TabGenericTemp />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type tabsvm:CurrentPlaylistViewModel}">
+        <tabs:TabGenericTemp />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type tabsvm:PlaylistsViewModel}">
+        <tabs:TabGenericTemp />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type tabsvm:SearchViewModel}">
+        <tabs:TabGenericTemp />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type tabsvm:NewsViewModel}">
+        <tabs:TabGenericTemp />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type tabsvm:LastFmViewModel}">
+        <tabs:TabGenericTemp />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type tabsvm:DashboardViewModel}">
+        <tabs:TabGenericTemp />
+    </DataTemplate>
 
     <!-- STYLES -->
 

@@ -1,0 +1,81 @@
+﻿<UserControl x:Class="Whip.TabControls.TabSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Whip.TabControls"
+             mc:Ignorable="d" 
+             HorizontalContentAlignment="Left"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0"
+               Grid.Column="0"
+               Content="Music Directory" />
+
+        <TextBox Grid.Row="0"
+                 Grid.Column="2"
+                 Height="20"
+                 Width="300"
+                 Text="{Binding MusicDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        <Label Grid.Row="2"
+               Grid.Column="0"
+               Content="Last.FM Username" />
+
+        <TextBox Grid.Row="2"
+                 Grid.Column="2"
+                 Height="20"
+                 Width="300"
+                 Text="{Binding LastFmUsername, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        <Label Grid.Row="4"
+               Grid.Column="0"
+               Content="Last.FM API Key" />
+
+        <TextBox Grid.Row="4"
+                 Grid.Column="2"
+                 Height="20"
+                 Width="300"
+                 Text="{Binding LastFmApiKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        <Label Grid.Row="6"
+               Grid.Column="0"
+               Content="Last.FM API Secret" />
+
+        <TextBox Grid.Row="6"
+                 Grid.Column="2"
+                 Height="20"
+                 Width="300"
+                 Text="{Binding LastFmApiSecret, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        <WrapPanel Grid.Row="8"
+                   Grid.Column="0" Grid.ColumnSpan="3">
+            <Button Content="Save"
+                    Command="{Binding SaveCommand}"
+                    Margin="5"
+                    Padding="5,2"/>
+            <Button Content="Cancel"
+                    Command="{Binding CancelCommand}"
+                    Margin="0,5,5,5"
+                    Padding="5,2"/>
+        </WrapPanel>
+
+    </Grid>
+</UserControl>

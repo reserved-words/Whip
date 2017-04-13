@@ -9,7 +9,10 @@ namespace Whip.Services
 {
     public class UserSettingsService : IUserSettingsService
     {
-        public bool EssentialSettingsSet => !string.IsNullOrEmpty(MusicDirectory);
+        public bool EssentialSettingsSet => !string.IsNullOrEmpty(MusicDirectory)
+            && !string.IsNullOrEmpty(LastFmUsername)
+            && !string.IsNullOrEmpty(LastFmApiKey)
+            && !string.IsNullOrEmpty(LastFmApiSecret);
 
         public string MusicDirectory
         {
