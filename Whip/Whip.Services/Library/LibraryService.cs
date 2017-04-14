@@ -12,16 +12,18 @@ namespace Whip.Services
     {
         private readonly IFileService _fileService;
         private readonly ILibraryDataOrganiserService _libraryDataOrganiserService;
+        private readonly ILibrarySortingService _librarySortingService;
         private readonly IDataPersistenceService _dataPersistenceService;
         private readonly IDirectoryStructureService _directoryStructureService;
         private readonly IUserSettingsService _userSettingsService;
 
         public LibraryService(IFileService fileService, ILibraryDataOrganiserService libraryDataOrganiserService,
             IDataPersistenceService dataPersistenceService, IDirectoryStructureService directoryStructureService,
-            IUserSettingsService userSettingsService)
+            IUserSettingsService userSettingsService, ILibrarySortingService librarySortingService)
         {
             _fileService = fileService;
             _libraryDataOrganiserService = libraryDataOrganiserService;
+            _librarySortingService = librarySortingService;
             _dataPersistenceService = dataPersistenceService;
             _directoryStructureService = directoryStructureService;
             _userSettingsService = userSettingsService;
@@ -64,7 +66,7 @@ namespace Whip.Services
 
                 progressHandler?.Report(new ProgressArgs(90, "Sorting artists"));
 
-                library.Artists = library.Artists.OrderBy(a => a.Name).ToList();
+                library.Artists = _librarySortingService.GetInDefaultOrder(library.Artists).ToList();
 
                 progressHandler?.Report(new ProgressArgs(100, "Done"));
                 

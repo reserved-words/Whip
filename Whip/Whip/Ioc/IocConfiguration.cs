@@ -61,6 +61,7 @@ namespace Whip.Ioc
             Bind<ICommentProcessingService>().To<CommentProcessingService>().InTransientScope();
             Bind<ITrackFilterService>().To<TrackFilterService>().InTransientScope();
             Bind<IScrobblingRulesService>().To<ScrobblingRulesService>().InTransientScope();
+            Bind<ILibrarySortingService>().To<LibrarySortingService>().InTransientScope();
         }
 
         private void BindLastFmComponents()

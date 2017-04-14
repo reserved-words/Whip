@@ -80,6 +80,8 @@
     <Compile Include="TabViewModels\CurrentPlaylistViewModel.cs" />
     <Compile Include="TabViewModels\CurrentTrackViewModel.cs" />
     <Compile Include="TabViewModels\EditableTabViewModelBase.cs" />
+    <Compile Include="TabViewModels\Library\AlbumViewModel.cs" />
+    <Compile Include="TabViewModels\Library\ArtistViewModel.cs" />
     <Compile Include="TabViewModels\NewsViewModel.cs" />
     <Compile Include="TabViewModels\CurrentArtistViewModel.cs" />
     <Compile Include="TabViewModels\PlaylistsViewModel.cs" />

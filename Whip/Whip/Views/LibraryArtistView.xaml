@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="Whip.Views.LibraryArtistView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Whip.Views"
+             xmlns:conv="clr-namespace:Whip.Converters"
+             xmlns:res="clr-namespace:Whip.Resources;assembly=Whip.Resources"
+             xmlns:controls="clr-namespace:Whip.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <StackPanel Margin="10">
+        <StackPanel DataContext="{Binding Artist}">
+            <TextBlock FontWeight="Bold"
+                       FontSize="16"
+                       Text="{Binding Name}"/>
+            <TextBlock Text="{Binding City.Description}"
+                       Visibility="{Binding City.Description, Converter={StaticResource StringVisibilityConverter}}"/>
+            <TextBlock Text="{Binding Genre}"
+                       Visibility="{Binding Genre, Converter={StaticResource StringVisibilityConverter}}"/>
+            <controls:HyperlinkLabel Url="{Binding Website}" 
+                                     Visibility="{Binding Website, Converter={StaticResource StringVisibilityConverter}}"
+                                     Padding="0,5">
+                <TextBlock Text="{Binding Website}" 
+                           TextDecorations="Underline"
+                           Foreground="Purple" />
+            </controls:HyperlinkLabel>
+            <WrapPanel Margin="0,10">
+                <controls:HyperlinkLabel Username="{Binding Facebook}" 
+                                         UrlFormat="{x:Static res:Resources.FacebookUrl}"
+                                         Visibility="{Binding Facebook, Converter={StaticResource StringVisibilityConverter}}"
+                                         Padding="0,5,5,5">
+                    <Image Source="/Images/facebook.png"
+                           Width="32"
+                           Height="32"
+                           SnapsToDevicePixels="True"/>
+                </controls:HyperlinkLabel>
+                <controls:HyperlinkLabel Username="{Binding Twitter}" 
+                                         UrlFormat="{x:Static res:Resources.TwitterUrl}"
+                                         Visibility="{Binding Twitter, Converter={StaticResource StringVisibilityConverter}}"
+                                         Padding="0,5,5,5">
+                    <Image Source="/Images/twitter.png"
+                           Width="32"
+                           Height="32"
+                           SnapsToDevicePixels="True"/>
+                </controls:HyperlinkLabel>
+                <controls:HyperlinkLabel Username="{Binding Name}" 
+                                         UrlFormat="{x:Static res:Resources.LastFmUrl}"
+                                         Padding="0,5,5,5">
+                    <Image Source="/Images/lastfm.ico"
+                           Width="32"
+                           Height="32"
+                           SnapsToDevicePixels="True"/>
+                </controls:HyperlinkLabel>
+            </WrapPanel>
+        </StackPanel>
+        <Border BorderBrush="Silver"
+                BorderThickness="0,0,0,1" />
+        <StackPanel Margin="0,10">
+            <TextBlock Text="{Binding NumberOfAlbums}" />
+            <TextBlock Text="{Binding NumberOfTracks}" />
+        </StackPanel>
+        <Border BorderBrush="Silver"
+                BorderThickness="0,0,0,1" />
+    </StackPanel>
+</UserControl>

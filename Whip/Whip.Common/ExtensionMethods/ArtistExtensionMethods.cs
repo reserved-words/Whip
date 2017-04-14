@@ -16,5 +16,15 @@ namespace Whip.Common.ExtensionMethods
                 .ThenBy(a => a.Year)
                 .ToList();
         }
+
+        public static List<Track> GetTracksInOrder(this Artist artist)
+        {
+            return artist.Tracks
+                .OrderBy(t => t.Disc.Album.ReleaseType)
+                .ThenBy(t => t.Disc.Album.Year)
+                .ThenBy(t => t.Disc.DiscNo)
+                .ThenBy(t => t.TrackNo)
+                .ToList();
+        }
     }
 }

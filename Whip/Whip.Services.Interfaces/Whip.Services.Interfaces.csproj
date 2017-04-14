@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Library\ICommentProcessingService.cs" />
+    <Compile Include="Library\ILibrarySortingService.cs" />
     <Compile Include="Library\ITrackFilterService.cs" />
     <Compile Include="Scrobbling\IScrobblingService.cs" />
     <Compile Include="Scrobbling\ITrackLoveService.cs" />

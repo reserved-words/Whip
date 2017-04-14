@@ -25,5 +25,19 @@ namespace Whip.Common.Model
 
         public List<Album> Albums { get; set; }
         public List<Track> Tracks { get; set; }
+
+        public override bool Equals(object a)
+        {
+            var artist = a as Artist;
+            if (artist == null)
+                return false;
+
+            return artist.Name == Name;
+        }
+
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
     }
 }

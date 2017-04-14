@@ -16,6 +16,7 @@
     <conv:BoolToVisibilityConverter x:Key="NegBoolVisibilityConverter" Negate="True" />
     <conv:StringToVisibilityConverter x:Key="StringVisibilityConverter" />
     <conv:EnumToStringConverter x:Key="EnumToStringConverter" />
+    <conv:EqualityConverter x:Key="EqualityConverter" />
 
     <!-- DATA TEMPLATES -->
     <DataTemplate DataType="{x:Type tabsvm:LibraryViewModel}">
@@ -53,5 +54,8 @@
     </DataTemplate>
 
     <!-- STYLES -->
+    <Style TargetType="{x:Type ComboBox}">
+        <Setter Property="Height" Value="22" />
+    </Style>
 
 </ResourceDictionary>

@@ -7,30 +7,20 @@
              xmlns:conv="clr-namespace:Whip.Converters"
              xmlns:res="clr-namespace:Whip.Resources;assembly=Whip.Resources"
              xmlns:controls="clr-namespace:Whip.Controls"
+             xmlns:views="clr-namespace:Whip.Views"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1200"
              x:Name="libraryView">
-    <UserControl.Resources>
-        <CollectionViewSource x:Key="AlbumsGrouped"                               
-                              Source="{Binding Path=Albums}">
-            <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription PropertyName="Grouping" />
-            </CollectionViewSource.GroupDescriptions>
-        </CollectionViewSource>
-    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250"
-                              Name="colArtists" />
+            <ColumnDefinition Width="300" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*"
-                              Name="colAlbums" />
+            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*"
-                              Name="colTracks" />
+            <ColumnDefinition Width="300" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="110" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -46,12 +36,55 @@
                 BorderThickness="0,0,1,0" />
 
         <Border Grid.Row="1"
-                Grid.Column="2" Grid.ColumnSpan="3"
+                Grid.Column="0" Grid.ColumnSpan="1"
                 BorderBrush="Silver"
                 BorderThickness="0,0,0,1"/>
 
+        <StackPanel Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="10">
+            <Grid VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                
+                <WrapPanel Grid.Row="0"
+                           Grid.Column="0" Grid.ColumnSpan="2"
+                           Margin="0,0,0,5">
+                    <RadioButton Content="Album Artists"
+                                 IsChecked="{Binding ArtistTypeAlbum}"
+                                 Margin="10,5,5,5"/>
+                    <RadioButton Content="Track Artists"
+                                 IsChecked="{Binding ArtistTypeTrack}"
+                                 Margin="15,5,5,5"/>
+                </WrapPanel>
+                <Label Grid.Row="1" 
+                       Grid.Column="0" 
+                       Content="Grouping" />
+                <ComboBox Grid.Row="1" 
+                          Grid.Column="1"
+                          Margin="10 0"
+                          ItemsSource="{Binding Groupings}"
+                          Text="{Binding SelectedGrouping}"/>
+                <Label Grid.Row="2" 
+                       Grid.Column="0" 
+                       Content="Genre" />
+                <ComboBox Grid.Row="2" 
+                          Grid.Column="1"
+                          Margin="10 0"
+                          ItemsSource="{Binding Genres}"
+                          Text="{Binding SelectedGenre}"/>
+            </Grid>
+        </StackPanel>
+        
         <ListView Grid.Column="0"
-                  Grid.Row="0" Grid.RowSpan="3"
+                  Grid.Row="2" Grid.RowSpan="1"
                   ItemsSource="{Binding Artists}"
                   SelectedItem="{Binding SelectedArtist}"
                   HorizontalAlignment="Stretch"
@@ -71,216 +104,14 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <StackPanel Grid.Column="2"
-                    Grid.Row="0"
-                    DataContext="{Binding SelectedArtist}">
+        <views:LibraryTracksView Grid.Column="2" 
+                                 Grid.Row="0" Grid.RowSpan="3"
+                                 DataContext="{Binding SelectedArtistViewModel}"/>
 
-            <Grid VerticalAlignment="Stretch">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-
-                <StackPanel Grid.Column="0"
-                            Grid.Row="0" Grid.RowSpan="2">
-                    <Label Content="{Binding Name}"
-                           FontWeight="Bold"/>
-                    <Label Content="{Binding Genre}"/>
-                    <Label Content="{Binding City.Description}"/>
-                    <controls:HyperlinkLabel Url="{Binding Website}" 
-                                             Visibility="{Binding Website, Converter={StaticResource StringVisibilityConverter}}"
-                                             Padding="5,5,5,5">
-                        <TextBlock Text="{Binding Website}" 
-                                   TextDecorations="Underline"
-                                   Foreground="Purple" />
-                    </controls:HyperlinkLabel>
-                </StackPanel>
-
-                <WrapPanel Grid.Column="1"
-                           Grid.Row="0">
-                    <controls:HyperlinkLabel Username="{Binding Facebook}" 
-                                                 UrlFormat="{x:Static res:Resources.FacebookUrl}"
-                                                 Visibility="{Binding Facebook, Converter={StaticResource StringVisibilityConverter}}"
-                                                 Padding="0,5,5,5">
-                        <Image Source="/Images/facebook.png"
-                                       Width="32"
-                                       Height="32"
-                                       SnapsToDevicePixels="True"/>
-                    </controls:HyperlinkLabel>
-                    <controls:HyperlinkLabel Username="{Binding Twitter}" 
-                                                     UrlFormat="{x:Static res:Resources.TwitterUrl}"
-                                                     Visibility="{Binding Twitter, Converter={StaticResource StringVisibilityConverter}}"
-                                                     Padding="0,5,5,5">
-                        <Image Source="/Images/twitter.png"
-                                       Width="32"
-                                       Height="32"
-                                       SnapsToDevicePixels="True"/>
-                    </controls:HyperlinkLabel>
-                    <controls:HyperlinkLabel Username="{Binding Name}" 
-                                             UrlFormat="{x:Static res:Resources.LastFmUrl}"
-                                             Padding="0,5,5,5">
-                        <Image Source="/Images/lastfm.ico"
-                                       Width="32"
-                                       Height="32"
-                                       SnapsToDevicePixels="True"/>
-                    </controls:HyperlinkLabel>
-                </WrapPanel>
-
-            </Grid>
-
-        </StackPanel>
-
-        <WrapPanel Grid.Column="4"
-                   Grid.Row="0">
-            <Button Command="{Binding ClearSelectedAlbumCommand}"
-                    Content="Show All Tracks"
-                    Height="25"
-                    Padding="10,2,10,2"
-                    Margin="5"/>
-        </WrapPanel>
-
-        <ListView Grid.Column="2"
-                  Grid.Row="2"
-                  DataContext="{StaticResource AlbumsGrouped}"
-                  ItemsSource="{Binding}"
-                  SelectedItem="{Binding DataContext.SelectedAlbum, ElementName=libraryView}"
-                  BorderThickness="0"
-                  HorizontalContentAlignment="Stretch">
-            <ListView.GroupStyle>
-                <GroupStyle>
-                    <GroupStyle.HeaderTemplate>
-                        <DataTemplate>
-                            <TextBlock FontWeight="Bold" 
-                                       Text="{Binding Name, Converter={StaticResource EnumToStringConverter}}"
-                                       Padding="5"/>
-                        </DataTemplate>
-                    </GroupStyle.HeaderTemplate>
-                </GroupStyle>
-            </ListView.GroupStyle>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="{x:Type ListViewItem}">
-                    <Setter Property="Margin" Value="0" />
-                    <Setter Property="Padding" Value="0,0,0,5" />
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Margin="0">
-                        <StackPanel.InputBindings>
-                            <MouseBinding Gesture="LeftDoubleClick"
-                                          Command="{Binding DataContext.PlayAlbumCommand, ElementName=libraryView}"
-                                          CommandParameter="{Binding}" />
-                        </StackPanel.InputBindings>
-                        
-                        <Border BorderThickness="0,0,0,1"
-                                BorderBrush="Silver"
-                                Margin="0,0,5,5"/>
-
-                        <Grid Margin="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="110" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Image Grid.Column="0"
-                                   Grid.Row="0" Grid.RowSpan="3"
-                                   Source="{Binding Artwork}"
-                                   Margin="0"
-                                   Height="100"
-                                   Width="100"/>
-                            <Label Grid.Column="1"
-                                   Grid.Row="0"
-                                   Content="{Binding Title}" />
-                            <Label Grid.Column="1"
-                                   Grid.Row="1"
-                                   Content="{Binding ReleaseType, Converter={StaticResource EnumToStringConverter}}"
-                                   Visibility="{Binding IsAlbum, Converter={StaticResource NegBoolVisibilityConverter}}"/>
-                            <Label Grid.Column="1"
-                                   Grid.Row="2"
-                                   Content="{Binding Year}" />
-                        </Grid>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-
-        <ListView Grid.Column="4"
-                  Grid.Row="2"
-                  BorderThickness="0"
-                  ItemsSource="{Binding SelectedAlbums}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <Label Content="{Binding Title}"
-                               FontWeight="Bold"/>
-                        <ListView Grid.Column="0"
-                                  ItemsSource="{Binding Discs}"
-                                  BorderThickness="0">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding DiscNo, StringFormat=Disc {0:#}}"
-                                                   Visibility="{Binding Album.MultiDisc, Converter={StaticResource BoolVisibilityConverter}}"/>
-                                        <ListView Grid.Column="0"
-                                                  ItemsSource="{Binding Tracks}"
-                                                  BorderThickness="0">
-                                            <ListView.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Grid>
-                                                        <Grid.InputBindings>
-                                                            <MouseBinding Gesture="LeftDoubleClick"
-                                                                          Command="{Binding DataContext.PlaySelectedAlbumsCommand, ElementName=libraryView}"
-                                                                          CommandParameter="{Binding}" />
-                                                        </Grid.InputBindings>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="30"/>
-                                                            <ColumnDefinition Width="*" />
-                                                            <ColumnDefinition Width="30"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <TextBlock Grid.Column="0"
-                                                                   Text="{Binding TrackNo, StringFormat={}{0:00}}" />
-                                                        <TextBlock Grid.Column="1"
-                                                                   Text="{Binding Title}" />
-                                                        <TextBlock Grid.Column="2"
-                                                                   Text="{Binding Duration, StringFormat=mm\\:ss}" />
-                                                    </Grid>
-                                                </DataTemplate>
-                                            </ListView.ItemTemplate>
-                                            <ListView.ItemContainerStyle>
-                                                <Style TargetType="ListViewItem">
-                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                </Style>
-                                            </ListView.ItemContainerStyle>
-                                        </ListView>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
-                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                </Style>
-                            </ListView.ItemContainerStyle>
-                        </ListView>
-                        <Border BorderThickness="0,0,0,1"
-                                BorderBrush="Silver"
-                                Margin="5,5,5,5"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
+        <views:LibraryArtistView Grid.Column="4"
+                                 Grid.Row="0"
+                                 Grid.RowSpan="3"
+                                 DataContext="{Binding SelectedArtistViewModel}" />
 
     </Grid>
 </UserControl>

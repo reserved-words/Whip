@@ -3,9 +3,9 @@ using GalaSoft.MvvmLight.Messaging;
 using System.Collections.Generic;
 using System.Linq;
 using Whip.Common;
-using Whip.Common.ExtensionMethods;
 using Whip.Common.Model;
 using Whip.Common.Singletons;
+using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
 using Whip.ViewModels.Utilities;
 
@@ -16,27 +16,31 @@ namespace Whip.ViewModels.TabViewModels
         private readonly Library _library;
         private readonly IMessenger _messenger;
 
-        private List<Album> _albums;
+        private bool _artistTypeAlbum;
+        private bool _artistTypeTrack;
         private List<Artist> _artists;
-        private List<Album> _selectedAlbums;
-        private Album _selectedAlbum;
+        private List<string> _genres;
+        private List<string> _groupings;
         private Artist _selectedArtist;
+        private ArtistViewModel _selectedArtistViewModel;
+        private string _selectedGenre;
+        private string _selectedGrouping;
 
-        public LibraryViewModel(Library library, IMessenger messenger)
+        public LibraryViewModel(Library library, IMessenger messenger, ITrackFilterService trackFilterService)
             :base(TabType.Library)
         {
+            Artists = new List<Artist>();
+            SelectedArtistViewModel = new ArtistViewModel(trackFilterService, messenger);
+
             _library = library;
             _messenger = messenger;
 
             _library.Updated += OnLibraryUpdated;
             
-            Artists = new List<Artist>();
-            Albums = new List<Album>();
-
-            ClearSelectedAlbumCommand = new RelayCommand(OnClearSelectedAlbum, CanClearSelectedAlbum);
             PlayAlbumCommand = new RelayCommand<Album>(OnPlayAlbum);
-            PlaySelectedAlbumsCommand = new RelayCommand<Track>(OnPlaySelectedAlbums);
             ShuffleArtistCommand = new RelayCommand<Artist>(OnShuffleArtist);
+
+            ArtistTypeAlbum = true;
         }
 
         public List<Artist> Artists
@@ -45,22 +49,40 @@ namespace Whip.ViewModels.TabViewModels
             private set { Set(ref _artists, value); }
         }
 
-        public List<Album> Albums
+        public bool ArtistTypeAlbum
         {
-            get { return _albums; }
-            private set { Set(ref _albums, value); }
+            get { return _artistTypeAlbum; }
+            set
+            {
+                Set(ref _artistTypeAlbum, value);
+                FilterGroupings();
+            }
         }
 
-        public RelayCommand ClearSelectedAlbumCommand { get; private set; }
-        public RelayCommand<Album> PlayAlbumCommand { get; private set; }
-        public RelayCommand<Track> PlaySelectedAlbumsCommand { get; private set; }
-        public RelayCommand<Artist> ShuffleArtistCommand { get; private set; }
-        
-        public List<Album> SelectedAlbums
+        public bool ArtistTypeTrack
         {
-            get { return _selectedAlbums; }
-            private set { Set(ref _selectedAlbums, value); }
+            get { return _artistTypeTrack; }
+            set
+            {
+                Set(ref _artistTypeTrack, value);
+                FilterGroupings();
+            }
         }
+
+        public List<string> Genres
+        {
+            get { return _genres; }
+            set { Set(ref _genres, value); }
+        }
+
+        public List<string> Groupings
+        {
+            get { return _groupings; }
+            set { Set(ref _groupings, value); }
+        }
+
+        public RelayCommand<Album> PlayAlbumCommand { get; private set; }
+        public RelayCommand<Artist> ShuffleArtistCommand { get; private set; }
 
         public Artist SelectedArtist
         {
@@ -68,39 +90,104 @@ namespace Whip.ViewModels.TabViewModels
             set
             {
                 Set(ref _selectedArtist, value);
-                Albums = _selectedArtist?.GetAlbumsInOrder();
-                SelectedAlbum = null;
+                SelectedArtistViewModel.Artist = _selectedArtist;
             }
         }
 
-        public Album SelectedAlbum
+        public ArtistViewModel SelectedArtistViewModel
         {
-            get { return _selectedAlbum; }
+            get { return _selectedArtistViewModel; }
+            set { Set(ref _selectedArtistViewModel, value); }
+        }
+
+        public string SelectedGrouping
+        {
+            get { return _selectedGrouping; }
             set
             {
-                Set(ref _selectedAlbum, value);
-                SelectedAlbums = _selectedAlbum == null
-                    ? Albums
-                    : new List<Album> { _selectedAlbum };
-                ClearSelectedAlbumCommand.RaiseCanExecuteChanged();
+                Set(ref _selectedGrouping, value);
+                FilterGenres();
             }
         }
 
-        private bool CanClearSelectedAlbum()
+        public string SelectedGenre
         {
-            return SelectedAlbum != null && Albums.Count > 1;
-        }
-
-        private void OnClearSelectedAlbum()
-        {
-            SelectedAlbum = null;
+            get { return _selectedGenre; }
+            set
+            {
+                Set(ref _selectedGenre, value);
+                FilterArtists();
+            }
         }
 
         private void OnLibraryUpdated()
         {
-            Artists = _library.Artists;
+            SelectedGrouping = string.Empty;
+            SelectedGenre = string.Empty;
+            SelectedArtist = null;
 
-            SelectedArtist = Artists.FirstOrDefault();
+            FilterGroupings();
+        }
+
+        private void FilterGroupings()
+        {
+            var groupings = GetTrackOrAlbumArtists(false, false)
+                .Select(a => a.Grouping)
+                .Distinct()
+                .Where(g => !string.IsNullOrEmpty(g))
+                .OrderBy(g => g)
+                .ToList();
+
+            groupings.Insert(0, string.Empty);
+
+            Groupings = groupings;
+
+            if (SelectedGrouping == null)
+            {
+                SelectedGrouping = string.Empty;
+            }
+
+            FilterGenres();
+        }
+
+        private void FilterGenres()
+        {
+            var genres = GetTrackOrAlbumArtists(true, false)
+                .Select(a => a.Genre)
+                .Distinct()
+                .Where(g => !string.IsNullOrEmpty(g))
+                .OrderBy(g => g)
+                .ToList();
+
+            genres.Insert(0, string.Empty);
+
+            Genres = genres;
+
+            if (SelectedGenre == null)
+            {
+                SelectedGenre = string.Empty;
+            }
+
+            FilterArtists();
+        }
+
+        private void FilterArtists()
+        {
+            Artists = GetTrackOrAlbumArtists(true, true).ToList();
+
+            if (SelectedArtist == null)
+            {
+                SelectedArtist = Artists.FirstOrDefault();
+            }
+        }
+
+        private IEnumerable<Artist> GetTrackOrAlbumArtists(bool filterByGrouping, bool filterByGenre)
+        {
+            return _library.Artists
+                .Where(a => 
+                    ((ArtistTypeTrack && a.Tracks.Any()) || (ArtistTypeAlbum && a.Albums.Any()))
+                    && (!filterByGrouping || string.IsNullOrEmpty(SelectedGrouping) || a.Grouping == SelectedGrouping)
+                    && (!filterByGenre || string.IsNullOrEmpty(SelectedGenre) || a.Genre == SelectedGenre));
         }
 
         private void OnPlayAlbum(Album album)
@@ -111,11 +198,6 @@ namespace Whip.ViewModels.TabViewModels
         private void OnShuffleArtist(Artist artist)
         {
             _messenger.Send(new PlayArtistsMessage(artist, SortType.Random));
-        }
-
-        private void OnPlaySelectedAlbums(Track startAtTrack)
-        {
-            _messenger.Send(new PlayAlbumsMessage(SelectedAlbums, SortType.Ordered, startAtTrack));
         }
     }
 }

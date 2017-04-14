@@ -42,10 +42,16 @@ namespace Whip.Services
                 .ToList();
         }
 
+        public List<Track> GetTracksByArtist(Artist artist, SortType sortType)
+        {
+            return GetTracksByArtists(new List<Artist> { artist }, sortType);
+        }
+
         public List<Track> GetTracksByArtists(List<Artist> artists, SortType sortType)
         {
             return artists
                 .SelectMany(a => a.Tracks)
+                .Union(artists.SelectMany(a => a.Albums.SelectMany(al => al.Discs).SelectMany(d => d.Tracks)))
                 .SortUsing(_sorters[sortType])
                 .ToList();
         }

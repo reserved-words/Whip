@@ -91,6 +91,7 @@
     <Compile Include="Controls\ReportingTabControl.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\EnumToStringConverter.cs" />
+    <Compile Include="Converters\EqualityConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Ioc\IocConfiguration.cs" />
     <Compile Include="Ioc\IocKernel.cs" />
@@ -109,6 +110,9 @@
     <Compile Include="SidebarViews\SidebarView.xaml.cs">
       <DependentUpon>SidebarView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TabControls\TabCurrentArtist.xaml.cs">
+      <DependentUpon>TabCurrentArtist.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TabControls\TabGenericTemp.xaml.cs">
       <DependentUpon>TabGenericTemp.xaml</DependentUpon>
     </Compile>
@@ -117,6 +121,12 @@
     </Compile>
     <Compile Include="TabControls\TabSettings.xaml.cs">
       <DependentUpon>TabSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LibraryArtistView.xaml.cs">
+      <DependentUpon>LibraryArtistView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LibraryTracksView.xaml.cs">
+      <DependentUpon>LibraryTracksView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\ApplicationSettingsView.xaml.cs">
       <DependentUpon>ApplicationSettingsView.xaml</DependentUpon>
@@ -165,6 +175,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="TabControls\TabCurrentArtist.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TabControls\TabGenericTemp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -174,6 +188,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TabControls\TabSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LibraryArtistView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LibraryTracksView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
