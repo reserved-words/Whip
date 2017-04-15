@@ -4,7 +4,6 @@
                     xmlns:properties="clr-namespace:Whip.Properties"
                     xmlns:conv="clr-namespace:Whip.Converters"
                     xmlns:ioc="clr-namespace:Whip.Ioc"
-                    xmlns:tabs="clr-namespace:Whip.TabControls"
                     xmlns:controls="clr-namespace:Whip.Controls"
                     xmlns:tabsvm="clr-namespace:Whip.ViewModels.TabViewModels;assembly=Whip.ViewModels"
                     xmlns:viewModel="clr-namespace:Whip.ViewModels;assembly=Whip.ViewModels">
@@ -30,7 +29,7 @@
         <local:TabGenericTemp />
     </DataTemplate>
     <DataTemplate DataType="{x:Type tabsvm:CurrentTrackViewModel}">
-        <local:TabGenericTemp />
+        <local:TabCurrentTrack />
     </DataTemplate>
     <DataTemplate DataType="{x:Type tabsvm:CurrentArtistViewModel}">
         <local:TabGenericTemp />
@@ -66,6 +65,14 @@
     <Style TargetType="{x:Type controls:HyperlinkLabel}">
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="0" />
+    </Style>
+
+    <Style TargetType="{x:Type TextBlock}">
+        <Setter Property="TextWrapping" Value="WrapWithOverflow" />
+    </Style>
+
+    <Style TargetType="{x:Type Label}" x:Key="TitleLabel">
+        <Setter Property="FontWeight" Value="Bold" />
     </Style>
 
     <Style TargetType="{x:Type TextBlock}" x:Key="HyperlinkText">
@@ -208,10 +215,12 @@
     <Style x:Key="VerticalLine" TargetType="Border">
         <Setter Property="BorderBrush" Value="Silver" />
         <Setter Property="BorderThickness" Value="0 0 1 0" />
+        <Setter Property="Margin" Value="10 0" />
     </Style>
     <Style x:Key="HoriztonalLine" TargetType="Border">
         <Setter Property="BorderBrush" Value="Silver" />
         <Setter Property="BorderThickness" Value="0 0 0 1" />
+        <Setter Property="Margin" Value="0 10" />
     </Style>
 
     <Style TargetType="{x:Type ListViewItem}">

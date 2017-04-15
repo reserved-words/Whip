@@ -40,7 +40,7 @@ namespace Whip.Controls
 
         public static readonly DependencyProperty UsernameProperty =
             DependencyProperty.Register("Username", typeof(string), typeof(HyperlinkLabel), new PropertyMetadata(new PropertyChangedCallback(OnUsernameChanged)));
-
+        
         public string UrlFormat
         {
             get { return (string)GetValue(UrlFormatProperty); }
@@ -66,7 +66,10 @@ namespace Whip.Controls
         {
             _url = string.IsNullOrEmpty(Username) ? Url : string.Format(UrlFormat, Username);
 
-            ToolTip = _url;
+            ToolTip = new ToolTip
+            {
+                Content = _url
+            };
         }
     }
 }

@@ -113,5 +113,14 @@ namespace Whip.Resources {
                 return ResourceManager.GetString("TwitterUrl", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://en.wikipedia.org/wiki/{0}.
+        /// </summary>
+        public static string WikipediaUrl {
+            get {
+                return ResourceManager.GetString("WikipediaUrl", resourceCulture);
+            }
+        }
     }
 }

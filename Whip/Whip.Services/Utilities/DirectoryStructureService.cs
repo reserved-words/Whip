@@ -11,7 +11,7 @@ namespace Whip.Services
         {
             var trackPath = album.Discs.FirstOrDefault()?
                 .Tracks.FirstOrDefault()?
-                .FullFilepath;
+                .File.FullPath;
 
             var directory = Path.GetDirectoryName(trackPath);
 

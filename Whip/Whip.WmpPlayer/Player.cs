@@ -28,7 +28,7 @@ namespace Whip.WmpPlayer
                 return;
             }
 
-            _player.URL = track.FullFilepath;
+            _player.URL = track.File.FullPath;
             _player.controls.currentPosition = 0;
             _player.controls.play();
         }

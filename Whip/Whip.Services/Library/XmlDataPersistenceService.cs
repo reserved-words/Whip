@@ -155,6 +155,8 @@ namespace Whip.Services
                 Website = xml.GetAttribute(XmlPropertyNames.Website),
                 Twitter = xml.GetAttribute(XmlPropertyNames.Twitter),
                 Facebook = xml.GetAttribute(XmlPropertyNames.Facebook),
+                LastFm = xml.GetAttribute(XmlPropertyNames.LastFm),
+                Wikipedia = xml.GetAttribute(XmlPropertyNames.Wikipedia),
                 City = new City(xml.GetAttribute(XmlPropertyNames.City), xml.GetAttribute(XmlPropertyNames.State), xml.GetAttribute(XmlPropertyNames.Country))
             };
         }
@@ -188,8 +190,12 @@ namespace Whip.Services
                 Disc = disc,
                 Artist = artist,
                 Title = xml.GetAttribute(XmlPropertyNames.Title),
-                RelativeFilepath = xml.GetAttribute(XmlPropertyNames.RelativeFilepath),
-                FullFilepath = xml.GetAttribute(XmlPropertyNames.FullFilepath),
+                File = new Common.Model.File(
+                    xml.GetAttribute(XmlPropertyNames.FullFilepath),
+                    xml.GetAttribute(XmlPropertyNames.RelativeFilepath),
+                    xml.GetDateTimeAttribute(XmlPropertyNames.DateCreated),
+                    xml.GetDateTimeAttribute(XmlPropertyNames.DateModified)
+                ),
                 TrackNo = xml.GetIntAttribute(XmlPropertyNames.TrackNo),
                 Duration = TimeSpan.ParseExact(xml.GetAttribute(XmlPropertyNames.Duration), StandardTimeSpanFormat, CultureInfo.InvariantCulture),
                 Tags = xml.GetAttribute(XmlPropertyNames.Tags).Split(TagsDelimiter).ToList(),
@@ -208,6 +214,8 @@ namespace Whip.Services
             xml.AddAttribute(XmlPropertyNames.Website, artist.Website);
             xml.AddAttribute(XmlPropertyNames.Twitter, artist.Twitter);
             xml.AddAttribute(XmlPropertyNames.Facebook, artist.Facebook);
+            xml.AddAttribute(XmlPropertyNames.LastFm, artist.LastFm);
+            xml.AddAttribute(XmlPropertyNames.Wikipedia, artist.Wikipedia);
             xml.AddAttribute(XmlPropertyNames.City, artist.City.Name);
             xml.AddAttribute(XmlPropertyNames.State, artist.City.State);
             xml.AddAttribute(XmlPropertyNames.Country, artist.City.Country);
@@ -241,8 +249,10 @@ namespace Whip.Services
         {
             var xml = new XElement(XmlPropertyNames.Track);
 
-            xml.AddAttribute(XmlPropertyNames.RelativeFilepath, track.RelativeFilepath);
-            xml.AddAttribute(XmlPropertyNames.FullFilepath, track.FullFilepath);
+            xml.AddAttribute(XmlPropertyNames.RelativeFilepath, track.File.RelativePath);
+            xml.AddAttribute(XmlPropertyNames.FullFilepath, track.File.FullPath);
+            xml.AddAttribute(XmlPropertyNames.DateCreated, track.File.DateCreated.ToString(StandardDateFormat));
+            xml.AddAttribute(XmlPropertyNames.DateModified, track.File.DateModified.ToString(StandardDateFormat));
             xml.AddAttribute(XmlPropertyNames.Title, track.Title);
             xml.AddAttribute(XmlPropertyNames.TrackNo, track.TrackNo);
             xml.AddAttribute(XmlPropertyNames.Duration, track.Duration.ToString(StandardTimeSpanFormat));

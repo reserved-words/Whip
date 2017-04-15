@@ -24,8 +24,7 @@ namespace Whip.Services
 
             var track = new Track
             {
-                FullFilepath = file.FullPath,
-                RelativeFilepath = file.RelativePath,
+                File = file,
                 Title = id3TrackData.Title,
                 TrackNo = id3TrackData.TrackNo,
                 Duration = id3TrackData.Duration,
@@ -110,13 +109,13 @@ namespace Whip.Services
 
                         foreach (var track in disc.Tracks)
                         {
-                            if (!filepathsToKeep.Contains(track.RelativeFilepath))
+                            if (!filepathsToKeep.Contains(track.File.RelativePath))
                             {
                                 tracksToRemove.Add(track);
                             }
                             else
                             {
-                                filepathsToKeep.Remove(track.RelativeFilepath);
+                                filepathsToKeep.Remove(track.File.RelativePath);
                             }
                         }
 

@@ -33,6 +33,20 @@ namespace Whip.Common.ExtensionMethods
             return result;
         }
 
+        public static DateTime GetDateTimeAttribute(this XElement xml, string key)
+        {
+            var attr = xml.Attribute(key);
+
+            if (attr == null)
+                return DateTime.MinValue;
+
+            DateTime result;
+            if (!DateTime.TryParse(attr.Value, out result))
+                return DateTime.MinValue;
+
+            return result;
+        }
+
         public static void AddAttribute(this XElement xml, string key, string value)
         {
             xml.Add(new XAttribute(key, value ?? string.Empty));

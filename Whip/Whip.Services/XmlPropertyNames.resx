@@ -216,4 +216,16 @@
   <data name="ReleaseType" xml:space="preserve">
     <value>release_type</value>
   </data>
+  <data name="DateCreated" xml:space="preserve">
+    <value>date_created</value>
+  </data>
+  <data name="DateModified" xml:space="preserve">
+    <value>date_modified</value>
+  </data>
+  <data name="LastFm" xml:space="preserve">
+    <value>last_fm</value>
+  </data>
+  <data name="Wikipedia" xml:space="preserve">
+    <value>wikipedia</value>
+  </data>
 </root>

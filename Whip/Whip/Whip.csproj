@@ -110,6 +110,9 @@
     <Compile Include="SidebarViews\SidebarView.xaml.cs">
       <DependentUpon>SidebarView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TabControls\TabCurrentTrack.xaml.cs">
+      <DependentUpon>TabCurrentTrack.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TabControls\TabGenericTemp.xaml.cs">
       <DependentUpon>TabGenericTemp.xaml</DependentUpon>
     </Compile>
@@ -118,6 +121,9 @@
     </Compile>
     <Compile Include="TabControls\TabSettings.xaml.cs">
       <DependentUpon>TabSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ArtistLinksView.xaml.cs">
+      <DependentUpon>ArtistLinksView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LibraryArtistView.xaml.cs">
       <DependentUpon>LibraryArtistView.xaml</DependentUpon>
@@ -169,6 +175,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="TabControls\TabCurrentTrack.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TabControls\TabGenericTemp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -178,6 +188,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TabControls\TabSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ArtistLinksView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -277,10 +291,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\facebook.png" />
+    <Resource Include="Images\facebook.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\twitter.png" />
+    <Resource Include="Images\twitter.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\web.png">
@@ -288,10 +306,14 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\lastfm.ico" />
+    <Resource Include="Images\lastfm.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Templates\" />
+    <Resource Include="Images\wikipedia.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

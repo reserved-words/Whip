@@ -6,6 +6,7 @@
              xmlns:conv="clr-namespace:Whip.Converters"
              xmlns:res="clr-namespace:Whip.Resources;assembly=Whip.Resources"
              xmlns:controls="clr-namespace:Whip.Controls"
+             xmlns:local="clr-namespace:Whip"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel Margin="10">
@@ -20,32 +21,8 @@
             <TextBlock Text="{Binding Genre}"
                        Visibility="{Binding Genre, Converter={StaticResource StringVisibilityConverter}}"/>
             
-            <controls:HyperlinkLabel Url="{Binding Website}" 
-                                     Visibility="{Binding Website, Converter={StaticResource StringVisibilityConverter}}"
-                                     Padding="0,5">
-                <TextBlock Text="{Binding Website}" 
-                           Style="{StaticResource HyperlinkText}" />
-            </controls:HyperlinkLabel>
-            
-            <WrapPanel Margin="0,10">
-                <controls:HyperlinkLabel Username="{Binding Facebook}" 
-                                         UrlFormat="{x:Static res:Resources.FacebookUrl}"
-                                         Visibility="{Binding Facebook, Converter={StaticResource StringVisibilityConverter}}">
-                    <Image Source="/Images/facebook.png"
-                           Style="{StaticResource Icon32}"/>
-                </controls:HyperlinkLabel>
-                <controls:HyperlinkLabel Username="{Binding Twitter}" 
-                                         UrlFormat="{x:Static res:Resources.TwitterUrl}"
-                                         Visibility="{Binding Twitter, Converter={StaticResource StringVisibilityConverter}}">
-                    <Image Source="/Images/twitter.png"
-                           Style="{StaticResource Icon32}"/>
-                </controls:HyperlinkLabel>
-                <controls:HyperlinkLabel Username="{Binding Name}" 
-                                         UrlFormat="{x:Static res:Resources.LastFmUrl}">
-                    <Image Source="/Images/lastfm.ico"
-                           Style="{StaticResource Icon32}"/>
-                </controls:HyperlinkLabel>
-            </WrapPanel>
+            <local:ArtistLinksTemplate Margin="0,10"
+                                       DataContext="{Binding}" />
         </StackPanel>
         
         <Border Style="{StaticResource HoriztonalLine}" />

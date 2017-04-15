@@ -124,6 +124,24 @@ namespace Whip.Services {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to date_created.
+        /// </summary>
+        internal static string DateCreated {
+            get {
+                return ResourceManager.GetString("DateCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to date_modified.
+        /// </summary>
+        internal static string DateModified {
+            get {
+                return ResourceManager.GetString("DateModified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to disc.
         /// </summary>
         internal static string Disc {
@@ -201,6 +219,15 @@ namespace Whip.Services {
         internal static string Grouping {
             get {
                 return ResourceManager.GetString("Grouping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to last_fm.
+        /// </summary>
+        internal static string LastFm {
+            get {
+                return ResourceManager.GetString("LastFm", resourceCulture);
             }
         }
         
@@ -345,6 +372,15 @@ namespace Whip.Services {
         internal static string Website {
             get {
                 return ResourceManager.GetString("Website", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to wikipedia.
+        /// </summary>
+        internal static string Wikipedia {
+            get {
+                return ResourceManager.GetString("Wikipedia", resourceCulture);
             }
         }
         

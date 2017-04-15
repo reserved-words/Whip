@@ -13,8 +13,7 @@ namespace Whip.Common.Model
             Tags = new List<string>();
         }
 
-        public string FullFilepath { get; set; }
-        public string RelativeFilepath { get; set; }
+        public File File { get; set; }
         public string Title { get; set; }
         public int TrackNo { get; set; }
         public TimeSpan Duration { get; set; }
@@ -24,5 +23,9 @@ namespace Whip.Common.Model
 
         public Artist Artist { get; set; }
         public Disc Disc { get; set; }
+
+        public string TagsDescription => Tags.Any() ? string.Join(", ", Tags) : "-";
+        public string TrackNoDescription => string.Format("{0} of {1}", TrackNo, Disc.TrackCount);
+        public string DiscNoDescription => string.Format("{0} of {1}", Disc.DiscNo, Disc.Album.DiscCount);
     }
 }
