@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Whip.Windows
+namespace Whip.Templates
 {
     /// <summary>
-    /// Interaction logic for MessageView.xaml
+    /// Interaction logic for ButtonControlTemplate.xaml
     /// </summary>
-    public partial class MessageView : UserControl
+    public partial class ButtonControlTemplate : UserControl
     {
-        public MessageView()
+        public ButtonControlTemplate()
         {
             InitializeComponent();
         }

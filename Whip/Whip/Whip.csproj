@@ -110,9 +110,6 @@
     <Compile Include="SidebarViews\SidebarView.xaml.cs">
       <DependentUpon>SidebarView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TabControls\TabCurrentArtist.xaml.cs">
-      <DependentUpon>TabCurrentArtist.xaml</DependentUpon>
-    </Compile>
     <Compile Include="TabControls\TabGenericTemp.xaml.cs">
       <DependentUpon>TabGenericTemp.xaml</DependentUpon>
     </Compile>
@@ -128,19 +125,16 @@
     <Compile Include="Views\LibraryTracksView.xaml.cs">
       <DependentUpon>LibraryTracksView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\ApplicationSettingsView.xaml.cs">
-      <DependentUpon>ApplicationSettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\ConfirmationView.xaml.cs">
+    <Compile Include="Dialogs\ConfirmationView.xaml.cs">
       <DependentUpon>ConfirmationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Dialog.xaml.cs">
+    <Compile Include="Dialogs\Dialog.xaml.cs">
       <DependentUpon>Dialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\MessageView.xaml.cs">
+    <Compile Include="Dialogs\MessageView.xaml.cs">
       <DependentUpon>MessageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\ProgressBarView.xaml.cs">
+    <Compile Include="Dialogs\ProgressBarView.xaml.cs">
       <DependentUpon>ProgressBarView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainView.xaml">
@@ -175,10 +169,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TabControls\TabCurrentArtist.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="TabControls\TabGenericTemp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -199,23 +189,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\ApplicationSettingsView.xaml">
+    <Page Include="Dialogs\ConfirmationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\ConfirmationView.xaml">
+    <Page Include="Dialogs\Dialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\Dialog.xaml">
+    <Page Include="Dialogs\MessageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\MessageView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\ProgressBarView.xaml">
+    <Page Include="Dialogs\ProgressBarView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -304,7 +290,9 @@
   <ItemGroup>
     <Resource Include="Images\lastfm.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Templates\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

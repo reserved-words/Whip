@@ -8,9 +8,8 @@
              mc:Ignorable="d" 
              x:Name="playerControlsView"
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel>
-        <Grid Margin="5"
-              Height="25"
+    <StackPanel Margin="5">
+        <Grid Height="25"
               VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -20,21 +19,25 @@
 
             <controls:PlayerControlButton Grid.Column="0"
                                           Type="Previous"
-                                          Command="{Binding MovePreviousCommand}"/>
+                                          Command="{Binding MovePreviousCommand}"
+                                          Margin="0,0,5,0"/>
             <controls:PlayerControlButton Grid.Column="1"
                                           Type="Pause"
                                           Command="{Binding PauseCommand}"
-                                          Visibility="{Binding Playing, Converter={StaticResource BoolVisibilityConverter}}"/>
+                                          Visibility="{Binding Playing, Converter={StaticResource BoolVisibilityConverter}}"
+                                          Margin="0"/>
             <controls:PlayerControlButton Grid.Column="1"
                                           Type="Play"
                                           Command="{Binding ResumeCommand}"
-                                          Visibility="{Binding Playing, Converter={StaticResource NegBoolVisibilityConverter}}"/>
+                                          Visibility="{Binding Playing, Converter={StaticResource NegBoolVisibilityConverter}}"
+                                          Margin="0"/>
             <controls:PlayerControlButton Grid.Column="2"
                                           Type="Next"
-                                          Command="{Binding MoveNextCommand}" />
+                                          Command="{Binding MoveNextCommand}"
+                                          Margin="5,0,0,0"/>
         </Grid>
 
-        <Grid Margin="5">
+        <Grid Margin="0,5,0,5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -44,30 +47,29 @@
             <TextBlock Grid.Column="0"
                        Text="{Binding TrackTimer.TimePlayed, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                        Margin="0,0,5,0" />
+            
             <controls:ClickableProgressBar Grid.Column="1"
                                            Value="{Binding TrackTimer.PercentagePlayed, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                           Command="{Binding SkipToPercentageCommand}"
-                                           Height="15"
-                                           Maximum="100"/>
+                                           Command="{Binding SkipToPercentageCommand}"/>
             <TextBlock Grid.Column="2"
                        Text="{Binding TrackTimer.TimeToPlay, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                        Margin="5,0,0,0" />
 
         </Grid>
 
-        <Button Margin="5"
-                Height="25"
+        <Button Margin="0,5,0,5"
                 Content="Shuffle Library"
                 Command="{Binding ShuffleLibraryCommand}" />
 
         <ListView ItemsSource="{Binding Groupings}"
                   BorderThickness="0"
-                  HorizontalContentAlignment="Stretch">
+                  Margin="0"
+                  ItemContainerStyle="{StaticResource ListViewItemNoHighlight}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Button Command="{Binding DataContext.PlayGroupingCommand, ElementName=playerControlsView}"
-                            CommandParameter="{Binding}"
-                            Height="25">
+                    <Button Margin="0,5,0,0"
+                            Command="{Binding DataContext.PlayGroupingCommand, ElementName=playerControlsView}"
+                            CommandParameter="{Binding}">
                         <TextBlock Text="{Binding StringFormat=Shuffle {0}}" />
                     </Button>
                 </DataTemplate>

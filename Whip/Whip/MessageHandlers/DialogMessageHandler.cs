@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using Whip.Common.Interfaces;
 using Whip.ViewModels.Messages;
-using Whip.ViewModels.Windows;
-using Whip.Windows;
 
 namespace Whip.MessageHandlers
 {

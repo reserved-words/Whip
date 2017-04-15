@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Whip.Windows
+namespace Whip
 {
     /// <summary>
-    /// Interaction logic for ConfirmationView.xaml
+    /// Interaction logic for MessageView.xaml
     /// </summary>
-    public partial class ConfirmationView : UserControl
+    public partial class MessageView : UserControl
     {
-        public ConfirmationView()
+        public MessageView()
         {
             InitializeComponent();
         }

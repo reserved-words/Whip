@@ -1,13 +1,9 @@
-﻿<UserControl x:Class="Whip.TabControls.TabLibrary"
+﻿<UserControl x:Class="Whip.TabLibrary"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Whip.TabControls"
-             xmlns:conv="clr-namespace:Whip.Converters"
-             xmlns:res="clr-namespace:Whip.Resources;assembly=Whip.Resources"
-             xmlns:controls="clr-namespace:Whip.Controls"
-             xmlns:views="clr-namespace:Whip.Views"
+             xmlns:local="clr-namespace:Whip"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1200"
              x:Name="libraryView">
@@ -27,18 +23,15 @@
 
         <Border Grid.Column="1"
                 Grid.Row="0" Grid.RowSpan="3"
-                BorderBrush="Silver"
-                BorderThickness="0,0,1,0" />
+                Style="{StaticResource VerticalLine}" />
 
         <Border Grid.Column="3"
                 Grid.Row="0" Grid.RowSpan="3"
-                BorderBrush="Silver"
-                BorderThickness="0,0,1,0" />
+                Style="{StaticResource VerticalLine}" />
 
         <Border Grid.Row="1"
                 Grid.Column="0" Grid.ColumnSpan="1"
-                BorderBrush="Silver"
-                BorderThickness="0,0,0,1"/>
+                Style="{StaticResource HoriztonalLine}"/>
 
         <StackPanel Grid.Row="0"
                     Grid.Column="0"
@@ -87,9 +80,6 @@
                   Grid.Row="2" Grid.RowSpan="1"
                   ItemsSource="{Binding Artists}"
                   SelectedItem="{Binding SelectedArtist}"
-                  HorizontalAlignment="Stretch"
-                  HorizontalContentAlignment="Stretch"
-                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                   BorderThickness="0">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -104,11 +94,11 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <views:LibraryTracksView Grid.Column="2" 
+        <local:LibraryTracksView Grid.Column="2" 
                                  Grid.Row="0" Grid.RowSpan="3"
                                  DataContext="{Binding SelectedArtistViewModel}"/>
 
-        <views:LibraryArtistView Grid.Column="4"
+        <local:LibraryArtistView Grid.Column="4"
                                  Grid.Row="0"
                                  Grid.RowSpan="3"
                                  DataContext="{Binding SelectedArtistViewModel}" />

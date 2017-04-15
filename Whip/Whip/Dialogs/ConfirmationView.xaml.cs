@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Whip.TabControls
+namespace Whip
 {
     /// <summary>
-    /// Interaction logic for TabCurrentArtist.xaml
+    /// Interaction logic for ConfirmationView.xaml
     /// </summary>
-    public partial class TabCurrentArtist : UserControl
+    public partial class ConfirmationView : UserControl
     {
-        public TabCurrentArtist()
+        public ConfirmationView()
         {
             InitializeComponent();
         }

@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Whip.Windows
+namespace Whip
 {
     /// <summary>
-    /// Interaction logic for ApplicationSettingsView.xaml
+    /// Interaction logic for ProgressBarView.xaml
     /// </summary>
-    public partial class ApplicationSettingsView : UserControl
+    public partial class ProgressBarView : UserControl
     {
-        public ApplicationSettingsView()
+        public ProgressBarView()
         {
             InitializeComponent();
         }

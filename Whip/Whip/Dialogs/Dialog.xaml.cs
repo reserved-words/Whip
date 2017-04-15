@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Whip.Windows
+namespace Whip
 {
     /// <summary>
     /// Interaction logic for Dialog.xaml

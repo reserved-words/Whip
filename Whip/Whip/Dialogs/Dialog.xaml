@@ -1,11 +1,10 @@
-﻿<Window x:Class="Whip.Windows.Dialog"
+﻿<Window x:Class="Whip.Dialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Whip.Windows"
+        xmlns:local="clr-namespace:Whip"
         xmlns:viewModels="clr-namespace:Whip.ViewModels.Windows;assembly=Whip.ViewModels"
-        xmlns:windows="clr-namespace:Whip.Windows"
         mc:Ignorable="d"
         Title="{Binding Title}" 
         ResizeMode="NoResize"
@@ -16,16 +15,13 @@
         Width="300">
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModels:ProgressBarViewModel}">
-            <windows:ProgressBarView />
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:ApplicationSettingsViewModel}">
-            <windows:ApplicationSettingsView />
+            <local:ProgressBarView />
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModels:ConfirmationViewModel}">
-            <windows:ConfirmationView />
+            <local:ConfirmationView />
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModels:MessageViewModel}">
-            <windows:MessageView />
+            <local:MessageView />
         </DataTemplate>
     </Window.Resources>
     <Grid>

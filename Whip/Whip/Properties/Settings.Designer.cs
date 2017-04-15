@@ -82,5 +82,17 @@ namespace Whip.Properties {
                 this["LastFmUsername"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#4D64A3")]
+        public string MainColourRgb {
+            get {
+                return ((string)(this["MainColourRgb"]));
+            }
+            set {
+                this["MainColourRgb"] = value;
+            }
+        }
     }
 }

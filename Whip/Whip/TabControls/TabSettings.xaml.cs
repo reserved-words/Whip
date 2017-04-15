@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Whip.TabControls
+namespace Whip
 {
     /// <summary>
     /// Interaction logic for TabSettings.xaml
