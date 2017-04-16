@@ -61,11 +61,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MessageHandlers\EditTrackRequestHandler.cs" />
+    <Compile Include="MessageHandlers\ShowTabRequestHandler.cs" />
     <Compile Include="MessageHandlers\LibraryHandler.cs" />
     <Compile Include="MessageHandlers\PlayerCoordinator.cs" />
     <Compile Include="MessageHandlers\PlayRequestHandler.cs" />
     <Compile Include="MessageHandlers\TrackChangeCoordinator.cs" />
+    <Compile Include="Messages\EditSettingsMessage.cs" />
     <Compile Include="Messages\EditTrackMessage.cs" />
     <Compile Include="Messages\LibraryUpdateRequest.cs" />
     <Compile Include="Messages\PausePlayerMessage.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Messages\ResumePlayerMessage.cs" />
     <Compile Include="Messages\SkipPlayerMessage.cs" />
     <Compile Include="SidebarViewModels\CurrentTrackMiniViewModel.cs" />
+    <Compile Include="SidebarViewModels\SettingsIconsViewModel.cs" />
     <Compile Include="SidebarViewModels\SidebarViewModel.cs" />
     <Compile Include="TabViewModels\CurrentPlaylistViewModel.cs" />
     <Compile Include="TabViewModels\CurrentTrackViewModel.cs" />
@@ -94,6 +96,7 @@
     <Compile Include="TabViewModels\DashboardViewModel.cs" />
     <Compile Include="TabViewModels\SettingsViewModel.cs" />
     <Compile Include="TabViewModels\BaseClasses\TabViewModelBase.cs" />
+    <Compile Include="Utilities\IconCommand.cs" />
     <Compile Include="Utilities\TabType.cs" />
     <Compile Include="Utilities\TrackTimer.cs" />
     <Compile Include="Messages\ShowDialogMessage.cs" />

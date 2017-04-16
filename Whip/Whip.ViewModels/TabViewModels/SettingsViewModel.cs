@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
+﻿using GalaSoft.MvvmLight.Messaging;
 using Whip.Common;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
@@ -19,7 +18,7 @@ namespace Whip.ViewModels.TabViewModels
         private string _mainColourRgb;
         
         public SettingsViewModel(IUserSettingsService userSettingsService, IMessenger messenger)
-            :base(TabType.Settings, IconType.Cog, "Settings") 
+            :base(TabType.Settings, IconType.Cog, "Settings", false) 
         {
             _userSettingsService = userSettingsService;
             _messenger = messenger;
@@ -28,6 +27,7 @@ namespace Whip.ViewModels.TabViewModels
             LastFmApiKey = _userSettingsService.LastFmApiKey;
             LastFmApiSecret = _userSettingsService.LastFmApiSecret;
             LastFmUsername = _userSettingsService.LastFmUsername;
+            MainColourRgb = _userSettingsService.MainColourRgb;
 
             Modified = false;
         }

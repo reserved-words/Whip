@@ -80,7 +80,7 @@ namespace Whip.ViewModels
         private bool CanResume() => CurrentStatus == PlayerStatus.Paused;
 
         private bool CanSkip(double newPercentage) => CurrentStatus != PlayerStatus.Stopped;
-
+        
         private void OnLibraryUpdated()
         {
             Groupings = _library.GetGroupings().Where(g => !string.IsNullOrEmpty(g)).ToList();

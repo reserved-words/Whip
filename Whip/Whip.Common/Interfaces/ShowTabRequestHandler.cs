@@ -7,8 +7,9 @@ using Whip.Common.Model;
 
 namespace Whip.Common.Interfaces
 {
-    public interface IEditTrackRequester
+    public interface IShowTabRequestHandler
     {
-        event Action<Track> RequestAccepted;
+        event Action<Track> ShowEditTrackTab;
+        event Action ShowSettingsTab;
     }
 }

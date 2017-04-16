@@ -16,7 +16,7 @@ namespace Whip.ViewModels.TabViewModels
             SaveCommand = new RelayCommand(OnSaveAndFinish);
         }
 
-        public event Action FinishedEditing;
+        public event Action<EditableTabViewModelBase> FinishedEditing;
 
         public RelayCommand CancelCommand { get; private set; }
         public RelayCommand SaveCommand { get; private set; }
@@ -38,7 +38,7 @@ namespace Whip.ViewModels.TabViewModels
         private void OnFinish()
         {
             Modified = false;
-            FinishedEditing?.Invoke();
+            FinishedEditing?.Invoke(this);
         }
 
         private void OnSaveAndFinish()

@@ -13,13 +13,19 @@ namespace Whip.Common
         Book,
         Cog,
         Edit,
+        Headphones,
         Home,
         LastFmSquare,
         ListOl,
         ListUl,
         Music,
+        PaintBrush,
+        Random,
         Rss,
         Search,
-        Users
+        Users,
+        VolumeDown,
+        VolumeOff,
+        VolumeUp
     }
 }

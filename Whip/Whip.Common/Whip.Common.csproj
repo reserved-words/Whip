@@ -46,7 +46,7 @@
     <Compile Include="Enums\SortType.cs" />
     <Compile Include="ExtensionMethods\ArtistExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\LibraryExtensionMethods.cs" />
-    <Compile Include="Interfaces\IEditTrackRequester.cs" />
+    <Compile Include="Interfaces\ShowTabRequestHandler.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Interfaces\IPlayerUpdate.cs" />
     <Compile Include="Interfaces\IStartable.cs" />

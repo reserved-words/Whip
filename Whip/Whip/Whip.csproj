@@ -112,6 +112,9 @@
     <Compile Include="SidebarViews\PlayerControlsView.xaml.cs">
       <DependentUpon>PlayerControlsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SidebarViews\SettingsIconsView.xaml.cs">
+      <DependentUpon>SettingsIconsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SidebarViews\SidebarView.xaml.cs">
       <DependentUpon>SidebarView.xaml</DependentUpon>
     </Compile>
@@ -132,6 +135,9 @@
     </Compile>
     <Compile Include="Views\ArtistLinksView.xaml.cs">
       <DependentUpon>ArtistLinksView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ClickableIconView.xaml.cs">
+      <DependentUpon>ClickableIconView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\EditableButtonsView.xaml.cs">
       <DependentUpon>EditableButtonsView.xaml</DependentUpon>
@@ -181,6 +187,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SidebarViews\SettingsIconsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SidebarViews\SidebarView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -210,6 +220,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ArtistLinksView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ClickableIconView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

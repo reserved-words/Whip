@@ -23,17 +23,16 @@ namespace Whip.ViewModels.TabViewModels
         public void Edit(Track track)
         {
             Track = track;
-            IsVisible = true;
         }
 
         public override void OnSave()
         {
-            IsVisible = false;
+
         }
 
         public override void OnCancel()
         {
-            IsVisible = false;
+
         }
     }
 }

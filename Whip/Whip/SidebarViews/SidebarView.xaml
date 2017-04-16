@@ -6,11 +6,21 @@
              xmlns:local="clr-namespace:Whip"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-        <local:CurrentTrackMiniView DataContext="{Binding CurrentTrackMiniViewModel}" />
+        <local:CurrentTrackMiniView DataContext="{Binding CurrentTrackMiniViewModel}"
+                                    Grid.Row="0"/>
 
-        <local:PlayerControlsView DataContext="{Binding PlayerControlsViewModel}" />
+        <local:PlayerControlsView DataContext="{Binding PlayerControlsViewModel}"
+                                  Grid.Row="1"/>
 
-    </StackPanel>
+        <local:SettingsIconsView DataContext="{Binding SettingsIconsViewModel}"
+                                 Grid.Row="2"/>
+
+    </Grid>
 </UserControl>
