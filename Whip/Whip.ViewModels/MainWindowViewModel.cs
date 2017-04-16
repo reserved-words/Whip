@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Messaging;
 using Whip.Common.Model;
 using Whip.Common.Singletons;
 using Whip.Services.Interfaces;
+using Whip.Services.Interfaces.Singletons;
 using Whip.ViewModels.Messages;
 using Whip.ViewModels.Utilities;
 using Whip.ViewModels.Windows;
@@ -19,10 +20,10 @@ namespace Whip.ViewModels
         private readonly IMessenger _messenger;
 
         private readonly Library _library;
-        private readonly Playlist _playlist;
+        private readonly IPlaylist _playlist;
 
         public MainWindowViewModel(ILibraryService libraryService, IUserSettings userSettings, Library library,
-            IMessenger messenger, Playlist playlist, ITrackFilterService trackFilterService,
+            IMessenger messenger, IPlaylist playlist, ITrackFilterService trackFilterService,
             MainViewModel mainViewModel, SidebarViewModel sidebarViewModel)
         {
             _libraryService = libraryService;

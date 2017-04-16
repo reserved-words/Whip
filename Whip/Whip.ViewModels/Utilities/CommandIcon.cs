@@ -26,11 +26,6 @@ namespace Whip.ViewModels.Utilities
             On = on;
         }
 
-        private void OnClick()
-        {
-            _action(this);
-        }
-
         public string Icon => On ? _onIcon : _offIcon;
 
         public string ToolTip => On ? _onToolTip : _offToolTip;
@@ -46,6 +41,11 @@ namespace Whip.ViewModels.Utilities
                 RaisePropertyChanged(nameof(Icon));
                 RaisePropertyChanged(nameof(ToolTip));
             }
+        }
+
+        private void OnClick()
+        {
+            _action(this);
         }
     }
 }

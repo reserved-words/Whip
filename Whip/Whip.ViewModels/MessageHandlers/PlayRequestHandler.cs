@@ -1,7 +1,10 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
+using System.Collections.Generic;
+using Whip.Common;
 using Whip.Common.Interfaces;
-using Whip.Common.Singletons;
+using Whip.Common.Model;
 using Whip.Services.Interfaces;
+using Whip.Services.Interfaces.Singletons;
 using Whip.ViewModels.Messages;
 
 namespace Whip.ViewModels.MessageHandlers
@@ -11,18 +14,24 @@ namespace Whip.ViewModels.MessageHandlers
         private const string LibraryPlaylistName = "Library";
 
         private readonly IMessenger _messenger;
-        private readonly Playlist _playlist;
+        private readonly IPlaylist _playlist;
         private readonly ITrackFilterService _trackFilterService;
+        private readonly IUserSettings _userSettings;
 
-        public PlayRequestHandler(IMessenger messenger, Playlist playlist, ITrackFilterService trackFilterService)
+        private bool _shuffleStatusChangedByPlayRequest;
+
+        public PlayRequestHandler(IMessenger messenger, IPlaylist playlist, ITrackFilterService trackFilterService,
+            IUserSettings userSettings)
         {
             _messenger = messenger;
             _playlist = playlist;
             _trackFilterService = trackFilterService;
+            _userSettings = userSettings;
         }
 
         public void Start()
         {
+            _userSettings.ShufflingStatusChanged += OnShufflingStatusChanged;
             _messenger.Register<PlayArtistMessage>(this, OnPlayArtist);
             _messenger.Register<PlayAlbumMessage>(this, OnPlayAlbum);
             _messenger.Register<PlayGroupingMessage>(this, OnPlayGrouping);
@@ -32,6 +41,7 @@ namespace Whip.ViewModels.MessageHandlers
 
         public void Stop()
         {
+            _userSettings.ShufflingStatusChanged -= OnShufflingStatusChanged;
             _messenger.Unregister<PlayArtistMessage>(this, OnPlayArtist);
             _messenger.Unregister<PlayAlbumMessage>(this, OnPlayAlbum);
             _messenger.Unregister<PlayGroupingMessage>(this, OnPlayGrouping);
@@ -46,22 +56,53 @@ namespace Whip.ViewModels.MessageHandlers
 
         private void OnPlayAll(PlayAllMessage message)
         {
-            _playlist.Set(LibraryPlaylistName, _trackFilterService.GetAll(message.SortType), message.StartAt);
+            ProcessMessage(message, LibraryPlaylistName, _trackFilterService.GetAll(), message.StartAt);
         }
 
         private void OnPlayGrouping(PlayGroupingMessage message)
         {
-            _playlist.Set(message.Grouping, _trackFilterService.GetTracksByGrouping(message.Grouping, message.SortType), message.StartAt);
+            ProcessMessage(message, message.Grouping, _trackFilterService.GetTracksByGrouping(message.Grouping), message.StartAt);
         }
 
         private void OnPlayAlbum(PlayAlbumMessage message)
         {
-            _playlist.Set(message.Album.ToString(), _trackFilterService.GetTracksFromAlbum(message.Album, message.SortType), message.StartAt);
+            ProcessMessage(message, message.Album.ToString(), _trackFilterService.GetTracksFromAlbum(message.Album), message.StartAt);
         }
 
         private void OnPlayArtist(PlayArtistMessage message)
         {
-            _playlist.Set(message.Artist.Name, _trackFilterService.GetTracksByArtist(message.Artist, message.SortType), message.StartAt);
+            ProcessMessage(message, message.Artist.Name, _trackFilterService.GetTracksByArtist(message.Artist), message.StartAt);
+        }
+
+        private void ProcessMessage(PlayMessage message, string playlistName, List<Track> tracks, Track startAt)
+        {
+            UpdateSortType(message);
+            _playlist.Set(playlistName, tracks, startAt);
+        }
+
+        private void UpdateSortType(PlayMessage message)
+        {
+            if (!message.SortType.HasValue)
+                return;
+
+            var shuffleOn = message.SortType.Value == SortType.Random;
+            if (shuffleOn == _userSettings.ShuffleOn)
+                return;
+
+            _shuffleStatusChangedByPlayRequest = true;
+            _userSettings.ShuffleOn = shuffleOn;
+            _userSettings.Save();
+        }
+
+        private void OnShufflingStatusChanged()
+        {
+            if (_shuffleStatusChangedByPlayRequest)
+            {
+                _shuffleStatusChangedByPlayRequest = false;
+                return;
+            }
+
+            _playlist.Reorder();
         }
     }
 }

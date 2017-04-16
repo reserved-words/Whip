@@ -4,9 +4,9 @@ using Whip.Common;
 
 namespace Whip.ViewModels.Messages
 {
-    public class PlayArtistMessage : PlayAllMessage
+    public class PlayArtistMessage : PlayMessage
     {
-        public PlayArtistMessage(Artist artist, SortType sortType, Track startAt = null)
+        public PlayArtistMessage(Artist artist, SortType? sortType, Track startAt = null)
             : base(sortType, startAt)
         {
             Artist = artist;

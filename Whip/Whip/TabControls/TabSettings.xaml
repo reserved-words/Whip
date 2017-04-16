@@ -27,6 +27,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="5" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0"
@@ -82,7 +84,15 @@
                   Grid.Column="2"
                   IsChecked="{Binding Scrobbling, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-        <local:EditableButtonsView Grid.Row="12"
+        <Label Grid.Row="12"
+               Grid.Column="0"
+               Content="Shuffling Tracks" />
+
+        <CheckBox Grid.Row="12"
+                  Grid.Column="2"
+                  IsChecked="{Binding ShuffleOn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        <local:EditableButtonsView Grid.Row="14"
                                    Grid.Column="0" Grid.ColumnSpan="3"
                                    DataContext="{Binding}" />
     </Grid>

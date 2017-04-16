@@ -61,7 +61,6 @@
     <Compile Include="Model\Track.cs" />
     <Compile Include="Model\TrackId3Data.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Singletons\Playlist.cs" />
     <Compile Include="TrackSorters\DefaultTrackSorter.cs" />
     <Compile Include="TrackSorters\RandomTrackSorter.cs" />
     <Compile Include="Utilities\DefaultValueAttribute.cs" />

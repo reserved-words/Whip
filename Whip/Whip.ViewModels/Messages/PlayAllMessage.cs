@@ -3,15 +3,11 @@ using Whip.Common;
 
 namespace Whip.ViewModels.Messages
 {
-    public class PlayAllMessage
+    public class PlayAllMessage : PlayMessage
     {
-        public PlayAllMessage(SortType sortType, Track startAt = null)
+        public PlayAllMessage(SortType? sortType, Track startAt = null)
+            : base(sortType, startAt)
         {
-            SortType = sortType;
-            StartAt = startAt;
         }
-
-        public SortType SortType { get; private set; }
-        public Track StartAt { get; private set; }
     }
 }

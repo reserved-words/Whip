@@ -1,19 +1,17 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
-using System;
 using Whip.Common.Interfaces;
-using Whip.Common.Model;
-using Whip.Common.Singletons;
+using Whip.Services.Interfaces.Singletons;
 using Whip.ViewModels.Messages;
 
 namespace Whip.ViewModels.MessageHandlers
 {
     public class PlayerCoordinator : IStartable
     {
-        private readonly Playlist _playlist;
+        private readonly IPlaylist _playlist;
         private readonly IPlayer _player;
         private readonly IMessenger _messenger;
 
-        public PlayerCoordinator(Playlist playlist, IPlayer player, IMessenger messenger)
+        public PlayerCoordinator(IPlaylist playlist, IPlayer player, IMessenger messenger)
         {
             _playlist = playlist;
             _player = player;
@@ -59,7 +57,10 @@ namespace Whip.ViewModels.MessageHandlers
 
         private void OnPlaylistUpdated()
         {
-            _playlist.MoveNext();
+            if (_playlist.CurrentTrack == null)
+            {
+                _playlist.MoveNext();
+            }
         }
 
         private void OnResumePlayer(ResumePlayerMessage message)

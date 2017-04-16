@@ -4,7 +4,7 @@ using System.Timers;
 using Whip.Common;
 using Whip.Common.Interfaces;
 using Whip.Common.Model;
-using Whip.Common.Singletons;
+using Whip.Services.Interfaces.Singletons;
 
 namespace Whip.ViewModels.MessageHandlers
 {
@@ -13,7 +13,7 @@ namespace Whip.ViewModels.MessageHandlers
         private readonly System.Threading.SynchronizationContext _synchronizationContext = System.Threading.SynchronizationContext.Current;
         private readonly Timer _timer = new Timer(ApplicationSettings.TrackChangeDelay);
 
-        private readonly Playlist _playlist;
+        private readonly IPlaylist _playlist;
         private readonly IPlayer _player;
         private readonly IMessenger _messenger;
 
@@ -21,7 +21,7 @@ namespace Whip.ViewModels.MessageHandlers
 
         public event Action<Track> NewTrackStarted;
 
-        public TrackChangeCoordinator(Playlist playlist, IPlayer player, IMessenger messenger)
+        public TrackChangeCoordinator(IPlaylist playlist, IPlayer player, IMessenger messenger)
         {
             _playlist = playlist;
             _player = player;

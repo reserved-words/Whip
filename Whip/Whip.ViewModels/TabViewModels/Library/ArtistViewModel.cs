@@ -3,7 +3,9 @@ using GalaSoft.MvvmLight.Messaging;
 using System.Collections.Generic;
 using System.Linq;
 using Whip.Common;
+using Whip.Common.ExtensionMethods;
 using Whip.Common.Model;
+using Whip.Common.TrackSorters;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
 
@@ -71,7 +73,7 @@ namespace Whip.ViewModels
                 return;
             }
 
-            var tracks = _trackFilterService.GetTracksByArtist(Artist, SortType.Ordered);
+            var tracks = _trackFilterService.GetTracksByArtist(Artist);
 
             Albums = tracks.Select(t => t.Disc)
                 .Select(d => d.Album)

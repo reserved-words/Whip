@@ -17,6 +17,7 @@ namespace Whip.ViewModels.TabViewModels
         private string _musicDirectory;
         private string _mainColourRgb;
         private bool _scrobbling;
+        private bool _shuffleOn;
 
         public SettingsViewModel(IUserSettings userSettings, IMessenger messenger)
             :base(TabType.Settings, IconType.Cog, "Settings", false) 
@@ -57,11 +58,16 @@ namespace Whip.ViewModels.TabViewModels
             set { SetModified(ref _musicDirectory, value); }
         }
 
-
         public bool Scrobbling
         {
             get { return _scrobbling; }
             set { SetModified(ref _scrobbling, value); }
+        }
+        
+        public bool ShuffleOn
+        {
+            get { return _shuffleOn; }
+            set { SetModified(ref _shuffleOn, value); }
         }
 
         protected override void CustomSave()
@@ -72,6 +78,7 @@ namespace Whip.ViewModels.TabViewModels
             _userSettings.MusicDirectory = MusicDirectory;
             _userSettings.MainColourRgb = MainColourRgb;
             _userSettings.Scrobbling = Scrobbling;
+            _userSettings.ShuffleOn = ShuffleOn;
 
             _userSettings.Save();
         }
@@ -89,6 +96,7 @@ namespace Whip.ViewModels.TabViewModels
             MusicDirectory = _userSettings.MusicDirectory;
             MainColourRgb = _userSettings.MainColourRgb;
             Scrobbling = _userSettings.Scrobbling;
+            ShuffleOn = _userSettings.ShuffleOn;
 
             Modified = false;
         }

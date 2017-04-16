@@ -106,5 +106,17 @@ namespace Whip.Properties {
                 this["Scrobbling"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShuffleOn {
+            get {
+                return ((bool)(this["ShuffleOn"]));
+            }
+            set {
+                this["ShuffleOn"] = value;
+            }
+        }
     }
 }

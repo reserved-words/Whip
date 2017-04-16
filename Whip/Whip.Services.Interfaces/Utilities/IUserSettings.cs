@@ -5,6 +5,7 @@ namespace Whip.Services.Interfaces
     public interface IUserSettings
     {
         event Action ScrobblingStatusChanged;
+        event Action ShufflingStatusChanged;
 
         bool EssentialSettingsSet { get; }
         string LastFmApiKey { get; set; }
@@ -14,6 +15,7 @@ namespace Whip.Services.Interfaces
         string MusicDirectory { get; set; }
         string MainColourRgb { get; set; }
         bool Scrobbling { get; set; }
+        bool ShuffleOn { get; set; }
         void Save();
     }
 }

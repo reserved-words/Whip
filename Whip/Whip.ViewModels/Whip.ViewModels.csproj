@@ -75,6 +75,7 @@
     <Compile Include="Messages\PlayGroupingMessage.cs" />
     <Compile Include="Messages\PlayAllMessage.cs" />
     <Compile Include="Messages\MoveToTrackMessage.cs" />
+    <Compile Include="Messages\PlayMessage.cs" />
     <Compile Include="Messages\PlayNextMessage.cs" />
     <Compile Include="Messages\PlayPreviousMessage.cs" />
     <Compile Include="Messages\ResumePlayerMessage.cs" />

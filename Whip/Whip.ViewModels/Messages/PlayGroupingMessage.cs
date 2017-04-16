@@ -3,9 +3,9 @@ using Whip.Common;
 
 namespace Whip.ViewModels.Messages
 {
-    public class PlayGroupingMessage : PlayAllMessage
+    public class PlayGroupingMessage : PlayMessage
     {
-        public PlayGroupingMessage(string grouping, SortType sortType, Track startAt = null)
+        public PlayGroupingMessage(string grouping, SortType? sortType, Track startAt = null)
             : base(sortType, startAt)
         {
             Grouping = grouping;

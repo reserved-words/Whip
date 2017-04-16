@@ -15,6 +15,7 @@ using LastFmApi;
 using Ninject;
 using GalaSoft.MvvmLight.Messaging;
 using Whip.NLog;
+using Whip.Services.Interfaces.Singletons;
 
 namespace Whip.Ioc
 {
@@ -46,7 +47,7 @@ namespace Whip.Ioc
         private void BindSingletons()
         {
             Bind<Library>().ToSelf().InSingletonScope();
-            Bind<Playlist>().ToSelf().InSingletonScope();
+            Bind<IPlaylist>().To<Playlist>().InSingletonScope();
             Bind<IMessenger>().To<Messenger>().InSingletonScope();
             Bind<IUserSettings>().To<UserSettings>().InSingletonScope();
         }

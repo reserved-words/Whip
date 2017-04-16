@@ -10,6 +10,7 @@ namespace Whip.Services
         private readonly IMessenger _messenger;
 
         private bool _scrobblingStatusChanged;
+        private bool _shuffleStatusChanged;
         private bool _libraryUpdated;
         private bool _lastFmUsernameChanged;
 
@@ -19,7 +20,8 @@ namespace Whip.Services
         }
 
         public event Action ScrobblingStatusChanged;
-        
+        public event Action ShufflingStatusChanged;
+
         public bool EssentialSettingsSet => !string.IsNullOrEmpty(MusicDirectory)
             && !string.IsNullOrEmpty(LastFmUsername)
             && !string.IsNullOrEmpty(LastFmApiKey)
@@ -88,6 +90,19 @@ namespace Whip.Services
             }
         }
 
+        public bool ShuffleOn
+        {
+            get { return Properties.Settings.Default.ShuffleOn; }
+            set
+            {
+                if (value != Properties.Settings.Default.ShuffleOn)
+                {
+                    Properties.Settings.Default.ShuffleOn = value;
+                    _shuffleStatusChanged = true;
+                }
+            }
+        }
+
         public void Save()
         {
             Properties.Settings.Default.Save();
@@ -102,6 +117,12 @@ namespace Whip.Services
             {
                 _scrobblingStatusChanged = false;
                 ScrobblingStatusChanged?.Invoke();
+            }
+
+            if (_shuffleStatusChanged)
+            {
+                _shuffleStatusChanged = false;
+                ShufflingStatusChanged?.Invoke();
             }
 
             if (_libraryUpdated && !string.IsNullOrEmpty(MusicDirectory))

@@ -18,6 +18,19 @@ namespace Whip.ViewModels.SidebarViewModels
             _userSettings = userSettings;
 
             PopulateIconCommands();
+
+            _userSettings.ScrobblingStatusChanged += ScrobblingStatusChanged;
+            _userSettings.ShufflingStatusChanged += ShufflingStatusChanged;
+        }
+
+        private void ShufflingStatusChanged()
+        {
+            IconCommands[1].On = _userSettings.ShuffleOn;
+        }
+
+        private void ScrobblingStatusChanged()
+        {
+            IconCommands[0].On = _userSettings.Scrobbling;
         }
 
         public List<CommandIcon> IconCommands { get; private set; }
@@ -27,7 +40,7 @@ namespace Whip.ViewModels.SidebarViewModels
             IconCommands = new List<CommandIcon>
             {
                 new CommandIcon(IconType.LastFmSquare, "Scrobbling", OnToggleScrobbling, _userSettings.Scrobbling, IconType.Headphones, "Not Scrobbling"),
-                new CommandIcon(IconType.Random, "Shuffling", OnToggleShuffle, true, IconType.LongArrowRight, "Playing In Order"),
+                new CommandIcon(IconType.Random, "Shuffling", OnToggleShuffle, _userSettings.ShuffleOn, IconType.LongArrowRight, "Playing In Order"),
                 new CommandIcon(IconType.VolumeOff, "Mute", OnMute),
                 new CommandIcon(IconType.VolumeDown, "Volume Down", OnVolumeDown),
                 new CommandIcon(IconType.VolumeUp, "Volume Up", OnVolumeUp),
@@ -63,7 +76,9 @@ namespace Whip.ViewModels.SidebarViewModels
 
         private void OnToggleShuffle(CommandIcon commandIcon)
         {
-            commandIcon.On = !commandIcon.On;
+            _userSettings.ShuffleOn = !_userSettings.ShuffleOn;
+            _userSettings.Save();
+            commandIcon.On = _userSettings.ShuffleOn;
         }
 
         private void OnToggleScrobbling(CommandIcon commandIcon)
