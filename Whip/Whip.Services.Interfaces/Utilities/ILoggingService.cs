@@ -1,4 +1,6 @@
-﻿namespace Whip.Services.Interfaces.Utilities
+﻿using System;
+
+namespace Whip.Services.Interfaces
 {
     public interface ILoggingService
     {

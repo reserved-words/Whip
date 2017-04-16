@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using System.Windows.Threading;
 using Whip.Ioc;
-using Whip.Services.Interfaces.Utilities;
+using Whip.Services.Interfaces;
 
 namespace Whip
 {
@@ -13,6 +15,8 @@ namespace Whip
 
             GetLogger().Info("Application started");
 
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+
             base.OnStartup(e);
         }
 
@@ -20,14 +24,32 @@ namespace Whip
         {
             IocKernel.StopMessageHandlers();
 
-            GetLogger().Info("Application stopped");
+            var logger = GetLogger();
+            logger.Info("Application stopped");
+            logger.Info("-------------------");
 
             base.OnExit(e);
+        }
+
+        private void AppDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+            GetExceptionHandler().Fatal(e.Exception);
+        }
+
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            GetExceptionHandler().Fatal(e.ExceptionObject as Exception);
         }
 
         private ILoggingService GetLogger()
         {
             return IocKernel.Get<ILoggingService>();
+        }
+
+        private IExceptionHandlingService GetExceptionHandler()
+        {
+            return IocKernel.Get<IExceptionHandlingService>();
         }
     }
 }

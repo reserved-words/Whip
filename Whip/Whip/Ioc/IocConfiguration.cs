@@ -14,7 +14,6 @@ using LastFmApi.Interfaces;
 using LastFmApi;
 using Ninject;
 using GalaSoft.MvvmLight.Messaging;
-using Whip.Services.Interfaces.Utilities;
 using Whip.NLog;
 
 namespace Whip.Ioc
@@ -54,6 +53,7 @@ namespace Whip.Ioc
         private void BindServices()
         {
             Bind<ILoggingService>().To<LoggingService>().InTransientScope();
+            Bind<IExceptionHandlingService>().To<ExceptionHandlingService>().InTransientScope();
             Bind<IFileService>().To<FileService>().InTransientScope();
             Bind<ILibraryService>().To<LibraryService>().InTransientScope();
             Bind<IUserSettingsService>().To<UserSettingsService>().InTransientScope();

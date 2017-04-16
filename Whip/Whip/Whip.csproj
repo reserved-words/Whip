@@ -104,6 +104,7 @@
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MessageHandlers\DialogMessageHandler.cs" />
+    <Compile Include="Services\ExceptionHandlingService.cs" />
     <Compile Include="Services\UserSettingsService.cs" />
     <Compile Include="SidebarViews\CurrentTrackMiniView.xaml.cs">
       <DependentUpon>CurrentTrackMiniView.xaml</DependentUpon>
