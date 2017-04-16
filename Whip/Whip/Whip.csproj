@@ -118,6 +118,9 @@
     <Compile Include="SidebarViews\SidebarView.xaml.cs">
       <DependentUpon>SidebarView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TabControls\TabCurrentPlaylist.xaml.cs">
+      <DependentUpon>TabCurrentPlaylist.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TabControls\TabCurrentTrack.xaml.cs">
       <DependentUpon>TabCurrentTrack.xaml</DependentUpon>
     </Compile>
@@ -196,6 +199,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="StylesDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TabControls\TabCurrentPlaylist.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

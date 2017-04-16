@@ -44,32 +44,24 @@ namespace Whip.Services
 
         public List<Track> GetTracksByArtist(Artist artist, SortType sortType)
         {
-            return GetTracksByArtists(new List<Artist> { artist }, sortType);
-        }
-
-        public List<Track> GetTracksByArtists(List<Artist> artists, SortType sortType)
-        {
-            return artists
-                .SelectMany(a => a.Tracks)
-                .Union(artists.SelectMany(a => a.Albums.SelectMany(al => al.Discs).SelectMany(d => d.Tracks)))
+            return artist.Tracks
+                .Union(artist.Albums.SelectMany(al => al.Discs).SelectMany(d => d.Tracks))
                 .SortUsing(_sorters[sortType])
                 .ToList();
         }
 
-        public List<Track> GetAlbumTracksByArtists(List<Artist> artists, SortType sortType)
+        public List<Track> GetAlbumTracksByArtist(Artist artist, SortType sortType)
         {
-            return artists
-                .SelectMany(a => a.Albums)
+            return artist.Albums
                 .SelectMany(a => a.Discs)
                 .SelectMany(d => d.Tracks)
                 .SortUsing(_sorters[sortType])
                 .ToList();
         }
 
-        public List<Track> GetTracksFromAlbums(List<Album> albums, SortType sortType)
+        public List<Track> GetTracksFromAlbum(Album album, SortType sortType)
         {
-            return albums
-                .SelectMany(a => a.Discs)
+            return album.Discs
                 .SelectMany(d => d.Tracks)
                 .SortUsing(_sorters[sortType])
                 .ToList();

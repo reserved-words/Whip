@@ -3,9 +3,9 @@ using Whip.Common;
 
 namespace Whip.ViewModels.Messages
 {
-    public class PlayMessage
+    public class PlayAllMessage
     {
-        public PlayMessage(SortType sortType, Track startAt = null)
+        public PlayAllMessage(SortType sortType, Track startAt = null)
         {
             SortType = sortType;
             StartAt = startAt;

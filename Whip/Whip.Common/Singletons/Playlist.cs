@@ -25,19 +25,26 @@ namespace Whip.Common.Singletons
             }
         }
 
+        public string PlaylistName { get; private set; }
+
+        public List<Track> Tracks { get; private set; }
+
         public bool Any()
         {
             return _toPlay.Any() || _played.Any();
         }
 
-        public void Set(List<Track> tracks, Track startAt)
+        public void Set(string playlistName, List<Track> tracks, Track startAt)
         {
             var index = tracks.IndexOf(startAt);
-            Set(tracks, index > 0 ? index : 0);
+            Set(playlistName, tracks, index > 0 ? index : 0);
         }
 
-        public void Set(List<Track> tracks, int startAt = 0)
+        public void Set(string playlistName, List<Track> tracks, int startAt = 0)
         {
+            PlaylistName = playlistName;
+            Tracks = tracks;
+
             _played.Clear();
             _toPlay.Clear();
 

@@ -82,6 +82,8 @@
                                     </DataGridTemplateColumn>
                                     <DataGridTextColumn Width="*"
                                                         Binding="{Binding Title}" />
+                                    <DataGridTextColumn Width="*"
+                                                        Binding="{Binding Artist.Name}" />
                                     <DataGridTemplateColumn Width="60">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>

@@ -192,12 +192,12 @@ namespace Whip.ViewModels.TabViewModels
 
         private void OnPlayAlbum(Album album)
         {
-            _messenger.Send(new PlayAlbumsMessage(album, SortType.Ordered));
+            _messenger.Send(new PlayAlbumMessage(album, SortType.Ordered));
         }
 
         private void OnShuffleArtist(Artist artist)
         {
-            _messenger.Send(new PlayArtistsMessage(artist, SortType.Random));
+            _messenger.Send(new PlayArtistMessage(artist, SortType.Random));
         }
     }
 }

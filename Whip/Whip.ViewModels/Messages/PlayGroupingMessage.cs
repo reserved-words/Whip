@@ -3,7 +3,7 @@ using Whip.Common;
 
 namespace Whip.ViewModels.Messages
 {
-    public class PlayGroupingMessage : PlayMessage
+    public class PlayGroupingMessage : PlayAllMessage
     {
         public PlayGroupingMessage(string grouping, SortType sortType, Track startAt = null)
             : base(sortType, startAt)

@@ -22,5 +22,10 @@ namespace Whip.Common.Model
         
         public bool MultiDisc => Discs.Count > 1;
         public bool IsAlbum => ReleaseType == ReleaseType.Album;
+
+        public override string ToString()
+        {
+            return string.Format("{0} by {1}", Title, Artist.Name);
+        }
     }
 }

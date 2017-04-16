@@ -35,7 +35,7 @@
         <local:TabGenericTemp />
     </DataTemplate>
     <DataTemplate DataType="{x:Type tabsvm:CurrentPlaylistViewModel}">
-        <local:TabGenericTemp />
+        <local:TabCurrentPlaylist />
     </DataTemplate>
     <DataTemplate DataType="{x:Type tabsvm:PlaylistsViewModel}">
         <local:TabGenericTemp />
@@ -87,7 +87,15 @@
         <Setter Property="TextWrapping" Value="WrapWithOverflow" />
     </Style>
 
-    <Style TargetType="{x:Type Label}" x:Key="TitleLabel">
+    <Style TargetType="{x:Type Label}" x:Key="LabelStyle">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+
+    <Style TargetType="{x:Type Label}"  BasedOn="{StaticResource LabelStyle}">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+
+    <Style TargetType="{x:Type Label}" x:Key="TitleLabel" BasedOn="{StaticResource LabelStyle}">
         <Setter Property="FontWeight" Value="Bold" />
     </Style>
 
@@ -179,6 +187,13 @@
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="SelectionUnit" Value="FullRow" />
+        <Setter Property="HorizontalGridLinesBrush" Value="Silver" />
+        <Setter Property="VerticalGridLinesBrush" Value="Silver" />
+    </Style>
+
+    <Style TargetType="{x:Type DataGridRow}">
+        <Setter Property="Height" Value="20" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 
     <Style TargetType="DataGridCell">
@@ -200,7 +215,7 @@
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" TargetName="Bd"  Value="LightGray"/>
+                            <Setter Property="Background" TargetName="Bd"  Value="Transparent"/>
                             <Setter Property="BorderBrush" TargetName="Bd" Value="Transparent"/>
                         </MultiTrigger>
                         <MultiTrigger>
@@ -208,7 +223,7 @@
                                 <Condition Property="Selector.IsSelectionActive" Value="False"/>
                                 <Condition Property="IsSelected" Value="True"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" TargetName="Bd" Value="LightGray"/>
+                            <Setter Property="Background" TargetName="Bd" Value="Transparent"/>
                             <Setter Property="BorderBrush" TargetName="Bd" Value="Transparent"/>
                         </MultiTrigger>
                         <MultiTrigger>

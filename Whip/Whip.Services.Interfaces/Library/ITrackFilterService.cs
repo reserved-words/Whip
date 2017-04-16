@@ -9,8 +9,7 @@ namespace Whip.Services.Interfaces
         List<Track> GetAll(SortType sortType);
         List<Track> GetTracksByGrouping(string grouping, SortType sortType);
         List<Track> GetTracksByArtist(Artist artist, SortType sortType);
-        List<Track> GetTracksByArtists(List<Artist> artists, SortType sortType);
-        List<Track> GetAlbumTracksByArtists(List<Artist> artists, SortType sortType);
-        List<Track> GetTracksFromAlbums(List<Album> albums, SortType sortType);
+        List<Track> GetAlbumTracksByArtist(Artist artist, SortType sortType);
+        List<Track> GetTracksFromAlbum(Album album, SortType sortType);
     }
 }

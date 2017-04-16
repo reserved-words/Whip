@@ -70,10 +70,11 @@
     <Compile Include="Messages\EditTrackMessage.cs" />
     <Compile Include="Messages\LibraryUpdateRequest.cs" />
     <Compile Include="Messages\PausePlayerMessage.cs" />
-    <Compile Include="Messages\PlayAlbumsMessage.cs" />
-    <Compile Include="Messages\PlayArtistsMessage.cs" />
+    <Compile Include="Messages\PlayAlbumMessage.cs" />
+    <Compile Include="Messages\PlayArtistMessage.cs" />
     <Compile Include="Messages\PlayGroupingMessage.cs" />
-    <Compile Include="Messages\PlayMessage.cs" />
+    <Compile Include="Messages\PlayAllMessage.cs" />
+    <Compile Include="Messages\MoveToTrackMessage.cs" />
     <Compile Include="Messages\PlayNextMessage.cs" />
     <Compile Include="Messages\PlayPreviousMessage.cs" />
     <Compile Include="Messages\ResumePlayerMessage.cs" />

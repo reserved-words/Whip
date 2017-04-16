@@ -138,7 +138,7 @@ namespace Whip.ViewModels
 
         private void OnShuffleLibrary()
         {
-            _messenger.Send(new PlayMessage(SortType.Random));
+            _messenger.Send(new PlayAllMessage(SortType.Random));
         }
 
         private void OnSkip(double newPercentage)

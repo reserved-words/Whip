@@ -55,12 +55,12 @@ namespace Whip.ViewModels
 
         public void OnPlay(Track startAt)
         {
-            _messenger.Send(new PlayArtistsMessage(Artist, SortType.Ordered, startAt));
+            _messenger.Send(new PlayArtistMessage(Artist, SortType.Ordered, startAt));
         }
 
         public void OnPlayAlbum(AlbumViewModel album)
         {
-            _messenger.Send(new PlayAlbumsMessage(album.Album, SortType.Ordered));
+            _messenger.Send(new PlayAlbumMessage(album.Album, SortType.Ordered));
         }
 
         private void PopulateAlbums()

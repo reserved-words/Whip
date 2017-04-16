@@ -8,6 +8,8 @@ namespace Whip.ViewModels.MessageHandlers
 {
     public class PlayRequestHandler : IStartable
     {
+        private const string LibraryPlaylistName = "Library";
+
         private readonly IMessenger _messenger;
         private readonly Playlist _playlist;
         private readonly ITrackFilterService _trackFilterService;
@@ -21,38 +23,45 @@ namespace Whip.ViewModels.MessageHandlers
 
         public void Start()
         {
-            _messenger.Register<PlayArtistsMessage>(this, OnPlayArtists);
-            _messenger.Register<PlayAlbumsMessage>(this, OnPlayAlbums);
+            _messenger.Register<PlayArtistMessage>(this, OnPlayArtist);
+            _messenger.Register<PlayAlbumMessage>(this, OnPlayAlbum);
             _messenger.Register<PlayGroupingMessage>(this, OnPlayGrouping);
-            _messenger.Register<PlayMessage>(this, OnPlayAll);
+            _messenger.Register<PlayAllMessage>(this, OnPlayAll);
+            _messenger.Register<MoveToTrackMessage>(this, OnMoveToTrack);
         }
 
         public void Stop()
         {
-            _messenger.Unregister<PlayArtistsMessage>(this, OnPlayArtists);
-            _messenger.Unregister<PlayAlbumsMessage>(this, OnPlayAlbums);
+            _messenger.Unregister<PlayArtistMessage>(this, OnPlayArtist);
+            _messenger.Unregister<PlayAlbumMessage>(this, OnPlayAlbum);
             _messenger.Unregister<PlayGroupingMessage>(this, OnPlayGrouping);
-            _messenger.Unregister<PlayMessage>(this, OnPlayAll);
+            _messenger.Unregister<PlayAllMessage>(this, OnPlayAll);
+            _messenger.Unregister<MoveToTrackMessage>(this, OnMoveToTrack);
         }
 
-        private void OnPlayAll(PlayMessage message)
+        private void OnMoveToTrack(MoveToTrackMessage message)
         {
-            _playlist.Set(_trackFilterService.GetAll(message.SortType), message.StartAt);
+            _playlist.Set(_playlist.PlaylistName, _playlist.Tracks, message.Track);
+        }
+
+        private void OnPlayAll(PlayAllMessage message)
+        {
+            _playlist.Set(LibraryPlaylistName, _trackFilterService.GetAll(message.SortType), message.StartAt);
         }
 
         private void OnPlayGrouping(PlayGroupingMessage message)
         {
-            _playlist.Set(_trackFilterService.GetTracksByGrouping(message.Grouping, message.SortType), message.StartAt);
+            _playlist.Set(message.Grouping, _trackFilterService.GetTracksByGrouping(message.Grouping, message.SortType), message.StartAt);
         }
 
-        private void OnPlayAlbums(PlayAlbumsMessage message)
+        private void OnPlayAlbum(PlayAlbumMessage message)
         {
-            _playlist.Set(_trackFilterService.GetTracksFromAlbums(message.Albums, message.SortType), message.StartAt);
+            _playlist.Set(message.Album.ToString(), _trackFilterService.GetTracksFromAlbum(message.Album, message.SortType), message.StartAt);
         }
 
-        private void OnPlayArtists(PlayArtistsMessage message)
+        private void OnPlayArtist(PlayArtistMessage message)
         {
-            _playlist.Set(_trackFilterService.GetTracksByArtists(message.Artists, message.SortType), message.StartAt);
+            _playlist.Set(message.Artist.Name, _trackFilterService.GetTracksByArtist(message.Artist, message.SortType), message.StartAt);
         }
     }
 }

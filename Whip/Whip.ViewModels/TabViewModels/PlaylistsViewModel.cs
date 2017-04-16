@@ -6,7 +6,7 @@ namespace Whip.ViewModels.TabViewModels
     public class PlaylistsViewModel : TabViewModelBase
     {
         public PlaylistsViewModel()
-            :base(TabType.Playlists, IconType.ListUl, "Current Playlist")
+            :base(TabType.Playlists, IconType.ListUl, "Playlists")
         {
 
         }
