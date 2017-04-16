@@ -26,6 +26,8 @@ namespace Whip.ViewModels.Utilities
         [MetaData("Library Search", IconType.Search)]
         Search,
         [MetaData("Current Artist", IconType.Users)]
-        CurrentArtist
+        CurrentArtist,
+        [MetaData("Edit Track", IconType.Edit, false)]
+        EditTrack
     }
 }

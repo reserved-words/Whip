@@ -1,4 +1,5 @@
-﻿using Whip.Common.Model;
+﻿using Whip.Common;
+using Whip.Common.Model;
 using Whip.ViewModels.Utilities;
 
 namespace Whip.ViewModels.TabViewModels
@@ -8,7 +9,7 @@ namespace Whip.ViewModels.TabViewModels
         private Artist _artist;
 
         public CurrentArtistViewModel()
-            :base(TabType.CurrentArtist)
+            :base(TabType.CurrentArtist, IconType.Users, "Current Artist")
         {
 
         }

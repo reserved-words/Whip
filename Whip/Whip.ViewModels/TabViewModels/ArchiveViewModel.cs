@@ -1,11 +1,12 @@
-﻿using Whip.ViewModels.Utilities;
+﻿using Whip.Common;
+using Whip.ViewModels.Utilities;
 
 namespace Whip.ViewModels.TabViewModels
 {
     public class ArchiveViewModel : TabViewModelBase
     {
         public ArchiveViewModel()
-            :base(TabType.Archive)
+            :base(TabType.Archive, IconType.Archive, "Archive")
         {
 
         }

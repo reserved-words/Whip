@@ -12,6 +12,7 @@ namespace Whip.Common
         Archive,
         Book,
         Cog,
+        Edit,
         Home,
         LastFmSquare,
         ListOl,

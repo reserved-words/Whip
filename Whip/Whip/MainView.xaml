@@ -25,6 +25,12 @@
                                   ItemTemplate="{StaticResource TabHeaderTemplate}"
                                   SelectedTab="{Binding SelectedTab, Mode=TwoWay}"
                                   ContentTemplate="{StaticResource TabContentTemplate}"
-                                  TabChangeCommand="{Binding ChangeTabCommand}"/>
+                                  TabChangeCommand="{Binding ChangeTabCommand}">
+        <TabControl.ItemContainerStyle>
+            <Style TargetType="TabItem">
+                <Setter Property="Visibility" Value="{Binding IsVisible, Converter={StaticResource BoolVisibilityConverter}}"/>
+            </Style>
+        </TabControl.ItemContainerStyle>
+    </controls:ReportingTabControl>
 
 </UserControl>

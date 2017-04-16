@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
+using Whip.Common;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
 using Whip.ViewModels.Utilities;
@@ -18,7 +19,7 @@ namespace Whip.ViewModels.TabViewModels
         private string _mainColourRgb;
         
         public SettingsViewModel(IUserSettingsService userSettingsService, IMessenger messenger)
-            :base(TabType.Settings) 
+            :base(TabType.Settings, IconType.Cog, "Settings") 
         {
             _userSettingsService = userSettingsService;
             _messenger = messenger;
@@ -27,9 +28,6 @@ namespace Whip.ViewModels.TabViewModels
             LastFmApiKey = _userSettingsService.LastFmApiKey;
             LastFmApiSecret = _userSettingsService.LastFmApiSecret;
             LastFmUsername = _userSettingsService.LastFmUsername;
-
-            CancelCommand = new RelayCommand(OnCancel);
-            SaveCommand = new RelayCommand(OnSave);
 
             Modified = false;
         }
@@ -64,9 +62,6 @@ namespace Whip.ViewModels.TabViewModels
             set { SetModified(ref _musicDirectory, value); }
         }
 
-        public RelayCommand CancelCommand { get; private set; }
-        public RelayCommand SaveCommand { get; private set; }
-
         public override void OnSave()
         {
             var updateLibrary = MusicDirectory != _userSettingsService.MusicDirectory && !string.IsNullOrEmpty(MusicDirectory);
@@ -79,8 +74,6 @@ namespace Whip.ViewModels.TabViewModels
             _userSettingsService.MainColourRgb = MainColourRgb;
             _userSettingsService.Save();
             
-            base.OnSave();
-
             if (updateLibrary)
             {
                 _messenger.Send(new LibraryUpdateRequest());
@@ -99,8 +92,6 @@ namespace Whip.ViewModels.TabViewModels
             LastFmApiSecret = _userSettingsService.LastFmApiSecret;
             MusicDirectory = _userSettingsService.MusicDirectory;
             MainColourRgb = _userSettingsService.MainColourRgb;
-
-            base.OnCancel();
         }
     }
 }

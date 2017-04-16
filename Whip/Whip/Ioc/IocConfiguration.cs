@@ -95,8 +95,10 @@ namespace Whip.Ioc
             Bind<PlayRequestHandler>().ToSelf().InSingletonScope();
             Bind<TrackChangeCoordinator>().ToSelf().InSingletonScope();
             Bind<LibraryHandler>().ToSelf().InSingletonScope();
+            Bind<EditTrackRequestHandler>().ToSelf().InSingletonScope();
 
             Bind<IPlayerUpdate>().ToMethod(ctx => ctx.Kernel.Get<TrackChangeCoordinator>());
+            Bind<IEditTrackRequester>().ToMethod(ctx => ctx.Kernel.Get<EditTrackRequestHandler>());
         }
 
         private void BindPlayer()

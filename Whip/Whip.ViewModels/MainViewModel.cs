@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using System.Collections.Generic;
 using System.Linq;
+using Whip.Common.Interfaces;
 using Whip.Common.Model;
 using Whip.ViewModels.Messages;
 using Whip.ViewModels.TabViewModels;
@@ -17,6 +18,8 @@ namespace Whip.ViewModels
         private const string UnsavedChangesText = "There are unsaved changes on this tab. Are you happy to cancel these changes?";
 
         private readonly IMessenger _messenger;
+        private readonly EditTrackViewModel _editTrackViewModel;
+        private readonly TabViewModelBase _defaultViewModel;
 
         private TabViewModelBase _selectedTab;
         private Track _currentTrack;
@@ -33,7 +36,9 @@ namespace Whip.ViewModels
             SearchViewModel searchViewModel,
             ArchiveViewModel archiveViewModel,
             SettingsViewModel settingsViewModel,
-            IMessenger messenger)
+            EditTrackViewModel editTrackViewModel,
+            IMessenger messenger,
+            IEditTrackRequester editTrackRequester)
         {
             Tabs = new List<TabViewModelBase>
             {
@@ -47,17 +52,26 @@ namespace Whip.ViewModels
                 newsViewModel,
                 searchViewModel,
                 archiveViewModel,
-                settingsViewModel
+                settingsViewModel,
+                editTrackViewModel
             };
 
+            _defaultViewModel = libraryViewModel;
+            _editTrackViewModel = editTrackViewModel;
             _messenger = messenger;
 
             SelectedTab = libraryViewModel;
 
             ChangeTabCommand = new RelayCommand(OnChangingTab, CanChangeTab);
+
+            editTrackRequester.RequestAccepted += EditTrackRequester_RequestAccepted;
+            _editTrackViewModel.FinishedEditing += OnFinishedEditing;
         }
 
-        private void OnChangingTab() {}
+        private void OnFinishedEditing()
+        {
+            SelectedTab = _defaultViewModel;
+        }
 
         private bool CanChangeTab()
         {
@@ -77,6 +91,14 @@ namespace Whip.ViewModels
             return true;
         }
 
+        private void EditTrackRequester_RequestAccepted(Track track)
+        {
+            _editTrackViewModel.Edit(track);
+            SelectedTab = _editTrackViewModel;
+        }
+
+        private void OnChangingTab() { }
+
         public List<TabViewModelBase> Tabs { get; private set; }
 
         public RelayCommand ChangeTabCommand { get; private set; }
@@ -95,6 +117,11 @@ namespace Whip.ViewModels
         {
             _currentTrack = track;
             SelectedTab.OnCurrentTrackChanged(track);
+        }
+
+        public void OnEditTrack(Track track)
+        {
+            _editTrackViewModel.IsVisible = true;
         }
 
         public void SelectTab(TabType key)

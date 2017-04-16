@@ -29,6 +29,7 @@ namespace Whip.Ioc
             _kernel.Get<PlayRequestHandler>().Start();
             _kernel.Get<TrackChangeCoordinator>().Start();
             _kernel.Get<LibraryHandler>().Start();
+            _kernel.Get<EditTrackRequestHandler>().Start();
         }
 
         public static void StopMessageHandlers()
@@ -36,8 +37,9 @@ namespace Whip.Ioc
             _kernel.Get<DialogMessageHandler>().Stop();
             _kernel.Get<PlayerCoordinator>().Stop();
             _kernel.Get<PlayRequestHandler>().Stop();
-            _kernel.Get<TrackChangeCoordinator>().Start();
+            _kernel.Get<TrackChangeCoordinator>().Stop();
             _kernel.Get<LibraryHandler>().Stop();
+            _kernel.Get<EditTrackRequestHandler>().Stop();
         }
     }
 }

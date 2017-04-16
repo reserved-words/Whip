@@ -61,10 +61,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessageHandlers\EditTrackRequestHandler.cs" />
     <Compile Include="MessageHandlers\LibraryHandler.cs" />
     <Compile Include="MessageHandlers\PlayerCoordinator.cs" />
     <Compile Include="MessageHandlers\PlayRequestHandler.cs" />
     <Compile Include="MessageHandlers\TrackChangeCoordinator.cs" />
+    <Compile Include="Messages\EditTrackMessage.cs" />
     <Compile Include="Messages\LibraryUpdateRequest.cs" />
     <Compile Include="Messages\PausePlayerMessage.cs" />
     <Compile Include="Messages\PlayAlbumsMessage.cs" />
@@ -79,7 +81,8 @@
     <Compile Include="SidebarViewModels\SidebarViewModel.cs" />
     <Compile Include="TabViewModels\CurrentPlaylistViewModel.cs" />
     <Compile Include="TabViewModels\CurrentTrackViewModel.cs" />
-    <Compile Include="TabViewModels\EditableTabViewModelBase.cs" />
+    <Compile Include="TabViewModels\BaseClasses\EditableTabViewModelBase.cs" />
+    <Compile Include="TabViewModels\EditTrackViewModel.cs" />
     <Compile Include="TabViewModels\Library\AlbumViewModel.cs" />
     <Compile Include="TabViewModels\Library\ArtistViewModel.cs" />
     <Compile Include="TabViewModels\NewsViewModel.cs" />
@@ -90,7 +93,7 @@
     <Compile Include="TabViewModels\ArchiveViewModel.cs" />
     <Compile Include="TabViewModels\DashboardViewModel.cs" />
     <Compile Include="TabViewModels\SettingsViewModel.cs" />
-    <Compile Include="TabViewModels\TabViewModelBase.cs" />
+    <Compile Include="TabViewModels\BaseClasses\TabViewModelBase.cs" />
     <Compile Include="Utilities\TabType.cs" />
     <Compile Include="Utilities\TrackTimer.cs" />
     <Compile Include="Messages\ShowDialogMessage.cs" />

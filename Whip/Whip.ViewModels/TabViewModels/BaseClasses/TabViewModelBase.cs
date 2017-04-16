@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using Whip.Common;
 using Whip.Common.ExtensionMethods;
 using Whip.Common.Model;
 using Whip.Common.Utilities;
@@ -8,14 +9,14 @@ namespace Whip.ViewModels.TabViewModels
 {
     public class TabViewModelBase : ViewModelBase
     {
-        public TabViewModelBase(TabType type)
+        private bool _isVisible;
+
+        public TabViewModelBase(TabType type, IconType icon, string title, bool isVisible = true)
         {
             Key = type;
-
-            var metaData = type.GetAttribute<MetaDataAttribute>();
-
-            Title = metaData.DisplayName;
-            Icon = metaData.IconType?.ToString();
+            Icon = icon.ToString();
+            Title = title;
+            IsVisible = isVisible;
         }
 
         public string Icon { get; private set; }
@@ -23,6 +24,12 @@ namespace Whip.ViewModels.TabViewModels
         public TabType Key { get; private set; }
 
         public string Title { get; private set; }
+
+        public bool IsVisible
+        {
+            get { return _isVisible; }
+            set { Set(ref _isVisible, value); }
+        }
 
         public virtual void OnCurrentTrackChanged(Track track)
         {

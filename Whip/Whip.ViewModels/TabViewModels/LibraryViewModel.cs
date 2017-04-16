@@ -27,7 +27,7 @@ namespace Whip.ViewModels.TabViewModels
         private string _selectedGrouping;
 
         public LibraryViewModel(Library library, IMessenger messenger, ITrackFilterService trackFilterService)
-            :base(TabType.Library)
+            :base(TabType.Library, IconType.Book, "Library")
         {
             Artists = new List<Artist>();
             SelectedArtistViewModel = new ArtistViewModel(trackFilterService, messenger);

@@ -1,17 +1,28 @@
-﻿using Whip.Common.Model;
+﻿using System;
+using GalaSoft.MvvmLight.Command;
+using Whip.Common;
+using Whip.Common.Model;
 using Whip.ViewModels.Utilities;
+using GalaSoft.MvvmLight.Messaging;
+using Whip.ViewModels.Messages;
 
 namespace Whip.ViewModels.TabViewModels
 {
     public class CurrentTrackViewModel : TabViewModelBase
     {
+        private readonly IMessenger _messenger;
+
         private Track _track;
 
-        public CurrentTrackViewModel()
-            :base(TabType.CurrentTrack)
+        public CurrentTrackViewModel(IMessenger messenger)
+            :base(TabType.CurrentTrack, IconType.Music, "Current Track")
         {
+            _messenger = messenger;
 
+            EditTrackCommand = new RelayCommand(OnEditTrack);
         }
+
+        public RelayCommand EditTrackCommand { get; private set; }
 
         public Track Track
         {
@@ -25,6 +36,11 @@ namespace Whip.ViewModels.TabViewModels
                 return;
 
             Track = track;
+        }
+
+        private void OnEditTrack()
+        {
+            _messenger.Send(new EditTrackMessage(Track));
         }
     }
 }
