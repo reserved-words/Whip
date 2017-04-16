@@ -14,6 +14,7 @@ namespace Whip.Services.Interfaces
         string LastFmApiSessionKey { get; set; }
         string LastFmUsername { get; set; }
         string MusicDirectory { get; set; }
+        string MainColourRgb { get; set; }
         void Save();
     }
 }

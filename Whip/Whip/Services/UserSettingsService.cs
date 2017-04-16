@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Whip.Services.Interfaces;
+﻿using Whip.Services.Interfaces;
 
 namespace Whip.Services
 {
@@ -18,6 +13,12 @@ namespace Whip.Services
         {
             get { return Properties.Settings.Default.MusicDirectory; }
             set { Properties.Settings.Default.MusicDirectory = value; }
+        }
+
+        public string MainColourRgb
+        {
+            get { return Properties.Settings.Default.MainColourRgb; }
+            set { Properties.Settings.Default.MainColourRgb = value; }
         }
 
         public string LastFmApiKey

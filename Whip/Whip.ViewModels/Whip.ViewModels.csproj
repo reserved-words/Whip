@@ -93,7 +93,6 @@
     <Compile Include="TabViewModels\TabViewModelBase.cs" />
     <Compile Include="Utilities\TabType.cs" />
     <Compile Include="Utilities\TrackTimer.cs" />
-    <Compile Include="Windows\ApplicationSettingsViewModel.cs" />
     <Compile Include="Messages\ShowDialogMessage.cs" />
     <Compile Include="Messages\HideDialogMessage.cs" />
     <Compile Include="MainViewModel.cs" />

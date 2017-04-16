@@ -12,8 +12,7 @@
         <DataTemplate DataType="{x:Type vm:TabViewModelBase}" x:Key="TabHeaderTemplate">
             <WrapPanel>
                 <controls:Icon16 Icon="{Binding Icon}"
-                                 Margin="2"
-                                 Foreground="Silver" />
+                                 Foreground="Silver"/>
                 <Label Content="{Binding Title}" />
             </WrapPanel>
         </DataTemplate>

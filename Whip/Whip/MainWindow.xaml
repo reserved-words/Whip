@@ -39,9 +39,7 @@
                 BorderThickness="1">
             <WrapPanel>
 
-                <controls:Icon16 Icon="Wifi"
-                                 Margin="2"
-                                 Foreground="Silver" />
+                <controls:Icon16 Icon="Wifi" />
 
             </WrapPanel>
         </Border>

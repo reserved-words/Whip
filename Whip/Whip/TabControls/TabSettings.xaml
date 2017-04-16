@@ -23,6 +23,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="5" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0"
@@ -61,7 +63,16 @@
                  Width="300"
                  Text="{Binding LastFmApiSecret, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-        <WrapPanel Grid.Row="8"
+        <Label Grid.Row="8"
+               Grid.Column="0"
+               Content="Main Colour (RGB)" />
+
+        <TextBox Grid.Row="8"
+                 Grid.Column="2"
+                 Width="300"
+                 Text="{Binding MainColourRgb, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        <WrapPanel Grid.Row="10"
                    Grid.Column="0" Grid.ColumnSpan="3">
             <Button Content="Save"
                     Command="{Binding SaveCommand}"/>

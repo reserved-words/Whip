@@ -15,6 +15,7 @@ namespace Whip.ViewModels.TabViewModels
         private string _lastFmApiKey;
         private string _lastFmApiSecret;
         private string _musicDirectory;
+        private string _mainColourRgb;
         
         public SettingsViewModel(IUserSettingsService userSettingsService, IMessenger messenger)
             :base(TabType.Settings) 
@@ -51,6 +52,12 @@ namespace Whip.ViewModels.TabViewModels
             set { SetModified(ref _lastFmApiSecret, value); }
         }
 
+        public string MainColourRgb
+        {
+            get { return _mainColourRgb; }
+            set { SetModified(ref _mainColourRgb, value); }
+        }
+
         public string MusicDirectory
         {
             get { return _musicDirectory; }
@@ -69,6 +76,7 @@ namespace Whip.ViewModels.TabViewModels
             _userSettingsService.LastFmApiKey = LastFmApiKey;
             _userSettingsService.LastFmApiSecret = LastFmApiSecret;
             _userSettingsService.MusicDirectory = MusicDirectory;
+            _userSettingsService.MainColourRgb = MainColourRgb;
             _userSettingsService.Save();
             
             base.OnSave();
@@ -90,6 +98,7 @@ namespace Whip.ViewModels.TabViewModels
             LastFmApiKey = _userSettingsService.LastFmApiKey;
             LastFmApiSecret = _userSettingsService.LastFmApiSecret;
             MusicDirectory = _userSettingsService.MusicDirectory;
+            MainColourRgb = _userSettingsService.MainColourRgb;
 
             base.OnCancel();
         }
