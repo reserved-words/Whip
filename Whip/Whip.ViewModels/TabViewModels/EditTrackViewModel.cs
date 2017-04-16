@@ -25,12 +25,12 @@ namespace Whip.ViewModels.TabViewModels
             Track = track;
         }
 
-        public override void OnSave()
+        protected override void CustomSave()
         {
 
         }
 
-        public override void OnCancel()
+        protected override void CustomCancel()
         {
 
         }

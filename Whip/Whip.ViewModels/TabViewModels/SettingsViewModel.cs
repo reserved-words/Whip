@@ -8,7 +8,7 @@ namespace Whip.ViewModels.TabViewModels
 {
     public class SettingsViewModel : EditableTabViewModelBase
     {
-        private readonly IUserSettingsService _userSettingsService;
+        private readonly IUserSettings _userSettings;
         private readonly IMessenger _messenger;
 
         private string _lastFmUsername;
@@ -16,20 +16,15 @@ namespace Whip.ViewModels.TabViewModels
         private string _lastFmApiSecret;
         private string _musicDirectory;
         private string _mainColourRgb;
-        
-        public SettingsViewModel(IUserSettingsService userSettingsService, IMessenger messenger)
+        private bool _scrobbling;
+
+        public SettingsViewModel(IUserSettings userSettings, IMessenger messenger)
             :base(TabType.Settings, IconType.Cog, "Settings", false) 
         {
-            _userSettingsService = userSettingsService;
+            _userSettings = userSettings;
             _messenger = messenger;
 
-            MusicDirectory = _userSettingsService.MusicDirectory;
-            LastFmApiKey = _userSettingsService.LastFmApiKey;
-            LastFmApiSecret = _userSettingsService.LastFmApiSecret;
-            LastFmUsername = _userSettingsService.LastFmUsername;
-            MainColourRgb = _userSettingsService.MainColourRgb;
-
-            Modified = false;
+            Reset();
         }
 
         public string LastFmUsername
@@ -62,36 +57,40 @@ namespace Whip.ViewModels.TabViewModels
             set { SetModified(ref _musicDirectory, value); }
         }
 
-        public override void OnSave()
+
+        public bool Scrobbling
         {
-            var updateLibrary = MusicDirectory != _userSettingsService.MusicDirectory && !string.IsNullOrEmpty(MusicDirectory);
-            var updateLastFmSessionKey = LastFmUsername != _userSettingsService.LastFmUsername;
-
-            _userSettingsService.LastFmUsername = LastFmUsername;
-            _userSettingsService.LastFmApiKey = LastFmApiKey;
-            _userSettingsService.LastFmApiSecret = LastFmApiSecret;
-            _userSettingsService.MusicDirectory = MusicDirectory;
-            _userSettingsService.MainColourRgb = MainColourRgb;
-            _userSettingsService.Save();
-            
-            if (updateLibrary)
-            {
-                _messenger.Send(new LibraryUpdateRequest());
-            }
-
-            if (updateLastFmSessionKey)
-            {
-                // Sort session key
-            }
+            get { return _scrobbling; }
+            set { SetModified(ref _scrobbling, value); }
         }
 
-        public override void OnCancel()
+        protected override void CustomSave()
         {
-            LastFmUsername = _userSettingsService.LastFmUsername;
-            LastFmApiKey = _userSettingsService.LastFmApiKey;
-            LastFmApiSecret = _userSettingsService.LastFmApiSecret;
-            MusicDirectory = _userSettingsService.MusicDirectory;
-            MainColourRgb = _userSettingsService.MainColourRgb;
+            _userSettings.LastFmUsername = LastFmUsername;
+            _userSettings.LastFmApiKey = LastFmApiKey;
+            _userSettings.LastFmApiSecret = LastFmApiSecret;
+            _userSettings.MusicDirectory = MusicDirectory;
+            _userSettings.MainColourRgb = MainColourRgb;
+            _userSettings.Scrobbling = Scrobbling;
+
+            _userSettings.Save();
+        }
+
+        protected override void CustomCancel()
+        {
+            Reset();
+        }
+
+        public void Reset()
+        {
+            LastFmUsername = _userSettings.LastFmUsername;
+            LastFmApiKey = _userSettings.LastFmApiKey;
+            LastFmApiSecret = _userSettings.LastFmApiSecret;
+            MusicDirectory = _userSettings.MusicDirectory;
+            MainColourRgb = _userSettings.MainColourRgb;
+            Scrobbling = _userSettings.Scrobbling;
+
+            Modified = false;
         }
     }
 }

@@ -15,18 +15,18 @@ namespace Whip.ViewModels
         private const string UserSettingsMissingText = "Please populate the essential settings for the music player to work correctly";
 
         private readonly ILibraryService _libraryService;
-        private readonly IUserSettingsService _userSettingsService;
+        private readonly IUserSettings _userSettings;
         private readonly IMessenger _messenger;
 
         private readonly Library _library;
         private readonly Playlist _playlist;
 
-        public MainWindowViewModel(ILibraryService libraryService, IUserSettingsService userSettingsService, Library library,
+        public MainWindowViewModel(ILibraryService libraryService, IUserSettings userSettings, Library library,
             IMessenger messenger, Playlist playlist, ITrackFilterService trackFilterService,
             MainViewModel mainViewModel, SidebarViewModel sidebarViewModel)
         {
             _libraryService = libraryService;
-            _userSettingsService = userSettingsService;
+            _userSettings = userSettings;
             _messenger = messenger;
 
             _library = library;
@@ -59,7 +59,7 @@ namespace Whip.ViewModels
 
         private void OnPopulateLibrary()
         {
-            if (!_userSettingsService.EssentialSettingsSet)
+            if (!_userSettings.EssentialSettingsSet)
             {
                 MainViewModel.SelectTab(TabType.Settings);
 

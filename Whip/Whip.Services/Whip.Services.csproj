@@ -44,7 +44,7 @@
     <Compile Include="Library\LibrarySortingService.cs" />
     <Compile Include="Library\TrackFilterService.cs" />
     <Compile Include="Player\ScrobblingPlayer.cs" />
-    <Compile Include="Scrobbling\CachingScrobbleService.cs" />
+    <Compile Include="Scrobbling\ScrobblingService.cs" />
     <Compile Include="Utilities\DirectoryStructureService.cs" />
     <Compile Include="Utilities\FileService.cs" />
     <Compile Include="Library\LibraryDataOrganiserService.cs" />

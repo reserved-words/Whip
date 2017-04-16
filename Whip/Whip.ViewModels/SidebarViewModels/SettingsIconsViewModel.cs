@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using System.Collections.Generic;
 using Whip.Common;
+using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
 using Whip.ViewModels.Utilities;
 
@@ -9,63 +10,67 @@ namespace Whip.ViewModels.SidebarViewModels
     public class SettingsIconsViewModel
     {
         private readonly IMessenger _messenger;
+        private readonly IUserSettings _userSettings;
 
-        public SettingsIconsViewModel(IMessenger messenger)
+        public SettingsIconsViewModel(IMessenger messenger, IUserSettings userSettings)
         {
             _messenger = messenger;
+            _userSettings = userSettings;
 
             PopulateIconCommands();
         }
 
-        public List<IconCommand> IconCommands { get; private set; }
+        public List<CommandIcon> IconCommands { get; private set; }
 
         private void PopulateIconCommands()
         {
-            IconCommands = new List<IconCommand>
+            IconCommands = new List<CommandIcon>
             {
-                new IconCommand(IconType.Headphones, "Scrobbling", OnToggleScrobbling),
-                new IconCommand(IconType.Random, "Shuffle", OnToggleShuffle),
-                new IconCommand(IconType.VolumeOff, "Mute", OnMute),
-                new IconCommand(IconType.VolumeDown, "Volume Down", OnVolumeDown),
-                new IconCommand(IconType.VolumeUp, "Volume Up", OnVolumeUp),
-                new IconCommand(IconType.Cog, "Settings", OnSettings),
-                new IconCommand(IconType.PaintBrush, "Switch Colour", OnSwitchColour)
+                new CommandIcon(IconType.LastFmSquare, "Scrobbling", OnToggleScrobbling, _userSettings.Scrobbling, IconType.Headphones, "Not Scrobbling"),
+                new CommandIcon(IconType.Random, "Shuffling", OnToggleShuffle, true, IconType.LongArrowRight, "Playing In Order"),
+                new CommandIcon(IconType.VolumeOff, "Mute", OnMute),
+                new CommandIcon(IconType.VolumeDown, "Volume Down", OnVolumeDown),
+                new CommandIcon(IconType.VolumeUp, "Volume Up", OnVolumeUp),
+                new CommandIcon(IconType.Cog, "Settings", OnSettings),
+                new CommandIcon(IconType.PaintBrush, "Switch Colour", OnSwitchColour)
             };
         }
 
-        private void OnSwitchColour()
+        private void OnSwitchColour(CommandIcon commandIcon)
         {
             // throw new NotImplementedException();
         }
 
-        private void OnSettings()
+        private void OnSettings(CommandIcon commandIcon)
         {
             _messenger.Send(new EditSettingsMessage());
         }
 
-        private void OnVolumeUp()
+        private void OnVolumeUp(CommandIcon commandIcon)
         {
             // throw new NotImplementedException();
         }
 
-        private void OnVolumeDown()
+        private void OnVolumeDown(CommandIcon commandIcon)
         {
             // throw new NotImplementedException();
         }
 
-        private void OnMute()
+        private void OnMute(CommandIcon commandIcon)
         {
             // throw new NotImplementedException();
         }
 
-        private void OnToggleShuffle()
+        private void OnToggleShuffle(CommandIcon commandIcon)
         {
-            // throw new NotImplementedException();
+            commandIcon.On = !commandIcon.On;
         }
 
-        private void OnToggleScrobbling()
+        private void OnToggleScrobbling(CommandIcon commandIcon)
         {
-            // throw new NotImplementedException();
+            _userSettings.Scrobbling = !_userSettings.Scrobbling;
+            _userSettings.Save();
+            commandIcon.On = _userSettings.Scrobbling;
         }
     }
 }

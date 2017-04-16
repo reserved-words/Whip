@@ -57,6 +57,10 @@
     </DataTemplate>
 
     <!-- STYLES -->
+    <Style TargetType="{x:Type CheckBox}">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+    
     <Style TargetType="{x:Type controls:Icon32}">
         <Setter Property="Foreground" Value="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}" />
     </Style>

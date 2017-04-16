@@ -54,7 +54,7 @@
     <Compile Include="Library\ITaggingService.cs" />
     <Compile Include="Utilities\ILoggingService.cs" />
     <Compile Include="Utilities\IScrobblingRulesService.cs" />
-    <Compile Include="Utilities\IUserSettingsService.cs" />
+    <Compile Include="Utilities\IUserSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

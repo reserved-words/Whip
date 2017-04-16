@@ -48,6 +48,7 @@ namespace Whip.Ioc
             Bind<Library>().ToSelf().InSingletonScope();
             Bind<Playlist>().ToSelf().InSingletonScope();
             Bind<IMessenger>().To<Messenger>().InSingletonScope();
+            Bind<IUserSettings>().To<UserSettings>().InSingletonScope();
         }
 
         private void BindServices()
@@ -56,7 +57,6 @@ namespace Whip.Ioc
             Bind<IExceptionHandlingService>().To<ExceptionHandlingService>().InTransientScope();
             Bind<IFileService>().To<FileService>().InTransientScope();
             Bind<ILibraryService>().To<LibraryService>().InTransientScope();
-            Bind<IUserSettingsService>().To<UserSettingsService>().InTransientScope();
             Bind<ILibraryDataOrganiserService>().To<LibraryDataOrganiserService>().InTransientScope();
             Bind<IDataPersistenceService>().To<XmlDataPersistenceService>().InTransientScope();
             Bind<ITaggingService>().To<TagLibService>().InTransientScope();
@@ -79,9 +79,9 @@ namespace Whip.Ioc
             Bind<ILastFmTrackLoveService>().To<AuthorizedTrackLoveService>().InTransientScope();
 
             Bind<IScrobblingService>()
-                .To<CachingScrobbleService>()
+                .To<Services.ScrobblingService>()
                 .InTransientScope()
-                .WithConstructorArgument(typeof(IScrobblingService), ctx => ctx.Kernel.Get<ScrobblingService>());
+                .WithConstructorArgument(typeof(IScrobblingService), ctx => ctx.Kernel.Get<LastFm.ScrobblingService>());
 
             Bind<ITrackLoveService>()
                 .To<TrackLoveService>()

@@ -12,8 +12,8 @@ namespace Whip.ViewModels.TabViewModels
         public EditableTabViewModelBase(TabType tabType, IconType icon, string title, bool visible = true)
             :base(tabType, icon, title, visible)
         {
-            CancelCommand = new RelayCommand(OnCancelAndFinish);
-            SaveCommand = new RelayCommand(OnSaveAndFinish);
+            CancelCommand = new RelayCommand(OnCancel);
+            SaveCommand = new RelayCommand(OnSave);
         }
 
         public event Action<EditableTabViewModelBase> FinishedEditing;
@@ -27,27 +27,27 @@ namespace Whip.ViewModels.TabViewModels
             set { Set(ref _modified, value); }
         }
 
-        private void OnCancelAndFinish()
+        public void OnCancel()
         {
-            OnCancel();
+            CustomCancel();
             OnFinish();
         }
 
-        public abstract void OnCancel();
+        protected abstract void CustomCancel();
 
-        private void OnFinish()
+        public void OnFinish()
         {
             Modified = false;
             FinishedEditing?.Invoke(this);
         }
 
-        private void OnSaveAndFinish()
+        private void OnSave()
         {
-            OnSave();
+            CustomSave();
             OnFinish();
         }
 
-        public abstract void OnSave();
+        protected abstract void CustomSave();
 
         protected void SetModified<T>(ref T property, T value)
         {

@@ -18,6 +18,7 @@ namespace Whip.Common
         LastFmSquare,
         ListOl,
         ListUl,
+        LongArrowRight,
         Music,
         PaintBrush,
         Random,

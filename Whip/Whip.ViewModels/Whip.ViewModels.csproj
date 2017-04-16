@@ -96,7 +96,7 @@
     <Compile Include="TabViewModels\DashboardViewModel.cs" />
     <Compile Include="TabViewModels\SettingsViewModel.cs" />
     <Compile Include="TabViewModels\BaseClasses\TabViewModelBase.cs" />
-    <Compile Include="Utilities\IconCommand.cs" />
+    <Compile Include="Utilities\CommandIcon.cs" />
     <Compile Include="Utilities\TabType.cs" />
     <Compile Include="Utilities\TrackTimer.cs" />
     <Compile Include="Messages\ShowDialogMessage.cs" />

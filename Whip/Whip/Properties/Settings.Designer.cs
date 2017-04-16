@@ -94,5 +94,17 @@ namespace Whip.Properties {
                 this["MainColourRgb"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Scrobbling {
+            get {
+                return ((bool)(this["Scrobbling"]));
+            }
+            set {
+                this["Scrobbling"] = value;
+            }
+        }
     }
 }

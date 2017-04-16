@@ -15,18 +15,18 @@ namespace Whip.Services
         private readonly ILibrarySortingService _librarySortingService;
         private readonly IDataPersistenceService _dataPersistenceService;
         private readonly IDirectoryStructureService _directoryStructureService;
-        private readonly IUserSettingsService _userSettingsService;
+        private readonly IUserSettings _userSettings;
 
         public LibraryService(IFileService fileService, ILibraryDataOrganiserService libraryDataOrganiserService,
             IDataPersistenceService dataPersistenceService, IDirectoryStructureService directoryStructureService,
-            IUserSettingsService userSettingsService, ILibrarySortingService librarySortingService)
+            IUserSettings userSettings, ILibrarySortingService librarySortingService)
         {
             _fileService = fileService;
             _libraryDataOrganiserService = libraryDataOrganiserService;
             _librarySortingService = librarySortingService;
             _dataPersistenceService = dataPersistenceService;
             _directoryStructureService = directoryStructureService;
-            _userSettingsService = userSettingsService;
+            _userSettings = userSettings;
         }
 
         public async Task<Library> GetLibraryAsync(IProgress<ProgressArgs> progressHandler)
@@ -43,7 +43,7 @@ namespace Whip.Services
 
                 progressHandler?.Report(new ProgressArgs(20, "Fetching files"));
 
-                var files = _fileService.GetFiles(_userSettingsService.MusicDirectory, ApplicationSettings.FileExtensions, libraryLastUpdated);
+                var files = _fileService.GetFiles(_userSettings.MusicDirectory, ApplicationSettings.FileExtensions, libraryLastUpdated);
 
                 progressHandler?.Report(new ProgressArgs(40, "Removing deleted files"));
 

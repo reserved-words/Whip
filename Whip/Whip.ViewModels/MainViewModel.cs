@@ -26,6 +26,8 @@ namespace Whip.ViewModels
         private TabViewModelBase _selectedTab;
         private Track _currentTrack;
 
+        private bool _selectedTabSetByViewModel;
+
         public MainViewModel(
             DashboardViewModel dashboardViewModel,
             LibraryViewModel libraryViewModel,
@@ -63,7 +65,7 @@ namespace Whip.ViewModels
             _settingsViewModel = settingsViewModel;
             _messenger = messenger;
 
-            SelectedTab = libraryViewModel;
+            SetSelectedTab(_defaultViewModel);
 
             ChangeTabCommand = new RelayCommand(OnChangingTab, CanChangeTab);
 
@@ -77,38 +79,54 @@ namespace Whip.ViewModels
         private void OnFinishedEditing(EditableTabViewModelBase sender)
         {
             sender.IsVisible = false;
-            SelectedTab = _defaultViewModel;
+            SetSelectedTab(_defaultViewModel);
         }
 
         private bool CanChangeTab()
         {
+            if (_selectedTabSetByViewModel)
+            {
+                _selectedTabSetByViewModel = false;
+                return true;
+            }
+
             var editable = _selectedTab as EditableTabViewModelBase;
 
-            if (editable == null || !editable.Modified)
+            if (editable == null)
                 return true;
 
-            var confirmationViewModel = new ConfirmationViewModel(_messenger, UnsavedChangesTitle, UnsavedChangesText,ConfirmationViewModel.ConfirmationType.YesNo);
+            if (editable.Modified)
+            {
+                var confirmationViewModel = new ConfirmationViewModel(_messenger, UnsavedChangesTitle, UnsavedChangesText, ConfirmationViewModel.ConfirmationType.YesNo);
 
-            _messenger.Send(new ShowDialogMessage(confirmationViewModel));
+                _messenger.Send(new ShowDialogMessage(confirmationViewModel));
 
-            if (!confirmationViewModel.Result)
-                return false;
+                if (!confirmationViewModel.Result)
+                    return false;
+            }
 
             editable.OnCancel();
             return true;
         }
 
+        private void SetSelectedTab(TabViewModelBase tab)
+        {
+            _selectedTabSetByViewModel = true;
+            SelectedTab = tab;
+        }
+
         private void ShowSettingsTab()
         {
+            _settingsViewModel.Reset();
             _settingsViewModel.IsVisible = true;
-            SelectedTab = _settingsViewModel;
+            SetSelectedTab(_settingsViewModel);
         }
 
         private void ShowEditTrackTab(Track track)
         {
             _editTrackViewModel.Edit(track);
             _editTrackViewModel.IsVisible = true;
-            SelectedTab = _editTrackViewModel;
+            SetSelectedTab(_editTrackViewModel);
         }
 
         private void OnChangingTab() { }
@@ -132,15 +150,10 @@ namespace Whip.ViewModels
             _currentTrack = track;
             SelectedTab.OnCurrentTrackChanged(track);
         }
-
-        public void OnEditTrack(Track track)
-        {
-            _editTrackViewModel.IsVisible = true;
-        }
-
+        
         public void SelectTab(TabType key)
         {
-            SelectedTab = Tabs.Single(t => t.Key == key);
+            SetSelectedTab(Tabs.Single(t => t.Key == key));
         }
     }
 }

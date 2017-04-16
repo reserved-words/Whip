@@ -20,5 +20,8 @@
     <Setting Name="MainColourRgb" Type="System.String" Scope="User">
       <Value Profile="(Default)">#4D64A3</Value>
     </Setting>
+    <Setting Name="Scrobbling" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

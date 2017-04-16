@@ -17,14 +17,14 @@ namespace Whip.Services
     {
         private const char TagsDelimiter = '|';
 
-        private readonly IUserSettingsService _userSettingsService;
+        private readonly IUserSettings _userSettings;
 
-        public XmlDataPersistenceService(IUserSettingsService userSettingsService)
+        public XmlDataPersistenceService(IUserSettings userSettings)
         {
-            _userSettingsService = userSettingsService;
+            _userSettings = userSettings;
         }
 
-        private string XmlDirectory => Path.Combine(_userSettingsService.MusicDirectory, string.Format("_{0}", ApplicationTitle));
+        private string XmlDirectory => Path.Combine(_userSettings.MusicDirectory, string.Format("_{0}", ApplicationTitle));
 
         private string XmlFilePath => Path.Combine(XmlDirectory, "library.xml");
 

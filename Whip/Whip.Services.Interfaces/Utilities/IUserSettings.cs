@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Whip.Services.Interfaces
 {
-    public interface IUserSettingsService
+    public interface IUserSettings
     {
+        event Action ScrobblingStatusChanged;
+
         bool EssentialSettingsSet { get; }
         string LastFmApiKey { get; set; }
         string LastFmApiSecret { get; set; }
@@ -15,6 +13,7 @@ namespace Whip.Services.Interfaces
         string LastFmUsername { get; set; }
         string MusicDirectory { get; set; }
         string MainColourRgb { get; set; }
+        bool Scrobbling { get; set; }
         void Save();
     }
 }

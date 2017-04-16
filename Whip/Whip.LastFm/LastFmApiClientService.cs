@@ -8,15 +8,15 @@ namespace Whip.LastFm
     public class LastFmApiClientService : ILastFmApiClientService
     {
         private readonly ILastFmSessionService _sessionService;
-        private readonly IUserSettingsService _userSettingsService;
+        private readonly IUserSettings _userSettings;
 
         private readonly Lazy<AuthorizedApiClient> _authorizedApiClient;
         private readonly Lazy<ApiClient> _apiClient;
 
-        public LastFmApiClientService(ILastFmSessionService sessionService, IUserSettingsService userSettingsService)
+        public LastFmApiClientService(ILastFmSessionService sessionService, IUserSettings userSettings)
         {
             _sessionService = sessionService;
-            _userSettingsService = userSettingsService;
+            _userSettings = userSettings;
 
             _authorizedApiClient = new Lazy<AuthorizedApiClient>(GetAuthorizedApiClient);
             _apiClient = new Lazy<ApiClient>(GetAuthorizedApiClient);
@@ -28,14 +28,14 @@ namespace Whip.LastFm
         private AuthorizedApiClient GetAuthorizedApiClient()
         {
             var client = _sessionService.GetAuthorizedApiClient(
-                _userSettingsService.LastFmApiKey,
-                _userSettingsService.LastFmApiSecret,
-                _userSettingsService.LastFmUsername,
-                _userSettingsService.LastFmApiSessionKey);
+                _userSettings.LastFmApiKey,
+                _userSettings.LastFmApiSecret,
+                _userSettings.LastFmUsername,
+                _userSettings.LastFmApiSessionKey);
 
-            _userSettingsService.LastFmUsername = client.Username;
-            _userSettingsService.LastFmApiSessionKey = client.SessionKey;
-            _userSettingsService.Save();
+            _userSettings.LastFmUsername = client.Username;
+            _userSettings.LastFmApiSessionKey = client.SessionKey;
+            _userSettings.Save();
 
             return client;
         }
@@ -43,8 +43,8 @@ namespace Whip.LastFm
         private ApiClient GetApiClient()
         {
             return _sessionService.GetApiClient(
-                _userSettingsService.LastFmApiKey,
-                _userSettingsService.LastFmApiSecret);
+                _userSettings.LastFmApiKey,
+                _userSettings.LastFmApiSecret);
         }
     }
 }
