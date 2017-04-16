@@ -72,13 +72,8 @@
                  Width="300"
                  Text="{Binding MainColourRgb, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-        <WrapPanel Grid.Row="10"
-                   Grid.Column="0" Grid.ColumnSpan="3">
-            <Button Content="Save"
-                    Command="{Binding SaveCommand}"/>
-            <Button Content="Cancel"
-                    Command="{Binding CancelCommand}"/>
-        </WrapPanel>
-
+        <local:EditableButtonsView Grid.Row="10"
+                                   Grid.Column="0" Grid.ColumnSpan="3"
+                                   DataContext="{Binding}" />
     </Grid>
 </UserControl>

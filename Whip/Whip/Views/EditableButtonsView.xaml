@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Whip.TabEditTrack"
+﻿<UserControl x:Class="Whip.EditableButtonsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +6,10 @@
              xmlns:local="clr-namespace:Whip"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <local:EditableButtonsView DataContext="{Binding}" />
-    </Grid>
+    <WrapPanel>
+        <Button Content="Save"
+                Command="{Binding SaveCommand}"/>
+        <Button Content="Cancel"
+                Command="{Binding CancelCommand}"/>
+    </WrapPanel>
 </UserControl>

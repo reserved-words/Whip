@@ -65,7 +65,8 @@ namespace Whip.ViewModels
             ChangeTabCommand = new RelayCommand(OnChangingTab, CanChangeTab);
 
             editTrackRequester.RequestAccepted += EditTrackRequester_RequestAccepted;
-            _editTrackViewModel.FinishedEditing += OnFinishedEditing;
+            editTrackViewModel.FinishedEditing += OnFinishedEditing;
+            settingsViewModel.FinishedEditing += OnFinishedEditing;
         }
 
         private void OnFinishedEditing()
