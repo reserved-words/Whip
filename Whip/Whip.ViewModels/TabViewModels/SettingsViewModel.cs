@@ -31,43 +31,43 @@ namespace Whip.ViewModels.TabViewModels
         public string LastFmUsername
         {
             get { return _lastFmUsername; }
-            set { SetModified(ref _lastFmUsername, value); }
+            set { SetModified(nameof(LastFmUsername), ref _lastFmUsername, value); }
         }
 
         public string LastFmApiKey
         {
             get { return _lastFmApiKey; }
-            set { SetModified(ref _lastFmApiKey, value); }
+            set { SetModified(nameof(LastFmApiKey), ref _lastFmApiKey, value); }
         }
 
         public string LastFmApiSecret
         {
             get { return _lastFmApiSecret; }
-            set { SetModified(ref _lastFmApiSecret, value); }
+            set { SetModified(nameof(LastFmApiSecret), ref _lastFmApiSecret, value); }
         }
 
         public string MainColourRgb
         {
             get { return _mainColourRgb; }
-            set { SetModified(ref _mainColourRgb, value); }
+            set { SetModified(nameof(MainColourRgb), ref _mainColourRgb, value); }
         }
 
         public string MusicDirectory
         {
             get { return _musicDirectory; }
-            set { SetModified(ref _musicDirectory, value); }
+            set { SetModified(nameof(MusicDirectory), ref _musicDirectory, value); }
         }
 
         public bool Scrobbling
         {
             get { return _scrobbling; }
-            set { SetModified(ref _scrobbling, value); }
+            set { SetModified(nameof(Scrobbling), ref _scrobbling, value); }
         }
         
         public bool ShuffleOn
         {
             get { return _shuffleOn; }
-            set { SetModified(ref _shuffleOn, value); }
+            set { SetModified(nameof(ShuffleOn), ref _shuffleOn, value); }
         }
 
         protected override void CustomSave()

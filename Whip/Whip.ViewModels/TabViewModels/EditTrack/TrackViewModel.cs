@@ -120,37 +120,37 @@ namespace Whip.ViewModels.TabViewModels
         public string Title
         {
             get { return _title; }
-            set { SetModified(ref _title, value); }
+            set { SetModified(nameof(Title), ref _title, value); }
         }
 
         public string Year
         {
             get { return _year; }
-            set { SetModified(ref _year, value); }
+            set { SetModified(nameof(Year), ref _year, value); }
         }
 
         public string Lyrics
         {
             get { return _lyrics; }
-            set { SetModified(ref _lyrics, value); }
+            set { SetModified(nameof(Lyrics), ref _lyrics, value); }
         }
 
         public string AlbumArtwork
         {
             get { return _albumArtwork; }
-            set { SetModified(ref _albumArtwork, value); }
+            set { SetModified(nameof(AlbumArtwork), ref _albumArtwork, value); }
         }
 
         public string AlbumYear
         {
             get { return _albumYear; }
-            set { SetModified(ref _albumYear, value); }
+            set { SetModified(nameof(AlbumYear), ref _albumYear, value); }
         }
 
         public ReleaseType AlbumReleaseType
         {
             get { return _albumReleaseType; }
-            set { SetModified(ref _albumReleaseType, value); }
+            set { SetModified(nameof(AlbumReleaseType), ref _albumReleaseType, value); }
         }
 
         public string AlbumArtistName
@@ -158,7 +158,7 @@ namespace Whip.ViewModels.TabViewModels
             get { return _albumArtistName; }
             set
             {
-                SetModified(ref _albumArtistName, value);
+                SetModified(nameof(AlbumArtistName), ref _albumArtistName, value);
                 PopulateAlbumList();
                 PopulateAlbumDetails();
             }
@@ -169,7 +169,7 @@ namespace Whip.ViewModels.TabViewModels
             get { return _albumTitle; }
             set
             {
-                SetModified(ref _albumTitle, value);
+                SetModified(nameof(AlbumTitle), ref _albumTitle, value);
                 PopulateAlbumDetails();
             }
         }
@@ -179,7 +179,7 @@ namespace Whip.ViewModels.TabViewModels
             get { return _artistName; }
             set
             {
-                SetModified(ref _artistName, value);
+                SetModified(nameof(ArtistName), ref _artistName, value);
                 PopulateArtistDetails();
             }
         }
@@ -187,20 +187,20 @@ namespace Whip.ViewModels.TabViewModels
         public string ArtistGrouping
         {
             get { return _artistGrouping; }
-            set { SetModified(ref _artistGrouping, value); }
+            set { SetModified(nameof(ArtistGrouping), ref _artistGrouping, value); }
         }
 
         public string ArtistGenre
         {
             get { return _artistGenre; }
-            set { SetModified(ref _artistGenre, value); }
+            set { SetModified(nameof(ArtistGenre), ref _artistGenre, value); }
         }
         public string ArtistCountry
         {
             get { return _artistCountry; }
             set
             {
-                SetModified(ref _artistCountry, value);
+                SetModified(nameof(ArtistCountry), ref _artistCountry, value);
                 PopulateStateList();
             }
         }
@@ -209,14 +209,14 @@ namespace Whip.ViewModels.TabViewModels
             get { return _artistState; }
             set
             {
-                SetModified(ref _artistState, value);
+                SetModified(nameof(ArtistState), ref _artistState, value);
                 PopulateCityList();
             }
         }
         public string ArtistCity
         {
             get { return _artistCity; }
-            set { SetModified(ref _artistCity, value); }
+            set { SetModified(nameof(ArtistCity), ref _artistCity, value); }
         }
 
         public string ArtistWebsite
@@ -224,7 +224,7 @@ namespace Whip.ViewModels.TabViewModels
             get { return _artistWebsite; }
             set
             {
-                SetModified(ref _artistWebsite, value);
+                SetModified(nameof(ArtistWebsite), ref _artistWebsite, value);
                 TestWebsiteCommand.RaiseCanExecuteChanged();
             }
         }
@@ -232,37 +232,37 @@ namespace Whip.ViewModels.TabViewModels
         public string ArtistTwitter
         {
             get { return _artistTwitter; }
-            set { SetModified(ref _artistTwitter, value); }
+            set { SetModified(nameof(ArtistTwitter), ref _artistTwitter, value); }
         }
 
         public string ArtistFacebook
         {
             get { return _artistFacebook; }
-            set { SetModified(ref _artistFacebook, value); }
+            set { SetModified(nameof(ArtistFacebook), ref _artistFacebook, value); }
         }
 
         public string ArtistLastFm
         {
             get { return _artistLastFm; }
-            set { SetModified(ref _artistLastFm, value); }
+            set { SetModified(nameof(ArtistLastFm), ref _artistLastFm, value); }
         }
 
         public string ArtistWikipedia
         {
             get { return _artistWikipedia; }
-            set { SetModified(ref _artistWikipedia, value); }
+            set { SetModified(nameof(ArtistWikipedia), ref _artistWikipedia, value); }
         }
 
         public int? TrackNo
         {
             get { return _trackNo; }
-            set { SetModified(ref _trackNo, value); }
+            set { SetModified(nameof(TrackNo), ref _trackNo, value); }
         }
 
         public int? TrackCount
         {
             get { return _trackCount; }
-            set { SetModified(ref _trackCount, value); }
+            set { SetModified(nameof(TrackCount), ref _trackCount, value); }
         }
 
         public int? DiscNo
@@ -270,7 +270,7 @@ namespace Whip.ViewModels.TabViewModels
             get { return _discNo; }
             set
             {
-                SetModified(ref _discNo, value);
+                SetModified(nameof(DiscNo), ref _discNo, value);
                 PopulateDiscDetails();
             }
         }
@@ -278,13 +278,13 @@ namespace Whip.ViewModels.TabViewModels
         public int? DiscCount
         {
             get { return _discCount; }
-            set { SetModified(ref _discCount, value); }
+            set { SetModified(nameof(DiscCount), ref _discCount, value); }
         }
 
         public bool Modified
         {
             get { return _modified; }
-            set { Set(ref _modified, value); }
+            set { Set(nameof(Modified), ref _modified, value); }
         }
 
         public void UpdateTrack(Track track)
@@ -315,9 +315,9 @@ namespace Whip.ViewModels.TabViewModels
             // etc
         }
 
-        protected void SetModified<T>(ref T property, T value)
+        private void SetModified<T>(string propertyName, ref T property, T value)
         {
-            Set(ref property, value);
+            Set(propertyName, ref property, value);
             if (!Modified)
             {
                 Modified = true;
@@ -369,6 +369,8 @@ namespace Whip.ViewModels.TabViewModels
             AlbumArtwork = album?.Artwork ?? string.Empty;
             AlbumYear = album?.Year ?? string.Empty;
             DiscCount = album?.DiscCount ?? 1;
+
+            PopulateDiscDetails();
         }
 
         private void PopulateArtistDetails()

@@ -49,9 +49,9 @@ namespace Whip.ViewModels.TabViewModels
 
         protected abstract void CustomSave();
 
-        protected void SetModified<T>(ref T property, T value)
+        protected void SetModified<T>(string propertyName, ref T property, T value)
         {
-            Set(ref property, value);
+            Set(propertyName, ref property, value);
             Modified = true;
         }
     }
