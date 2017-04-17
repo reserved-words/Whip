@@ -37,6 +37,9 @@ namespace Whip.ViewModels.MessageHandlers
 
         private void OnEditTrack(EditTrackMessage message)
         {
+            if (message.Track == null)
+                return;
+
             ShowEditTrackTab?.Invoke(message.Track);
         }
     }

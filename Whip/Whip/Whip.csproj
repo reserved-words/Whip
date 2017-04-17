@@ -136,6 +136,7 @@
     <Compile Include="TabControls\TabSettings.xaml.cs">
       <DependentUpon>TabSettings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\EnumExtension.cs" />
     <Compile Include="Views\ArtistLinksView.xaml.cs">
       <DependentUpon>ArtistLinksView.xaml</DependentUpon>
     </Compile>
@@ -144,9 +145,6 @@
     </Compile>
     <Compile Include="Views\EditableButtonsView.xaml.cs">
       <DependentUpon>EditableButtonsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EditTrackView.xaml.cs">
-      <DependentUpon>EditTrackView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LibraryArtistView.xaml.cs">
       <DependentUpon>LibraryArtistView.xaml</DependentUpon>
@@ -235,10 +233,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\EditableButtonsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\EditTrackView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

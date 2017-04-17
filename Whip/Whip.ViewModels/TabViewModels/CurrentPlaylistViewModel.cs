@@ -24,10 +24,12 @@ namespace Whip.ViewModels.TabViewModels
 
             _playlist.ListUpdated += OnPlaylistUpdated;
 
+            EditTrackCommand = new RelayCommand(OnEditTrack);
             PlayCommand = new RelayCommand(OnPlay);
         }
 
         public RelayCommand PlayCommand { get; private set; }
+        public RelayCommand EditTrackCommand { get; private set; }
 
         public string PlaylistName => _playlist.PlaylistName;
 
@@ -38,6 +40,11 @@ namespace Whip.ViewModels.TabViewModels
         }
 
         public List<Track> Tracks => _playlist.Tracks;
+
+        private void OnEditTrack()
+        {
+            _messenger.Send(new EditTrackMessage(SelectedTrack));
+        }
 
         private void OnPlay()
         {

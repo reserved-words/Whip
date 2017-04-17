@@ -3,9 +3,7 @@ using GalaSoft.MvvmLight.Messaging;
 using System.Collections.Generic;
 using System.Linq;
 using Whip.Common;
-using Whip.Common.ExtensionMethods;
 using Whip.Common.Model;
-using Whip.Common.TrackSorters;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
 
@@ -53,6 +51,11 @@ namespace Whip.ViewModels
                 : count == 1
                 ? string.Format("1 {0}", description)
                 : string.Format("{0} {1}s", count, description);
+        }
+
+        public void OnEditTrack(Track track)
+        {
+            _messenger.Send(new EditTrackMessage(track));
         }
 
         public void OnPlay(Track startAt)

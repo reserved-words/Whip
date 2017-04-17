@@ -10,7 +10,6 @@ namespace Whip.Common.Model
     {
         public Artist()
         {
-            City = new City();
             Albums = new List<Album>();
             Tracks = new List<Track>();
         }

@@ -18,12 +18,14 @@ namespace Whip.ViewModels
             Album = album;
             ByArtist = album.Artist == artist.Artist;
 
+            EditTrackCommand = new RelayCommand(OnEditTrack);
             PlayCommand = new RelayCommand(OnPlay);
             PlayArtistCommand = new RelayCommand(OnPlayArtist);
 
             PopulateTracks();
         }
 
+        public RelayCommand EditTrackCommand { get; private set; }
         public RelayCommand PlayArtistCommand { get; private set; }
         public RelayCommand PlayCommand { get; private set; }
 
@@ -37,7 +39,12 @@ namespace Whip.ViewModels
             get { return _selectedTrack; }
             set { Set(ref _selectedTrack, value); }
         }
-        
+
+        private void OnEditTrack()
+        {
+            _artist.OnEditTrack(SelectedTrack);
+        }
+
         private void OnPlay()
         {
             _artist.OnPlayAlbum(this);

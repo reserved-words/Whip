@@ -13,6 +13,11 @@ namespace Whip.Common.Utilities
                 return value;
             }
 
+            return GetDefaultValue<TEnum>();
+        }
+
+        public static TEnum GetDefaultValue<TEnum>() where TEnum : struct
+        {
             var attributes = typeof(TEnum)
                 .GetCustomAttributes(typeof(DefaultValueAttribute), false)
                 .OfType<DefaultValueAttribute>();

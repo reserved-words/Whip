@@ -87,6 +87,7 @@
     <Compile Include="TabViewModels\CurrentTrackViewModel.cs" />
     <Compile Include="TabViewModels\BaseClasses\EditableTabViewModelBase.cs" />
     <Compile Include="TabViewModels\EditTrackViewModel.cs" />
+    <Compile Include="TabViewModels\EditTrack\TrackViewModel.cs" />
     <Compile Include="TabViewModels\Library\AlbumViewModel.cs" />
     <Compile Include="TabViewModels\Library\ArtistViewModel.cs" />
     <Compile Include="TabViewModels\NewsViewModel.cs" />

@@ -42,6 +42,7 @@ namespace Whip.Ioc
             Bind<MainViewModel>().ToSelf().InTransientScope();
             Bind<PlayerControlsViewModel>().ToSelf().InTransientScope();
             Bind<LibraryViewModel>().ToSelf().InTransientScope();
+            Bind<TrackViewModel>().ToSelf().InTransientScope();
         }
 
         private void BindSingletons()
