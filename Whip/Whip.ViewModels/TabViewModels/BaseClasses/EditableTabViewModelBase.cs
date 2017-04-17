@@ -21,7 +21,7 @@ namespace Whip.ViewModels.TabViewModels
         public RelayCommand CancelCommand { get; private set; }
         public RelayCommand SaveCommand { get; private set; }
 
-        public bool Modified
+        public virtual bool Modified
         {
             get { return _modified; }
             set { Set(ref _modified, value); }

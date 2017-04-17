@@ -13,8 +13,12 @@ namespace Whip.ViewModels.TabViewModels
             : base(TabType.EditTrack, IconType.Edit, "Edit Track", false)
         {
             TrackViewModel = trackViewModel;
+        }
 
-            TrackViewModel.IsModified += OnTrackViewModelModified;
+        public override bool Modified
+        {
+            get { return TrackViewModel.Modified; }
+            set { TrackViewModel.Modified = value; }
         }
 
         public TrackViewModel TrackViewModel { get; private set; }
@@ -26,11 +30,6 @@ namespace Whip.ViewModels.TabViewModels
             TrackViewModel.Populate(track);
         }
 
-        private void OnTrackViewModelModified()
-        {
-            Modified = true;
-        }
-
         protected override void CustomSave()
         {
             TrackViewModel.UpdateTrack(_track);
@@ -40,7 +39,6 @@ namespace Whip.ViewModels.TabViewModels
 
         protected override void CustomCancel()
         {
-            // Do nothing
         }
     }
 }

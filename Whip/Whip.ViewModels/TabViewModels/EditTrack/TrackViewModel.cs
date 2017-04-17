@@ -66,8 +66,6 @@ namespace Whip.ViewModels.TabViewModels
             TestLastFmCommand = new RelayCommand(OnTestLastFm, CanTestLastFm);
         }
 
-        public event Action IsModified;
-
         public RelayCommand TestWebsiteCommand { get; private set; }
         public RelayCommand TestFacebookCommand { get; private set; }
         public RelayCommand TestTwitterCommand { get; private set; }
@@ -392,11 +390,7 @@ namespace Whip.ViewModels.TabViewModels
         private void SetModified<T>(string propertyName, ref T property, T value)
         {
             Set(propertyName, ref property, value);
-            if (!Modified)
-            {
-                Modified = true;
-                IsModified?.Invoke();
-            }
+            Modified = true;
         }
 
         public void Populate(Track track)

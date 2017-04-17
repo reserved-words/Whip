@@ -22,6 +22,12 @@ namespace Whip.ViewModels.TabViewModels
 
         public override void OnCurrentTrackChanged(Track track)
         {
+            if (track == null)
+            {
+                Artist = null;
+                return;
+            }
+
             if (Artist == track.Artist)
                 return;
 
