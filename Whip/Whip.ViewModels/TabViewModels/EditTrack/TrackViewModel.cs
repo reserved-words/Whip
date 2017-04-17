@@ -8,6 +8,7 @@ using Whip.Common.Model;
 using Whip.Common.Singletons;
 using Whip.Common.Utilities;
 using Whip.ViewModels.Utilities;
+using static Whip.Resources.Resources;
 
 namespace Whip.ViewModels.TabViewModels
 {
@@ -59,21 +60,24 @@ namespace Whip.ViewModels.TabViewModels
             _library = library;
 
             TestWebsiteCommand = new RelayCommand(OnTestWebsite, CanTestWebsite);
-        }
-
-        private bool CanTestWebsite()
-        {
-            return !string.IsNullOrEmpty(ArtistWebsite);
-        }
-
-        private void OnTestWebsite()
-        {
-            Hyperlink.Go(ArtistWebsite);
+            TestFacebookCommand = new RelayCommand(OnTestFacebook, CanTestFacebook);
+            TestTwitterCommand = new RelayCommand(OnTestTwitter, CanTestTwitter);
+            TestWikipediaCommand = new RelayCommand(OnTestWikipedia, CanTestWikipedia);
+            TestLastFmCommand = new RelayCommand(OnTestLastFm, CanTestLastFm);
         }
 
         public event Action IsModified;
 
         public RelayCommand TestWebsiteCommand { get; private set; }
+        public RelayCommand TestFacebookCommand { get; private set; }
+        public RelayCommand TestTwitterCommand { get; private set; }
+        public RelayCommand TestWikipediaCommand { get; private set; }
+        public RelayCommand TestLastFmCommand { get; private set; }
+
+        public string ArtistFacebookUrl => string.Format(FacebookUrl, ArtistFacebook);
+        public string ArtistTwitterUrl => string.Format(TwitterUrl, ArtistTwitter);
+        public string ArtistWikipediaUrl => string.Format(WikipediaUrl, ArtistWikipedia);
+        public string ArtistLastFmUrl => string.Format(LastFmUrl, ArtistLastFm);
 
         public List<string> Artists
         { 
@@ -232,25 +236,45 @@ namespace Whip.ViewModels.TabViewModels
         public string ArtistTwitter
         {
             get { return _artistTwitter; }
-            set { SetModified(nameof(ArtistTwitter), ref _artistTwitter, value); }
+            set
+            {
+                SetModified(nameof(ArtistTwitter), ref _artistTwitter, value);
+                TestTwitterCommand.RaiseCanExecuteChanged();
+                RaisePropertyChanged(nameof(ArtistTwitterUrl));
+            }
         }
 
         public string ArtistFacebook
         {
             get { return _artistFacebook; }
-            set { SetModified(nameof(ArtistFacebook), ref _artistFacebook, value); }
+            set
+            {
+                SetModified(nameof(ArtistFacebook), ref _artistFacebook, value);
+                TestFacebookCommand.RaiseCanExecuteChanged();
+                RaisePropertyChanged(nameof(ArtistFacebookUrl));
+            }
         }
 
         public string ArtistLastFm
         {
             get { return _artistLastFm; }
-            set { SetModified(nameof(ArtistLastFm), ref _artistLastFm, value); }
+            set
+            {
+                SetModified(nameof(ArtistLastFm), ref _artistLastFm, value);
+                TestLastFmCommand.RaiseCanExecuteChanged();
+                RaisePropertyChanged(nameof(ArtistLastFmUrl));
+            }
         }
 
         public string ArtistWikipedia
         {
             get { return _artistWikipedia; }
-            set { SetModified(nameof(ArtistWikipedia), ref _artistWikipedia, value); }
+            set
+            {
+                SetModified(nameof(ArtistWikipedia), ref _artistWikipedia, value);
+                TestWikipediaCommand.RaiseCanExecuteChanged();
+                RaisePropertyChanged(nameof(ArtistWikipediaUrl));
+            }
         }
 
         public int? TrackNo
@@ -313,6 +337,56 @@ namespace Whip.ViewModels.TabViewModels
             track.Artist.City = new City(ArtistCity, ArtistState, ArtistCountry);
 
             // etc
+        }
+
+        private bool CanTestWebsite()
+        {
+            return !string.IsNullOrEmpty(ArtistWebsite); // and check it's a valid URL
+        }
+
+        private void OnTestWebsite()
+        {
+            Hyperlink.Go(ArtistWebsite);
+        }
+
+        private bool CanTestFacebook()
+        {
+            return !string.IsNullOrEmpty(ArtistFacebook);
+        }
+
+        private void OnTestFacebook()
+        {
+            Hyperlink.Go(ArtistFacebookUrl);
+        }
+
+        private bool CanTestTwitter()
+        {
+            return !string.IsNullOrEmpty(ArtistTwitter);
+        }
+
+        private void OnTestTwitter()
+        {
+            Hyperlink.Go(ArtistTwitterUrl);
+        }
+
+        private bool CanTestWikipedia()
+        {
+            return !string.IsNullOrEmpty(ArtistWikipedia);
+        }
+
+        private void OnTestWikipedia()
+        {
+            Hyperlink.Go(ArtistWikipediaUrl);
+        }
+
+        private bool CanTestLastFm()
+        {
+            return !string.IsNullOrEmpty(ArtistLastFm);
+        }
+
+        private void OnTestLastFm()
+        {
+            Hyperlink.Go(ArtistLastFmUrl);
         }
 
         private void SetModified<T>(string propertyName, ref T property, T value)

@@ -7,6 +7,13 @@
              xmlns:common="clr-namespace:Whip.Common;assembly=Whip.Common"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1200">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Button}" x:Key="TestLinkButton" BasedOn="{StaticResource ButtonStyle}">
+            <Setter Property="Content" Value="Test" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Margin" Value="5" />
+        </Style>
+    </UserControl.Resources>
     <Grid DataContext="{Binding TrackViewModel}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
@@ -144,11 +151,9 @@
                 <TextBox Grid.Column="0"
                          Text="{Binding ArtistWebsite, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <Button Grid.Column="1"
-                        Content="Test"
+                        Style="{StaticResource TestLinkButton}"
                         Command="{Binding TestWebsiteCommand}"
-                        ToolTip="{Binding ArtistWebsite}"
-                        Cursor="Hand"
-                        Margin="5"/>
+                        ToolTip="{Binding ArtistWebsite}" />
             </Grid>
             
             <Label Grid.Row="15" Grid.Column="0"
@@ -161,8 +166,9 @@
                 <TextBox Grid.Column="0"
                          Text="{Binding ArtistFacebook, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <Button Grid.Column="1"
-                        Content="Test"
-                        Margin="5"/>
+                        Style="{StaticResource TestLinkButton}"
+                        Command="{Binding TestFacebookCommand}"
+                        ToolTip="{Binding ArtistFacebookUrl}" />
             </Grid>
 
             <Label Grid.Row="16" Grid.Column="0"
@@ -175,8 +181,9 @@
                 <TextBox Grid.Column="0"
                          Text="{Binding ArtistTwitter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <Button Grid.Column="1"
-                        Content="Test"
-                        Margin="5"/>
+                        Style="{StaticResource TestLinkButton}"
+                        Command="{Binding TestTwitterCommand}"
+                        ToolTip="{Binding ArtistTwitterUrl}" />
             </Grid>
 
             <Label Grid.Row="17" Grid.Column="0"
@@ -189,8 +196,9 @@
                 <TextBox Grid.Column="0"
                          Text="{Binding ArtistWikipedia, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <Button Grid.Column="1"
-                        Content="Test"
-                        Margin="5"/>
+                        Style="{StaticResource TestLinkButton}"
+                        Command="{Binding TestWikipediaCommand}"
+                        ToolTip="{Binding ArtistWikipediaUrl}" />
             </Grid>
 
             <Label Grid.Row="18" Grid.Column="0"
@@ -203,8 +211,9 @@
                 <TextBox Grid.Column="0"
                          Text="{Binding ArtistLastFm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <Button Grid.Column="1"
-                        Content="Test"
-                        Margin="5"/>
+                        Style="{StaticResource TestLinkButton}"
+                        Command="{Binding TestLastFmCommand}"
+                        ToolTip="{Binding ArtistLastFmUrl}" />
             </Grid>
 
         </Grid>
