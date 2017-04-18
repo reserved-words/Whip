@@ -40,7 +40,7 @@
             <WrapPanel>
 
                 <controls:Icon16 Icon="Wifi" />
-
+                
             </WrapPanel>
         </Border>
 

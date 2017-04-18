@@ -48,6 +48,7 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -100,6 +101,7 @@
     <Compile Include="TabViewModels\SettingsViewModel.cs" />
     <Compile Include="TabViewModels\BaseClasses\TabViewModelBase.cs" />
     <Compile Include="Utilities\CommandIcon.cs" />
+    <Compile Include="Utilities\EditableViewModelBase.cs" />
     <Compile Include="Utilities\TabType.cs" />
     <Compile Include="Utilities\TrackTimer.cs" />
     <Compile Include="Messages\ShowDialogMessage.cs" />

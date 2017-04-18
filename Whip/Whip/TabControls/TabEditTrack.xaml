@@ -74,12 +74,13 @@
             <Label Grid.Row="1" Grid.Column="0"
                    Content="Title" />
             <TextBox Grid.Row="1" Grid.Column="1"
-                     Text="{Binding Title}" />
+                     x:Name="Title"
+                     Text="{Binding Title, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True }"/>
 
             <Label Grid.Row="2" Grid.Column="0"
                    Content="Track Year" />
             <TextBox Grid.Row="2" Grid.Column="1"
-                     Text="{Binding Year}" />
+                     Text="{Binding Year, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
 
             <Label Grid.Row="3" Grid.Column="0"
                    Content="Tags" />
@@ -98,42 +99,42 @@
             <ComboBox Grid.Row="6" Grid.Column="1"
                       IsEditable="True"
                       ItemsSource="{Binding Artists, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                      Text="{Binding ArtistName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                      Text="{Binding ArtistName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
             
             <Label Grid.Row="7" Grid.Column="0"
                    Content="Grouping" />
             <ComboBox Grid.Row="7" Grid.Column="1"
                       IsEditable="True"
                       ItemsSource="{Binding Groupings, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                      Text="{Binding ArtistGrouping, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                      Text="{Binding ArtistGrouping, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
             
             <Label Grid.Row="8" Grid.Column="0"
                    Content="Genre" />
             <ComboBox Grid.Row="8" Grid.Column="1"
                       IsEditable="True"
                       ItemsSource="{Binding Genres, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                      Text="{Binding ArtistGenre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                      Text="{Binding ArtistGenre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
 
             <Label Grid.Row="9" Grid.Column="0"
                    Content="Country" />
             <ComboBox Grid.Row="9" Grid.Column="1"
                       IsEditable="True"
                       ItemsSource="{Binding Countries, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                      Text="{Binding ArtistCountry, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                      Text="{Binding ArtistCountry, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
 
             <Label Grid.Row="10" Grid.Column="0"
                    Content="State" />
             <ComboBox Grid.Row="10" Grid.Column="1"
                       IsEditable="True"
                       ItemsSource="{Binding States, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                      Text="{Binding ArtistState, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                      Text="{Binding ArtistState, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
 
             <Label Grid.Row="11" Grid.Column="0"
                    Content="City" />
             <ComboBox Grid.Row="11" Grid.Column="1"
                       IsEditable="True"
                       ItemsSource="{Binding Cities, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                      Text="{Binding ArtistCity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                      Text="{Binding ArtistCity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
 
             <Border Grid.Row="12" Grid.ColumnSpan="2" Style="{StaticResource HoriztonalLine}" />
 
@@ -149,7 +150,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBox Grid.Column="0"
-                         Text="{Binding ArtistWebsite, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                         Text="{Binding ArtistWebsite, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"/>
                 <Button Grid.Column="1"
                         Style="{StaticResource TestLinkButton}"
                         Command="{Binding TestWebsiteCommand}"
@@ -164,7 +165,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBox Grid.Column="0"
-                         Text="{Binding ArtistFacebook, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                         Text="{Binding ArtistFacebook, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"/>
                 <Button Grid.Column="1"
                         Style="{StaticResource TestLinkButton}"
                         Command="{Binding TestFacebookCommand}"
@@ -179,7 +180,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBox Grid.Column="0"
-                         Text="{Binding ArtistTwitter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                         Text="{Binding ArtistTwitter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"/>
                 <Button Grid.Column="1"
                         Style="{StaticResource TestLinkButton}"
                         Command="{Binding TestTwitterCommand}"
@@ -194,7 +195,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBox Grid.Column="0"
-                         Text="{Binding ArtistWikipedia, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                         Text="{Binding ArtistWikipedia, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"/>
                 <Button Grid.Column="1"
                         Style="{StaticResource TestLinkButton}"
                         Command="{Binding TestWikipediaCommand}"
@@ -209,7 +210,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBox Grid.Column="0"
-                         Text="{Binding ArtistLastFm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                         Text="{Binding ArtistLastFm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"/>
                 <Button Grid.Column="1"
                         Style="{StaticResource TestLinkButton}"
                         Command="{Binding TestLastFmCommand}"
@@ -254,8 +255,9 @@
 
             <WrapPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center">
                 <Button Width="100" Content="Get from Last.FM"/>
-                <Button Width="100" Content="Get from URL" />
-                <Button Width="100" Content="Get from file" />
+                <Button Width="90" Content="Get from URL" />
+                <Button Width="80" Content="Get from file" />
+                <Button Width="50" Content="Clear" />
             </WrapPanel>
 
             <Border Grid.Row="3" Grid.ColumnSpan="2" 
@@ -270,14 +272,14 @@
             <ComboBox Grid.Row="5" Grid.Column="1"
                       ItemsSource="{Binding Artists, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                       IsEditable="True"
-                      Text="{Binding AlbumArtistName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                      Text="{Binding AlbumArtistName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
 
             <Label Grid.Row="6" Grid.Column="0"
                    Content="Title" />
             <ComboBox Grid.Row="6" Grid.Column="1"
                       IsEditable="True"
                       ItemsSource="{Binding Albums, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                      Text="{Binding AlbumTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                      Text="{Binding AlbumTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
 
             <Label Grid.Row="7" Grid.Column="0"
                    Content="Release Type" />
@@ -285,33 +287,33 @@
                       IsEditable="False"
                       ItemsSource="{Binding Source={local:Enumeration {x:Type common:ReleaseType}}}"
                       DisplayMemberPath="Description" 
-                      SelectedValue="{Binding AlbumReleaseType}"  
+                      SelectedValue="{Binding AlbumReleaseType, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"  
                       SelectedValuePath="Value"  />
 
             <Label Grid.Row="8" Grid.Column="0"
                    Content="Year" />
             <TextBox Grid.Row="8" Grid.Column="1"
-                         Text="{Binding AlbumYear}"
+                         Text="{Binding AlbumYear, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                          Width="50"
                          HorizontalAlignment="Left"/>
 
             <Label Grid.Row="9" Grid.Column="0"
                    Content="Track No" />
             <WrapPanel Grid.Row="9" Grid.Column="1">
-                <TextBox Text="{Binding TrackNo}"
+                <TextBox Text="{Binding TrackNo, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                          Width="40"/>
                 <Label Content=" of " />
-                <TextBox Text="{Binding TrackCount}"
+                <TextBox Text="{Binding TrackCount, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                          Width="40"/>
             </WrapPanel>
 
             <Label Grid.Row="10" Grid.Column="0"
                    Content="Disc No" />
             <WrapPanel Grid.Row="10" Grid.Column="1">
-                <TextBox Text="{Binding DiscNo}"
+                <TextBox Text="{Binding DiscNo, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                          Width="40"/>
                 <Label Content=" of " />
-                <TextBox Text="{Binding DiscCount}"
+                <TextBox Text="{Binding DiscCount, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                          Width="40"/>
             </WrapPanel>
 
@@ -334,7 +336,7 @@
             <Border Grid.Row="1" Style="{StaticResource HoriztonalLine}" />
 
             <ScrollViewer Grid.Row="2">
-                <TextBox Text="{Binding Lyrics}"
+                <TextBox Text="{Binding Lyrics, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                          TextWrapping="WrapWithOverflow"
                          AcceptsReturn="True"
                          Height="Auto"

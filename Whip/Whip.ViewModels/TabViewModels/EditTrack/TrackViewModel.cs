@@ -1,7 +1,6 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using System;
+﻿using GalaSoft.MvvmLight.Command;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Whip.Common;
 using Whip.Common.Model;
@@ -12,11 +11,9 @@ using static Whip.Resources.Resources;
 
 namespace Whip.ViewModels.TabViewModels
 {
-    public class TrackViewModel : ViewModelBase
+    public class TrackViewModel : EditableViewModelBase
     {
         private readonly Library _library;
-
-        private bool _modified;
 
         private List<City> _usedCities;
 
@@ -119,18 +116,24 @@ namespace Whip.ViewModels.TabViewModels
             set { Set(ref _cities, value); }
         }
 
+        [Required]
+        [MaxLength(Validation.MaxLengthTrackTitle, ErrorMessage = Validation.MaxLengthErrorMessage)]
         public string Title
         {
             get { return _title; }
             set { SetModified(nameof(Title), ref _title, value); }
         }
 
+        [Required]
+        [Year]
+        [Display(Name = "Track Year")]
         public string Year
         {
             get { return _year; }
             set { SetModified(nameof(Year), ref _year, value); }
         }
 
+        [MaxLength(Validation.MaxLengthLyrics, ErrorMessage = Validation.MaxLengthErrorMessage)]
         public string Lyrics
         {
             get { return _lyrics; }
@@ -143,18 +146,26 @@ namespace Whip.ViewModels.TabViewModels
             set { SetModified(nameof(AlbumArtwork), ref _albumArtwork, value); }
         }
 
+        [Required]
+        [Year]
+        [Display(Name = "Album Year")]
         public string AlbumYear
         {
             get { return _albumYear; }
             set { SetModified(nameof(AlbumYear), ref _albumYear, value); }
         }
 
+        [Required]
+        [Display(Name = "Release Type")]
         public ReleaseType AlbumReleaseType
         {
             get { return _albumReleaseType; }
             set { SetModified(nameof(AlbumReleaseType), ref _albumReleaseType, value); }
         }
 
+        [Required]
+        [MaxLength(Validation.MaxLengthArtistName, ErrorMessage = Validation.MaxLengthErrorMessage)]
+        [Display(Name = "Album Artist Name")]
         public string AlbumArtistName
         {
             get { return _albumArtistName; }
@@ -166,6 +177,9 @@ namespace Whip.ViewModels.TabViewModels
             }
         }
 
+        [Required]
+        [MaxLength(Validation.MaxLengthAlbumTitle, ErrorMessage = Validation.MaxLengthErrorMessage)]
+        [Display(Name = "Album Title")]
         public string AlbumTitle
         {
             get { return _albumTitle; }
@@ -176,6 +190,9 @@ namespace Whip.ViewModels.TabViewModels
             }
         }
 
+        [Required]
+        [MaxLength(Validation.MaxLengthArtistName, ErrorMessage = Validation.MaxLengthErrorMessage)]
+        [Display(Name = "Artist Name")]
         public string ArtistName
         {
             get { return _artistName; }
@@ -186,17 +203,26 @@ namespace Whip.ViewModels.TabViewModels
             }
         }
 
+        [Required]
+        [MaxLength(Validation.MaxLengthGrouping, ErrorMessage = Validation.MaxLengthErrorMessage)]
+        [Display(Name = "Grouping")]
         public string ArtistGrouping
         {
             get { return _artistGrouping; }
             set { SetModified(nameof(ArtistGrouping), ref _artistGrouping, value); }
         }
 
+        [Required]
+        [MaxLength(Validation.MaxLengthGenre, ErrorMessage = Validation.MaxLengthErrorMessage)]
+        [Display(Name = "Genre")]
         public string ArtistGenre
         {
             get { return _artistGenre; }
             set { SetModified(nameof(ArtistGenre), ref _artistGenre, value); }
         }
+
+        [MaxLength(Validation.MaxLengthCountry, ErrorMessage = Validation.MaxLengthErrorMessage)]
+        [Display(Name = "Country")]
         public string ArtistCountry
         {
             get { return _artistCountry; }
@@ -206,6 +232,9 @@ namespace Whip.ViewModels.TabViewModels
                 PopulateStateList();
             }
         }
+
+        [MaxLength(Validation.MaxLengthState, ErrorMessage = Validation.MaxLengthErrorMessage)]
+        [Display(Name = "State")]
         public string ArtistState
         {
             get { return _artistState; }
@@ -215,12 +244,17 @@ namespace Whip.ViewModels.TabViewModels
                 PopulateCityList();
             }
         }
+
+        [MaxLength(Validation.MaxLengthCity, ErrorMessage = Validation.MaxLengthErrorMessage)]
+        [Display(Name = "City")]
         public string ArtistCity
         {
             get { return _artistCity; }
             set { SetModified(nameof(ArtistCity), ref _artistCity, value); }
         }
 
+        [NullableUrl]
+        [Display(Name = "Website")]
         public string ArtistWebsite
         {
             get { return _artistWebsite; }
@@ -231,6 +265,7 @@ namespace Whip.ViewModels.TabViewModels
             }
         }
 
+        [TwitterUsername]
         public string ArtistTwitter
         {
             get { return _artistTwitter; }
@@ -242,6 +277,7 @@ namespace Whip.ViewModels.TabViewModels
             }
         }
 
+        [FacebookUsername]
         public string ArtistFacebook
         {
             get { return _artistFacebook; }
@@ -253,6 +289,7 @@ namespace Whip.ViewModels.TabViewModels
             }
         }
 
+        [PartialUrlString]
         public string ArtistLastFm
         {
             get { return _artistLastFm; }
@@ -264,6 +301,7 @@ namespace Whip.ViewModels.TabViewModels
             }
         }
 
+        [PartialUrlString]
         public string ArtistWikipedia
         {
             get { return _artistWikipedia; }
@@ -275,18 +313,27 @@ namespace Whip.ViewModels.TabViewModels
             }
         }
 
+        [Required]
+        [Range(Validation.MinTrackCount,Validation.MaxTrackCount, ErrorMessage = Validation.RangeErrorMessage)]
+        [Display(Name = "Track No")]
         public int? TrackNo
         {
             get { return _trackNo; }
             set { SetModified(nameof(TrackNo), ref _trackNo, value); }
         }
 
+        [Required]
+        [Range(Validation.MinTrackCount, Validation.MaxTrackCount, ErrorMessage = Validation.RangeErrorMessage)]
+        [Display(Name = "Track Count")]
         public int? TrackCount
         {
             get { return _trackCount; }
             set { SetModified(nameof(TrackCount), ref _trackCount, value); }
         }
 
+        [Required]
+        [Range(Validation.MinDiscCount, Validation.MaxDiscCount, ErrorMessage = Validation.RangeErrorMessage)]
+        [Display(Name = "Disc No")]
         public int? DiscNo
         {
             get { return _discNo; }
@@ -297,49 +344,18 @@ namespace Whip.ViewModels.TabViewModels
             }
         }
 
+        [Required]
+        [Range(Validation.MinDiscCount, Validation.MaxDiscCount, ErrorMessage = Validation.RangeErrorMessage)]
+        [Display(Name = "Disc Count")]
         public int? DiscCount
         {
             get { return _discCount; }
             set { SetModified(nameof(DiscCount), ref _discCount, value); }
         }
 
-        public bool Modified
-        {
-            get { return _modified; }
-            set { Set(nameof(Modified), ref _modified, value); }
-        }
-
-        public void UpdateTrack(Track track)
-        {
-            track.Title = Title;
-            track.Year = Year;
-
-            if (track.Artist.Name != ArtistName)
-            {
-                track.Artist.Tracks.Remove(track);
-
-                var artist = _library.Artists.SingleOrDefault(a => a.Name == ArtistName);
-
-                if (artist == null)
-                {
-                    artist = new Artist { Name = ArtistName };
-                    _library.Artists.Add(artist);
-                }
-
-                track.Artist = artist;
-                artist.Tracks.Add(track);
-            }
-            
-            track.Artist.Grouping = ArtistGrouping;
-            track.Artist.Genre = ArtistGenre;
-            track.Artist.City = new City(ArtistCity, ArtistState, ArtistCountry);
-
-            // etc
-        }
-
         private bool CanTestWebsite()
         {
-            return !string.IsNullOrEmpty(ArtistWebsite); // and check it's a valid URL
+            return !string.IsNullOrEmpty(ArtistWebsite) && string.IsNullOrEmpty(this[nameof(ArtistWebsite)]);
         }
 
         private void OnTestWebsite()
@@ -349,7 +365,7 @@ namespace Whip.ViewModels.TabViewModels
 
         private bool CanTestFacebook()
         {
-            return !string.IsNullOrEmpty(ArtistFacebook);
+            return !string.IsNullOrEmpty(ArtistFacebook) && string.IsNullOrEmpty(this[nameof(ArtistFacebook)]);
         }
 
         private void OnTestFacebook()
@@ -359,7 +375,7 @@ namespace Whip.ViewModels.TabViewModels
 
         private bool CanTestTwitter()
         {
-            return !string.IsNullOrEmpty(ArtistTwitter);
+            return !string.IsNullOrEmpty(ArtistTwitter) && string.IsNullOrEmpty(this[nameof(ArtistTwitter)]);
         }
 
         private void OnTestTwitter()
@@ -369,7 +385,7 @@ namespace Whip.ViewModels.TabViewModels
 
         private bool CanTestWikipedia()
         {
-            return !string.IsNullOrEmpty(ArtistWikipedia);
+            return !string.IsNullOrEmpty(ArtistWikipedia) && string.IsNullOrEmpty(this[nameof(ArtistWikipedia)]);
         }
 
         private void OnTestWikipedia()
@@ -379,18 +395,12 @@ namespace Whip.ViewModels.TabViewModels
 
         private bool CanTestLastFm()
         {
-            return !string.IsNullOrEmpty(ArtistLastFm);
+            return !string.IsNullOrEmpty(ArtistLastFm) && string.IsNullOrEmpty(this[nameof(ArtistLastFm)]);
         }
 
         private void OnTestLastFm()
         {
             Hyperlink.Go(ArtistLastFmUrl);
-        }
-
-        private void SetModified<T>(string propertyName, ref T property, T value)
-        {
-            Set(propertyName, ref property, value);
-            Modified = true;
         }
 
         public void Populate(Track track)

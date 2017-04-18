@@ -70,7 +70,7 @@ namespace Whip.ViewModels.TabViewModels
             set { SetModified(nameof(ShuffleOn), ref _shuffleOn, value); }
         }
 
-        protected override void CustomSave()
+        protected override bool CustomSave()
         {
             _userSettings.LastFmUsername = LastFmUsername;
             _userSettings.LastFmApiKey = LastFmApiKey;
@@ -81,11 +81,15 @@ namespace Whip.ViewModels.TabViewModels
             _userSettings.ShuffleOn = ShuffleOn;
 
             _userSettings.Save();
+
+            return true;
         }
 
-        protected override void CustomCancel()
+        protected override bool CustomCancel()
         {
             Reset();
+
+            return true;
         }
 
         public void Reset()

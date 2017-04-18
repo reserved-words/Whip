@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -70,6 +71,12 @@
     <Compile Include="Utilities\ProgressArgs.cs" />
     <Compile Include="ExtensionMethods\TrackSortExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\XElementExtensionMethods.cs" />
+    <Compile Include="Validation\NullableUrlAttribute.cs" />
+    <Compile Include="Validation\Validation.cs" />
+    <Compile Include="Validation\FacebookUsernameAttribute.cs" />
+    <Compile Include="Validation\TwitterUsernameAttribute.cs" />
+    <Compile Include="Validation\PartialUrlStringAttribute.cs" />
+    <Compile Include="Validation\YearAttribute.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

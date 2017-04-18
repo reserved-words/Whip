@@ -29,11 +29,13 @@ namespace Whip.ViewModels.TabViewModels
 
         public void OnCancel()
         {
-            CustomCancel();
+            if (!CustomCancel())
+                return;
+
             OnFinish();
         }
 
-        protected abstract void CustomCancel();
+        protected abstract bool CustomCancel();
 
         public void OnFinish()
         {
@@ -43,11 +45,13 @@ namespace Whip.ViewModels.TabViewModels
 
         private void OnSave()
         {
-            CustomSave();
+            if (!CustomSave())
+                return;
+
             OnFinish();
         }
 
-        protected abstract void CustomSave();
+        protected abstract bool CustomSave();
 
         protected void SetModified<T>(string propertyName, ref T property, T value)
         {
