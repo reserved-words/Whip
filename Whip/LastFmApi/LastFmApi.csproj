@@ -40,14 +40,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\ILastFmDataService.cs" />
+    <Compile Include="Interfaces\ILastFmAlbumInfoService.cs" />
     <Compile Include="Interfaces\ILastFmScrobblingService.cs" />
     <Compile Include="Interfaces\ILastFmSessionService.cs" />
     <Compile Include="Interfaces\ILastFmTrackLoveService.cs" />
     <Compile Include="Internal\Session.cs" />
+    <Compile Include="Methods\Album\GetInfoMethod.cs" />
     <Compile Include="Methods\Track\IsLovedMethod.cs" />
     <Compile Include="Methods\Track\ScrobbleMethod.cs" />
     <Compile Include="Methods\Track\UpdateNowPlayingMethod.cs" />
+    <Compile Include="Model\AlbumInfo.cs" />
     <Compile Include="Model\ApiClient.cs" />
     <Compile Include="Internal\ExtensionMethods.cs" />
     <Compile Include="Internal\MD5.cs" />
@@ -59,7 +61,7 @@
     <Compile Include="Model\AuthorizedApiClient.cs" />
     <Compile Include="Model\Track.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\LastFmDataService.cs" />
+    <Compile Include="Services\LastFmAlbumInfoService.cs" />
     <Compile Include="Services\LastFmScrobblingService.cs" />
     <Compile Include="Services\LastFmSessionService.cs" />
     <Compile Include="Services\LastFmTrackLoveService.cs" />

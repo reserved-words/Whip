@@ -97,6 +97,9 @@
     <Compile Include="Converters\EnumToStringConverter.cs" />
     <Compile Include="Converters\EqualityConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
+    <Compile Include="Dialogs\EnterStringView.xaml.cs">
+      <DependentUpon>EnterStringView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ioc\IocConfiguration.cs" />
     <Compile Include="Ioc\IocKernel.cs" />
     <Compile Include="Ioc\ViewModelLocator.cs" />
@@ -104,7 +107,9 @@
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MessageHandlers\DialogMessageHandler.cs" />
+    <Compile Include="MessageHandlers\FileDialogRequestHandler.cs" />
     <Compile Include="Services\ExceptionHandlingService.cs" />
+    <Compile Include="Services\FileDialogService.cs" />
     <Compile Include="Services\UserSettings.cs" />
     <Compile Include="SidebarViews\CurrentTrackMiniView.xaml.cs">
       <DependentUpon>CurrentTrackMiniView.xaml</DependentUpon>
@@ -164,6 +169,10 @@
     <Compile Include="Dialogs\ProgressBarView.xaml.cs">
       <DependentUpon>ProgressBarView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Dialogs\EnterStringView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -80,6 +80,7 @@
     <Compile Include="Messages\PlayNextMessage.cs" />
     <Compile Include="Messages\PlayPreviousMessage.cs" />
     <Compile Include="Messages\ResumePlayerMessage.cs" />
+    <Compile Include="Messages\ShowFileDialogRequest.cs" />
     <Compile Include="Messages\SkipPlayerMessage.cs" />
     <Compile Include="SidebarViewModels\CurrentTrackMiniViewModel.cs" />
     <Compile Include="SidebarViewModels\SettingsIconsViewModel.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="SidebarViewModels\PlayerControlsViewModel.cs" />
     <Compile Include="TabViewModels\LibraryViewModel.cs" />
     <Compile Include="Utilities\Hyperlink.cs" />
+    <Compile Include="Windows\EnterStringViewModel.cs" />
     <Compile Include="Windows\MessageViewModel.cs" />
     <Compile Include="Windows\ConfirmationViewModel.cs" />
     <Compile Include="Windows\DialogViewModel.cs" />

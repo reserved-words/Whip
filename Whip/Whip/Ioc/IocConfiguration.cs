@@ -67,6 +67,7 @@ namespace Whip.Ioc
             Bind<ITrackFilterService>().To<TrackFilterService>().InTransientScope();
             Bind<IScrobblingRulesService>().To<ScrobblingRulesService>().InTransientScope();
             Bind<ILibrarySortingService>().To<LibrarySortingService>().InTransientScope();
+            Bind<IFileDialogService>().To<FileDialogService>().InTransientScope();
         }
 
         private void BindLastFmComponents()
@@ -88,6 +89,8 @@ namespace Whip.Ioc
             Bind<ITrackLoveService>()
                 .To<TrackLoveService>()
                 .InTransientScope();
+
+            Bind<IWebAlbumInfoService>().To<AlbumInfoService>().InTransientScope();
         }
 
         private void BindMessageHandlers()
@@ -98,6 +101,7 @@ namespace Whip.Ioc
             Bind<TrackChangeCoordinator>().ToSelf().InSingletonScope();
             Bind<LibraryHandler>().ToSelf().InSingletonScope();
             Bind<ShowTabRequestHandler>().ToSelf().InSingletonScope();
+            Bind<FileDialogRequestHandler>().ToSelf().InSingletonScope();
 
             Bind<IPlayerUpdate>().ToMethod(ctx => ctx.Kernel.Get<TrackChangeCoordinator>());
             Bind<IShowTabRequestHandler>().ToMethod(ctx => ctx.Kernel.Get<ShowTabRequestHandler>());

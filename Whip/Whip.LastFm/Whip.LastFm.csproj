@@ -40,13 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Information\AlbumInfoService.cs" />
     <Compile Include="LastFmApiClientService.cs" />
-    <Compile Include="AuthorizedScrobblingService.cs" />
-    <Compile Include="AuthorizedTrackLoveService.cs" />
+    <Compile Include="Scrobbling\AuthorizedScrobblingService.cs" />
+    <Compile Include="Scrobbling\AuthorizedTrackLoveService.cs" />
     <Compile Include="ILastFmApiClientService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScrobblingService.cs" />
-    <Compile Include="TrackLoveService.cs" />
+    <Compile Include="Scrobbling\ScrobblingService.cs" />
+    <Compile Include="Scrobbling\TrackLoveService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LastFmApi\LastFmApi.csproj">
@@ -62,6 +63,7 @@
       <Name>Whip.Services.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -254,10 +254,10 @@
                    Margin="0,8,0,0"/>
 
             <WrapPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center">
-                <Button Width="100" Content="Get from Last.FM"/>
-                <Button Width="90" Content="Get from URL" />
-                <Button Width="80" Content="Get from file" />
-                <Button Width="50" Content="Clear" />
+                <Button Width="100" Content="Get from Last.FM" Command="{Binding GetArtworkFromWebCommand}"/>
+                <Button Width="90" Content="Get from URL" Command="{Binding GetArtworkFromUrlCommand}" />
+                <Button Width="80" Content="Get from file" Command="{Binding GetArtworkFromFileCommand}" />
+                <Button Width="50" Content="Clear" Command="{Binding ClearArtworkCommand}" />
             </WrapPanel>
 
             <Border Grid.Row="3" Grid.ColumnSpan="2" 

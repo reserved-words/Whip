@@ -12,7 +12,8 @@
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen"
         Height="300" 
-        Width="300">
+        MinWidth="500"
+        MaxWidth="500">
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModels:ProgressBarViewModel}">
             <local:ProgressBarView />
@@ -22,6 +23,9 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModels:MessageViewModel}">
             <local:MessageView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:EnterStringViewModel}">
+            <local:EnterStringView />
         </DataTemplate>
     </Window.Resources>
     <Grid>

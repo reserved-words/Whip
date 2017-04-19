@@ -8,12 +8,18 @@ using Whip.Common.Singletons;
 using Whip.Common.Utilities;
 using Whip.ViewModels.Utilities;
 using static Whip.Resources.Resources;
+using Whip.ViewModels.Windows;
+using GalaSoft.MvvmLight.Messaging;
+using Whip.ViewModels.Messages;
+using Whip.Services.Interfaces;
 
 namespace Whip.ViewModels.TabViewModels
 {
     public class TrackViewModel : EditableViewModelBase
     {
+        private readonly IWebAlbumInfoService _webAlbumInfoService;
         private readonly Library _library;
+        private readonly IMessenger _messenger;
 
         private List<City> _usedCities;
 
@@ -52,9 +58,16 @@ namespace Whip.ViewModels.TabViewModels
         private int? _discNo;
         private int? _discCount;
 
-        public TrackViewModel(Library library)
+        public TrackViewModel(Library library, IMessenger messenger, IWebAlbumInfoService albumInfoService)
         {
+            _webAlbumInfoService = albumInfoService;
             _library = library;
+            _messenger = messenger;
+
+            GetArtworkFromUrlCommand = new RelayCommand(OnGetArtworkFromUrl);
+            GetArtworkFromFileCommand = new RelayCommand(OnGetArtworkFromFile);
+            GetArtworkFromWebCommand = new RelayCommand(OnGetArtworkFromWeb, CanGetArtworkFromWeb);
+            ClearArtworkCommand = new RelayCommand(OnClearArtwork);
 
             TestWebsiteCommand = new RelayCommand(OnTestWebsite, CanTestWebsite);
             TestFacebookCommand = new RelayCommand(OnTestFacebook, CanTestFacebook);
@@ -62,6 +75,50 @@ namespace Whip.ViewModels.TabViewModels
             TestWikipediaCommand = new RelayCommand(OnTestWikipedia, CanTestWikipedia);
             TestLastFmCommand = new RelayCommand(OnTestLastFm, CanTestLastFm);
         }
+
+        private void OnClearArtwork()
+        {
+            AlbumArtwork = null;
+        }
+
+        private async void OnGetArtworkFromWeb()
+        {
+            AlbumArtwork = await _webAlbumInfoService.GetArtworkUrl(AlbumArtistName, AlbumTitle);
+        }
+
+        private void OnGetArtworkFromFile()
+        {
+            var fileDialogRequest = new ShowFileDialogRequest(FileType.Images);
+            _messenger.Send(fileDialogRequest);
+            var result = fileDialogRequest.Result;
+
+            if (result != null)
+            {
+                AlbumArtwork = result;
+            }
+        }
+
+        private bool CanGetArtworkFromWeb()
+        {
+            return !string.IsNullOrEmpty(AlbumArtistName) && !string.IsNullOrEmpty(AlbumTitle);
+        }
+
+        private void OnGetArtworkFromUrl()
+        {
+            var enterUrlModel = new EnterStringViewModel(_messenger, "Get Artwork", "Enter the URL for the artwork below", Validation.IsValidArtworkUrl, "The value entered is not a valid image URL");
+            _messenger.Send(new ShowDialogMessage(enterUrlModel));
+            var result = enterUrlModel.Result;
+
+            if (result != null)
+            {
+                AlbumArtwork = result;
+            }
+        }
+
+        public RelayCommand GetArtworkFromUrlCommand { get; private set; }
+        public RelayCommand GetArtworkFromFileCommand { get; private set; }
+        public RelayCommand GetArtworkFromWebCommand { get; private set; }
+        public RelayCommand ClearArtworkCommand { get; private set; }
 
         public RelayCommand TestWebsiteCommand { get; private set; }
         public RelayCommand TestFacebookCommand { get; private set; }
