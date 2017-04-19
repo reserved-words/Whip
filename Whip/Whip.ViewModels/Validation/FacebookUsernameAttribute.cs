@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
+using Whip.Common.Validation;
 
-namespace Whip.Common
+namespace Whip.ViewModels.Validation
 {
     public class FacebookUsernameAttribute : ValidationAttribute
     {
@@ -9,12 +10,12 @@ namespace Whip.Common
         {
             var username = value.ToString();
 
-            if (username.Length > Validation.FacebookUsernameMaxLength)
+            if (username.Length > SocialMediaValidation.FacebookUsernameMaxLength)
             {
-                return new ValidationResult($"A Facebook username can only contain up to {Validation.FacebookUsernameMaxLength} characters");
+                return new ValidationResult($"A Facebook username can only contain up to {SocialMediaValidation.FacebookUsernameMaxLength} characters");
             }
 
-            if (!Regex.IsMatch(username, Validation.FacebookUsernameRegexPattern))
+            if (!Regex.IsMatch(username, SocialMediaValidation.FacebookUsernameRegexPattern))
             {
                 return new ValidationResult("The Facebook username entered contains invalid characters");
             }

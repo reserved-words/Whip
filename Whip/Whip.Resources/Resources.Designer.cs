@@ -88,6 +88,24 @@ namespace Whip.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} must not be more than {1} characters.
+        /// </summary>
+        public static string MaxLengthErrorMessage {
+            get {
+                return ResourceManager.GetString("MaxLengthErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} must be between {1} and {2}.
+        /// </summary>
+        public static string RangeErrorMessage {
+            get {
+                return ResourceManager.GetString("RangeErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to dd\/MM\/yyyy HH\:mm\:ss.
         /// </summary>
         public static string StandardDateFormat {

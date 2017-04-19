@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Whip.Common
+namespace Whip.ViewModels.Validation
 {
     public class YearAttribute : ValidationAttribute
     {

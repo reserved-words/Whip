@@ -126,6 +126,12 @@
   <data name="LastFmUrl" xml:space="preserve">
     <value>https://www.last.fm/music/{0}</value>
   </data>
+  <data name="MaxLengthErrorMessage" xml:space="preserve">
+    <value>{0} must not be more than {1} characters</value>
+  </data>
+  <data name="RangeErrorMessage" xml:space="preserve">
+    <value>{0} must be between {1} and {2}</value>
+  </data>
   <data name="StandardDateFormat" xml:space="preserve">
     <value>dd\/MM\/yyyy HH\:mm\:ss</value>
   </data>

@@ -113,6 +113,13 @@
     <Compile Include="SidebarViewModels\PlayerControlsViewModel.cs" />
     <Compile Include="TabViewModels\LibraryViewModel.cs" />
     <Compile Include="Utilities\Hyperlink.cs" />
+    <Compile Include="Validation\FacebookUsernameAttribute.cs" />
+    <Compile Include="Validation\NullableUrlAttribute.cs" />
+    <Compile Include="Validation\PartialUrlStringAttribute.cs" />
+    <Compile Include="Validation\DiscNoAttribute.cs" />
+    <Compile Include="Validation\TrackNoAttribute.cs" />
+    <Compile Include="Validation\TwitterUsernameAttribute.cs" />
+    <Compile Include="Validation\YearAttribute.cs" />
     <Compile Include="Windows\EnterStringViewModel.cs" />
     <Compile Include="Windows\MessageViewModel.cs" />
     <Compile Include="Windows\ConfirmationViewModel.cs" />

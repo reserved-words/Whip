@@ -12,6 +12,8 @@ using Whip.ViewModels.Windows;
 using GalaSoft.MvvmLight.Messaging;
 using Whip.ViewModels.Messages;
 using Whip.Services.Interfaces;
+using Whip.ViewModels.Validation;
+using Whip.Common.Validation;
 
 namespace Whip.ViewModels.TabViewModels
 {
@@ -105,7 +107,7 @@ namespace Whip.ViewModels.TabViewModels
 
         private void OnGetArtworkFromUrl()
         {
-            var enterUrlModel = new EnterStringViewModel(_messenger, "Get Artwork", "Enter the URL for the artwork below", Validation.IsValidArtworkUrl, "The value entered is not a valid image URL");
+            var enterUrlModel = new EnterStringViewModel(_messenger, "Get Artwork", "Enter the URL for the artwork below", UrlValidation.IsValidArtworkUrl, "The value entered is not a valid image URL");
             _messenger.Send(new ShowDialogMessage(enterUrlModel));
             var result = enterUrlModel.Result;
 
@@ -174,7 +176,7 @@ namespace Whip.ViewModels.TabViewModels
         }
 
         [Required]
-        [MaxLength(Validation.MaxLengthTrackTitle, ErrorMessage = Validation.MaxLengthErrorMessage)]
+        [MaxLength(TrackValidation.MaxLengthTrackTitle, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
         public string Title
         {
             get { return _title; }
@@ -190,7 +192,7 @@ namespace Whip.ViewModels.TabViewModels
             set { SetModified(nameof(Year), ref _year, value); }
         }
 
-        [MaxLength(Validation.MaxLengthLyrics, ErrorMessage = Validation.MaxLengthErrorMessage)]
+        [MaxLength(TrackValidation.MaxLengthLyrics, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
         public string Lyrics
         {
             get { return _lyrics; }
@@ -221,7 +223,7 @@ namespace Whip.ViewModels.TabViewModels
         }
 
         [Required]
-        [MaxLength(Validation.MaxLengthArtistName, ErrorMessage = Validation.MaxLengthErrorMessage)]
+        [MaxLength(TrackValidation.MaxLengthArtistName, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
         [Display(Name = "Album Artist Name")]
         public string AlbumArtistName
         {
@@ -235,7 +237,7 @@ namespace Whip.ViewModels.TabViewModels
         }
 
         [Required]
-        [MaxLength(Validation.MaxLengthAlbumTitle, ErrorMessage = Validation.MaxLengthErrorMessage)]
+        [MaxLength(TrackValidation.MaxLengthAlbumTitle, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
         [Display(Name = "Album Title")]
         public string AlbumTitle
         {
@@ -248,7 +250,7 @@ namespace Whip.ViewModels.TabViewModels
         }
 
         [Required]
-        [MaxLength(Validation.MaxLengthArtistName, ErrorMessage = Validation.MaxLengthErrorMessage)]
+        [MaxLength(TrackValidation.MaxLengthArtistName, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
         [Display(Name = "Artist Name")]
         public string ArtistName
         {
@@ -261,7 +263,7 @@ namespace Whip.ViewModels.TabViewModels
         }
 
         [Required]
-        [MaxLength(Validation.MaxLengthGrouping, ErrorMessage = Validation.MaxLengthErrorMessage)]
+        [MaxLength(TrackValidation.MaxLengthGrouping, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
         [Display(Name = "Grouping")]
         public string ArtistGrouping
         {
@@ -270,7 +272,7 @@ namespace Whip.ViewModels.TabViewModels
         }
 
         [Required]
-        [MaxLength(Validation.MaxLengthGenre, ErrorMessage = Validation.MaxLengthErrorMessage)]
+        [MaxLength(TrackValidation.MaxLengthGenre, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
         [Display(Name = "Genre")]
         public string ArtistGenre
         {
@@ -278,7 +280,7 @@ namespace Whip.ViewModels.TabViewModels
             set { SetModified(nameof(ArtistGenre), ref _artistGenre, value); }
         }
 
-        [MaxLength(Validation.MaxLengthCountry, ErrorMessage = Validation.MaxLengthErrorMessage)]
+        [MaxLength(TrackValidation.MaxLengthCountry, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
         [Display(Name = "Country")]
         public string ArtistCountry
         {
@@ -290,7 +292,7 @@ namespace Whip.ViewModels.TabViewModels
             }
         }
 
-        [MaxLength(Validation.MaxLengthState, ErrorMessage = Validation.MaxLengthErrorMessage)]
+        [MaxLength(TrackValidation.MaxLengthState, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
         [Display(Name = "State")]
         public string ArtistState
         {
@@ -302,7 +304,7 @@ namespace Whip.ViewModels.TabViewModels
             }
         }
 
-        [MaxLength(Validation.MaxLengthCity, ErrorMessage = Validation.MaxLengthErrorMessage)]
+        [MaxLength(TrackValidation.MaxLengthCity, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
         [Display(Name = "City")]
         public string ArtistCity
         {
@@ -323,6 +325,7 @@ namespace Whip.ViewModels.TabViewModels
         }
 
         [TwitterUsername]
+        [Display(Name = "Twitter Username")]
         public string ArtistTwitter
         {
             get { return _artistTwitter; }
@@ -335,6 +338,7 @@ namespace Whip.ViewModels.TabViewModels
         }
 
         [FacebookUsername]
+        [Display(Name = "Facebook Username")]
         public string ArtistFacebook
         {
             get { return _artistFacebook; }
@@ -347,6 +351,7 @@ namespace Whip.ViewModels.TabViewModels
         }
 
         [PartialUrlString]
+        [Display(Name = "Artist Last.FM page")]
         public string ArtistLastFm
         {
             get { return _artistLastFm; }
@@ -359,6 +364,7 @@ namespace Whip.ViewModels.TabViewModels
         }
 
         [PartialUrlString]
+        [Display(Name = "Artist Wikipedia page")]
         public string ArtistWikipedia
         {
             get { return _artistWikipedia; }
@@ -371,7 +377,7 @@ namespace Whip.ViewModels.TabViewModels
         }
 
         [Required]
-        [Range(Validation.MinTrackCount,Validation.MaxTrackCount, ErrorMessage = Validation.RangeErrorMessage)]
+        [TrackNo]
         [Display(Name = "Track No")]
         public int? TrackNo
         {
@@ -380,7 +386,7 @@ namespace Whip.ViewModels.TabViewModels
         }
 
         [Required]
-        [Range(Validation.MinTrackCount, Validation.MaxTrackCount, ErrorMessage = Validation.RangeErrorMessage)]
+        [Range(TrackValidation.MinTrackCount, TrackValidation.MaxTrackCount, ErrorMessageResourceName = nameof(RangeErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
         [Display(Name = "Track Count")]
         public int? TrackCount
         {
@@ -389,7 +395,7 @@ namespace Whip.ViewModels.TabViewModels
         }
 
         [Required]
-        [Range(Validation.MinDiscCount, Validation.MaxDiscCount, ErrorMessage = Validation.RangeErrorMessage)]
+        [DiscNo]
         [Display(Name = "Disc No")]
         public int? DiscNo
         {
@@ -402,7 +408,7 @@ namespace Whip.ViewModels.TabViewModels
         }
 
         [Required]
-        [Range(Validation.MinDiscCount, Validation.MaxDiscCount, ErrorMessage = Validation.RangeErrorMessage)]
+        [Range(TrackValidation.MinDiscCount, TrackValidation.MaxDiscCount, ErrorMessageResourceName = nameof(RangeErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
         [Display(Name = "Disc Count")]
         public int? DiscCount
         {

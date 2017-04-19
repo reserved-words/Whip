@@ -71,12 +71,9 @@
     <Compile Include="Utilities\ProgressArgs.cs" />
     <Compile Include="ExtensionMethods\TrackSortExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\XElementExtensionMethods.cs" />
-    <Compile Include="Validation\NullableUrlAttribute.cs" />
-    <Compile Include="Validation\Validation.cs" />
-    <Compile Include="Validation\FacebookUsernameAttribute.cs" />
-    <Compile Include="Validation\TwitterUsernameAttribute.cs" />
-    <Compile Include="Validation\PartialUrlStringAttribute.cs" />
-    <Compile Include="Validation\YearAttribute.cs" />
+    <Compile Include="Validation\SocialMediaValidation.cs" />
+    <Compile Include="Validation\TrackValidation.cs" />
+    <Compile Include="Validation\UrlValidation.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

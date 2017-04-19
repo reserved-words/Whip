@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Whip.Common.Validation;
 
-namespace Whip.Common
+namespace Whip.ViewModels.Validation
 {
     public class NullableUrlAttribute : ValidationAttribute
     {
@@ -11,7 +12,7 @@ namespace Whip.Common
 
             var url = value.ToString();
 
-            if (Validation.IsValidUrl(url))
+            if (UrlValidation.IsValidUrl(url))
                 return ValidationResult.Success;
 
             return new ValidationResult(string.Format("The value entered for {0} is not a valid URL", validationContext.DisplayName));
