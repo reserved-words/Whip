@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Whip"
+             xmlns:controls="clr-namespace:Whip.Controls" 
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:common="clr-namespace:Whip.Common;assembly=Whip.Common"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1200">
@@ -14,7 +16,7 @@
             <Setter Property="Margin" Value="5" />
         </Style>
     </UserControl.Resources>
-    <Grid DataContext="{Binding TrackViewModel}">
+    <Grid DataContext="{Binding TrackViewModel}" x:Name="EditTrackGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="*"
@@ -83,68 +85,120 @@
                      Text="{Binding Year, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
 
             <Label Grid.Row="3" Grid.Column="0"
-                   Content="Tags" />
-            <Label Grid.Row="3" Grid.Column="1"
-                   Content="{Binding TagsDescription}" />
+                   Content="Tags"
+                   VerticalContentAlignment="Top"/>
+            <WrapPanel Grid.Row="3" Grid.Column="1">
+                <ListView ItemsSource="{Binding Tags}"
+                          BorderThickness="0"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItemNoHighlight}" />
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="Silver"
+                                BorderThickness="1"
+                                Padding="2,0"
+                                CornerRadius="4">
+                                <WrapPanel>
+                                    <Label Content="{Binding}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                                    <fa:ImageAwesome Icon="WindowClose"
+                                             Width="12"
+                                             Height="12"
+                                             Foreground="Silver"
+                                             HorizontalAlignment="Center"
+                                             VerticalAlignment="Center"
+                                             Margin="2,2,5,2"
+                                             Cursor="Hand"
+                                             ToolTip="Click to remove">
+                                        <Image.InputBindings>
+                                            <MouseBinding Gesture="LeftClick" 
+                                                          Command="{Binding DataContext.RemoveTagCommand, ElementName=EditTrackGrid}"
+                                                          CommandParameter="{Binding}" />
+                                        </Image.InputBindings>
+                                    </fa:ImageAwesome>
+                                </WrapPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                
+            </WrapPanel>
 
-            <Border Grid.Row="4" Grid.ColumnSpan="2" 
+            <Label Grid.Row="4" Grid.Column="0"
+                   Content="Add New Tag" />
+            <ComboBox Grid.Row="4" Grid.Column="1"
+                      HorizontalAlignment="Left"
+                      Width="100"
+                      IsEditable="True"
+                      ItemsSource="{Binding AllTags}"
+                      Text="{Binding NewTag, Mode=TwoWay, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
+
+            <Border Grid.Row="5" Grid.ColumnSpan="2" 
                     Style="{StaticResource HoriztonalLine}" />
 
-            <Label Grid.Row="5" Grid.Column="0"
+            <Label Grid.Row="6" Grid.Column="0"
                    Content="Artist"
                    Style="{StaticResource TitleLabel}"/>
             
-            <Label Grid.Row="6" Grid.Column="0"
+            <Label Grid.Row="7" Grid.Column="0"
                    Content="Name" />
-            <ComboBox Grid.Row="6" Grid.Column="1"
+            <ComboBox Grid.Row="7" Grid.Column="1"
                       IsEditable="True"
                       ItemsSource="{Binding Artists, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                       Text="{Binding ArtistName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
             
-            <Label Grid.Row="7" Grid.Column="0"
+            <Label Grid.Row="8" Grid.Column="0"
                    Content="Grouping" />
-            <ComboBox Grid.Row="7" Grid.Column="1"
+            <ComboBox Grid.Row="8" Grid.Column="1"
                       IsEditable="True"
                       ItemsSource="{Binding Groupings, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                       Text="{Binding ArtistGrouping, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
             
-            <Label Grid.Row="8" Grid.Column="0"
+            <Label Grid.Row="9" Grid.Column="0"
                    Content="Genre" />
-            <ComboBox Grid.Row="8" Grid.Column="1"
+            <ComboBox Grid.Row="9" Grid.Column="1"
                       IsEditable="True"
                       ItemsSource="{Binding Genres, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                       Text="{Binding ArtistGenre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
 
-            <Label Grid.Row="9" Grid.Column="0"
+            <Label Grid.Row="10" Grid.Column="0"
                    Content="Country" />
-            <ComboBox Grid.Row="9" Grid.Column="1"
+            <ComboBox Grid.Row="10" Grid.Column="1"
                       IsEditable="True"
                       ItemsSource="{Binding Countries, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                       Text="{Binding ArtistCountry, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
 
-            <Label Grid.Row="10" Grid.Column="0"
+            <Label Grid.Row="11" Grid.Column="0"
                    Content="State" />
-            <ComboBox Grid.Row="10" Grid.Column="1"
+            <ComboBox Grid.Row="11" Grid.Column="1"
                       IsEditable="True"
                       ItemsSource="{Binding States, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                       Text="{Binding ArtistState, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
 
-            <Label Grid.Row="11" Grid.Column="0"
+            <Label Grid.Row="12" Grid.Column="0"
                    Content="City" />
-            <ComboBox Grid.Row="11" Grid.Column="1"
+            <ComboBox Grid.Row="12" Grid.Column="1"
                       IsEditable="True"
                       ItemsSource="{Binding Cities, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                       Text="{Binding ArtistCity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
 
-            <Border Grid.Row="12" Grid.ColumnSpan="2" Style="{StaticResource HoriztonalLine}" />
+            <Border Grid.Row="13" Grid.ColumnSpan="2" Style="{StaticResource HoriztonalLine}" />
 
-            <Label Grid.Row="13" Grid.Column="0"
+            <Label Grid.Row="14" Grid.Column="0"
                    Style="{StaticResource TitleLabel}"
                    Content="Web" />
 
-            <Label Grid.Row="14" Grid.Column="0"
+            <Label Grid.Row="15" Grid.Column="0"
                    Content="Website" />
-            <Grid Grid.Row="14" Grid.Column="1" HorizontalAlignment="Stretch">
+            <Grid Grid.Row="15" Grid.Column="1" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
@@ -157,9 +211,9 @@
                         ToolTip="{Binding ArtistWebsite}" />
             </Grid>
             
-            <Label Grid.Row="15" Grid.Column="0"
+            <Label Grid.Row="16" Grid.Column="0"
                    Content="Facebook" />
-            <Grid Grid.Row="15" Grid.Column="1" HorizontalAlignment="Stretch">
+            <Grid Grid.Row="16" Grid.Column="1" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
@@ -172,9 +226,9 @@
                         ToolTip="{Binding ArtistFacebookUrl}" />
             </Grid>
 
-            <Label Grid.Row="16" Grid.Column="0"
+            <Label Grid.Row="17" Grid.Column="0"
                    Content="Twitter" />
-            <Grid Grid.Row="16" Grid.Column="1" HorizontalAlignment="Stretch">
+            <Grid Grid.Row="17" Grid.Column="1" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
@@ -187,9 +241,9 @@
                         ToolTip="{Binding ArtistTwitterUrl}" />
             </Grid>
 
-            <Label Grid.Row="17" Grid.Column="0"
+            <Label Grid.Row="18" Grid.Column="0"
                    Content="Wikipedia" />
-            <Grid Grid.Row="17" Grid.Column="1" HorizontalAlignment="Stretch">
+            <Grid Grid.Row="18" Grid.Column="1" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
@@ -202,9 +256,9 @@
                         ToolTip="{Binding ArtistWikipediaUrl}" />
             </Grid>
 
-            <Label Grid.Row="18" Grid.Column="0"
+            <Label Grid.Row="19" Grid.Column="0"
                    Content="Last.FM" />
-            <Grid Grid.Row="18" Grid.Column="1" HorizontalAlignment="Stretch">
+            <Grid Grid.Row="19" Grid.Column="1" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />

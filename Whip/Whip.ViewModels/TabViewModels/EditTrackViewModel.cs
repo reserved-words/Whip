@@ -13,7 +13,7 @@ namespace Whip.ViewModels.TabViewModels
     {
         private readonly Library _library;
         private readonly IMessenger _messenger;
-
+ 
         private Track _track;
         
         public EditTrackViewModel(TrackViewModel trackViewModel, Library library, IMessenger messenger)

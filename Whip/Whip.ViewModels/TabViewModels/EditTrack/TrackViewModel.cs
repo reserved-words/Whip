@@ -14,6 +14,7 @@ using Whip.ViewModels.Messages;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Validation;
 using Whip.Common.Validation;
+using System.Collections.ObjectModel;
 
 namespace Whip.ViewModels.TabViewModels
 {
@@ -25,6 +26,7 @@ namespace Whip.ViewModels.TabViewModels
 
         private List<City> _usedCities;
 
+        private List<string> _allTags;
         private List<string> _artists;
         private List<string> _albums;
         private List<string> _groupings;
@@ -36,6 +38,7 @@ namespace Whip.ViewModels.TabViewModels
         private string _title;
         private string _year;
         private string _lyrics;
+        private string _newTag;
 
         private string _albumArtistName;
         private string _albumArtwork;
@@ -66,6 +69,8 @@ namespace Whip.ViewModels.TabViewModels
             _library = library;
             _messenger = messenger;
 
+            RemoveTagCommand = new RelayCommand<string>(OnRemoveTrack);
+
             GetArtworkFromUrlCommand = new RelayCommand(OnGetArtworkFromUrl);
             GetArtworkFromFileCommand = new RelayCommand(OnGetArtworkFromFile);
             GetArtworkFromWebCommand = new RelayCommand(OnGetArtworkFromWeb, CanGetArtworkFromWeb);
@@ -76,6 +81,11 @@ namespace Whip.ViewModels.TabViewModels
             TestTwitterCommand = new RelayCommand(OnTestTwitter, CanTestTwitter);
             TestWikipediaCommand = new RelayCommand(OnTestWikipedia, CanTestWikipedia);
             TestLastFmCommand = new RelayCommand(OnTestLastFm, CanTestLastFm);
+        }
+
+        private void OnRemoveTrack(string tag)
+        {
+            Tags.Remove(tag);
         }
 
         private void OnClearArtwork()
@@ -117,6 +127,8 @@ namespace Whip.ViewModels.TabViewModels
             }
         }
 
+        public RelayCommand<string> RemoveTagCommand { get; private set; }
+
         public RelayCommand GetArtworkFromUrlCommand { get; private set; }
         public RelayCommand GetArtworkFromFileCommand { get; private set; }
         public RelayCommand GetArtworkFromWebCommand { get; private set; }
@@ -132,6 +144,12 @@ namespace Whip.ViewModels.TabViewModels
         public string ArtistTwitterUrl => string.Format(TwitterUrl, ArtistTwitter);
         public string ArtistWikipediaUrl => string.Format(WikipediaUrl, ArtistWikipedia);
         public string ArtistLastFmUrl => string.Format(LastFmUrl, ArtistLastFm);
+
+        public List<string> AllTags
+        {
+            get { return _allTags; }
+            set { Set(ref _allTags, value); }
+        }
 
         public List<string> Artists
         { 
@@ -416,6 +434,23 @@ namespace Whip.ViewModels.TabViewModels
             set { SetModified(nameof(DiscCount), ref _discCount, value); }
         }
 
+        public ObservableCollection<string> Tags { get; set; }
+
+        [TrackTag]
+        public string NewTag
+        {
+            get { return _newTag; }
+            set
+            {
+                SetModified(nameof(NewTag), ref _newTag, value);
+                if (!string.IsNullOrEmpty(value) && TrackTagAttribute.Validate(value, this))
+                {
+                    Tags.Add(value);
+                    SetModified(nameof(NewTag), ref _newTag, string.Empty);
+                }
+            }
+        }
+
         private bool CanTestWebsite()
         {
             return !string.IsNullOrEmpty(ArtistWebsite) && string.IsNullOrEmpty(this[nameof(ArtistWebsite)]);
@@ -474,6 +509,7 @@ namespace Whip.ViewModels.TabViewModels
             Year = track.Year;
             Lyrics = track.Lyrics;
             TrackNo = track.TrackNo;
+            Tags = new ObservableCollection<string>(track.Tags);
 
             ArtistName = track.Artist.Name;
             AlbumArtistName = track.Disc.Album.Artist.Name;
@@ -578,6 +614,8 @@ namespace Whip.ViewModels.TabViewModels
             Groupings = artists.Select(a => a.Grouping).Distinct().OrderBy(g => g).ToList();
 
             Genres = artists.Select(a => a.Genre).Distinct().OrderBy(g => g).ToList();
+
+            AllTags = artists.SelectMany(a => a.Tracks).SelectMany(t => t.Tags).Distinct().OrderBy(t => t).ToList();
 
             _usedCities = artists.Select(a => a.City).ToList();
 

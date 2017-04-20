@@ -4,7 +4,7 @@ namespace Whip.Common.Validation
 {
     public static class UrlValidation
     {
-        public const string UrlRegexPattern = @"(http://|https://)?(www\.)?\w+\.(com|net|edu|org)";
+        public const string UrlRegexPattern = @"(http://|https://)?(www\.)?\w+\.(com|net|edu|org|co\.uk)"; // Need to make this less restrictive
 
         public const byte PartialUrlStringMaxLength = 255;
         public const string PartialUrlStringRegexPattern = @"^[A-Za-z0-9-_~\?#\[\]\@\!\$&\'\(\)\*\+,\=%]*$";
