@@ -1,8 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using System;
-using Whip.Common.Interfaces;
 using Whip.Common.Model;
-using Whip.LastFm;
+using Whip.Common.Singletons;
 using Whip.Services.Interfaces;
 
 namespace Whip.ViewModels
@@ -10,13 +9,23 @@ namespace Whip.ViewModels
     public class CurrentTrackMiniViewModel : ViewModelBase
     {
         private readonly ITrackLoveService _trackLoveService;
-
+        
         private bool _loved;
         private Track _track;
 
-        public CurrentTrackMiniViewModel(ITrackLoveService trackLoveService)
+        public CurrentTrackMiniViewModel(ITrackLoveService trackLoveService, Library library)
         {
             _trackLoveService = trackLoveService;
+
+            library.TrackUpdated += Library_TrackUpdated;
+        }
+
+        private void Library_TrackUpdated(Track track)
+        {
+            if (Track == track)
+            {
+                RaisePropertyChanged(nameof(Track));
+            }
         }
 
         public async void OnNewTrackStarted(Track track)

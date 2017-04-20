@@ -5,6 +5,7 @@ using Whip.Common.Model;
 using Whip.ViewModels.Utilities;
 using GalaSoft.MvvmLight.Messaging;
 using Whip.ViewModels.Messages;
+using Whip.Common.Singletons;
 
 namespace Whip.ViewModels.TabViewModels
 {
@@ -14,12 +15,22 @@ namespace Whip.ViewModels.TabViewModels
 
         private Track _track;
 
-        public CurrentTrackViewModel(IMessenger messenger)
+        public CurrentTrackViewModel(IMessenger messenger, Library library)
             :base(TabType.CurrentTrack, IconType.Music, "Current Track")
         {
             _messenger = messenger;
 
             EditTrackCommand = new RelayCommand(OnEditTrack);
+
+            library.TrackUpdated += Library_TrackUpdated;
+        }
+
+        private void Library_TrackUpdated(Track track)
+        {
+            if (Track == track)
+            {
+                RaisePropertyChanged(nameof(Track));
+            }
         }
 
         public RelayCommand EditTrackCommand { get; private set; }

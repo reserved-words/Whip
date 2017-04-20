@@ -8,6 +8,8 @@ namespace Whip.Common.Singletons
     {
         public event Action Updated;
 
+        public event Action<Track> TrackUpdated;
+
         public Library()
         {
             Artists = new List<Artist>();
@@ -21,6 +23,11 @@ namespace Whip.Common.Singletons
             LastUpdated = library.LastUpdated;
             Artists = library.Artists;
             Updated?.Invoke();
+        }
+
+        public void OnTrackUpdated(Track track)
+        {
+            TrackUpdated?.Invoke(track);
         }
     }
 }

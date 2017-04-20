@@ -36,6 +36,7 @@ namespace Whip.ViewModels.TabViewModels
             _messenger = messenger;
 
             _library.Updated += OnLibraryUpdated;
+            _library.TrackUpdated += OnLibraryTrackUpdated;
             
             PlayAlbumCommand = new RelayCommand<Album>(OnPlayAlbum);
             ShuffleArtistCommand = new RelayCommand<Artist>(OnShuffleArtist);
@@ -127,6 +128,11 @@ namespace Whip.ViewModels.TabViewModels
             SelectedArtist = null;
 
             FilterGroupings();
+        }
+
+        private void OnLibraryTrackUpdated(Track track)
+        {
+            FilterArtists();
         }
 
         private void FilterGroupings()

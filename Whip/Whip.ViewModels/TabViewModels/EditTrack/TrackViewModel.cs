@@ -20,15 +20,17 @@ namespace Whip.ViewModels.TabViewModels
 {
     public class TrackViewModel : EditableViewModelBase
     {
+        private const string AddNew = "- Add New...";
+
         private readonly IWebAlbumInfoService _webAlbumInfoService;
         private readonly Library _library;
         private readonly IMessenger _messenger;
 
         private List<City> _usedCities;
+        private List<Artist> _artists;
+        private List<Album> _albums;
 
         private List<string> _allTags;
-        private List<string> _artists;
-        private List<string> _albums;
         private List<string> _groupings;
         private List<string> _genres;
         private List<string> _countries;
@@ -40,12 +42,16 @@ namespace Whip.ViewModels.TabViewModels
         private string _lyrics;
         private string _newTag;
 
+        private Artist _artist;
+        private Artist _albumArtist;
+        private Album _album;
+        
         private string _albumArtistName;
         private string _albumArtwork;
         private string _albumTitle;
         private string _albumYear;
         private ReleaseType _albumReleaseType;
-
+        
         private string _artistName;
         private string _artistGrouping;
         private string _artistGenre;
@@ -97,6 +103,10 @@ namespace Whip.ViewModels.TabViewModels
         {
             AlbumArtwork = await _webAlbumInfoService.GetArtworkUrl(AlbumArtistName, AlbumTitle);
         }
+
+        public bool ExistingArtistSelected => Artist != null && Artist.Name != AddNew;
+        public bool ExistingAlbumArtistSelected => AlbumArtist != null && AlbumArtist.Name != AddNew;
+        public bool ExistingAlbumSelected => Album != null && Album.Title != AddNew;
 
         private void OnGetArtworkFromFile()
         {
@@ -151,13 +161,13 @@ namespace Whip.ViewModels.TabViewModels
             set { Set(ref _allTags, value); }
         }
 
-        public List<string> Artists
+        public List<Artist> Artists
         { 
             get { return _artists; }
             set { Set(ref _artists, value); }
         }
 
-        public List<string> Albums
+        public List<Album> Albums
         {
             get { return _albums; }
             set { Set(ref _albums, value); }
@@ -191,6 +201,36 @@ namespace Whip.ViewModels.TabViewModels
         {
             get { return _cities; }
             set { Set(ref _cities, value); }
+        }
+
+        public Artist Artist
+        {
+            get { return _artist; }
+            set
+            {
+                SetModified(nameof(Artist), ref _artist, value);
+                PopulateArtistDetails();
+            }
+        }
+
+        public Album Album
+        {
+            get { return _album; }
+            set
+            {
+                SetModified(nameof(Album), ref _album, value);
+                PopulateAlbumDetails();
+            }
+        }
+
+        public Artist AlbumArtist
+        {
+            get { return _albumArtist; }
+            set
+            {
+                SetModified(nameof(AlbumArtist), ref _albumArtist, value);
+                PopulateAlbumArtistDetails();
+            }
         }
 
         [Required]
@@ -249,8 +289,20 @@ namespace Whip.ViewModels.TabViewModels
             set
             {
                 SetModified(nameof(AlbumArtistName), ref _albumArtistName, value);
-                PopulateAlbumList();
-                PopulateAlbumDetails();
+                SyncArtistNames(_albumArtistName);
+            }
+        }
+
+        private bool _syncingArtistNames = false;
+
+        private void SyncArtistNames(string latestName)
+        {
+            if (!_syncingArtistNames && ExistingAlbumArtistSelected && ExistingArtistSelected && Artist == AlbumArtist && ArtistName != AlbumArtistName)
+            {
+                _syncingArtistNames = true;
+                ArtistName = latestName;
+                AlbumArtistName = latestName;
+                _syncingArtistNames = false;
             }
         }
 
@@ -260,11 +312,7 @@ namespace Whip.ViewModels.TabViewModels
         public string AlbumTitle
         {
             get { return _albumTitle; }
-            set
-            {
-                SetModified(nameof(AlbumTitle), ref _albumTitle, value);
-                PopulateAlbumDetails();
-            }
+            set { SetModified(nameof(AlbumTitle), ref _albumTitle, value); }
         }
 
         [Required]
@@ -276,7 +324,7 @@ namespace Whip.ViewModels.TabViewModels
             set
             {
                 SetModified(nameof(ArtistName), ref _artistName, value);
-                PopulateArtistDetails();
+                SyncArtistNames(_artistName);
             }
         }
 
@@ -511,9 +559,10 @@ namespace Whip.ViewModels.TabViewModels
             TrackNo = track.TrackNo;
             Tags = new ObservableCollection<string>(track.Tags);
 
-            ArtistName = track.Artist.Name;
-            AlbumArtistName = track.Disc.Album.Artist.Name;
-            AlbumTitle = track.Disc.Album.Title; PopulateAlbumDetails();
+            Artist = track.Artist;
+            AlbumArtist = track.Disc.Album.Artist;
+            Album = track.Disc.Album;
+
             DiscNo = track.Disc.DiscNo;
 
             Modified = false;
@@ -521,11 +570,8 @@ namespace Whip.ViewModels.TabViewModels
 
         private void PopulateDiscDetails()
         {
-            if (string.IsNullOrEmpty(AlbumArtistName) || string.IsNullOrEmpty(AlbumTitle) || !DiscNo.HasValue)
-                return;
+            var album = Album?.Title == AddNew ? null : Album;
 
-            var albumArtist = _library.Artists.SingleOrDefault(a => a.Name == AlbumArtistName);
-            var album = albumArtist?.Albums.SingleOrDefault(a => a.Title == AlbumTitle);
             var disc = album?.Discs.SingleOrDefault(d => d.DiscNo == DiscNo);
             
             if (disc != null)
@@ -534,14 +580,33 @@ namespace Whip.ViewModels.TabViewModels
             }
         }
 
+        private void PopulateAlbumArtistDetails()
+        {
+            var albumArtist = AlbumArtist?.Name == AddNew ? null : AlbumArtist;
+
+            AlbumArtistName = albumArtist?.Name ?? string.Empty;
+
+            Albums = albumArtist == null
+                ? new List<Album>()
+                : AlbumArtist.Albums
+                    .OrderBy(a => a.Title)
+                    .ToList();
+
+            Albums.Insert(0, new Album { Title = AddNew });
+
+            if (Albums.Count == 1)
+            {
+                Album = Albums.First();
+            }
+
+            PopulateAlbumDetails();
+        }
+
         private void PopulateAlbumDetails()
         {
-            if (string.IsNullOrEmpty(AlbumArtistName) || string.IsNullOrEmpty(AlbumTitle))
-                return;
+            var album = Album?.Title == AddNew ? null : Album;
 
-            var albumArtist = _library.Artists.SingleOrDefault(a => a.Name == AlbumArtistName);
-            var album = albumArtist?.Albums.SingleOrDefault(a => a.Title == AlbumTitle);
-
+            AlbumTitle = album?.Title ?? string.Empty;
             AlbumReleaseType = album?.ReleaseType ?? EnumHelpers.GetDefaultValue<ReleaseType>();
             AlbumArtwork = album?.Artwork ?? string.Empty;
             AlbumYear = album?.Year ?? string.Empty;
@@ -552,11 +617,9 @@ namespace Whip.ViewModels.TabViewModels
 
         private void PopulateArtistDetails()
         {
-            if (string.IsNullOrEmpty(ArtistName))
-                return;
+            var artist = Artist?.Name == AddNew ? null : Artist;
 
-            var artist = _library.Artists.SingleOrDefault(a => a.Name == ArtistName);
-            
+            ArtistName = artist?.Name ?? string.Empty;
             ArtistGrouping = artist?.Grouping ?? string.Empty;
             ArtistGenre = artist?.Genre ?? string.Empty;
             ArtistCountry = artist?.City.Country ?? string.Empty;
@@ -568,18 +631,6 @@ namespace Whip.ViewModels.TabViewModels
             ArtistTwitter = artist?.Twitter ?? string.Empty;
             ArtistWikipedia = artist?.Wikipedia ?? string.Empty;
             ArtistLastFm = artist?.LastFm ?? string.Empty;
-        }
-
-        private void PopulateAlbumList()
-        {
-            Albums = string.IsNullOrEmpty(AlbumArtistName)
-                ? new List<string>()
-                : _library.Artists
-                    .SingleOrDefault(a => a.Name == AlbumArtistName)?
-                    .Albums
-                    .Select(a => a.Title)
-                    .OrderBy(a => a)
-                    .ToList();
         }
 
         private void PopulateCityList()
@@ -609,7 +660,8 @@ namespace Whip.ViewModels.TabViewModels
         {
             var artists = _library.Artists.ToList();
 
-            Artists = artists.Select(a => a.Name).ToList();
+            Artists = new List<Artist>(artists);
+            Artists.Insert(0, new Artist { Name = AddNew });
 
             Groupings = artists.Select(a => a.Grouping).Distinct().OrderBy(g => g).ToList();
 
@@ -620,8 +672,6 @@ namespace Whip.ViewModels.TabViewModels
             _usedCities = artists.Select(a => a.City).ToList();
 
             Countries = _usedCities.Select(c => c.Country).Distinct().OrderBy(c => c).ToList();
-
-            PopulateAlbumList();
         }
     }
 }

@@ -51,12 +51,11 @@ namespace Whip.ViewModels.TabViewModels
                 return false;
             }
 
+            TransferData(_track);
+
+            // Save to file(s) using ID3 Tag Service
+
             return true;
-
-            // Move this stuff to a service
-            // TransferData(_track);
-
-            // Save to file using ID3 Tag Service
         }
 
         protected override bool CustomCancel()
@@ -68,31 +67,40 @@ namespace Whip.ViewModels.TabViewModels
         {
             track.Title = TrackViewModel.Title;
             track.Year = TrackViewModel.Year;
-            // track.Tags = TrackViewModel.Tags;
+            track.Tags = TrackViewModel.Tags.ToList();
             track.TrackNo = TrackViewModel.TrackNo.Value;
             track.Lyrics = TrackViewModel.Lyrics;
 
             SetArtist(track);
+            SetAlbum(track);
+
+            _library.OnTrackUpdated(track);
         }
 
         private void SetArtist(Track track)
         {
-            if (track.Artist.Name != TrackViewModel.ArtistName)
+            Artist artist;
+
+            if (TrackViewModel.ExistingArtistSelected)
             {
-                track.Artist.Tracks.Remove(track);
+                artist = TrackViewModel.Artist;
+            }
+            else
+            {
+                artist = new Artist();
+                _library.Artists.Add(artist);
+            }
 
-                var artist = _library.Artists.SingleOrDefault(a => a.Name == TrackViewModel.ArtistName);
+            var originalArtist = track.Artist;
 
-                if (artist == null)
-                {
-                    artist = new Artist { Name = TrackViewModel.ArtistName };
-                    _library.Artists.Add(artist);
-                }
-
+            if (originalArtist != artist)
+            {
+                originalArtist.Tracks.Remove(track);
                 track.Artist = artist;
                 artist.Tracks.Add(track);
             }
-
+            
+            track.Artist.Name = TrackViewModel.ArtistName;
             track.Artist.Grouping = TrackViewModel.ArtistGrouping;
             track.Artist.Genre = TrackViewModel.ArtistGenre;
             track.Artist.City = new City(TrackViewModel.ArtistCity, TrackViewModel.ArtistState, TrackViewModel.ArtistCountry);
@@ -101,6 +109,86 @@ namespace Whip.ViewModels.TabViewModels
             track.Artist.Twitter = TrackViewModel.ArtistTwitter;
             track.Artist.Wikipedia = TrackViewModel.ArtistWikipedia;
             track.Artist.LastFm = TrackViewModel.ArtistLastFm;
+
+            if (!originalArtist.Tracks.Any() && !originalArtist.Albums.Any())
+            {
+                _library.Artists.Remove(originalArtist);
+            }
+        }
+
+        private void SetAlbum(Track track)
+        {
+            Artist albumArtist = null;
+            Album album = null;
+
+            if (TrackViewModel.ExistingAlbumArtistSelected)
+            {
+                albumArtist = TrackViewModel.AlbumArtist;
+
+                if (TrackViewModel.ExistingAlbumSelected)
+                {
+                    album = TrackViewModel.Album;
+                }
+            }
+            else
+            {
+                // Could be in the library already if added as the track artist
+                albumArtist = _library.Artists.SingleOrDefault(a => a.Name == TrackViewModel.AlbumArtistName);   
+            }
+
+            if (albumArtist == null)
+            {
+                albumArtist = new Artist();
+                _library.Artists.Add(albumArtist);
+            }
+
+            if (album == null)
+            {
+                album = new Album { Artist = albumArtist };
+                albumArtist.Albums.Add(album);
+            }
+
+            var originalDisc = track.Disc;
+
+            var originalAlbum = originalDisc.Album;
+
+            if (originalAlbum != album || originalDisc.DiscNo != TrackViewModel.DiscNo)
+            {
+                originalDisc.Tracks.Remove(track);
+
+                track.Disc = album.Discs.SingleOrDefault(d => d.DiscNo == TrackViewModel.DiscNo);
+
+                if (track.Disc == null)
+                {
+                    track.Disc = new Disc { DiscNo = TrackViewModel.DiscNo.Value };
+                    album.Discs.Add(track.Disc);
+                    track.Disc.Album = album;
+                }
+
+                track.Disc.Tracks.Add(track);
+            }
+            
+            track.Disc.TrackCount = TrackViewModel.TrackCount.Value;
+
+            track.Disc.Album.Title = TrackViewModel.AlbumTitle;
+            track.Disc.Album.Year = TrackViewModel.AlbumYear;
+            track.Disc.Album.ReleaseType = TrackViewModel.AlbumReleaseType;
+            track.Disc.Album.DiscCount = TrackViewModel.DiscCount.Value;
+
+            if (!originalDisc.Tracks.Any())
+            {
+                originalDisc.Album.Discs.Remove(originalDisc);
+            }
+
+            if (!originalAlbum.Discs.Any())
+            {
+                originalAlbum.Artist.Albums.Remove(originalAlbum);
+            }
+
+            if (!originalAlbum.Artist.Albums.Any() && !originalAlbum.Artist.Tracks.Any())
+            {
+                _library.Artists.Remove(originalAlbum.Artist);
+            }
         }
     }
 }
