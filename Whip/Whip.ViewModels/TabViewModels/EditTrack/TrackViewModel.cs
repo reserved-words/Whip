@@ -26,6 +26,8 @@ namespace Whip.ViewModels.TabViewModels
         private readonly Library _library;
         private readonly IMessenger _messenger;
 
+        private bool _syncingArtistNames;
+
         private List<City> _usedCities;
         private List<Artist> _artists;
         private List<Album> _albums;
@@ -37,15 +39,15 @@ namespace Whip.ViewModels.TabViewModels
         private List<string> _states;
         private List<string> _cities;
 
+        private Artist _artist;
+        private Artist _albumArtist;
+        private Album _album;
+
         private string _title;
         private string _year;
         private string _lyrics;
         private string _newTag;
 
-        private Artist _artist;
-        private Artist _albumArtist;
-        private Album _album;
-        
         private string _albumArtistName;
         private string _albumArtwork;
         private string _albumTitle;
@@ -89,53 +91,14 @@ namespace Whip.ViewModels.TabViewModels
             TestLastFmCommand = new RelayCommand(OnTestLastFm, CanTestLastFm);
         }
 
-        private void OnRemoveTrack(string tag)
-        {
-            Tags.Remove(tag);
-        }
-
-        private void OnClearArtwork()
-        {
-            AlbumArtwork = null;
-        }
-
-        private async void OnGetArtworkFromWeb()
-        {
-            AlbumArtwork = await _webAlbumInfoService.GetArtworkUrl(AlbumArtistName, AlbumTitle);
-        }
-
         public bool ExistingArtistSelected => Artist != null && Artist.Name != AddNew;
         public bool ExistingAlbumArtistSelected => AlbumArtist != null && AlbumArtist.Name != AddNew;
         public bool ExistingAlbumSelected => Album != null && Album.Title != AddNew;
 
-        private void OnGetArtworkFromFile()
-        {
-            var fileDialogRequest = new ShowFileDialogRequest(FileType.Images);
-            _messenger.Send(fileDialogRequest);
-            var result = fileDialogRequest.Result;
-
-            if (result != null)
-            {
-                AlbumArtwork = result;
-            }
-        }
-
-        private bool CanGetArtworkFromWeb()
-        {
-            return !string.IsNullOrEmpty(AlbumArtistName) && !string.IsNullOrEmpty(AlbumTitle);
-        }
-
-        private void OnGetArtworkFromUrl()
-        {
-            var enterUrlModel = new EnterStringViewModel(_messenger, "Get Artwork", "Enter the URL for the artwork below", UrlValidation.IsValidArtworkUrl, "The value entered is not a valid image URL");
-            _messenger.Send(new ShowDialogMessage(enterUrlModel));
-            var result = enterUrlModel.Result;
-
-            if (result != null)
-            {
-                AlbumArtwork = result;
-            }
-        }
+        public string ArtistFacebookUrl => string.Format(FacebookUrl, ArtistFacebook);
+        public string ArtistTwitterUrl => string.Format(TwitterUrl, ArtistTwitter);
+        public string ArtistWikipediaUrl => string.Format(WikipediaUrl, ArtistWikipedia);
+        public string ArtistLastFmUrl => string.Format(LastFmUrl, ArtistLastFm);
 
         public RelayCommand<string> RemoveTagCommand { get; private set; }
 
@@ -149,11 +112,6 @@ namespace Whip.ViewModels.TabViewModels
         public RelayCommand TestTwitterCommand { get; private set; }
         public RelayCommand TestWikipediaCommand { get; private set; }
         public RelayCommand TestLastFmCommand { get; private set; }
-
-        public string ArtistFacebookUrl => string.Format(FacebookUrl, ArtistFacebook);
-        public string ArtistTwitterUrl => string.Format(TwitterUrl, ArtistTwitter);
-        public string ArtistWikipediaUrl => string.Format(WikipediaUrl, ArtistWikipedia);
-        public string ArtistLastFmUrl => string.Format(LastFmUrl, ArtistLastFm);
 
         public List<string> AllTags
         {
@@ -290,19 +248,6 @@ namespace Whip.ViewModels.TabViewModels
             {
                 SetModified(nameof(AlbumArtistName), ref _albumArtistName, value);
                 SyncArtistNames(_albumArtistName);
-            }
-        }
-
-        private bool _syncingArtistNames = false;
-
-        private void SyncArtistNames(string latestName)
-        {
-            if (!_syncingArtistNames && ExistingAlbumArtistSelected && ExistingArtistSelected && Artist == AlbumArtist && ArtistName != AlbumArtistName)
-            {
-                _syncingArtistNames = true;
-                ArtistName = latestName;
-                AlbumArtistName = latestName;
-                _syncingArtistNames = false;
             }
         }
 
@@ -499,56 +444,6 @@ namespace Whip.ViewModels.TabViewModels
             }
         }
 
-        private bool CanTestWebsite()
-        {
-            return !string.IsNullOrEmpty(ArtistWebsite) && string.IsNullOrEmpty(this[nameof(ArtistWebsite)]);
-        }
-
-        private void OnTestWebsite()
-        {
-            Hyperlink.Go(ArtistWebsite);
-        }
-
-        private bool CanTestFacebook()
-        {
-            return !string.IsNullOrEmpty(ArtistFacebook) && string.IsNullOrEmpty(this[nameof(ArtistFacebook)]);
-        }
-
-        private void OnTestFacebook()
-        {
-            Hyperlink.Go(ArtistFacebookUrl);
-        }
-
-        private bool CanTestTwitter()
-        {
-            return !string.IsNullOrEmpty(ArtistTwitter) && string.IsNullOrEmpty(this[nameof(ArtistTwitter)]);
-        }
-
-        private void OnTestTwitter()
-        {
-            Hyperlink.Go(ArtistTwitterUrl);
-        }
-
-        private bool CanTestWikipedia()
-        {
-            return !string.IsNullOrEmpty(ArtistWikipedia) && string.IsNullOrEmpty(this[nameof(ArtistWikipedia)]);
-        }
-
-        private void OnTestWikipedia()
-        {
-            Hyperlink.Go(ArtistWikipediaUrl);
-        }
-
-        private bool CanTestLastFm()
-        {
-            return !string.IsNullOrEmpty(ArtistLastFm) && string.IsNullOrEmpty(this[nameof(ArtistLastFm)]);
-        }
-
-        private void OnTestLastFm()
-        {
-            Hyperlink.Go(ArtistLastFmUrl);
-        }
-
         public void Populate(Track track)
         {
             PopulateOptionLists();
@@ -568,16 +463,98 @@ namespace Whip.ViewModels.TabViewModels
             Modified = false;
         }
 
-        private void PopulateDiscDetails()
+        private bool CanGetArtworkFromWeb()
         {
-            var album = Album?.Title == AddNew ? null : Album;
+            return !string.IsNullOrEmpty(AlbumArtistName) && !string.IsNullOrEmpty(AlbumTitle);
+        }
 
-            var disc = album?.Discs.SingleOrDefault(d => d.DiscNo == DiscNo);
-            
-            if (disc != null)
+        private bool CanTestFacebook()
+        {
+            return !string.IsNullOrEmpty(ArtistFacebook) && string.IsNullOrEmpty(this[nameof(ArtistFacebook)]);
+        }
+
+        private bool CanTestLastFm()
+        {
+            return !string.IsNullOrEmpty(ArtistLastFm) && string.IsNullOrEmpty(this[nameof(ArtistLastFm)]);
+        }
+
+        private bool CanTestTwitter()
+        {
+            return !string.IsNullOrEmpty(ArtistTwitter) && string.IsNullOrEmpty(this[nameof(ArtistTwitter)]);
+        }
+
+        private bool CanTestWebsite()
+        {
+            return !string.IsNullOrEmpty(ArtistWebsite) && string.IsNullOrEmpty(this[nameof(ArtistWebsite)]);
+        }
+
+        private bool CanTestWikipedia()
+        {
+            return !string.IsNullOrEmpty(ArtistWikipedia) && string.IsNullOrEmpty(this[nameof(ArtistWikipedia)]);
+        }
+
+        private void OnClearArtwork()
+        {
+            AlbumArtwork = null;
+        }
+
+        private void OnGetArtworkFromFile()
+        {
+            var fileDialogRequest = new ShowFileDialogRequest(FileType.Images);
+            _messenger.Send(fileDialogRequest);
+            var result = fileDialogRequest.Result;
+
+            if (result != null)
             {
-                TrackCount = disc.TrackCount;
+                AlbumArtwork = result;
             }
+        }
+
+        private void OnGetArtworkFromUrl()
+        {
+            var enterUrlModel = new EnterStringViewModel(_messenger, "Get Artwork", "Enter the URL for the artwork below", UrlValidation.IsValidArtworkUrl, "The value entered is not a valid image URL");
+            _messenger.Send(new ShowDialogMessage(enterUrlModel));
+            var result = enterUrlModel.Result;
+
+            if (result != null)
+            {
+                AlbumArtwork = result;
+            }
+        }
+
+        private async void OnGetArtworkFromWeb()
+        {
+            AlbumArtwork = await _webAlbumInfoService.GetArtworkUrl(AlbumArtistName, AlbumTitle);
+        }
+
+        private void OnRemoveTrack(string tag)
+        {
+            Tags.Remove(tag);
+        }
+
+        private void OnTestLastFm()
+        {
+            Hyperlink.Go(ArtistLastFmUrl);
+        }
+
+        private void OnTestFacebook()
+        {
+            Hyperlink.Go(ArtistFacebookUrl);
+        }
+
+        private void OnTestTwitter()
+        {
+            Hyperlink.Go(ArtistTwitterUrl);
+        }
+
+        private void OnTestWebsite()
+        {
+            Hyperlink.Go(ArtistWebsite);
+        }
+
+        private void OnTestWikipedia()
+        {
+            Hyperlink.Go(ArtistWikipediaUrl);
         }
 
         private void PopulateAlbumArtistDetails()
@@ -644,16 +621,16 @@ namespace Whip.ViewModels.TabViewModels
                 .ToList();
         }
 
-        private void PopulateStateList()
+        private void PopulateDiscDetails()
         {
-            States = _usedCities
-                .Where(c => string.IsNullOrEmpty(ArtistCountry) || c.Country == ArtistCountry)
-                .Select(c => c.State)
-                .Distinct()
-                .OrderBy(c => c)
-                .ToList();
+            var album = Album?.Title == AddNew ? null : Album;
 
-            PopulateCityList();
+            var disc = album?.Discs.SingleOrDefault(d => d.DiscNo == DiscNo);
+            
+            if (disc != null)
+            {
+                TrackCount = disc.TrackCount;
+            }
         }
 
         private void PopulateOptionLists()
@@ -672,6 +649,29 @@ namespace Whip.ViewModels.TabViewModels
             _usedCities = artists.Select(a => a.City).ToList();
 
             Countries = _usedCities.Select(c => c.Country).Distinct().OrderBy(c => c).ToList();
+        }
+
+        private void PopulateStateList()
+        {
+            States = _usedCities
+                .Where(c => string.IsNullOrEmpty(ArtistCountry) || c.Country == ArtistCountry)
+                .Select(c => c.State)
+                .Distinct()
+                .OrderBy(c => c)
+                .ToList();
+
+            PopulateCityList();
+        }
+
+        private void SyncArtistNames(string latestName)
+        {
+            if (!_syncingArtistNames && ExistingAlbumArtistSelected && ExistingArtistSelected && Artist == AlbumArtist && ArtistName != AlbumArtistName)
+            {
+                _syncingArtistNames = true;
+                ArtistName = latestName;
+                AlbumArtistName = latestName;
+                _syncingArtistNames = false;
+            }
         }
     }
 }
