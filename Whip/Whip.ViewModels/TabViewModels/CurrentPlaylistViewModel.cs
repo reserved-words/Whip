@@ -6,7 +6,6 @@ using Whip.ViewModels.Utilities;
 using GalaSoft.MvvmLight.Messaging;
 using Whip.ViewModels.Messages;
 using Whip.Services.Interfaces.Singletons;
-using Whip.Common.Singletons;
 
 namespace Whip.ViewModels.TabViewModels
 {
@@ -24,15 +23,18 @@ namespace Whip.ViewModels.TabViewModels
             _playlist = playlist;
 
             _playlist.ListUpdated += OnPlaylistUpdated;
-            library.TrackUpdated += Library_TrackUpdated;
+            library.Updated += OnLibraryUpdated;
 
             EditTrackCommand = new RelayCommand(OnEditTrack);
             PlayCommand = new RelayCommand(OnPlay);
         }
 
-        private void Library_TrackUpdated(Track track)
+        private void OnLibraryUpdated(Track track)
         {
-            RaisePropertyChanged(nameof(Tracks));
+            if (track != null)
+            {
+                RaisePropertyChanged(nameof(Tracks));
+            }
         }
 
         public RelayCommand PlayCommand { get; private set; }

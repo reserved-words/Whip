@@ -7,6 +7,7 @@ using Whip.ViewModels.Validation;
 using Whip.Common.Validation;
 using System.Collections.ObjectModel;
 using static Whip.Resources.Resources;
+using System.Linq;
 
 namespace Whip.ViewModels.TabViewModels.EditTrack
 {
@@ -91,6 +92,14 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             Lyrics = track.Lyrics;
 
             Tags = new ObservableCollection<string>(track.Tags);
+        }
+
+        public void UpdateTrack(Track track)
+        {
+            track.Title = Title;
+            track.Year = Year;
+            track.Tags = Tags.ToList();
+            track.Lyrics = Lyrics;
         }
     }
 }

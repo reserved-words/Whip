@@ -17,12 +17,12 @@ namespace Whip.ViewModels
         {
             _trackLoveService = trackLoveService;
 
-            library.TrackUpdated += Library_TrackUpdated;
+            library.Updated += OnLibraryUpdated;
         }
 
-        private void Library_TrackUpdated(Track track)
+        private void OnLibraryUpdated(Track track)
         {
-            if (Track == track)
+            if (track != null && Track == track)
             {
                 RaisePropertyChanged(nameof(Track));
             }

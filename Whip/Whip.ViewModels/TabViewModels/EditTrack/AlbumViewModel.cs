@@ -136,6 +136,33 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             }
         }
 
+        public void UpdateTrack(Track track)
+        {
+            var albumArtist = ArtistName == track.Artist.Name
+                ? track.Artist
+                : ExistingAlbumArtistSelected
+                ? Artist
+                : new Artist();
+
+            var album = ExistingAlbumSelected
+                ? Album
+                : new Album { Artist = albumArtist };
+
+            var disc = album.Discs.SingleOrDefault(d => d.DiscNo == DiscNo) ?? new Disc { Album = album };
+
+            track.TrackNo = TrackNo.Value;
+
+            disc.DiscNo = DiscNo.Value;
+            disc.TrackCount = TrackCount.Value;
+
+            album.Title = Title;
+            album.Year = Year;
+            album.ReleaseType = ReleaseType;
+            album.DiscCount = DiscCount.Value;
+
+            track.Disc = disc;
+        }
+
         [Required]
         [MaxLength(TrackValidation.MaxLengthAlbumTitle, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
         [Display(Name = "Album Title")]

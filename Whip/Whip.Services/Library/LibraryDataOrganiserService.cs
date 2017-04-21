@@ -2,6 +2,7 @@
 using System.Linq;
 using Whip.Common;
 using Whip.Common.Model;
+using Whip.Common.Singletons;
 using Whip.Common.Utilities;
 using Whip.Services.Interfaces;
 
@@ -9,11 +10,13 @@ namespace Whip.Services
 {
     public class LibraryDataOrganiserService : ILibraryDataOrganiserService
     {
+        private readonly Library _library;
         private readonly ITaggingService _taggingService;
         private readonly ICommentProcessingService _commentProcessingService;
 
-        public LibraryDataOrganiserService(ITaggingService taggingService, ICommentProcessingService commentProcessingService)
+        public LibraryDataOrganiserService(ITaggingService taggingService, ICommentProcessingService commentProcessingService, Library library)
         {
+            _library = library;
             _taggingService = taggingService;
             _commentProcessingService = commentProcessingService;
         }
@@ -140,6 +143,66 @@ namespace Whip.Services
             artists.Where(a => !a.Albums.Any() && !a.Tracks.Any())
                 .ToList()
                 .ForEach(a => artists.Remove(a));
+        }
+
+        public void ReorganiseOnTrackChange(Track trackChanged, Artist originalArtist, Disc originalDisc)
+        {
+            var newArtist = trackChanged.Artist;
+            var newDisc = trackChanged.Disc;
+
+            if (newArtist != originalArtist)
+            {
+                originalArtist.Tracks.Remove(trackChanged);
+                newArtist.Tracks.Add(trackChanged);
+
+                if (!_library.Artists.Contains(newArtist))
+                {
+                    _library.Artists.Add(newArtist);
+                }
+            }
+
+            if (newDisc != originalDisc)
+            {
+                originalDisc.Tracks.Remove(trackChanged);
+                newDisc.Tracks.Add(trackChanged);
+
+                if (!newDisc.Album.Discs.Contains(newDisc))
+                {
+                    newDisc.Album.Discs.Add(newDisc);
+                }
+
+                if (!newDisc.Album.Artist.Albums.Contains(newDisc.Album))
+                {
+                    newDisc.Album.Artist.Albums.Add(newDisc.Album);
+                }
+
+                if (!_library.Artists.Contains(newDisc.Album.Artist))
+                {
+                    _library.Artists.Add(newDisc.Album.Artist);
+                }
+            }
+
+            if (!originalDisc.Tracks.Any())
+            {
+                originalDisc.Album.Discs.Remove(originalDisc);
+            }
+
+            if (!originalDisc.Album.Discs.Any())
+            {
+                originalDisc.Album.Artist.Albums.Remove(originalDisc.Album);
+            }
+
+            if (!originalDisc.Album.Artist.Albums.Any())
+            {
+                _library.Artists.Remove(originalDisc.Album.Artist);
+            }
+
+            if (!originalArtist.Tracks.Any() && !originalArtist.Albums.Any())
+            {
+                _library.Artists.Remove(originalArtist);
+            }
+
+            _library.OnTrackUpdated(trackChanged);
         }
     }
 }

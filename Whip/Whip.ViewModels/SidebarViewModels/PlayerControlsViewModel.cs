@@ -81,7 +81,7 @@ namespace Whip.ViewModels
 
         private bool CanSkip(double newPercentage) => CurrentStatus != PlayerStatus.Stopped;
         
-        private void OnLibraryUpdated()
+        private void OnLibraryUpdated(Track track)
         {
             Groupings = _library.GetGroupings().Where(g => !string.IsNullOrEmpty(g)).ToList();
         }

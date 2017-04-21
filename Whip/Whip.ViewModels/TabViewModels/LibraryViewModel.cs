@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Whip.Common;
 using Whip.Common.Model;
-using Whip.Common.Singletons;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
 using Whip.ViewModels.TabViewModels.Library;
@@ -15,6 +14,7 @@ namespace Whip.ViewModels.TabViewModels
     public class LibraryViewModel : TabViewModelBase
     {
         private readonly Common.Singletons.Library _library;
+        private readonly ILibrarySortingService _librarySortingService;
         private readonly IMessenger _messenger;
 
         private bool _artistTypeAlbum;
@@ -27,17 +27,18 @@ namespace Whip.ViewModels.TabViewModels
         private string _selectedGenre;
         private string _selectedGrouping;
 
-        public LibraryViewModel(Common.Singletons.Library library, IMessenger messenger, ITrackFilterService trackFilterService)
+        public LibraryViewModel(Common.Singletons.Library library, IMessenger messenger, ITrackFilterService trackFilterService,
+            ILibrarySortingService librarySortingService)
             :base(TabType.Library, IconType.Book, "Library")
         {
             Artists = new List<Artist>();
             SelectedArtistViewModel = new ArtistViewModel(trackFilterService, messenger);
 
             _library = library;
+            _librarySortingService = librarySortingService;
             _messenger = messenger;
 
             _library.Updated += OnLibraryUpdated;
-            _library.TrackUpdated += OnLibraryTrackUpdated;
             
             PlayAlbumCommand = new RelayCommand<Album>(OnPlayAlbum);
             ShuffleArtistCommand = new RelayCommand<Artist>(OnShuffleArtist);
@@ -122,18 +123,20 @@ namespace Whip.ViewModels.TabViewModels
             }
         }
 
-        private void OnLibraryUpdated()
+        private void OnLibraryUpdated(Track track)
         {
-            SelectedGrouping = string.Empty;
-            SelectedGenre = string.Empty;
-            SelectedArtist = null;
+            if (track == null)
+            {
+                SelectedGrouping = string.Empty;
+                SelectedGenre = string.Empty;
+                SelectedArtist = null;
 
-            FilterGroupings();
-        }
-
-        private void OnLibraryTrackUpdated(Track track)
-        {
-            FilterArtists();
+                FilterGroupings();
+            }
+            else
+            {
+                FilterArtists();
+            }
         }
 
         private void FilterGroupings()
@@ -190,11 +193,13 @@ namespace Whip.ViewModels.TabViewModels
 
         private IEnumerable<Artist> GetTrackOrAlbumArtists(bool filterByGrouping, bool filterByGenre)
         {
-            return _library.Artists
+            var artists = _library.Artists
                 .Where(a => 
                     ((ArtistTypeTrack && a.Tracks.Any()) || (ArtistTypeAlbum && a.Albums.Any()))
                     && (!filterByGrouping || string.IsNullOrEmpty(SelectedGrouping) || a.Grouping == SelectedGrouping)
                     && (!filterByGenre || string.IsNullOrEmpty(SelectedGenre) || a.Genre == SelectedGenre));
+
+            return _librarySortingService.GetInDefaultOrder(artists);
         }
 
         private void OnPlayAlbum(Album album)

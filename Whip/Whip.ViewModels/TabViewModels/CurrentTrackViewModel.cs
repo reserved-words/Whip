@@ -1,11 +1,9 @@
-﻿using System;
-using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight.Command;
 using Whip.Common;
 using Whip.Common.Model;
 using Whip.ViewModels.Utilities;
 using GalaSoft.MvvmLight.Messaging;
 using Whip.ViewModels.Messages;
-using Whip.Common.Singletons;
 
 namespace Whip.ViewModels.TabViewModels
 {
@@ -22,12 +20,12 @@ namespace Whip.ViewModels.TabViewModels
 
             EditTrackCommand = new RelayCommand(OnEditTrack);
 
-            library.TrackUpdated += Library_TrackUpdated;
+            library.Updated += OnLibraryUpdated;
         }
 
-        private void Library_TrackUpdated(Track track)
+        private void OnLibraryUpdated(Track track)
         {
-            if (Track == track)
+            if (track != null && Track == track)
             {
                 RaisePropertyChanged(nameof(Track));
             }

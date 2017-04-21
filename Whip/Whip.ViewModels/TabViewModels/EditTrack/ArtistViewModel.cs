@@ -1,14 +1,8 @@
 ﻿using GalaSoft.MvvmLight.Command;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Whip.Common;
 using Whip.Common.Model;
-using Whip.Common.Singletons;
-using Whip.Common.Utilities;
 using Whip.Common.Validation;
 using Whip.ViewModels.Utilities;
 using Whip.ViewModels.Validation;
@@ -19,7 +13,6 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
     public class ArtistViewModel : EditableViewModelBase
     {
         private readonly EditTrackViewModel _parent;
-        private readonly Common.Singletons.Library _library;
 
         private List<City> _usedCities;
         private List<Artist> _artists;
@@ -136,9 +129,28 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             }
         }
 
+        public void UpdateTrack(Track track)
+        {
+            var artist = ExistingArtistSelected
+                ? Artist
+                : new Artist();
+
+            artist.Name = Name;
+            artist.Grouping = Grouping;
+            artist.Genre = Genre;
+            artist.City = new City(City, State, Country);
+            artist.Website = Website;
+            artist.Facebook = Facebook;
+            artist.Twitter = Twitter;
+            artist.Wikipedia = Wikipedia;
+            artist.LastFm = LastFm;
+
+            track.Artist = artist;
+        }
+
         [Required]
         [MaxLength(TrackValidation.MaxLengthGrouping, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
-       [Display(Name = "Grouping")]
+        [Display(Name = "Grouping")]
         public string Grouping
         {
             get { return _grouping; }
