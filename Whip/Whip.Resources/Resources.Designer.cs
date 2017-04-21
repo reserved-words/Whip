@@ -61,6 +61,15 @@ namespace Whip.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to - Add New....
+        /// </summary>
+        public static string AddNew {
+            get {
+                return ResourceManager.GetString("AddNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Whip.
         /// </summary>
         public static string ApplicationTitle {

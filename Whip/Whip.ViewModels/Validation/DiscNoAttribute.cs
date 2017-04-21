@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Whip.Common.Validation;
 using Whip.ViewModels.TabViewModels;
+using Whip.ViewModels.TabViewModels.EditTrack;
 
 namespace Whip.ViewModels.Validation
 {
@@ -20,7 +21,7 @@ namespace Whip.ViewModels.Validation
                 return new ValidationResult(GetNumberRangeErrorMessage(validationContext));
             }
 
-            var track = validationContext.ObjectInstance as TrackViewModel;
+            var track = validationContext.ObjectInstance as AlbumViewModel;
 
             if (discNo > track.DiscCount)
             {

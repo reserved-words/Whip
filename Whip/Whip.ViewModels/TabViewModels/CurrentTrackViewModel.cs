@@ -15,7 +15,7 @@ namespace Whip.ViewModels.TabViewModels
 
         private Track _track;
 
-        public CurrentTrackViewModel(IMessenger messenger, Library library)
+        public CurrentTrackViewModel(IMessenger messenger, Common.Singletons.Library library)
             :base(TabType.CurrentTrack, IconType.Music, "Current Track")
         {
             _messenger = messenger;

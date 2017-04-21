@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 using Whip.Common.Validation;
-using Whip.ViewModels.TabViewModels;
+using Whip.ViewModels.TabViewModels.EditTrack;
 
 namespace Whip.ViewModels.Validation
 {

@@ -16,6 +16,7 @@ using Ninject;
 using GalaSoft.MvvmLight.Messaging;
 using Whip.NLog;
 using Whip.Services.Interfaces.Singletons;
+using Whip.ViewModels.TabViewModels.EditTrack;
 
 namespace Whip.Ioc
 {

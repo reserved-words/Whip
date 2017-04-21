@@ -17,7 +17,7 @@ namespace Whip.ViewModels.TabViewModels
 
         private Track _selectedTrack;
 
-        public CurrentPlaylistViewModel(IPlaylist playlist, IMessenger messenger, Library library)
+        public CurrentPlaylistViewModel(IPlaylist playlist, IMessenger messenger, Common.Singletons.Library library)
             :base(TabType.CurrentPlaylist, IconType.ListOl, "Current Playlist")
         {
             _messenger = messenger;

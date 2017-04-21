@@ -7,13 +7,14 @@ using Whip.Common.Model;
 using Whip.Common.Singletons;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
+using Whip.ViewModels.TabViewModels.Library;
 using Whip.ViewModels.Utilities;
 
 namespace Whip.ViewModels.TabViewModels
 {
     public class LibraryViewModel : TabViewModelBase
     {
-        private readonly Library _library;
+        private readonly Common.Singletons.Library _library;
         private readonly IMessenger _messenger;
 
         private bool _artistTypeAlbum;
@@ -26,7 +27,7 @@ namespace Whip.ViewModels.TabViewModels
         private string _selectedGenre;
         private string _selectedGrouping;
 
-        public LibraryViewModel(Library library, IMessenger messenger, ITrackFilterService trackFilterService)
+        public LibraryViewModel(Common.Singletons.Library library, IMessenger messenger, ITrackFilterService trackFilterService)
             :base(TabType.Library, IconType.Book, "Library")
         {
             Artists = new List<Artist>();

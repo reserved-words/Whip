@@ -7,7 +7,7 @@ using Whip.Common.Model;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
 
-namespace Whip.ViewModels
+namespace Whip.ViewModels.TabViewModels.Library
 {
     public class ArtistViewModel : ViewModelBase
     {

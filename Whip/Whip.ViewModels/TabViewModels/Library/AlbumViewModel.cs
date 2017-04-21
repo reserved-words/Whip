@@ -4,7 +4,7 @@ using System.Linq;
 using Whip.Common.Model;
 using GalaSoft.MvvmLight;
 
-namespace Whip.ViewModels
+namespace Whip.ViewModels.TabViewModels.Library
 {
     public class AlbumViewModel : ViewModelBase
     {
