@@ -120,8 +120,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             set { SetModified(nameof(ReleaseType), ref _releaseType, value); }
         }
 
-        [Required]
-        [MaxLength(TrackValidation.MaxLengthArtistName, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [ArtistName]
         [Display(Name = "Album Artist Name")]
         public string ArtistName
         {
@@ -163,8 +162,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             track.Disc = disc;
         }
 
-        [Required]
-        [MaxLength(TrackValidation.MaxLengthAlbumTitle, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [AlbumTitle]
         [Display(Name = "Album Title")]
         public string Title
         {
@@ -178,7 +176,15 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
         public int? DiscCount
         {
             get { return _discCount; }
-            set { SetModified(nameof(DiscCount), ref _discCount, value); }
+            set
+            {
+                SetModified(nameof(DiscCount), ref _discCount, value);
+
+                // Force revalidation of disc no
+                var discNo = DiscNo;
+                DiscNo = null;
+                DiscNo = discNo;
+            }
         }
 
         [Required]
@@ -187,7 +193,15 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
         public int? TrackCount
         {
             get { return _trackCount; }
-            set { SetModified(nameof(TrackCount), ref _trackCount, value); }
+            set
+            {
+                SetModified(nameof(TrackCount), ref _trackCount, value);
+
+                // Force revalidation of track no
+                var trackNo = TrackNo;
+                TrackNo = null;
+                TrackNo = trackNo;
+            }
         }
 
         [Required]
@@ -214,6 +228,9 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
 
         private void PopulateAlbumDetails()
         {
+            // Force revalidation when value is set
+            Title = string.Empty;
+
             var album = Album?.Title == AddNew ? null : Album;
 
             Title = album?.Title ?? string.Empty;
@@ -226,7 +243,10 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
         }
 
         private void PopulateAlbumArtistDetails()
-        {
+        {            
+            // Force revalidation when value is set
+            ArtistName = string.Empty;
+            
             var albumArtist = Artist?.Name == AddNew ? null : Artist;
 
             ArtistName = albumArtist?.Name ?? string.Empty;

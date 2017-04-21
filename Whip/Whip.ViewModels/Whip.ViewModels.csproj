@@ -115,6 +115,8 @@
     <Compile Include="SidebarViewModels\PlayerControlsViewModel.cs" />
     <Compile Include="TabViewModels\LibraryViewModel.cs" />
     <Compile Include="Utilities\Hyperlink.cs" />
+    <Compile Include="Validation\AlbumTitleAttribute.cs" />
+    <Compile Include="Validation\ArtistNameAttribute.cs" />
     <Compile Include="Validation\FacebookUsernameAttribute.cs" />
     <Compile Include="Validation\NullableUrlAttribute.cs" />
     <Compile Include="Validation\PartialUrlStringAttribute.cs" />

@@ -113,8 +113,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             }
         }
 
-        [Required]
-        [MaxLength(TrackValidation.MaxLengthArtistName, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [ArtistName]
         [Display(Name = "Artist Name")]
         public string Name
         {
@@ -330,8 +329,11 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
 
         private void PopulateArtistDetails()
         {
-            var artist = Artist?.Name == AddNew ? null : Artist;
+            // Force revalidation when value is set
+            Name = string.Empty;
 
+            var artist = Artist?.Name == AddNew ? null : Artist;
+            
             Name = artist?.Name ?? string.Empty;
             Grouping = artist?.Grouping ?? string.Empty;
             Genre = artist?.Genre ?? string.Empty;
