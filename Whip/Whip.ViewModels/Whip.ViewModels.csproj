@@ -91,6 +91,7 @@
     <Compile Include="TabViewModels\EditTrackViewModel.cs" />
     <Compile Include="TabViewModels\EditTrack\AlbumViewModel.cs" />
     <Compile Include="TabViewModels\EditTrack\ArtistViewModel.cs" />
+    <Compile Include="TabViewModels\EditTrack\DiscViewModel.cs" />
     <Compile Include="TabViewModels\EditTrack\TrackViewModel.cs" />
     <Compile Include="TabViewModels\Library\AlbumViewModel.cs" />
     <Compile Include="TabViewModels\Library\ArtistViewModel.cs" />

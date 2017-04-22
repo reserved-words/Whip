@@ -60,7 +60,11 @@
     <Compile Include="Model\FilesWithStatus.cs" />
     <Compile Include="Singletons\Library.cs" />
     <Compile Include="Model\Track.cs" />
-    <Compile Include="Model\TrackId3Data.cs" />
+    <Compile Include="TagModel\AlbumId3Data.cs" />
+    <Compile Include="TagModel\ArtistId3Data.cs" />
+    <Compile Include="TagModel\DiscId3Data.cs" />
+    <Compile Include="TagModel\Id3Data.cs" />
+    <Compile Include="TagModel\TrackId3Data.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TrackSorters\DefaultTrackSorter.cs" />
     <Compile Include="TrackSorters\RandomTrackSorter.cs" />

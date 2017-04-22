@@ -135,6 +135,7 @@ namespace Whip.ViewModels.TabViewModels
             }
             else
             {
+                SelectedArtist = null;
                 FilterArtists();
             }
         }

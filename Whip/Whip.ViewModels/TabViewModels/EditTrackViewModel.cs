@@ -1,4 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using Whip.Common;
 using Whip.Common.Model;
@@ -16,7 +18,7 @@ namespace Whip.ViewModels.TabViewModels
         private readonly Common.Singletons.Library _library;
         private readonly IMessenger _messenger;
         private readonly IWebAlbumInfoService _webAlbumInfoService;
-        private readonly ILibraryDataOrganiserService _libraryOrganiserService;
+        private readonly ITrackUpdateService _trackUpdateService;
 
         private ArtistViewModel _artistViewModel;
         private AlbumViewModel _albumViewModel;
@@ -26,12 +28,12 @@ namespace Whip.ViewModels.TabViewModels
         private bool _syncingArtistNames;
 
         public EditTrackViewModel(Common.Singletons.Library library, IMessenger messenger, IWebAlbumInfoService webAlbumInfoService,
-            ILibraryDataOrganiserService libraryOrganiserService)
+             ITrackUpdateService trackUpdateService)
             : base(TabType.EditTrack, IconType.Edit, "Edit Track", false)
         {
             _library = library;
-            _libraryOrganiserService = libraryOrganiserService;
             _messenger = messenger;
+            _trackUpdateService = trackUpdateService;
             _webAlbumInfoService = webAlbumInfoService;
         }
 
@@ -97,31 +99,37 @@ namespace Whip.ViewModels.TabViewModels
             if (!Validate())
                 return false;
 
+            var originalArtist = _track.Artist;
+            var originalDisc = _track.Disc;
+
             UpdateLibraryTrack();
-            
-            // Save to file(s) using ID3 Tag Service
+
+            _trackUpdateService.SaveTrackChanges(_track, originalArtist, originalDisc);
 
             return true;
         }
 
         private void UpdateLibraryTrack()
         {
-            var originalArtist = _track.Artist;
-            var originalDisc = _track.Disc;
-
             TrackViewModel.UpdateTrack(_track);
             ArtistViewModel.UpdateTrack(_track);
             AlbumViewModel.UpdateTrack(_track);
-
-            _libraryOrganiserService.ReorganiseOnTrackChange(_track, originalArtist, originalDisc);
         }
 
         private bool Validate()
         {
-            var errorMessage = TrackViewModel.Error;
+            var errorMessages = new List<string>
+            {
+                TrackViewModel.Error,
+                ArtistViewModel.Error,
+                AlbumViewModel.Error
+            };
 
+            var errorMessage = string.Join(Environment.NewLine, errorMessages.Where(e => !string.IsNullOrEmpty(e)));
+            
             if (!string.IsNullOrEmpty(errorMessage))
             {
+                errorMessage = string.Format("Please resolve the following validation errors:{0}{0}{1}", Environment.NewLine, errorMessage);
                 var messageViewModel = new MessageViewModel(_messenger, "Validation Error", errorMessage);
                 _messenger.Send(new ShowDialogMessage(messageViewModel));
                 return false;

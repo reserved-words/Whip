@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Whip.Common.Model;
+﻿using Whip.Common.TagModel;
 
 namespace Whip.Services.Interfaces
 {
     public interface ITaggingService
     {
-        TrackId3Data GetId3Data(string filepath);
+        Id3Data GetTrackId3Data(string filepath);
+
+        void SaveId3Data(string filepath, Id3Data data);
     }
 }

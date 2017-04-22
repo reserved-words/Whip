@@ -103,7 +103,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             set { SetModified(nameof(Artwork), ref _artwork, value); }
         }
 
-        [Required]
+        [Required(ErrorMessage = "{0} is required")]
         [Year]
         [Display(Name = "Album Year")]
         public string Year

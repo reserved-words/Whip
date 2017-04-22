@@ -69,6 +69,7 @@ namespace Whip.Ioc
             Bind<IScrobblingRulesService>().To<ScrobblingRulesService>().InTransientScope();
             Bind<ILibrarySortingService>().To<LibrarySortingService>().InTransientScope();
             Bind<IFileDialogService>().To<FileDialogService>().InTransientScope();
+            Bind<ITrackUpdateService>().To<TrackUpdateService>().InTransientScope();
         }
 
         private void BindLastFmComponents()

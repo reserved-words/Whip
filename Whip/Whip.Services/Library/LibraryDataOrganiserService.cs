@@ -13,80 +13,83 @@ namespace Whip.Services
         private readonly Library _library;
         private readonly ITaggingService _taggingService;
         private readonly ICommentProcessingService _commentProcessingService;
+        private readonly ILibrarySortingService _sortingService;
 
-        public LibraryDataOrganiserService(ITaggingService taggingService, ICommentProcessingService commentProcessingService, Library library)
+        public LibraryDataOrganiserService(ITaggingService taggingService, ICommentProcessingService commentProcessingService, Library library,
+            ILibrarySortingService sortingService)
         {
             _library = library;
+            _sortingService = sortingService;
             _taggingService = taggingService;
             _commentProcessingService = commentProcessingService;
         }
 
         public void AddTrack(string filepath, File file, ICollection<Artist> artists)
         {
-            var id3TrackData = _taggingService.GetId3Data(filepath);
+            var id3Data = _taggingService.GetTrackId3Data(filepath);
 
             var track = new Track
             {
                 File = file,
-                Title = id3TrackData.Title,
-                TrackNo = id3TrackData.TrackNo,
-                Duration = id3TrackData.Duration,
-                Lyrics = id3TrackData.Lyrics
+                Title = id3Data.Track.Title,
+                TrackNo = id3Data.Track.TrackNo,
+                Duration = id3Data.Track.Duration,
+                Lyrics = id3Data.Track.Lyrics
             };
 
-            var artist = artists.SingleOrDefault(a => a.Name == id3TrackData.Artist);
+            var artist = artists.SingleOrDefault(a => a.Name == id3Data.Artist.Name);
 
             if (artist == null)
             {
                 artist = new Artist
                 {
-                    Name = id3TrackData.Artist,
-                    Genre = id3TrackData.Genre,
-                    Grouping = id3TrackData.Grouping
+                    Name = id3Data.Artist.Name,
+                    Genre = id3Data.Artist.Genre,
+                    Grouping = id3Data.Artist.Grouping
                 };
                 artists.Add(artist);
             }
 
             if (!artist.Tracks.Any())
             {
-                _commentProcessingService.Populate(artist, id3TrackData.Comment);
+                _commentProcessingService.Populate(artist, id3Data.Track.Comment);
             }
 
-            var albumArtist = artists.SingleOrDefault(a => a.Name == id3TrackData.AlbumArtist);
+            var albumArtist = artists.SingleOrDefault(a => a.Name == id3Data.Album.Artist);
 
             if (albumArtist == null)
             {
                 albumArtist = new Artist
                 {
-                    Name = id3TrackData.AlbumArtist
+                    Name = id3Data.Album.Artist
                 };
                 artists.Add(albumArtist);
             }
 
-            var album = albumArtist.Albums.SingleOrDefault(a => a.Title == id3TrackData.AlbumTitle);
+            var album = albumArtist.Albums.SingleOrDefault(a => a.Title == id3Data.Album.Title);
 
             if (album == null)
             {
                 album = new Album
                 {
                     Artist = albumArtist,
-                    Title = id3TrackData.AlbumTitle,
-                    Year = id3TrackData.AlbumYear,
-                    DiscCount = id3TrackData.DiscCount,
-                    ReleaseType = EnumHelpers.Parse<ReleaseType>(id3TrackData.ReleaseType)
+                    Title = id3Data.Album.Title,
+                    Year = id3Data.Album.Year,
+                    DiscCount = id3Data.Album.DiscCount,
+                    ReleaseType = EnumHelpers.Parse<ReleaseType>(id3Data.Album.ReleaseType)
                 };
                 albumArtist.Albums.Add(album);
             }
 
-            var disc = album.Discs.SingleOrDefault(d => d.DiscNo == id3TrackData.DiscNo);
+            var disc = album.Discs.SingleOrDefault(d => d.DiscNo == id3Data.Disc.DiscNo);
 
             if (disc == null)
             {
                 disc = new Disc
                 {
                     Album = album,
-                    DiscNo = id3TrackData.DiscNo,
-                    TrackCount = id3TrackData.TrackCount
+                    DiscNo = id3Data.Disc.DiscNo,
+                    TrackCount = id3Data.Disc.TrackCount
                 };
                 album.Discs.Add(disc);
             }
@@ -97,7 +100,7 @@ namespace Whip.Services
             track.Disc = disc;
             track.Artist = artist;
 
-            _commentProcessingService.Populate(track, id3TrackData.Comment);
+            _commentProcessingService.Populate(track, id3Data.Track.Comment);
         }
 
         public void SyncTracks(ICollection<Artist> artists, ICollection<string> filepathsToKeep)
@@ -145,7 +148,7 @@ namespace Whip.Services
                 .ForEach(a => artists.Remove(a));
         }
 
-        public void ReorganiseOnTrackChange(Track trackChanged, Artist originalArtist, Disc originalDisc)
+        public void UpdateLibrary(Track trackChanged, Artist originalArtist, Disc originalDisc)
         {
             var newArtist = trackChanged.Artist;
             var newDisc = trackChanged.Disc;
@@ -201,6 +204,10 @@ namespace Whip.Services
             {
                 _library.Artists.Remove(originalArtist);
             }
+
+            _sortingService.SortTracks(newDisc);
+
+            _sortingService.SortDiscs(newDisc.Album);
 
             _library.OnTrackUpdated(trackChanged);
         }

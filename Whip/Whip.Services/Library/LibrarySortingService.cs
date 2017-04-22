@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Whip.Common.ExtensionMethods;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
 
@@ -12,12 +11,27 @@ namespace Whip.Services
     {
         public IOrderedEnumerable<Artist> GetInDefaultOrder(IEnumerable<Artist> artists)
         {
-            return artists.OrderBy(a => Alphabetise(a.Name));
+            return artists.OrderBy(a => SortValue(a));
         }
 
-        private string Alphabetise(string name)
+        public void SortDiscs(Album album)
         {
-            return name.Replace("The ", "");
+            album.Discs = album.Discs.OrderBy(d => d.DiscNo).ToList();
+        }
+
+        public void SortTracks(Disc disc)
+        {
+            disc.Tracks = disc.Tracks.OrderBy(t => t.TrackNo).ToList();
+        }
+
+        public string SortValue(Artist artist)
+        {
+            return artist.Name.Replace("The ", "");
+        }
+
+        public string SortValue(Album album)
+        {
+            return string.Format("{0} {1}", album.ReleaseType.GetDisplayName(), album.Year);
         }
     }
 }

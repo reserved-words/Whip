@@ -43,6 +43,7 @@
     <Compile Include="Library\CommentProcessingService.cs" />
     <Compile Include="Library\LibrarySortingService.cs" />
     <Compile Include="Library\TrackFilterService.cs" />
+    <Compile Include="Library\TrackUpdateService.cs" />
     <Compile Include="Singletons\Playlist.cs" />
     <Compile Include="Singletons\ScrobblingPlayer.cs" />
     <Compile Include="Scrobbling\ScrobblingService.cs" />

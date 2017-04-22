@@ -18,17 +18,7 @@ namespace Whip.ViewModels.Utilities
             set { Set(ref _modified, value); }
         }
 
-        public virtual string Error
-        {
-            get
-            {
-                var errorMessage = this[string.Empty];
-
-                return string.IsNullOrEmpty(errorMessage)
-                    ? string.Empty
-                    : string.Format("Please resolve the following validation errors:{0}{0}{1}", Environment.NewLine, errorMessage);
-            }
-        }
+        public virtual string Error => this[string.Empty];
 
         public string this[string propertyName]
         {

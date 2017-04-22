@@ -19,6 +19,6 @@ namespace Whip.Common.Model
         public string RelativePath { get; private set; }
         public string FullPath { get; private set; }
         public DateTime DateCreated { get; private set; }
-        public DateTime DateModified { get; private set; }
+        public DateTime DateModified { get; set; }
     }
 }

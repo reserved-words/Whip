@@ -25,7 +25,23 @@ namespace Whip.Services
 
         public string GenerateComment(Track track)
         {
-            throw new NotImplementedException();
+            var xml = new XDocument();
+
+            var root = new XElement(Root);
+            xml.Add(root);
+
+            root.Add(new XElement(TrackYear, track.Year));
+            root.Add(new XElement(Tags, string.Join(TagDelimiter.ToString(), track.Tags.Where(t => !string.IsNullOrEmpty(t)))));
+            root.Add(new XElement(Country, track.Artist.City.Country));
+            root.Add(new XElement(State, track.Artist.City.State));
+            root.Add(new XElement(City, track.Artist.City.Name));
+            root.Add(new XElement(Website, track.Artist.Website));
+            root.Add(new XElement(Twitter, track.Artist.Twitter));
+            root.Add(new XElement(Facebook, track.Artist.Facebook));
+            root.Add(new XElement(LastFm, track.Artist.LastFm));
+            root.Add(new XElement(Wikipedia, track.Artist.Wikipedia));
+
+            return xml.ToString();
         }
 
         public void Populate(Track track, string comment)
