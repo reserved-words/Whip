@@ -1,32 +1,22 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Whip.Common.Validation;
-using Whip.ViewModels.TabViewModels.EditTrack;
 
 namespace Whip.ViewModels.Validation
 {
-    public class TrackNoAttribute : ValidationAttribute
+    public class TrackCountAttribute : ValidationAttribute
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            int trackNo;
-
-            if (!int.TryParse(value.ToString(), out trackNo))
-            {
-                return new ValidationResult(GetNumberRangeErrorMessage(validationContext));
-            }
-
-            if (trackNo < TrackValidation.MinTrackCount || trackNo > TrackValidation.MaxTrackCount)
-            {
-                return new ValidationResult(GetNumberRangeErrorMessage(validationContext));
-            }
-
-            var track = validationContext.ObjectInstance as TrackViewModel;
-
             int trackCount;
 
-            if (int.TryParse(track.Disc.TrackCount, out trackCount) && trackNo > trackCount)
+            if (!int.TryParse(value.ToString(), out trackCount))
             {
-                return new ValidationResult("Track No must not be greater than the Track Count");
+                return new ValidationResult(GetNumberRangeErrorMessage(validationContext));
+            }
+
+            if (trackCount < TrackValidation.MinTrackCount || trackCount > TrackValidation.MaxTrackCount)
+            {
+                return new ValidationResult(GetNumberRangeErrorMessage(validationContext));
             }
 
             return ValidationResult.Success;

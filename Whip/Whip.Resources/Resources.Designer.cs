@@ -115,6 +115,15 @@ namespace Whip.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} is required.
+        /// </summary>
+        public static string RequiredErrorMessage {
+            get {
+                return ResourceManager.GetString("RequiredErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to dd\/MM\/yyyy HH\:mm\:ss.
         /// </summary>
         public static string StandardDateFormat {

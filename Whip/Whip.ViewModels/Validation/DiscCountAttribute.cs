@@ -1,32 +1,22 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Whip.Common.Validation;
-using Whip.ViewModels.TabViewModels.EditTrack;
 
 namespace Whip.ViewModels.Validation
 {
-    public class TrackNoAttribute : ValidationAttribute
+    public class DiscCountAttribute : ValidationAttribute
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            int trackNo;
+            int discCount;
 
-            if (!int.TryParse(value.ToString(), out trackNo))
+            if (!int.TryParse(value.ToString(), out discCount))
             {
                 return new ValidationResult(GetNumberRangeErrorMessage(validationContext));
             }
 
-            if (trackNo < TrackValidation.MinTrackCount || trackNo > TrackValidation.MaxTrackCount)
+            if (discCount < TrackValidation.MinDiscCount || discCount > TrackValidation.MaxDiscCount)
             {
                 return new ValidationResult(GetNumberRangeErrorMessage(validationContext));
-            }
-
-            var track = validationContext.ObjectInstance as TrackViewModel;
-
-            int trackCount;
-
-            if (int.TryParse(track.Disc.TrackCount, out trackCount) && trackNo > trackCount)
-            {
-                return new ValidationResult("Track No must not be greater than the Track Count");
             }
 
             return ValidationResult.Success;
@@ -36,8 +26,8 @@ namespace Whip.ViewModels.Validation
         {
             return string.Format("{0} must be a number between {1} and {2}",
                 context.DisplayName,
-                TrackValidation.MinTrackCount,
-                TrackValidation.MaxTrackCount);
+                TrackValidation.MinDiscCount,
+                TrackValidation.MaxDiscCount);
         }
     }
 }

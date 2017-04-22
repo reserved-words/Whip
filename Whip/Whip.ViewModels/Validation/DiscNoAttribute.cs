@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Whip.Common.Validation;
-using Whip.ViewModels.TabViewModels;
 using Whip.ViewModels.TabViewModels.EditTrack;
 
 namespace Whip.ViewModels.Validation
@@ -21,10 +20,12 @@ namespace Whip.ViewModels.Validation
                 return new ValidationResult(GetNumberRangeErrorMessage(validationContext));
             }
 
-            var track = validationContext.ObjectInstance as AlbumViewModel;
+            var disc = validationContext.ObjectInstance as DiscViewModel;
 
-            if (discNo > track.DiscCount)
-            {
+            int discCount;
+
+            if (int.TryParse(disc.Album.DiscCount, out discCount) && discNo > discCount)
+            { 
                 return new ValidationResult("Disc No must not be greater than the Disc Count");
             }
 

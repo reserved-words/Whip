@@ -135,6 +135,9 @@
   <data name="RangeErrorMessage" xml:space="preserve">
     <value>{0} must be between {1} and {2}</value>
   </data>
+  <data name="RequiredErrorMessage" xml:space="preserve">
+    <value>{0} is required</value>
+  </data>
   <data name="StandardDateFormat" xml:space="preserve">
     <value>dd\/MM\/yyyy HH\:mm\:ss</value>
   </data>

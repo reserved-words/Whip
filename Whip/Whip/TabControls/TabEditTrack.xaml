@@ -36,7 +36,7 @@
         <Border Grid.Column="5" Style="{StaticResource VerticalLine}" />
 
         <StackPanel Grid.Column="1">
-            <Grid DataContext="{Binding TrackViewModel}">
+            <Grid DataContext="{Binding Track}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="120"/>
                     <ColumnDefinition Width="*" />
@@ -99,7 +99,7 @@
                                                          ToolTip="Click to remove">
                                             <Image.InputBindings>
                                                 <MouseBinding Gesture="LeftClick" 
-                                                              Command="{Binding DataContext.TrackViewModel.RemoveTagCommand, ElementName=EditTrackGrid}"
+                                                              Command="{Binding DataContext.Track.RemoveTagCommand, ElementName=EditTrackGrid}"
                                                               CommandParameter="{Binding}" />
                                             </Image.InputBindings>
                                         </fa:ImageAwesome>
@@ -124,7 +124,7 @@
             <Border Grid.Row="5" Grid.ColumnSpan="2" 
                     Style="{StaticResource HoriztonalLine}" />
 
-            <Grid DataContext="{Binding ArtistViewModel}">
+            <Grid DataContext="{Binding Track.Artist}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="120"/>
                     <ColumnDefinition Width="*" />
@@ -280,124 +280,134 @@
             </Grid>
         </StackPanel>
 
-        <Grid Grid.Column="4" 
-              DataContext="{Binding AlbumViewModel}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="120" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="410" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+        <StackPanel Grid.Column="4">
+            <Grid DataContext="{Binding Track.Disc.Album}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="410" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-                   Content="Artwork"
-                   Style="{StaticResource TitleLabel}"/>
+                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                       Content="Artwork"
+                       Style="{StaticResource TitleLabel}"/>
 
-            <Image Grid.Row="1"
-                   Grid.ColumnSpan="2"
-                   Source="{Binding Artwork}"
-                   Width="Auto"
-                   Height="Auto"
-                   MaxWidth="400"
-                   MaxHeight="400"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Top"
-                   Margin="0,8,0,0"/>
+                <Image Grid.Row="1"
+                       Grid.ColumnSpan="2"
+                       Source="{Binding Artwork}"
+                       Width="Auto"
+                       Height="Auto"
+                       MaxWidth="400"
+                       MaxHeight="400"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Top"
+                       Margin="0,8,0,0"/>
 
-            <WrapPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center">
-                <Button Width="100" Content="Get from Last.FM" Command="{Binding GetArtworkFromWebCommand}"/>
-                <Button Width="90" Content="Get from URL" Command="{Binding GetArtworkFromUrlCommand}" />
-                <Button Width="80" Content="Get from file" Command="{Binding GetArtworkFromFileCommand}" />
-                <Button Width="50" Content="Clear" Command="{Binding ClearArtworkCommand}" />
-            </WrapPanel>
+                <WrapPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center">
+                    <Button Width="100" Content="Get from Last.FM" Command="{Binding GetArtworkFromWebCommand}"/>
+                    <Button Width="90" Content="Get from URL" Command="{Binding GetArtworkFromUrlCommand}" />
+                    <Button Width="80" Content="Get from file" Command="{Binding GetArtworkFromFileCommand}" />
+                    <Button Width="50" Content="Clear" Command="{Binding ClearArtworkCommand}" />
+                </WrapPanel>
 
-            <Border Grid.Row="3" Grid.ColumnSpan="2" 
-                    Style="{StaticResource HoriztonalLine}" />
+                <Border Grid.Row="3" Grid.ColumnSpan="2" 
+                        Style="{StaticResource HoriztonalLine}" />
 
-            <Label Grid.Row="4" Grid.Column="0"
-                   Content="Album Artist"
-                   Style="{StaticResource TitleLabel}"/>
-            <ComboBox Grid.Row="4" Grid.Column="1"
-                      ItemsSource="{Binding Artists, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                      DisplayMemberPath="Name"
-                      IsEditable="False"
-                      SelectedItem="{Binding Artist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Label Grid.Row="4" Grid.Column="0"
+                       Content="Album Artist"
+                       Style="{StaticResource TitleLabel}"/>
+                <ComboBox Grid.Row="4" Grid.Column="1"
+                          ItemsSource="{Binding Artists, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                          DisplayMemberPath="Name"
+                          IsEditable="False"
+                          SelectedItem="{Binding Artist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-            <Label Grid.Row="5" Grid.Column="0"
-                   Content="Name" />
-            <TextBox Grid.Row="5" Grid.Column="1"
-                     Text="{Binding ArtistName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
+                <Label Grid.Row="5" Grid.Column="0"
+                       Content="Name" />
+                <TextBox Grid.Row="5" Grid.Column="1"
+                         Text="{Binding ArtistName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
 
-            <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"
-                   Content="Album"
-                   Style="{StaticResource TitleLabel}"/>
-            <ComboBox Grid.Row="6" Grid.Column="1"
-                      ItemsSource="{Binding Albums, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                      IsEditable="False"
-                      DisplayMemberPath="Title"
-                      SelectedItem="{Binding Album, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"
+                       Content="Album"
+                       Style="{StaticResource TitleLabel}"/>
+                <ComboBox Grid.Row="6" Grid.Column="1"
+                          ItemsSource="{Binding Albums, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                          IsEditable="False"
+                          DisplayMemberPath="Title"
+                          SelectedItem="{Binding Album, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-            <Label Grid.Row="7" Grid.Column="0"
-                   Content="Title" />
-            <TextBox Grid.Row="7" Grid.Column="1"
-                     Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
+                <Label Grid.Row="7" Grid.Column="0"
+                       Content="Title" />
+                <TextBox Grid.Row="7" Grid.Column="1"
+                         Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
 
-            <Label Grid.Row="8" Grid.Column="0"
-                   Content="Release Type" />
-            <ComboBox Grid.Row="8" Grid.Column="1"
-                      IsEditable="False"
-                      ItemsSource="{Binding Source={local:Enumeration {x:Type common:ReleaseType}}}"
-                      DisplayMemberPath="Description" 
-                      SelectedValue="{Binding ReleaseType, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"  
-                      SelectedValuePath="Value"  />
+                <Label Grid.Row="8" Grid.Column="0"
+                       Content="Release Type" />
+                <ComboBox Grid.Row="8" Grid.Column="1"
+                          IsEditable="False"
+                          ItemsSource="{Binding Source={local:Enumeration {x:Type common:ReleaseType}}}"
+                          DisplayMemberPath="Description" 
+                          SelectedValue="{Binding ReleaseType, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"  
+                          SelectedValuePath="Value"  />
 
-            <Label Grid.Row="9" Grid.Column="0"
-                   Content="Year" />
-            <TextBox Grid.Row="9" Grid.Column="1"
-                         Text="{Binding Year, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
-                         Width="50"
-                         HorizontalAlignment="Left"/>
+                <Label Grid.Row="9" Grid.Column="0"
+                       Content="Year" />
+                <TextBox Grid.Row="9" Grid.Column="1"
+                             Text="{Binding Year, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                             Width="50"
+                             HorizontalAlignment="Left"/>
+            </Grid>
+            <Grid DataContext="{Binding Track}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                
+                <Label Grid.Row="0" Grid.Column="0"
+                       Content="Track No" />
+                <WrapPanel Grid.Row="0" Grid.Column="1">
+                    <TextBox Text="{Binding TrackNo, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                             Width="40"/>
+                    <Label Content=" of " />
+                    <TextBox Text="{Binding Disc.TrackCount, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                             Margin="12,0,0,0"
+                             Width="40"/>
+                </WrapPanel>
 
-            <Label Grid.Row="10" Grid.Column="0"
-                   Content="Track No" />
-            <WrapPanel Grid.Row="10" Grid.Column="1">
-                <TextBox Text="{Binding TrackNo, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
-                         Width="40"/>
-                <Label Content=" of " />
-                <TextBox Text="{Binding TrackCount, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
-                         Width="40"/>
-            </WrapPanel>
+                <Label Grid.Row="1" Grid.Column="0"
+                       Content="Disc No" />
+                <WrapPanel Grid.Row="1" Grid.Column="1">
+                    <TextBox Text="{Binding Disc.DiscNo, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                             Width="40"/>
+                    <Label Content=" of " />
+                    <TextBox Text="{Binding Disc.Album.DiscCount, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                             Margin="12,0,0,0"
+                             Width="40"/>
+                </WrapPanel>
 
-            <Label Grid.Row="11" Grid.Column="0"
-                   Content="Disc No" />
-            <WrapPanel Grid.Row="11" Grid.Column="1">
-                <TextBox Text="{Binding DiscNo, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
-                         Width="40"/>
-                <Label Content=" of " />
-                <TextBox Text="{Binding DiscCount, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
-                         Width="40"/>
-            </WrapPanel>
-
-            <Border Grid.Row="12" Grid.ColumnSpan="2" 
-                    Style="{StaticResource HoriztonalLine}" />
-
-        </Grid>
+                <Border Grid.Row="12" Grid.ColumnSpan="2" 
+                        Style="{StaticResource HoriztonalLine}" />
+            </Grid>
+        </StackPanel>
         <Grid Grid.Column="7"
-              DataContext="{Binding TrackViewModel}">
+              DataContext="{Binding Track}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>

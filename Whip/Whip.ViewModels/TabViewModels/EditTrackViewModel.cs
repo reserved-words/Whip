@@ -1,6 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Whip.Common;
 using Whip.Common.Model;
@@ -20,13 +19,10 @@ namespace Whip.ViewModels.TabViewModels
         private readonly IWebAlbumInfoService _webAlbumInfoService;
         private readonly ITrackUpdateService _trackUpdateService;
 
-        private ArtistViewModel _artistViewModel;
-        private AlbumViewModel _albumViewModel;
-        private TrackViewModel _trackViewModel;
+        private TrackViewModel _track;
 
-        private Track _track;
-        private bool _syncingArtistNames;
-
+        private Track _editedTrack;
+        
         public EditTrackViewModel(Common.Singletons.Library library, IMessenger messenger, IWebAlbumInfoService webAlbumInfoService,
              ITrackUpdateService trackUpdateService)
             : base(TabType.EditTrack, IconType.Edit, "Edit Track", false)
@@ -39,59 +35,61 @@ namespace Whip.ViewModels.TabViewModels
 
         public override bool Modified
         {
-            get { return TrackViewModel.Modified || ArtistViewModel.Modified || AlbumViewModel.Modified; }
+            get { return TrackModified || ArtistModified || DiscModified || AlbumModified; }
             set
             {
-                TrackViewModel.Modified = value;
-                ArtistViewModel.Modified = value;
-                AlbumViewModel.Modified = value;
+                TrackModified = value;
+                ArtistModified = value;
+                DiscModified = value;
+                AlbumModified = value;
             }
         }
 
-        public TrackViewModel TrackViewModel
+        private bool AlbumModified
         {
-            get { return _trackViewModel; }
-            set { Set(ref _trackViewModel, value); }
+            get { return Track.Disc.Album.Modified; }
+            set { Track.Disc.Album.Modified = value; }
         }
 
-        public ArtistViewModel ArtistViewModel
+        private bool ArtistModified
         {
-            get { return _artistViewModel; }
-            set { Set(ref _artistViewModel, value); }
+            get { return Track.Artist.Modified; }
+            set { Track.Artist.Modified = value; }
         }
 
-        public AlbumViewModel AlbumViewModel
+        private bool DiscModified
         {
-            get { return _albumViewModel; }
-            set { Set(ref _albumViewModel, value); }
+            get { return Track.Disc.Modified; }
+            set { Track.Disc.Modified = value; }
+        }
+
+        private bool TrackModified
+        {
+            get { return Track.Modified; }
+            set { Track.Modified = value; }
+        }
+
+        public TrackViewModel Track
+        {
+            get { return _track; }
+            set { Set(ref _track, value); }
         }
 
         public void Edit(Track track)
         {
-            _track = track;
+            _editedTrack = track;
 
             var artists = _library.Artists.ToList();
             artists.Insert(0, new Artist { Name = AddNew });
 
             var tags = artists.SelectMany(a => a.Tracks).SelectMany(t => t.Tags).Distinct().OrderBy(t => t).ToList();
 
-            ArtistViewModel = new ArtistViewModel(this, artists, track);
-            AlbumViewModel = new AlbumViewModel(this, _messenger, _webAlbumInfoService, artists, track);
-            TrackViewModel = new TrackViewModel(track, tags);
+            Track = new TrackViewModel(this, _messenger, _webAlbumInfoService, artists, tags, track);
         }
 
-        public void SyncArtistNames(string latestName)
+        protected override bool CustomCancel()
         {
-            if (ArtistViewModel == null || AlbumViewModel == null)
-                return;
-
-            if (!_syncingArtistNames && ArtistViewModel.Artist == AlbumViewModel.Artist && ArtistViewModel.Name != AlbumViewModel.ArtistName)
-            {
-                _syncingArtistNames = true;
-                ArtistViewModel.Name = latestName;
-                AlbumViewModel.ArtistName = latestName;
-                _syncingArtistNames = false;
-            }
+            return true;
         }
 
         protected override bool CustomSave()
@@ -99,33 +97,24 @@ namespace Whip.ViewModels.TabViewModels
             if (!Validate())
                 return false;
 
-            var originalArtist = _track.Artist;
-            var originalDisc = _track.Disc;
+            var originalArtist = _editedTrack.Artist;
+            var originalDisc = _editedTrack.Disc;
 
             UpdateLibraryTrack();
 
-            _trackUpdateService.SaveTrackChanges(_track, originalArtist, originalDisc);
+            _trackUpdateService.SaveTrackChanges(_editedTrack, originalArtist, originalDisc, TrackModified, ArtistModified, DiscModified, AlbumModified);
 
             return true;
         }
 
         private void UpdateLibraryTrack()
         {
-            TrackViewModel.UpdateTrack(_track);
-            ArtistViewModel.UpdateTrack(_track);
-            AlbumViewModel.UpdateTrack(_track);
+            Track.UpdateTrack(_editedTrack);
         }
 
         private bool Validate()
         {
-            var errorMessages = new List<string>
-            {
-                TrackViewModel.Error,
-                ArtistViewModel.Error,
-                AlbumViewModel.Error
-            };
-
-            var errorMessage = string.Join(Environment.NewLine, errorMessages.Where(e => !string.IsNullOrEmpty(e)));
+            var errorMessage = Track.Error; 
             
             if (!string.IsNullOrEmpty(errorMessage))
             {
@@ -135,11 +124,6 @@ namespace Whip.ViewModels.TabViewModels
                 return false;
             }
 
-            return true;
-        }
-
-        protected override bool CustomCancel()
-        {
             return true;
         }
     }

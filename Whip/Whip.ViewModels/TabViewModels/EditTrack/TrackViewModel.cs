@@ -8,6 +8,9 @@ using Whip.Common.Validation;
 using System.Collections.ObjectModel;
 using static Whip.Resources.Resources;
 using System.Linq;
+using GalaSoft.MvvmLight.Messaging;
+using Whip.Services.Interfaces;
+using System;
 
 namespace Whip.ViewModels.TabViewModels.EditTrack
 {
@@ -19,9 +22,15 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
         private string _year;
         private string _lyrics;
         private string _newTag;
+        private string _trackNo;
 
-        public TrackViewModel(Track track, List<string> tags)
+        private bool _syncingArtistNames;
+
+        public TrackViewModel(EditTrackViewModel parent, IMessenger messenger, IWebAlbumInfoService albumInfoService, List<Artist> artists, List<string> tags, Track track)
         {
+            Artist = new ArtistViewModel(this, artists, track.Artist);
+            Disc = new DiscViewModel(this, messenger, albumInfoService, artists, track.Disc);
+
             RemoveTagCommand = new RelayCommand<string>(OnRemoveTag);
 
             AllTags = tags;
@@ -30,7 +39,27 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
 
             Modified = false;
         }
-        
+
+        public override string Error
+        {
+            get
+            {
+                var errorMessages = new List<string>
+                {
+                    base.Error,
+                    Artist.Error,
+                    Disc.Error,
+                    Disc.Album.Error
+                };
+
+                return string.Join(Environment.NewLine, errorMessages.Where(e => !string.IsNullOrEmpty(e)));
+            }
+        }
+
+        public ArtistViewModel Artist { get; private set; }
+
+        public DiscViewModel Disc { get; private set; }
+
         public RelayCommand<string> RemoveTagCommand { get; private set; }
 
         public List<string> AllTags
@@ -39,7 +68,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             set { Set(ref _allTags, value); }
         }
 
-        [Required]
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
         [MaxLength(TrackValidation.MaxLengthTrackTitle, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
         public string Title
         {
@@ -47,7 +76,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             set { SetModified(nameof(Title), ref _title, value); }
         }
 
-        [Required]
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
         [Year]
         [Display(Name = "Track Year")]
         public string Year
@@ -80,6 +109,48 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             }
         }
 
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [TrackNo]
+        [Display(Name = "Track No")]
+        public string TrackNo
+        {
+            get { return _trackNo; }
+            set { SetModified(nameof(TrackNo), ref _trackNo, value); }
+        }
+        
+        public void SyncArtistNames(string latestName)
+        {
+            if (Artist == null || Disc == null)
+                return;
+
+            if (!_syncingArtistNames && Artist.Artist == Disc.Album.Artist && Artist.Name != Disc.Album.ArtistName)
+            {
+                _syncingArtistNames = true;
+                Artist.Name = latestName;
+                Disc.Album.ArtistName = latestName;
+                _syncingArtistNames = false;
+            }
+        }
+
+        public void UpdateTrack(Track track)
+        {
+            track.Title = Title;
+            track.Year = Year;
+            track.Tags = Tags.ToList();
+            track.Lyrics = Lyrics;
+            track.TrackNo = Convert.ToInt16(TrackNo);
+
+            Artist.UpdateArtist(track);
+            Disc.UpdateDisc(track);
+        }
+
+        public void ValidateTrackNo()
+        {
+            var trackNo = TrackNo;
+            TrackNo = string.Empty;
+            TrackNo = trackNo;
+        }
+
         private void OnRemoveTag(string tag)
         {
             Tags.Remove(tag);
@@ -90,16 +161,9 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             Title = track.Title;
             Year = track.Year;
             Lyrics = track.Lyrics;
+            TrackNo = track.TrackNo.ToString();
 
             Tags = new ObservableCollection<string>(track.Tags);
-        }
-
-        public void UpdateTrack(Track track)
-        {
-            track.Title = Title;
-            track.Year = Year;
-            track.Tags = Tags.ToList();
-            track.Lyrics = Lyrics;
         }
     }
 }

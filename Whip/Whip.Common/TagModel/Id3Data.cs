@@ -7,5 +7,6 @@ namespace Whip.Common.TagModel
         public ArtistId3Data Artist { get; set; }
         public AlbumId3Data Album { get; set; }
         public DiscId3Data Disc { get; set; }
+        public string Comment { get; set; }
     }
 }

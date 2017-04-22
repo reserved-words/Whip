@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
     {
         private readonly IMessenger _messenger;
         private readonly IWebAlbumInfoService _webAlbumInfoService;
-        private readonly EditTrackViewModel _parent;
+        private readonly DiscViewModel _disc;
 
         private List<Album> _albums;
         private List<Artist> _artists;
@@ -33,16 +34,12 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
         private string _title;
         private string _year;
         private ReleaseType _releaseType;
-
-        private int? _trackCount;
-        private int? _discNo;
-        private int? _discCount;
-        private int? _trackNo;
-
-        public AlbumViewModel(EditTrackViewModel parent, IMessenger messenger, IWebAlbumInfoService albumInfoService, List<Artist> artists, Track track)
+        private string _discCount;
+        
+        public AlbumViewModel(DiscViewModel disc, IMessenger messenger, IWebAlbumInfoService albumInfoService, List<Artist> artists, Album album)
         {
             _messenger = messenger;
-            _parent = parent;
+            _disc = disc;
             _webAlbumInfoService = albumInfoService;
 
             Artists = artists;
@@ -52,7 +49,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             GetArtworkFromWebCommand = new RelayCommand(OnGetArtworkFromWeb, CanGetArtworkFromWeb);
             ClearArtworkCommand = new RelayCommand(OnClearArtwork);
 
-            Populate(track);
+            Populate(album);
 
             Modified = false;
         }
@@ -103,7 +100,15 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             set { SetModified(nameof(Artwork), ref _artwork, value); }
         }
 
-        [Required(ErrorMessage = "{0} is required")]
+        public void UpdateAlbum(Album album)
+        {
+            album.Title = Title;
+            album.Year = Year;
+            album.ReleaseType = ReleaseType;
+            album.DiscCount = Convert.ToInt16(DiscCount);
+        }
+
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
         [Year]
         [Display(Name = "Album Year")]
         public string Year
@@ -112,7 +117,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             set { SetModified(nameof(Year), ref _year, value); }
         }
 
-        [Required]
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
         [Display(Name = "Release Type")]
         public ReleaseType ReleaseType
         {
@@ -130,36 +135,9 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
                 SetModified(nameof(ArtistName), ref _artistName, value);
                 if (ExistingAlbumArtistSelected)
                 {
-                    _parent.SyncArtistNames(_artistName);
+                    _disc.SyncArtistNames(_artistName);
                 }
             }
-        }
-
-        public void UpdateTrack(Track track)
-        {
-            var albumArtist = ArtistName == track.Artist.Name
-                ? track.Artist
-                : ExistingAlbumArtistSelected
-                ? Artist
-                : new Artist();
-
-            var album = ExistingAlbumSelected
-                ? Album
-                : new Album { Artist = albumArtist };
-
-            var disc = album.Discs.SingleOrDefault(d => d.DiscNo == DiscNo) ?? new Disc { Album = album };
-
-            track.TrackNo = TrackNo.Value;
-
-            disc.DiscNo = DiscNo.Value;
-            disc.TrackCount = TrackCount.Value;
-
-            album.Title = Title;
-            album.Year = Year;
-            album.ReleaseType = ReleaseType;
-            album.DiscCount = DiscCount.Value;
-
-            track.Disc = disc;
         }
 
         [AlbumTitle]
@@ -170,81 +148,22 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             set { SetModified(nameof(Title), ref _title, value); }
         }
 
-        [Required]
-        [Range(TrackValidation.MinDiscCount, TrackValidation.MaxDiscCount, ErrorMessageResourceName = nameof(RangeErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [DiscCount]
         [Display(Name = "Disc Count")]
-        public int? DiscCount
+        public string DiscCount
         {
             get { return _discCount; }
             set
             {
                 SetModified(nameof(DiscCount), ref _discCount, value);
 
-                // Force revalidation of disc no
-                var discNo = DiscNo;
-                DiscNo = null;
-                DiscNo = discNo;
+                _disc.ValidateDiscNo();
             }
-        }
-
-        [Required]
-        [Range(TrackValidation.MinTrackCount, TrackValidation.MaxTrackCount, ErrorMessageResourceName = nameof(RangeErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
-        [Display(Name = "Track Count")]
-        public int? TrackCount
-        {
-            get { return _trackCount; }
-            set
-            {
-                SetModified(nameof(TrackCount), ref _trackCount, value);
-
-                // Force revalidation of track no
-                var trackNo = TrackNo;
-                TrackNo = null;
-                TrackNo = trackNo;
-            }
-        }
-
-        [Required]
-        [DiscNo]
-        [Display(Name = "Disc No")]
-        public int? DiscNo
-        {
-            get { return _discNo; }
-            set
-            {
-                SetModified(nameof(DiscNo), ref _discNo, value);
-                PopulateDiscDetails();
-            }
-        }
-
-        [Required]
-        [TrackNo]
-        [Display(Name = "Track No")]
-        public int? TrackNo
-        {
-            get { return _trackNo; }
-            set { SetModified(nameof(TrackNo), ref _trackNo, value); }
-        }
-
-        private void PopulateAlbumDetails()
-        {
-            // Force revalidation when value is set
-            Title = string.Empty;
-
-            var album = Album?.Title == AddNew ? null : Album;
-
-            Title = album?.Title ?? string.Empty;
-            ReleaseType = album?.ReleaseType ?? EnumHelpers.GetDefaultValue<ReleaseType>();
-            Artwork = album?.Artwork ?? string.Empty;
-            Year = album?.Year ?? string.Empty;
-            DiscCount = album?.DiscCount ?? 1;
-
-            PopulateDiscDetails();
         }
 
         private void PopulateAlbumArtistDetails()
         {            
-            // Force revalidation when value is set
             ArtistName = string.Empty;
             
             var albumArtist = Artist?.Name == AddNew ? null : Artist;
@@ -267,16 +186,19 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             PopulateAlbumDetails();
         }
 
-        private void PopulateDiscDetails()
+        private void PopulateAlbumDetails()
         {
+            Title = string.Empty;
+
             var album = Album?.Title == AddNew ? null : Album;
 
-            var disc = album?.Discs.SingleOrDefault(d => d.DiscNo == DiscNo);
+            Title = album?.Title ?? string.Empty;
+            ReleaseType = album?.ReleaseType ?? EnumHelpers.GetDefaultValue<ReleaseType>();
+            Artwork = album?.Artwork ?? string.Empty;
+            Year = album?.Year ?? string.Empty;
+            DiscCount = album?.DiscCount.ToString() ?? string.Empty;
 
-            if (disc != null)
-            {
-                TrackCount = disc.TrackCount;
-            }
+            _disc.PopulateDiscDetails();
         }
 
         private bool CanGetArtworkFromWeb()
@@ -318,14 +240,11 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             Artwork = await _webAlbumInfoService.GetArtworkUrl(ArtistName, Title);
         }
 
-        private void Populate(Track track)
+        private void Populate(Album album)
         {
-            Artist = track.Disc.Album.Artist;
-            Album = track.Disc.Album;
-
-            DiscNo = track.Disc.DiscNo;
-            TrackNo = track.TrackNo;
-
+            Artist = album.Artist;
+            Album = album;
+            
             PopulateAlbumArtistDetails();
             PopulateAlbumDetails();
         }

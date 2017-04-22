@@ -22,7 +22,6 @@ namespace Whip.TagLibSharp
                     Title = f.Tag.Title,
                     TrackNo = (int)f.Tag.Track,
                     Duration = f.Properties.Duration,
-                    Comment = f.Tag.Comment,
                     Lyrics = f.Tag.Lyrics,
                 };
 
@@ -51,13 +50,14 @@ namespace Whip.TagLibSharp
                     TrackCount = (int)f.Tag.TrackCount,
                     DiscNo = (int)f.Tag.Disc
                 };
-
+                
                 return new Id3Data
                 {
                     Track = track,
                     Artist = artist,
                     Album = album,
-                    Disc = disc
+                    Disc = disc,
+                    Comment = f.Tag.Comment
                 };
             }
         }
@@ -72,7 +72,6 @@ namespace Whip.TagLibSharp
                 if (data.Track != null)
                 {
                     f.Tag.Title = data.Track.Title;
-                    f.Tag.Comment = data.Track.Comment;
                     f.Tag.Lyrics = data.Track.Lyrics;
                     f.Tag.Track = Convert.ToUInt16(data.Track.TrackNo);
                 }
@@ -109,6 +108,11 @@ namespace Whip.TagLibSharp
                 {
                     f.Tag.TrackCount = Convert.ToUInt16(data.Disc.TrackCount);
                     f.Tag.Disc = Convert.ToUInt16(data.Disc.DiscNo);
+                }
+
+                if (data.Comment != null)
+                {
+                    f.Tag.Comment = data.Comment;
                 }
 
                 f.Save();

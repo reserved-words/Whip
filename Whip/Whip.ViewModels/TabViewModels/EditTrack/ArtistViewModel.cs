@@ -12,7 +12,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
 {
     public class ArtistViewModel : EditableViewModelBase
     {
-        private readonly EditTrackViewModel _parent;
+        private readonly TrackViewModel _parent;
 
         private List<City> _usedCities;
         private List<Artist> _artists;
@@ -37,7 +37,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
         private string _lastFm;
         private string _wikipedia;
 
-        public ArtistViewModel(EditTrackViewModel parent, List<Artist> artists, Track track)
+        public ArtistViewModel(TrackViewModel parent, List<Artist> artists, Artist artist)
         {
             _parent = parent;
 
@@ -49,7 +49,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             TestWikipediaCommand = new RelayCommand(OnTestWikipedia, CanTestWikipedia);
             TestLastFmCommand = new RelayCommand(OnTestLastFm, CanTestLastFm);
 
-            Populate(track);
+            Populate(artist);
 
             Modified = false;
         }
@@ -128,26 +128,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             }
         }
 
-        public void UpdateTrack(Track track)
-        {
-            var artist = ExistingArtistSelected
-                ? Artist
-                : new Artist();
-
-            artist.Name = Name;
-            artist.Grouping = Grouping;
-            artist.Genre = Genre;
-            artist.City = new City(City, State, Country);
-            artist.Website = Website;
-            artist.Facebook = Facebook;
-            artist.Twitter = Twitter;
-            artist.Wikipedia = Wikipedia;
-            artist.LastFm = LastFm;
-
-            track.Artist = artist;
-        }
-
-        [Required]
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
         [MaxLength(TrackValidation.MaxLengthGrouping, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
         [Display(Name = "Grouping")]
         public string Grouping
@@ -156,7 +137,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             set { SetModified(nameof(Grouping), ref _grouping, value); }
         }
 
-        [Required]
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
         [MaxLength(TrackValidation.MaxLengthGenre, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
         public string Genre
         {
@@ -267,6 +248,25 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             Countries = _usedCities.Select(c => c.Country).Distinct().OrderBy(c => c).ToList();
         }
 
+        public void UpdateArtist(Track track)
+        {
+            var artist = ExistingArtistSelected
+                ? Artist
+                : new Artist();
+
+            artist.Name = Name;
+            artist.Grouping = Grouping;
+            artist.Genre = Genre;
+            artist.City = new City(City, State, Country);
+            artist.Website = Website;
+            artist.Facebook = Facebook;
+            artist.Twitter = Twitter;
+            artist.Wikipedia = Wikipedia;
+            artist.LastFm = LastFm;
+
+            track.Artist = artist;
+        }
+
         private bool CanTestFacebook()
         {
             return !string.IsNullOrEmpty(Facebook) && string.IsNullOrEmpty(this[nameof(Facebook)]);
@@ -292,15 +292,14 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             return !string.IsNullOrEmpty(Wikipedia) && string.IsNullOrEmpty(this[nameof(Wikipedia)]);
         }
 
+        private void OnTestFacebook()
+        {
+            Hyperlink.Go(FacebookUrl);
+        }
 
         private void OnTestLastFm()
         {
             Hyperlink.Go(LastFmUrl);
-        }
-
-        private void OnTestFacebook()
-        {
-            Hyperlink.Go(FacebookUrl);
         }
 
         private void OnTestTwitter()
@@ -318,11 +317,11 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             Hyperlink.Go(WikipediaUrl);
         }
 
-        private void Populate(Track track)
+        private void Populate(Artist artist)
         {
             PopulateOptionLists();
 
-            Artist = track.Artist;
+            Artist = artist;
 
             PopulateArtistDetails();
         }

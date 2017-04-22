@@ -52,7 +52,7 @@ namespace Whip.Services
 
             if (!artist.Tracks.Any())
             {
-                _commentProcessingService.Populate(artist, id3Data.Track.Comment);
+                _commentProcessingService.Populate(artist, id3Data.Comment);
             }
 
             var albumArtist = artists.SingleOrDefault(a => a.Name == id3Data.Album.Artist);
@@ -100,7 +100,7 @@ namespace Whip.Services
             track.Disc = disc;
             track.Artist = artist;
 
-            _commentProcessingService.Populate(track, id3Data.Track.Comment);
+            _commentProcessingService.Populate(track, id3Data.Comment);
         }
 
         public void SyncTracks(ICollection<Artist> artists, ICollection<string> filepathsToKeep)

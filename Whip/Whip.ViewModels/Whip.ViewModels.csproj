@@ -118,10 +118,12 @@
     <Compile Include="Utilities\Hyperlink.cs" />
     <Compile Include="Validation\AlbumTitleAttribute.cs" />
     <Compile Include="Validation\ArtistNameAttribute.cs" />
+    <Compile Include="Validation\DiscCountAttribute.cs" />
     <Compile Include="Validation\FacebookUsernameAttribute.cs" />
     <Compile Include="Validation\NullableUrlAttribute.cs" />
     <Compile Include="Validation\PartialUrlStringAttribute.cs" />
     <Compile Include="Validation\DiscNoAttribute.cs" />
+    <Compile Include="Validation\TrackCountAttribute.cs" />
     <Compile Include="Validation\TrackNoAttribute.cs" />
     <Compile Include="Validation\TrackTagAttribute.cs" />
     <Compile Include="Validation\TwitterUsernameAttribute.cs" />

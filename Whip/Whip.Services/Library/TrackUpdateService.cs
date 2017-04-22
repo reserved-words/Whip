@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Whip.Common.Model;
@@ -23,16 +24,11 @@ namespace Whip.Services
             _taggingService = taggingService;
         }
 
-        public void SaveTrackChanges(Track trackChanged, Artist originalArtist, Disc originalDisc)
+        public void SaveTrackChanges(Track trackChanged, Artist originalArtist, Disc originalDisc, bool updateTrackDetails, bool updateArtistDetails, bool updateDiscDetails, bool updateAlbumDetails)
         {
             _libraryOrganiserService.UpdateLibrary(trackChanged, originalArtist, originalDisc);
 
-            // The stuff below should only happen if artist / album / disc details have changed
-            
-            var tracksAffected = trackChanged
-                .Artist.Tracks
-                .Union(trackChanged.Disc.Album.Discs
-                    .SelectMany(d => d.Tracks));
+            var tracksAffected = GetTracksAffected(trackChanged, updateArtistDetails, updateDiscDetails, updateAlbumDetails);
             
             var trackId3Data = new Lazy<TrackId3Data>(() => GetId3Data(trackChanged));
             var artistId3Data = new Lazy<ArtistId3Data>(() => GetId3Data(trackChanged.Artist));
@@ -43,10 +39,11 @@ namespace Whip.Services
             {
                 var id3Data = new Id3Data
                 {
-                    Track = track == trackChanged ? trackId3Data.Value : null,
-                    Artist = track.Artist == trackChanged.Artist ? artistId3Data.Value : null,
-                    Album = track.Disc.Album == trackChanged.Disc.Album ? albumId3Data.Value : null,
-                    Disc = track.Disc == trackChanged.Disc ? discId3Data.Value : null
+                    Track = updateTrackDetails && track == trackChanged ? trackId3Data.Value : null,
+                    Artist = updateArtistDetails && track.Artist == trackChanged.Artist ? artistId3Data.Value : null,
+                    Album = updateAlbumDetails && track.Disc.Album == trackChanged.Disc.Album ? albumId3Data.Value : null,
+                    Disc = updateDiscDetails && track.Disc == trackChanged.Disc ? discId3Data.Value : null,
+                    Comment = (updateTrackDetails || updateArtistDetails) && track.Artist == trackChanged.Artist ? GetId3Comment(track) : null
                 };
 
                 // Save artwork to the file
@@ -60,13 +57,41 @@ namespace Whip.Services
             // Save artwork to the album folder
         }
 
+        private IEnumerable<Track> GetTracksAffected(Track trackChanged, bool updateArtistDetails, bool updateDiscDetails, bool updateAlbumDetails)
+        {
+            var tracks = new List<Track>()
+            {
+                trackChanged
+            };
+            
+            if (updateArtistDetails)
+            {
+                tracks.AddRange(trackChanged.Artist.Tracks);
+            }
+
+            if (updateAlbumDetails)
+            {
+                tracks.AddRange(trackChanged.Disc.Album.Discs.SelectMany(d => d.Tracks));
+            }
+            else if (updateDiscDetails)
+            {
+                tracks.AddRange(trackChanged.Disc.Tracks);
+            }
+
+            return tracks.Distinct();
+        }
+
+        private string GetId3Comment(Track track)
+        {
+            return _commentProcessingService.GenerateComment(track);
+        }
+
         private TrackId3Data GetId3Data(Track track)
         {
             return new TrackId3Data
             {
                 Title = track.Title,
                 TrackNo = track.TrackNo,
-                Comment = _commentProcessingService.GenerateComment(track),
                 Lyrics = track.Lyrics,
                 Duration = track.Duration
             };
