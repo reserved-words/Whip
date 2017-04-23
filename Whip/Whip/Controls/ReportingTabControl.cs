@@ -20,7 +20,7 @@ namespace Whip.Controls
             DependencyProperty.Register(nameof(SelectedTab), typeof(TabViewModelBase), typeof(ReportingTabControl), new PropertyMetadata(new PropertyChangedCallback(OnSelectedTabChanged)));
 
         public static readonly DependencyProperty TabChangeCommandProperty =
-            DependencyProperty.Register(nameof(TabChangeCommand), typeof(RelayCommand), typeof(ReportingTabControl), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(TabChangeCommand), typeof(RelayCommand<TabViewModelBase>), typeof(ReportingTabControl), new PropertyMetadata(null));
 
         public TabViewModelBase SelectedTab
         {
@@ -28,9 +28,9 @@ namespace Whip.Controls
             set { SetValue(SelectedTabProperty, value); }
         }
 
-        public RelayCommand TabChangeCommand
+        public RelayCommand<TabViewModelBase> TabChangeCommand
         {
-            get { return (RelayCommand)GetValue(TabChangeCommandProperty); }
+            get { return (RelayCommand<TabViewModelBase>)GetValue(TabChangeCommandProperty); }
             set { SetValue(TabChangeCommandProperty, value); }
         }
 
@@ -40,9 +40,9 @@ namespace Whip.Controls
             tabControl.SelectedItem = e.NewValue;
         }
 
-        private void Items_CurrentChanging(object sender, System.ComponentModel.CurrentChangingEventArgs e)
+        private void Items_CurrentChanging(object sender, CurrentChangingEventArgs e)
         {
-            if (e.IsCancelable && TabChangeCommand != null && !TabChangeCommand.CanExecute(null))
+            if (e.IsCancelable && TabChangeCommand != null && !TabChangeCommand.CanExecute(SelectedItem))
             {
                 var item = ((ICollectionView)sender).CurrentItem;
                 e.Cancel = true;

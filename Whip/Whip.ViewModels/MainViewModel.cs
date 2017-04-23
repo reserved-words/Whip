@@ -24,6 +24,7 @@ namespace Whip.ViewModels
         private readonly TabViewModelBase _defaultViewModel;
 
         private TabViewModelBase _selectedTab;
+        private TabViewModelBase _returnToTab;
         private Track _currentTrack;
 
         private bool _selectedTabSetByViewModel;
@@ -60,14 +61,16 @@ namespace Whip.ViewModels
                 editTrackViewModel
             };
 
-            _defaultViewModel = libraryViewModel;
             _editTrackViewModel = editTrackViewModel;
             _settingsViewModel = settingsViewModel;
             _messenger = messenger;
 
+            _defaultViewModel = libraryViewModel;
+            _returnToTab = _defaultViewModel;
+
             SetSelectedTab(_defaultViewModel);
 
-            ChangeTabCommand = new RelayCommand(OnChangingTab, CanChangeTab);
+            ChangeTabCommand = new RelayCommand<TabViewModelBase>(OnChangingTab, CanChangeTab);
 
             showTabRequester.ShowEditTrackTab += ShowEditTrackTab;
             showTabRequester.ShowSettingsTab += ShowSettingsTab;
@@ -79,16 +82,18 @@ namespace Whip.ViewModels
         private void OnFinishedEditing(EditableTabViewModelBase sender)
         {
             sender.IsVisible = false;
-            SetSelectedTab(_defaultViewModel);
+            SetSelectedTab(_returnToTab);
         }
 
-        private bool CanChangeTab()
+        private bool CanChangeTab(TabViewModelBase newTab)
         {
             if (_selectedTabSetByViewModel)
             {
                 _selectedTabSetByViewModel = false;
                 return true;
             }
+
+            _returnToTab = newTab;
 
             var editable = _selectedTab as EditableTabViewModelBase;
 
@@ -117,6 +122,7 @@ namespace Whip.ViewModels
 
         private void ShowSettingsTab()
         {
+            _returnToTab = SelectedTab;
             _settingsViewModel.Reset();
             _settingsViewModel.IsVisible = true;
             SetSelectedTab(_settingsViewModel);
@@ -124,16 +130,17 @@ namespace Whip.ViewModels
 
         private void ShowEditTrackTab(Track track)
         {
+            _returnToTab = SelectedTab;
             _editTrackViewModel.Edit(track);
             _editTrackViewModel.IsVisible = true;
             SetSelectedTab(_editTrackViewModel);
         }
 
-        private void OnChangingTab() { }
+        private void OnChangingTab(TabViewModelBase newTab) { }
 
         public List<TabViewModelBase> Tabs { get; private set; }
 
-        public RelayCommand ChangeTabCommand { get; private set; }
+        public RelayCommand<TabViewModelBase> ChangeTabCommand { get; private set; }
 
         public TabViewModelBase SelectedTab
         {
