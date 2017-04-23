@@ -17,6 +17,7 @@ using GalaSoft.MvvmLight.Messaging;
 using Whip.NLog;
 using Whip.Services.Interfaces.Singletons;
 using Whip.ViewModels.TabViewModels.EditTrack;
+using Whip.Services.Singletons;
 
 namespace Whip.Ioc
 {
@@ -111,9 +112,13 @@ namespace Whip.Ioc
 
         private void BindPlayer()
         {
-            Bind<IPlayer>().To<ScrobblingPlayer>()
+            Bind<NewFilePlayer>().ToSelf()
                 .InSingletonScope()
                 .WithConstructorArgument<IPlayer>(new Player());
+
+            Bind<IPlayer>().To<ScrobblingPlayer>()
+                .InSingletonScope()
+                .WithConstructorArgument(typeof(IPlayer), ctx => ctx.Kernel.Get<NewFilePlayer>());
         }
     }
 }
