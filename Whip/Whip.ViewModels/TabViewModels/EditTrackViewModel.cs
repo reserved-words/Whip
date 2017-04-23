@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight.Messaging;
+﻿using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Linq;
 using Whip.Common;
@@ -19,13 +20,14 @@ namespace Whip.ViewModels.TabViewModels
         private readonly IMessenger _messenger;
         private readonly IWebAlbumInfoService _webAlbumInfoService;
         private readonly ITrackUpdateService _trackUpdateService;
+        private readonly IWebBrowserService _webBrowserService;
 
         private TrackViewModel _track;
 
         private Track _editedTrack;
         
         public EditTrackViewModel(Common.Singletons.Library library, IMessenger messenger, IWebAlbumInfoService webAlbumInfoService,
-             ITrackUpdateService trackUpdateService, IImageProcessingService imageProcessingService)
+             ITrackUpdateService trackUpdateService, IImageProcessingService imageProcessingService, IWebBrowserService webBrowserService)
             : base(TabType.EditTrack, IconType.Edit, "Edit Track", false)
         {
             _library = library;
@@ -34,8 +36,13 @@ namespace Whip.ViewModels.TabViewModels
             _messenger = messenger;
             _trackUpdateService = trackUpdateService;
             _webAlbumInfoService = webAlbumInfoService;
+            _webBrowserService = webBrowserService;
+
+            LyricsWebSearchCommand = new RelayCommand(OnLyricsWebSearch);
         }
 
+        public RelayCommand LyricsWebSearchCommand { get; private set; }
+        
         public override bool Modified
         {
             get { return TrackModified || ArtistModified || DiscModified || AlbumModified; }
@@ -87,7 +94,7 @@ namespace Whip.ViewModels.TabViewModels
 
             var tags = artists.SelectMany(a => a.Tracks).SelectMany(t => t.Tags).Distinct().OrderBy(t => t).ToList();
 
-            Track = new TrackViewModel(this, _messenger, _webAlbumInfoService, _imageProcessingService, artists, tags, track);
+            Track = new TrackViewModel(this, _messenger, _webAlbumInfoService, _imageProcessingService, _webBrowserService, artists, tags, track);
         }
 
         protected override bool CustomCancel()
@@ -108,6 +115,11 @@ namespace Whip.ViewModels.TabViewModels
             _trackUpdateService.SaveTrackChanges(_editedTrack, originalArtist, originalDisc, TrackModified, ArtistModified, DiscModified, AlbumModified);
 
             return true;
+        }
+
+        private void OnLyricsWebSearch()
+        {
+            _webBrowserService.OpenSearch(Track.Artist.Name, Track.Title, "lyrics");
         }
 
         private bool Validate()

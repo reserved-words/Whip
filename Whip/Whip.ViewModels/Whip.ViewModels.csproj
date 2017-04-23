@@ -115,7 +115,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SidebarViewModels\PlayerControlsViewModel.cs" />
     <Compile Include="TabViewModels\LibraryViewModel.cs" />
-    <Compile Include="Utilities\Hyperlink.cs" />
     <Compile Include="Validation\AlbumTitleAttribute.cs" />
     <Compile Include="Validation\ArtistNameAttribute.cs" />
     <Compile Include="Validation\DiscCountAttribute.cs" />

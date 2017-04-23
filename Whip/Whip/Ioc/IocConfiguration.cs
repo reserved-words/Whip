@@ -71,6 +71,7 @@ namespace Whip.Ioc
             Bind<IFileDialogService>().To<FileDialogService>().InTransientScope();
             Bind<ITrackUpdateService>().To<TrackUpdateService>().InTransientScope();
             Bind<IImageProcessingService>().To<ImageProcessingService>().InTransientScope();
+            Bind<IWebBrowserService>().To<WebBrowserService>().InTransientScope();
         }
 
         private void BindLastFmComponents()

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Whip.Common.Model;
 using Whip.Common.Validation;
+using Whip.Services.Interfaces;
 using Whip.ViewModels.Utilities;
 using Whip.ViewModels.Validation;
 using static Whip.Resources.Resources;
@@ -13,6 +14,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
     public class ArtistViewModel : EditableViewModelBase
     {
         private readonly TrackViewModel _parent;
+        private readonly IWebBrowserService _webBrowserService;
 
         private List<City> _usedCities;
         private List<Artist> _artists;
@@ -37,9 +39,10 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
         private string _lastFm;
         private string _wikipedia;
 
-        public ArtistViewModel(TrackViewModel parent, List<Artist> artists, Artist artist)
+        public ArtistViewModel(TrackViewModel parent, List<Artist> artists, Artist artist, IWebBrowserService webBrowserService)
         {
             _parent = parent;
+            _webBrowserService = webBrowserService;
 
             Artists = artists;
 
@@ -294,27 +297,27 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
 
         private void OnTestFacebook()
         {
-            Hyperlink.Go(FacebookUrl);
+            _webBrowserService.Open(FacebookUrl);
         }
 
         private void OnTestLastFm()
         {
-            Hyperlink.Go(LastFmUrl);
+            _webBrowserService.Open(LastFmUrl);
         }
 
         private void OnTestTwitter()
         {
-            Hyperlink.Go(TwitterUrl);
+            _webBrowserService.Open(TwitterUrl);
         }
 
         private void OnTestWebsite()
         {
-            Hyperlink.Go(Website);
+            _webBrowserService.Open(Website);
         }
 
         private void OnTestWikipedia()
         {
-            Hyperlink.Go(WikipediaUrl);
+            _webBrowserService.Open(WikipediaUrl);
         }
 
         private void Populate(Artist artist)

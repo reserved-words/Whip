@@ -20,7 +20,7 @@ namespace Whip.Controls
 
         private void HyperlinkImage_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            Hyperlink.Go(_url);
+            System.Diagnostics.Process.Start(_url);
         }
 
         public string Url
