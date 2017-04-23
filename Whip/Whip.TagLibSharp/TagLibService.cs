@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using TagLib;
 using Whip.Common.TagModel;
 using Whip.Services.Interfaces;
 
@@ -42,7 +44,8 @@ namespace Whip.TagLibSharp
                     Title = f.Tag.Album,
                     Year = f.Tag.Year.ToString(),
                     DiscCount = (int)f.Tag.DiscCount,
-                    ReleaseType = f.Tag.MusicBrainzReleaseType
+                    ReleaseType = f.Tag.MusicBrainzReleaseType,
+                    Artwork = f.Tag.Pictures.Count() > 0 ? f.Tag.Pictures.First().Data.Data : null
                 };
 
                 var disc = new DiscId3Data
@@ -102,6 +105,12 @@ namespace Whip.TagLibSharp
                     f.Tag.MusicBrainzReleaseType = data.Album.ReleaseType;
 
                     f.Tag.DiscCount = Convert.ToUInt16(data.Album.DiscCount);
+
+                    f.Tag.Pictures = null;
+                    if (data.Album.Artwork != null)
+                    {
+                        f.Tag.Pictures = new IPicture[] { CreatePicture(data.Album.Artwork) };
+                    }
                 }
 
                 if (data.Disc != null)
@@ -116,6 +125,20 @@ namespace Whip.TagLibSharp
                 }
 
                 f.Save();
+            }
+        }
+
+        private Picture CreatePicture(byte[] bytes)
+        {
+            using (var ms = new MemoryStream(bytes))
+            {
+                return new Picture()
+                {
+                    Data = ByteVector.FromStream(ms),
+                    Type = PictureType.FrontCover,
+                    MimeType = System.Net.Mime.MediaTypeNames.Image.Jpeg,
+                    Description = "Cover",
+                };
             }
         }
     }

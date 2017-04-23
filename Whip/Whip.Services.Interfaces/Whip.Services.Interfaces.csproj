@@ -30,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -47,7 +48,6 @@
     <Compile Include="Scrobbling\IScrobblingService.cs" />
     <Compile Include="Scrobbling\ITrackLoveService.cs" />
     <Compile Include="Singletons\IPlaylist.cs" />
-    <Compile Include="Utilities\IDirectoryStructureService.cs" />
     <Compile Include="Library\ILibraryDataOrganiserService.cs" />
     <Compile Include="Library\IDataPersistenceService.cs" />
     <Compile Include="Utilities\IExceptionHandlingService.cs" />
@@ -55,6 +55,7 @@
     <Compile Include="Utilities\IFileService.cs" />
     <Compile Include="Library\ILibraryService.cs" />
     <Compile Include="Library\ITaggingService.cs" />
+    <Compile Include="Utilities\IImageProcessingService.cs" />
     <Compile Include="Utilities\ILoggingService.cs" />
     <Compile Include="Utilities\IScrobblingRulesService.cs" />
     <Compile Include="Utilities\IUserSettings.cs" />

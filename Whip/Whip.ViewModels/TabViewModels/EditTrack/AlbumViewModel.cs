@@ -21,6 +21,8 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
     {
         private readonly IMessenger _messenger;
         private readonly IWebAlbumInfoService _webAlbumInfoService;
+        private readonly IImageProcessingService _imageProcessingService;
+
         private readonly DiscViewModel _disc;
 
         private List<Album> _albums;
@@ -30,17 +32,21 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
         private Album _album;
 
         private string _artistName;
-        private string _artwork;
         private string _title;
         private string _year;
         private ReleaseType _releaseType;
         private string _discCount;
-        
-        public AlbumViewModel(DiscViewModel disc, IMessenger messenger, IWebAlbumInfoService albumInfoService, List<Artist> artists, Album album)
+
+        private byte[] _artwork;
+
+        public AlbumViewModel(DiscViewModel disc, IMessenger messenger, IWebAlbumInfoService albumInfoService,
+            IImageProcessingService imageProcessingService, List<Artist> artists, Album album)
         {
+            _imageProcessingService = imageProcessingService;
             _messenger = messenger;
-            _disc = disc;
             _webAlbumInfoService = albumInfoService;
+
+            _disc = disc;
 
             Artists = artists;
 
@@ -94,7 +100,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             }
         }
 
-        public string Artwork
+        public byte[] Artwork
         {
             get { return _artwork; }
             set { SetModified(nameof(Artwork), ref _artwork, value); }
@@ -106,6 +112,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             album.Year = Year;
             album.ReleaseType = ReleaseType;
             album.DiscCount = Convert.ToInt16(DiscCount);
+            album.Artwork = Artwork;
         }
 
         [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
@@ -194,9 +201,9 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
 
             Title = album?.Title ?? string.Empty;
             ReleaseType = album?.ReleaseType ?? EnumHelpers.GetDefaultValue<ReleaseType>();
-            Artwork = album?.Artwork ?? string.Empty;
             Year = album?.Year ?? string.Empty;
             DiscCount = album?.DiscCount.ToString() ?? string.Empty;
+            Artwork = album?.Artwork;
 
             _disc.PopulateDiscDetails();
         }
@@ -219,7 +226,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
 
             if (result != null)
             {
-                Artwork = result;
+                Artwork = _imageProcessingService.GetImageBytesFromFile(result);
             }
         }
 
@@ -231,13 +238,15 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
 
             if (result != null)
             {
-                Artwork = result;
+                Artwork = _imageProcessingService.GetImageBytesFromUrl(result);
             }
         }
 
         private async void OnGetArtworkFromWeb()
         {
-            Artwork = await _webAlbumInfoService.GetArtworkUrl(ArtistName, Title);
+            var result = await _webAlbumInfoService.GetArtworkUrl(ArtistName, Title);
+
+            Artwork = _imageProcessingService.GetImageBytesFromUrl(result);
         }
 
         private void Populate(Album album)

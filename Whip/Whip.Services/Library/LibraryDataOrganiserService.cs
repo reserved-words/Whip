@@ -76,7 +76,8 @@ namespace Whip.Services
                     Title = id3Data.Album.Title,
                     Year = id3Data.Album.Year,
                     DiscCount = id3Data.Album.DiscCount,
-                    ReleaseType = EnumHelpers.Parse<ReleaseType>(id3Data.Album.ReleaseType)
+                    ReleaseType = EnumHelpers.Parse<ReleaseType>(id3Data.Album.ReleaseType),
+                    Artwork = id3Data.Album.Artwork
                 };
                 albumArtist.Albums.Add(album);
             }

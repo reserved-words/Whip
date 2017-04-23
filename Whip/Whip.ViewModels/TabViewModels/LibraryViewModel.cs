@@ -125,6 +125,10 @@ namespace Whip.ViewModels.TabViewModels
 
         private void OnLibraryUpdated(Track track)
         {
+            var returnToArtist = SelectedArtist;
+
+            SelectedArtist = null;
+
             if (track == null)
             {
                 SelectedGrouping = string.Empty;
@@ -135,8 +139,12 @@ namespace Whip.ViewModels.TabViewModels
             }
             else
             {
-                SelectedArtist = null;
                 FilterArtists();
+            }
+
+            if (Artists.Contains(returnToArtist))
+            {
+                SelectedArtist = returnToArtist;
             }
         }
 

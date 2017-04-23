@@ -29,7 +29,7 @@
                                     UpdateSourceTrigger=PropertyChanged}"/>
             </WrapPanel>
         </DockPanel>
-        <Image Source="{Binding Track.Disc.Album.Artwork}"
+        <Image Source="{Binding Track.Disc.Album.Artwork, Converter={StaticResource BytesToImageConverter}}"
                Width="180"
                Height="180"
                Margin="10"/>

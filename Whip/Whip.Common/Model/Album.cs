@@ -11,10 +11,11 @@ namespace Whip.Common.Model
 
         public string Title { get; set; }
         public string Year { get; set; }
-        public string Artwork { get; set; }
         public int DiscCount { get; set; }
         public ReleaseType ReleaseType { get; set; }
         public ReleaseTypeGrouping Grouping { get; set; }
+
+        public byte[] Artwork { get; set; }
 
         public Artist Artist { get; set; }
 

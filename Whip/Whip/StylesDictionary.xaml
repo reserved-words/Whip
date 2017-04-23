@@ -17,6 +17,7 @@
     <conv:StringToVisibilityConverter x:Key="StringVisibilityConverter" />
     <conv:EnumToStringConverter x:Key="EnumToStringConverter" />
     <conv:EqualityConverter x:Key="EqualityConverter" />
+    <conv:BytesToImageConverter x:Key="BytesToImageConverter" />
 
     <!-- DATA TEMPLATES -->
     <DataTemplate DataType="{x:Type tabsvm:LibraryViewModel}">

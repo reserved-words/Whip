@@ -94,6 +94,7 @@
     <Compile Include="Controls\PlayerControlButton.cs" />
     <Compile Include="Controls\ReportingTabControl.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\BytesToImageConverter.cs" />
     <Compile Include="Converters\EnumToStringConverter.cs" />
     <Compile Include="Converters\EqualityConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />

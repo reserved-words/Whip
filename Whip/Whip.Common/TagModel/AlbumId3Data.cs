@@ -9,5 +9,6 @@
         public int DiscCount { get; set; }
         public string Year { get; set; }
         public string ReleaseType { get; set; }
+        public byte[] Artwork { get; set; }
     }
 }

@@ -14,18 +14,15 @@ namespace Whip.Services
         private readonly ILibraryDataOrganiserService _libraryDataOrganiserService;
         private readonly ILibrarySortingService _librarySortingService;
         private readonly IDataPersistenceService _dataPersistenceService;
-        private readonly IDirectoryStructureService _directoryStructureService;
         private readonly IUserSettings _userSettings;
 
         public LibraryService(IFileService fileService, ILibraryDataOrganiserService libraryDataOrganiserService,
-            IDataPersistenceService dataPersistenceService, IDirectoryStructureService directoryStructureService,
-            IUserSettings userSettings, ILibrarySortingService librarySortingService)
+            IDataPersistenceService dataPersistenceService, IUserSettings userSettings, ILibrarySortingService librarySortingService)
         {
             _fileService = fileService;
             _libraryDataOrganiserService = libraryDataOrganiserService;
             _librarySortingService = librarySortingService;
             _dataPersistenceService = dataPersistenceService;
-            _directoryStructureService = directoryStructureService;
             _userSettings = userSettings;
         }
 
@@ -56,11 +53,10 @@ namespace Whip.Services
                     _libraryDataOrganiserService.AddTrack(file.FullPath, file, library.Artists);
                 }
 
-                progressHandler?.Report(new ProgressArgs(80, "Setting artwork paths"));
+                progressHandler?.Report(new ProgressArgs(80, "Setting release type groupings"));
 
                 foreach (var album in library.Artists.SelectMany(a => a.Albums))
                 {
-                    album.Artwork = _directoryStructureService.GetArtworkPath(album);
                     album.Grouping = album.ReleaseType.GetReleaseTypeGrouping();
                 }
 

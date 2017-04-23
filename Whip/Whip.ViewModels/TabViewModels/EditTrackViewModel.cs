@@ -15,6 +15,7 @@ namespace Whip.ViewModels.TabViewModels
     public class EditTrackViewModel : EditableTabViewModelBase
     {
         private readonly Common.Singletons.Library _library;
+        private readonly IImageProcessingService _imageProcessingService;
         private readonly IMessenger _messenger;
         private readonly IWebAlbumInfoService _webAlbumInfoService;
         private readonly ITrackUpdateService _trackUpdateService;
@@ -24,10 +25,12 @@ namespace Whip.ViewModels.TabViewModels
         private Track _editedTrack;
         
         public EditTrackViewModel(Common.Singletons.Library library, IMessenger messenger, IWebAlbumInfoService webAlbumInfoService,
-             ITrackUpdateService trackUpdateService)
+             ITrackUpdateService trackUpdateService, IImageProcessingService imageProcessingService)
             : base(TabType.EditTrack, IconType.Edit, "Edit Track", false)
         {
             _library = library;
+
+            _imageProcessingService = imageProcessingService;
             _messenger = messenger;
             _trackUpdateService = trackUpdateService;
             _webAlbumInfoService = webAlbumInfoService;
@@ -84,7 +87,7 @@ namespace Whip.ViewModels.TabViewModels
 
             var tags = artists.SelectMany(a => a.Tracks).SelectMany(t => t.Tags).Distinct().OrderBy(t => t).ToList();
 
-            Track = new TrackViewModel(this, _messenger, _webAlbumInfoService, artists, tags, track);
+            Track = new TrackViewModel(this, _messenger, _webAlbumInfoService, _imageProcessingService, artists, tags, track);
         }
 
         protected override bool CustomCancel()
@@ -100,16 +103,11 @@ namespace Whip.ViewModels.TabViewModels
             var originalArtist = _editedTrack.Artist;
             var originalDisc = _editedTrack.Disc;
 
-            UpdateLibraryTrack();
+            Track.UpdateTrack(_editedTrack);
 
             _trackUpdateService.SaveTrackChanges(_editedTrack, originalArtist, originalDisc, TrackModified, ArtistModified, DiscModified, AlbumModified);
 
             return true;
-        }
-
-        private void UpdateLibraryTrack()
-        {
-            Track.UpdateTrack(_editedTrack);
         }
 
         private bool Validate()

@@ -306,7 +306,7 @@
 
                 <Image Grid.Row="1"
                        Grid.ColumnSpan="2"
-                       Source="{Binding Artwork}"
+                       Source="{Binding Artwork, Converter={StaticResource BytesToImageConverter}}"
                        Width="Auto"
                        Height="Auto"
                        MaxWidth="400"

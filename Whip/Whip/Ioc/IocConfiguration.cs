@@ -63,13 +63,13 @@ namespace Whip.Ioc
             Bind<ILibraryDataOrganiserService>().To<LibraryDataOrganiserService>().InTransientScope();
             Bind<IDataPersistenceService>().To<XmlDataPersistenceService>().InTransientScope();
             Bind<ITaggingService>().To<TagLibService>().InTransientScope();
-            Bind<IDirectoryStructureService>().To<DirectoryStructureService>().InTransientScope();
             Bind<ICommentProcessingService>().To<CommentProcessingService>().InTransientScope();
             Bind<ITrackFilterService>().To<TrackFilterService>().InTransientScope();
             Bind<IScrobblingRulesService>().To<ScrobblingRulesService>().InTransientScope();
             Bind<ILibrarySortingService>().To<LibrarySortingService>().InTransientScope();
             Bind<IFileDialogService>().To<FileDialogService>().InTransientScope();
             Bind<ITrackUpdateService>().To<TrackUpdateService>().InTransientScope();
+            Bind<IImageProcessingService>().To<ImageProcessingService>().InTransientScope();
         }
 
         private void BindLastFmComponents()

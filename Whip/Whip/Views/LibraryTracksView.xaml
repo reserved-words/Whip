@@ -42,8 +42,7 @@
                                        Margin="0,0,0,10"
                                        Height="150"
                                        Width="150"
-                                       VerticalAlignment="Top">
-                                </Image>
+                                       VerticalAlignment="Top" />
                                 <TextBlock Text="{Binding Title}"
                                            FontWeight="Bold"
                                            TextWrapping="WrapWithOverflow"/>

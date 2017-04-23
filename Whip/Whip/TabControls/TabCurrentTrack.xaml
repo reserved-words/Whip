@@ -161,7 +161,7 @@
             </Grid.RowDefinitions>
             <Image Grid.Row="0"
                    Grid.ColumnSpan="2"
-                   Source="{Binding Disc.Album.Artwork}"
+                   Source="{Binding Disc.Album.Artwork, Converter={StaticResource BytesToImageConverter}}"
                    Width="Auto"
                    Height="Auto"
                    MaxWidth="500"
