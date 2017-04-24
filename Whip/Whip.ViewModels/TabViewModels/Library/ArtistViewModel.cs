@@ -13,11 +13,13 @@ namespace Whip.ViewModels.TabViewModels.Library
     {
         private readonly IMessenger _messenger;
         private readonly ITrackFilterService _trackFilterService;
+        private readonly IWebArtistInfoService _webArtistInfoService;
 
-        public ArtistViewModel(ITrackFilterService trackFilterService, IMessenger messenger)
+        public ArtistViewModel(ITrackFilterService trackFilterService, IMessenger messenger, IWebArtistInfoService webArtistInfoService)
         {
             _messenger = messenger;
             _trackFilterService = trackFilterService;
+            _webArtistInfoService = webArtistInfoService;
         }
 
         private Artist _artist;
@@ -30,9 +32,19 @@ namespace Whip.ViewModels.TabViewModels.Library
             {
                 Set(ref _artist, value);
                 PopulateAlbums();
+                PopulateImage();
                 RaisePropertyChanged(nameof(NumberOfAlbums));
                 RaisePropertyChanged(nameof(NumberOfTracks));
             }
+        }
+
+        private async void PopulateImage()
+        {
+            if (Artist == null)
+                return;
+
+            Artist.WebInfo = await _webArtistInfoService.PopulateArtistImages(Artist);
+            RaisePropertyChanged(nameof(ImageUrl));
         }
 
         public List<AlbumViewModel> Albums
@@ -43,6 +55,8 @@ namespace Whip.ViewModels.TabViewModels.Library
 
         public string NumberOfAlbums => Format(Artist?.Albums.Count, "album");
         public string NumberOfTracks => Format(Artist?.Tracks.Count, "track");
+
+        public string ImageUrl => Artist?.WebInfo.LargeImageUrl;
 
         private string Format(int? count, string description)
         {

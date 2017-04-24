@@ -10,6 +10,7 @@ namespace Whip.Common.Model
     {
         public Artist()
         {
+            WebInfo = new ArtistWebInfo();
             Albums = new List<Album>();
             Tracks = new List<Track>();
         }
@@ -24,6 +25,7 @@ namespace Whip.Common.Model
         public string LastFm { get; set; }
         public string Wikipedia { get; set; }
 
+        public ArtistWebInfo WebInfo { get; set; }
         public List<Album> Albums { get; set; }
         public List<Track> Tracks { get; set; }
 

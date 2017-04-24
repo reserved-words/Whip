@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Information\ArtistInfoService.cs" />
     <Compile Include="Information\AlbumInfoService.cs" />
     <Compile Include="LastFmApiClientService.cs" />
     <Compile Include="Scrobbling\AuthorizedScrobblingService.cs" />

@@ -54,6 +54,7 @@
     <Compile Include="Interfaces\ITrackSorter.cs" />
     <Compile Include="Model\Album.cs" />
     <Compile Include="Model\Artist.cs" />
+    <Compile Include="Model\ArtistWebInfo.cs" />
     <Compile Include="Model\City.cs" />
     <Compile Include="Model\Disc.cs" />
     <Compile Include="Model\File.cs" />

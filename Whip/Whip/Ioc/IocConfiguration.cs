@@ -95,6 +95,7 @@ namespace Whip.Ioc
                 .InTransientScope();
 
             Bind<IWebAlbumInfoService>().To<AlbumInfoService>().InTransientScope();
+            Bind<IWebArtistInfoService>().To<ArtistInfoService>().InTransientScope();
         }
 
         private void BindMessageHandlers()
