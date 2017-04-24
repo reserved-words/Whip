@@ -1,4 +1,5 @@
 ﻿using LastFmApi.Internal;
+using System.Collections.Generic;
 using System.Xml.Linq;
 
 namespace LastFmApi.Methods.Track
@@ -8,11 +9,14 @@ namespace LastFmApi.Methods.Track
         public IsLovedMethod(ApiClient client, LastFmApi.Track track, string username)
             : base(client, "track.getInfo")
         {
-            Parameters.Add(ParameterKey.Track, track.Title);
-            Parameters.Add(ParameterKey.Artist, track.Artist);
-            Parameters.Add(ParameterKey.Album, track.Album);
-            Parameters.Add(ParameterKey.AlbumArtist, track.AlbumArtist);
-            Parameters.Add(ParameterKey.Username, username);
+            SetParameters(new Dictionary<ParameterKey, string>
+            {
+                { ParameterKey.Track, track.Title },
+                { ParameterKey.Artist, track.Artist },
+                { ParameterKey.Album, track.Album },
+                { ParameterKey.AlbumArtist, track.AlbumArtist },
+                { ParameterKey.Username, username }
+            });
         }
 
         public override bool ParseResult(string result)

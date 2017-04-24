@@ -1,4 +1,5 @@
 ﻿using LastFmApi.Internal;
+using System.Collections.Generic;
 using System.Xml.Linq;
 
 namespace LastFmApi.Methods.Auth
@@ -12,9 +13,10 @@ namespace LastFmApi.Methods.Auth
         {
             _username = client.Username;
 
-            Parameters.Add(ParameterKey.Token, token);
-
-            AddApiSignature();
+            SetParameters(new Dictionary<ParameterKey, string>
+            {
+                { ParameterKey.Token, token }
+            });
         }
 
         public override Session ParseResult(string result)

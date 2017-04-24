@@ -1,4 +1,5 @@
 ﻿using LastFmApi.Internal;
+using System.Collections.Generic;
 using System.Xml.Linq;
 
 namespace LastFmApi.Methods.Artist
@@ -8,7 +9,10 @@ namespace LastFmApi.Methods.Artist
         public GetInfoMethod(ApiClient client, string artistName)
             : base(client, "artist.getinfo")
         {
-            Parameters.Add(ParameterKey.Artist, artistName);
+            SetParameters(new Dictionary<ParameterKey, string>
+            {
+                { ParameterKey.Artist, artistName }
+            });
         }
 
         public override ArtistInfo ParseResult(string result)

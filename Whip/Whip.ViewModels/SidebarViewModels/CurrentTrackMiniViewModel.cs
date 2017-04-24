@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using System;
 using Whip.Common.Model;
 using Whip.Common.Singletons;
@@ -18,14 +19,37 @@ namespace Whip.ViewModels
             _trackLoveService = trackLoveService;
 
             library.Updated += OnLibraryUpdated;
+
+            LoveTrackCommand = new RelayCommand(OnLoveTrack);
+            UnloveTrackCommand = new RelayCommand(OnUnloveTrack);
         }
 
+        public RelayCommand LoveTrackCommand { get; private set; }
+        public RelayCommand UnloveTrackCommand { get; private set; }
+
+        public Track Track
+        {
+            get { return _track; }
+            set { Set(ref _track, value); }
+        }
+
+        public bool Loved
+        {
+            get { return _loved; }
+            set { Set(ref _loved, value); }
+        }
         private void OnLibraryUpdated(Track track)
         {
             if (track != null && Track == track)
             {
                 RaisePropertyChanged(nameof(Track));
             }
+        }
+
+        public void OnCurrentTrackChanged(Track track)
+        {
+            Loved = false;
+            Track = track;
         }
 
         public async void OnNewTrackStarted(Track track)
@@ -40,22 +64,16 @@ namespace Whip.ViewModels
             }
         }
 
-        public void OnCurrentTrackChanged(Track track)
+        private async void OnLoveTrack()
+        {
+            Loved = true;
+            await _trackLoveService.LoveTrackAsync(Track);
+        }
+
+        private async void OnUnloveTrack()
         {
             Loved = false;
-            Track = track;
-        }
-
-        public Track Track
-        {
-            get { return _track; }
-            set { Set(ref _track, value); }
-        }
-
-        public bool Loved
-        {
-            get { return _loved; }
-            set { Set(ref _loved, value); }
+            await _trackLoveService.UnloveTrackAsync(Track);
         }
     }
 }

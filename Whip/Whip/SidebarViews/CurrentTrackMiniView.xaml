@@ -15,18 +15,32 @@
                        HorizontalAlignment="Right">
                 <controls:Icon16 Icon="Heart"
                                  Margin="5"
+                                 Cursor="Hand"
+                                 ToolTip="Click to Unlove Track"
                                  Foreground="DarkRed"
                                  Visibility="{Binding Loved, 
                                     Converter={StaticResource BoolVisibilityConverter}, 
                                     Mode=OneWay, 
-                                    UpdateSourceTrigger=PropertyChanged}"/>
+                                    UpdateSourceTrigger=PropertyChanged}">
+                    <Image.InputBindings>
+                        <MouseBinding Gesture="LeftClick"
+                                      Command="{Binding UnloveTrackCommand}" />
+                    </Image.InputBindings>
+                </controls:Icon16>
                 <controls:Icon16 Icon="HeartOutline"
                                  Margin="5"
+                                 Cursor="Hand"
+                                 ToolTip="Click to Love Track"
                                  Foreground="DarkRed"
                                  Visibility="{Binding Loved, 
                                     Converter={StaticResource NegBoolVisibilityConverter}, 
                                     Mode=OneWay, 
-                                    UpdateSourceTrigger=PropertyChanged}"/>
+                                    UpdateSourceTrigger=PropertyChanged}">
+                    <Image.InputBindings>
+                        <MouseBinding Gesture="LeftClick"
+                                      Command="{Binding LoveTrackCommand}" />
+                    </Image.InputBindings>
+                </controls:Icon16>
             </WrapPanel>
         </DockPanel>
         <Image Source="{Binding Track.Disc.Album.Artwork, Converter={StaticResource BytesToImageConverter}}"

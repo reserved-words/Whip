@@ -1,4 +1,5 @@
 ﻿using LastFmApi.Internal;
+using System.Collections.Generic;
 
 namespace LastFmApi.Methods.Track
 {
@@ -7,13 +8,14 @@ namespace LastFmApi.Methods.Track
         public UpdateNowPlayingMethod(AuthorizedApiClient client, LastFmApi.Track track, int duration)
             : base(client, "track.updateNowPlaying")
         {
-            Parameters.Add(ParameterKey.Track, track.Title);
-            Parameters.Add(ParameterKey.Artist, track.Artist);
-            Parameters.Add(ParameterKey.Album, track.Album);
-            Parameters.Add(ParameterKey.AlbumArtist, track.AlbumArtist);
-            Parameters.Add(ParameterKey.Duration, duration.ToString());
-
-            AddApiSignature();
+            SetParameters(new Dictionary<ParameterKey, string>
+            {
+                { ParameterKey.Track, track.Title },
+                { ParameterKey.Artist, track.Artist },
+                { ParameterKey.Album, track.Album },
+                { ParameterKey.AlbumArtist, track.AlbumArtist },
+                { ParameterKey.Duration, duration.ToString() }
+            });
         }
     }
 }

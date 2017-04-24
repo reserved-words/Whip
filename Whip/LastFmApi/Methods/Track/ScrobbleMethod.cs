@@ -1,5 +1,6 @@
 ﻿using LastFmApi.Internal;
 using System;
+using System.Collections.Generic;
 
 namespace LastFmApi.Methods.Track
 {
@@ -8,16 +9,17 @@ namespace LastFmApi.Methods.Track
         public ScrobbleMethod(AuthorizedApiClient client, LastFmApi.Track track, DateTime timePlayed)
             : base(client, "track.scrobble")
         {
-            Parameters.Add(ParameterKey.Track, track.Title);
-            Parameters.Add(ParameterKey.Artist, track.Artist);
-            Parameters.Add(ParameterKey.Album, track.Album);
-            Parameters.Add(ParameterKey.AlbumArtist, track.AlbumArtist);
-
             var scrobbleTime = timePlayed.ToUniversalTime();
             var unixTimeStamp = (scrobbleTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-            Parameters.Add(ParameterKey.Timestamp, unixTimeStamp.ToString());
-
-            AddApiSignature();
+            
+            SetParameters(new Dictionary<ParameterKey, string>
+            {
+                { ParameterKey.Track, track.Title },
+                { ParameterKey.Artist, track.Artist },
+                { ParameterKey.Album, track.Album },
+                { ParameterKey.AlbumArtist, track.AlbumArtist },
+                { ParameterKey.Timestamp, unixTimeStamp.ToString() }
+            });
         }
     }
 }

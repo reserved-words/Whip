@@ -49,6 +49,8 @@
     <Compile Include="Methods\Album\GetInfoMethod.cs" />
     <Compile Include="Methods\Artist\GetInfoMethod.cs" />
     <Compile Include="Methods\Track\IsLovedMethod.cs" />
+    <Compile Include="Methods\Track\UnloveTrackMethod.cs" />
+    <Compile Include="Methods\Track\LoveTrackMethod.cs" />
     <Compile Include="Methods\Track\ScrobbleMethod.cs" />
     <Compile Include="Methods\Track\UpdateNowPlayingMethod.cs" />
     <Compile Include="Model\ArtistInfo.cs" />

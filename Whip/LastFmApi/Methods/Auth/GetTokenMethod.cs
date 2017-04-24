@@ -7,7 +7,7 @@ namespace LastFmApi.Methods.Auth
         public GetTokenMethod(AuthorizedApiClient client)
             : base(client, "auth.getToken")
         {
-            AddApiSignature();
+            SetParameters();
         }
 
         public override string ParseResult(string result)

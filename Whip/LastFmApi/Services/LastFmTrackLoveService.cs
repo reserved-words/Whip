@@ -1,7 +1,6 @@
 ﻿using LastFmApi.Interfaces;
 using LastFmApi.Internal;
 using LastFmApi.Methods.Track;
-using System;
 using System.Threading.Tasks;
 
 namespace LastFmApi
@@ -23,12 +22,14 @@ namespace LastFmApi
 
         public async Task LoveTrackAsync(Track track)
         {
-            throw new NotImplementedException();
+            var loveTrackMethod = new LoveTrackMethod(_client, track);
+            await loveTrackMethod.PostAsync();
         }
 
         public async Task UnloveTrackAsync(Track track)
         {
-            throw new NotImplementedException();
+            var unloveTrackMethod = new UnloveTrackMethod(_client, track);
+            await unloveTrackMethod.PostAsync();
         }
     }
 }
