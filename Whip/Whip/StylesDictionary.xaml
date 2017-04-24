@@ -18,6 +18,7 @@
     <conv:EnumToStringConverter x:Key="EnumToStringConverter" />
     <conv:EqualityConverter x:Key="EqualityConverter" />
     <conv:BytesToImageConverter x:Key="BytesToImageConverter" />
+    <conv:NegateBoolConverter x:Key="NegateBoolConverter" />
 
     <!-- DATA TEMPLATES -->
     <DataTemplate DataType="{x:Type tabsvm:LibraryViewModel}">

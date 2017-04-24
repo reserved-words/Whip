@@ -17,14 +17,14 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
         private string _trackCount;
         private string _discNo;
 
-        public DiscViewModel(TrackViewModel track, IMessenger messenger, IWebAlbumInfoService albumInfoService, IImageProcessingService imageProcessingService,
-            List<Artist> artists, Disc disc)
+        public DiscViewModel(TrackViewModel trackViewModel, IMessenger messenger, IWebAlbumInfoService albumInfoService, IImageProcessingService imageProcessingService,
+            List<Artist> artists, Track track)
         {
-            _track = track;
+            _track = trackViewModel;
 
-            Album = new AlbumViewModel(this, messenger, albumInfoService, imageProcessingService, artists, disc.Album);
+            Album = new AlbumViewModel(this, messenger, albumInfoService, imageProcessingService, artists, track);
 
-            Populate(disc);
+            Populate(track.Disc);
 
             Modified = false;
         }
@@ -70,9 +70,9 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             }
         }
 
-        public void SyncArtistNames(string artistName)
+        public void SyncArtists(bool sync)
         {
-            _track.SyncArtistNames(artistName);
+            _track.SyncArtists(sync);
         }
 
         public void UpdateDisc(Track track)

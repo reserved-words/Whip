@@ -305,22 +305,23 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-                       Content="Artwork"
-                       Style="{StaticResource TitleLabel}"/>
+                           Content="Artwork"
+                           Style="{StaticResource TitleLabel}"/>
 
                     <Image Grid.Row="1"
-                       Grid.ColumnSpan="2"
-                       Source="{Binding Artwork, Converter={StaticResource BytesToImageConverter}}"
-                       Width="Auto"
-                       Height="Auto"
-                       MaxWidth="400"
-                       MaxHeight="400"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Top"
-                       Margin="0,8,0,0"/>
+                           Grid.ColumnSpan="2"
+                           Source="{Binding Artwork, Converter={StaticResource BytesToImageConverter}}"
+                           Width="Auto"
+                           Height="Auto"
+                           MaxWidth="400"
+                           MaxHeight="400"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Top"
+                           Margin="0,8,0,0"/>
 
                     <WrapPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center">
                         <Button Width="100" Content="Get from Last.FM" Command="{Binding GetArtworkFromWebCommand}"/>
@@ -330,48 +331,55 @@
                     </WrapPanel>
 
                     <Border Grid.Row="3" Grid.ColumnSpan="2" 
-                        Style="{StaticResource HoriztonalLine}" />
+                            Style="{StaticResource HoriztonalLine}" />
 
                     <Label Grid.Row="4" Grid.Column="0"
-                       Content="Album Artist"
-                       Style="{StaticResource TitleLabel}"/>
-                    <ComboBox Grid.Row="4" Grid.Column="1"
-                          ItemsSource="{Binding Artists, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                          DisplayMemberPath="Name"
-                          IsEditable="False"
-                          SelectedItem="{Binding Artist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                           Content="Album Artist"
+                           Style="{StaticResource TitleLabel}"/>
 
-                    <Label Grid.Row="5" Grid.Column="0"
-                       Content="Name" />
-                    <TextBox Grid.Row="5" Grid.Column="1"
-                         Text="{Binding ArtistName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
+                    <CheckBox Grid.Row="4" Grid.Column="1"
+                              IsChecked="{Binding ArtistSameAsTrackArtist}"
+                              Content="Same as Track Artist" />
 
-                    <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"
-                       Content="Album"
-                       Style="{StaticResource TitleLabel}"/>
-                    <ComboBox Grid.Row="6" Grid.Column="1"
-                          ItemsSource="{Binding Albums, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                          IsEditable="False"
-                          DisplayMemberPath="Title"
-                          SelectedItem="{Binding Album, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <ComboBox Grid.Row="5" Grid.Column="1"
+                              ItemsSource="{Binding Artists, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                              DisplayMemberPath="Name"
+                              IsEditable="False"
+                              IsEnabled="{Binding ArtistSameAsTrackArtist, Converter={StaticResource NegateBoolConverter}}"
+                              SelectedItem="{Binding Artist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                    <Label Grid.Row="7" Grid.Column="0"
-                       Content="Title" />
-                    <TextBox Grid.Row="7" Grid.Column="1"
-                         Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
+                    <Label Grid.Row="6" Grid.Column="0"
+                           Content="Name" />
+                    <TextBox Grid.Row="6" Grid.Column="1"
+                             IsEnabled="{Binding ArtistSameAsTrackArtist, Converter={StaticResource NegateBoolConverter}}"
+                             Text="{Binding ArtistName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
+
+                    <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
+                           Content="Album"
+                           Style="{StaticResource TitleLabel}"/>
+                    <ComboBox Grid.Row="7" Grid.Column="1"
+                              ItemsSource="{Binding Albums, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                              IsEditable="False"
+                              DisplayMemberPath="Title"
+                              SelectedItem="{Binding Album, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                     <Label Grid.Row="8" Grid.Column="0"
-                       Content="Release Type" />
-                    <ComboBox Grid.Row="8" Grid.Column="1"
-                          IsEditable="False"
-                          ItemsSource="{Binding Source={local:Enumeration {x:Type common:ReleaseType}}}"
-                          DisplayMemberPath="Description" 
-                          SelectedValue="{Binding ReleaseType, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"  
-                          SelectedValuePath="Value"  />
+                           Content="Title" />
+                    <TextBox Grid.Row="8" Grid.Column="1"
+                             Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
 
                     <Label Grid.Row="9" Grid.Column="0"
-                       Content="Year" />
-                    <TextBox Grid.Row="9" Grid.Column="1"
+                           Content="Release Type" />
+                    <ComboBox Grid.Row="9" Grid.Column="1"
+                              IsEditable="False"
+                              ItemsSource="{Binding Source={local:Enumeration {x:Type common:ReleaseType}}}"
+                              DisplayMemberPath="Description" 
+                              SelectedValue="{Binding ReleaseType, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"  
+                              SelectedValuePath="Value"  />
+
+                    <Label Grid.Row="10" Grid.Column="0"
+                           Content="Year" />
+                    <TextBox Grid.Row="10" Grid.Column="1"
                              Text="{Binding Year, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                              Width="50"
                              HorizontalAlignment="Left"/>

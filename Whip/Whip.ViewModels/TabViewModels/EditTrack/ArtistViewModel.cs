@@ -113,6 +113,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             {
                 SetModified(nameof(Artist), ref _artist, value);
                 PopulateArtistDetails();
+                _parent.SyncArtists();
             }
         }
 
@@ -124,10 +125,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             set
             {
                 SetModified(nameof(Name), ref _name, value);
-                if (ExistingArtistSelected)
-                {
-                    _parent.SyncArtistNames(_name);
-                }
+                _parent.SyncArtists();
             }
         }
 

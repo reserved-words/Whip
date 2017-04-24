@@ -32,6 +32,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
         private Album _album;
 
         private string _artistName;
+        private bool _artistSameAsTrackArtist;
         private string _title;
         private string _year;
         private ReleaseType _releaseType;
@@ -40,7 +41,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
         private byte[] _artwork;
 
         public AlbumViewModel(DiscViewModel disc, IMessenger messenger, IWebAlbumInfoService albumInfoService,
-            IImageProcessingService imageProcessingService, List<Artist> artists, Album album)
+            IImageProcessingService imageProcessingService, List<Artist> artists, Track track)
         {
             _imageProcessingService = imageProcessingService;
             _messenger = messenger;
@@ -55,7 +56,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             GetArtworkFromWebCommand = new RelayCommand(OnGetArtworkFromWeb, CanGetArtworkFromWeb);
             ClearArtworkCommand = new RelayCommand(OnClearArtwork);
 
-            Populate(album);
+            Populate(track);
 
             Modified = false;
         }
@@ -100,6 +101,16 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             }
         }
 
+        public bool ArtistSameAsTrackArtist
+        {
+            get { return _artistSameAsTrackArtist; }
+            set
+            {
+                SetModified(nameof(ArtistSameAsTrackArtist), ref _artistSameAsTrackArtist, value);
+                _disc.SyncArtists(value);
+            }
+        }
+
         public byte[] Artwork
         {
             get { return _artwork; }
@@ -137,14 +148,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
         public string ArtistName
         {
             get { return _artistName; }
-            set
-            {
-                SetModified(nameof(ArtistName), ref _artistName, value);
-                if (ExistingAlbumArtistSelected)
-                {
-                    _disc.SyncArtistNames(_artistName);
-                }
-            }
+            set { SetModified(nameof(ArtistName), ref _artistName, value); }
         }
 
         [AlbumTitle]
@@ -249,11 +253,13 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             Artwork = _imageProcessingService.GetImageBytesFromUrl(result);
         }
 
-        private void Populate(Album album)
+        private void Populate(Track track)
         {
-            Artist = album.Artist;
-            Album = album;
-            
+            Artist = track.Disc.Album.Artist;
+            Album = track.Disc.Album;
+
+            ArtistSameAsTrackArtist = Artist == track.Artist;
+
             PopulateAlbumArtistDetails();
             PopulateAlbumDetails();
         }

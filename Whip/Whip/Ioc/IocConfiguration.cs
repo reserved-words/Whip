@@ -2,11 +2,9 @@
 using Whip.TagLibSharp;
 using Whip.Services;
 using Whip.Services.Interfaces;
-using Whip.ViewModels;
 using Whip.MessageHandlers;
 using Whip.Common.Singletons;
 using Whip.ViewModels.MessageHandlers;
-using Whip.ViewModels.TabViewModels;
 using Whip.Common.Interfaces;
 using Whip.WmpPlayer;
 using Whip.LastFm;
@@ -16,7 +14,6 @@ using Ninject;
 using GalaSoft.MvvmLight.Messaging;
 using Whip.NLog;
 using Whip.Services.Interfaces.Singletons;
-using Whip.ViewModels.TabViewModels.EditTrack;
 using Whip.Services.Singletons;
 
 namespace Whip.Ioc
@@ -25,8 +22,6 @@ namespace Whip.Ioc
     {
         public override void Load()
         {
-            BindViewModels();
-
             BindSingletons();
             
             BindServices();
@@ -36,15 +31,6 @@ namespace Whip.Ioc
             BindPlayer();
 
             BindLastFmComponents();
-        }
-
-        private void BindViewModels()
-        {
-            Bind<MainWindowViewModel>().ToSelf().InTransientScope();
-            Bind<MainViewModel>().ToSelf().InTransientScope();
-            Bind<PlayerControlsViewModel>().ToSelf().InTransientScope();
-            Bind<LibraryViewModel>().ToSelf().InTransientScope();
-            Bind<TrackViewModel>().ToSelf().InTransientScope();
         }
 
         private void BindSingletons()
