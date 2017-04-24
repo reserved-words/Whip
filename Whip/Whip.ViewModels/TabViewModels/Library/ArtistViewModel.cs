@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Messaging;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Whip.Common;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
@@ -24,6 +25,7 @@ namespace Whip.ViewModels.TabViewModels.Library
 
         private Artist _artist;
         private List<AlbumViewModel> _albums;
+        private bool _loadingArtistImage;
 
         public Artist Artist
         {
@@ -31,20 +33,17 @@ namespace Whip.ViewModels.TabViewModels.Library
             set
             {
                 Set(ref _artist, value);
+                Task.Run(PopulateImage);
                 PopulateAlbums();
-                PopulateImage();
                 RaisePropertyChanged(nameof(NumberOfAlbums));
                 RaisePropertyChanged(nameof(NumberOfTracks));
             }
         }
 
-        private async void PopulateImage()
+        public bool LoadingArtistImage
         {
-            if (Artist == null)
-                return;
-
-            Artist.WebInfo = await _webArtistInfoService.PopulateArtistImages(Artist);
-            RaisePropertyChanged(nameof(ImageUrl));
+            get { return _loadingArtistImage; }
+            set { Set(ref _loadingArtistImage, value); }
         }
 
         public List<AlbumViewModel> Albums
@@ -55,17 +54,7 @@ namespace Whip.ViewModels.TabViewModels.Library
 
         public string NumberOfAlbums => Format(Artist?.Albums.Count, "album");
         public string NumberOfTracks => Format(Artist?.Tracks.Count, "track");
-
         public string ImageUrl => Artist?.WebInfo.LargeImageUrl;
-
-        private string Format(int? count, string description)
-        {
-            return !count.HasValue
-                ? string.Empty
-                : count == 1
-                ? string.Format("1 {0}", description)
-                : string.Format("{0} {1}s", count, description);
-        }
 
         public void OnEditTrack(Track track)
         {
@@ -80,6 +69,26 @@ namespace Whip.ViewModels.TabViewModels.Library
         public void OnPlayAlbum(AlbumViewModel album)
         {
             _messenger.Send(new PlayAlbumMessage(album.Album, SortType.Ordered));
+        }
+
+        private string Format(int? count, string description)
+        {
+            return !count.HasValue
+                ? string.Empty
+                : count == 1
+                ? string.Format("1 {0}", description)
+                : string.Format("{0} {1}s", count, description);
+        }
+
+        private async Task PopulateImage()
+        {
+            if (Artist == null)
+                return;
+
+            LoadingArtistImage = true;
+            Artist.WebInfo = await _webArtistInfoService.PopulateArtistImages(Artist);
+            RaisePropertyChanged(nameof(ImageUrl));
+            LoadingArtistImage = false;
         }
 
         private void PopulateAlbums()
