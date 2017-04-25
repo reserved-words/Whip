@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Windows.Media.Imaging;
 using Whip.Common;
 using Whip.Common.Model;
 using Whip.Common.Utilities;
@@ -38,7 +39,9 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
         private ReleaseType _releaseType;
         private string _discCount;
 
-        private byte[] _artwork;
+        private byte[] _artworkBytes;
+        private BitmapImage _artwork;
+        private bool _loadingArtwork;
 
         public AlbumViewModel(DiscViewModel disc, IMessenger messenger, IWebAlbumInfoService albumInfoService,
             IImageProcessingService imageProcessingService, List<Artist> artists, Track track)
@@ -111,10 +114,16 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             }
         }
 
-        public byte[] Artwork
+        public BitmapImage Artwork
         {
             get { return _artwork; }
             set { SetModified(nameof(Artwork), ref _artwork, value); }
+        }
+
+        public bool LoadingArtwork
+        {
+            get { return _loadingArtwork; }
+            set { Set(ref _loadingArtwork, value); }
         }
 
         public void UpdateAlbum(Album album)
@@ -123,7 +132,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             album.Year = Year;
             album.ReleaseType = ReleaseType;
             album.DiscCount = Convert.ToInt16(DiscCount);
-            album.Artwork = Artwork;
+            album.Artwork = _artworkBytes;
         }
 
         [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
@@ -207,7 +216,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             ReleaseType = album?.ReleaseType ?? EnumHelpers.GetDefaultValue<ReleaseType>();
             Year = album?.Year ?? string.Empty;
             DiscCount = album?.DiscCount.ToString() ?? string.Empty;
-            Artwork = album?.Artwork;
+            UpdateArtwork(album?.Artwork);
 
             _disc.PopulateDiscDetails();
         }
@@ -219,7 +228,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
 
         private void OnClearArtwork()
         {
-            Artwork = null;
+            UpdateArtwork(null);
         }
 
         private void OnGetArtworkFromFile()
@@ -228,29 +237,30 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             _messenger.Send(fileDialogRequest);
             var result = fileDialogRequest.Result;
 
-            if (result != null)
-            {
-                Artwork = _imageProcessingService.GetImageBytesFromFile(result);
-            }
+            if (result == null)
+                return;
+
+            UpdateArtwork(_imageProcessingService.GetImageBytesFromFile(result));
         }
 
-        private void OnGetArtworkFromUrl()
+        private async void OnGetArtworkFromUrl()
         {
             var enterUrlModel = new EnterStringViewModel(_messenger, "Get Artwork", "Enter the URL for the artwork below", UrlValidation.IsValidArtworkUrl, "The value entered is not a valid image URL");
             _messenger.Send(new ShowDialogMessage(enterUrlModel));
             var result = enterUrlModel.Result;
 
-            if (result != null)
-            {
-                Artwork = _imageProcessingService.GetImageBytesFromUrl(result);
-            }
+            if (result == null)
+                return;
+
+            LoadingArtwork = true;
+            UpdateArtwork(await _imageProcessingService.GetImageBytesFromUrl(result));            
         }
 
         private async void OnGetArtworkFromWeb()
         {
+            LoadingArtwork = true;
             var result = await _webAlbumInfoService.GetArtworkUrl(ArtistName, Title);
-
-            Artwork = _imageProcessingService.GetImageBytesFromUrl(result);
+            UpdateArtwork(await _imageProcessingService.GetImageBytesFromUrl(result));
         }
 
         private void Populate(Track track)
@@ -262,6 +272,13 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
 
             PopulateAlbumArtistDetails();
             PopulateAlbumDetails();
+        }
+
+        private void UpdateArtwork(byte[] bytes)
+        {
+            _artworkBytes = bytes;
+            Artwork = _imageProcessingService.GetImageFromBytes(bytes);
+            LoadingArtwork = false;
         }
     }
 }

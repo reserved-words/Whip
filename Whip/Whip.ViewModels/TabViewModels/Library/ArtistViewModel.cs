@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Messaging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 using Whip.Common;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
@@ -12,12 +13,15 @@ namespace Whip.ViewModels.TabViewModels.Library
 {
     public class ArtistViewModel : ViewModelBase
     {
+        private readonly IImageProcessingService _imageProcessingService;
         private readonly IMessenger _messenger;
         private readonly ITrackFilterService _trackFilterService;
         private readonly IWebArtistInfoService _webArtistInfoService;
 
-        public ArtistViewModel(ITrackFilterService trackFilterService, IMessenger messenger, IWebArtistInfoService webArtistInfoService)
+        public ArtistViewModel(ITrackFilterService trackFilterService, IMessenger messenger, IWebArtistInfoService webArtistInfoService,
+            IImageProcessingService imageProcessingService)
         {
+            _imageProcessingService = imageProcessingService;
             _messenger = messenger;
             _trackFilterService = trackFilterService;
             _webArtistInfoService = webArtistInfoService;
@@ -25,6 +29,8 @@ namespace Whip.ViewModels.TabViewModels.Library
 
         private Artist _artist;
         private List<AlbumViewModel> _albums;
+
+        private BitmapImage _image;
         private bool _loadingArtistImage;
 
         public Artist Artist
@@ -52,10 +58,15 @@ namespace Whip.ViewModels.TabViewModels.Library
             set { Set(ref _albums, value); }
         }
 
+        public BitmapImage Image
+        {
+            get { return _image; }
+            private set { Set(ref _image, value); }
+        }
+
         public string NumberOfAlbums => Format(Artist?.Albums.Count, "album");
         public string NumberOfTracks => Format(Artist?.Tracks.Count, "track");
-        public string ImageUrl => Artist?.WebInfo.LargeImageUrl;
-
+        
         public void OnEditTrack(Track track)
         {
             _messenger.Send(new EditTrackMessage(track));
@@ -87,7 +98,7 @@ namespace Whip.ViewModels.TabViewModels.Library
 
             LoadingArtistImage = true;
             Artist.WebInfo = await _webArtistInfoService.PopulateArtistImages(Artist);
-            RaisePropertyChanged(nameof(ImageUrl));
+            Image = await _imageProcessingService.GetImageFromUrl(Artist?.WebInfo.LargeImageUrl);
             LoadingArtistImage = false;
         }
 
