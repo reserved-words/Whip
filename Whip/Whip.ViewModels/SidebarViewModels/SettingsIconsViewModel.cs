@@ -51,7 +51,11 @@ namespace Whip.ViewModels.SidebarViewModels
 
         private void OnSwitchColour(CommandIcon commandIcon)
         {
-            // throw new NotImplementedException();
+            var standardColours = StandardColours.GetStandardColors();
+            var currentColourIndex = standardColours.IndexOf(_userSettings.MainColourRgb);
+            var nextColourIndex = currentColourIndex == standardColours.Count - 1 ? 0 : currentColourIndex + 1;
+            _userSettings.MainColourRgb = standardColours[nextColourIndex];
+            _userSettings.Save();
         }
 
         private void OnSettings(CommandIcon commandIcon)

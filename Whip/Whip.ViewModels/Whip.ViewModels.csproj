@@ -106,6 +106,7 @@
     <Compile Include="TabViewModels\BaseClasses\TabViewModelBase.cs" />
     <Compile Include="Utilities\CommandIcon.cs" />
     <Compile Include="Utilities\EditableViewModelBase.cs" />
+    <Compile Include="Utilities\StandardColours.cs" />
     <Compile Include="Utilities\TabType.cs" />
     <Compile Include="Utilities\TrackTimer.cs" />
     <Compile Include="Messages\ShowDialogMessage.cs" />
