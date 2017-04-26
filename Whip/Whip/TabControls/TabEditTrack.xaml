@@ -27,20 +27,24 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="*"
-                              MinWidth="200"/>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="10"/>
+                                  MinWidth="200"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"
-                              MaxWidth="500"/>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="10"/>
+                                  MaxWidth="500"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"
-                              MinWidth="200"/>
+                                  MinWidth="200"/>
                 <ColumnDefinition Width="10"/>
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="2" Style="{StaticResource VerticalLine}" />
-            <Border Grid.Column="5" Style="{StaticResource VerticalLine}" />
+            <Border Grid.Column="2" 
+                    Grid.Row="0"
+                    Style="{StaticResource VerticalLine}"
+                    Margin="10,5,10,0" />
+            <Border Grid.Column="4"
+                    Grid.Row="0"
+                    Style="{StaticResource VerticalLine}"
+                    Margin="10,5,10,0"/>
 
             <StackPanel Grid.Column="1">
                 <Grid DataContext="{Binding Track}">
@@ -119,7 +123,7 @@
                     </WrapPanel>
 
                     <Label Grid.Row="4" Grid.Column="0"
-                       Content="Add New Tag" />
+                           Content="Add New Tag" />
                     <ComboBox Grid.Row="4" Grid.Column="1"
                           HorizontalAlignment="Left"
                           Width="100"
@@ -287,7 +291,7 @@
                 </Grid>
             </StackPanel>
 
-            <StackPanel Grid.Column="4">
+            <StackPanel Grid.Column="3">
                 <Grid DataContext="{Binding Track.Disc.Album}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="120" />
@@ -441,7 +445,7 @@
                         Style="{StaticResource HoriztonalLine}" />
                 </Grid>
             </StackPanel>
-            <Grid Grid.Column="7"
+            <Grid Grid.Column="5"
               DataContext="{Binding Track}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>

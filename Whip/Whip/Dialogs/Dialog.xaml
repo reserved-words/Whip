@@ -28,10 +28,12 @@
             <local:EnterStringView />
         </DataTemplate>
     </Window.Resources>
-    <Grid>
-        <ContentControl Content="{Binding}"
+    <Border Style="{StaticResource ColourBorder}">
+        <Grid>
+            <ContentControl Content="{Binding}"
                         BorderThickness="0"
 			            Height="Auto"
 			            Width="Auto"/>
-    </Grid>
+        </Grid>
+    </Border>
 </Window>
