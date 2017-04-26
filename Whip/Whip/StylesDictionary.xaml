@@ -289,6 +289,13 @@
         </Setter>
     </Style>
 
+    <Style x:Key="ColourBorder" TargetType="Border">
+        <Setter Property="BorderBrush" Value="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="CornerRadius" Value="4" />
+    </Style>
     <Style x:Key="VerticalLine" TargetType="Border">
         <Setter Property="BorderBrush" Value="Silver" />
         <Setter Property="BorderThickness" Value="0 0 1 0" />

@@ -7,27 +7,28 @@
              xmlns:controls="clr-namespace:Whip.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel Height="380">
-        <DockPanel Margin="5,0">
-            <Label DockPanel.Dock="Left"
-                   Content="Currently Playing" />
-            <WrapPanel DockPanel.Dock="Right"
-                       HorizontalAlignment="Right">
-                <controls:Icon16 Icon="Heart"
-                                 Margin="5"
-                                 Cursor="Hand"
-                                 ToolTip="Click to Unlove Track"
-                                 Foreground="DarkRed"
-                                 Visibility="{Binding Loved, 
-                                    Converter={StaticResource BoolVisibilityConverter}, 
-                                    Mode=OneWay, 
-                                    UpdateSourceTrigger=PropertyChanged}">
-                    <Image.InputBindings>
-                        <MouseBinding Gesture="LeftClick"
+    <Border Style="{StaticResource ColourBorder}">
+        <StackPanel Height="380">
+            <DockPanel>
+                <Label DockPanel.Dock="Left"
+                       Content="Currently Playing" />
+                <WrapPanel DockPanel.Dock="Right"
+                           HorizontalAlignment="Right">
+                    <controls:Icon16 Icon="Heart"
+                                     Margin="5"
+                                     Cursor="Hand"
+                                     ToolTip="Click to Unlove Track"
+                                     Foreground="DarkRed"
+                                     Visibility="{Binding Loved, 
+                                        Converter={StaticResource BoolVisibilityConverter}, 
+                                        Mode=OneWay, 
+                                        UpdateSourceTrigger=PropertyChanged}">
+                        <Image.InputBindings>
+                            <MouseBinding Gesture="LeftClick"
                                       Command="{Binding UnloveTrackCommand}" />
-                    </Image.InputBindings>
-                </controls:Icon16>
-                <controls:Icon16 Icon="HeartOutline"
+                        </Image.InputBindings>
+                    </controls:Icon16>
+                    <controls:Icon16 Icon="HeartOutline"
                                  Margin="5"
                                  Cursor="Hand"
                                  ToolTip="Click to Love Track"
@@ -36,20 +37,21 @@
                                     Converter={StaticResource NegBoolVisibilityConverter}, 
                                     Mode=OneWay, 
                                     UpdateSourceTrigger=PropertyChanged}">
-                    <Image.InputBindings>
-                        <MouseBinding Gesture="LeftClick"
+                        <Image.InputBindings>
+                            <MouseBinding Gesture="LeftClick"
                                       Command="{Binding LoveTrackCommand}" />
-                    </Image.InputBindings>
-                </controls:Icon16>
-            </WrapPanel>
-        </DockPanel>
-        <Image Source="{Binding Track.Disc.Album.Artwork, Converter={StaticResource BytesToImageConverter}}"
-               Width="180"
-               Height="180"
-               Margin="10"/>
-        <Label Content="{Binding Track.Artist.Name}" />
-        <Label Content="{Binding Track.Title}" />
-        <Label Content="{Binding Track.Disc.Album.Title}" />
-        <Label Content="{Binding Track.Disc.Album.Year}" />
-    </StackPanel>
+                        </Image.InputBindings>
+                    </controls:Icon16>
+                </WrapPanel>
+            </DockPanel>
+            <Image Source="{Binding Track.Disc.Album.Artwork, Converter={StaticResource BytesToImageConverter}}"
+                   Width="200"
+                   Height="200"
+                   Margin="0, 10"/>
+            <Label Content="{Binding Track.Artist.Name}" />
+            <Label Content="{Binding Track.Title}" />
+            <Label Content="{Binding Track.Disc.Album.Title}" />
+            <Label Content="{Binding Track.Disc.Album.Year}" />
+        </StackPanel>
+    </Border>
 </UserControl>
