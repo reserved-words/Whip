@@ -23,6 +23,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
         private readonly IMessenger _messenger;
         private readonly IWebAlbumInfoService _webAlbumInfoService;
         private readonly IImageProcessingService _imageProcessingService;
+        private readonly IFileDialogService _fileDialogService;
 
         private readonly DiscViewModel _disc;
 
@@ -44,8 +45,9 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
         private bool _loadingArtwork;
 
         public AlbumViewModel(DiscViewModel disc, IMessenger messenger, IWebAlbumInfoService albumInfoService,
-            IImageProcessingService imageProcessingService, List<Artist> artists, Track track)
+            IImageProcessingService imageProcessingService, IFileDialogService fileDialogService, List<Artist> artists, Track track)
         {
+            _fileDialogService = fileDialogService;
             _imageProcessingService = imageProcessingService;
             _messenger = messenger;
             _webAlbumInfoService = albumInfoService;
@@ -233,9 +235,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
 
         private void OnGetArtworkFromFile()
         {
-            var fileDialogRequest = new ShowFileDialogRequest(FileType.Images);
-            _messenger.Send(fileDialogRequest);
-            var result = fileDialogRequest.Result;
+            var result = _fileDialogService.OpenFileDialog(FileType.Images);
 
             if (result == null)
                 return;

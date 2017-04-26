@@ -18,11 +18,11 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
         private string _discNo;
 
         public DiscViewModel(TrackViewModel trackViewModel, IMessenger messenger, IWebAlbumInfoService albumInfoService, IImageProcessingService imageProcessingService,
-            List<Artist> artists, Track track)
+            IFileDialogService fileDialogService, List<Artist> artists, Track track)
         {
             _track = trackViewModel;
 
-            Album = new AlbumViewModel(this, messenger, albumInfoService, imageProcessingService, artists, track);
+            Album = new AlbumViewModel(this, messenger, albumInfoService, imageProcessingService, fileDialogService, artists, track);
 
             Populate(track.Disc);
 

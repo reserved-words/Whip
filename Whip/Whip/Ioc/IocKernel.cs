@@ -30,7 +30,6 @@ namespace Whip.Ioc
             _kernel.Get<TrackChangeCoordinator>().Start();
             _kernel.Get<LibraryHandler>().Start();
             _kernel.Get<ShowTabRequestHandler>().Start();
-            _kernel.Get<FileDialogRequestHandler>().Start();
         }
 
         public static void StopMessageHandlers()
@@ -41,7 +40,6 @@ namespace Whip.Ioc
             _kernel.Get<TrackChangeCoordinator>().Stop();
             _kernel.Get<LibraryHandler>().Stop();
             _kernel.Get<ShowTabRequestHandler>().Stop();
-            _kernel.Get<FileDialogRequestHandler>().Stop();
         }
     }
 }

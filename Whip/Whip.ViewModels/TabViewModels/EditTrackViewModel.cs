@@ -16,6 +16,7 @@ namespace Whip.ViewModels.TabViewModels
     public class EditTrackViewModel : EditableTabViewModelBase
     {
         private readonly Common.Singletons.Library _library;
+        private readonly IFileDialogService _fileDialogService;
         private readonly IImageProcessingService _imageProcessingService;
         private readonly IMessenger _messenger;
         private readonly IWebAlbumInfoService _webAlbumInfoService;
@@ -27,11 +28,13 @@ namespace Whip.ViewModels.TabViewModels
         private Track _editedTrack;
         
         public EditTrackViewModel(Common.Singletons.Library library, IMessenger messenger, IWebAlbumInfoService webAlbumInfoService,
-             ITrackUpdateService trackUpdateService, IImageProcessingService imageProcessingService, IWebBrowserService webBrowserService)
+             ITrackUpdateService trackUpdateService, IImageProcessingService imageProcessingService, IWebBrowserService webBrowserService,
+             IFileDialogService fileDialogService)
             : base(TabType.EditTrack, IconType.Edit, "Edit Track", false)
         {
             _library = library;
 
+            _fileDialogService = fileDialogService;
             _imageProcessingService = imageProcessingService;
             _messenger = messenger;
             _trackUpdateService = trackUpdateService;
@@ -94,7 +97,7 @@ namespace Whip.ViewModels.TabViewModels
 
             var tags = artists.SelectMany(a => a.Tracks).SelectMany(t => t.Tags).Distinct().OrderBy(t => t).ToList();
 
-            Track = new TrackViewModel(this, _messenger, _webAlbumInfoService, _imageProcessingService, _webBrowserService, artists, tags, track);
+            Track = new TrackViewModel(this, _messenger, _webAlbumInfoService, _imageProcessingService, _webBrowserService, _fileDialogService, artists, tags, track);
         }
 
         protected override bool CustomCancel()

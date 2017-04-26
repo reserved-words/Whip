@@ -1,16 +1,17 @@
-﻿using GalaSoft.MvvmLight.Messaging;
+﻿using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using Whip.Common;
 using Whip.Services.Interfaces;
-using Whip.ViewModels.Messages;
 using Whip.ViewModels.Utilities;
 
 namespace Whip.ViewModels.TabViewModels
 {
     public class SettingsViewModel : EditableTabViewModelBase
     {
-        private readonly IUserSettings _userSettings;
+        private readonly IFolderDialogService _folderDialogService;
         private readonly IMessenger _messenger;
-
+        private readonly IUserSettings _userSettings;
+        
         private string _lastFmUsername;
         private string _lastFmApiKey;
         private string _lastFmApiSecret;
@@ -19,14 +20,19 @@ namespace Whip.ViewModels.TabViewModels
         private bool _scrobbling;
         private bool _shuffleOn;
 
-        public SettingsViewModel(IUserSettings userSettings, IMessenger messenger)
+        public SettingsViewModel(IUserSettings userSettings, IMessenger messenger, IFolderDialogService folderDialogService)
             :base(TabType.Settings, IconType.Cog, "Settings", false) 
         {
-            _userSettings = userSettings;
+            _folderDialogService = folderDialogService;
             _messenger = messenger;
+            _userSettings = userSettings;
+
+            SetMusicDirectoryCommand = new RelayCommand(OnSetMusicDirectory);
 
             Reset();
         }
+
+        public RelayCommand SetMusicDirectoryCommand { get; private set; }
 
         public string LastFmUsername
         {
@@ -70,6 +76,19 @@ namespace Whip.ViewModels.TabViewModels
             set { SetModified(nameof(ShuffleOn), ref _shuffleOn, value); }
         }
 
+        public void Reset()
+        {
+            LastFmUsername = _userSettings.LastFmUsername;
+            LastFmApiKey = _userSettings.LastFmApiKey;
+            LastFmApiSecret = _userSettings.LastFmApiSecret;
+            MusicDirectory = _userSettings.MusicDirectory;
+            MainColourRgb = _userSettings.MainColourRgb;
+            Scrobbling = _userSettings.Scrobbling;
+            ShuffleOn = _userSettings.ShuffleOn;
+
+            Modified = false;
+        }
+
         protected override bool CustomSave()
         {
             _userSettings.LastFmUsername = LastFmUsername;
@@ -92,17 +111,13 @@ namespace Whip.ViewModels.TabViewModels
             return true;
         }
 
-        public void Reset()
+        private void OnSetMusicDirectory()
         {
-            LastFmUsername = _userSettings.LastFmUsername;
-            LastFmApiKey = _userSettings.LastFmApiKey;
-            LastFmApiSecret = _userSettings.LastFmApiSecret;
-            MusicDirectory = _userSettings.MusicDirectory;
-            MainColourRgb = _userSettings.MainColourRgb;
-            Scrobbling = _userSettings.Scrobbling;
-            ShuffleOn = _userSettings.ShuffleOn;
-
-            Modified = false;
+            var selectedDirectory = _folderDialogService.OpenFolderDialog(MusicDirectory);
+            if (selectedDirectory != null)
+            {
+                MusicDirectory = selectedDirectory;
+            }
         }
     }
 }

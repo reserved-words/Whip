@@ -80,7 +80,6 @@
     <Compile Include="Messages\PlayNextMessage.cs" />
     <Compile Include="Messages\PlayPreviousMessage.cs" />
     <Compile Include="Messages\ResumePlayerMessage.cs" />
-    <Compile Include="Messages\ShowFileDialogRequest.cs" />
     <Compile Include="Messages\SkipPlayerMessage.cs" />
     <Compile Include="SidebarViewModels\CurrentTrackMiniViewModel.cs" />
     <Compile Include="SidebarViewModels\SettingsIconsViewModel.cs" />

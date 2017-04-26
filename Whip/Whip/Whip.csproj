@@ -63,6 +63,10 @@
       <HintPath>..\packages\NLog.4.4.6\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Ookii.Dialogs.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0c15020868fd6249, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ookii.Dialogs.1.0\lib\net35\Ookii.Dialogs.Wpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -134,8 +138,8 @@
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MessageHandlers\DialogMessageHandler.cs" />
-    <Compile Include="MessageHandlers\FileDialogRequestHandler.cs" />
     <Compile Include="Services\ExceptionHandlingService.cs" />
+    <Compile Include="Services\FolderDialogService.cs" />
     <Compile Include="Services\FileDialogService.cs" />
     <Compile Include="Services\UserSettings.cs" />
     <Compile Include="SidebarViews\CurrentTrackMiniView.xaml.cs">

@@ -27,10 +27,10 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
         private bool _syncArtistNames;
 
         public TrackViewModel(EditTrackViewModel parent, IMessenger messenger, IWebAlbumInfoService albumInfoService, IImageProcessingService imageProcessingService,
-            IWebBrowserService webBrowserService, List<Artist> artists, List<string> tags, Track track)
+            IWebBrowserService webBrowserService, IFileDialogService fileDialogService, List<Artist> artists, List<string> tags, Track track)
         {
             Artist = new ArtistViewModel(this, artists, track.Artist, webBrowserService);
-            Disc = new DiscViewModel(this, messenger, albumInfoService, imageProcessingService, artists, track);
+            Disc = new DiscViewModel(this, messenger, albumInfoService, imageProcessingService, fileDialogService, artists, track);
 
             RemoveTagCommand = new RelayCommand<string>(OnRemoveTag);
 

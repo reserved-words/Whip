@@ -51,6 +51,7 @@
     <Compile Include="Library\ILibraryDataOrganiserService.cs" />
     <Compile Include="Library\IDataPersistenceService.cs" />
     <Compile Include="Utilities\IExceptionHandlingService.cs" />
+    <Compile Include="Utilities\IFolderDialogService.cs" />
     <Compile Include="Utilities\IFileDialogService.cs" />
     <Compile Include="Utilities\IFileService.cs" />
     <Compile Include="Library\ILibraryService.cs" />

@@ -55,6 +55,7 @@ namespace Whip.Ioc
             Bind<IScrobblingRulesService>().To<ScrobblingRulesService>().InTransientScope();
             Bind<ILibrarySortingService>().To<LibrarySortingService>().InTransientScope();
             Bind<IFileDialogService>().To<FileDialogService>().InTransientScope();
+            Bind<IFolderDialogService>().To<FolderDialogService>().InTransientScope();
             Bind<ITrackUpdateService>().To<TrackUpdateService>().InTransientScope();
             Bind<IImageProcessingService>().To<ImageProcessingService>().InTransientScope();
             Bind<IWebBrowserService>().To<WebBrowserService>().InTransientScope();
@@ -92,7 +93,6 @@ namespace Whip.Ioc
             Bind<TrackChangeCoordinator>().ToSelf().InSingletonScope();
             Bind<LibraryHandler>().ToSelf().InSingletonScope();
             Bind<ShowTabRequestHandler>().ToSelf().InSingletonScope();
-            Bind<FileDialogRequestHandler>().ToSelf().InSingletonScope();
 
             Bind<IPlayerUpdate>().ToMethod(ctx => ctx.Kernel.Get<TrackChangeCoordinator>());
             Bind<IShowTabRequestHandler>().ToMethod(ctx => ctx.Kernel.Get<ShowTabRequestHandler>());
