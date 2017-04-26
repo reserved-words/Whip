@@ -54,6 +54,7 @@
                                       ItemsSource="{Binding Source={StaticResource TracksGrouped}}"
                                       HeadersVisibility="None"
                                       BorderThickness="0"
+                                      SelectionMode="Single"
                                       SelectedItem="{Binding SelectedTrack, Mode=TwoWay}">
                                 <DataGrid.GroupStyle>
                                     <GroupStyle>
