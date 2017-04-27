@@ -36,6 +36,9 @@ namespace LastFmApi.Methods.Artist
                     case "large":
                         artistInfo.LargeImageUrl = image.Value.Trim();
                         break;
+                    case "mega":
+                        artistInfo.ExtraLargeImageUrl = image.Value.Trim();
+                        break;
                 }
             }
 

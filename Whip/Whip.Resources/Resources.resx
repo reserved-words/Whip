@@ -123,6 +123,12 @@
   <data name="ApplicationTitle" xml:space="preserve">
     <value>Whip</value>
   </data>
+  <data name="BandCampUrl" xml:space="preserve">
+    <value>https://{0}.bandcamp.com/</value>
+  </data>
+  <data name="BandsInTownUrl" xml:space="preserve">
+    <value>https://www.bandsintown.com/{0}</value>
+  </data>
   <data name="FacebookUrl" xml:space="preserve">
     <value>https://facebook.com/{0}</value>
   </data>
@@ -149,5 +155,8 @@
   </data>
   <data name="WikipediaUrl" xml:space="preserve">
     <value>https://en.wikipedia.org/wiki/{0}</value>
+  </data>
+  <data name="YouTubeUrl" xml:space="preserve">
+    <value>https://www.youtube.com/user/{0}</value>
   </data>
 </root>

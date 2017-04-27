@@ -38,6 +38,9 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
         private string _facebook;
         private string _lastFm;
         private string _wikipedia;
+        private string _youTube;
+        private string _bandCamp;
+        private string _bandsInTown;
 
         public ArtistViewModel(TrackViewModel parent, List<Artist> artists, Artist artist, IWebBrowserService webBrowserService)
         {
@@ -51,6 +54,9 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             TestTwitterCommand = new RelayCommand(OnTestTwitter, CanTestTwitter);
             TestWikipediaCommand = new RelayCommand(OnTestWikipedia, CanTestWikipedia);
             TestLastFmCommand = new RelayCommand(OnTestLastFm, CanTestLastFm);
+            TestYouTubeCommand = new RelayCommand(OnTestYouTube, CanTestYouTube);
+            TestBandCampCommand = new RelayCommand(OnTestBandCamp, CanTestBandCamp);
+            TestBandsInTownCommand = new RelayCommand(OnTestBandsInTown, CanTestBandsInTown);
 
             Populate(artist);
 
@@ -63,12 +69,18 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
         public string TwitterUrl => string.Format(Resources.Resources.TwitterUrl, Twitter);
         public string WikipediaUrl => string.Format(Resources.Resources.WikipediaUrl, Wikipedia);
         public string LastFmUrl => string.Format(Resources.Resources.LastFmUrl, LastFm);
+        public string YouTubeUrl => string.Format(Resources.Resources.YouTubeUrl, YouTube);
+        public string BandCampUrl => string.Format(Resources.Resources.BandCampUrl, BandCamp);
+        public string BandsInTownUrl => string.Format(Resources.Resources.BandsInTownUrl, BandsInTown);
 
         public RelayCommand TestWebsiteCommand { get; private set; }
         public RelayCommand TestFacebookCommand { get; private set; }
         public RelayCommand TestTwitterCommand { get; private set; }
         public RelayCommand TestWikipediaCommand { get; private set; }
         public RelayCommand TestLastFmCommand { get; private set; }
+        public RelayCommand TestYouTubeCommand { get; private set; }
+        public RelayCommand TestBandCampCommand { get; private set; }
+        public RelayCommand TestBandsInTownCommand { get; private set; }
 
         public List<Artist> Artists
         {
@@ -199,6 +211,45 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             }
         }
 
+        [YouTubeUsername]
+        [Display(Name = "YouTube Username")]
+        public string YouTube
+        {
+            get { return _youTube; }
+            set
+            {
+                SetModified(nameof(YouTube), ref _youTube, value);
+                TestYouTubeCommand.RaiseCanExecuteChanged();
+                RaisePropertyChanged(nameof(YouTubeUrl));
+            }
+        }
+
+        [PartialUrlString]
+        [Display(Name = "Bands In Town Identifier")]
+        public string BandsInTown
+        {
+            get { return _bandsInTown; }
+            set
+            {
+                SetModified(nameof(BandsInTown), ref _bandsInTown, value);
+                TestBandsInTownCommand.RaiseCanExecuteChanged();
+                RaisePropertyChanged(nameof(BandsInTownUrl));
+            }
+        }
+
+        [PartialUrlString]
+        [Display(Name = "BandCamp Identifier")]
+        public string BandCamp
+        {
+            get { return _bandCamp; }
+            set
+            {
+                SetModified(nameof(BandCamp), ref _bandCamp, value);
+                TestBandCampCommand.RaiseCanExecuteChanged();
+                RaisePropertyChanged(nameof(BandCampUrl));
+            }
+        }
+
         [FacebookUsername]
         [Display(Name = "Facebook Username")]
         public string Facebook
@@ -213,7 +264,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
         }
 
         [PartialUrlString]
-        [Display(Name = "Artist Last.FM page")]
+        [Display(Name = "Last.FM Identifier")]
         public string LastFm
         {
             get { return _lastFm; }
@@ -226,7 +277,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
         }
 
         [PartialUrlString]
-        [Display(Name = "Artist Wikipedia page")]
+        [Display(Name = "Wikipedia Identifier")]
         public string Wikipedia
         {
             get { return _wikipedia; }
@@ -264,6 +315,9 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             artist.Twitter = Twitter;
             artist.Wikipedia = Wikipedia;
             artist.LastFm = LastFm;
+            artist.YouTube = YouTube;
+            artist.BandsInTown = BandsInTown;
+            artist.BandCamp = BandCamp;
 
             track.Artist = artist;
         }
@@ -293,6 +347,21 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             return !string.IsNullOrEmpty(Wikipedia) && string.IsNullOrEmpty(this[nameof(Wikipedia)]);
         }
 
+        private bool CanTestYouTube()
+        {
+            return !string.IsNullOrEmpty(YouTube) && string.IsNullOrEmpty(this[nameof(YouTube)]);
+        }
+
+        private bool CanTestBandCamp()
+        {
+            return !string.IsNullOrEmpty(BandCamp) && string.IsNullOrEmpty(this[nameof(BandCamp)]);
+        }
+
+        private bool CanTestBandsInTown()
+        {
+            return !string.IsNullOrEmpty(BandsInTown) && string.IsNullOrEmpty(this[nameof(BandsInTown)]);
+        }
+
         private void OnTestFacebook()
         {
             _webBrowserService.Open(FacebookUrl);
@@ -318,6 +387,20 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             _webBrowserService.Open(WikipediaUrl);
         }
 
+        private void OnTestYouTube()
+        {
+            _webBrowserService.Open(YouTubeUrl);
+        }
+
+        private void OnTestBandCamp()
+        {
+            _webBrowserService.Open(BandCampUrl);
+        }
+
+        private void OnTestBandsInTown()
+        {
+            _webBrowserService.Open(BandsInTownUrl);
+        }
         private void Populate(Artist artist)
         {
             PopulateOptionLists();
@@ -346,6 +429,9 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             Twitter = artist?.Twitter ?? string.Empty;
             Wikipedia = artist?.Wikipedia ?? string.Empty;
             LastFm = artist?.LastFm ?? string.Empty;
+            YouTube = artist?.YouTube ?? string.Empty;
+            BandCamp = artist?.BandCamp ?? string.Empty;
+            BandsInTown = artist?.BandsInTown ?? string.Empty;
         }
 
         private void PopulateCityList()

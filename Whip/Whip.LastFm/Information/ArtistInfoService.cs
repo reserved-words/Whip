@@ -25,6 +25,7 @@ namespace Whip.LastFm
                 artist.WebInfo.SmallImageUrl = info.SmallImageUrl;
                 artist.WebInfo.MediumImageUrl = info.MediumImageUrl;
                 artist.WebInfo.LargeImageUrl = info.LargeImageUrl;
+                artist.WebInfo.ExtraLargeImageUrl = info.ExtraLargeImageUrl;
             }
 
             return artist.WebInfo;
@@ -34,7 +35,8 @@ namespace Whip.LastFm
         {
             return !string.IsNullOrEmpty(webInfo.SmallImageUrl)
                 || !string.IsNullOrEmpty(webInfo.MediumImageUrl)
-                || !string.IsNullOrEmpty(webInfo.LargeImageUrl);
+                || !string.IsNullOrEmpty(webInfo.LargeImageUrl)
+                || !string.IsNullOrEmpty(webInfo.ExtraLargeImageUrl);
         }
     }
 }

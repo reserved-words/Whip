@@ -24,6 +24,9 @@ namespace Whip.Common.Model
         public string Facebook { get; set; }
         public string LastFm { get; set; }
         public string Wikipedia { get; set; }
+        public string YouTube { get; set; }
+        public string BandCamp { get; set; }
+        public string BandsInTown { get; set; }
 
         public ArtistWebInfo WebInfo { get; set; }
         public List<Album> Albums { get; set; }

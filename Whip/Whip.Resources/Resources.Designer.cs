@@ -79,6 +79,24 @@ namespace Whip.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to https://{0}.bandcamp.com/.
+        /// </summary>
+        public static string BandCampUrl {
+            get {
+                return ResourceManager.GetString("BandCampUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://www.bandsintown.com/{0}.
+        /// </summary>
+        public static string BandsInTownUrl {
+            get {
+                return ResourceManager.GetString("BandsInTownUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://facebook.com/{0}.
         /// </summary>
         public static string FacebookUrl {
@@ -156,6 +174,15 @@ namespace Whip.Resources {
         public static string WikipediaUrl {
             get {
                 return ResourceManager.GetString("WikipediaUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://www.youtube.com/user/{0}.
+        /// </summary>
+        public static string YouTubeUrl {
+            get {
+                return ResourceManager.GetString("YouTubeUrl", resourceCulture);
             }
         }
     }

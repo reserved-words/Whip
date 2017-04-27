@@ -32,7 +32,24 @@
                 <Image Source="/Images/twitter.png"
                        Style="{StaticResource Icon32}"/>
             </controls:HyperlinkLabel>
-
+            <controls:HyperlinkLabel Username="{Binding YouTube}" 
+                                     UrlFormat="{x:Static res:Resources.YouTubeUrl}"
+                                     Visibility="{Binding YouTube, Converter={StaticResource StringVisibilityConverter}}">
+                <Image Source="/Images/youtube.png"
+                       Style="{StaticResource Icon32}"/>
+            </controls:HyperlinkLabel>
+            <controls:HyperlinkLabel Username="{Binding BandsInTown}" 
+                                     UrlFormat="{x:Static res:Resources.BandsInTownUrl}"
+                                     Visibility="{Binding BandsInTown, Converter={StaticResource StringVisibilityConverter}}">
+                <Image Source="/Images/bandsintown.ico"
+                       Style="{StaticResource Icon32}"/>
+            </controls:HyperlinkLabel>
+            <controls:HyperlinkLabel Username="{Binding BandCamp}" 
+                                     UrlFormat="{x:Static res:Resources.BandCampUrl}"
+                                     Visibility="{Binding BandCamp, Converter={StaticResource StringVisibilityConverter}}">
+                <Image Source="/Images/bandcamp.png"
+                       Style="{StaticResource Icon32}"/>
+            </controls:HyperlinkLabel>
 
         </WrapPanel>
         <controls:HyperlinkLabel Url="{Binding Website}" 

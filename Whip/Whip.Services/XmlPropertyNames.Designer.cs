@@ -106,6 +106,24 @@ namespace Whip.Services {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to bandcamp.
+        /// </summary>
+        internal static string BandCamp {
+            get {
+                return ResourceManager.GetString("BandCamp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to bands_in_town.
+        /// </summary>
+        internal static string BandsInTown {
+            get {
+                return ResourceManager.GetString("BandsInTown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to city.
         /// </summary>
         internal static string City {
@@ -390,6 +408,15 @@ namespace Whip.Services {
         internal static string Year {
             get {
                 return ResourceManager.GetString("Year", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to youtube.
+        /// </summary>
+        internal static string YouTube {
+            get {
+                return ResourceManager.GetString("YouTube", resourceCulture);
             }
         }
     }

@@ -157,6 +157,9 @@ namespace Whip.Services
                 Facebook = xml.GetAttribute(XmlPropertyNames.Facebook),
                 LastFm = xml.GetAttribute(XmlPropertyNames.LastFm),
                 Wikipedia = xml.GetAttribute(XmlPropertyNames.Wikipedia),
+                YouTube = xml.GetAttribute(XmlPropertyNames.YouTube),
+                BandCamp = xml.GetAttribute(XmlPropertyNames.BandCamp),
+                BandsInTown = xml.GetAttribute(XmlPropertyNames.BandsInTown),
                 City = new City(xml.GetAttribute(XmlPropertyNames.City), xml.GetAttribute(XmlPropertyNames.State), xml.GetAttribute(XmlPropertyNames.Country))
             };
         }
@@ -216,6 +219,9 @@ namespace Whip.Services
             xml.AddAttribute(XmlPropertyNames.Facebook, artist.Facebook);
             xml.AddAttribute(XmlPropertyNames.LastFm, artist.LastFm);
             xml.AddAttribute(XmlPropertyNames.Wikipedia, artist.Wikipedia);
+            xml.AddAttribute(XmlPropertyNames.YouTube, artist.YouTube);
+            xml.AddAttribute(XmlPropertyNames.BandCamp, artist.BandCamp);
+            xml.AddAttribute(XmlPropertyNames.BandsInTown, artist.BandsInTown);
             xml.AddAttribute(XmlPropertyNames.City, artist.City.Name);
             xml.AddAttribute(XmlPropertyNames.State, artist.City.State);
             xml.AddAttribute(XmlPropertyNames.Country, artist.City.Country);

@@ -21,6 +21,10 @@ namespace Whip.Services
         private const string Facebook = "facebook";
         private const string LastFm = "lastfm";
         private const string Wikipedia = "wikipedia";
+        private const string YouTube = "youtube";
+        private const string BandsInTown = "bands_in_town";
+        private const string BandCamp = "bandcamp";
+
         private const char TagDelimiter = '|';
 
         public string GenerateComment(Track track)
@@ -40,6 +44,9 @@ namespace Whip.Services
             root.Add(new XElement(Facebook, track.Artist.Facebook));
             root.Add(new XElement(LastFm, track.Artist.LastFm));
             root.Add(new XElement(Wikipedia, track.Artist.Wikipedia));
+            root.Add(new XElement(YouTube, track.Artist.Wikipedia));
+            root.Add(new XElement(BandsInTown, track.Artist.Wikipedia));
+            root.Add(new XElement(BandCamp, track.Artist.Wikipedia));
 
             return xml.ToString();
         }
@@ -72,16 +79,24 @@ namespace Whip.Services
                 artist.Facebook = xml.Root.GetValue(Facebook);
                 artist.LastFm = xml.Root.GetValue(LastFm);
                 artist.Wikipedia = xml.Root.GetValue(Wikipedia);
+                artist.YouTube = xml.Root.GetValue(YouTube);
+                artist.BandCamp = xml.Root.GetValue(BandCamp);
+                artist.BandsInTown = xml.Root.GetValue(BandsInTown);
             }
-                
+
+            if (string.IsNullOrEmpty(artist.BandsInTown))
+            {
+                artist.BandsInTown = GetBandsInTownIdentifier(artist.Name);
+            }
+
             if (string.IsNullOrEmpty(artist.Wikipedia))
             {
-                artist.Wikipedia = GetWikipediaString(artist.Name);
+                artist.Wikipedia = GetWikipediaIdentifier(artist.Name);
             }
 
             if (string.IsNullOrEmpty(artist.LastFm))
             {
-                artist.LastFm = GetLastFmString(artist.Name);
+                artist.LastFm = GetLastFmIdentifier(artist.Name);
             }
         }
 
@@ -99,13 +114,17 @@ namespace Whip.Services
             }
         }
 
+        private string GetBandsInTownIdentifier(string str)
+        {
+            return str.Replace(" ", "");
+        }
 
-        private string GetLastFmString(string str)
+        private string GetLastFmIdentifier(string str)
         {
             return str.Replace(" ", "+").Replace("'", "%27");
         }
 
-        private string GetWikipediaString(string str)
+        private string GetWikipediaIdentifier(string str)
         {
             return str.Replace(" ", "_").Replace("&", "%26").Replace("'", "%27");
         }

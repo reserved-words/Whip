@@ -228,4 +228,13 @@
   <data name="Wikipedia" xml:space="preserve">
     <value>wikipedia</value>
   </data>
+  <data name="BandCamp" xml:space="preserve">
+    <value>bandcamp</value>
+  </data>
+  <data name="BandsInTown" xml:space="preserve">
+    <value>bands_in_town</value>
+  </data>
+  <data name="YouTube" xml:space="preserve">
+    <value>youtube</value>
+  </data>
 </root>

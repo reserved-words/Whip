@@ -98,7 +98,7 @@ namespace Whip.ViewModels.TabViewModels.Library
 
             LoadingArtistImage = true;
             Artist.WebInfo = await _webArtistInfoService.PopulateArtistImages(Artist);
-            Image = await _imageProcessingService.GetImageFromUrl(Artist?.WebInfo.LargeImageUrl);
+            Image = await _imageProcessingService.GetImageFromUrl(Artist?.WebInfo.ExtraLargeImageUrl);
             LoadingArtistImage = false;
         }
 
