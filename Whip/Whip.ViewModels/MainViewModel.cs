@@ -19,7 +19,7 @@ namespace Whip.ViewModels
 
         private readonly IMessenger _messenger;
         private readonly EditTrackViewModel _editTrackViewModel;
-        private readonly SettingsViewModel _settingsViewModel;
+        private readonly EditSettingsViewModel _settingsViewModel;
 
         private readonly TabViewModelBase _defaultViewModel;
 
@@ -40,7 +40,7 @@ namespace Whip.ViewModels
             NewsViewModel newsViewModel,
             SearchViewModel searchViewModel,
             ArchiveViewModel archiveViewModel,
-            SettingsViewModel settingsViewModel,
+            EditSettingsViewModel settingsViewModel,
             EditTrackViewModel editTrackViewModel,
             IMessenger messenger,
             IShowTabRequestHandler showTabRequester)

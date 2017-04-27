@@ -1,17 +1,24 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using System;
 using Whip.Common;
+using Whip.ViewModels.Messages;
 using Whip.ViewModels.Utilities;
+using Whip.ViewModels.Windows;
 
 namespace Whip.ViewModels.TabViewModels
 {
     public abstract class EditableTabViewModelBase : TabViewModelBase
     {
+        private readonly IMessenger _messenger;
+
         private bool _modified;
 
-        public EditableTabViewModelBase(TabType tabType, IconType icon, string title, bool visible = true)
+        public EditableTabViewModelBase(TabType tabType, IconType icon, string title, IMessenger messenger, bool visible = true)
             :base(tabType, icon, title, visible)
         {
+            _messenger = messenger;
+
             CancelCommand = new RelayCommand(OnCancel);
             SaveCommand = new RelayCommand(OnSave);
         }
@@ -20,7 +27,7 @@ namespace Whip.ViewModels.TabViewModels
 
         public RelayCommand CancelCommand { get; private set; }
         public RelayCommand SaveCommand { get; private set; }
-
+        
         public virtual bool Modified
         {
             get { return _modified; }
@@ -35,6 +42,8 @@ namespace Whip.ViewModels.TabViewModels
             OnFinish();
         }
 
+        protected abstract string ErrorMessage { get; }
+
         protected abstract bool CustomCancel();
 
         public void OnFinish()
@@ -45,6 +54,9 @@ namespace Whip.ViewModels.TabViewModels
 
         private void OnSave()
         {
+            if (!Validate())
+                return;
+
             if (!CustomSave())
                 return;
 
@@ -57,6 +69,19 @@ namespace Whip.ViewModels.TabViewModels
         {
             Set(propertyName, ref property, value);
             Modified = true;
+        }
+
+        private bool Validate()
+        {
+            if (!string.IsNullOrEmpty(ErrorMessage))
+            {
+                var errorMessage = string.Format("Please resolve the following validation errors:{0}{0}{1}", Environment.NewLine, ErrorMessage);
+                var messageViewModel = new MessageViewModel(_messenger, "Validation Error", errorMessage);
+                _messenger.Send(new ShowDialogMessage(messageViewModel));
+                return false;
+            }
+
+            return true;
         }
     }
 }

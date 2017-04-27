@@ -1,14 +1,11 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
-using System;
 using System.Linq;
 using Whip.Common;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
-using Whip.ViewModels.Messages;
 using Whip.ViewModels.TabViewModels.EditTrack;
 using Whip.ViewModels.Utilities;
-using Whip.ViewModels.Windows;
 using static Whip.Resources.Resources;
 
 namespace Whip.ViewModels.TabViewModels
@@ -30,7 +27,7 @@ namespace Whip.ViewModels.TabViewModels
         public EditTrackViewModel(Common.Singletons.Library library, IMessenger messenger, IWebAlbumInfoService webAlbumInfoService,
              ITrackUpdateService trackUpdateService, IImageProcessingService imageProcessingService, IWebBrowserService webBrowserService,
              IFileDialogService fileDialogService)
-            : base(TabType.EditTrack, IconType.Edit, "Edit Track", false)
+            : base(TabType.EditTrack, IconType.Edit, "Edit Track", messenger, false)
         {
             _library = library;
 
@@ -88,6 +85,8 @@ namespace Whip.ViewModels.TabViewModels
             set { Set(ref _track, value); }
         }
 
+        protected override string ErrorMessage => Track?.Error;
+
         public void Edit(Track track)
         {
             _editedTrack = track;
@@ -107,9 +106,6 @@ namespace Whip.ViewModels.TabViewModels
 
         protected override bool CustomSave()
         {
-            if (!Validate())
-                return false;
-
             var originalArtist = _editedTrack.Artist;
             var originalDisc = _editedTrack.Disc;
 
@@ -123,21 +119,6 @@ namespace Whip.ViewModels.TabViewModels
         private void OnLyricsWebSearch()
         {
             _webBrowserService.OpenSearch(Track.Artist.Name, Track.Title, "lyrics");
-        }
-
-        private bool Validate()
-        {
-            var errorMessage = Track.Error; 
-            
-            if (!string.IsNullOrEmpty(errorMessage))
-            {
-                errorMessage = string.Format("Please resolve the following validation errors:{0}{0}{1}", Environment.NewLine, errorMessage);
-                var messageViewModel = new MessageViewModel(_messenger, "Validation Error", errorMessage);
-                _messenger.Send(new ShowDialogMessage(messageViewModel));
-                return false;
-            }
-
-            return true;
         }
     }
 }

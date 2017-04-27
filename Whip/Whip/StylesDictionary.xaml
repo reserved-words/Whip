@@ -24,7 +24,7 @@
     <DataTemplate DataType="{x:Type tabsvm:LibraryViewModel}">
         <local:TabLibrary />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type tabsvm:SettingsViewModel}">
+    <DataTemplate DataType="{x:Type tabsvm:EditSettingsViewModel}">
         <local:TabSettings />
     </DataTemplate>
     <DataTemplate DataType="{x:Type tabsvm:ArchiveViewModel}">

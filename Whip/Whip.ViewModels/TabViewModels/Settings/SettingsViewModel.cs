@@ -1,17 +1,16 @@
 ﻿using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
-using Whip.Common;
+using System.ComponentModel.DataAnnotations;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Utilities;
+using static Whip.Resources.Resources;
 
-namespace Whip.ViewModels.TabViewModels
+namespace Whip.ViewModels.TabViewModels.Settings
 {
-    public class SettingsViewModel : EditableTabViewModelBase
+    public class SettingsViewModel : EditableViewModelBase
     {
         private readonly IFolderDialogService _folderDialogService;
-        private readonly IMessenger _messenger;
         private readonly IUserSettings _userSettings;
-        
+
         private string _lastFmUsername;
         private string _lastFmApiKey;
         private string _lastFmApiSecret;
@@ -20,44 +19,50 @@ namespace Whip.ViewModels.TabViewModels
         private bool _scrobbling;
         private bool _shuffleOn;
 
-        public SettingsViewModel(IUserSettings userSettings, IMessenger messenger, IFolderDialogService folderDialogService)
-            :base(TabType.Settings, IconType.Cog, "Settings", false) 
+        public SettingsViewModel(IFolderDialogService folderDialogService, IUserSettings userSettings)
         {
-            _folderDialogService = folderDialogService;
-            _messenger = messenger;
-            _userSettings = userSettings;
-
             SetMusicDirectoryCommand = new RelayCommand(OnSetMusicDirectory);
 
-            Reset();
+            _folderDialogService = folderDialogService;
+            _userSettings = userSettings;
         }
 
         public RelayCommand SetMusicDirectoryCommand { get; private set; }
 
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [Display(Name = "Last.FM Username")]
         public string LastFmUsername
         {
             get { return _lastFmUsername; }
             set { SetModified(nameof(LastFmUsername), ref _lastFmUsername, value); }
         }
 
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [Display(Name = "Last.FM API Key")]
         public string LastFmApiKey
         {
             get { return _lastFmApiKey; }
             set { SetModified(nameof(LastFmApiKey), ref _lastFmApiKey, value); }
         }
 
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [Display(Name = "Last.FM API Secret")]
         public string LastFmApiSecret
         {
             get { return _lastFmApiSecret; }
             set { SetModified(nameof(LastFmApiSecret), ref _lastFmApiSecret, value); }
         }
 
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [Display(Name = "Main Colour")]
         public string MainColourRgb
         {
             get { return _mainColourRgb; }
             set { SetModified(nameof(MainColourRgb), ref _mainColourRgb, value); }
         }
 
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [Display(Name = "Music Directory")]
         public string MusicDirectory
         {
             get { return _musicDirectory; }
@@ -69,7 +74,7 @@ namespace Whip.ViewModels.TabViewModels
             get { return _scrobbling; }
             set { SetModified(nameof(Scrobbling), ref _scrobbling, value); }
         }
-        
+
         public bool ShuffleOn
         {
             get { return _shuffleOn; }
@@ -89,7 +94,7 @@ namespace Whip.ViewModels.TabViewModels
             Modified = false;
         }
 
-        protected override bool CustomSave()
+        public void Update()
         {
             _userSettings.LastFmUsername = LastFmUsername;
             _userSettings.LastFmApiKey = LastFmApiKey;
@@ -100,15 +105,6 @@ namespace Whip.ViewModels.TabViewModels
             _userSettings.ShuffleOn = ShuffleOn;
 
             _userSettings.Save();
-
-            return true;
-        }
-
-        protected override bool CustomCancel()
-        {
-            Reset();
-
-            return true;
         }
 
         private void OnSetMusicDirectory()

@@ -44,18 +44,19 @@ namespace Whip.Ioc
         private void BindServices()
         {
             Bind<ILoggingService>().To<LoggingService>().InTransientScope();
+            Bind<ITaggingService>().To<TagLibService>().InTransientScope();
+            Bind<IFileDialogService>().To<FileDialogService>().InTransientScope();
+            Bind<IFolderDialogService>().To<FolderDialogService>().InTransientScope();
+
             Bind<IExceptionHandlingService>().To<ExceptionHandlingService>().InTransientScope();
             Bind<IFileService>().To<FileService>().InTransientScope();
             Bind<ILibraryService>().To<LibraryService>().InTransientScope();
             Bind<ILibraryDataOrganiserService>().To<LibraryDataOrganiserService>().InTransientScope();
             Bind<IDataPersistenceService>().To<XmlDataPersistenceService>().InTransientScope();
-            Bind<ITaggingService>().To<TagLibService>().InTransientScope();
             Bind<ICommentProcessingService>().To<CommentProcessingService>().InTransientScope();
             Bind<ITrackFilterService>().To<TrackFilterService>().InTransientScope();
             Bind<IScrobblingRulesService>().To<ScrobblingRulesService>().InTransientScope();
             Bind<ILibrarySortingService>().To<LibrarySortingService>().InTransientScope();
-            Bind<IFileDialogService>().To<FileDialogService>().InTransientScope();
-            Bind<IFolderDialogService>().To<FolderDialogService>().InTransientScope();
             Bind<ITrackUpdateService>().To<TrackUpdateService>().InTransientScope();
             Bind<IImageProcessingService>().To<ImageProcessingService>().InTransientScope();
             Bind<IWebBrowserService>().To<WebBrowserService>().InTransientScope();

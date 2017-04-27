@@ -101,8 +101,9 @@
     <Compile Include="TabViewModels\LastFmViewModel.cs" />
     <Compile Include="TabViewModels\ArchiveViewModel.cs" />
     <Compile Include="TabViewModels\DashboardViewModel.cs" />
-    <Compile Include="TabViewModels\SettingsViewModel.cs" />
+    <Compile Include="TabViewModels\EditSettingsViewModel.cs" />
     <Compile Include="TabViewModels\BaseClasses\TabViewModelBase.cs" />
+    <Compile Include="TabViewModels\Settings\SettingsViewModel.cs" />
     <Compile Include="Utilities\CommandIcon.cs" />
     <Compile Include="Utilities\EditableViewModelBase.cs" />
     <Compile Include="Utilities\StandardColours.cs" />
