@@ -170,5 +170,16 @@ namespace Whip.TagLibSharp
                 ? exceptionalCorrections[joinedArtists]
                 : GetValue(firstArtist);
         }
+
+        public byte[] GetArtworkBytes(string filepath)
+        {
+            using (TagLib.File f = TagLib.File.Create(filepath))
+            {
+                TagLib.Id3v2.Tag.DefaultVersion = 3;
+                TagLib.Id3v2.Tag.ForceDefaultVersion = true;
+
+                return f.Tag.Pictures.Count() > 0 ? f.Tag.Pictures.First().Data.Data : null;
+            }
+        }
     }
 }

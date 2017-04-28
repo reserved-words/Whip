@@ -9,5 +9,7 @@ namespace Whip.Services.Interfaces
         BasicTrackId3Data GetBasicId3Data(string filepath);
 
         void SaveId3Data(string filepath, Id3Data data);
+
+        byte[] GetArtworkBytes(string filepath);
     }
 }

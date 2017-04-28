@@ -14,15 +14,17 @@ namespace Whip.Services
         private readonly ILibraryDataOrganiserService _libraryDataOrganiserService;
         private readonly ILibrarySortingService _librarySortingService;
         private readonly IDataPersistenceService _dataPersistenceService;
+        private readonly ITaggingService _taggingService;
         private readonly IUserSettings _userSettings;
 
-        public LibraryService(IFileService fileService, ILibraryDataOrganiserService libraryDataOrganiserService,
+        public LibraryService(IFileService fileService, ILibraryDataOrganiserService libraryDataOrganiserService, ITaggingService taggingService,
             IDataPersistenceService dataPersistenceService, IUserSettings userSettings, ILibrarySortingService librarySortingService)
         {
             _fileService = fileService;
             _libraryDataOrganiserService = libraryDataOrganiserService;
             _librarySortingService = librarySortingService;
             _dataPersistenceService = dataPersistenceService;
+            _taggingService = taggingService;
             _userSettings = userSettings;
         }
 
@@ -36,7 +38,7 @@ namespace Whip.Services
 
                 var libraryLastUpdated = library.LastUpdated;
 
-                var newUpdateDate = DateTime.Now;
+                library.LastUpdated = DateTime.Now;
 
                 progressHandler?.Report(new ProgressArgs(10, "Fetching files"));
 
@@ -46,25 +48,36 @@ namespace Whip.Services
 
                 _libraryDataOrganiserService.SyncTracks(library.Artists, files.ToKeep);
 
-                var numberOfTracks = files.AddedOrModified.Count;
+                var total = files.AddedOrModified.Count;
                 var count = 0;
+                var range = 80 - 30;
 
                 foreach (var file in files.AddedOrModified)
                 {
-                    var percentage = 30 + ((80 - 30) * count / numberOfTracks);
-
-                    progressHandler?.Report(new ProgressArgs(percentage, "Adding new and modified files"));
+                    progressHandler?.Report(new ProgressArgs(30 + (range * count / total), "Adding new and modified files"));
 
                     _libraryDataOrganiserService.AddTrack(file.FullPath, file, library.Artists);
 
                     count++;
                 }
 
-                progressHandler?.Report(new ProgressArgs(80, "Setting release type groupings"));
+                var albums = library.Artists.SelectMany(a => a.Albums).ToList();
 
-                foreach (var album in library.Artists.SelectMany(a => a.Albums))
+                total = albums.Count;
+                count = 0;
+                range = 90 - 80;
+
+                foreach (var album in albums)
                 {
+                    progressHandler?.Report(new ProgressArgs(80 + (range * count / total), "Setting artwork and release type groupings"));
+
+                    if (album.Artwork == null)
+                    {
+                        album.Artwork = _taggingService.GetArtworkBytes(album.Discs.First().Tracks.First().File.FullPath);
+                    }
                     album.Grouping = album.ReleaseType.GetReleaseTypeGrouping();
+
+                    count++;
                 }
 
                 progressHandler?.Report(new ProgressArgs(90, "Sorting artists"));
