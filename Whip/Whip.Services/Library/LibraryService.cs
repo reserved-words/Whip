@@ -38,19 +38,26 @@ namespace Whip.Services
 
                 var newUpdateDate = DateTime.Now;
 
-                progressHandler?.Report(new ProgressArgs(20, "Fetching files"));
+                progressHandler?.Report(new ProgressArgs(10, "Fetching files"));
 
                 var files = _fileService.GetFiles(_userSettings.MusicDirectory, ApplicationSettings.FileExtensions, libraryLastUpdated);
 
-                progressHandler?.Report(new ProgressArgs(40, "Removing deleted files"));
+                progressHandler?.Report(new ProgressArgs(20, "Removing deleted files"));
 
                 _libraryDataOrganiserService.SyncTracks(library.Artists, files.ToKeep);
 
-                progressHandler?.Report(new ProgressArgs(60, "Adding new and modified files"));
+                var numberOfTracks = files.AddedOrModified.Count;
+                var count = 0;
 
                 foreach (var file in files.AddedOrModified)
                 {
+                    var percentage = 30 + ((80 - 30) * count / numberOfTracks);
+
+                    progressHandler?.Report(new ProgressArgs(percentage, "Adding new and modified files"));
+
                     _libraryDataOrganiserService.AddTrack(file.FullPath, file, library.Artists);
+
+                    count++;
                 }
 
                 progressHandler?.Report(new ProgressArgs(80, "Setting release type groupings"));
