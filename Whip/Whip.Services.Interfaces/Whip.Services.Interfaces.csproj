@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Library\IArchiveService.cs" />
     <Compile Include="Library\ICommentProcessingService.cs" />
     <Compile Include="Library\ILibrarySortingService.cs" />
     <Compile Include="Library\ITrackFilterService.cs" />

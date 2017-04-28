@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Whip.Common.Model;
@@ -33,6 +34,29 @@ namespace Whip.Services
                     {
                         files.ToKeep.Add(relativeFilepath);
                     }
+                }
+            }
+
+            return files;
+        }
+
+        public List<File> GetAllFiles(string directory, string[] extensions)
+        {
+            var files = new List<File>();
+
+            foreach (string filepath in Directory.GetFiles(directory, "*", SearchOption.AllDirectories))
+            {
+                var fileInfo = new FileInfo(filepath);
+
+                if (extensions.Contains(fileInfo.Extension))
+                {
+                    var relativeFilepath = filepath.Remove(0, directory.Length + 1);
+
+                    files.Add(new File(
+                        filepath,
+                        relativeFilepath,
+                        fileInfo.CreationTime,
+                        fileInfo.LastWriteTime));
                 }
             }
 

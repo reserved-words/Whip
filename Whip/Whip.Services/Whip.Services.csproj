@@ -43,6 +43,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Library\ArchiveService.cs" />
     <Compile Include="Library\CommentProcessingService.cs" />
     <Compile Include="Library\LibrarySortingService.cs" />
     <Compile Include="Library\TrackFilterService.cs" />

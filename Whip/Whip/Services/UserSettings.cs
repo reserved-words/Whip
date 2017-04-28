@@ -25,7 +25,8 @@ namespace Whip.Services
         public bool EssentialSettingsSet => !string.IsNullOrEmpty(MusicDirectory)
             && !string.IsNullOrEmpty(LastFmUsername)
             && !string.IsNullOrEmpty(LastFmApiKey)
-            && !string.IsNullOrEmpty(LastFmApiSecret);
+            && !string.IsNullOrEmpty(LastFmApiSecret)
+            && !string.IsNullOrEmpty(MainColourRgb);
 
         public string MusicDirectory
         {
@@ -38,6 +39,12 @@ namespace Whip.Services
                     _libraryUpdated = true;
                 }
             }
+        }
+
+        public string ArchiveDirectory
+        {
+            get { return Properties.Settings.Default.ArchiveDirectory; }
+            set { Properties.Settings.Default.ArchiveDirectory = value; }
         }
 
         public string MainColourRgb

@@ -11,6 +11,7 @@ namespace Whip.ViewModels.TabViewModels.Settings
         private readonly IFolderDialogService _folderDialogService;
         private readonly IUserSettings _userSettings;
 
+        private string _archiveDirectory;
         private string _lastFmUsername;
         private string _lastFmApiKey;
         private string _lastFmApiSecret;
@@ -22,12 +23,21 @@ namespace Whip.ViewModels.TabViewModels.Settings
         public SettingsViewModel(IFolderDialogService folderDialogService, IUserSettings userSettings)
         {
             SetMusicDirectoryCommand = new RelayCommand(OnSetMusicDirectory);
+            SetArchiveDirectoryCommand = new RelayCommand(OnSetArchiveDirectory);
 
             _folderDialogService = folderDialogService;
             _userSettings = userSettings;
         }
 
         public RelayCommand SetMusicDirectoryCommand { get; private set; }
+        public RelayCommand SetArchiveDirectoryCommand { get; private set; }
+
+        [Display(Name = "Archive Directory")]
+        public string ArchiveDirectory
+        {
+            get { return _archiveDirectory; }
+            set { SetModified(nameof(ArchiveDirectory), ref _archiveDirectory, value); }
+        }
 
         [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
         [Display(Name = "Last.FM Username")]
@@ -83,6 +93,7 @@ namespace Whip.ViewModels.TabViewModels.Settings
 
         public void Reset()
         {
+            ArchiveDirectory = _userSettings.ArchiveDirectory;
             LastFmUsername = _userSettings.LastFmUsername;
             LastFmApiKey = _userSettings.LastFmApiKey;
             LastFmApiSecret = _userSettings.LastFmApiSecret;
@@ -96,6 +107,7 @@ namespace Whip.ViewModels.TabViewModels.Settings
 
         public void Update()
         {
+            _userSettings.ArchiveDirectory = ArchiveDirectory;
             _userSettings.LastFmUsername = LastFmUsername;
             _userSettings.LastFmApiKey = LastFmApiKey;
             _userSettings.LastFmApiSecret = LastFmApiSecret;
@@ -105,6 +117,15 @@ namespace Whip.ViewModels.TabViewModels.Settings
             _userSettings.ShuffleOn = ShuffleOn;
 
             _userSettings.Save();
+        }
+
+        private void OnSetArchiveDirectory()
+        {
+            var selectedDirectory = _folderDialogService.OpenFolderDialog(ArchiveDirectory);
+            if (selectedDirectory != null)
+            {
+                ArchiveDirectory = selectedDirectory;
+            }
         }
 
         private void OnSetMusicDirectory()

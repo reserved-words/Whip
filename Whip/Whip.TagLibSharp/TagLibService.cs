@@ -12,6 +12,27 @@ namespace Whip.TagLibSharp
     {
         private static Dictionary<string, string> exceptionalCorrections = new Dictionary<string, string> { { "AC; DC", "AC/DC" } };
 
+        public BasicTrackId3Data GetBasicId3Data(string filepath)
+        {
+            using (TagLib.File f = TagLib.File.Create(filepath))
+            {
+                TagLib.Id3v2.Tag.DefaultVersion = 3;
+                TagLib.Id3v2.Tag.ForceDefaultVersion = true;
+
+                return new BasicTrackId3Data
+                {
+                    Title = GetValue(f.Tag.Title),
+                    Duration = f.Properties.Duration,
+                    ArtistName = GetArtistName(f.Tag.JoinedPerformers, f.Tag.FirstPerformer),
+                    AlbumArtistName = GetArtistName(f.Tag.JoinedAlbumArtists, f.Tag.FirstAlbumArtist),
+                    AlbumTitle = GetValue(f.Tag.Album),
+                    Year = f.Tag.Year.ToString(),
+                    TrackNo = (int)f.Tag.Track,
+                    DiscNo = (int)f.Tag.Disc
+                };
+            }
+        }
+
         public Id3Data GetTrackId3Data(string filepath)
         {
             using (TagLib.File f = TagLib.File.Create(filepath))
@@ -29,18 +50,14 @@ namespace Whip.TagLibSharp
 
                 var artist = new ArtistId3Data
                 {
-                    Name = exceptionalCorrections.Keys.Contains(f.Tag.JoinedPerformers)
-                        ? exceptionalCorrections[f.Tag.JoinedPerformers]
-                        : GetValue(f.Tag.FirstPerformer),
+                    Name = GetArtistName(f.Tag.JoinedPerformers, f.Tag.FirstPerformer),
                     Genre = GetValue(f.Tag.Genres.FirstOrDefault()),
                     Grouping = GetValue(f.Tag.Grouping)
                 };
 
                 var album = new AlbumId3Data
                 {
-                    Artist = exceptionalCorrections.Keys.Contains(f.Tag.JoinedAlbumArtists)
-                        ? exceptionalCorrections[f.Tag.JoinedAlbumArtists]
-                        : GetValue(f.Tag.FirstAlbumArtist),
+                    Artist = GetArtistName(f.Tag.JoinedAlbumArtists, f.Tag.FirstAlbumArtist),
                     Title = GetValue(f.Tag.Album),
                     Year = f.Tag.Year.ToString(),
                     DiscCount = (int)f.Tag.DiscCount,
@@ -145,6 +162,13 @@ namespace Whip.TagLibSharp
         private string GetValue(string str)
         {
             return str ?? string.Empty;
+        }
+
+        private string GetArtistName(string joinedArtists, string firstArtist)
+        {
+            return exceptionalCorrections.Keys.Contains(joinedArtists)
+                ? exceptionalCorrections[joinedArtists]
+                : GetValue(firstArtist);
         }
     }
 }

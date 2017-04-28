@@ -13,6 +13,7 @@ namespace Whip.Services.Interfaces
         string LastFmApiSessionKey { get; set; }
         string LastFmUsername { get; set; }
         string MusicDirectory { get; set; }
+        string ArchiveDirectory { get; set; }
         string MainColourRgb { get; set; }
         bool Scrobbling { get; set; }
         bool ShuffleOn { get; set; }

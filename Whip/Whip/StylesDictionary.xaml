@@ -28,7 +28,7 @@
         <local:TabSettings />
     </DataTemplate>
     <DataTemplate DataType="{x:Type tabsvm:ArchiveViewModel}">
-        <local:TabGenericTemp />
+        <local:TabArchive />
     </DataTemplate>
     <DataTemplate DataType="{x:Type tabsvm:CurrentTrackViewModel}">
         <local:TabCurrentTrack />

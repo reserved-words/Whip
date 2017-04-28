@@ -118,5 +118,17 @@ namespace Whip.Properties {
                 this["ShuffleOn"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ArchiveDirectory {
+            get {
+                return ((string)(this["ArchiveDirectory"]));
+            }
+            set {
+                this["ArchiveDirectory"] = value;
+            }
+        }
     }
 }

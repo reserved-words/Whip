@@ -60,6 +60,7 @@ namespace Whip.Ioc
             Bind<ITrackUpdateService>().To<TrackUpdateService>().InTransientScope();
             Bind<IImageProcessingService>().To<ImageProcessingService>().InTransientScope();
             Bind<IWebBrowserService>().To<WebBrowserService>().InTransientScope();
+            Bind<IArchiveService>().To<ArchiveService>().InTransientScope();
         }
 
         private void BindLastFmComponents()

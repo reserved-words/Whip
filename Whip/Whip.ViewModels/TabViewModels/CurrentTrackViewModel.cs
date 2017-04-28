@@ -47,6 +47,11 @@ namespace Whip.ViewModels.TabViewModels
             Track = track;
         }
 
+        public override void OnShow(Track currentTrack)
+        {
+            OnCurrentTrackChanged(currentTrack);
+        }
+
         private void OnEditTrack()
         {
             _messenger.Send(new EditTrackMessage(Track));

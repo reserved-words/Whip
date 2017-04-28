@@ -33,5 +33,10 @@ namespace Whip.ViewModels.TabViewModels
 
             Artist = track.Artist;
         }
+
+        public override void OnShow(Track currentTrack)
+        {
+            OnCurrentTrackChanged(currentTrack);
+        }
     }
 }

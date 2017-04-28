@@ -6,6 +6,8 @@ namespace Whip.Services.Interfaces
     {
         Id3Data GetTrackId3Data(string filepath);
 
+        BasicTrackId3Data GetBasicId3Data(string filepath);
+
         void SaveId3Data(string filepath, Id3Data data);
     }
 }

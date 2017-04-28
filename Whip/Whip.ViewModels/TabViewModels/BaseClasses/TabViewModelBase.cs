@@ -34,5 +34,13 @@ namespace Whip.ViewModels.TabViewModels
         public virtual void OnCurrentTrackChanged(Track track)
         {
         }
+
+        public virtual void OnShow(Track currentTrack)
+        {
+        }
+
+        public virtual void OnHide()
+        {
+        }
     }
 }

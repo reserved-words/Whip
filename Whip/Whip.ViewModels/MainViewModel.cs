@@ -147,7 +147,11 @@ namespace Whip.ViewModels
             get { return _selectedTab; }
             set
             {
-                value.OnCurrentTrackChanged(_currentTrack);
+                if (_selectedTab == value)
+                    return;
+
+                _selectedTab?.OnHide();
+                value.OnShow(_currentTrack);
                 Set(ref _selectedTab, value);
             }
         }
