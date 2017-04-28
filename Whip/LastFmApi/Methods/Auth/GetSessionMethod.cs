@@ -19,10 +19,9 @@ namespace LastFmApi.Methods.Auth
             });
         }
 
-        public override Session ParseResult(string result)
+        public override Session ParseResult(XElement xml)
         {
-            var doc = XDocument.Parse(result);
-            var sessionElement = doc.Element("lfm").Element("session");
+            var sessionElement = xml.Element("session");
 
             if (sessionElement == null)
                 return null;

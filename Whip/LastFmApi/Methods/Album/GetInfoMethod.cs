@@ -17,11 +17,9 @@ namespace LastFmApi.Methods.Album
             });
         }
 
-        public override AlbumInfo ParseResult(string result)
+        public override AlbumInfo ParseResult(XElement xml)
         {
-            var xml = XDocument.Parse(result);
-
-            var albumXml = xml.Element("lfm").Element("album");
+            var albumXml = xml.Element("album");
 
             var artworkUrl = albumXml.Elements("image")
                 .Where(el => el.Attribute("size").Value == "mega")

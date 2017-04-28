@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErrorHandlingService.cs" />
+    <Compile Include="IErrorHandlingService.cs" />
     <Compile Include="Information\ArtistInfoService.cs" />
     <Compile Include="Information\AlbumInfoService.cs" />
     <Compile Include="LastFmApiClientService.cs" />

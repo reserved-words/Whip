@@ -46,6 +46,7 @@
     <Compile Include="Interfaces\ILastFmSessionService.cs" />
     <Compile Include="Interfaces\ILastFmTrackLoveService.cs" />
     <Compile Include="Internal\Session.cs" />
+    <Compile Include="LastFmApiException.cs" />
     <Compile Include="Methods\Album\GetInfoMethod.cs" />
     <Compile Include="Methods\Artist\GetInfoMethod.cs" />
     <Compile Include="Methods\Track\IsLovedMethod.cs" />

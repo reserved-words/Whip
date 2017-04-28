@@ -10,22 +10,31 @@ namespace Whip.LastFm
     public class ArtistInfoService : IWebArtistInfoService
     {
         private readonly Lazy<ILastFmArtistInfoService> _lastFmService;
+        private readonly IErrorHandlingService _errorHandler;
 
-        public ArtistInfoService(ILastFmApiClientService clientService)
+        public ArtistInfoService(ILastFmApiClientService clientService, IErrorHandlingService errorHandler)
         {
             _lastFmService = new Lazy<ILastFmArtistInfoService>(() => new LastFmArtistInfoService(clientService.ApiClient));
+            _errorHandler = errorHandler;
         }
 
         public async Task<ArtistWebInfo> PopulateArtistImages(Artist artist)
         {
             if (!AreImagesPopulated(artist.WebInfo))
             {
-                var info = await _lastFmService.Value.GetInfo(artist.Name);
+                try
+                {
+                    var info = await _lastFmService.Value.GetInfo(artist.Name);
 
-                artist.WebInfo.SmallImageUrl = info.SmallImageUrl;
-                artist.WebInfo.MediumImageUrl = info.MediumImageUrl;
-                artist.WebInfo.LargeImageUrl = info.LargeImageUrl;
-                artist.WebInfo.ExtraLargeImageUrl = info.ExtraLargeImageUrl;
+                    artist.WebInfo.SmallImageUrl = info.SmallImageUrl;
+                    artist.WebInfo.MediumImageUrl = info.MediumImageUrl;
+                    artist.WebInfo.LargeImageUrl = info.LargeImageUrl;
+                    artist.WebInfo.ExtraLargeImageUrl = info.ExtraLargeImageUrl;
+                }
+                catch (LastFmApiException ex)
+                {
+                    _errorHandler.HandleError(ex, "Artist Name: " + artist.Name);
+                }
             }
 
             return artist.WebInfo;

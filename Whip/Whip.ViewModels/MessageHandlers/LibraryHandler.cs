@@ -34,7 +34,7 @@ namespace Whip.ViewModels.MessageHandlers
 
         private void OnLibraryUpdateRequest(LibraryUpdateRequest message)
         {
-            var progressBarViewModel = new ProgressBarViewModel(_messenger, "Populating Library");
+            var progressBarViewModel = new ProgressBarViewModel(_messenger, "Populating Library", true);
             var startProgressBarMessage = new ShowDialogMessage(progressBarViewModel);
 
             OnPopulateLibraryAsync(progressBarViewModel);

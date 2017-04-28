@@ -19,10 +19,9 @@ namespace LastFmApi.Methods.Track
             });
         }
 
-        public override bool ParseResult(string result)
+        public override bool ParseResult(XElement xml)
         {
-            var doc = XDocument.Parse(result);
-            return doc.Element("lfm").Element("track").Element("userloved").Value == "1";
+            return xml.Element("track").Element("userloved").Value == "1";
         }
     }
 }

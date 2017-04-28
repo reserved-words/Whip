@@ -21,30 +21,30 @@ namespace Whip.TagLibSharp
 
                 var track = new TrackId3Data
                 {
-                    Title = f.Tag.Title,
+                    Title = GetValue(f.Tag.Title),
                     TrackNo = (int)f.Tag.Track,
                     Duration = f.Properties.Duration,
-                    Lyrics = f.Tag.Lyrics,
+                    Lyrics = GetValue(f.Tag.Lyrics),
                 };
 
                 var artist = new ArtistId3Data
                 {
                     Name = exceptionalCorrections.Keys.Contains(f.Tag.JoinedPerformers)
                         ? exceptionalCorrections[f.Tag.JoinedPerformers]
-                        : f.Tag.FirstPerformer,
-                    Genre = f.Tag.Genres.FirstOrDefault(),
-                    Grouping = f.Tag.Grouping
+                        : GetValue(f.Tag.FirstPerformer),
+                    Genre = GetValue(f.Tag.Genres.FirstOrDefault()),
+                    Grouping = GetValue(f.Tag.Grouping)
                 };
 
                 var album = new AlbumId3Data
                 {
                     Artist = exceptionalCorrections.Keys.Contains(f.Tag.JoinedAlbumArtists)
                         ? exceptionalCorrections[f.Tag.JoinedAlbumArtists]
-                        : f.Tag.FirstAlbumArtist,
-                    Title = f.Tag.Album,
+                        : GetValue(f.Tag.FirstAlbumArtist),
+                    Title = GetValue(f.Tag.Album),
                     Year = f.Tag.Year.ToString(),
                     DiscCount = (int)f.Tag.DiscCount,
-                    ReleaseType = f.Tag.MusicBrainzReleaseType,
+                    ReleaseType = GetValue(f.Tag.MusicBrainzReleaseType),
                     Artwork = f.Tag.Pictures.Count() > 0 ? f.Tag.Pictures.First().Data.Data : null
                 };
 
@@ -140,6 +140,11 @@ namespace Whip.TagLibSharp
                     Description = "Cover",
                 };
             }
+        }
+
+        private string GetValue(string str)
+        {
+            return str ?? string.Empty;
         }
     }
 }

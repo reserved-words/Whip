@@ -15,6 +15,7 @@
             <RowDefinition Height="15" />
         </Grid.RowDefinitions>
         <ProgressBar Grid.Row="1" 
+                     IsIndeterminate="{Binding IsIndeterminate}"
                      Value="{Binding Percentage}"
                      HorizontalAlignment="Center" 
                      Margin="30,0,30,0"

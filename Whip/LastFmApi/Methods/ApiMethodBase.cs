@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 
 namespace LastFmApi.Methods
 {
@@ -73,6 +74,6 @@ namespace LastFmApi.Methods
         {
         }
 
-        public abstract TResult ParseResult(string result);
+        public abstract TResult ParseResult(XElement xmlResult);
     }
 }

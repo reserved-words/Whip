@@ -10,11 +10,9 @@ namespace LastFmApi.Methods.Auth
             SetParameters();
         }
 
-        public override string ParseResult(string result)
+        public override string ParseResult(XElement xml)
         {
-            var doc = XDocument.Parse(result);
-            string token = doc.Element("lfm").Element("token").Value;
-            return token;
+            return xml.Element("token").Value;
         }
     }
 }

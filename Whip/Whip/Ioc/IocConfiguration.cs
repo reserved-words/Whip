@@ -82,6 +82,7 @@ namespace Whip.Ioc
                 .To<TrackLoveService>()
                 .InTransientScope();
 
+            Bind<IErrorHandlingService>().To<ErrorHandlingService>().InTransientScope();
             Bind<IWebAlbumInfoService>().To<AlbumInfoService>().InTransientScope();
             Bind<IWebArtistInfoService>().To<ArtistInfoService>().InTransientScope();
         }

@@ -15,15 +15,13 @@ namespace LastFmApi.Methods.Artist
             });
         }
 
-        public override ArtistInfo ParseResult(string result)
+        public override ArtistInfo ParseResult(XElement xml)
         {
-            var xml = XDocument.Parse(result);
-
-            var artistXml = xml.Element("lfm").Element("artist");
+            var artistXml = xml.Element("artist");
 
             var artistInfo = new ArtistInfo();
 
-            foreach(var image in artistXml.Elements("image"))
+            foreach (var image in artistXml.Elements("image"))
             {
                 switch (image.Attribute("size").Value)
                 {

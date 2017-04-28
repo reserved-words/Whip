@@ -8,11 +8,13 @@ namespace Whip.ViewModels.Windows
         private string caption;
         private int percentage;
 
-        public ProgressBarViewModel(IMessenger messenger, string title)
+        public ProgressBarViewModel(IMessenger messenger, string title, bool isIndeterminate = false)
             : base(messenger, title)
         {
-
+            IsIndeterminate = isIndeterminate;
         }
+
+        public bool IsIndeterminate { get; private set; }
 
         public string Caption
         {
@@ -29,7 +31,9 @@ namespace Whip.ViewModels.Windows
         public void Update(ProgressArgs args)
         {
             Percentage = args.Percentage;
-            Caption = args.Message;
+            Caption = IsIndeterminate 
+                ? string.Format("{0} ({1}%)", args.Message, args.Percentage)
+                : args.Message;
         }
     }
 }
