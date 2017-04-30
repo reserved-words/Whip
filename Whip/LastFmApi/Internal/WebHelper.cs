@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -10,31 +9,32 @@ namespace LastFmApi.Internal
     {
         private const string BaseUrl = "https://ws.audioscrobbler.com/2.0/";
 
-        internal static async Task<string> HttpGetAsync(string baseUrl, Dictionary<ParameterKey, string> parameters)
-        {
-            using (var client = new HttpClient())
-            {
-                var url = BuildUrl(parameters);
-
-                var response = client.TryGetAsync(url).Result;
-
-                var responseString = await response.Content.ReadAsStringAsync();
-
-                return responseString;
-            }
-        }
-
         internal static async Task<string> HttpGetAsync(Dictionary<ParameterKey, string> parameters)
         {
             using (var client = new HttpClient())
             {
                 var url = BuildUrl(parameters);
 
-                var response = client.TryGetAsync(url).Result;
+                HttpResponseMessage response = null;
 
-                var responseString = await response.Content.ReadAsStringAsync();
+                await client.GetAsync(url).ContinueWith(t =>
+                {
+                    if (t.IsFaulted)
+                    {
+                        throw new LastFmApiException(ErrorCode.ConnectionFailed, t.Exception.InnerException.Message);
+                    }
+                    else
+                    {
+                        if (!t.Result.IsSuccessStatusCode)
+                        {
+                            throw new LastFmApiException(ErrorCode.HttpErrorResponse, response.StatusCode.ToString());
+                        }
 
-                return responseString;
+                        response = t.Result;
+                    }
+                });
+
+                return await response.Content.ReadAsStringAsync();
             }
         }
 
@@ -44,11 +44,26 @@ namespace LastFmApi.Internal
             {
                 var content = new FormUrlEncodedContent(parameters.ToStringKeys());
 
-                var response = await client.TryPostAsync(BaseUrl, content);
+                HttpResponseMessage response = null;
 
-                var responseString = await response.Content.ReadAsStringAsync();
+                await client.PostAsync(BaseUrl, content).ContinueWith(t =>
+                {
+                    if (t.IsFaulted)
+                    {
+                        throw new LastFmApiException(ErrorCode.ConnectionFailed, t.Exception.InnerException.Message);
+                    }
+                    else
+                    {
+                        if (!t.Result.IsSuccessStatusCode)
+                        {
+                            throw new LastFmApiException(ErrorCode.HttpErrorResponse, response.StatusCode.ToString());
+                        }
 
-                return responseString;
+                        response = t.Result;
+                    }
+                });
+
+                return await response.Content.ReadAsStringAsync();
             }
         }
 

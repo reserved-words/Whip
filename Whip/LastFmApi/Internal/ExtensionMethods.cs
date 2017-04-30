@@ -44,49 +44,13 @@ namespace LastFmApi.Internal
 
         public async static Task<TResult> GetResultAsync<TResult>(this ApiMethodBase<TResult> method)
         {
-            string response = null;
-            Exception ex = null;
-            await WebHelper.HttpGetAsync(method.Parameters).ContinueWith(t =>
-            {
-                if (t.IsFaulted)
-                {
-                    ex = t.Exception;
-                }
-                else
-                {
-                    response = t.Result;
-                }
-            });
-
-            if (ex != null)
-            {
-                throw ex;
-            }
-
+            var response = await WebHelper.HttpGetAsync(method.Parameters);
             return method.ParseResult(ValidateXml(response));
         }
 
         public async static Task PostAsync(this ApiMethodBase method)
         {
-            string response = null;
-            Exception ex = null;
-            await WebHelper.HttpPostAsync(method.Parameters).ContinueWith(t =>
-            {
-                if (t.IsFaulted)
-                {
-                    ex = t.Exception;
-                }
-                else
-                {
-                    response = t.Result;
-                }
-            });
-
-            if (ex != null)
-            {
-                throw ex;
-            }
-
+            var response = await WebHelper.HttpPostAsync(method.Parameters);
             ValidateXml(response);
         }
 
@@ -137,47 +101,6 @@ namespace LastFmApi.Internal
             }
 
             return root;
-        }
-
-        internal static async Task<HttpResponseMessage> TryPostAsync(this HttpClient client, string url, FormUrlEncodedContent content)
-        {
-            try
-            {
-                var response = await client.PostAsync(url, content);
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    throw new LastFmApiException(ErrorCode.HttpErrorResponse, response.StatusCode.ToString());
-                }
-
-                return response;
-            }
-            catch (HttpRequestException ex)
-            {
-                throw new LastFmApiException(ErrorCode.ConnectionFailed, ex.Message);
-            }
-        }
-
-        internal static async Task<HttpResponseMessage> TryGetAsync(this HttpClient client, string url)
-        {
-            try
-            {
-                // TEST ERROR
-                // throw new HttpRequestException("Not connected");
-
-                var response = await client.GetAsync(url);
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    throw new LastFmApiException(ErrorCode.HttpErrorResponse, response.StatusCode.ToString());
-                }
-
-                return response;
-            }
-            catch (HttpRequestException ex)
-            {
-                throw new LastFmApiException(ErrorCode.ConnectionFailed, ex.Message);
-            }
         }
     }
 }
