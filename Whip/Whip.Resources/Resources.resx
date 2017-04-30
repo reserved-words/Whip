@@ -132,11 +132,23 @@
   <data name="FacebookUrl" xml:space="preserve">
     <value>https://facebook.com/{0}</value>
   </data>
+  <data name="LastFmOffErrorMessage" xml:space="preserve">
+    <value>Last.FM interaction has been turned off due to an error. See Settings page for further information.</value>
+  </data>
+  <data name="LastFmOffErrorMessageDetails" xml:space="preserve">
+    <value>Last.FM interaction has been turned off due to an error and will not be turned back on until the application is next started. If scrobbling is turned on, scrobbles will be cached and scrobbled later.</value>
+  </data>
   <data name="LastFmUrl" xml:space="preserve">
     <value>https://www.last.fm/music/{0}</value>
   </data>
   <data name="MaxLengthErrorMessage" xml:space="preserve">
     <value>{0} must not be more than {1} characters</value>
+  </data>
+  <data name="OfflineErrorMessage" xml:space="preserve">
+    <value>The internet connection has failed. See Settings page for further information.</value>
+  </data>
+  <data name="OfflineErrorMessageDetails" xml:space="preserve">
+    <value>Internet connectivity has failed. The application will keep trying to connect to the internet and this status will be updated when it succeeds. If scrobbling is turned on, scrobbles will be cached and scrobbled later.</value>
   </data>
   <data name="RangeErrorMessage" xml:space="preserve">
     <value>{0} must be between {1} and {2}</value>

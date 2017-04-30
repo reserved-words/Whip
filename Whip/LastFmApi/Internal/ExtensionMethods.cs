@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -43,13 +44,49 @@ namespace LastFmApi.Internal
 
         public async static Task<TResult> GetResultAsync<TResult>(this ApiMethodBase<TResult> method)
         {
-            var response = await WebHelper.HttpGetAsync(method.Parameters);
+            string response = null;
+            Exception ex = null;
+            await WebHelper.HttpGetAsync(method.Parameters).ContinueWith(t =>
+            {
+                if (t.IsFaulted)
+                {
+                    ex = t.Exception;
+                }
+                else
+                {
+                    response = t.Result;
+                }
+            });
+
+            if (ex != null)
+            {
+                throw ex;
+            }
+
             return method.ParseResult(ValidateXml(response));
         }
 
         public async static Task PostAsync(this ApiMethodBase method)
         {
-            var response = await WebHelper.HttpPostAsync(method.Parameters);
+            string response = null;
+            Exception ex = null;
+            await WebHelper.HttpPostAsync(method.Parameters).ContinueWith(t =>
+            {
+                if (t.IsFaulted)
+                {
+                    ex = t.Exception;
+                }
+                else
+                {
+                    response = t.Result;
+                }
+            });
+
+            if (ex != null)
+            {
+                throw ex;
+            }
+
             ValidateXml(response);
         }
 
@@ -86,6 +123,10 @@ namespace LastFmApi.Internal
 
         private static XElement ValidateXml(string response)
         {
+            // TEST ERROR
+            // throw new LastFmApiException(ErrorCode.ServiceTemporarilyUnavailable, "Last.FM temporarily unavailable");
+            // throw new LastFmApiException(ErrorCode.InvalidApiKey, "Invalid API Key");
+
             var xml = XDocument.Parse(response);
 
             var root = xml.Element("lfm");
@@ -96,6 +137,47 @@ namespace LastFmApi.Internal
             }
 
             return root;
+        }
+
+        internal static async Task<HttpResponseMessage> TryPostAsync(this HttpClient client, string url, FormUrlEncodedContent content)
+        {
+            try
+            {
+                var response = await client.PostAsync(url, content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new LastFmApiException(ErrorCode.HttpErrorResponse, response.StatusCode.ToString());
+                }
+
+                return response;
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new LastFmApiException(ErrorCode.ConnectionFailed, ex.Message);
+            }
+        }
+
+        internal static async Task<HttpResponseMessage> TryGetAsync(this HttpClient client, string url)
+        {
+            try
+            {
+                // TEST ERROR
+                // throw new HttpRequestException("Not connected");
+
+                var response = await client.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new LastFmApiException(ErrorCode.HttpErrorResponse, response.StatusCode.ToString());
+                }
+
+                return response;
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new LastFmApiException(ErrorCode.ConnectionFailed, ex.Message);
+            }
         }
     }
 }

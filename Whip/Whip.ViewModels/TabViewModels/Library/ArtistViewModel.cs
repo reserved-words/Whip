@@ -38,6 +38,9 @@ namespace Whip.ViewModels.TabViewModels.Library
             get { return _artist; }
             set
             {
+                if (value == null || value == _artist)
+                    return;
+
                 Set(ref _artist, value);
                 Task.Run(PopulateImage);
                 PopulateAlbums();

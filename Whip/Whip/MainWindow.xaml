@@ -7,6 +7,7 @@
         xmlns:res="clr-namespace:Whip.Resources;assembly=Whip.Resources"
         xmlns:controls="clr-namespace:Whip.Controls"
         xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
+        xmlns:properties="clr-namespace:Whip.Properties"
         mc:Ignorable="d"
         Title="{x:Static res:Resources.ApplicationTitle}" 
         Height="800" 
@@ -41,8 +42,42 @@
                 BorderThickness="1">
             <WrapPanel>
 
-                <controls:Icon16 Icon="Wifi" />
-                
+                <Border BorderBrush="Silver"
+                        BorderThickness="1"
+                        Margin="2"
+                        Padding="2, 0"
+                        CornerRadius="2">
+                    <WrapPanel>
+                        <WrapPanel Visibility="{Binding Source={x:Static properties:Settings.Default}, Path=Offline, Converter={StaticResource NegBoolVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
+                            <controls:Icon16 Icon="Wifi"/>
+                            <Label Content="Online" />
+                        </WrapPanel>
+                        <WrapPanel Visibility="{Binding Source={x:Static properties:Settings.Default}, Path=Offline, Converter={StaticResource BoolVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                                   ToolTip="{x:Static res:Resources.OfflineErrorMessage}">
+                            <controls:Icon16 Icon="Warning" />
+                            <Label Content="Offline" />
+                        </WrapPanel>
+                    </WrapPanel>
+                </Border>
+
+                <Border BorderBrush="Silver"
+                        BorderThickness="1"
+                        Margin="2"
+                        Padding="2, 0"
+                        CornerRadius="2">
+                    <WrapPanel>
+                        <WrapPanel Visibility="{Binding Source={x:Static properties:Settings.Default}, Path=LastFmStatus, Converter={StaticResource BoolVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
+                            <controls:Icon16 Icon="Lastfm" />
+                            <Label Content="Last.FM: On" />
+                        </WrapPanel>
+                        <WrapPanel Visibility="{Binding Source={x:Static properties:Settings.Default}, Path=LastFmStatus, Converter={StaticResource NegBoolVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                                   ToolTip="{x:Static res:Resources.LastFmOffErrorMessage}">
+                            <controls:Icon16 Icon="Warning" />
+                            <Label Content="Last.FM: Off"/>
+                        </WrapPanel>
+                    </WrapPanel>
+                </Border>
+
             </WrapPanel>
         </Border>
 

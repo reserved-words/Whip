@@ -106,6 +106,24 @@ namespace Whip.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Last.FM interaction has been turned off due to an error. See Settings page for further information..
+        /// </summary>
+        public static string LastFmOffErrorMessage {
+            get {
+                return ResourceManager.GetString("LastFmOffErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last.FM interaction has been turned off due to an error and will not be turned back on until the application is next started. If scrobbling is turned on, scrobbles will be cached and scrobbled later..
+        /// </summary>
+        public static string LastFmOffErrorMessageDetails {
+            get {
+                return ResourceManager.GetString("LastFmOffErrorMessageDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://www.last.fm/music/{0}.
         /// </summary>
         public static string LastFmUrl {
@@ -120,6 +138,24 @@ namespace Whip.Resources {
         public static string MaxLengthErrorMessage {
             get {
                 return ResourceManager.GetString("MaxLengthErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The internet connection has failed. See Settings page for further information..
+        /// </summary>
+        public static string OfflineErrorMessage {
+            get {
+                return ResourceManager.GetString("OfflineErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internet connectivity has failed. The application will keep trying to connect to the internet and this status will be updated when it succeeds. If scrobbling is turned on, scrobbles will be cached and scrobbled later..
+        /// </summary>
+        public static string OfflineErrorMessageDetails {
+            get {
+                return ResourceManager.GetString("OfflineErrorMessageDetails", resourceCulture);
             }
         }
         

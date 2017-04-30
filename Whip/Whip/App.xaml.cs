@@ -13,9 +13,12 @@ namespace Whip
             IocKernel.Initialize(new IocConfiguration());
             IocKernel.StartMessageHandlers();
 
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+
             GetLogger().Info("Application started");
 
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+            var settings = GetUserSettings();
+            settings.SetStartupDefaults();
 
             base.OnStartup(e);
         }
@@ -50,6 +53,11 @@ namespace Whip
         private IExceptionHandlingService GetExceptionHandler()
         {
             return IocKernel.Get<IExceptionHandlingService>();
+        }
+
+        private IUserSettings GetUserSettings()
+        {
+            return IocKernel.Get<IUserSettings>();
         }
     }
 }

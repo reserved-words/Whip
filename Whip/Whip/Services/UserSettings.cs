@@ -14,6 +14,8 @@ namespace Whip.Services
         private bool _libraryUpdated;
         private bool _lastFmUsernameChanged;
 
+        private string _lastFmErrorMessage;
+
         public UserSettings(IMessenger messenger)
         {
             _messenger = messenger;
@@ -110,6 +112,24 @@ namespace Whip.Services
             }
         }
 
+        public bool LastFmStatus
+        {
+            get { return Properties.Settings.Default.LastFmStatus; }
+            set { Properties.Settings.Default.LastFmStatus = value; }
+        }
+
+        public bool Offline
+        {
+            get { return Properties.Settings.Default.Offline; }
+            set { Properties.Settings.Default.Offline = value; }
+        }
+
+        public string LastFmErrorMessage
+        {
+            get { return _lastFmErrorMessage; }
+            private set { _lastFmErrorMessage = value; }
+        }
+
         public void Save()
         {
             Properties.Settings.Default.Save();
@@ -137,6 +157,34 @@ namespace Whip.Services
                 _libraryUpdated = false;
                 _messenger.Send(new LibraryUpdateRequest());
             }
+        }
+
+        public void SetInternetStatus(bool online)
+        {
+            if (online && Offline)
+            {
+                Offline = false;
+                Properties.Settings.Default.Save();
+            }
+            else if (!online && !Offline)
+            {
+                Offline = true;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        public void SetStartupDefaults()
+        {
+            LastFmStatus = true;
+            Offline = false;
+            Properties.Settings.Default.Save();
+        }
+
+        public void TurnOffLastFm(string errorMessage)
+        {
+            LastFmStatus = false;
+            LastFmErrorMessage = errorMessage;
+            Properties.Settings.Default.Save();
         }
     }
 }

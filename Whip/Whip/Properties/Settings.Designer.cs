@@ -130,5 +130,29 @@ namespace Whip.Properties {
                 this["ArchiveDirectory"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool LastFmStatus {
+            get {
+                return ((bool)(this["LastFmStatus"]));
+            }
+            set {
+                this["LastFmStatus"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Offline {
+            get {
+                return ((bool)(this["Offline"]));
+            }
+            set {
+                this["Offline"] = value;
+            }
+        }
     }
 }

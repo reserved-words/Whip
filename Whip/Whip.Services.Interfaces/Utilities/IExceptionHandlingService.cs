@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Whip.Services.Interfaces
 {
     public interface IExceptionHandlingService
     {
-        void Warn(Exception ex);
+        void Warn(Exception ex, string displayMessage = null);
 
-        void Error(Exception ex);
+        void Error(Exception ex, string displayMessage = null);
 
-        void Fatal(Exception ex);
+        void Fatal(Exception ex, string displayMessage = null);
     }
 }

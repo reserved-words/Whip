@@ -16,7 +16,7 @@ namespace LastFmApi.Internal
             {
                 var url = BuildUrl(parameters);
 
-                var response = client.GetAsync(url).Result;
+                var response = client.TryGetAsync(url).Result;
 
                 var responseString = await response.Content.ReadAsStringAsync();
 
@@ -30,7 +30,7 @@ namespace LastFmApi.Internal
             {
                 var url = BuildUrl(parameters);
 
-                var response = client.GetAsync(url).Result;
+                var response = client.TryGetAsync(url).Result;
 
                 var responseString = await response.Content.ReadAsStringAsync();
 
@@ -44,7 +44,7 @@ namespace LastFmApi.Internal
             {
                 var content = new FormUrlEncodedContent(parameters.ToStringKeys());
 
-                var response = await client.PostAsync(BaseUrl, content);
+                var response = await client.TryPostAsync(BaseUrl, content);
 
                 var responseString = await response.Content.ReadAsStringAsync();
 

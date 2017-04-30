@@ -17,6 +17,13 @@ namespace Whip.Services.Interfaces
         string MainColourRgb { get; set; }
         bool Scrobbling { get; set; }
         bool ShuffleOn { get; set; }
+        bool LastFmStatus { get; set; }
+        string LastFmErrorMessage { get; }
+        bool Offline { get; set; }
+
         void Save();
+        void SetInternetStatus(bool online);
+        void TurnOffLastFm(string errorMessage);
+        void SetStartupDefaults();
     }
 }

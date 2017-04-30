@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using Whip.Common.Interfaces;
 using Whip.ViewModels.Messages;
 
@@ -9,6 +10,8 @@ namespace Whip.MessageHandlers
     public class DialogMessageHandler : IStartable
     {
         private readonly IMessenger _messenger;
+
+        private readonly SynchronizationContext _synchronizationContext = SynchronizationContext.Current;
 
         private readonly Dictionary<Guid, Dialog> _dialogs = new Dictionary<Guid, Dialog>();
 
@@ -31,15 +34,20 @@ namespace Whip.MessageHandlers
 
         private void ShowDialog(ShowDialogMessage message)
         {
-            Dialog dialog;
-            if (!_dialogs.TryGetValue(message.ViewModel.Guid, out dialog)){
-                dialog = new Dialog
+            _synchronizationContext.Send(state =>
+            {
+                Dialog dialog;
+                if (!_dialogs.TryGetValue(message.ViewModel.Guid, out dialog))
                 {
-                    DataContext = message.ViewModel
-                };
-                _dialogs.Add(message.ViewModel.Guid, dialog);
-                dialog.ShowDialog();
+                    dialog = new Dialog
+                    {
+                        DataContext = message.ViewModel
+                    };
+                    _dialogs.Add(message.ViewModel.Guid, dialog);
+                    dialog.ShowDialog();
+                }
             }
+            , null);    
         }
 
         private void HideDialog(HideDialogMessage message)
