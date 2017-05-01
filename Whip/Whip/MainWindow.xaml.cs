@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using Whip.ViewModels;
 
-namespace Whip
+namespace Whip.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

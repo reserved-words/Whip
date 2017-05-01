@@ -1,4 +1,5 @@
 ﻿using LastFmApi.Interfaces;
+using System.Threading.Tasks;
 
 namespace LastFmApi
 {
@@ -9,10 +10,10 @@ namespace LastFmApi
             return new ApiClient(apiKey, secret);
         }
 
-        public AuthorizedApiClient GetAuthorizedApiClient(string apiKey, string secret, string username, string sessionKey)
+        public async Task<AuthorizedApiClient> GetAuthorizedApiClientAsync(string apiKey, string secret, string username, string sessionKey)
         {
             var client = new AuthorizedApiClient(apiKey, secret, username, sessionKey);
-            client.GenerateSessionKey();
+            await client.GenerateSessionKeyAsync();
             return client;
         }
     }

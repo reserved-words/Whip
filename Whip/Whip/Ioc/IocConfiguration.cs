@@ -16,6 +16,7 @@ using Whip.NLog;
 using Whip.Services.Interfaces.Singletons;
 using Whip.Services.Singletons;
 using Whip.LastFm.ErrorHandlingDecorators;
+using Whip.View;
 
 namespace Whip.Ioc
 {
@@ -84,14 +85,17 @@ namespace Whip.Ioc
                 .To<TrackLoveService>()
                 .InTransientScope();
 
-            Bind<IWebAlbumInfoService>().To<AlbumInfoService>().InTransientScope();
-
             Bind<IAsyncMethodInterceptor>().To<LastFmMethodInterceptor>().InTransientScope();
 
             Bind<IWebArtistInfoService>()
                 .To<ErrorHandlingArtistInfoService>()
                 .InTransientScope()
                 .WithConstructorArgument(typeof(IWebArtistInfoService), ctx => ctx.Kernel.Get<ArtistInfoService>());
+
+            Bind<IWebAlbumInfoService>()
+                .To<ErrorHandlingAlbumInfoService>()
+                .InTransientScope()
+                .WithConstructorArgument(typeof(IWebAlbumInfoService), ctx => ctx.Kernel.Get<AlbumInfoService>());
         }
 
         private void BindMessageHandlers()

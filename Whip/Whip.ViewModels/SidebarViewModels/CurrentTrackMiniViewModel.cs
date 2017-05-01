@@ -54,14 +54,7 @@ namespace Whip.ViewModels
 
         public async void OnNewTrackStarted(Track track)
         {
-            try
-            {
-                Loved = await _trackLoveService.IsLovedAsync(Track);
-            }
-            catch (Exception ex)
-            {
-                // Should be logged by method interceptor, for now just ignore
-            }
+            Loved = await _trackLoveService.IsLovedAsync(Track);
         }
 
         private async void OnLoveTrack()

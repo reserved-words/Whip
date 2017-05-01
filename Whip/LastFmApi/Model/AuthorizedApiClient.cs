@@ -2,6 +2,7 @@
 using LastFmApi.Methods.Auth;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace LastFmApi
 {
@@ -19,13 +20,13 @@ namespace LastFmApi
         public string Username { get; private set; }
         public string SessionKey { get; private set; }
 
-        internal void GenerateSessionKey()
+        internal async Task GenerateSessionKeyAsync()
         {
             if (!string.IsNullOrEmpty(SessionKey))
                 return;
 
             var getTokenMethod = new GetTokenMethod(this);
-            var token = getTokenMethod.GetResult();
+            var token = await getTokenMethod.GetResultAsync();
 
             RequestAuthorisation(token);
 
@@ -40,19 +41,31 @@ namespace LastFmApi
                 Thread.Sleep(2000);
 
                 var getSessionMethod = new GetSessionMethod(this, token);
-                var session = getSessionMethod.GetResult();
 
-                if (session == null)
-                    continue;
-
-                if (session.Username != Username)
+                try
                 {
-                    throw new Exception("Incorrect user logged in");
-                }
+                    var session = await getSessionMethod.GetResultAsync();
 
-                SessionKey = session.Key;
-                Username = session.Username;
-                break;
+                    if (session.Username != Username)
+                    {
+                        throw new Exception("Incorrect user logged in");
+                    }
+
+                    SessionKey = session.Key;
+                    Username = session.Username;
+                    break;
+                }
+                catch (LastFmApiException ex)
+                {
+                    if (ex.ErrorCode == ErrorCode.HttpErrorResponse)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
             }
         }
 

@@ -36,12 +36,6 @@ namespace LastFmApi.Internal
             parameters.Add(ParameterKey.ApiSig, MD5Hasher.Hash(apiSigBuilder.ToString()));
         }
 
-        public static TResult GetResult<TResult>(this ApiMethodBase<TResult> method)
-        {
-            var response = WebHelper.HttpGetAsync(method.Parameters).Result;
-            return method.ParseResult(ValidateXml(response));
-        }
-
         public async static Task<TResult> GetResultAsync<TResult>(this ApiMethodBase<TResult> method)
         {
             var response = await WebHelper.HttpGetAsync(method.Parameters);

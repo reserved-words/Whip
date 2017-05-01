@@ -3,7 +3,7 @@ using System;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
 
-namespace Whip.Services
+namespace Whip.View
 {
     public class UserSettings : IUserSettings
     {

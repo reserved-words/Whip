@@ -260,6 +260,12 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
         {
             LoadingArtwork = true;
             var result = await _webAlbumInfoService.GetArtworkUrl(ArtistName, Title);
+
+            if (string.IsNullOrEmpty(result))
+            {
+                _messenger.Send(new ShowDialogMessage(new MessageViewModel(_messenger, "Artwork", "No artwork found for this album")));
+            }
+
             UpdateArtwork(await _imageProcessingService.GetImageBytesFromUrl(result));
         }
 

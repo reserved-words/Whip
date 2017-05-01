@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whip", "Whip\Whip.csproj", "{F826888B-3BAB-41B8-9ED6-5B790645D1C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whip.View", "Whip\Whip.View.csproj", "{F826888B-3BAB-41B8-9ED6-5B790645D1C2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whip.ViewModels", "Whip.ViewModels\Whip.ViewModels.csproj", "{0D421905-07EC-46A2-B783-3744A1CEB4C8}"
 EndProject

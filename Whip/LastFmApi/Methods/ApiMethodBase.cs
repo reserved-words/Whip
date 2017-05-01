@@ -74,6 +74,11 @@ namespace LastFmApi.Methods
         {
         }
 
+        public ApiMethodBase(AuthorizedApiClient client, string methodName)
+            : base(client, methodName)
+        {
+        }
+
         public abstract TResult ParseResult(XElement xmlResult);
     }
 }

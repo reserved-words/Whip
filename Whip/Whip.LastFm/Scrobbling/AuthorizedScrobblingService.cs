@@ -7,26 +7,30 @@ namespace Whip.LastFm
 {
     public class AuthorizedScrobblingService : ILastFmScrobblingService
     {
-        private readonly Lazy<ILastFmScrobblingService> _scrobblingService;
+        private readonly Lazy<Task<ILastFmScrobblingService>> _scrobblingService;
+
+        private readonly ILastFmScrobblingService _service;
 
         public AuthorizedScrobblingService(ILastFmApiClientService clientService)
         {
-            _scrobblingService = new Lazy<ILastFmScrobblingService>(() => GetScrobblingService(clientService));
+            _scrobblingService = new Lazy<Task<ILastFmScrobblingService>>(() => GetScrobblingService(clientService));
         }
 
         public async Task ScrobbleAsync(Track track, DateTime timePlayed)
         {
-            await _scrobblingService.Value.ScrobbleAsync(track, timePlayed);
+            var scrobblingService = await _scrobblingService.Value;
+            await scrobblingService.ScrobbleAsync(track, timePlayed);
         }
 
         public async Task UpdateNowPlayingAsync(Track track, int duration)
         {
-            await _scrobblingService.Value.UpdateNowPlayingAsync(track, duration);
+            var scrobblingService = await _scrobblingService.Value;
+            await scrobblingService.UpdateNowPlayingAsync(track, duration);
         }
 
-        private ILastFmScrobblingService GetScrobblingService(ILastFmApiClientService clientService)
+        private async Task<ILastFmScrobblingService> GetScrobblingService(ILastFmApiClientService clientService)
         {
-            return new LastFmScrobblingService(clientService.AuthorizedApiClient);
+            return new LastFmScrobblingService(await clientService.AuthorizedApiClient);
         }
     }
 }

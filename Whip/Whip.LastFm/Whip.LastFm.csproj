@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErrorHandlingDecorators\ErrorHandlingAlbumInfoService.cs" />
     <Compile Include="ErrorHandlingDecorators\ErrorHandlingArtistInfoService.cs" />
     <Compile Include="Information\ArtistInfoService.cs" />
     <Compile Include="Information\AlbumInfoService.cs" />
