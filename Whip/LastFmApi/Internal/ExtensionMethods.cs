@@ -2,10 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace LastFmApi.Internal
 {
@@ -33,19 +31,19 @@ namespace LastFmApi.Internal
             }
             apiSigBuilder.Append(secret);
 
-            parameters.Add(ParameterKey.ApiSig, MD5Hasher.Hash(apiSigBuilder.ToString()));
+            parameters.Add(ParameterKey.ApiSig, MD5Helper.Hash(apiSigBuilder.ToString()));
         }
 
         public async static Task<TResult> GetResultAsync<TResult>(this ApiMethodBase<TResult> method)
         {
             var response = await WebHelper.HttpGetAsync(method.Parameters);
-            return method.ParseResult(ValidateXml(response));
+            return method.ParseResult(XmlHelper.Validate(response));
         }
 
         public async static Task PostAsync(this ApiMethodBase method)
         {
             var response = await WebHelper.HttpPostAsync(method.Parameters);
-            ValidateXml(response);
+            XmlHelper.Validate(response);
         }
 
         public static string GetQueryKey(this KeyValuePair<ParameterKey, string> kvp)
@@ -77,24 +75,6 @@ namespace LastFmApi.Internal
             }
 
             return dictionary;
-        }
-
-        private static XElement ValidateXml(string response)
-        {
-            // TEST ERROR
-            // throw new LastFmApiException(ErrorCode.ServiceTemporarilyUnavailable, "Last.FM temporarily unavailable");
-            // throw new LastFmApiException(ErrorCode.InvalidApiKey, "Invalid API Key");
-
-            var xml = XDocument.Parse(response);
-
-            var root = xml.Element("lfm");
-            if (root.Attribute("status").Value == "failed")
-            {
-                var error = root.Element("error");
-                throw new LastFmApiException(error.Attribute("code").Value, error.Value);
-            }
-
-            return root;
         }
     }
 }

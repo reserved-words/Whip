@@ -3,9 +3,9 @@ using System.Text;
 
 namespace LastFmApi.Internal
 {
-    internal static class MD5Hasher
+    internal static class MD5Helper
     {
-        public static string Hash(string input)
+        internal static string Hash(string input)
         {
             using (var md5Hash = MD5.Create())
             {

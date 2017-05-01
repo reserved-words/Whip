@@ -5,12 +5,12 @@ using Whip.Services.Interfaces;
 
 namespace Whip.LastFm
 {
-    public class TrackLoveService : ITrackLoveService
+    public class TrackLoveService : Services.Interfaces.ITrackLoveService
     {
-        private readonly ILastFmTrackLoveService _service;
+        private readonly LastFmApi.Interfaces.ITrackLoveService _service;
         private readonly ILastFmApiClientService _clientService;
 
-        public TrackLoveService(ILastFmTrackLoveService service, ILastFmApiClientService clientService)
+        public TrackLoveService(LastFmApi.Interfaces.ITrackLoveService service, ILastFmApiClientService clientService)
         {
             _clientService = clientService;
             _service = service;

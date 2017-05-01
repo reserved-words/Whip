@@ -6,12 +6,12 @@ namespace Whip.LastFm
 {
     public class LastFmApiClientService : ILastFmApiClientService
     {
-        private readonly ILastFmSessionService _sessionService;
+        private readonly ISessionService _sessionService;
 
         private AuthorizedApiClient _authorizedApiClient;
         private ApiClient _apiClient;
 
-        public LastFmApiClientService(ILastFmSessionService sessionService)
+        public LastFmApiClientService(ISessionService sessionService)
         {
             _sessionService = sessionService;
         }

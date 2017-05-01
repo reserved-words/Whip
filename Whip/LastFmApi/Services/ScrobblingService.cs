@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LastFmApi
 {
-    public class LastFmScrobblingService : ILastFmScrobblingService
+    public class ScrobblingService : IScrobblingService
     {
         public async Task ScrobbleAsync(AuthorizedApiClient client, Track track, DateTime timePlayed)
         {

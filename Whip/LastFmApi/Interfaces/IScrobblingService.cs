@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LastFmApi.Interfaces
 {
-    public interface ILastFmScrobblingService
+    public interface IScrobblingService
     {
         Task ScrobbleAsync(AuthorizedApiClient client, Track track, DateTime timePlayed);
         Task UpdateNowPlayingAsync(AuthorizedApiClient client, Track track, int duration);

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace LastFmApi
 {
-    public class LastFmSessionService : ILastFmSessionService
+    public class SessionService : ISessionService
     {
         public ApiClient GetApiClient(string apiKey, string secret)
         {

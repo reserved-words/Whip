@@ -8,16 +8,18 @@ namespace Whip.LastFm
 {
     public class AlbumInfoService : IWebAlbumInfoService
     {
-        private readonly Lazy<ILastFmAlbumInfoService> _lastFmService;
+        private readonly ILastFmApiClientService _clientService;
+        private readonly IAlbumInfoService _albumInfoService;
 
-        public AlbumInfoService(ILastFmApiClientService clientService)
+        public AlbumInfoService(ILastFmApiClientService clientService, IAlbumInfoService albumInfoService)
         {
-            _lastFmService = new Lazy<ILastFmAlbumInfoService>(() => new LastFmAlbumInfoService(clientService.ApiClient));
+            _albumInfoService = albumInfoService;
+            _clientService = clientService;
         }
 
         public async Task<string> GetArtworkUrl(string artistName, string albumTitle)
         {
-            return await _lastFmService.Value.GetArtworkUrl(artistName, albumTitle);
+            return await _albumInfoService.GetArtworkUrl(_clientService.ApiClient, artistName, albumTitle);
         }
     }
 }

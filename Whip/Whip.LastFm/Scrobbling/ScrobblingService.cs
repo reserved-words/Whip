@@ -6,12 +6,12 @@ using Whip.Services.Interfaces;
 
 namespace Whip.LastFm
 {
-    public class ScrobblingService : IScrobblingService
+    public class ScrobblingService : Services.Interfaces.IScrobblingService
     {
         private readonly ILastFmApiClientService _clientService;
-        private readonly ILastFmScrobblingService _service;
+        private readonly LastFmApi.Interfaces.IScrobblingService _service;
 
-        public ScrobblingService(ILastFmScrobblingService service, ILastFmApiClientService clientService)
+        public ScrobblingService(LastFmApi.Interfaces.IScrobblingService service, ILastFmApiClientService clientService)
         {
             _clientService = clientService;
             _service = service;

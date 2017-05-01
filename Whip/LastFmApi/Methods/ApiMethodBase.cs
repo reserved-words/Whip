@@ -47,7 +47,7 @@ namespace LastFmApi.Methods
             }
             apiSigBuilder.Append(_apiSecret);
 
-            Parameters.Add(ParameterKey.ApiSig, MD5Hasher.Hash(apiSigBuilder.ToString()));
+            Parameters.Add(ParameterKey.ApiSig, MD5Helper.Hash(apiSigBuilder.ToString()));
         }
 
         protected void SetParameters(Dictionary<ParameterKey, string> parameters = null)

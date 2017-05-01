@@ -68,18 +68,20 @@ namespace Whip.Ioc
 
         private void BindLastFmComponents()
         {
-            Bind<ILastFmSessionService>().To<LastFmSessionService>().InTransientScope();
+            Bind<ISessionService>().To<SessionService>().InTransientScope();
 
-            Bind<ILastFmScrobblingService>().To<LastFmScrobblingService>().InTransientScope();
-            Bind<ILastFmTrackLoveService>().To<LastFmTrackLoveService>().InTransientScope();
+            Bind<LastFmApi.Interfaces.IScrobblingService>().To<LastFmApi.ScrobblingService>().InTransientScope();
+            Bind<LastFmApi.Interfaces.ITrackLoveService>().To<LastFmApi.TrackLoveService>().InTransientScope();
+            Bind<IArtistInfoService>().To<LastFmApi.ArtistInfoService>().InTransientScope();
+            Bind<IAlbumInfoService>().To<LastFmApi.AlbumInfoService>().InTransientScope();
 
-            Bind<IScrobblingService>()
+            Bind<Services.Interfaces.IScrobblingService>()
                 .To<Services.ScrobblingService>()
                 .InTransientScope()
-                .WithConstructorArgument(typeof(IScrobblingService), ctx => ctx.Kernel.Get<LastFm.ScrobblingService>());
+                .WithConstructorArgument(typeof(Services.Interfaces.IScrobblingService), ctx => ctx.Kernel.Get<LastFm.ScrobblingService>());
 
-            Bind<ITrackLoveService>()
-                .To<TrackLoveService>()
+            Bind<Services.Interfaces.ITrackLoveService>()
+                .To<LastFm.TrackLoveService>()
                 .InTransientScope();
 
             Bind<IAsyncMethodInterceptor>().To<LastFmMethodInterceptor>().InTransientScope();
@@ -87,12 +89,12 @@ namespace Whip.Ioc
             Bind<IWebArtistInfoService>()
                 .To<ErrorHandlingArtistInfoService>()
                 .InTransientScope()
-                .WithConstructorArgument(typeof(IWebArtistInfoService), ctx => ctx.Kernel.Get<ArtistInfoService>());
+                .WithConstructorArgument(typeof(IWebArtistInfoService), ctx => ctx.Kernel.Get<LastFm.ArtistInfoService>());
 
             Bind<IWebAlbumInfoService>()
                 .To<ErrorHandlingAlbumInfoService>()
                 .InTransientScope()
-                .WithConstructorArgument(typeof(IWebAlbumInfoService), ctx => ctx.Kernel.Get<AlbumInfoService>());
+                .WithConstructorArgument(typeof(IWebAlbumInfoService), ctx => ctx.Kernel.Get<LastFm.AlbumInfoService>());
         }
 
         private void BindMessageHandlers()

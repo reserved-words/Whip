@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace LastFmApi
 {
-    public class LastFmTrackLoveService : ILastFmTrackLoveService
+    public class TrackLoveService : ITrackLoveService
     {
         public async Task<bool> IsLovedAsync(AuthorizedApiClient client, Track track)
         {
