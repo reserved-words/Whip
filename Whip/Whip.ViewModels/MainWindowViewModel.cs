@@ -64,8 +64,7 @@ namespace Whip.ViewModels
             {
                 MainViewModel.SelectTab(TabType.Settings);
 
-                var messageViewModel = new MessageViewModel(_messenger, UserSettingsMissingTitle, UserSettingsMissingText);
-                _messenger.Send(new ShowDialogMessage(messageViewModel));
+                _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Info, UserSettingsMissingTitle, UserSettingsMissingText));
                 
                 return;
             }

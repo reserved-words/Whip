@@ -180,7 +180,7 @@ namespace Whip.View
             {
                 if (ex.ErrorCode == ErrorCode.UserNotLoggedIn)
                 {
-                    _messenger.Send(new ShowDialogMessage(new MessageViewModel(_messenger, "Last.FM Error", ex.Message)));
+                    _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, "Last.FM Error", ex.Message));
                     LastFmUsername = string.Empty;
                     LastFmApiSessionKey = null;
                     return;

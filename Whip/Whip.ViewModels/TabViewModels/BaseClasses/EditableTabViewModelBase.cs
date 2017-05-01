@@ -76,8 +76,7 @@ namespace Whip.ViewModels.TabViewModels
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
                 var errorMessage = string.Format("Please resolve the following validation errors:{0}{0}{1}", Environment.NewLine, ErrorMessage);
-                var messageViewModel = new MessageViewModel(_messenger, "Validation Error", errorMessage);
-                _messenger.Send(new ShowDialogMessage(messageViewModel));
+                _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, "Validation Error", errorMessage));
                 return false;
             }
 

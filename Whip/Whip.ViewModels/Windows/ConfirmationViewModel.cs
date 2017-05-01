@@ -1,7 +1,4 @@
-﻿
-using System;
-using GalaSoft.MvvmLight.Command;
-using Whip.Common.Interfaces;
+﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 
 namespace Whip.ViewModels.Windows

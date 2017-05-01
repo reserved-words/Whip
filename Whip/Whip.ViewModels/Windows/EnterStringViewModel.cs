@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.ComponentModel;
+using Whip.ViewModels.Messages;
 
 namespace Whip.ViewModels.Windows
 {
@@ -48,8 +49,7 @@ namespace Whip.ViewModels.Windows
         {
             if (!string.IsNullOrEmpty(Error))
             {
-                var messageViewModel = new MessageViewModel(_messenger, "Validation Error", Error);
-                _messenger.Send(messageViewModel);
+                _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, "Validation Error", Error));
                 return;
             }
 

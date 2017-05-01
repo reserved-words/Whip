@@ -263,7 +263,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
 
             if (string.IsNullOrEmpty(result))
             {
-                _messenger.Send(new ShowDialogMessage(new MessageViewModel(_messenger, "Artwork", "No artwork found for this album")));
+                _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Info, "Artwork", "No artwork found for this album"));
             }
 
             UpdateArtwork(await _imageProcessingService.GetImageBytesFromUrl(result));
