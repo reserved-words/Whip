@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Whip.Services.Interfaces
 {
@@ -21,9 +22,9 @@ namespace Whip.Services.Interfaces
         string LastFmErrorMessage { get; }
         bool Offline { get; set; }
 
-        void Save();
+        Task SaveAsync();
         void SetInternetStatus(bool online);
         void TurnOffLastFm(string errorMessage);
-        void SetStartupDefaults();
+        Task SetStartupDefaultsAsync();
     }
 }

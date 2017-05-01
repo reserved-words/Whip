@@ -8,7 +8,7 @@ namespace Whip
 {
     public partial class App : Application
     {
-        protected override void OnStartup(StartupEventArgs e)
+        protected async override void OnStartup(StartupEventArgs e)
         {
             IocKernel.Initialize(new IocConfiguration());
             IocKernel.StartMessageHandlers();
@@ -18,7 +18,7 @@ namespace Whip
             GetLogger().Info("Application started");
 
             var settings = GetUserSettings();
-            settings.SetStartupDefaults();
+            await settings.SetStartupDefaultsAsync();
 
             base.OnStartup(e);
         }

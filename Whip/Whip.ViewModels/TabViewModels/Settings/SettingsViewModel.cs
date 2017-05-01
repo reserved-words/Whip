@@ -132,7 +132,7 @@ namespace Whip.ViewModels.TabViewModels.Settings
             _userSettings.Scrobbling = Scrobbling;
             _userSettings.ShuffleOn = ShuffleOn;
 
-            _userSettings.Save();
+            _userSettings.SaveAsync();
         }
 
         private void OnSetArchiveDirectory()

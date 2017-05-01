@@ -137,12 +137,12 @@ namespace Whip.View
             private set { _lastFmErrorMessage = value; }
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
             if (_lastFmUsernameChanged)
             {
                 _lastFmUsernameChanged = false;
-                SetLastFmClients();
+                await SetLastFmClients();
             }
 
             Properties.Settings.Default.Save();
@@ -166,14 +166,14 @@ namespace Whip.View
             }
         }
 
-        private void SetLastFmClients()
+        private async Task SetLastFmClients()
         {
             if (string.IsNullOrEmpty(LastFmUsername))
                 return;
 
             try
             {
-                _lastFmApiClientService.SetClients(LastFmApiKey, LastFmApiSecret, LastFmUsername, LastFmApiSessionKey).Wait();
+                await _lastFmApiClientService.SetClients(LastFmApiKey, LastFmApiSecret, LastFmUsername, LastFmApiSessionKey);
                 LastFmApiSessionKey = _lastFmApiClientService.AuthorizedApiClient.SessionKey;
             }
             catch (LastFmApiException ex)
@@ -204,12 +204,12 @@ namespace Whip.View
             }
         }
 
-        public void SetStartupDefaults()
+        public async Task SetStartupDefaultsAsync()
         {
             LastFmStatus = true;
             Offline = false;
             
-            SetLastFmClients();
+            await SetLastFmClients();
 
             Properties.Settings.Default.Save();
         }

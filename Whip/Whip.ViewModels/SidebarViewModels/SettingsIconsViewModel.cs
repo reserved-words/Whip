@@ -55,7 +55,7 @@ namespace Whip.ViewModels.SidebarViewModels
             var currentColourIndex = standardColours.IndexOf(_userSettings.MainColourRgb);
             var nextColourIndex = currentColourIndex == standardColours.Count - 1 ? 0 : currentColourIndex + 1;
             _userSettings.MainColourRgb = standardColours[nextColourIndex];
-            _userSettings.Save();
+            _userSettings.SaveAsync();
         }
 
         private void OnSettings(CommandIcon commandIcon)
@@ -81,14 +81,14 @@ namespace Whip.ViewModels.SidebarViewModels
         private void OnToggleShuffle(CommandIcon commandIcon)
         {
             _userSettings.ShuffleOn = !_userSettings.ShuffleOn;
-            _userSettings.Save();
+            _userSettings.SaveAsync();
             commandIcon.On = _userSettings.ShuffleOn;
         }
 
         private void OnToggleScrobbling(CommandIcon commandIcon)
         {
             _userSettings.Scrobbling = !_userSettings.Scrobbling;
-            _userSettings.Save();
+            _userSettings.SaveAsync();
             commandIcon.On = _userSettings.Scrobbling;
         }
     }

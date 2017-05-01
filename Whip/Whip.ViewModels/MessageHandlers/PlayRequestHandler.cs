@@ -91,7 +91,7 @@ namespace Whip.ViewModels.MessageHandlers
 
             _shuffleStatusChangedByPlayRequest = true;
             _userSettings.ShuffleOn = shuffleOn;
-            _userSettings.Save();
+            _userSettings.SaveAsync();
         }
 
         private void OnShufflingStatusChanged()
