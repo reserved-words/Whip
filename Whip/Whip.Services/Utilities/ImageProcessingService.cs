@@ -11,6 +11,13 @@ namespace Whip.Services
 {
     public class ImageProcessingService : IImageProcessingService
     {
+        private readonly IAsyncMethodInterceptor _interceptor;
+
+        public ImageProcessingService(IAsyncMethodInterceptor interceptor)
+        {
+            _interceptor = interceptor;
+        }
+
         public byte[] GetImageBytesFromFile(string fileLocation)
         {
             if (string.IsNullOrEmpty(fileLocation))
@@ -35,7 +42,7 @@ namespace Whip.Services
 
             using (var webClient = new WebClient())
             {
-                return await webClient.DownloadDataTaskAsync(new Uri(url));
+                return await _interceptor.TryMethod(webClient.DownloadDataTaskAsync(new Uri(url)), null, "Getting image " + url);
             }
         }
 

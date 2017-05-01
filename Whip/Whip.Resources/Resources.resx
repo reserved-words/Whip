@@ -132,6 +132,12 @@
   <data name="FacebookUrl" xml:space="preserve">
     <value>https://facebook.com/{0}</value>
   </data>
+  <data name="ImageErrorTitle" xml:space="preserve">
+    <value>Image Error</value>
+  </data>
+  <data name="ImageInternetErrorText" xml:space="preserve">
+    <value>The image was not loaded due to an internet connection error</value>
+  </data>
   <data name="LastFmOffErrorMessage" xml:space="preserve">
     <value>Last.FM interaction has been turned off due to an error. See Settings page for further information.</value>
   </data>

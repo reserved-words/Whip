@@ -106,6 +106,24 @@ namespace Whip.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Image Error.
+        /// </summary>
+        public static string ImageErrorTitle {
+            get {
+                return ResourceManager.GetString("ImageErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The image was not loaded due to an internet connection error.
+        /// </summary>
+        public static string ImageInternetErrorText {
+            get {
+                return ResourceManager.GetString("ImageInternetErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last.FM interaction has been turned off due to an error. See Settings page for further information..
         /// </summary>
         public static string LastFmOffErrorMessage {

@@ -64,6 +64,8 @@ namespace Whip.Ioc
             Bind<IImageProcessingService>().To<ImageProcessingService>().InTransientScope();
             Bind<IWebBrowserService>().To<WebBrowserService>().InTransientScope();
             Bind<IArchiveService>().To<ArchiveService>().InTransientScope();
+
+            Bind<IAsyncMethodInterceptor>().To<WebMethodInterceptor>().InTransientScope();
         }
 
         private void BindLastFmComponents()
@@ -83,18 +85,18 @@ namespace Whip.Ioc
             Bind<Services.Interfaces.ITrackLoveService>()
                 .To<LastFm.TrackLoveService>()
                 .InTransientScope();
-
-            Bind<IAsyncMethodInterceptor>().To<LastFmMethodInterceptor>().InTransientScope();
-
+            
             Bind<IWebArtistInfoService>()
                 .To<ErrorHandlingArtistInfoService>()
                 .InTransientScope()
-                .WithConstructorArgument(typeof(IWebArtistInfoService), ctx => ctx.Kernel.Get<LastFm.ArtistInfoService>());
+                .WithConstructorArgument(typeof(IWebArtistInfoService), ctx => ctx.Kernel.Get<LastFm.ArtistInfoService>())
+                .WithConstructorArgument(typeof(IAsyncMethodInterceptor), ctx => ctx.Kernel.Get<LastFm.LastFmMethodInterceptor>());
 
             Bind<IWebAlbumInfoService>()
                 .To<ErrorHandlingAlbumInfoService>()
                 .InTransientScope()
-                .WithConstructorArgument(typeof(IWebAlbumInfoService), ctx => ctx.Kernel.Get<LastFm.AlbumInfoService>());
+                .WithConstructorArgument(typeof(IWebAlbumInfoService), ctx => ctx.Kernel.Get<LastFm.AlbumInfoService>())
+                .WithConstructorArgument(typeof(IAsyncMethodInterceptor), ctx => ctx.Kernel.Get<LastFm.LastFmMethodInterceptor>());
         }
 
         private void BindMessageHandlers()

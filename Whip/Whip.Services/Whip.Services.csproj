@@ -48,6 +48,7 @@
     <Compile Include="Library\LibrarySortingService.cs" />
     <Compile Include="Library\TrackFilterService.cs" />
     <Compile Include="Library\TrackUpdateService.cs" />
+    <Compile Include="MethodInterceptors\WebMethodInterceptor.cs" />
     <Compile Include="Singletons\NewFilePlayer.cs" />
     <Compile Include="Singletons\Playlist.cs" />
     <Compile Include="Singletons\ScrobblingPlayer.cs" />

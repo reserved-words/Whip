@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using Whip.Common;
 using Whip.Common.Model;
@@ -253,7 +254,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
                 return;
 
             LoadingArtwork = true;
-            UpdateArtwork(await _imageProcessingService.GetImageBytesFromUrl(result));            
+            UpdateArtwork(await GetImageBytesFromUrl(result));            
         }
 
         private async void OnGetArtworkFromWeb()
@@ -266,7 +267,22 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
                 _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Info, "Artwork", "No artwork found for this album"));
             }
 
-            UpdateArtwork(await _imageProcessingService.GetImageBytesFromUrl(result));
+            UpdateArtwork(await GetImageBytesFromUrl(result));
+        }
+
+        private async Task<byte[]> GetImageBytesFromUrl(string url)
+        {
+            if (string.IsNullOrEmpty(url))
+                return null;
+
+            var result = await _imageProcessingService.GetImageBytesFromUrl(url);
+
+            if (result == null)
+            {
+                _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, ImageErrorTitle, ImageInternetErrorText));
+            }
+
+            return result;
         }
 
         private void Populate(Track track)

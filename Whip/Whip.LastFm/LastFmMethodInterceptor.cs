@@ -27,7 +27,7 @@ namespace Whip.LastFm
                     _userSettings.SetInternetStatus(true);
                     return result;
                 }
-                catch (AggregateException ex)
+                catch (Exception ex)
                 {
                     HandleError(ex, additionalErrorInfo);
                 }
@@ -41,7 +41,7 @@ namespace Whip.LastFm
             throw new NotImplementedException();
         }
 
-        public void HandleError(AggregateException ex, string additionalInfo = "")
+        public void HandleError(Exception ex, string additionalInfo = "")
         {
             var lastFmException = GetLastFmException(ex);
 
