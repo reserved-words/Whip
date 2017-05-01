@@ -8,22 +8,15 @@ namespace LastFmApi
 {
     public class LastFmScrobblingService : ILastFmScrobblingService
     {
-        private readonly AuthorizedApiClient _client;
-
-        public LastFmScrobblingService(AuthorizedApiClient client)
+        public async Task ScrobbleAsync(AuthorizedApiClient client, Track track, DateTime timePlayed)
         {
-            _client = client;
-        }
-
-        public async Task ScrobbleAsync(Track track, DateTime timePlayed)
-        {
-            var scrobbleMethod = new ScrobbleMethod(_client, track, timePlayed);
+            var scrobbleMethod = new ScrobbleMethod(client, track, timePlayed);
             await scrobbleMethod.PostAsync();
         }
 
-        public async Task UpdateNowPlayingAsync(Track track, int duration)
+        public async Task UpdateNowPlayingAsync(AuthorizedApiClient client, Track track, int duration)
         {
-            var updateNowPlayingMethod = new UpdateNowPlayingMethod(_client, track, duration);
+            var updateNowPlayingMethod = new UpdateNowPlayingMethod(client, track, duration);
             await updateNowPlayingMethod.PostAsync();
         }
     }

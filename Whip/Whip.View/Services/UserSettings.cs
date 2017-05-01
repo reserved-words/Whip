@@ -1,12 +1,17 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
+using LastFmApi;
 using System;
+using System.Threading.Tasks;
+using Whip.LastFm;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
+using Whip.ViewModels.Windows;
 
 namespace Whip.View
 {
     public class UserSettings : IUserSettings
     {
+        private readonly ILastFmApiClientService _lastFmApiClientService;
         private readonly IMessenger _messenger;
 
         private bool _scrobblingStatusChanged;
@@ -16,8 +21,9 @@ namespace Whip.View
 
         private string _lastFmErrorMessage;
 
-        public UserSettings(IMessenger messenger)
+        public UserSettings(IMessenger messenger, ILastFmApiClientService lastFmApiClientService)
         {
+            _lastFmApiClientService = lastFmApiClientService;
             _messenger = messenger;
         }
 
@@ -81,6 +87,7 @@ namespace Whip.View
                 if (value != Properties.Settings.Default.LastFmUsername)
                 {
                     Properties.Settings.Default.LastFmUsername = value;
+                    Properties.Settings.Default.LastFmApiSessionKey = null;
                     _lastFmUsernameChanged = true;
                 }
             }
@@ -132,13 +139,13 @@ namespace Whip.View
 
         public void Save()
         {
-            Properties.Settings.Default.Save();
-            
             if (_lastFmUsernameChanged)
             {
                 _lastFmUsernameChanged = false;
-                // Update session key
+                SetLastFmClients();
             }
+
+            Properties.Settings.Default.Save();
 
             if (_scrobblingStatusChanged)
             {
@@ -156,6 +163,30 @@ namespace Whip.View
             {
                 _libraryUpdated = false;
                 _messenger.Send(new LibraryUpdateRequest());
+            }
+        }
+
+        private void SetLastFmClients()
+        {
+            if (string.IsNullOrEmpty(LastFmUsername))
+                return;
+
+            try
+            {
+                _lastFmApiClientService.SetClients(LastFmApiKey, LastFmApiSecret, LastFmUsername, LastFmApiSessionKey).Wait();
+                LastFmApiSessionKey = _lastFmApiClientService.AuthorizedApiClient.SessionKey;
+            }
+            catch (LastFmApiException ex)
+            {
+                if (ex.ErrorCode == ErrorCode.UserNotLoggedIn)
+                {
+                    _messenger.Send(new ShowDialogMessage(new MessageViewModel(_messenger, "Last.FM Error", ex.Message)));
+                    LastFmUsername = string.Empty;
+                    LastFmApiSessionKey = null;
+                    return;
+                }
+
+                throw;
             }
         }
 
@@ -177,6 +208,9 @@ namespace Whip.View
         {
             LastFmStatus = true;
             Offline = false;
+            
+            SetLastFmClients();
+
             Properties.Settings.Default.Save();
         }
 

@@ -46,8 +46,6 @@
     <Compile Include="Information\AlbumInfoService.cs" />
     <Compile Include="LastFmApiClientService.cs" />
     <Compile Include="LastFmMethodInterceptor.cs" />
-    <Compile Include="Scrobbling\AuthorizedScrobblingService.cs" />
-    <Compile Include="Scrobbling\AuthorizedTrackLoveService.cs" />
     <Compile Include="ILastFmApiClientService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scrobbling\ScrobblingService.cs" />

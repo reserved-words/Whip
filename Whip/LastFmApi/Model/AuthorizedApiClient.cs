@@ -48,7 +48,7 @@ namespace LastFmApi
 
                     if (session.Username != Username)
                     {
-                        throw new Exception("Incorrect user logged in");
+                        throw new LastFmApiException(ErrorCode.UserNotLoggedIn, "The requested username must be logged in to authorize access");
                     }
 
                     SessionKey = session.Key;

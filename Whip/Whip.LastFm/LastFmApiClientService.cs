@@ -1,51 +1,28 @@
 ﻿using LastFmApi;
 using LastFmApi.Interfaces;
-using System;
 using System.Threading.Tasks;
-using Whip.Services.Interfaces;
 
 namespace Whip.LastFm
 {
     public class LastFmApiClientService : ILastFmApiClientService
     {
         private readonly ILastFmSessionService _sessionService;
-        private readonly IUserSettings _userSettings;
 
-        private readonly Lazy<Task<AuthorizedApiClient>> _authorizedApiClient;
-        private readonly Lazy<ApiClient> _apiClient;
+        private AuthorizedApiClient _authorizedApiClient;
+        private ApiClient _apiClient;
 
-        public LastFmApiClientService(ILastFmSessionService sessionService, IUserSettings userSettings)
+        public LastFmApiClientService(ILastFmSessionService sessionService)
         {
             _sessionService = sessionService;
-            _userSettings = userSettings;
-
-            _authorizedApiClient = new Lazy<Task<AuthorizedApiClient>>(GetAuthorizedApiClientAsync);
-            _apiClient = new Lazy<ApiClient>(GetApiClient);
         }
 
-        public ApiClient ApiClient => _apiClient.Value;
-        public Task<AuthorizedApiClient> AuthorizedApiClient => _authorizedApiClient.Value;
+        public ApiClient ApiClient => _apiClient;
+        public AuthorizedApiClient AuthorizedApiClient => _authorizedApiClient;
 
-        private async Task<AuthorizedApiClient> GetAuthorizedApiClientAsync()
+        public async Task SetClients(string apiKey, string apiSecret,string username, string sessionKey)
         {
-            var client = await _sessionService.GetAuthorizedApiClientAsync(
-                _userSettings.LastFmApiKey,
-                _userSettings.LastFmApiSecret,
-                _userSettings.LastFmUsername,
-                _userSettings.LastFmApiSessionKey);
-
-            _userSettings.LastFmUsername = client.Username;
-            _userSettings.LastFmApiSessionKey = client.SessionKey;
-            _userSettings.Save();
-
-            return client;
-        }
-
-        private ApiClient GetApiClient()
-        {
-            return _sessionService.GetApiClient(
-                _userSettings.LastFmApiKey,
-                _userSettings.LastFmApiSecret);
+            _apiClient = _sessionService.GetApiClient(apiKey, apiSecret);
+            _authorizedApiClient = await _sessionService.GetAuthorizedApiClientAsync(apiKey, apiSecret, username, sessionKey);
         }
     }
 }

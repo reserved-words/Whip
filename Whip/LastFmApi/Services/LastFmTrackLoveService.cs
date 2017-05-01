@@ -7,28 +7,21 @@ namespace LastFmApi
 {
     public class LastFmTrackLoveService : ILastFmTrackLoveService
     {
-        private readonly AuthorizedApiClient _client;
-
-        public LastFmTrackLoveService(AuthorizedApiClient apiClient)
+        public async Task<bool> IsLovedAsync(AuthorizedApiClient client, Track track)
         {
-            _client = apiClient;
-        }
-
-        public async Task<bool> IsLovedAsync(Track track)
-        {
-            var isLovedMethod = new IsLovedMethod(_client, track, _client.Username);
+            var isLovedMethod = new IsLovedMethod(client, track, client.Username);
             return await isLovedMethod.GetResultAsync();
         }
 
-        public async Task LoveTrackAsync(Track track)
+        public async Task LoveTrackAsync(AuthorizedApiClient client, Track track)
         {
-            var loveTrackMethod = new LoveTrackMethod(_client, track);
+            var loveTrackMethod = new LoveTrackMethod(client, track);
             await loveTrackMethod.PostAsync();
         }
 
-        public async Task UnloveTrackAsync(Track track)
+        public async Task UnloveTrackAsync(AuthorizedApiClient client, Track track)
         {
-            var unloveTrackMethod = new UnloveTrackMethod(_client, track);
+            var unloveTrackMethod = new UnloveTrackMethod(client, track);
             await unloveTrackMethod.PostAsync();
         }
     }

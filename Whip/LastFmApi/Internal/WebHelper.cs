@@ -13,46 +13,52 @@ namespace LastFmApi.Internal
         {
             var url = BuildUrl(parameters);
 
+            HttpResponseMessage response;
+
             using (var client = new HttpClient())
             {
-                var task = client.GetAsync(url);
-
-                await task;
-
-                if (task.IsFaulted)
+                try
                 {
-                    throw new LastFmApiException(ErrorCode.ConnectionFailed, task.Exception.InnerException.Message);
+                    response = await client.GetAsync(url);
                 }
-                else if (!task.Result.IsSuccessStatusCode)
+                catch (HttpRequestException ex)
                 {
-                    throw new LastFmApiException(ErrorCode.HttpErrorResponse, task.Result.StatusCode.ToString());
+                    throw new LastFmApiException(ErrorCode.ConnectionFailed, ex.Message);
                 }
-
-                return await task.Result.Content.ReadAsStringAsync();
             }
+                
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new LastFmApiException(ErrorCode.HttpErrorResponse, response.StatusCode.ToString());
+            }
+
+            return await response.Content.ReadAsStringAsync();
         }
 
         internal static async Task<string> HttpPostAsync(Dictionary<ParameterKey, string> parameters)
         {
             var content = new FormUrlEncodedContent(parameters.ToStringKeys());
 
+            HttpResponseMessage response;
+
             using (var client = new HttpClient())
             {
-                var task = client.PostAsync(BaseUrl, content);
-
-                await task;
-
-                if (task.IsFaulted)
+                try
                 {
-                    throw new LastFmApiException(ErrorCode.ConnectionFailed, task.Exception.InnerException.Message);
+                    response = await client.PostAsync(BaseUrl, content);
                 }
-                else if (!task.Result.IsSuccessStatusCode)
+                catch (HttpRequestException ex)
                 {
-                    throw new LastFmApiException(ErrorCode.HttpErrorResponse, task.Result.StatusCode.ToString());
+                    throw new LastFmApiException(ErrorCode.ConnectionFailed, ex.Message);
                 }
-
-                return await task.Result.Content.ReadAsStringAsync();
             }
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new LastFmApiException(ErrorCode.HttpErrorResponse, response.StatusCode.ToString());
+            }
+
+            return await response.Content.ReadAsStringAsync();
         }
 
         private static string BuildUrl(Dictionary<ParameterKey,string> parameters)

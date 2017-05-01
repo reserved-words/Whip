@@ -8,25 +8,27 @@ namespace Whip.LastFm
     public class TrackLoveService : ITrackLoveService
     {
         private readonly ILastFmTrackLoveService _service;
+        private readonly ILastFmApiClientService _clientService;
 
-        public TrackLoveService(ILastFmTrackLoveService service)
+        public TrackLoveService(ILastFmTrackLoveService service, ILastFmApiClientService clientService)
         {
+            _clientService = clientService;
             _service = service;
         }
 
         public async Task<bool> IsLovedAsync(Track track)
         {
-            return await _service.IsLovedAsync(GetTrack(track));
+            return await _service.IsLovedAsync(_clientService.AuthorizedApiClient, GetTrack(track));
         }
 
         public async Task LoveTrackAsync(Track track)
         {
-            await _service.LoveTrackAsync(GetTrack(track));
+            await _service.LoveTrackAsync(_clientService.AuthorizedApiClient, GetTrack(track));
         }
 
         public async Task UnloveTrackAsync(Track track)
         {
-            await _service.UnloveTrackAsync(GetTrack(track));
+            await _service.UnloveTrackAsync(_clientService.AuthorizedApiClient, GetTrack(track));
         }
 
         private LastFmApi.Track GetTrack(Track track)

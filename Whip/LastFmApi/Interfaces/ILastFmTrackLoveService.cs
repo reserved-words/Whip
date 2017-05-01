@@ -4,8 +4,8 @@ namespace LastFmApi.Interfaces
 {
     public interface ILastFmTrackLoveService
     {
-        Task<bool> IsLovedAsync(Track track);
-        Task LoveTrackAsync(Track track);
-        Task UnloveTrackAsync(Track track);
+        Task<bool> IsLovedAsync(AuthorizedApiClient client, Track track);
+        Task LoveTrackAsync(AuthorizedApiClient client, Track track);
+        Task UnloveTrackAsync(AuthorizedApiClient client, Track track);
     }
 }

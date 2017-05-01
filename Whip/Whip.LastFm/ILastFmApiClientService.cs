@@ -5,7 +5,9 @@ namespace Whip.LastFm
 {
     public interface ILastFmApiClientService
     {
+        Task SetClients(string apiKey, string apiSecret, string username, string sessionKey);
+
         ApiClient ApiClient { get; }
-        Task<AuthorizedApiClient> AuthorizedApiClient { get; }
+        AuthorizedApiClient AuthorizedApiClient { get; }
     }
 }

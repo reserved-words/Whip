@@ -19,31 +19,21 @@ namespace Whip.LastFm
 
         public async Task<T> TryMethod<T>(Task<T> task, T defaultReturnValue, string additionalErrorInfo = null) where T : class
         {
-            T result = null;
-            LastFmApiException exception = null;
-
             if (_userSettings.LastFmStatus)
             {
-                await task.ContinueWith(t =>
+                try
                 {
-                    if (t.IsFaulted)
-                    {
-                        exception = GetLastFmException(t.Exception);
-                    }
-                    else
-                    {
-                        result = t.Result;
-                        _userSettings.SetInternetStatus(true);
-                    }
-                });
+                    var result = await task;
+                    _userSettings.SetInternetStatus(true);
+                    return result;
+                }
+                catch (AggregateException ex)
+                {
+                    HandleError(ex, additionalErrorInfo);
+                }
             }
 
-            if (exception != null)
-            {
-                HandleError(exception, additionalErrorInfo);
-            }
-
-            return result ?? defaultReturnValue;
+            return defaultReturnValue;
         }
 
         public Task TryMethod(Task task, string additionalErrorInfo = null)
@@ -51,31 +41,33 @@ namespace Whip.LastFm
             throw new NotImplementedException();
         }
 
-        public void HandleError(LastFmApiException ex, string additionalInfo = "")
+        public void HandleError(AggregateException ex, string additionalInfo = "")
         {
-            switch (ex.ErrorCode)
+            var lastFmException = GetLastFmException(ex);
+
+            switch (lastFmException.ErrorCode)
             {
                 case ErrorCode.InvalidApiKey:
                 case ErrorCode.ServiceOffline:
                 case ErrorCode.ApiKeySuspended:
                 case ErrorCode.RateLimitExceeded:
-                    _userSettings.TurnOffLastFm(GetUserFriendlyMessage(ex.ErrorCode));
-                    _errorHandler.Error(GetNewException(ex, additionalInfo), LastFmOffErrorMessage);
+                    _userSettings.TurnOffLastFm(GetUserFriendlyMessage(lastFmException.ErrorCode));
+                    _errorHandler.Error(GetNewException(lastFmException, additionalInfo), LastFmOffErrorMessage);
                     break;
                 case ErrorCode.ConnectionFailed:
                     _userSettings.SetInternetStatus(false);
-                    _errorHandler.Warn(GetNewException(ex, additionalInfo));
+                    _errorHandler.Warn(GetNewException(lastFmException, additionalInfo));
                     return;
                 case ErrorCode.InvalidSessionKey:
                 case ErrorCode.UnauthorizedToken:
                 case ErrorCode.AuthenticationFailed:
                 case ErrorCode.UserNotLoggedIn:
                     // Change this to add a way of resolving session issues instead
-                    _userSettings.TurnOffLastFm(GetUserFriendlyMessage(ex.ErrorCode));
-                    _errorHandler.Error(GetNewException(ex, additionalInfo), LastFmOffErrorMessage);
+                    _userSettings.TurnOffLastFm(GetUserFriendlyMessage(lastFmException.ErrorCode));
+                    _errorHandler.Error(GetNewException(lastFmException, additionalInfo), LastFmOffErrorMessage);
                     break;
                 default:
-                    _errorHandler.Warn(GetNewException(ex, additionalInfo));
+                    _errorHandler.Warn(GetNewException(lastFmException, additionalInfo));
                     break;
             }
         }

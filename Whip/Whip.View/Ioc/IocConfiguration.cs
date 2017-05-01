@@ -41,6 +41,7 @@ namespace Whip.Ioc
             Bind<IPlaylist>().To<Playlist>().InSingletonScope();
             Bind<IMessenger>().To<Messenger>().InSingletonScope();
             Bind<IUserSettings>().To<UserSettings>().InSingletonScope();
+            Bind<ILastFmApiClientService>().To<LastFmApiClientService>().InSingletonScope();
         }
 
         private void BindServices()
@@ -67,14 +68,10 @@ namespace Whip.Ioc
 
         private void BindLastFmComponents()
         {
-            Bind<ILastFmApiClientService>().To<LastFmApiClientService>().InTransientScope();
             Bind<ILastFmSessionService>().To<LastFmSessionService>().InTransientScope();
 
-            Bind<AuthorizedScrobblingService>().ToSelf().InTransientScope();
-            Bind<AuthorizedTrackLoveService>().ToSelf().InTransientScope();
-
-            Bind<ILastFmScrobblingService>().To<AuthorizedScrobblingService>().InTransientScope();
-            Bind<ILastFmTrackLoveService>().To<AuthorizedTrackLoveService>().InTransientScope();
+            Bind<ILastFmScrobblingService>().To<LastFmScrobblingService>().InTransientScope();
+            Bind<ILastFmTrackLoveService>().To<LastFmTrackLoveService>().InTransientScope();
 
             Bind<IScrobblingService>()
                 .To<Services.ScrobblingService>()
