@@ -17,7 +17,7 @@ namespace Whip.LastFm
             _errorHandler = errorHandler;
         }
 
-        public async Task<T> TryMethod<T>(Task<T> task, T defaultReturnValue, string additionalErrorInfo = null) where T : class
+        public async Task<T> TryMethod<T>(Task<T> task, T defaultReturnValue, string additionalErrorInfo = null)
         {
             if (_userSettings.LastFmStatus)
             {
@@ -36,9 +36,20 @@ namespace Whip.LastFm
             return defaultReturnValue;
         }
 
-        public Task TryMethod(Task task, string additionalErrorInfo = null)
+        public async Task TryMethod(Task task, string additionalErrorInfo = null)
         {
-            throw new NotImplementedException();
+            if (_userSettings.LastFmStatus)
+            {
+                try
+                {
+                    await task;
+                    _userSettings.SetInternetStatus(true);
+                }
+                catch (Exception ex)
+                {
+                    HandleError(ex, additionalErrorInfo);
+                }
+            }
         }
 
         public void HandleError(Exception ex, string additionalInfo = "")

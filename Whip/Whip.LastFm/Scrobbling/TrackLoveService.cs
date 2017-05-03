@@ -1,7 +1,5 @@
-﻿using LastFmApi.Interfaces;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Whip.Common.Model;
-using Whip.Services.Interfaces;
 
 namespace Whip.LastFm
 {
@@ -21,14 +19,16 @@ namespace Whip.LastFm
             return await _service.IsLovedAsync(_clientService.AuthorizedApiClient, GetTrack(track));
         }
 
-        public async Task LoveTrackAsync(Track track)
+        public async Task<bool> LoveTrackAsync(Track track)
         {
             await _service.LoveTrackAsync(_clientService.AuthorizedApiClient, GetTrack(track));
+            return true;
         }
 
-        public async Task UnloveTrackAsync(Track track)
+        public async Task<bool> UnloveTrackAsync(Track track)
         {
             await _service.UnloveTrackAsync(_clientService.AuthorizedApiClient, GetTrack(track));
+            return true;
         }
 
         private LastFmApi.Track GetTrack(Track track)

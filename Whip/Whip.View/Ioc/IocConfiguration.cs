@@ -83,8 +83,10 @@ namespace Whip.Ioc
                 .WithConstructorArgument(typeof(Services.Interfaces.IScrobblingService), ctx => ctx.Kernel.Get<LastFm.ScrobblingService>());
 
             Bind<Services.Interfaces.ITrackLoveService>()
-                .To<LastFm.TrackLoveService>()
-                .InTransientScope();
+                .To<ErrorHandlingTrackLoveService>()
+                .InTransientScope()
+                .WithConstructorArgument(typeof(Services.Interfaces.ITrackLoveService), ctx => ctx.Kernel.Get<LastFm.TrackLoveService>())
+                .WithConstructorArgument(typeof(IAsyncMethodInterceptor), ctx => ctx.Kernel.Get<LastFm.LastFmMethodInterceptor>());
             
             Bind<IWebArtistInfoService>()
                 .To<ErrorHandlingArtistInfoService>()

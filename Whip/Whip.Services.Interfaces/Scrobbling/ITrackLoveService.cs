@@ -6,7 +6,7 @@ namespace Whip.Services.Interfaces
     public interface ITrackLoveService
     {
         Task<bool> IsLovedAsync(Track track);
-        Task LoveTrackAsync(Track track);
-        Task UnloveTrackAsync(Track track);
+        Task<bool> LoveTrackAsync(Track track);
+        Task<bool> UnloveTrackAsync(Track track);
     }
 }

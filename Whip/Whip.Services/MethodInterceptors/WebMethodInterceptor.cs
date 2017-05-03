@@ -16,7 +16,7 @@ namespace Whip.Services
             _errorHandler = errorHandler;
         }
 
-        public async Task<T> TryMethod<T>(Task<T> task, T defaultReturnValue, string additionalErrorInfo = null) where T : class
+        public async Task<T> TryMethod<T>(Task<T> task, T defaultReturnValue, string additionalErrorInfo = null)
         {
             try
             {

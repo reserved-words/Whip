@@ -5,7 +5,7 @@ namespace Whip.Services.Interfaces
 {
     public interface IAsyncMethodInterceptor
     {
-        Task<T> TryMethod<T>(Task<T> task, T defaultReturnValue, string additionalErrorInfo = null) where T : class;
+        Task<T> TryMethod<T>(Task<T> task, T defaultReturnValue, string additionalErrorInfo = null);
 
         Task TryMethod(Task task, string additionalErrorInfo = null);
     }
