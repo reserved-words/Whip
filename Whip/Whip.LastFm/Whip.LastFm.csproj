@@ -43,6 +43,7 @@
     <Compile Include="ErrorHandlingDecorators\ErrorHandlingAlbumInfoService.cs" />
     <Compile Include="ErrorHandlingDecorators\ErrorHandlingArtistInfoService.cs" />
     <Compile Include="ErrorHandlingDecorators\ErrorHandlingTrackLoveService.cs" />
+    <Compile Include="ErrorHandlingDecorators\ErrorHandlingScrobblingService.cs" />
     <Compile Include="Information\ArtistInfoService.cs" />
     <Compile Include="Information\AlbumInfoService.cs" />
     <Compile Include="LastFmApiClientService.cs" />

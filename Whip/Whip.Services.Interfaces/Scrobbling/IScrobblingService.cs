@@ -6,7 +6,7 @@ namespace Whip.Services.Interfaces
 {
     public interface IScrobblingService
     {
-        Task ScrobbleAsync(Track track, DateTime timePlayed);
-        Task UpdateNowPlayingAsync(Track track, int duration);
+        Task<bool> ScrobbleAsync(Track track, DateTime timePlayed);
+        Task<bool> UpdateNowPlayingAsync(Track track, int duration);
     }
 }

@@ -52,7 +52,6 @@
     <Compile Include="Singletons\NewFilePlayer.cs" />
     <Compile Include="Singletons\Playlist.cs" />
     <Compile Include="Singletons\ScrobblingPlayer.cs" />
-    <Compile Include="Scrobbling\ScrobblingService.cs" />
     <Compile Include="Utilities\ImageProcessingService.cs" />
     <Compile Include="Utilities\TrackQueue.cs" />
     <Compile Include="Utilities\FileService.cs" />

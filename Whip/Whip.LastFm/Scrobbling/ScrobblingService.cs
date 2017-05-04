@@ -1,8 +1,6 @@
-﻿using LastFmApi.Interfaces;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Whip.Common.Model;
-using Whip.Services.Interfaces;
 
 namespace Whip.LastFm
 {
@@ -17,14 +15,16 @@ namespace Whip.LastFm
             _service = service;
         }
 
-        public async Task ScrobbleAsync(Track track, DateTime timePlayed)
+        public async Task<bool> ScrobbleAsync(Track track, DateTime timePlayed)
         {
             await _service.ScrobbleAsync(_clientService.AuthorizedApiClient, GetTrack(track), timePlayed);
+            return true;
         }
 
-        public async Task UpdateNowPlayingAsync(Track track, int duration)
+        public async Task<bool> UpdateNowPlayingAsync(Track track, int duration)
         {
             await _service.UpdateNowPlayingAsync(_clientService.AuthorizedApiClient, GetTrack(track), duration);
+            return true;
         }
 
         private LastFmApi.Track GetTrack(Track track)

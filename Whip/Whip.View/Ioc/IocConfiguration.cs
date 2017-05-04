@@ -78,27 +78,28 @@ namespace Whip.Ioc
             Bind<IAlbumInfoService>().To<LastFmApi.AlbumInfoService>().InTransientScope();
 
             Bind<Services.Interfaces.IScrobblingService>()
-                .To<Services.ScrobblingService>()
+                .To<ErrorHandlingScrobblingService>()
                 .InTransientScope()
-                .WithConstructorArgument(typeof(Services.Interfaces.IScrobblingService), ctx => ctx.Kernel.Get<LastFm.ScrobblingService>());
+                .WithConstructorArgument(typeof(Services.Interfaces.IScrobblingService), ctx => ctx.Kernel.Get<LastFm.ScrobblingService>())
+                .WithConstructorArgument(typeof(IAsyncMethodInterceptor), ctx => ctx.Kernel.Get<LastFmMethodInterceptor>());
 
             Bind<Services.Interfaces.ITrackLoveService>()
                 .To<ErrorHandlingTrackLoveService>()
                 .InTransientScope()
                 .WithConstructorArgument(typeof(Services.Interfaces.ITrackLoveService), ctx => ctx.Kernel.Get<LastFm.TrackLoveService>())
-                .WithConstructorArgument(typeof(IAsyncMethodInterceptor), ctx => ctx.Kernel.Get<LastFm.LastFmMethodInterceptor>());
+                .WithConstructorArgument(typeof(IAsyncMethodInterceptor), ctx => ctx.Kernel.Get<LastFmMethodInterceptor>());
             
             Bind<IWebArtistInfoService>()
                 .To<ErrorHandlingArtistInfoService>()
                 .InTransientScope()
                 .WithConstructorArgument(typeof(IWebArtistInfoService), ctx => ctx.Kernel.Get<LastFm.ArtistInfoService>())
-                .WithConstructorArgument(typeof(IAsyncMethodInterceptor), ctx => ctx.Kernel.Get<LastFm.LastFmMethodInterceptor>());
+                .WithConstructorArgument(typeof(IAsyncMethodInterceptor), ctx => ctx.Kernel.Get<LastFmMethodInterceptor>());
 
             Bind<IWebAlbumInfoService>()
                 .To<ErrorHandlingAlbumInfoService>()
                 .InTransientScope()
                 .WithConstructorArgument(typeof(IWebAlbumInfoService), ctx => ctx.Kernel.Get<LastFm.AlbumInfoService>())
-                .WithConstructorArgument(typeof(IAsyncMethodInterceptor), ctx => ctx.Kernel.Get<LastFm.LastFmMethodInterceptor>());
+                .WithConstructorArgument(typeof(IAsyncMethodInterceptor), ctx => ctx.Kernel.Get<LastFmMethodInterceptor>());
         }
 
         private void BindMessageHandlers()
