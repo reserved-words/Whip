@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Whip"
+             xmlns:controls="clr-namespace:Whip.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1200"
              x:Name="libraryView">
@@ -66,11 +67,11 @@
             </StackPanel>
         </Border>
         
-        <ListView Grid.Column="0"
-                  Grid.Row="1"
-                  ItemsSource="{Binding Artists}"
-                  SelectedItem="{Binding SelectedArtist}"
-                  BorderThickness="0">
+        <controls:ArtistsListView Grid.Column="0"
+                                  Grid.Row="1"
+                                  ItemsSource="{Binding Artists}"
+                                  SelectedItem="{Binding SelectedArtist}"
+                                  BorderThickness="0">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Label Content="{Binding Name}">
@@ -82,7 +83,7 @@
                     </Label>
                 </DataTemplate>
             </ListView.ItemTemplate>
-        </ListView>
+        </controls:ArtistsListView>
 
         <local:LibraryTracksView Grid.Column="1" 
                                  Grid.Row="0" Grid.RowSpan="2"

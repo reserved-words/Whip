@@ -130,6 +130,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\ArtistsListView.cs" />
     <Compile Include="Controls\ClickableProgressBar.cs" />
     <Compile Include="Controls\ColorPicker.cs" />
     <Compile Include="Controls\HyperlinkLabel.cs" />

@@ -98,7 +98,7 @@ namespace Whip.Services
             return new ArtistId3Data
             {
                 Name = artist.Name,
-                SortName = _sortingService.SortValue(artist),
+                SortName = artist.Sort,
                 Genre = artist.Genre,
                 Grouping = artist.Grouping
             };
@@ -109,7 +109,7 @@ namespace Whip.Services
             return new AlbumId3Data
             {
                 Artist = album.Artist.Name,
-                ArtistSort = _sortingService.SortValue(album.Artist),
+                ArtistSort = album.Artist.Sort,
                 Title = album.Title,
                 SortTitle = _sortingService.SortValue(album),
                 Year = album.Year,

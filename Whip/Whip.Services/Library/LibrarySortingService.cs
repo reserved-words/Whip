@@ -11,7 +11,7 @@ namespace Whip.Services
     {
         public IOrderedEnumerable<Artist> GetInDefaultOrder(IEnumerable<Artist> artists)
         {
-            return artists.OrderBy(a => SortValue(a));
+            return artists.OrderBy(a => a.Sort);
         }
 
         public void SortDiscs(Album album)
@@ -22,11 +22,6 @@ namespace Whip.Services
         public void SortTracks(Disc disc)
         {
             disc.Tracks = disc.Tracks.OrderBy(t => t.TrackNo).ToList();
-        }
-
-        public string SortValue(Artist artist)
-        {
-            return artist.Name.Replace("The ", "");
         }
 
         public string SortValue(Album album)

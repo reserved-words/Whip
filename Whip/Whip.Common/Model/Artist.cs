@@ -16,6 +16,7 @@ namespace Whip.Common.Model
         }
 
         public string Name { get; set; }
+        public string SortName { get; set; }
         public string Genre { get; set; }
         public string Grouping { get; set; }
         public City City { get; set; }
@@ -31,6 +32,8 @@ namespace Whip.Common.Model
         public ArtistWebInfo WebInfo { get; set; }
         public List<Album> Albums { get; set; }
         public List<Track> Tracks { get; set; }
+
+        public string Sort => SortName ?? Name.Replace("The ", "");
 
         public override bool Equals(object a)
         {

@@ -15,8 +15,6 @@ namespace Whip.Services.Interfaces
 
         void SortTracks(Disc disc);
 
-        string SortValue(Artist artist);
-
         string SortValue(Album album);
     }
 }
