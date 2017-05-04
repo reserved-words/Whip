@@ -1,12 +1,13 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
+using Whip.Common;
 
 namespace Whip.ViewModels.Windows
 {
     public class MessageViewModel : DialogViewModel
     {
-        public MessageViewModel(IMessenger messenger, string title, string text)
-            :base(messenger, title)
+        public MessageViewModel(IMessenger messenger, string title, IconType iconType, string text)
+            :base(messenger, title, iconType)
         {
             Text = text;
 

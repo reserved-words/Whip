@@ -5,11 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Whip"
         xmlns:viewModels="clr-namespace:Whip.ViewModels.Windows;assembly=Whip.ViewModels"
+        xmlns:properties="clr-namespace:Whip.View.Properties"
+        xmlns:controls="clr-namespace:Whip.Controls"
         mc:Ignorable="d"
-        Title="{Binding Title}" 
         ResizeMode="NoResize"
         ShowInTaskbar="false" 
         SizeToContent="WidthAndHeight"
+        WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         Height="300" 
         MinWidth="500"
@@ -28,12 +30,31 @@
             <local:EnterStringView />
         </DataTemplate>
     </Window.Resources>
-    <Border Style="{StaticResource ColourBorder}">
+    <Border Style="{StaticResource ColourBorder}"
+            Margin="5"
+            Padding="0">
         <Grid>
-            <ContentControl Content="{Binding}"
-                        BorderThickness="0"
-			            Height="Auto"
-			            Width="Auto"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0"
+                    Background="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"
+                    CornerRadius="2,2,0,0"
+                    Padding="5">
+                <WrapPanel>
+                    <controls:Icon16 Icon="{Binding Icon}"
+                                     Foreground="White" />
+                    <TextBlock Text="{Binding Title}"
+                               Foreground="White"
+                               Margin="5, 2"/>
+                </WrapPanel>
+            </Border>
+            <ContentControl Grid.Row="1"
+                            Content="{Binding}"
+                            BorderThickness="0"
+			                Height="Auto"
+			                Width="Auto"/>
         </Grid>
     </Border>
 </Window>

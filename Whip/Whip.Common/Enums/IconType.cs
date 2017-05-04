@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Whip.Common.Utilities;
-
-namespace Whip.Common
+﻿namespace Whip.Common
 {
     public enum IconType
     {
@@ -13,17 +6,23 @@ namespace Whip.Common
         Book,
         Cog,
         Edit,
+        ExclamationTriangle,
         Headphones,
         Home,
+        Hourglass2,
+        InfoCircle,
+        KeyboardOutline,
         LastFmSquare,
         ListOl,
         ListUl,
         LongArrowRight,
         Music,
         PaintBrush,
+        QuestionCircle,
         Random,
         Rss,
         Search,
+        TimesRectangle,
         Users,
         VolumeDown,
         VolumeOff,

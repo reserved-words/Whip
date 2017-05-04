@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
+using Whip.Common;
 
 namespace Whip.ViewModels.Windows
 {
@@ -7,8 +8,8 @@ namespace Whip.ViewModels.Windows
     {
         public enum ConfirmationType { YesNo, SaveCancel, OkCancel }
 
-        public ConfirmationViewModel(IMessenger messenger, string title, string text, ConfirmationType type)
-            :base(messenger, title)
+        public ConfirmationViewModel(IMessenger messenger, string title, string text, ConfirmationType type, bool questionIcon = false)
+            :base(messenger, title, questionIcon ? IconType.QuestionCircle : IconType.ExclamationTriangle)
         {
             Text = text;
 

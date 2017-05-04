@@ -1,4 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
+using System.Collections.Generic;
+using Whip.Common;
 using Whip.ViewModels.Windows;
 
 namespace Whip.ViewModels.Messages
@@ -7,6 +9,13 @@ namespace Whip.ViewModels.Messages
 
     public class ShowDialogMessage
     {
+        private Dictionary<MessageType, IconType> icons = new Dictionary<MessageType, IconType>
+        {
+            { MessageType.Info, IconType.InfoCircle },
+            { MessageType.Warning, IconType.ExclamationTriangle },
+            { MessageType.Error, IconType.TimesRectangle }
+        };
+
         public ShowDialogMessage(DialogViewModel viewModel)
         {
             ViewModel = viewModel;
@@ -14,7 +23,7 @@ namespace Whip.ViewModels.Messages
 
         public ShowDialogMessage(IMessenger messenger, MessageType messageType, string title, string text)
         {
-            ViewModel = new MessageViewModel(messenger, title, text);
+            ViewModel = new MessageViewModel(messenger, title, icons[messageType], text);
         }
 
         public DialogViewModel ViewModel { get; set; }

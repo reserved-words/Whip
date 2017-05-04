@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
+using Whip.Common;
 using Whip.Common.Utilities;
 
 namespace Whip.ViewModels.Windows
@@ -9,7 +10,7 @@ namespace Whip.ViewModels.Windows
         private int percentage;
 
         public ProgressBarViewModel(IMessenger messenger, string title, bool isIndeterminate = false)
-            : base(messenger, title)
+            : base(messenger, title, IconType.Hourglass2)
         {
             IsIndeterminate = isIndeterminate;
         }

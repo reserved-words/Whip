@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.ComponentModel;
+using Whip.Common;
 using Whip.ViewModels.Messages;
 
 namespace Whip.ViewModels.Windows
@@ -15,7 +16,7 @@ namespace Whip.ViewModels.Windows
         private string _result;
         
         public EnterStringViewModel(IMessenger messenger, string title, string text, Func<string, bool> isValid = null, string errorMessage = null)
-            :base(messenger, title)
+            :base(messenger, title, IconType.KeyboardOutline)
         {
             Text = text;
 
