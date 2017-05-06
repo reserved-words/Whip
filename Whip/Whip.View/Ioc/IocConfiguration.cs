@@ -24,18 +24,14 @@ namespace Whip.Ioc
     {
         public override void Load()
         {
-            BindSingletons();
-            
-            BindServices();
-
-            BindMessageHandlers();
-
-            BindPlayer();
-
-            BindLastFmComponents();
+            RegisterSingletons();
+            RegisterServices();
+            RegisterMessageHandlers();
+            RegisterPlayer();
+            RegisterLastFmComponents();
         }
 
-        private void BindSingletons()
+        private void RegisterSingletons()
         {
             Bind<Library>().ToSelf().InSingletonScope();
             Bind<IPlaylist>().To<Playlist>().InSingletonScope();
@@ -44,7 +40,7 @@ namespace Whip.Ioc
             Bind<ILastFmApiClientService>().To<LastFmApiClientService>().InSingletonScope();
         }
 
-        private void BindServices()
+        private void RegisterServices()
         {
             Bind<ILoggingService>().To<LoggingService>().InTransientScope();
             Bind<ITaggingService>().To<TagLibService>().InTransientScope();
@@ -68,41 +64,31 @@ namespace Whip.Ioc
             Bind<IAsyncMethodInterceptor>().To<WebMethodInterceptor>().InTransientScope();
         }
 
-        private void BindLastFmComponents()
+        private void RegisterLastFmComponents()
         {
             Bind<ISessionService>().To<SessionService>().InTransientScope();
 
-            Bind<LastFmApi.Interfaces.IScrobblingService>().To<LastFmApi.ScrobblingService>().InTransientScope();
-            Bind<LastFmApi.Interfaces.ITrackLoveService>().To<LastFmApi.TrackLoveService>().InTransientScope();
-            Bind<IArtistInfoService>().To<LastFmApi.ArtistInfoService>().InTransientScope();
-            Bind<IAlbumInfoService>().To<LastFmApi.AlbumInfoService>().InTransientScope();
+            RegisterErrorHandlingLastFmService<LastFmApi.Interfaces.IScrobblingService, LastFmApi.ScrobblingService, Services.Interfaces.IScrobblingService, ErrorHandlingScrobblingService, LastFm.ScrobblingService>();
+            RegisterErrorHandlingLastFmService<LastFmApi.Interfaces.ITrackLoveService, LastFmApi.TrackLoveService, Services.Interfaces.ITrackLoveService, ErrorHandlingTrackLoveService, LastFm.TrackLoveService>();
+            RegisterErrorHandlingLastFmService<IArtistInfoService, LastFmApi.ArtistInfoService, IWebArtistInfoService, ErrorHandlingArtistInfoService, LastFm.ArtistInfoService>();
+            RegisterErrorHandlingLastFmService<IAlbumInfoService, LastFmApi.AlbumInfoService, IWebAlbumInfoService, ErrorHandlingAlbumInfoService, LastFm.AlbumInfoService>();
+        }
 
-            Bind<Services.Interfaces.IScrobblingService>()
-                .To<ErrorHandlingScrobblingService>()
-                .InTransientScope()
-                .WithConstructorArgument(typeof(Services.Interfaces.IScrobblingService), ctx => ctx.Kernel.Get<LastFm.ScrobblingService>())
-                .WithConstructorArgument(typeof(IAsyncMethodInterceptor), ctx => ctx.Kernel.Get<LastFmMethodInterceptor>());
+        private void RegisterErrorHandlingLastFmService<ILastFmService,LastFmService,IService,ErrorHandlingService,Service>()
+            where LastFmService : ILastFmService
+            where Service : IService
+            where ErrorHandlingService : IService
+        {
+            Bind<ILastFmService>().To<LastFmService>().InTransientScope();
 
-            Bind<Services.Interfaces.ITrackLoveService>()
-                .To<ErrorHandlingTrackLoveService>()
+            Bind<IService>()
+                .To<ErrorHandlingService>()
                 .InTransientScope()
-                .WithConstructorArgument(typeof(Services.Interfaces.ITrackLoveService), ctx => ctx.Kernel.Get<LastFm.TrackLoveService>())
-                .WithConstructorArgument(typeof(IAsyncMethodInterceptor), ctx => ctx.Kernel.Get<LastFmMethodInterceptor>());
-            
-            Bind<IWebArtistInfoService>()
-                .To<ErrorHandlingArtistInfoService>()
-                .InTransientScope()
-                .WithConstructorArgument(typeof(IWebArtistInfoService), ctx => ctx.Kernel.Get<LastFm.ArtistInfoService>())
-                .WithConstructorArgument(typeof(IAsyncMethodInterceptor), ctx => ctx.Kernel.Get<LastFmMethodInterceptor>());
-
-            Bind<IWebAlbumInfoService>()
-                .To<ErrorHandlingAlbumInfoService>()
-                .InTransientScope()
-                .WithConstructorArgument(typeof(IWebAlbumInfoService), ctx => ctx.Kernel.Get<LastFm.AlbumInfoService>())
+                .WithConstructorArgument(typeof(IService), ctx => ctx.Kernel.Get<Service>())
                 .WithConstructorArgument(typeof(IAsyncMethodInterceptor), ctx => ctx.Kernel.Get<LastFmMethodInterceptor>());
         }
 
-        private void BindMessageHandlers()
+        private void RegisterMessageHandlers()
         {
             Bind<DialogMessageHandler>().ToSelf().InSingletonScope();
             Bind<PlayerCoordinator>().ToSelf().InSingletonScope();
@@ -115,7 +101,7 @@ namespace Whip.Ioc
             Bind<IShowTabRequestHandler>().ToMethod(ctx => ctx.Kernel.Get<ShowTabRequestHandler>());
         }
 
-        private void BindPlayer()
+        private void RegisterPlayer()
         {
             Bind<NewFilePlayer>().ToSelf()
                 .InSingletonScope()
