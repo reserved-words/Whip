@@ -19,6 +19,7 @@ namespace Whip.Ioc
             if (_kernel == null)
             {
                 _kernel = new StandardKernel(modules);
+                _kernel.RegisterComponents();
             }
         }
 

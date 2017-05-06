@@ -1,5 +1,4 @@
-﻿using Ninject.Modules;
-using Whip.TagLibSharp;
+﻿using Whip.TagLibSharp;
 using Whip.Services;
 using Whip.Services.Interfaces;
 using Whip.MessageHandlers;
@@ -20,96 +19,130 @@ using Whip.View;
 
 namespace Whip.Ioc
 {
-    public class IocConfiguration : NinjectModule
+    public static class IocConfiguration
     {
-        public override void Load()
+        public static void RegisterComponents(this IKernel kernel)
         {
-            RegisterSingletons();
-            RegisterServices();
-            RegisterMessageHandlers();
-            RegisterPlayer();
-            RegisterLastFmComponents();
+            kernel.RegisterSingletons()
+                .RegisterServices()
+                .RegisterMessageHandlers()
+                .RegisterPlayer()
+                .RegisterLastFmComponents();
         }
 
-        private void RegisterSingletons()
+        private static IKernel RegisterSingletons(this IKernel kernel)
         {
-            Bind<Library>().ToSelf().InSingletonScope();
-            Bind<IPlaylist>().To<Playlist>().InSingletonScope();
-            Bind<IMessenger>().To<Messenger>().InSingletonScope();
-            Bind<IUserSettings>().To<UserSettings>().InSingletonScope();
-            Bind<ILastFmApiClientService>().To<LastFmApiClientService>().InSingletonScope();
+            kernel.RegisterSingleton<Library>()
+                .RegisterSingleton<IPlaylist, Playlist>()
+                .RegisterSingleton<IMessenger, Messenger>()
+                .RegisterSingleton<IUserSettings, UserSettings>()
+                .RegisterSingleton<ILastFmApiClientService, LastFmApiClientService>();
+
+            return kernel;
         }
 
-        private void RegisterServices()
+        private static IKernel RegisterServices(this IKernel kernel)
         {
-            Bind<ILoggingService>().To<LoggingService>().InTransientScope();
-            Bind<ITaggingService>().To<TagLibService>().InTransientScope();
-            Bind<IFileDialogService>().To<FileDialogService>().InTransientScope();
-            Bind<IFolderDialogService>().To<FolderDialogService>().InTransientScope();
+            kernel.Register<ILoggingService, LoggingService>()
+                .Register<ITaggingService, TagLibService>()
+                .Register<IFileDialogService, FileDialogService>()
+                .Register<IFolderDialogService, FolderDialogService>()
+                .Register<IExceptionHandlingService, ExceptionHandlingService>()
+                .Register<IFileService, FileService>()
+                .Register<ILibraryService, LibraryService>()
+                .Register<ILibraryDataOrganiserService, LibraryDataOrganiserService>()
+                .Register<IDataPersistenceService, XmlDataPersistenceService>()
+                .Register<ICommentProcessingService, CommentProcessingService>()
+                .Register<ITrackFilterService, TrackFilterService>()
+                .Register<IScrobblingRulesService, ScrobblingRulesService>()
+                .Register<ILibrarySortingService, LibrarySortingService>()
+                .Register<ITrackUpdateService, TrackUpdateService>()
+                .Register<IImageProcessingService, ImageProcessingService>()
+                .Register<IWebBrowserService, WebBrowserService>()
+                .Register<IArchiveService, ArchiveService>()
+                .Register<IAsyncMethodInterceptor, WebMethodInterceptor>();
 
-            Bind<IExceptionHandlingService>().To<ExceptionHandlingService>().InTransientScope();
-            Bind<IFileService>().To<FileService>().InTransientScope();
-            Bind<ILibraryService>().To<LibraryService>().InTransientScope();
-            Bind<ILibraryDataOrganiserService>().To<LibraryDataOrganiserService>().InTransientScope();
-            Bind<IDataPersistenceService>().To<XmlDataPersistenceService>().InTransientScope();
-            Bind<ICommentProcessingService>().To<CommentProcessingService>().InTransientScope();
-            Bind<ITrackFilterService>().To<TrackFilterService>().InTransientScope();
-            Bind<IScrobblingRulesService>().To<ScrobblingRulesService>().InTransientScope();
-            Bind<ILibrarySortingService>().To<LibrarySortingService>().InTransientScope();
-            Bind<ITrackUpdateService>().To<TrackUpdateService>().InTransientScope();
-            Bind<IImageProcessingService>().To<ImageProcessingService>().InTransientScope();
-            Bind<IWebBrowserService>().To<WebBrowserService>().InTransientScope();
-            Bind<IArchiveService>().To<ArchiveService>().InTransientScope();
-
-            Bind<IAsyncMethodInterceptor>().To<WebMethodInterceptor>().InTransientScope();
+            return kernel;
         }
 
-        private void RegisterLastFmComponents()
+        private static IKernel RegisterLastFmComponents(this IKernel kernel)
         {
-            Bind<ISessionService>().To<SessionService>().InTransientScope();
+            kernel.Register<ISessionService, SessionService>();
 
-            RegisterErrorHandlingLastFmService<LastFmApi.Interfaces.IScrobblingService, LastFmApi.ScrobblingService, Services.Interfaces.IScrobblingService, ErrorHandlingScrobblingService, LastFm.ScrobblingService>();
-            RegisterErrorHandlingLastFmService<LastFmApi.Interfaces.ITrackLoveService, LastFmApi.TrackLoveService, Services.Interfaces.ITrackLoveService, ErrorHandlingTrackLoveService, LastFm.TrackLoveService>();
-            RegisterErrorHandlingLastFmService<IArtistInfoService, LastFmApi.ArtistInfoService, IWebArtistInfoService, ErrorHandlingArtistInfoService, LastFm.ArtistInfoService>();
-            RegisterErrorHandlingLastFmService<IAlbumInfoService, LastFmApi.AlbumInfoService, IWebAlbumInfoService, ErrorHandlingAlbumInfoService, LastFm.AlbumInfoService>();
+            kernel.RegisterErrorHandlingLastFmService<LastFmApi.Interfaces.IScrobblingService, LastFmApi.ScrobblingService, Services.Interfaces.IScrobblingService, ErrorHandlingScrobblingService, LastFm.ScrobblingService>()
+                .RegisterErrorHandlingLastFmService<LastFmApi.Interfaces.ITrackLoveService, LastFmApi.TrackLoveService, Services.Interfaces.ITrackLoveService, ErrorHandlingTrackLoveService, LastFm.TrackLoveService>()
+                .RegisterErrorHandlingLastFmService<IArtistInfoService, LastFmApi.ArtistInfoService, IWebArtistInfoService, ErrorHandlingArtistInfoService, LastFm.ArtistInfoService>()
+                .RegisterErrorHandlingLastFmService<IAlbumInfoService, LastFmApi.AlbumInfoService, IWebAlbumInfoService, ErrorHandlingAlbumInfoService, LastFm.AlbumInfoService>();
+
+            return kernel;
         }
 
-        private void RegisterErrorHandlingLastFmService<ILastFmService,LastFmService,IService,ErrorHandlingService,Service>()
+        private static IKernel RegisterErrorHandlingLastFmService<ILastFmService,LastFmService,IService,ErrorHandlingService,Service>(this IKernel kernel)
             where LastFmService : ILastFmService
             where Service : IService
             where ErrorHandlingService : IService
         {
-            Bind<ILastFmService>().To<LastFmService>().InTransientScope();
+            kernel.Register<ILastFmService, LastFmService>();
 
-            Bind<IService>()
+            kernel.Bind<IService>()
                 .To<ErrorHandlingService>()
                 .InTransientScope()
                 .WithConstructorArgument(typeof(IService), ctx => ctx.Kernel.Get<Service>())
                 .WithConstructorArgument(typeof(IAsyncMethodInterceptor), ctx => ctx.Kernel.Get<LastFmMethodInterceptor>());
+
+            return kernel;
         }
 
-        private void RegisterMessageHandlers()
+        private static IKernel RegisterMessageHandlers(this IKernel kernel)
         {
-            Bind<DialogMessageHandler>().ToSelf().InSingletonScope();
-            Bind<PlayerCoordinator>().ToSelf().InSingletonScope();
-            Bind<PlayRequestHandler>().ToSelf().InSingletonScope();
-            Bind<TrackChangeCoordinator>().ToSelf().InSingletonScope();
-            Bind<LibraryHandler>().ToSelf().InSingletonScope();
-            Bind<ShowTabRequestHandler>().ToSelf().InSingletonScope();
+            kernel.RegisterSingleton<DialogMessageHandler>()
+                .RegisterSingleton<PlayerCoordinator>()
+                .RegisterSingleton<PlayRequestHandler>()
+                .RegisterSingleton<TrackChangeCoordinator>()
+                .RegisterSingleton<LibraryHandler>()
+                .RegisterSingleton<ShowTabRequestHandler>();
 
-            Bind<IPlayerUpdate>().ToMethod(ctx => ctx.Kernel.Get<TrackChangeCoordinator>());
-            Bind<IShowTabRequestHandler>().ToMethod(ctx => ctx.Kernel.Get<ShowTabRequestHandler>());
+            kernel.Bind<IPlayerUpdate>().ToMethod(ctx => ctx.Kernel.Get<TrackChangeCoordinator>());
+            kernel.Bind<IShowTabRequestHandler>().ToMethod(ctx => ctx.Kernel.Get<ShowTabRequestHandler>());
+
+            return kernel;
         }
 
-        private void RegisterPlayer()
+        private static IKernel RegisterPlayer(this IKernel kernel)
         {
-            Bind<NewFilePlayer>().ToSelf()
+            kernel.Bind<NewFilePlayer>().ToSelf()
                 .InSingletonScope()
                 .WithConstructorArgument<IPlayer>(new Player());
 
-            Bind<IPlayer>().To<ScrobblingPlayer>()
+            kernel.Bind<IPlayer>().To<ScrobblingPlayer>()
                 .InSingletonScope()
                 .WithConstructorArgument(typeof(IPlayer), ctx => ctx.Kernel.Get<NewFilePlayer>());
+
+            return kernel;
+        }
+
+        private static IKernel Register<Service>(this IKernel kernel)
+        {
+            kernel.Bind<Service>().ToSelf().InTransientScope();
+            return kernel;
+        }
+
+        private static IKernel Register<IService, Service>(this IKernel kernel) where Service : IService
+        {
+            kernel.Bind<IService>().To<Service>().InTransientScope();
+            return kernel;
+        }
+
+        private static IKernel RegisterSingleton<Service>(this IKernel kernel)
+        {
+            kernel.Bind<Service>().ToSelf().InSingletonScope();
+            return kernel;
+        }
+
+        private static IKernel RegisterSingleton<IService, Service>(this IKernel kernel) where Service : IService
+        {
+            kernel.Bind<IService>().To<Service>().InSingletonScope();
+            return kernel;
         }
     }
 }

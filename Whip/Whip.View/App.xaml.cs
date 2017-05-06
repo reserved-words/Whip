@@ -10,7 +10,7 @@ namespace Whip
     {
         protected async override void OnStartup(StartupEventArgs e)
         {
-            IocKernel.Initialize(new IocConfiguration());
+            IocKernel.Initialize();
             IocKernel.StartMessageHandlers();
 
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
