@@ -1,11 +1,12 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using LastFmApi;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using Whip.LastFm;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
-using Whip.ViewModels.Windows;
+using static Whip.Resources.Resources;
 
 namespace Whip.View
 {
@@ -220,5 +221,7 @@ namespace Whip.View
             LastFmErrorMessage = errorMessage;
             Properties.Settings.Default.Save();
         }
+
+        public string DataDirectory => Path.Combine(MusicDirectory, string.Format("_{0}", ApplicationTitle));
     }
 }

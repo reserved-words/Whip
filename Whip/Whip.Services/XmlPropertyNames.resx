@@ -237,4 +237,22 @@
   <data name="YouTube" xml:space="preserve">
     <value>youtube</value>
   </data>
+  <data name="RssFeed" xml:space="preserve">
+    <value>feed</value>
+  </data>
+  <data name="RssFeeds" xml:space="preserve">
+    <value>feeds</value>
+  </data>
+  <data name="RssFeedUrl" xml:space="preserve">
+    <value>feed_url</value>
+  </data>
+  <data name="RssRoot" xml:space="preserve">
+    <value>rss</value>
+  </data>
+  <data name="RssTitle" xml:space="preserve">
+    <value>title</value>
+  </data>
+  <data name="RssUrl" xml:space="preserve">
+    <value>url</value>
+  </data>
 </root>

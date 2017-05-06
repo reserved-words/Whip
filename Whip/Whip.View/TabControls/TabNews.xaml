@@ -1,0 +1,101 @@
+﻿<UserControl x:Class="Whip.TabNews"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Whip"
+             xmlns:controls="clr-namespace:Whip.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1200">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0">
+
+            <Label Style="{StaticResource TitleLabel}"
+                   Content="Feeds" />
+
+            <ListView ItemsSource="{Binding Feeds, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                      BorderThickness="0"
+                      SelectedItem="{Binding SelectedFeed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Label Content="{Binding Title}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </StackPanel>
+
+        <Border Grid.Column="1"
+                Style="{StaticResource VerticalLine}" />
+
+        <Grid Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <Label Grid.Column="0"
+                   Grid.Row="0"
+                   Style="{StaticResource TitleLabel}"
+                   Content="Posts" />
+            <Button Grid.Column="1"
+                    Grid.Row="0"
+                    Content="Refresh"
+                    Command="{Binding RefreshCommand}" />
+
+            <local:SpinnerImage Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
+                                Visibility="{Binding LoadingPosts, Converter={StaticResource BoolVisibilityConverter}}" />
+            
+            <ListView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
+                      Visibility="{Binding LoadingPosts, Converter={StaticResource NegBoolVisibilityConverter}}"
+                      ItemsSource="{Binding Posts, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                      ItemContainerStyle="{StaticResource ListViewItemNoHighlight}"
+                      BorderThickness="0">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="Silver"
+                                BorderThickness="0,1,0,0"
+                                Padding="0,5">
+                            <WrapPanel>
+                                <Label VerticalContentAlignment="Top"
+                                       Padding="0,0,20,0">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Posted, StringFormat='dd/MM/yyyy'}" />
+                                        <TextBlock Text="{Binding Posted, StringFormat='HH:mm:ss'}" />
+                                    </StackPanel>
+                                </Label>
+                                <StackPanel>
+                                    <controls:HyperlinkLabel Url="{Binding Url}" 
+                                                         Padding="0">
+                                        <TextBlock Text="{Binding Title}" 
+                                               Style="{StaticResource HyperlinkText}"
+                                               FontWeight="Bold"
+                                               TextDecorations="None" />
+                                    </controls:HyperlinkLabel>
+                                    <controls:HyperlinkLabel Url="{Binding Feed.Url}" 
+                                                         Padding="0">
+                                        <TextBlock Text="{Binding Feed.Title}" 
+                                               Style="{StaticResource HyperlinkText}"
+                                               FontSize="10"
+                                               TextDecorations="None"/>
+                                    </controls:HyperlinkLabel>
+                                </StackPanel>
+                            </WrapPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+
+    </Grid>
+</UserControl>

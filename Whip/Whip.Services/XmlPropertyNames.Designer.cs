@@ -304,6 +304,60 @@ namespace Whip.Services {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to feed.
+        /// </summary>
+        internal static string RssFeed {
+            get {
+                return ResourceManager.GetString("RssFeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to feeds.
+        /// </summary>
+        internal static string RssFeeds {
+            get {
+                return ResourceManager.GetString("RssFeeds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to feed_url.
+        /// </summary>
+        internal static string RssFeedUrl {
+            get {
+                return ResourceManager.GetString("RssFeedUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to rss.
+        /// </summary>
+        internal static string RssRoot {
+            get {
+                return ResourceManager.GetString("RssRoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to title.
+        /// </summary>
+        internal static string RssTitle {
+            get {
+                return ResourceManager.GetString("RssTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to url.
+        /// </summary>
+        internal static string RssUrl {
+            get {
+                return ResourceManager.GetString("RssUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to state.
         /// </summary>
         internal static string State {

@@ -188,6 +188,9 @@
     <Compile Include="TabControls\TabLibrary.xaml.cs">
       <DependentUpon>TabLibrary.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TabControls\TabNews.xaml.cs">
+      <DependentUpon>TabNews.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TabControls\TabSettings.xaml.cs">
       <DependentUpon>TabSettings.xaml</DependentUpon>
     </Compile>
@@ -283,6 +286,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TabControls\TabLibrary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TabControls\TabNews.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

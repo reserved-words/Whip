@@ -51,7 +51,8 @@ namespace Whip.Ioc
                 .Register<IFileService, FileService>()
                 .Register<ILibraryService, LibraryService>()
                 .Register<ILibraryDataOrganiserService, LibraryDataOrganiserService>()
-                .Register<IDataPersistenceService, XmlDataPersistenceService>()
+                .Register<ITrackRepository, TrackRepository>()
+                .Register<IRssFeedsRepository, XmlRssFeedsRepository>()
                 .Register<ICommentProcessingService, CommentProcessingService>()
                 .Register<ITrackFilterService, TrackFilterService>()
                 .Register<IScrobblingRulesService, ScrobblingRulesService>()
@@ -60,6 +61,7 @@ namespace Whip.Ioc
                 .Register<IImageProcessingService, ImageProcessingService>()
                 .Register<IWebBrowserService, WebBrowserService>()
                 .Register<IArchiveService, ArchiveService>()
+                .Register<IRssService, RssService>()
                 .Register<IAsyncMethodInterceptor, WebMethodInterceptor>();
 
             return kernel;

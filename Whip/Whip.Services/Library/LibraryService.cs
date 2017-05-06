@@ -13,12 +13,12 @@ namespace Whip.Services
         private readonly IFileService _fileService;
         private readonly ILibraryDataOrganiserService _libraryDataOrganiserService;
         private readonly ILibrarySortingService _librarySortingService;
-        private readonly IDataPersistenceService _dataPersistenceService;
+        private readonly ITrackRepository _dataPersistenceService;
         private readonly ITaggingService _taggingService;
         private readonly IUserSettings _userSettings;
 
         public LibraryService(IFileService fileService, ILibraryDataOrganiserService libraryDataOrganiserService, ITaggingService taggingService,
-            IDataPersistenceService dataPersistenceService, IUserSettings userSettings, ILibrarySortingService librarySortingService)
+            ITrackRepository dataPersistenceService, IUserSettings userSettings, ILibrarySortingService librarySortingService)
         {
             _fileService = fileService;
             _libraryDataOrganiserService = libraryDataOrganiserService;

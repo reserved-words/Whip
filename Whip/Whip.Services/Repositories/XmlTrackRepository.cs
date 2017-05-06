@@ -13,20 +13,18 @@ using static Whip.Resources.Resources;
 
 namespace Whip.Services
 {
-    public class XmlDataPersistenceService : IDataPersistenceService
+    public class TrackRepository : ITrackRepository
     {
         private const char TagsDelimiter = '|';
 
         private readonly IUserSettings _userSettings;
 
-        public XmlDataPersistenceService(IUserSettings userSettings)
+        public TrackRepository(IUserSettings userSettings)
         {
             _userSettings = userSettings;
         }
 
-        private string XmlDirectory => Path.Combine(_userSettings.MusicDirectory, string.Format("_{0}", ApplicationTitle));
-
-        private string XmlFilePath => Path.Combine(XmlDirectory, "library.xml");
+        private string XmlFilePath => Path.Combine(_userSettings.DataDirectory, "library.xml");
 
         public Library GetLibrary()
         {
@@ -140,7 +138,7 @@ namespace Whip.Services
                 artistsXml.Add(artistXml);
             }
 
-            Directory.CreateDirectory(XmlDirectory);
+            Directory.CreateDirectory(_userSettings.DataDirectory);
 
             xml.Save(XmlFilePath);
         }

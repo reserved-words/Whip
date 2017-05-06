@@ -34,6 +34,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,10 +50,12 @@
     <Compile Include="Library\TrackFilterService.cs" />
     <Compile Include="Library\TrackUpdateService.cs" />
     <Compile Include="MethodInterceptors\WebMethodInterceptor.cs" />
+    <Compile Include="Repositories\XmlRssFeedsRepository.cs" />
     <Compile Include="Singletons\NewFilePlayer.cs" />
     <Compile Include="Singletons\Playlist.cs" />
     <Compile Include="Singletons\ScrobblingPlayer.cs" />
     <Compile Include="Utilities\ImageProcessingService.cs" />
+    <Compile Include="Utilities\RssService.cs" />
     <Compile Include="Utilities\TrackQueue.cs" />
     <Compile Include="Utilities\FileService.cs" />
     <Compile Include="Library\LibraryDataOrganiserService.cs" />
@@ -65,7 +68,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>XmlPropertyNames.resx</DependentUpon>
     </Compile>
-    <Compile Include="Library\XmlDataPersistenceService.cs" />
+    <Compile Include="Repositories\XmlTrackRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Whip.Common\Whip.Common.csproj">

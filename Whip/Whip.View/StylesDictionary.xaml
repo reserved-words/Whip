@@ -46,7 +46,7 @@
         <local:TabGenericTemp />
     </DataTemplate>
     <DataTemplate DataType="{x:Type tabsvm:NewsViewModel}">
-        <local:TabGenericTemp />
+        <local:TabNews />
     </DataTemplate>
     <DataTemplate DataType="{x:Type tabsvm:LastFmViewModel}">
         <local:TabGenericTemp />

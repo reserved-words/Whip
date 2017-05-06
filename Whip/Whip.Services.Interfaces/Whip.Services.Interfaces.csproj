@@ -47,11 +47,12 @@
     <Compile Include="Library\ITrackFilterService.cs" />
     <Compile Include="Library\ITrackUpdateService.cs" />
     <Compile Include="MethodInterceptors\IMethodInterceptor.cs" />
+    <Compile Include="Repositories\IRssFeedsRepository.cs" />
     <Compile Include="Scrobbling\IScrobblingService.cs" />
     <Compile Include="Scrobbling\ITrackLoveService.cs" />
     <Compile Include="Singletons\IPlaylist.cs" />
     <Compile Include="Library\ILibraryDataOrganiserService.cs" />
-    <Compile Include="Library\IDataPersistenceService.cs" />
+    <Compile Include="Repositories\ITrackRepository.cs" />
     <Compile Include="Utilities\IExceptionHandlingService.cs" />
     <Compile Include="Utilities\IFolderDialogService.cs" />
     <Compile Include="Utilities\IFileDialogService.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Utilities\IImageProcessingService.cs" />
     <Compile Include="Utilities\ILoggingService.cs" />
     <Compile Include="MethodInterceptors\IAsyncMethodInterceptor.cs" />
+    <Compile Include="Utilities\IRssService.cs" />
     <Compile Include="Utilities\IScrobblingRulesService.cs" />
     <Compile Include="Utilities\IUserSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

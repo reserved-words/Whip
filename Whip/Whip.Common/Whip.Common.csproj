@@ -59,6 +59,8 @@
     <Compile Include="Model\Disc.cs" />
     <Compile Include="Model\File.cs" />
     <Compile Include="Model\FilesWithStatus.cs" />
+    <Compile Include="Model\Rss\Feed.cs" />
+    <Compile Include="Model\Rss\Post.cs" />
     <Compile Include="Singletons\Library.cs" />
     <Compile Include="Model\Track.cs" />
     <Compile Include="TagModel\AlbumId3Data.cs" />

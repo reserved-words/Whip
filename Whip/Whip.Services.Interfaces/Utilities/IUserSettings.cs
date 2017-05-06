@@ -26,5 +26,7 @@ namespace Whip.Services.Interfaces
         void SetInternetStatus(bool online);
         void TurnOffLastFm(string errorMessage);
         Task SetStartupDefaultsAsync();
+
+        string DataDirectory { get; }
     }
 }
