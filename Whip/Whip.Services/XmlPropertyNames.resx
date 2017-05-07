@@ -255,4 +255,10 @@
   <data name="RssUrl" xml:space="preserve">
     <value>url</value>
   </data>
+  <data name="RssColor" xml:space="preserve">
+    <value>color</value>
+  </data>
+  <data name="RssIconUrl" xml:space="preserve">
+    <value>icon</value>
+  </data>
 </root>

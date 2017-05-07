@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="Whip.EditFeedView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Whip"
+             xmlns:controls="clr-namespace:Whip.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <StackPanel>
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0"
+                       Grid.Column="0"
+                       Content="Title" />
+
+                <TextBox Grid.Row="0" Grid.Column="1"
+                         VerticalAlignment="Center"
+                         Text="{Binding FeedTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
+
+                <Label Grid.Row="1"
+                       Grid.Column="0"
+                       Content="Site URL" />
+
+                <TextBox Grid.Row="1" Grid.Column="1"
+                         VerticalAlignment="Center"
+                         Text="{Binding Url, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
+
+                <Label Grid.Row="2"
+                       Grid.Column="0"
+                       Content="Feed URL" />
+
+                <TextBox Grid.Row="2"
+                         Grid.Column="1"
+                         Text="{Binding FeedUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
+
+                <Label Grid.Row="3"
+                       Grid.Column="0"
+                       Content="Icon URL" />
+
+                <TextBox Grid.Row="3"
+                         Grid.Column="1"
+                         Text="{Binding IconUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
+
+                <Label Grid.Row="4"
+                       Grid.Column="0"
+                       Content="Colour" />
+
+                <controls:ColorPicker Grid.Row="4"
+                                      Grid.Column="1"
+                                      Width="100"
+                                      Height="20"
+                                      HorizontalAlignment="Left"
+                                      DisplayColorAndName="False"
+                                      SelectedColor="{Binding Color, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"/>
+
+            </Grid>
+            <local:EditableButtonsView Grid.Row="14"
+                                       Grid.Column="0" Grid.ColumnSpan="2"
+                                       Padding="5,0"
+                                       DataContext="{Binding}" />
+        </StackPanel>
+    </Grid>
+</UserControl>

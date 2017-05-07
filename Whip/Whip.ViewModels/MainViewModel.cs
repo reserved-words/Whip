@@ -65,7 +65,7 @@ namespace Whip.ViewModels
             _settingsViewModel = settingsViewModel;
             _messenger = messenger;
 
-            _defaultViewModel = libraryViewModel;
+            _defaultViewModel = dashboardViewModel;
             _returnToTab = _defaultViewModel;
 
             SetSelectedTab(_defaultViewModel);

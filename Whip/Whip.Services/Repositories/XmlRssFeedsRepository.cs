@@ -39,7 +39,9 @@ namespace Whip.Services
                 feeds.Add(new Feed(
                     feed.Attribute(RssTitle).Value,
                     feed.Attribute(RssUrl).Value,
-                    feed.Attribute(RssFeedUrl).Value
+                    feed.Attribute(RssFeedUrl).Value,
+                    feed.Attribute(RssIconUrl).Value,
+                    feed.Attribute(RssColor).Value
                 ));
             }
 
@@ -62,6 +64,8 @@ namespace Whip.Services
                 feedXml.AddAttribute(RssTitle, feed.Title);
                 feedXml.AddAttribute(RssUrl, feed.Url);
                 feedXml.AddAttribute(RssFeedUrl, feed.FeedUrl);
+                feedXml.AddAttribute(RssIconUrl, feed.IconUrl);
+                feedXml.AddAttribute(RssColor, feed.Color);
                 feedsXml.Add(feedXml);
             }
 

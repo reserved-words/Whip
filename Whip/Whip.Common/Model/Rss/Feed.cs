@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Whip.Common.Model.Rss
 {
     public class Feed
     {
-        public Feed(string title, string url, string feedUrl)
+        public Feed() { }
+
+        public Feed(string title, string url, string feedUrl, string iconUrl, string color)
         {
             Title = title;
             Url = url;
             FeedUrl = feedUrl;
+            IconUrl = iconUrl;
+            Color = color;
 
             Posts = new List<Post>();
         }
@@ -23,13 +23,10 @@ namespace Whip.Common.Model.Rss
 
         public string FeedUrl { get; set; }
 
-        public ICollection<Post> Posts { get; set; }
+        public string IconUrl { get; set; }
 
-        public void AddPost(Post post)
-        {
-            Posts.Add(post);
-            post.Feed = this;
-            post.Url = string.Format("{0}{1}", Url, post.Title);  // temp
-        }
+        public string Color { get; set; }
+
+        public ICollection<Post> Posts { get; set; }
     }
 }

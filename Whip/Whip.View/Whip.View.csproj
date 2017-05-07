@@ -144,6 +144,9 @@
     <Compile Include="Converters\EqualityConverter.cs" />
     <Compile Include="Converters\NegateBoolConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
+    <Compile Include="Dialogs\EditFeedView.xaml.cs">
+      <DependentUpon>EditFeedView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\EnterStringView.xaml.cs">
       <DependentUpon>EnterStringView.xaml</DependentUpon>
     </Compile>
@@ -225,6 +228,10 @@
     <Compile Include="Views\SpinnerImage.xaml.cs">
       <DependentUpon>SpinnerImage.xaml</DependentUpon>
     </Compile>
+    <Page Include="Dialogs\EditFeedView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\EnterStringView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

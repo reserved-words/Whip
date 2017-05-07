@@ -304,6 +304,15 @@ namespace Whip.Services {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to color.
+        /// </summary>
+        internal static string RssColor {
+            get {
+                return ResourceManager.GetString("RssColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to feed.
         /// </summary>
         internal static string RssFeed {
@@ -327,6 +336,15 @@ namespace Whip.Services {
         internal static string RssFeedUrl {
             get {
                 return ResourceManager.GetString("RssFeedUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to icon.
+        /// </summary>
+        internal static string RssIconUrl {
+            get {
+                return ResourceManager.GetString("RssIconUrl", resourceCulture);
             }
         }
         

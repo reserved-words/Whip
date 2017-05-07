@@ -96,6 +96,8 @@
     <Compile Include="TabViewModels\Library\ArtistViewModel.cs" />
     <Compile Include="TabViewModels\NewsViewModel.cs" />
     <Compile Include="TabViewModels\CurrentArtistViewModel.cs" />
+    <Compile Include="Windows\Bases\EditableDialogViewModel.cs" />
+    <Compile Include="Windows\EditFeedViewModel.cs" />
     <Compile Include="TabViewModels\PlaylistsViewModel.cs" />
     <Compile Include="TabViewModels\SearchViewModel.cs" />
     <Compile Include="TabViewModels\LastFmViewModel.cs" />
@@ -132,7 +134,7 @@
     <Compile Include="Windows\EnterStringViewModel.cs" />
     <Compile Include="Windows\MessageViewModel.cs" />
     <Compile Include="Windows\ConfirmationViewModel.cs" />
-    <Compile Include="Windows\DialogViewModel.cs" />
+    <Compile Include="Windows\Bases\DialogViewModel.cs" />
     <Compile Include="Windows\ProgressBarViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -156,7 +158,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="TabViewModels\News\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -5,8 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Whip"
              xmlns:controls="clr-namespace:Whip.Controls"
+             xmlns:properties="clr-namespace:Whip.View.Properties"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="1200">
+             d:DesignHeight="800" d:DesignWidth="1200"
+             x:Name="EditFeedView">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300" />
@@ -14,22 +16,47 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0">
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-            <Label Style="{StaticResource TitleLabel}"
-                   Content="Feeds" />
+            <Label Grid.Row="0"
+                   Style="{StaticResource TitleLabel}"
+                   Content="Feeds"/>
+            
+            <Border Grid.Row="1"
+                    Style="{StaticResource HoriztonalLine}"/>
 
-            <ListView ItemsSource="{Binding Feeds, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+            <ListView Grid.Row="2" ItemsSource="{Binding Feeds, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                       BorderThickness="0"
-                      SelectedItem="{Binding SelectedFeed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                      SelectedItem="{Binding SelectedFeed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Margin="0">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Label Content="{Binding Title}" />
+                        <Label Grid.Column="0"
+                                   Content="{Binding Title}" />
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
 
-        </StackPanel>
+            <Border Grid.Row="3"
+                    Style="{StaticResource HoriztonalLine}"/>
+
+            <WrapPanel Grid.Row="4">
+                <Button Content="Add New"
+                        Command="{Binding AddFeedCommand}" />
+                <Button Command="{Binding EditFeedCommand}"
+                        Content="Edit Feed" />
+                <Button Command="{Binding DeleteFeedCommand}"
+                        Content="Delete Feed"
+                        Width="75"/>
+            </WrapPanel>
+        </Grid>
 
         <Border Grid.Column="1"
                 Style="{StaticResource VerticalLine}" />
@@ -43,7 +70,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            
+
             <Label Grid.Column="0"
                    Grid.Row="0"
                    Style="{StaticResource TitleLabel}"
@@ -55,7 +82,7 @@
 
             <local:SpinnerImage Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
                                 Visibility="{Binding LoadingPosts, Converter={StaticResource BoolVisibilityConverter}}" />
-            
+
             <ListView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
                       Visibility="{Binding LoadingPosts, Converter={StaticResource NegBoolVisibilityConverter}}"
                       ItemsSource="{Binding Posts, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -67,6 +94,10 @@
                                 BorderThickness="0,1,0,0"
                                 Padding="0,5">
                             <WrapPanel>
+                                <Image Source="{Binding Feed.IconUrl}"
+                                       Width="32"
+                                       Height="32"
+                                       Margin="0,0,10,0" />
                                 <Label VerticalContentAlignment="Top"
                                        Padding="0,0,20,0">
                                     <StackPanel>
@@ -78,16 +109,19 @@
                                     <controls:HyperlinkLabel Url="{Binding Url}" 
                                                          Padding="0">
                                         <TextBlock Text="{Binding Title}" 
-                                               Style="{StaticResource HyperlinkText}"
-                                               FontWeight="Bold"
-                                               TextDecorations="None" />
+                                                   Style="{StaticResource HyperlinkText}"
+                                                   FontWeight="Bold"
+                                                   TextDecorations="None"
+                                                   TextWrapping="WrapWithOverflow"
+                                                   Foreground="Gray" />
                                     </controls:HyperlinkLabel>
                                     <controls:HyperlinkLabel Url="{Binding Feed.Url}" 
                                                          Padding="0">
                                         <TextBlock Text="{Binding Feed.Title}" 
-                                               Style="{StaticResource HyperlinkText}"
-                                               FontSize="10"
-                                               TextDecorations="None"/>
+                                                   Style="{StaticResource HyperlinkText}"
+                                                   FontSize="10"
+                                                   TextDecorations="None"
+                                                   Foreground="{Binding Feed.Color}" />
                                     </controls:HyperlinkLabel>
                                 </StackPanel>
                             </WrapPanel>
