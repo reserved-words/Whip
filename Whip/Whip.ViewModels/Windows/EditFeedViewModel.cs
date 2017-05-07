@@ -1,6 +1,9 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
+using System.ComponentModel.DataAnnotations;
 using Whip.Common;
+using Whip.Common.Enums;
 using Whip.Common.Model.Rss;
+using Whip.ViewModels.Validation;
 
 namespace Whip.ViewModels.Windows
 {
@@ -28,38 +31,49 @@ namespace Whip.ViewModels.Windows
 
         public Feed Feed { get; private set; }
 
+        [Required]
+        [MaxLength(100)]
+        [Display(Name = "Title")]
         public string FeedTitle
         {
             set { SetModified(nameof(Title), ref (_feedTitle), value); }
             get { return _feedTitle; }
         }
 
+        [Required]
+        [Url]
+        [Display(Name = "URL")]
         public string Url
         {
             set { SetModified(nameof(Url), ref (_url), value); }
             get { return _url; }
         }
 
+        [Required]
+        [Url]
+        [Display(Name = "Feed URL")]
         public string FeedUrl
         {
             set { SetModified(nameof(FeedUrl), ref (_feedUrl), value); }
             get { return _feedUrl; }
         }
 
+        [ImageUrl(ImageType.Jpeg,ImageType.Png,ImageType.Ico)]
+        [Display(Name = "Icon URL")]
         public string IconUrl
         {
             set { SetModified(nameof(IconUrl), ref (_iconUrl), value); }
             get { return _iconUrl; }
         }
 
+        [Required]
+        [Display(Name = "Color")]
         public string Color
         {
             set { SetModified(nameof(Color), ref (_color), value); }
             get { return _color; }
         }
-
-        protected override string ErrorMessage => ""; // TO DO 
-
+        
         protected override bool CustomCancel()
         {
             Feed = _originalFeed;

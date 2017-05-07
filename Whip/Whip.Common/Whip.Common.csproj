@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="ApplicationSettings.cs" />
     <Compile Include="Enums\IconType.cs" />
+    <Compile Include="Enums\ImageType.cs" />
     <Compile Include="Enums\ReleaseType.cs" />
     <Compile Include="Enums\SortType.cs" />
     <Compile Include="ExtensionMethods\ArtistExtensionMethods.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Utilities\ProgressArgs.cs" />
     <Compile Include="ExtensionMethods\TrackSortExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\XElementExtensionMethods.cs" />
+    <Compile Include="Validation\ImageValidation.cs" />
     <Compile Include="Validation\SocialMediaValidation.cs" />
     <Compile Include="Validation\TrackValidation.cs" />
     <Compile Include="Validation\UrlValidation.cs" />

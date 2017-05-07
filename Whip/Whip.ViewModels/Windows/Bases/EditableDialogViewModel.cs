@@ -3,10 +3,15 @@ using GalaSoft.MvvmLight.Messaging;
 using Whip.Common;
 using GalaSoft.MvvmLight.Command;
 using Whip.ViewModels.Messages;
+using System.ComponentModel;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Linq;
+using System.ComponentModel.DataAnnotations;
 
 namespace Whip.ViewModels.Windows
 {
-    public abstract class EditableDialogViewModel : DialogViewModel
+    public abstract class EditableDialogViewModel : DialogViewModel, IDataErrorInfo
     {
         private readonly IMessenger _messenger;
 
@@ -40,7 +45,19 @@ namespace Whip.ViewModels.Windows
             OnFinish(false);
         }
 
-        protected abstract string ErrorMessage { get; }
+        public virtual string Error => this[string.Empty];
+
+        public string this[string propertyName]
+        {
+            get
+            {
+                var properties = string.IsNullOrEmpty(propertyName)
+                    ? GetType().GetProperties().Where(p => p.CustomAttributes.Any()).ToList()
+                    : new List<PropertyInfo> { GetType().GetProperty(propertyName) };
+
+                return string.Join(Environment.NewLine, properties.Select(p => GetErrorMessage(p)).Where(s => !string.IsNullOrEmpty(s)));
+            }
+        }
 
         protected abstract bool CustomCancel();
 
@@ -72,14 +89,29 @@ namespace Whip.ViewModels.Windows
 
         private bool Validate()
         {
-            if (!string.IsNullOrEmpty(ErrorMessage))
+            if (!string.IsNullOrEmpty(Error))
             {
-                var errorMessage = string.Format("Please resolve the following validation errors:{0}{0}{1}", Environment.NewLine, ErrorMessage);
+                var errorMessage = string.Format("Please resolve the following validation errors:{0}{0}{1}", Environment.NewLine, Error);
                 _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, "Validation Error", errorMessage));
                 return false;
             }
 
             return true;
+        }
+
+        private string GetErrorMessage(PropertyInfo property)
+        {
+            var validationResults = new List<ValidationResult>();
+            var value = property.GetValue(this);
+            var validationContext = new ValidationContext(this)
+            {
+                MemberName = property.Name
+            };
+
+            if (Validator.TryValidateProperty(value, validationContext, validationResults))
+                return null;
+
+            return validationResults.First().ErrorMessage;
         }
     }
 }

@@ -16,15 +16,5 @@ namespace Whip.Common.Validation
             return Uri.TryCreate(value, UriKind.Absolute, out uriResult)
                 && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
         }
-
-        public static bool IsValidArtworkUrl(string value)
-        {
-            if (value == null)
-                return true;
-
-            value = value.ToLower();
-
-            return IsValidUrl(value) && (value.EndsWith(".jpg") || value.EndsWith(".jpeg") || value.EndsWith(".bmp") || value.EndsWith(".png"));
-        }
     }
 }

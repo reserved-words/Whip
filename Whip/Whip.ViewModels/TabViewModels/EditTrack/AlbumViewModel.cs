@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using Whip.Common;
+using Whip.Common.Enums;
 using Whip.Common.Model;
 using Whip.Common.Utilities;
 using Whip.Common.Validation;
@@ -246,7 +247,13 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
 
         private async void OnGetArtworkFromUrl()
         {
-            var enterUrlModel = new EnterStringViewModel(_messenger, "Get Artwork", "Enter the URL for the artwork below", UrlValidation.IsValidArtworkUrl, "The value entered is not a valid image URL");
+            var enterUrlModel = new EnterStringViewModel(
+                _messenger, 
+                "Get Artwork", 
+                "Enter the URL for the artwork below", 
+                str => UrlValidation.IsValidUrl(str) && ImageValidation.HasValidImageExtension(str, ImageType.Jpeg, ImageType.Bmp, ImageType.Png), 
+                "The value entered is not a valid artwork URL");
+
             _messenger.Send(new ShowDialogMessage(enterUrlModel));
             var result = enterUrlModel.Result;
 

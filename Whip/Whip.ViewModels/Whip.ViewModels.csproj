@@ -96,6 +96,7 @@
     <Compile Include="TabViewModels\Library\ArtistViewModel.cs" />
     <Compile Include="TabViewModels\NewsViewModel.cs" />
     <Compile Include="TabViewModels\CurrentArtistViewModel.cs" />
+    <Compile Include="Validation\ImageUrlAttribute.cs" />
     <Compile Include="Windows\Bases\EditableDialogViewModel.cs" />
     <Compile Include="Windows\EditFeedViewModel.cs" />
     <Compile Include="TabViewModels\PlaylistsViewModel.cs" />
