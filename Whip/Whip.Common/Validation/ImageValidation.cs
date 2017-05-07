@@ -7,7 +7,7 @@ namespace Whip.Common.Validation
     {
         public static bool HasValidImageExtension(string value, params ImageType[] types)
         {
-            if (value == null)
+            if (string.IsNullOrEmpty(value))
                 return true;
 
             value = value.ToLower();

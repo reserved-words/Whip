@@ -4,17 +4,19 @@ namespace Whip.Common.Model.Rss
 {
     public class Feed
     {
-        public Feed() { }
+        public Feed()
+        {
+            Posts = new List<Post>();
+        }
 
         public Feed(string title, string url, string feedUrl, string iconUrl, string color)
+            :this()
         {
             Title = title;
             Url = url;
             FeedUrl = feedUrl;
             IconUrl = iconUrl;
             Color = color;
-
-            Posts = new List<Post>();
         }
 
         public string Title { get; set; }

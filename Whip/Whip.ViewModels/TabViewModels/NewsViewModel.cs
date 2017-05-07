@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Whip.Common;
@@ -25,7 +26,6 @@ namespace Whip.ViewModels.TabViewModels
         private DateTime _lastUpdated = DateTime.MinValue;
 
         private bool _loadingPosts;
-        private List<Feed> _feeds;
         private List<Post> _posts;
         private List<Feed> _realFeeds;
         private Feed _selectedFeed;
@@ -42,6 +42,8 @@ namespace Whip.ViewModels.TabViewModels
 
             DeleteFeedCommand = new RelayCommand(OnDeleteFeed, IsFeedSelected);
             EditFeedCommand = new RelayCommand(OnEditFeed, IsFeedSelected);
+
+            Feeds = new ObservableCollection<Feed> { _allFeeds };
         }
 
         private bool IsFeedSelected()
@@ -60,11 +62,7 @@ namespace Whip.ViewModels.TabViewModels
             set { Set(ref(_loadingPosts), value); }
         }
 
-        public List<Feed> Feeds
-        {
-            get { return _feeds; }
-            set { Set(ref(_feeds), value); }
-        }
+        public ObservableCollection<Feed> Feeds { get; private set; }
 
         public List<Post> Posts
         {
@@ -80,23 +78,32 @@ namespace Whip.ViewModels.TabViewModels
                 Set(ref(_selectedFeed), value);
                 EditFeedCommand.RaiseCanExecuteChanged();
                 DeleteFeedCommand.RaiseCanExecuteChanged();
-                UpdatePosts(false, false);
+                FilterPosts();
             }
         }
         
         public override void OnShow(Track currentTrack)
         {
-            UpdatePosts(false, false);
+            if (Feeds.Count == 1)
+            {
+                UpdateFeeds(true);
+            }
+            else
+            {
+                SelectedFeed = _allFeeds;
+            }
         }
 
         private void OnAddFeed()
         {
             var editFeedViewModel = new EditFeedViewModel(_messenger);
             _messenger.Send(new ShowDialogMessage(editFeedViewModel));
+
             if (editFeedViewModel.Saved)
             {
                 _realFeeds.Add(editFeedViewModel.Feed);
                 SaveFeeds();
+                PopulatePosts(editFeedViewModel.Feed);
             }
         }
 
@@ -104,9 +111,11 @@ namespace Whip.ViewModels.TabViewModels
         {
             var confirmationViewModel = new ConfirmationViewModel(_messenger, "Delete Feed", "Are you sure you want to delete this feed?", ConfirmationViewModel.ConfirmationType.YesNo);
             _messenger.Send(new ShowDialogMessage(confirmationViewModel));
+
             if (confirmationViewModel.Result)
             {
                 _realFeeds.Remove(SelectedFeed);
+                SelectedFeed = _allFeeds;
                 SaveFeeds();
             }
         }
@@ -115,6 +124,7 @@ namespace Whip.ViewModels.TabViewModels
         {
             var editFeedViewModel = new EditFeedViewModel(_messenger, SelectedFeed);
             _messenger.Send(new ShowDialogMessage(editFeedViewModel));
+
             if (editFeedViewModel.Saved)
             {
                 SaveFeeds();
@@ -123,49 +133,68 @@ namespace Whip.ViewModels.TabViewModels
 
         private void OnRefresh()
         {
-            UpdatePosts(true, false);
+            UpdatePosts(true);
         }
 
         private void SaveFeeds()
         {
             _repository.SaveFeeds(_realFeeds);
-            UpdatePosts(true, true);
+            UpdateFeeds(false);
         }
 
-        private void UpdatePosts(bool force, bool updateFeeds)
+        private void UpdatePosts(bool force)
         {
-            LoadingPosts = true;
-            
-            if (force || updateFeeds || _lastUpdated.AddMinutes(ApplicationSettings.MinutesBeforeRefreshNews) <= DateTime.Now)
+            if (force || _lastUpdated.AddMinutes(ApplicationSettings.MinutesBeforeRefreshNews) <= DateTime.Now)
             {
                 _lastUpdated = DateTime.Now;
 
-                Task.Run(() => PopulatePosts(updateFeeds)).ContinueWith(t => UpdatePosts(), TaskScheduler.FromCurrentSynchronizationContext());
+                PopulatePosts();
             }
             else
             {
-                UpdatePosts();
+                FilterPosts();
             }
-            
         }
 
-        private void PopulatePosts(bool updateFeeds)
+        private void PopulatePosts(Feed feed = null)
         {
-            if (updateFeeds || Feeds == null)
+            LoadingPosts = true;
+
+            _service.PopulatePosts(feed == null ? _realFeeds : new List<Feed> { feed })
+                .ContinueWith(t => FilterPosts(feed), TaskScheduler.FromCurrentSynchronizationContext())
+                .ContinueWith(t => { LoadingPosts = false; }, TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
+        private void UpdateFeeds(bool fromRepository)
+        {
+            var selectedFeed = SelectedFeed;
+
+            Feeds.Where(f => f != _allFeeds).ToList().ForEach(f => Feeds.Remove(f));
+
+            if (fromRepository)
             {
                 _realFeeds = _repository.GetFeeds().OrderBy(f => f.Title).ToList();
-                Feeds = new List<Feed>(_realFeeds);
-                Feeds.Insert(0, _allFeeds);
+                UpdatePosts(true);
             }
+            
+            _realFeeds.ForEach(f => Feeds.Add(f));
 
-            _service.PopulatePosts(_realFeeds);
-        }
-
-        private void UpdatePosts()
-        {
-            if (SelectedFeed == null)
+            if (Feeds.Contains(selectedFeed))
+            {
+                SelectedFeed = selectedFeed;
+            }
+            else
             {
                 SelectedFeed = _allFeeds;
+            }
+        }
+
+        private void FilterPosts(Feed feed = null)
+        {
+            if (feed != null)
+            {
+                SelectedFeed = feed;
+                return;
             }
 
             Posts = _realFeeds
@@ -173,8 +202,6 @@ namespace Whip.ViewModels.TabViewModels
                 .Where(p => SelectedFeed == _allFeeds || p.Feed == SelectedFeed)
                 .OrderByDescending(p => p.Posted)
                 .ToList();
-
-            LoadingPosts = false;
         }
     }
 }
