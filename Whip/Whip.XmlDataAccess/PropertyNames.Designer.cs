@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Whip.Services {
+namespace Whip.XmlDataAccess {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Whip.Services {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class XmlPropertyNames {
+    internal class PropertyNames {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal XmlPropertyNames() {
+        internal PropertyNames() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Whip.Services {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Whip.Services.XmlPropertyNames", typeof(XmlPropertyNames).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Whip.XmlDataAccess.PropertyNames", typeof(PropertyNames).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

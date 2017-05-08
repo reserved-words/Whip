@@ -16,6 +16,7 @@ using Whip.Services.Interfaces.Singletons;
 using Whip.Services.Singletons;
 using Whip.LastFm.ErrorHandlingDecorators;
 using Whip.View;
+using Whip.XmlDataAccess;
 
 namespace Whip.Ioc
 {
@@ -25,6 +26,7 @@ namespace Whip.Ioc
         {
             kernel.RegisterSingletons()
                 .RegisterServices()
+                .RegisterRepositories()
                 .RegisterMessageHandlers()
                 .RegisterPlayer()
                 .RegisterLastFmComponents();
@@ -51,8 +53,6 @@ namespace Whip.Ioc
                 .Register<IFileService, FileService>()
                 .Register<ILibraryService, LibraryService>()
                 .Register<ILibraryDataOrganiserService, LibraryDataOrganiserService>()
-                .Register<ITrackRepository, TrackRepository>()
-                .Register<IRssFeedsRepository, XmlRssFeedsRepository>()
                 .Register<ICommentProcessingService, CommentProcessingService>()
                 .Register<ITrackFilterService, TrackFilterService>()
                 .Register<IScrobblingRulesService, ScrobblingRulesService>()
@@ -63,6 +63,14 @@ namespace Whip.Ioc
                 .Register<IArchiveService, ArchiveService>()
                 .Register<IRssService, RssService>()
                 .Register<IAsyncMethodInterceptor, WebMethodInterceptor>();
+
+            return kernel;
+        }
+
+        private static IKernel RegisterRepositories(this IKernel kernel)
+        {
+            kernel.Register<ITrackRepository, TrackRepository>()
+                .Register<IRssFeedsRepository, RssFeedsRepository>();
 
             return kernel;
         }

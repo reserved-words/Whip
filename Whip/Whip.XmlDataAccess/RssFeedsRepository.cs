@@ -4,17 +4,17 @@ using System.Xml.Linq;
 using Whip.Common.ExtensionMethods;
 using Whip.Common.Model.Rss;
 using Whip.Services.Interfaces;
-using static Whip.Services.XmlPropertyNames;
+using static Whip.XmlDataAccess.PropertyNames;
 
-namespace Whip.Services
+namespace Whip.XmlDataAccess
 {
-    public class XmlRssFeedsRepository : IRssFeedsRepository
+    public class RssFeedsRepository : IRssFeedsRepository
     {
         private const string Filename = "rss.xml";
 
         private readonly IUserSettings _userSettings;
 
-        public XmlRssFeedsRepository(IUserSettings userSettings)
+        public RssFeedsRepository(IUserSettings userSettings)
         {
             _userSettings = userSettings;
         }

@@ -433,6 +433,10 @@
       <Project>{c92c0139-3455-4c11-9456-bb5eb7b03b8a}</Project>
       <Name>Whip.WmpPlayer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Whip.XmlDataAccess\Whip.XmlDataAccess.csproj">
+      <Project>{FD47AD0A-3499-440A-85B3-786B86E69E3D}</Project>
+      <Name>Whip.XmlDataAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\facebook.png">
