@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Whip.Common.Model.Rss
+namespace Whip.Common.Model
 {
     public class Feed
     {

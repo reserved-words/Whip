@@ -2,7 +2,7 @@
 using System.IO;
 using System.Xml.Linq;
 using Whip.Common.ExtensionMethods;
-using Whip.Common.Model.Rss;
+using Whip.Common.Model;
 using Whip.Services.Interfaces;
 using static Whip.XmlDataAccess.PropertyNames;
 
@@ -25,7 +25,7 @@ namespace Whip.XmlDataAccess
         {
             var feeds = new List<Feed>();
 
-            if (!File.Exists(XmlFilePath))
+            if (!System.IO.File.Exists(XmlFilePath))
             {
                 return feeds;
             }

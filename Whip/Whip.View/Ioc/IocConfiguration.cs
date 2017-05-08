@@ -70,7 +70,8 @@ namespace Whip.Ioc
         private static IKernel RegisterRepositories(this IKernel kernel)
         {
             kernel.Register<ITrackRepository, TrackRepository>()
-                .Register<IRssFeedsRepository, RssFeedsRepository>();
+                .Register<IRssFeedsRepository, RssFeedsRepository>()
+                .Register<IPlaylistRepository, PlaylistRepository>();
 
             return kernel;
         }

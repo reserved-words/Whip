@@ -7,7 +7,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Whip.Common;
 using Whip.Common.Model;
-using Whip.Common.Model.Rss;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
 using Whip.ViewModels.Utilities;

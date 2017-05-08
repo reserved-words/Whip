@@ -3,7 +3,7 @@ using System.Linq;
 using System.ServiceModel.Syndication;
 using System.Threading.Tasks;
 using System.Xml;
-using Whip.Common.Model.Rss;
+using Whip.Common.Model;
 using Whip.Services.Interfaces;
 
 namespace Whip.Services

@@ -261,4 +261,31 @@
   <data name="RssIconUrl" xml:space="preserve">
     <value>icon</value>
   </data>
+  <data name="Playlist" xml:space="preserve">
+    <value>playlist</value>
+  </data>
+  <data name="PlaylistId" xml:space="preserve">
+    <value>id</value>
+  </data>
+  <data name="PlaylistsCriteria" xml:space="preserve">
+    <value>criteria_playlists</value>
+  </data>
+  <data name="PlaylistsOrdered" xml:space="preserve">
+    <value>ordered_playlists</value>
+  </data>
+  <data name="PlaylistsRoot" xml:space="preserve">
+    <value>playlists</value>
+  </data>
+  <data name="PlaylistTitle" xml:space="preserve">
+    <value>title</value>
+  </data>
+  <data name="PlaylistTrack" xml:space="preserve">
+    <value>track</value>
+  </data>
+  <data name="PlaylistTrackFilepath" xml:space="preserve">
+    <value>filepath</value>
+  </data>
+  <data name="PlaylistTracks" xml:space="preserve">
+    <value>tracks</value>
+  </data>
 </root>

@@ -194,6 +194,9 @@
     <Compile Include="TabControls\TabNews.xaml.cs">
       <DependentUpon>TabNews.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TabControls\TabPlaylists.xaml.cs">
+      <DependentUpon>TabPlaylists.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TabControls\TabSettings.xaml.cs">
       <DependentUpon>TabSettings.xaml</DependentUpon>
     </Compile>
@@ -224,6 +227,15 @@
     </Compile>
     <Compile Include="Dialogs\ProgressBarView.xaml.cs">
       <DependentUpon>ProgressBarView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PlaylistsCriteriaView.xaml.cs">
+      <DependentUpon>PlaylistsCriteriaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PlaylistsOrderedView.xaml.cs">
+      <DependentUpon>PlaylistsOrderedView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PlaylistsStandardView.xaml.cs">
+      <DependentUpon>PlaylistsStandardView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SpinnerImage.xaml.cs">
       <DependentUpon>SpinnerImage.xaml</DependentUpon>
@@ -300,6 +312,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="TabControls\TabPlaylists.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TabControls\TabSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -337,6 +353,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\ProgressBarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PlaylistsCriteriaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PlaylistsOrderedView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PlaylistsStandardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

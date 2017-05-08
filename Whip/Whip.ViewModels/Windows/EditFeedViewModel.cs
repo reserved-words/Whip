@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Whip.Common;
 using Whip.Common.Enums;
-using Whip.Common.Model.Rss;
+using Whip.Common.Model;
 using Whip.ViewModels.Validation;
 
 namespace Whip.ViewModels.Windows

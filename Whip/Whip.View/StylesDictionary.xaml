@@ -40,7 +40,7 @@
         <local:TabCurrentPlaylist />
     </DataTemplate>
     <DataTemplate DataType="{x:Type tabsvm:PlaylistsViewModel}">
-        <local:TabGenericTemp />
+        <local:TabPlaylists />
     </DataTemplate>
     <DataTemplate DataType="{x:Type tabsvm:SearchViewModel}">
         <local:TabGenericTemp />

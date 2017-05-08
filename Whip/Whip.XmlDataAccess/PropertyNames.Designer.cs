@@ -277,6 +277,87 @@ namespace Whip.XmlDataAccess {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to playlist.
+        /// </summary>
+        internal static string Playlist {
+            get {
+                return ResourceManager.GetString("Playlist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to id.
+        /// </summary>
+        internal static string PlaylistId {
+            get {
+                return ResourceManager.GetString("PlaylistId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to criteria_playlists.
+        /// </summary>
+        internal static string PlaylistsCriteria {
+            get {
+                return ResourceManager.GetString("PlaylistsCriteria", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ordered_playlists.
+        /// </summary>
+        internal static string PlaylistsOrdered {
+            get {
+                return ResourceManager.GetString("PlaylistsOrdered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to playlists.
+        /// </summary>
+        internal static string PlaylistsRoot {
+            get {
+                return ResourceManager.GetString("PlaylistsRoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to title.
+        /// </summary>
+        internal static string PlaylistTitle {
+            get {
+                return ResourceManager.GetString("PlaylistTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to track.
+        /// </summary>
+        internal static string PlaylistTrack {
+            get {
+                return ResourceManager.GetString("PlaylistTrack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to filepath.
+        /// </summary>
+        internal static string PlaylistTrackFilepath {
+            get {
+                return ResourceManager.GetString("PlaylistTrackFilepath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to tracks.
+        /// </summary>
+        internal static string PlaylistTracks {
+            get {
+                return ResourceManager.GetString("PlaylistTracks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to relative_filepath.
         /// </summary>
         internal static string RelativeFilepath {
