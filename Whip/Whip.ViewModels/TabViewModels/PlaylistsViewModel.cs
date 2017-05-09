@@ -1,4 +1,5 @@
-﻿using Whip.Common;
+﻿using GalaSoft.MvvmLight.Messaging;
+using Whip.Common;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.TabViewModels.Playlists;
@@ -12,14 +13,14 @@ namespace Whip.ViewModels.TabViewModels
 
         private bool _populated;
 
-        public PlaylistsViewModel(IPlaylistRepository repository)
+        public PlaylistsViewModel(IPlaylistRepository repository, Common.Singletons.Library library, IMessenger messenger)
             :base(TabType.Playlists, IconType.ListUl, "Playlists")
         {
             _repository = repository;
 
             OrderedPlaylists = new OrderedPlaylistsViewModel();
             CriteriaPlaylists = new CriteriaPlaylistsViewModel();
-            StandardPlaylists = new StandardPlaylistsViewModel();
+            StandardPlaylists = new StandardPlaylistsViewModel(library, messenger);
         }
 
         public StandardPlaylistsViewModel StandardPlaylists { get; private set; }
@@ -28,6 +29,8 @@ namespace Whip.ViewModels.TabViewModels
 
         public override void OnShow(Track currentTrack)
         {
+            StandardPlaylists.UpdateOptions();
+
             if (_populated)
                 return;
 

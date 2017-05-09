@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Whip.Common.Model
 {
-    public struct City
+    public class City
     {
         public City(string name, string state, string country)
         {
@@ -20,6 +20,10 @@ namespace Whip.Common.Model
         public string Country { get; private set; }
 
         public string Description => FormatDescription();
+
+        public string CityStateDescription => string.IsNullOrEmpty(State)
+            ? Name
+            : $"{Name}, {State}";
 
         private string FormatDescription()
         {

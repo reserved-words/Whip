@@ -9,50 +9,24 @@
     <Grid Margin="0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+        <Border Grid.Column="0"
+                Style="{StaticResource ColourBorder}">
+            <local:PlaylistsStandardView DataContext="{Binding StandardPlaylists}" />
+        </Border>
 
-        <Border Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="1"
-                Style="{StaticResource HoriztonalLine}"
-                Margin="0"/>
+        <Border Grid.Column="1"
+                Style="{StaticResource ColourBorder}">
+            <local:PlaylistsCriteriaView DataContext="{Binding CriteriaPlaylists}" />
+        </Border>
 
-        <Border Grid.Column="1" Grid.RowSpan="3" Grid.Row="0"
-                Style="{StaticResource VerticalLine}"
-                Margin="0"/>
-
-        <Border Grid.Column="3" Grid.RowSpan="3" Grid.Row="0"
-                Style="{StaticResource VerticalLine}"
-                Margin="0"/>
-        
-        <Label Grid.Column="0" Grid.Row="0"
-               Style="{StaticResource TitleLabel}"
-               Content="Standard Playlists" />
-
-        <Label Grid.Column="2" Grid.Row="0"
-               Style="{StaticResource TitleLabel}"
-               Content="Criteria Playlists" />
-
-        <Label Grid.Column="4" Grid.Row="0"
-               Style="{StaticResource TitleLabel}"
-               Content="Ordered Playlists" />
-
-        <local:PlaylistsStandardView Grid.Column="0" Grid.Row="2"
-                                     DataContext="{Binding StandardPlaylists}" />
-
-        <local:PlaylistsCriteriaView Grid.Column="2" Grid.Row="2"
-                                     DataContext="{Binding CriteriaPlaylists}" />
-
-        <local:PlaylistsOrderedView Grid.Column="4" Grid.Row="2"
-                                    DataContext="{Binding OrderedPlaylists}" />
+        <Border Grid.Column="2"
+                Style="{StaticResource ColourBorder}">
+            <local:PlaylistsOrderedView DataContext="{Binding OrderedPlaylists}" />
+        </Border>
 
     </Grid>
 </UserControl>

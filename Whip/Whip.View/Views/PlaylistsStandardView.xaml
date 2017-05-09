@@ -6,7 +6,156 @@
              xmlns:local="clr-namespace:Whip"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <CollectionViewSource Source="{Binding States}" x:Key="statesView">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Country" />
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+        <CollectionViewSource Source="{Binding Cities}" x:Key="citiesView">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Country" />
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+    </UserControl.Resources>
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <Label Grid.Row="0" 
+               Style="{StaticResource TitleLabel}"
+               Content="Auto Playlists" />
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0"
+                   Content="Grouping" />
+
+            <ComboBox Grid.Row="0" Grid.Column="1"
+                      ItemsSource="{Binding Groupings}"
+                      SelectedItem="{Binding SelectedGrouping}" />
+
+            <Button Grid.Row="0" Grid.Column="2"
+                    Content="Play"
+                    Command="{Binding PlayGroupingCommand}"
+                    Margin="5" />
+
+            <Label Grid.Row="1" Grid.Column="0"
+                   Content="Genre" />
+
+            <ComboBox Grid.Row="1" Grid.Column="1"
+                      ItemsSource="{Binding Genres}"
+                      SelectedItem="{Binding SelectedGenre}" />
+
+            <Button Grid.Row="1" Grid.Column="2"
+                    Content="Play"
+                    Command="{Binding PlayGenreCommand}"
+                    Margin="5" />
+
+            <Label Grid.Row="2" Grid.Column="0"
+                   Content="Country" />
+
+            <ComboBox Grid.Row="2" Grid.Column="1"
+                      ItemsSource="{Binding Countries}"
+                      SelectedItem="{Binding SelectedCountry}" />
+
+            <Button Grid.Row="2" Grid.Column="2"
+                    Content="Play"
+                    Command="{Binding PlayCountryCommand}"
+                    Margin="5" />
+
+            <Label Grid.Row="3" Grid.Column="0"
+                   Content="State" />
+
+            <ComboBox Grid.Row="3" Grid.Column="1"
+                      ItemsSource="{Binding Source={StaticResource statesView}}"
+                      SelectedItem="{Binding SelectedState}">
+                <ComboBox.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=Name}"
+                                       FontWeight="Bold"
+                                       Padding="5, 2"/>
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                    </GroupStyle>
+                </ComboBox.GroupStyle>
+            </ComboBox>
+
+            <Button Grid.Row="3" Grid.Column="2"
+                    Content="Play"
+                    Command="{Binding PlayStateCommand}"
+                    Margin="5" />
+
+            <Label Grid.Row="4" Grid.Column="0"
+                   Content="City" />
+
+            <ComboBox Grid.Row="4" Grid.Column="1"
+                      ItemsSource="{Binding Source={StaticResource citiesView}}"
+                      SelectedItem="{Binding SelectedCity}"
+                      DisplayMemberPath="CityStateDescription">
+                <ComboBox.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=Name}"
+                                           FontWeight="Bold"
+                                           Padding="5, 2"/>
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                    </GroupStyle>
+                </ComboBox.GroupStyle>
+            </ComboBox>
+
+            <Button Grid.Row="4" Grid.Column="2"
+                    Content="Play"
+                    Command="{Binding PlayCityCommand}"
+                    Margin="5" />
+
+            <Label Grid.Row="5" Grid.Column="0"
+                   Content="Tag" />
+
+            <ComboBox Grid.Row="5" Grid.Column="1"
+                      ItemsSource="{Binding Tags}"
+                      SelectedItem="{Binding SelectedTag}" />
+
+            <Button Grid.Row="5" Grid.Column="2"
+                    Content="Play"
+                    Command="{Binding PlayTagCommand}"
+                    Margin="5" />
+
+            <Label Grid.Row="6" Grid.Column="0"
+                   Content="Added" />
+
+            <ComboBox Grid.Row="6" Grid.Column="1"
+                      ItemsSource="{Binding AddedDateOptions}"
+                      SelectedItem="{Binding SelectedAddedDateOption}" />
+
+            <Button Grid.Row="6" Grid.Column="2"
+                    Content="Play"
+                    Command="{Binding PlayRecentlyAddedCommand}"
+                    Margin="5" />
+
+        </Grid>
+
     </Grid>
 </UserControl>

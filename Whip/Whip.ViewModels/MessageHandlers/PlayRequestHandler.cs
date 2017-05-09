@@ -36,6 +36,7 @@ namespace Whip.ViewModels.MessageHandlers
             _messenger.Register<PlayAlbumMessage>(this, OnPlayAlbum);
             _messenger.Register<PlayGroupingMessage>(this, OnPlayGrouping);
             _messenger.Register<PlayAllMessage>(this, OnPlayAll);
+            _messenger.Register<PlayPlaylistMessage>(this, OnPlayPlaylist);
             _messenger.Register<MoveToTrackMessage>(this, OnMoveToTrack);
         }
 
@@ -46,6 +47,7 @@ namespace Whip.ViewModels.MessageHandlers
             _messenger.Unregister<PlayAlbumMessage>(this, OnPlayAlbum);
             _messenger.Unregister<PlayGroupingMessage>(this, OnPlayGrouping);
             _messenger.Unregister<PlayAllMessage>(this, OnPlayAll);
+            _messenger.Unregister<PlayPlaylistMessage>(this, OnPlayPlaylist);
             _messenger.Unregister<MoveToTrackMessage>(this, OnMoveToTrack);
         }
 
@@ -72,6 +74,11 @@ namespace Whip.ViewModels.MessageHandlers
         private void OnPlayArtist(PlayArtistMessage message)
         {
             ProcessMessage(message, message.Artist.Name, _trackFilterService.GetTracksByArtist(message.Artist), message.StartAt);
+        }
+        
+        private void OnPlayPlaylist(PlayPlaylistMessage message)
+        {
+            ProcessMessage(message, message.PlaylistName,message.Tracks, message.StartAt);
         }
 
         private void ProcessMessage(PlayMessage message, string playlistName, List<Track> tracks, Track startAt)
