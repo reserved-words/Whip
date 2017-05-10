@@ -134,6 +134,7 @@
     <Compile Include="Controls\ClickableProgressBar.cs" />
     <Compile Include="Controls\ColorPicker.cs" />
     <Compile Include="Controls\HyperlinkLabel.cs" />
+    <Compile Include="Controls\Icon12.cs" />
     <Compile Include="Controls\Icon16.cs" />
     <Compile Include="Controls\Icon32.cs" />
     <Compile Include="Controls\PlayerControlButton.cs" />
@@ -236,6 +237,9 @@
     </Compile>
     <Compile Include="Views\PlaylistsStandardView.xaml.cs">
       <DependentUpon>PlaylistsStandardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PlaylistView.xaml.cs">
+      <DependentUpon>PlaylistView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SpinnerImage.xaml.cs">
       <DependentUpon>SpinnerImage.xaml</DependentUpon>
@@ -365,6 +369,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PlaylistsStandardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PlaylistView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
