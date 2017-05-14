@@ -14,5 +14,7 @@ namespace Whip.Services.Interfaces
         void Save(OrderedPlaylist playlist);
 
         void Save(CriteriaPlaylist playlist);
+
+        void Delete(CriteriaPlaylist playlist);
     }
 }

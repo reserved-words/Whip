@@ -46,6 +46,7 @@
     <Compile Include="Enums\IconType.cs" />
     <Compile Include="Enums\ImageType.cs" />
     <Compile Include="Enums\PropertyName.cs" />
+    <Compile Include="Enums\PropertyObject.cs" />
     <Compile Include="Enums\PropertyType.cs" />
     <Compile Include="Enums\ReleaseType.cs" />
     <Compile Include="Enums\SortType.cs" />
@@ -65,18 +66,32 @@
     <Compile Include="Model\FilesWithStatus.cs" />
     <Compile Include="Model\Playlists\AllPlaylists.cs" />
     <Compile Include="Model\Playlists\CriteriaPlaylist.cs" />
+    <Compile Include="Model\Playlists\Criteria\Album\DiscCountCriteria.cs" />
+    <Compile Include="Model\Playlists\Criteria\Album\ReleaseYearCriteria.cs" />
+    <Compile Include="Model\Playlists\Criteria\Album\ReleaseTypeCriteria.cs" />
+    <Compile Include="Model\Playlists\Criteria\Album\AlbumTrackCountCriteria.cs" />
+    <Compile Include="Model\Playlists\Criteria\Album\AlbumTitleCriteria.cs" />
+    <Compile Include="Model\Playlists\Criteria\Artist\StateCriteria.cs" />
+    <Compile Include="Model\Playlists\Criteria\Artist\CityCriteria.cs" />
     <Compile Include="Model\Playlists\Criteria\Artist\CountryCriteria.cs" />
     <Compile Include="Model\Playlists\Criteria\Criteria.cs" />
     <Compile Include="Model\Playlists\Criteria\CriteriaGroup.cs" />
+    <Compile Include="Model\Playlists\Criteria\Disc\DiscTrackCountCriteria.cs" />
+    <Compile Include="Model\Playlists\Criteria\Disc\DiscNoCriteria.cs" />
     <Compile Include="Model\Playlists\Criteria\IntegerCriteria.cs" />
     <Compile Include="Model\Playlists\Criteria\DateTimeCriteria.cs" />
     <Compile Include="Model\Playlists\Criteria\Artist\GenreCriteria.cs" />
     <Compile Include="Model\Playlists\Criteria\Artist\GroupingCriteria.cs" />
+    <Compile Include="Model\Playlists\Criteria\EnumCriteria.cs" />
     <Compile Include="Model\Playlists\Criteria\StringCriteria.cs" />
     <Compile Include="Model\Playlists\Criteria\StringListCriteria.cs" />
     <Compile Include="Model\Playlists\Criteria\TimeSpanCriteria.cs" />
+    <Compile Include="Model\Playlists\Criteria\Track\DateModifiedCriteria.cs" />
+    <Compile Include="Model\Playlists\Criteria\Track\DateAddedCriteria.cs" />
     <Compile Include="Model\Playlists\Criteria\Track\DurationCriteria.cs" />
     <Compile Include="Model\Playlists\Criteria\Track\TagsCriteria.cs" />
+    <Compile Include="Model\Playlists\Criteria\Track\TrackNoCriteria.cs" />
+    <Compile Include="Model\Playlists\Criteria\Track\TrackYearCriteria.cs" />
     <Compile Include="Model\Playlists\Criteria\Track\TrackTitleCriteria.cs" />
     <Compile Include="Model\Playlists\OrderedPlaylist.cs" />
     <Compile Include="Model\Playlists\PlaylistBase.cs" />
@@ -112,6 +127,7 @@
       <Name>Whip.Resources</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

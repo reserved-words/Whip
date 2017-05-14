@@ -65,9 +65,11 @@ namespace Whip.XmlDataAccess
                         ? (PropertyName?)null
                         : (PropertyName)Enum.Parse(typeof(PropertyName), orderByProperty);
                     
+                    playlist.OrderByDescending = playlistXml.Attribute(PlaylistOrderByDescending).Value == TrueValue;
+
                     var maxTracks = playlistXml.Attribute(PlaylistMaxTracks).Value;
 
-                    playlist.MaximumNumber = string.IsNullOrEmpty(maxTracks)
+                    playlist.MaxTracks = string.IsNullOrEmpty(maxTracks)
                         ? (int?)null
                         : int.Parse(maxTracks);
 
@@ -84,12 +86,12 @@ namespace Whip.XmlDataAccess
 
                         foreach (var criteriaXml in criteriaGroupXml.Element(PlaylistAlbumCriteria).Elements(PlaylistCriteria))
                         {
-                            // criteriaGroup.AlbumCriteria.Add(GetCriteria<Album>(criteriaXml));
+                            criteriaGroup.AlbumCriteria.Add(GetAlbumCriteria(criteriaXml));
                         }
 
                         foreach (var criteriaXml in criteriaGroupXml.Element(PlaylistDiscCriteria).Elements(PlaylistCriteria))
                         {
-                            // criteriaGroup.DiscCriteria.Add(GetCriteria<Disc>(criteriaXml));
+                            criteriaGroup.DiscCriteria.Add(GetDiscCriteria(criteriaXml));
                         }
 
                         foreach (var criteriaXml in criteriaGroupXml.Element(PlaylistTrackCriteria).Elements(PlaylistCriteria))
@@ -157,7 +159,8 @@ namespace Whip.XmlDataAccess
             playlistXml.Add(new XAttribute(PlaylistId, playlist.Id));
             playlistXml.Add(new XAttribute(PlaylistTitle, playlist.Title));
             playlistXml.Add(new XAttribute(PlaylistOrderBy, playlist.OrderByProperty?.ToString() ?? ""));
-            playlistXml.Add(new XAttribute(PlaylistMaxTracks, playlist.MaximumNumber?.ToString() ?? ""));
+            playlistXml.Add(new XAttribute(PlaylistOrderByDescending, playlist.OrderByDescending ? TrueValue : FalseValue));
+            playlistXml.Add(new XAttribute(PlaylistMaxTracks, playlist.MaxTracks?.ToString() ?? ""));
 
             var criteriaGroupsXml = new XElement(PlaylistCriteriaGroups);
             playlistXml.Add(criteriaGroupsXml);
@@ -223,6 +226,39 @@ namespace Whip.XmlDataAccess
             var valueString = xml.Attribute(PlaylistCriteriaValue).Value;
 
             return _playlistCriteriaService.GetTrackCriteria(propertyName, criteriaType, valueString);
+        }
+
+        private Criteria<Disc> GetDiscCriteria(XElement xml)
+        {
+            var propertyName = (PropertyName)Enum.Parse(typeof(PropertyName), xml.Attribute(PlaylistCriteriaPropertyName).Value);
+            var criteriaType = (CriteriaType)Enum.Parse(typeof(CriteriaType), xml.Attribute(PlaylistCriteriaType).Value);
+            var valueString = xml.Attribute(PlaylistCriteriaValue).Value;
+
+            return _playlistCriteriaService.GetDiscCriteria(propertyName, criteriaType, valueString);
+        }
+
+        private Criteria<Album> GetAlbumCriteria(XElement xml)
+        {
+            var propertyName = (PropertyName)Enum.Parse(typeof(PropertyName), xml.Attribute(PlaylistCriteriaPropertyName).Value);
+            var criteriaType = (CriteriaType)Enum.Parse(typeof(CriteriaType), xml.Attribute(PlaylistCriteriaType).Value);
+            var valueString = xml.Attribute(PlaylistCriteriaValue).Value;
+
+            return _playlistCriteriaService.GetAlbumCriteria(propertyName, criteriaType, valueString);
+        }
+
+        public void Delete(CriteriaPlaylist playlist)
+        {
+            var xml = XDocument.Load(XmlFilePath);
+
+            var criteriaPlaylistsXml = xml.Root.Element(PlaylistsCriteria);
+
+            var playlistXml = criteriaPlaylistsXml
+                .Elements(Playlist)
+                .Single(pl => pl.Attribute(PlaylistId).Value == playlist.Id.ToString());
+
+            playlistXml.Remove();
+
+            xml.Save(XmlFilePath);
         }
     }
 }

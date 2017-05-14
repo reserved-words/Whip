@@ -2,24 +2,27 @@
 using Whip.Common;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
+using Whip.ViewModels.Messages;
 using Whip.ViewModels.TabViewModels.Playlists;
 using Whip.ViewModels.Utilities;
+using Whip.ViewModels.Windows;
+using static Whip.ViewModels.Windows.ConfirmationViewModel;
 
 namespace Whip.ViewModels.TabViewModels
 {
     public class PlaylistsViewModel : TabViewModelBase
     {
+        private readonly IMessenger _messenger;
         private readonly IPlaylistRepository _repository;
-
-        private bool _populated;
 
         public PlaylistsViewModel(IPlaylistRepository repository, Common.Singletons.Library library, IMessenger messenger, IPlaylistService playlistService)
             :base(TabType.Playlists, IconType.ListUl, "Playlists")
         {
+            _messenger = messenger;
             _repository = repository;
 
             OrderedPlaylists = new OrderedPlaylistsViewModel();
-            CriteriaPlaylists = new CriteriaPlaylistsViewModel(library, messenger, playlistService);
+            CriteriaPlaylists = new CriteriaPlaylistsViewModel(this, library, messenger, playlistService);
             StandardPlaylists = new StandardPlaylistsViewModel(library, messenger);
         }
 
@@ -31,15 +34,24 @@ namespace Whip.ViewModels.TabViewModels
         {
             StandardPlaylists.UpdateOptions();
 
-            if (_populated)
-                return;
-
-            _populated = true;
-
             var playlists = _repository.GetPlaylists();
 
             OrderedPlaylists.Update(playlists.OrderedPlaylists);
             CriteriaPlaylists.Update(playlists.CriteriaPlaylists);
+        }
+
+        public void Remove(CriteriaPlaylist playlist)
+        {
+            var confirmation = new ConfirmationViewModel(_messenger, "Delete Playlist Confirmation", $"Are you sure you want to delete {playlist.Title}?", 
+                ConfirmationType.YesNo, false);
+
+            _messenger.Send(new ShowDialogMessage(confirmation));
+
+            if (!confirmation.Result)
+                return;
+
+            _repository.Delete(playlist);
+            OnShow(null);
         }
     }
 }

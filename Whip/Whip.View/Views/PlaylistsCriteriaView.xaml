@@ -14,9 +14,13 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" 
-               Style="{StaticResource TitleLabel}"
-               Content="Criteria Playlists" />
+        <DockPanel Grid.Row="0">
+            <Label Style="{StaticResource TitleLabel}"
+                   Content="Criteria Playlists" />
+            <Button HorizontalAlignment="Right"
+                    Content="Add New"
+                    Command="{Binding AddNewPlaylistCommand}" />
+        </DockPanel>
 
         <ListView Grid.Row="1"
                   ItemsSource="{Binding Playlists}"

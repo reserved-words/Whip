@@ -214,6 +214,15 @@ namespace Whip.XmlDataAccess {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to false.
+        /// </summary>
+        internal static string FalseValue {
+            get {
+                return ResourceManager.GetString("FalseValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to full_filepath.
         /// </summary>
         internal static string FullFilepath {
@@ -390,6 +399,15 @@ namespace Whip.XmlDataAccess {
         internal static string PlaylistOrderBy {
             get {
                 return ResourceManager.GetString("PlaylistOrderBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to order_by_descending.
+        /// </summary>
+        internal static string PlaylistOrderByDescending {
+            get {
+                return ResourceManager.GetString("PlaylistOrderByDescending", resourceCulture);
             }
         }
         
@@ -633,6 +651,15 @@ namespace Whip.XmlDataAccess {
         internal static string TrackYear {
             get {
                 return ResourceManager.GetString("TrackYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to true.
+        /// </summary>
+        internal static string TrueValue {
+            get {
+                return ResourceManager.GetString("TrueValue", resourceCulture);
             }
         }
         

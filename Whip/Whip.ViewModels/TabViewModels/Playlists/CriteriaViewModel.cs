@@ -29,6 +29,8 @@ namespace Whip.ViewModels.TabViewModels.Playlists
             ValueString = criteria.ValueString;
         }
 
+        public PropertyOwner? PropertyOwner => PropertyName?.GetAttribute<CriteriaPropertyAttribute>().PropertyOwner;
+
         public PropertyName? PropertyName
         {
             get { return _propertyName; }

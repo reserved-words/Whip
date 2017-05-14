@@ -324,4 +324,13 @@
   <data name="PlaylistTrackCriteria" xml:space="preserve">
     <value>track_criteria</value>
   </data>
+  <data name="PlaylistOrderByDescending" xml:space="preserve">
+    <value>order_by_descending</value>
+  </data>
+  <data name="FalseValue" xml:space="preserve">
+    <value>false</value>
+  </data>
+  <data name="TrueValue" xml:space="preserve">
+    <value>true</value>
+  </data>
 </root>

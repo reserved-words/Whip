@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Whip.Common.Model.Playlists.Criteria;
 
 namespace Whip.Common.Model
@@ -9,7 +8,7 @@ namespace Whip.Common.Model
         public CriteriaPlaylist(int id, string title)
             :base(id, title)
         {
-
+            CriteriaGroups = new List<CriteriaGroup>();
         }
 
         public List<CriteriaGroup> CriteriaGroups { get; set; }
@@ -18,6 +17,6 @@ namespace Whip.Common.Model
 
         public bool OrderByDescending { get; set; }
 
-        public int? MaximumNumber { get; set; }
+        public int? MaxTracks { get; set; }
     }
 }

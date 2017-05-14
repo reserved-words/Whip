@@ -302,6 +302,8 @@ namespace Whip.ViewModels.TabViewModels.Playlists
             Cities = GetCities(cities);
             States = GetStates(cities);
             Countries = GetCountries(cities);
+
+            ClearSelections(string.Empty);
         }
 
         private Dictionary<string, Predicate<Track>> GetDateAddedOptions()

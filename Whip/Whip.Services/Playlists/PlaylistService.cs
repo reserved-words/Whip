@@ -10,10 +10,12 @@ namespace Whip.Services
     public class PlaylistService : IPlaylistService
     {
         private readonly Library _library;
-        
-        public PlaylistService(Library library)
+        private readonly IPlaylistCriteriaService _playlistCriteriaService;
+
+        public PlaylistService(Library library, IPlaylistCriteriaService playlistCriteriaService)
         {
             _library = library;
+            _playlistCriteriaService = playlistCriteriaService;
         } 
 
         public List<Track> GetTracks(CriteriaPlaylist playlist)
@@ -27,17 +29,21 @@ namespace Whip.Services
 
             IEnumerable<Track> list = tracks;
 
-            if (playlist.OrderByProperty != null)
+            if (playlist.OrderByProperty.HasValue)
             {
-                // list = list.OrderBy(t => playlist.OrderBy(t));
+                var orderByFunction = _playlistCriteriaService.GetTrackPropertyFunction(playlist.OrderByProperty.Value);
+
+                list = playlist.OrderByDescending 
+                    ? list.OrderByDescending(t => orderByFunction(t))
+                    : list.OrderBy(t => orderByFunction(t));
             }
 
-            if (playlist.MaximumNumber.HasValue)
+            if (playlist.MaxTracks.HasValue)
             {
-                list = list.Take(playlist.MaximumNumber.Value);
+                list = list.Take(playlist.MaxTracks.Value);
             }
 
-            return tracks.ToList();
+            return list.ToList();
         }
 
         private List<Track> GetValidTracks(CriteriaGroup criteriaGroup)
