@@ -50,8 +50,7 @@
     <Compile Include="Library\TrackFilterService.cs" />
     <Compile Include="Library\TrackUpdateService.cs" />
     <Compile Include="MethodInterceptors\WebMethodInterceptor.cs" />
-    <Compile Include="Playlists\PlaylistCriteriaService.cs" />
-    <Compile Include="Playlists\PlaylistService.cs" />
+    <Compile Include="TrackSearch\TrackSearchService.cs" />
     <Compile Include="Singletons\NewFilePlayer.cs" />
     <Compile Include="Singletons\Playlist.cs" />
     <Compile Include="Singletons\ScrobblingPlayer.cs" />

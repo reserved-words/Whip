@@ -21,9 +21,9 @@ namespace Whip.Common.Model.Playlists.Criteria
                 switch (CriteriaType)
                 {
                     case CriteriaType.IsEqualTo:
-                        return t => _function(t).Equals(Value);
+                        return t => _function(t).ToLower().Trim().Equals(Value.ToLower().Trim());
                     case CriteriaType.Contains:
-                        return t => Value.Contains(_function(t));
+                        return t => _function(t).ToLower().Trim().Contains(Value.ToLower().Trim());
                     default:
                         throw new InvalidOperationException("Invalid criteria type");
                 }

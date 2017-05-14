@@ -1,0 +1,132 @@
+﻿<UserControl x:Class="Whip.TabSearch"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Whip"
+             xmlns:common="clr-namespace:Whip.Common;assembly=Whip.Common"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1200">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            
+            <Label Style="{StaticResource TitleLabel}"
+                   Content="Find all tracks meeting the following criteria:"
+                   Grid.Row="0"/>
+
+            <Border Grid.Row="1"
+                    Style="{StaticResource ColourBorder}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Row="0" Grid.Column="0"
+                           Content="Order By" />
+                    <ComboBox Grid.Row="0" Grid.Column="1"
+                              IsEditable="False"
+                              ItemsSource="{Binding Source={local:Enumeration {x:Type common:PropertyName}}}"
+                              DisplayMemberPath="Description" 
+                              SelectedValue="{Binding OrderByProperty, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"  
+                              SelectedValuePath="Value"  />
+
+                    <Label Grid.Row="1" Grid.Column="0"
+                           Content="Descending" />
+                    <CheckBox Grid.Row="1" Grid.Column="1"
+                              HorizontalAlignment="Left"
+                              IsChecked="{Binding OrderByDescending, UpdateSourceTrigger=PropertyChanged }"/>
+
+                    <Label Grid.Row="2" Grid.Column="0"
+                           Content="Maximum Tracks" />
+                    <TextBox Grid.Row="2" Grid.Column="1"
+                             Width="80"
+                             HorizontalAlignment="Left"
+                             Text="{Binding MaxTracks, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True }"/>
+
+                </Grid>
+            </Border>
+
+            <local:TrackCriteriaView DataContext="{Binding}"
+                                     Grid.Row="2"/>
+            
+            <DockPanel Grid.Row="3"
+                       Margin="5">
+                <Button Content="Add New Group"
+                            HorizontalAlignment="Left"
+                            Command="{Binding AddNewCriteriaGroupCommand}"
+                            Width="100"/>
+                <WrapPanel HorizontalAlignment="Right">
+                    <Button Content="Search"
+                            HorizontalAlignment="Right"
+                            Command="{Binding SearchCommand}"
+                            Width="60"/>
+                    <Button Content="Clear"
+                            HorizontalAlignment="Right"
+                            Command="{Binding ClearCommand}"
+                            Width="50"/>
+                    <Button Content="Save As Playlist"
+                            HorizontalAlignment="Right"
+                            Command="{Binding SaveAsPlaylistCommand}"
+                            Width="100"/>
+                </WrapPanel>
+            </DockPanel>
+        </Grid>
+
+        <DataGrid Grid.Column="1"
+                  ItemsSource="{Binding Results}"
+                  HeadersVisibility="Column"
+                  GridLinesVisibility="All"
+                  ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+            <DataGrid.InputBindings>
+                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding PlayCommand}" />
+            </DataGrid.InputBindings>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Edit Track"
+                              Command="{Binding EditTrackCommand}" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Title"
+                                    Binding="{Binding Title}"
+                                    Width="*"/>
+                <DataGridTemplateColumn Header="Duration"
+                                        Width="60">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Duration, StringFormat=mm\\:ss}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Artist"
+                                    Binding="{Binding Artist.Name}"
+                                    Width="*"/>
+                <DataGridTextColumn Header="Album Title"
+                                    Binding="{Binding Disc.Album.Title}"
+                                    Width="*"/>
+                <DataGridTextColumn Header="Album Artist"
+                                    Binding="{Binding Disc.Album.Artist.Name}"
+                                    Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</UserControl>

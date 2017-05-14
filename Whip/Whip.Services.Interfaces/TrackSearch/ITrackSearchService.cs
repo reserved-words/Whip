@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using Whip.Common;
+using Whip.Common.Interfaces;
 using Whip.Common.Model;
 using Whip.Common.Model.Playlists.Criteria;
 
 namespace Whip.Services.Interfaces
 {
-    public interface IPlaylistCriteriaService
+    public interface ITrackSearchService
     {
+        List<Track> GetTracks(ITrackCriteria trackCriteria);
         Criteria<Album> GetAlbumCriteria(PropertyName value1, CriteriaType value2, string valueString);
         Criteria<Artist> GetArtistCriteria(PropertyName propertyName, CriteriaType criteriaType, string valueString);
         Criteria<Disc> GetDiscCriteria(PropertyName value1, CriteriaType value2, string valueString);

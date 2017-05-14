@@ -15,12 +15,12 @@ namespace Whip.XmlDataAccess
     {
         private const string Filename = "playlists.xml";
 
-        private readonly IPlaylistCriteriaService _playlistCriteriaService;
+        private readonly ITrackSearchService _trackSearchService;
         private readonly IUserSettings _userSettings;
 
-        public PlaylistRepository(IUserSettings userSettings, IPlaylistCriteriaService playlistCriteriaService)
+        public PlaylistRepository(IUserSettings userSettings, ITrackSearchService trackSearchService)
         {
-            _playlistCriteriaService = playlistCriteriaService;
+            _trackSearchService = trackSearchService;
             _userSettings = userSettings;
         }
 
@@ -216,7 +216,7 @@ namespace Whip.XmlDataAccess
             var criteriaType = (CriteriaType)Enum.Parse(typeof(CriteriaType), xml.Attribute(PlaylistCriteriaType).Value);
             var valueString = xml.Attribute(PlaylistCriteriaValue).Value;
 
-            return _playlistCriteriaService.GetArtistCriteria(propertyName, criteriaType, valueString);
+            return _trackSearchService.GetArtistCriteria(propertyName, criteriaType, valueString);
         }
 
         private Criteria<Track> GetTrackCriteria(XElement xml)
@@ -225,7 +225,7 @@ namespace Whip.XmlDataAccess
             var criteriaType = (CriteriaType)Enum.Parse(typeof(CriteriaType), xml.Attribute(PlaylistCriteriaType).Value);
             var valueString = xml.Attribute(PlaylistCriteriaValue).Value;
 
-            return _playlistCriteriaService.GetTrackCriteria(propertyName, criteriaType, valueString);
+            return _trackSearchService.GetTrackCriteria(propertyName, criteriaType, valueString);
         }
 
         private Criteria<Disc> GetDiscCriteria(XElement xml)
@@ -234,7 +234,7 @@ namespace Whip.XmlDataAccess
             var criteriaType = (CriteriaType)Enum.Parse(typeof(CriteriaType), xml.Attribute(PlaylistCriteriaType).Value);
             var valueString = xml.Attribute(PlaylistCriteriaValue).Value;
 
-            return _playlistCriteriaService.GetDiscCriteria(propertyName, criteriaType, valueString);
+            return _trackSearchService.GetDiscCriteria(propertyName, criteriaType, valueString);
         }
 
         private Criteria<Album> GetAlbumCriteria(XElement xml)
@@ -243,7 +243,7 @@ namespace Whip.XmlDataAccess
             var criteriaType = (CriteriaType)Enum.Parse(typeof(CriteriaType), xml.Attribute(PlaylistCriteriaType).Value);
             var valueString = xml.Attribute(PlaylistCriteriaValue).Value;
 
-            return _playlistCriteriaService.GetAlbumCriteria(propertyName, criteriaType, valueString);
+            return _trackSearchService.GetAlbumCriteria(propertyName, criteriaType, valueString);
         }
 
         public void Delete(CriteriaPlaylist playlist)

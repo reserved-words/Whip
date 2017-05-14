@@ -15,7 +15,7 @@ namespace Whip.ViewModels.TabViewModels
         private readonly IMessenger _messenger;
         private readonly IPlaylistRepository _repository;
 
-        public PlaylistsViewModel(IPlaylistRepository repository, Common.Singletons.Library library, IMessenger messenger, IPlaylistService playlistService)
+        public PlaylistsViewModel(IPlaylistRepository repository, Common.Singletons.Library library, IMessenger messenger, ITrackSearchService playlistService)
             :base(TabType.Playlists, IconType.ListUl, "Playlists")
         {
             _messenger = messenger;

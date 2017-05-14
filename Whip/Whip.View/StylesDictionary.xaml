@@ -43,7 +43,7 @@
         <local:TabPlaylists />
     </DataTemplate>
     <DataTemplate DataType="{x:Type tabsvm:SearchViewModel}">
-        <local:TabGenericTemp />
+        <local:TabSearch />
     </DataTemplate>
     <DataTemplate DataType="{x:Type tabsvm:NewsViewModel}">
         <local:TabNews />

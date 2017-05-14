@@ -15,7 +15,7 @@ namespace Whip.ViewModels.TabViewModels
     public class EditCriteriaPlaylistViewModel : EditableTabViewModelBase
     {
         private readonly IMessenger _messenger;
-        private readonly IPlaylistCriteriaService _playlistCriteriaService;
+        private readonly ITrackSearchService _trackSearchService;
         private readonly IPlaylistRepository _repository;
 
         private CriteriaPlaylist _playlist;
@@ -25,11 +25,11 @@ namespace Whip.ViewModels.TabViewModels
         private bool _orderByDescending;
         private int? _maxTracks;
 
-        public EditCriteriaPlaylistViewModel(IMessenger messenger, IPlaylistRepository repository, IPlaylistCriteriaService playlistCriteriaService)
+        public EditCriteriaPlaylistViewModel(IMessenger messenger, IPlaylistRepository repository, ITrackSearchService trackSearchService)
             :base(TabType.Playlists, IconType.Cog, "Edit Playlist", messenger, false)
         {
             _messenger = messenger;
-            _playlistCriteriaService = playlistCriteriaService;
+            _trackSearchService = trackSearchService;
             _repository = repository;
 
             AddNewCriteriaGroupCommand = new RelayCommand(OnAddNewCriteriaGroup);
@@ -84,22 +84,22 @@ namespace Whip.ViewModels.TabViewModels
             foreach (var group in Criteria.Where(g => g.Criteria.Any()))
             {
                 var criteriaGroup = new CriteriaGroup();
-                
+
                 foreach (var criteria in group.Criteria.Where(g => g.PropertyName != null))
                 {
                     switch (criteria.PropertyOwner)
                     {
                         case PropertyOwner.Track:
-                            criteriaGroup.TrackCriteria.Add(_playlistCriteriaService.GetTrackCriteria(criteria.PropertyName.Value, criteria.CriteriaType.Value, criteria.ValueString));
+                            criteriaGroup.TrackCriteria.Add(_trackSearchService.GetTrackCriteria(criteria.PropertyName.Value, criteria.CriteriaType.Value, criteria.ValueString));
                             break;
                         case PropertyOwner.Disc:
-                            criteriaGroup.DiscCriteria.Add(_playlistCriteriaService.GetDiscCriteria(criteria.PropertyName.Value, criteria.CriteriaType.Value, criteria.ValueString));
+                            criteriaGroup.DiscCriteria.Add(_trackSearchService.GetDiscCriteria(criteria.PropertyName.Value, criteria.CriteriaType.Value, criteria.ValueString));
                             break;
                         case PropertyOwner.Album:
-                            criteriaGroup.AlbumCriteria.Add(_playlistCriteriaService.GetAlbumCriteria(criteria.PropertyName.Value, criteria.CriteriaType.Value, criteria.ValueString));
+                            criteriaGroup.AlbumCriteria.Add(_trackSearchService.GetAlbumCriteria(criteria.PropertyName.Value, criteria.CriteriaType.Value, criteria.ValueString));
                             break;
                         case PropertyOwner.Artist:
-                            criteriaGroup.ArtistCriteria.Add(_playlistCriteriaService.GetArtistCriteria(criteria.PropertyName.Value, criteria.CriteriaType.Value, criteria.ValueString));
+                            criteriaGroup.ArtistCriteria.Add(_trackSearchService.GetArtistCriteria(criteria.PropertyName.Value, criteria.CriteriaType.Value, criteria.ValueString));
                             break;
                         default:
                             throw new InvalidOperationException("Invalid property owner");

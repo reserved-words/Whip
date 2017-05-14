@@ -201,6 +201,9 @@
     <Compile Include="TabControls\TabPlaylists.xaml.cs">
       <DependentUpon>TabPlaylists.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TabControls\TabSearch.xaml.cs">
+      <DependentUpon>TabSearch.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TabControls\TabSettings.xaml.cs">
       <DependentUpon>TabSettings.xaml</DependentUpon>
     </Compile>
@@ -327,6 +330,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TabControls\TabPlaylists.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TabControls\TabSearch.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

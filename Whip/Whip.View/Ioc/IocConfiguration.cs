@@ -62,8 +62,7 @@ namespace Whip.Ioc
                 .Register<IWebBrowserService, WebBrowserService>()
                 .Register<IArchiveService, ArchiveService>()
                 .Register<IRssService, RssService>()
-                .Register<IPlaylistService, PlaylistService>()
-                .Register<IPlaylistCriteriaService, PlaylistCriteriaService>()
+                .Register<ITrackSearchService, TrackSearchService>()
                 .Register<IAsyncMethodInterceptor, WebMethodInterceptor>();
 
             return kernel;

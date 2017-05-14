@@ -22,9 +22,9 @@ namespace Whip.Common.Model.Playlists.Criteria
                 {
                     case CriteriaType.IsEqualTo:
                         return t => _function(t).Equals(Value);
-                    case CriteriaType.IsLessThan:
+                    case CriteriaType.IsBefore:
                         return t => _function(t) < Value;
-                    case CriteriaType.IsGreaterThan:
+                    case CriteriaType.IsAfter:
                         return t => _function(t) > Value;
                     default:
                         throw new InvalidOperationException("Invalid criteria type");

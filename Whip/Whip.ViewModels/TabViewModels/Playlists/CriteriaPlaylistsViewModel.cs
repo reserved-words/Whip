@@ -14,9 +14,9 @@ namespace Whip.ViewModels.TabViewModels.Playlists
         private readonly Common.Singletons.Library _library;
         private readonly IMessenger _messenger;
         private readonly PlaylistsViewModel _parent;
-        private readonly IPlaylistService _playlistService;
+        private readonly ITrackSearchService _playlistService;
 
-        public CriteriaPlaylistsViewModel(PlaylistsViewModel parent, Common.Singletons.Library library, IMessenger messenger, IPlaylistService playlistService)
+        public CriteriaPlaylistsViewModel(PlaylistsViewModel parent, Common.Singletons.Library library, IMessenger messenger, ITrackSearchService playlistService)
         {
             _library = library;
             _messenger = messenger;

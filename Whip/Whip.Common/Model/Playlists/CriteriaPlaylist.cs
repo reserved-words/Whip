@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using Whip.Common.Interfaces;
 using Whip.Common.Model.Playlists.Criteria;
 
 namespace Whip.Common.Model
 {
-    public class CriteriaPlaylist : PlaylistBase
+    public class CriteriaPlaylist : PlaylistBase, ITrackCriteria
     {
         public CriteriaPlaylist(int id, string title)
             :base(id, title)
