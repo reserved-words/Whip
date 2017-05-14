@@ -40,6 +40,7 @@ namespace Whip
                           select new EnumerationMember
                           {
                               Value = enumValue,
+                              ValueString = enumValue.ToString(),
                               Description = enumValue.GetDisplayName()
                           };
 
@@ -50,6 +51,7 @@ namespace Whip
         {
             public string Description { get; set; }
             public object Value { get; set; }
+            public string ValueString { get; set; }
         }
     }
 }

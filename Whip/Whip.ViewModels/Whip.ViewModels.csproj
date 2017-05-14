@@ -67,6 +67,7 @@
     <Compile Include="MessageHandlers\PlayerCoordinator.cs" />
     <Compile Include="MessageHandlers\PlayRequestHandler.cs" />
     <Compile Include="MessageHandlers\TrackChangeCoordinator.cs" />
+    <Compile Include="Messages\EditCriteraPlaylistMessage.cs" />
     <Compile Include="Messages\EditSettingsMessage.cs" />
     <Compile Include="Messages\EditTrackMessage.cs" />
     <Compile Include="Messages\LibraryUpdateRequest.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="TabViewModels\CurrentPlaylistViewModel.cs" />
     <Compile Include="TabViewModels\CurrentTrackViewModel.cs" />
     <Compile Include="TabViewModels\BaseClasses\EditableTabViewModelBase.cs" />
+    <Compile Include="TabViewModels\EditCriteriaPlaylistViewModel.cs" />
     <Compile Include="TabViewModels\EditTrackViewModel.cs" />
     <Compile Include="TabViewModels\EditTrack\AlbumViewModel.cs" />
     <Compile Include="TabViewModels\EditTrack\ArtistViewModel.cs" />
@@ -97,7 +99,9 @@
     <Compile Include="TabViewModels\Library\ArtistViewModel.cs" />
     <Compile Include="TabViewModels\NewsViewModel.cs" />
     <Compile Include="TabViewModels\CurrentArtistViewModel.cs" />
+    <Compile Include="TabViewModels\Playlists\CriteriaGroupViewModel.cs" />
     <Compile Include="TabViewModels\Playlists\CriteriaPlaylistsViewModel.cs" />
+    <Compile Include="TabViewModels\Playlists\CriteriaViewModel.cs" />
     <Compile Include="TabViewModels\Playlists\OrderedPlaylistsViewModel.cs" />
     <Compile Include="TabViewModels\Playlists\StandardPlaylistsViewModel.cs" />
     <Compile Include="Validation\ImageUrlAttribute.cs" />

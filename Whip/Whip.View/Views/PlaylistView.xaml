@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Border BorderBrush="Silver"
-                            BorderThickness="0,0,0,1">
+            BorderThickness="0,0,0,1">
         <Grid HorizontalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -18,18 +18,34 @@
             <StackPanel Grid.Column="0"
                         VerticalAlignment="Center">
                 <controls:Icon12 Icon="Cog"
-                                             Foreground="Silver"
-                                             Margin="2"/>
+                                 Foreground="Silver"
+                                 Margin="2"
+                                 Cursor="Hand">
+                    <Image.InputBindings>
+                        <MouseBinding Gesture="LeftClick"
+                                      Command="{Binding Path=DataContext.EditCommand, ElementName=PlaylistsGrid}"
+                                      CommandParameter="{Binding}"/>
+                    </Image.InputBindings>
+                </controls:Icon12>
                 <controls:Icon12 Icon="TrashOutline"
-                                             Foreground="Silver"
-                                             Margin="2"/>
+                                Foreground="Silver"
+                                Margin="2"
+                                Cursor="Hand">
+                    <Image.InputBindings>
+                        <MouseBinding Gesture="LeftClick"
+                                      Command="{Binding Path=DataContext.DeleteCommand, ElementName=PlaylistsGrid}"
+                                      CommandParameter="{Binding}"/>
+                    </Image.InputBindings>
+                </controls:Icon12>
             </StackPanel>
             <Label Grid.Column="1"
-                Content="{Binding Title}"
-                VerticalAlignment="Top" />
+                   Content="{Binding Title}"
+                   VerticalAlignment="Top" />
             <Button Grid.Column="2"
                     VerticalAlignment="Center"
-                                Content="Play" />
+                    Content="Play" 
+                    Command="{Binding Path=DataContext.PlayCommand, ElementName=PlaylistsGrid}"
+                    CommandParameter="{Binding}"/>
         </Grid>
     </Border>
 </UserControl>

@@ -19,6 +19,7 @@ namespace Whip.ViewModels
 
         private readonly IMessenger _messenger;
         private readonly EditTrackViewModel _editTrackViewModel;
+        private readonly EditCriteriaPlaylistViewModel _editCriteriaPlaylistViewModel;
         private readonly EditSettingsViewModel _settingsViewModel;
 
         private readonly TabViewModelBase _defaultViewModel;
@@ -42,6 +43,7 @@ namespace Whip.ViewModels
             ArchiveViewModel archiveViewModel,
             EditSettingsViewModel settingsViewModel,
             EditTrackViewModel editTrackViewModel,
+            EditCriteriaPlaylistViewModel editCriteriaPlaylistViewModel,
             IMessenger messenger,
             IShowTabRequestHandler showTabRequester)
         {
@@ -58,9 +60,11 @@ namespace Whip.ViewModels
                 searchViewModel,
                 archiveViewModel,
                 settingsViewModel,
-                editTrackViewModel
+                editTrackViewModel,
+                editCriteriaPlaylistViewModel
             };
 
+            _editCriteriaPlaylistViewModel = editCriteriaPlaylistViewModel;
             _editTrackViewModel = editTrackViewModel;
             _settingsViewModel = settingsViewModel;
             _messenger = messenger;
@@ -74,9 +78,11 @@ namespace Whip.ViewModels
 
             showTabRequester.ShowEditTrackTab += ShowEditTrackTab;
             showTabRequester.ShowSettingsTab += ShowSettingsTab;
+            showTabRequester.ShowEditCriteriaPlaylistTab += ShowEditCriteriaPlaylistTab;
 
             editTrackViewModel.FinishedEditing += OnFinishedEditing;
             settingsViewModel.FinishedEditing += OnFinishedEditing;
+            editCriteriaPlaylistViewModel.FinishedEditing += OnFinishedEditing;
         }
 
         private void OnFinishedEditing(EditableTabViewModelBase sender)
@@ -134,6 +140,14 @@ namespace Whip.ViewModels
             _editTrackViewModel.Edit(track);
             _editTrackViewModel.IsVisible = true;
             SetSelectedTab(_editTrackViewModel);
+        }
+
+        private void ShowEditCriteriaPlaylistTab(CriteriaPlaylist playlist)
+        {
+            _returnToTab = SelectedTab;
+            _editCriteriaPlaylistViewModel.Edit(playlist);
+            _editCriteriaPlaylistViewModel.IsVisible = true;
+            SetSelectedTab(_editCriteriaPlaylistViewModel);
         }
 
         private void OnChangingTab(TabViewModelBase newTab) { }

@@ -57,6 +57,9 @@ namespace Whip.ViewModels
 
         public async void OnNewTrackStarted(Track track)
         {
+            if (track == null)
+                return;
+
             Loved = await _trackLoveService.IsLovedAsync(Track);
         }
 

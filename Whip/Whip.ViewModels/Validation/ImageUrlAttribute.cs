@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Whip.Common.Enums;
+using Whip.Common;
 using Whip.Common.Validation;
 
 namespace Whip.ViewModels.Validation

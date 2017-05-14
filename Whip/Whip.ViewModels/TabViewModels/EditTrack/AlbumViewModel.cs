@@ -7,7 +7,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using Whip.Common;
-using Whip.Common.Enums;
 using Whip.Common.Model;
 using Whip.Common.Utilities;
 using Whip.Common.Validation;

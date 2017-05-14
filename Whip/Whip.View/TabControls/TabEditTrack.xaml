@@ -79,8 +79,8 @@
                        VerticalContentAlignment="Top"/>
                     <WrapPanel Grid.Row="3" Grid.Column="1">
                         <ListView ItemsSource="{Binding Tags}"
-                              BorderThickness="0"
-                              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                  BorderThickness="0"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                             <ListView.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel Orientation="Horizontal" />

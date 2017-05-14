@@ -295,7 +295,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
 
             Genres = Artists.Select(a => a.Genre).Distinct().OrderBy(g => g).ToList();
 
-            _usedCities = Artists.Select(a => a.City).ToList();
+            _usedCities = Artists.Select(a => a.City).Where(c => c != null).Distinct().ToList();
 
             Countries = _usedCities.Select(c => c.Country).Distinct().OrderBy(c => c).ToList();
         }

@@ -4,7 +4,8 @@ namespace Whip.Common.Model
 {
     public class OrderedPlaylist : PlaylistBase
     {
-        public OrderedPlaylist()
+        public OrderedPlaylist(int id, string title)
+            :base(id, title)
         {
             Tracks = new List<string>();
         }

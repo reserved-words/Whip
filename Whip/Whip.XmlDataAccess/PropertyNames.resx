@@ -288,4 +288,40 @@
   <data name="PlaylistTracks" xml:space="preserve">
     <value>tracks</value>
   </data>
+  <data name="PlaylistAlbumCriteria" xml:space="preserve">
+    <value>album_criteria</value>
+  </data>
+  <data name="PlaylistArtistCriteria" xml:space="preserve">
+    <value>artist_criteria</value>
+  </data>
+  <data name="PlaylistCriteria" xml:space="preserve">
+    <value>criteria</value>
+  </data>
+  <data name="PlaylistCriteriaGroup" xml:space="preserve">
+    <value>criteria_group</value>
+  </data>
+  <data name="PlaylistCriteriaGroups" xml:space="preserve">
+    <value>criteria_groups</value>
+  </data>
+  <data name="PlaylistCriteriaPropertyName" xml:space="preserve">
+    <value>property_name</value>
+  </data>
+  <data name="PlaylistCriteriaType" xml:space="preserve">
+    <value>criteria_type</value>
+  </data>
+  <data name="PlaylistCriteriaValue" xml:space="preserve">
+    <value>value</value>
+  </data>
+  <data name="PlaylistDiscCriteria" xml:space="preserve">
+    <value>disc_criteria</value>
+  </data>
+  <data name="PlaylistMaxTracks" xml:space="preserve">
+    <value>max_tracks</value>
+  </data>
+  <data name="PlaylistOrderBy" xml:space="preserve">
+    <value>order_by</value>
+  </data>
+  <data name="PlaylistTrackCriteria" xml:space="preserve">
+    <value>track_criteria</value>
+  </data>
 </root>

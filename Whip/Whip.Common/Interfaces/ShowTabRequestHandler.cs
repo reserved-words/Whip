@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Whip.Common.Model;
 
 namespace Whip.Common.Interfaces
@@ -11,5 +7,6 @@ namespace Whip.Common.Interfaces
     {
         event Action<Track> ShowEditTrackTab;
         event Action ShowSettingsTab;
+        event Action<CriteriaPlaylist> ShowEditCriteriaPlaylistTab;
     }
 }

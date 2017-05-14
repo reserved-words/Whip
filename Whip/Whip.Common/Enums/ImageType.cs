@@ -1,7 +1,7 @@
 ﻿using System;
 using Whip.Common.ExtensionMethods;
 
-namespace Whip.Common.Enums
+namespace Whip.Common
 {
     public enum ImageType
     {

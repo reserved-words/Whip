@@ -13,13 +13,13 @@ namespace Whip.ViewModels.TabViewModels
 
         private bool _populated;
 
-        public PlaylistsViewModel(IPlaylistRepository repository, Common.Singletons.Library library, IMessenger messenger)
+        public PlaylistsViewModel(IPlaylistRepository repository, Common.Singletons.Library library, IMessenger messenger, IPlaylistService playlistService)
             :base(TabType.Playlists, IconType.ListUl, "Playlists")
         {
             _repository = repository;
 
             OrderedPlaylists = new OrderedPlaylistsViewModel();
-            CriteriaPlaylists = new CriteriaPlaylistsViewModel();
+            CriteriaPlaylists = new CriteriaPlaylistsViewModel(library, messenger, playlistService);
             StandardPlaylists = new StandardPlaylistsViewModel(library, messenger);
         }
 
@@ -37,6 +37,7 @@ namespace Whip.ViewModels.TabViewModels
             _populated = true;
 
             var playlists = _repository.GetPlaylists();
+
             OrderedPlaylists.Update(playlists.OrderedPlaylists);
             CriteriaPlaylists.Update(playlists.CriteriaPlaylists);
         }

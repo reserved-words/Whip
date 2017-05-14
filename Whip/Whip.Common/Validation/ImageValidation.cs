@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Whip.Common.Enums;
 
 namespace Whip.Common.Validation
 {

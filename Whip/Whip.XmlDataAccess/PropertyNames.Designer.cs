@@ -286,11 +286,110 @@ namespace Whip.XmlDataAccess {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to album_criteria.
+        /// </summary>
+        internal static string PlaylistAlbumCriteria {
+            get {
+                return ResourceManager.GetString("PlaylistAlbumCriteria", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to artist_criteria.
+        /// </summary>
+        internal static string PlaylistArtistCriteria {
+            get {
+                return ResourceManager.GetString("PlaylistArtistCriteria", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to criteria.
+        /// </summary>
+        internal static string PlaylistCriteria {
+            get {
+                return ResourceManager.GetString("PlaylistCriteria", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to criteria_group.
+        /// </summary>
+        internal static string PlaylistCriteriaGroup {
+            get {
+                return ResourceManager.GetString("PlaylistCriteriaGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to criteria_groups.
+        /// </summary>
+        internal static string PlaylistCriteriaGroups {
+            get {
+                return ResourceManager.GetString("PlaylistCriteriaGroups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to property_name.
+        /// </summary>
+        internal static string PlaylistCriteriaPropertyName {
+            get {
+                return ResourceManager.GetString("PlaylistCriteriaPropertyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to criteria_type.
+        /// </summary>
+        internal static string PlaylistCriteriaType {
+            get {
+                return ResourceManager.GetString("PlaylistCriteriaType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to value.
+        /// </summary>
+        internal static string PlaylistCriteriaValue {
+            get {
+                return ResourceManager.GetString("PlaylistCriteriaValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to disc_criteria.
+        /// </summary>
+        internal static string PlaylistDiscCriteria {
+            get {
+                return ResourceManager.GetString("PlaylistDiscCriteria", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to id.
         /// </summary>
         internal static string PlaylistId {
             get {
                 return ResourceManager.GetString("PlaylistId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to max_tracks.
+        /// </summary>
+        internal static string PlaylistMaxTracks {
+            get {
+                return ResourceManager.GetString("PlaylistMaxTracks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to order_by.
+        /// </summary>
+        internal static string PlaylistOrderBy {
+            get {
+                return ResourceManager.GetString("PlaylistOrderBy", resourceCulture);
             }
         }
         
@@ -336,6 +435,15 @@ namespace Whip.XmlDataAccess {
         internal static string PlaylistTrack {
             get {
                 return ResourceManager.GetString("PlaylistTrack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to track_criteria.
+        /// </summary>
+        internal static string PlaylistTrackCriteria {
+            get {
+                return ResourceManager.GetString("PlaylistTrackCriteria", resourceCulture);
             }
         }
         
