@@ -9,6 +9,7 @@ using Whip.ViewModels.Utilities;
 using Whip.ViewModels.TabViewModels.Playlists;
 using Whip.Services.Interfaces;
 using System;
+using System.Collections.Generic;
 
 namespace Whip.ViewModels.TabViewModels
 {
@@ -20,6 +21,7 @@ namespace Whip.ViewModels.TabViewModels
 
         private CriteriaPlaylist _playlist;
 
+        private List<Track> _tracks;
         private string _playlistTitle;
         private PropertyName? _orderByProperty;
         private bool _orderByDescending;
@@ -33,10 +35,12 @@ namespace Whip.ViewModels.TabViewModels
             _repository = repository;
 
             AddNewCriteriaGroupCommand = new RelayCommand(OnAddNewCriteriaGroup);
+            PreviewResultsCommand = new RelayCommand(OnPreviewResults);
             RemoveGroupCommand = new RelayCommand<CriteriaGroupViewModel>(OnRemoveGroup);
         }
 
         public RelayCommand AddNewCriteriaGroupCommand { get; private set; }
+        public RelayCommand PreviewResultsCommand { get; private set; }
         public RelayCommand<CriteriaGroupViewModel> RemoveGroupCommand { get; private set; }
 
         public string PlaylistTitle
@@ -63,6 +67,12 @@ namespace Whip.ViewModels.TabViewModels
             set { SetModified(nameof(MaxTracks), ref _maxTracks, value); }
         }
 
+        public List<Track> Tracks
+        {
+            get { return _tracks; }
+            set { Set(ref _tracks, value); }
+        }
+
         public ObservableCollection<CriteriaGroupViewModel> Criteria { get; private set; }
 
         protected override string ErrorMessage => string.Empty;
@@ -74,40 +84,7 @@ namespace Whip.ViewModels.TabViewModels
 
         protected override bool CustomSave()
         {
-            _playlist.Title = PlaylistTitle;
-            _playlist.OrderByProperty = OrderByProperty;
-            _playlist.OrderByDescending = OrderByDescending;
-            _playlist.MaxTracks = MaxTracks;
-
-            _playlist.CriteriaGroups.Clear();
-
-            foreach (var group in Criteria.Where(g => g.Criteria.Any()))
-            {
-                var criteriaGroup = new CriteriaGroup();
-
-                foreach (var criteria in group.Criteria.Where(g => g.PropertyName != null))
-                {
-                    switch (criteria.PropertyOwner)
-                    {
-                        case PropertyOwner.Track:
-                            criteriaGroup.TrackCriteria.Add(_trackSearchService.GetTrackCriteria(criteria.PropertyName.Value, criteria.CriteriaType.Value, criteria.ValueString));
-                            break;
-                        case PropertyOwner.Disc:
-                            criteriaGroup.DiscCriteria.Add(_trackSearchService.GetDiscCriteria(criteria.PropertyName.Value, criteria.CriteriaType.Value, criteria.ValueString));
-                            break;
-                        case PropertyOwner.Album:
-                            criteriaGroup.AlbumCriteria.Add(_trackSearchService.GetAlbumCriteria(criteria.PropertyName.Value, criteria.CriteriaType.Value, criteria.ValueString));
-                            break;
-                        case PropertyOwner.Artist:
-                            criteriaGroup.ArtistCriteria.Add(_trackSearchService.GetArtistCriteria(criteria.PropertyName.Value, criteria.CriteriaType.Value, criteria.ValueString));
-                            break;
-                        default:
-                            throw new InvalidOperationException("Invalid property owner");
-                    }
-                }
-
-                _playlist.CriteriaGroups.Add(criteriaGroup);
-            }
+            _playlist = CreatePlaylist(_playlist);
 
             _repository.Save(_playlist);
 
@@ -139,6 +116,8 @@ namespace Whip.ViewModels.TabViewModels
             {
                 Criteria.Last().IsLastGroup = true;
             }
+
+            OnPreviewResults();
         }
 
         private void OnAddNewCriteriaGroup()
@@ -154,6 +133,11 @@ namespace Whip.ViewModels.TabViewModels
             });
         }
 
+        private void OnPreviewResults()
+        {
+            Tracks = _trackSearchService.GetTracks(CreatePlaylist());
+        }
+
         private void OnRemoveGroup(CriteriaGroupViewModel group)
         {
             Criteria.Remove(group);
@@ -162,6 +146,51 @@ namespace Whip.ViewModels.TabViewModels
             {
                 Criteria.Last().IsLastGroup = true;
             }
+        }
+
+        private CriteriaPlaylist CreatePlaylist(CriteriaPlaylist playlist = null)
+        {
+            if (playlist == null)
+            {
+                playlist = new CriteriaPlaylist(0, "");
+            }
+
+            playlist.Title = PlaylistTitle;
+            playlist.OrderByProperty = OrderByProperty;
+            playlist.OrderByDescending = OrderByDescending;
+            playlist.MaxTracks = MaxTracks;
+
+            playlist.CriteriaGroups.Clear();
+
+            foreach (var group in Criteria.Where(g => g.Criteria.Any()))
+            {
+                var criteriaGroup = new CriteriaGroup();
+
+                foreach (var criteria in group.Criteria.Where(g => g.PropertyName != null))
+                {
+                    switch (criteria.PropertyOwner)
+                    {
+                        case PropertyOwner.Track:
+                            criteriaGroup.TrackCriteria.Add(_trackSearchService.GetTrackCriteria(criteria.PropertyName.Value, criteria.CriteriaType.Value, criteria.ValueString));
+                            break;
+                        case PropertyOwner.Disc:
+                            criteriaGroup.DiscCriteria.Add(_trackSearchService.GetDiscCriteria(criteria.PropertyName.Value, criteria.CriteriaType.Value, criteria.ValueString));
+                            break;
+                        case PropertyOwner.Album:
+                            criteriaGroup.AlbumCriteria.Add(_trackSearchService.GetAlbumCriteria(criteria.PropertyName.Value, criteria.CriteriaType.Value, criteria.ValueString));
+                            break;
+                        case PropertyOwner.Artist:
+                            criteriaGroup.ArtistCriteria.Add(_trackSearchService.GetArtistCriteria(criteria.PropertyName.Value, criteria.CriteriaType.Value, criteria.ValueString));
+                            break;
+                        default:
+                            throw new InvalidOperationException("Invalid property owner");
+                    }
+                }
+
+                playlist.CriteriaGroups.Add(criteriaGroup);
+            }
+
+            return playlist;
         }
     }
 }

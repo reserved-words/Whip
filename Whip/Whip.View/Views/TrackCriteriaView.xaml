@@ -15,13 +15,8 @@
                   ItemContainerStyle="{StaticResource ListViewItemNoHighlight}"
                   HorizontalContentAlignment="Stretch"
                   BorderThickness="0"
-                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto">
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Vertical" />
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid x:Name="CriteriaListGrid">

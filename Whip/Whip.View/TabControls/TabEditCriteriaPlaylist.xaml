@@ -10,22 +10,22 @@
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1200">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Border Grid.Row="0"
-                Style="{StaticResource ColourBorder}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-                <Grid Grid.Column="0">
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0"
+                    Style="{StaticResource ColourBorder}">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -64,35 +64,69 @@
                              HorizontalAlignment="Left"
                              Text="{Binding MaxTracks, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True }"/>
                 </Grid>
+            </Border>
 
-            </Grid>
-        </Border>
-
-        <DockPanel Grid.Row="1">
-            <Label DockPanel.Dock="Left"
+            <DockPanel Grid.Row="1">
+                <Label DockPanel.Dock="Left"
                    Style="{StaticResource TitleLabel}"
                    Content="Include tracks meeting ALL the following criteria:" />
+            </DockPanel>
 
-            <Button DockPanel.Dock="Right"
-                    Content="Add New Criteria Group"
-                    Command="{Binding AddNewCriteriaGroupCommand}"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Bottom"
-                    Width="140"
-                    Height="30"
-                    Margin="5"/>
-        </DockPanel>
-
-        <local:TrackCriteriaView Grid.Row="2"
+            <local:TrackCriteriaView Grid.Row="2"
                                  DataContext="{Binding}"/>
 
-        <Border Grid.Row="3"
+            <Border Grid.Row="3"
                 Style="{StaticResource HoriztonalLine}" />
 
-        <local:EditableButtonsView Grid.Row="4"
-                                   DataContext="{Binding Path=DataContext, 
-                                           RelativeSource={RelativeSource Mode=FindAncestor,  
-                                           AncestorType={x:Type UserControl}}}"
-                                   HorizontalAlignment="Right"/>
+            <DockPanel Grid.Row="4">
+
+                <WrapPanel>
+                    <Button Content="Add New Group"
+                            Command="{Binding AddNewCriteriaGroupCommand}"
+                            Width="100"
+                            Margin="5"/>
+                    <Button Content="Preview"
+                            Command="{Binding PreviewResultsCommand}"
+                            Width="60"/>
+                </WrapPanel>
+                
+                <local:EditableButtonsView DockPanel.Dock="Right"
+                                           DataContext="{Binding Path=DataContext, 
+                                                   RelativeSource={RelativeSource Mode=FindAncestor,  
+                                                   AncestorType={x:Type UserControl}}}"
+                                           HorizontalAlignment="Right"/>
+            </DockPanel>
+            
+        </Grid>
+
+        <DataGrid Grid.Column="1"
+                  ItemsSource="{Binding Tracks}"
+                  HeadersVisibility="Column"
+                  GridLinesVisibility="All"
+                  ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Title"
+                                    Binding="{Binding Title}"
+                                    Width="*"/>
+                <DataGridTemplateColumn Header="Duration"
+                                        Width="60">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Duration, StringFormat=mm\\:ss}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Artist"
+                                    Binding="{Binding Artist.Name}"
+                                    Width="*"/>
+                <DataGridTextColumn Header="Album Title"
+                                    Binding="{Binding Disc.Album.Title}"
+                                    Width="*"/>
+                <DataGridTextColumn Header="Album Artist"
+                                    Binding="{Binding Disc.Album.Artist.Name}"
+                                    Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
     </Grid>
 </UserControl>
