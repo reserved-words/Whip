@@ -19,6 +19,7 @@ namespace Whip.ViewModels.TabViewModels
         private readonly IMessenger _messenger;
         private readonly ITrackSearchService _trackSearchService;
         private readonly IPlaylistRepository _repository;
+        private readonly Common.Singletons.Library _library;
 
         private CriteriaPlaylist _playlist;
 
@@ -28,9 +29,17 @@ namespace Whip.ViewModels.TabViewModels
         private bool _orderByDescending;
         private int? _maxTracks;
 
-        public EditCriteriaPlaylistViewModel(IMessenger messenger, IPlaylistRepository repository, ITrackSearchService trackSearchService)
+        private Lazy<List<string>> _tags;
+        private Lazy<List<string>> _groupings;
+        private Lazy<List<string>> _countries;
+        private Lazy<List<string>> _states;
+        private Lazy<List<string>> _cities;
+
+        public EditCriteriaPlaylistViewModel(IMessenger messenger, IPlaylistRepository repository, ITrackSearchService trackSearchService,
+            Common.Singletons.Library library)
             :base(TabType.Playlists, IconType.Cog, "Edit Playlist", messenger, false)
         {
+            _library = library;
             _messenger = messenger;
             _trackSearchService = trackSearchService;
             _repository = repository;
@@ -95,6 +104,12 @@ namespace Whip.ViewModels.TabViewModels
         public void Edit(CriteriaPlaylist playlist)
         {
             _playlist = playlist;
+
+            _tags = new Lazy<List<string>>(() => _library.Artists.SelectMany(a => a.Tracks).SelectMany(t => t.Tags).Distinct().OrderBy(g => g).ToList());
+            _groupings = new Lazy<List<string>>(() => _library.Artists.Select(a => a.Grouping).Distinct().OrderBy(g => g).ToList());
+            _countries = new Lazy<List<string>>(() => _library.Artists.Select(a => a.City.Country).Distinct().OrderBy(g => g).ToList());
+            _states = new Lazy<List<string>>(() => _library.Artists.Select(a => a.City.State).Distinct().OrderBy(g => g).ToList());
+            _cities = new Lazy<List<string>>(() => _library.Artists.Select(a => a.City.Name).Distinct().OrderBy(g => g).ToList());
 
             Set(nameof(PlaylistTitle), ref _playlistTitle, _playlist.Title);
             Set(nameof(OrderByProperty), ref _orderByProperty, _playlist.OrderByProperty);
@@ -203,5 +218,11 @@ namespace Whip.ViewModels.TabViewModels
 
             return playlist;
         }
+
+        public List<string> Tags => _tags.Value;
+        public List<string> Cities => _cities.Value;
+        public List<string> States => _states.Value;
+        public List<string> Countries => _countries.Value;
+        public List<string> Groupings => _groupings.Value;
     }
 }

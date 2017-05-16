@@ -84,22 +84,6 @@ namespace Whip.ViewModels.TabViewModels.Playlists
                 : (CriteriaType?)null;
 
             PropertyType = propertyMetaData.PropertyType;
-
-            ValueOptions = GetValueOptions();
-        }
-
-        private List<string> GetValueOptions()
-        {
-            if (!PropertyName.HasValue)
-                return new List<string>();
-
-            switch (PropertyName.Value)
-            {
-                case Common.PropertyName.Tags:
-                    return new List<string> { "Tag 1", "Tag 2", "Tag 3" };
-                default:
-                    return new List<string> { "A", "B", "C" };
-            }
         }
     }
 }

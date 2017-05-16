@@ -9,7 +9,7 @@
              xmlns:wpfex="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+    <Grid x:Name="CriteriaGrid">
         <ListView Grid.Row="2"
                   ItemsSource="{Binding Criteria}"
                   ItemContainerStyle="{StaticResource ListViewItemNoHighlight}"
@@ -53,6 +53,7 @@
                                             <TextBox Text="{Binding ValueString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                      Height="25"/>
                                         </DataTemplate>
+                                        
                                         <DataTemplate x:Key="DateTemplate">
                                             <DatePicker Text="{Binding ValueString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                         VerticalContentAlignment="Center"
@@ -60,12 +61,42 @@
                                                         Margin="0"
                                                         Height="25"/>
                                         </DataTemplate>
-                                        <DataTemplate x:Key="StringOptionsTemplate">
+
+                                        <DataTemplate x:Key="TagsTemplate">
                                             <ComboBox IsEditable="True"
-                                                      ItemsSource="{Binding ValueOptions}"
+                                                      ItemsSource="{Binding Path=DataContext.Tags, ElementName=CriteriaGrid}"
                                                       Text="{Binding ValueString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                       Height="25"/>
                                         </DataTemplate>
+
+                                        <DataTemplate x:Key="CitiesTemplate">
+                                            <ComboBox IsEditable="True"
+                                                      ItemsSource="{Binding Path=DataContext.Cities, ElementName=CriteriaGrid}"
+                                                      Text="{Binding ValueString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      Height="25"/>
+                                        </DataTemplate>
+
+                                        <DataTemplate x:Key="StatesTemplate">
+                                            <ComboBox IsEditable="True"
+                                                      ItemsSource="{Binding Path=DataContext.States, ElementName=CriteriaGrid}"
+                                                      Text="{Binding ValueString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      Height="25"/>
+                                        </DataTemplate>
+
+                                        <DataTemplate x:Key="CountriesTemplate">
+                                            <ComboBox IsEditable="True"
+                                                      ItemsSource="{Binding Path=DataContext.Countries, ElementName=CriteriaGrid}"
+                                                      Text="{Binding ValueString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      Height="25"/>
+                                        </DataTemplate>
+
+                                        <DataTemplate x:Key="GroupingsTemplate">
+                                            <ComboBox IsEditable="True"
+                                                      ItemsSource="{Binding Path=DataContext.Groupings, ElementName=CriteriaGrid}"
+                                                      Text="{Binding ValueString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      Height="25"/>
+                                        </DataTemplate>
+
                                         <DataTemplate x:Key="ReleaseTypeTemplate">
                                             <ComboBox IsEditable="False"
                                                       ItemsSource="{Binding Source={local:Enumeration {x:Type common:ReleaseType}}}"
@@ -137,8 +168,20 @@
                                                                     <Setter Property="ContentTemplate" Value="{StaticResource FreeTextTemplate}" />
 
                                                                     <Style.Triggers>
-                                                                        <DataTrigger Binding="{Binding PropertyType}" Value="{x:Static common:PropertyType.StringFromOptions}">
-                                                                            <Setter Property="ContentTemplate" Value="{StaticResource StringOptionsTemplate}" />
+                                                                        <DataTrigger Binding="{Binding PropertyName}" Value="{x:Static common:PropertyName.Tags}">
+                                                                            <Setter Property="ContentTemplate" Value="{StaticResource TagsTemplate}" />
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding PropertyName}" Value="{x:Static common:PropertyName.Grouping}">
+                                                                            <Setter Property="ContentTemplate" Value="{StaticResource GroupingsTemplate}" />
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding PropertyName}" Value="{x:Static common:PropertyName.Country}">
+                                                                            <Setter Property="ContentTemplate" Value="{StaticResource CountriesTemplate}" />
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding PropertyName}" Value="{x:Static common:PropertyName.State}">
+                                                                            <Setter Property="ContentTemplate" Value="{StaticResource StatesTemplate}" />
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding PropertyName}" Value="{x:Static common:PropertyName.City}">
+                                                                            <Setter Property="ContentTemplate" Value="{StaticResource CitiesTemplate}" />
                                                                         </DataTrigger>
                                                                         <DataTrigger Binding="{Binding PropertyType}" Value="{x:Static common:PropertyType.DateTime}">
                                                                             <Setter Property="ContentTemplate" Value="{StaticResource DateTemplate}" />

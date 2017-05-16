@@ -73,7 +73,7 @@
             </DockPanel>
 
             <local:TrackCriteriaView Grid.Row="2"
-                                 DataContext="{Binding}"/>
+                                     DataContext="{Binding}"/>
 
             <Border Grid.Row="3"
                 Style="{StaticResource HoriztonalLine}" />
