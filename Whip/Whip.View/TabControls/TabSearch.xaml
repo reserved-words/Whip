@@ -92,16 +92,20 @@
 
         <DataGrid Grid.Column="1"
                   ItemsSource="{Binding Results}"
+                  SelectedItem="{Binding SelectedTrack}"
                   HeadersVisibility="Column"
                   GridLinesVisibility="All"
                   ScrollViewer.HorizontalScrollBarVisibility="Hidden">
             <DataGrid.InputBindings>
-                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding PlayCommand}" />
+                <MouseBinding Gesture="LeftDoubleClick" 
+                              Command="{Binding PlayCommand}"/>
             </DataGrid.InputBindings>
             <DataGrid.ContextMenu>
                 <ContextMenu>
+                    <MenuItem Header="Play All"
+                              Command="{Binding PlayCommand}"/>
                     <MenuItem Header="Edit Track"
-                              Command="{Binding EditTrackCommand}" />
+                              Command="{Binding EditCommand}"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns>

@@ -24,6 +24,7 @@ namespace Whip.ViewModels.TabViewModels
         private readonly IPlaylistRepository _repository;
 
         private List<Track> _results;
+        private Track _selectedTrack;
 
         private PropertyName? _orderByProperty;
         private bool _orderByDescending;
@@ -41,19 +42,21 @@ namespace Whip.ViewModels.TabViewModels
             Criteria = new ObservableCollection<CriteriaGroupViewModel>();
 
             AddNewCriteriaGroupCommand = new RelayCommand(OnAddNewCriteriaGroup);
-            RemoveGroupCommand = new RelayCommand<CriteriaGroupViewModel>(OnRemoveGroup);
-
             SearchCommand = new RelayCommand(OnSearch);
             ClearCommand = new RelayCommand(OnClear);
             SaveAsPlaylistCommand = new RelayCommand(OnSaveAsPlaylist);
+            PlayCommand = new RelayCommand(OnPlay);
+            EditCommand = new RelayCommand(OnEdit);
+            RemoveGroupCommand = new RelayCommand<CriteriaGroupViewModel>(OnRemoveGroup);
         }
 
         public RelayCommand AddNewCriteriaGroupCommand { get; private set; }
-        public RelayCommand<CriteriaGroupViewModel> RemoveGroupCommand { get; private set; }
-
         public RelayCommand SearchCommand { get; private set; }
         public RelayCommand ClearCommand { get; private set; }
         public RelayCommand SaveAsPlaylistCommand { get; private set; }
+        public RelayCommand PlayCommand { get; private set; }
+        public RelayCommand EditCommand { get; private set; }
+        public RelayCommand<CriteriaGroupViewModel> RemoveGroupCommand { get; private set; }
 
         public ObservableCollection<CriteriaGroupViewModel> Criteria { get; private set; }
 
@@ -61,6 +64,12 @@ namespace Whip.ViewModels.TabViewModels
         {
             get { return _results; }
             private set { Set(ref (_results), value); }
+        }
+
+        public Track SelectedTrack
+        {
+            get { return _selectedTrack; }
+            set { Set(ref (_selectedTrack), value); }
         }
 
         public List<CriteriaGroup> CriteriaGroups
@@ -122,6 +131,16 @@ namespace Whip.ViewModels.TabViewModels
         public override void OnShow(Track currentTrack)
         {
             OnClear();
+        }
+
+        private void OnEdit()
+        {
+            _messenger.Send(new EditTrackMessage(SelectedTrack));
+        }
+
+        private void OnPlay()
+        {
+            _messenger.Send(new PlayPlaylistMessage("Search Results", SortType.Random, Results, SelectedTrack));
         }
 
         private void OnSaveAsPlaylist()
