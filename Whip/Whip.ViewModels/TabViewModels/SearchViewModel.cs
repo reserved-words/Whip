@@ -130,6 +130,9 @@ namespace Whip.ViewModels.TabViewModels
 
         public override void OnShow(Track currentTrack)
         {
+            if (Criteria.Any())
+                return;
+
             OnClear();
         }
 

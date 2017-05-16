@@ -67,11 +67,13 @@
     <Compile Include="Model\FilesWithStatus.cs" />
     <Compile Include="Model\Playlists\AllPlaylists.cs" />
     <Compile Include="Model\Playlists\CriteriaPlaylist.cs" />
+    <Compile Include="Model\Playlists\Criteria\Album\AlbumArtistCriteria.cs" />
     <Compile Include="Model\Playlists\Criteria\Album\DiscCountCriteria.cs" />
     <Compile Include="Model\Playlists\Criteria\Album\ReleaseYearCriteria.cs" />
     <Compile Include="Model\Playlists\Criteria\Album\ReleaseTypeCriteria.cs" />
     <Compile Include="Model\Playlists\Criteria\Album\AlbumTrackCountCriteria.cs" />
     <Compile Include="Model\Playlists\Criteria\Album\AlbumTitleCriteria.cs" />
+    <Compile Include="Model\Playlists\Criteria\Artist\ArtistCriteria.cs" />
     <Compile Include="Model\Playlists\Criteria\Artist\StateCriteria.cs" />
     <Compile Include="Model\Playlists\Criteria\Artist\CityCriteria.cs" />
     <Compile Include="Model\Playlists\Criteria\Artist\CountryCriteria.cs" />
@@ -92,6 +94,7 @@
     <Compile Include="Model\Playlists\Criteria\Track\DurationCriteria.cs" />
     <Compile Include="Model\Playlists\Criteria\Track\TagsCriteria.cs" />
     <Compile Include="Model\Playlists\Criteria\Track\TrackNoCriteria.cs" />
+    <Compile Include="Model\Playlists\Criteria\Track\LyricsCriteria.cs" />
     <Compile Include="Model\Playlists\Criteria\Track\TrackYearCriteria.cs" />
     <Compile Include="Model\Playlists\Criteria\Track\TrackTitleCriteria.cs" />
     <Compile Include="Model\Playlists\OrderedPlaylist.cs" />

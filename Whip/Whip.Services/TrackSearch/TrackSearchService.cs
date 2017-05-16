@@ -86,6 +86,8 @@ namespace Whip.Services
             {
                 case PropertyName.DiscCount:
                     return new DiscCountCriteria(valueString, criteriaType);
+                case PropertyName.AlbumArtist:
+                    return new AlbumArtistCriteria(valueString, criteriaType);
                 case PropertyName.AlbumTitle:
                     return new AlbumTitleCriteria(valueString, criteriaType);
                 case PropertyName.AlbumTrackCount:
@@ -103,6 +105,8 @@ namespace Whip.Services
         {
             switch (propertyName)
             {
+                case PropertyName.Artist:
+                    return new ArtistCriteria(valueString, criteriaType);
                 case PropertyName.City:
                     return new CityCriteria(valueString, criteriaType);
                 case PropertyName.State:
@@ -135,6 +139,8 @@ namespace Whip.Services
         {
             switch (propertyName)
             {
+                case PropertyName.Lyrics:
+                    return new LyricsCriteria(valueString, criteriaType);
                 case PropertyName.TrackTitle:
                     return new TrackTitleCriteria(valueString, criteriaType);
                 case PropertyName.Tags:
@@ -160,6 +166,8 @@ namespace Whip.Services
             {
                 case PropertyName.TrackTitle:
                     return t => t.Title;
+                case PropertyName.Lyrics:
+                    return t => t.Lyrics;
                 case PropertyName.Tags:
                     return t => t.Tags;
                 case PropertyName.Duration:
@@ -176,6 +184,8 @@ namespace Whip.Services
                     return t => t.Disc.DiscNo;
                 case PropertyName.DiscTrackCount:
                     return t => t.Disc.Tracks.Count;
+                case PropertyName.Artist:
+                    return t => t.Artist.Name;
                 case PropertyName.City:
                     return t => t.Artist.City.Name;
                 case PropertyName.State:
@@ -188,6 +198,8 @@ namespace Whip.Services
                     return t => t.Artist.Genre;
                 case PropertyName.DiscCount:
                     return t => t.Disc.Album.Discs.Count;
+                case PropertyName.AlbumArtist:
+                    return t => t.Disc.Album.Artist.Name;
                 case PropertyName.AlbumTitle:
                     return t => t.Disc.Album.Title;
                 case PropertyName.AlbumTrackCount:

@@ -6,10 +6,14 @@ namespace Whip.Common
 {
     public enum PropertyName
     {
+        [CriteriaProperty("Album Artist", PropertyType.FreeText, PropertyOwner.Album, CriteriaType.IsEqualTo, CriteriaType.Contains)]
+        AlbumArtist,
         [CriteriaProperty("Album Title", PropertyType.FreeText, PropertyOwner.Album, CriteriaType.IsEqualTo, CriteriaType.Contains)]
         AlbumTitle,
         [CriteriaProperty("Album Track Count", PropertyType.Int, PropertyOwner.Album, CriteriaType.IsEqualTo, CriteriaType.IsLessThan, CriteriaType.IsGreaterThan)]
         AlbumTrackCount,
+        [CriteriaProperty("Artist", PropertyType.FreeText, PropertyOwner.Artist, CriteriaType.IsEqualTo, CriteriaType.Contains)]
+        Artist,
         [CriteriaProperty("City", PropertyType.StringFromOptions, PropertyOwner.Artist, CriteriaType.IsEqualTo)]
         City,
         [CriteriaProperty("Country", PropertyType.StringFromOptions, PropertyOwner.Artist, CriteriaType.IsEqualTo)]
@@ -30,6 +34,8 @@ namespace Whip.Common
         Genre,
         [CriteriaProperty("Grouping", PropertyType.StringFromOptions, PropertyOwner.Artist, CriteriaType.IsEqualTo)]
         Grouping,
+        [CriteriaProperty("Lyrics", PropertyType.FreeText, PropertyOwner.Track, CriteriaType.Contains)]
+        Lyrics,
         [CriteriaProperty("Release Type", PropertyType.ReleaseType, PropertyOwner.Album, CriteriaType.IsEqualTo)]
         ReleaseType,
         [CriteriaProperty("Release Year", PropertyType.Year, PropertyOwner.Album, CriteriaType.IsEqualTo, CriteriaType.IsBefore, CriteriaType.IsAfter)]

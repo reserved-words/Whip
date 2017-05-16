@@ -10,6 +10,7 @@ using Whip.ViewModels.TabViewModels.Playlists;
 using Whip.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using Whip.ViewModels.Messages;
 
 namespace Whip.ViewModels.TabViewModels
 {
@@ -117,7 +118,7 @@ namespace Whip.ViewModels.TabViewModels
                 Criteria.Last().IsLastGroup = true;
             }
 
-            OnPreviewResults();
+            OnPreviewResults(false);
         }
 
         private void OnAddNewCriteriaGroup()
@@ -135,7 +136,17 @@ namespace Whip.ViewModels.TabViewModels
 
         private void OnPreviewResults()
         {
+            OnPreviewResults(true);
+        }
+
+        private void OnPreviewResults(bool showMessageIfNoResults)
+        {
             Tracks = _trackSearchService.GetTracks(CreatePlaylist());
+
+            if (showMessageIfNoResults && !Tracks.Any())
+            {
+                _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Info, "Criteria Playlist", "No tracks meet the selected criteria"));
+            }
         }
 
         private void OnRemoveGroup(CriteriaGroupViewModel group)
