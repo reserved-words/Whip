@@ -13,7 +13,6 @@ namespace Whip.ViewModels.TabViewModels.Playlists
         private CriteriaType? _criteriaType;
 
         private string _valueString;
-        private List<string> _valueOptions;
 
         private List<CriteriaType> _criteriaTypes;
         private PropertyType _propertyType;
@@ -63,12 +62,6 @@ namespace Whip.ViewModels.TabViewModels.Playlists
         {
             get { return _valueString; }
             set { Set(ref _valueString, value); }
-        }
-
-        public List<string> ValueOptions
-        {
-            get { return _valueOptions; }
-            set { Set(ref _valueOptions, value); }
         }
 
         private void OnPropertyNameUpdated()

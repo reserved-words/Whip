@@ -4,7 +4,6 @@ using System;
 using Whip.Common;
 using Whip.ViewModels.Messages;
 using Whip.ViewModels.Utilities;
-using Whip.ViewModels.Windows;
 
 namespace Whip.ViewModels.TabViewModels
 {

@@ -14,6 +14,6 @@ namespace Whip.Services.Interfaces
         Criteria<Artist> GetArtistCriteria(PropertyName propertyName, CriteriaType criteriaType, string valueString);
         Criteria<Disc> GetDiscCriteria(PropertyName value1, CriteriaType value2, string valueString);
         Criteria<Track> GetTrackCriteria(PropertyName propertyName, CriteriaType criteriaType, string valueString);
-        Func<Track, object> GetTrackPropertyFunction(PropertyName propertyName);
+        Func<Track, object> GetTrackOrderByFunction(PropertyName propertyName);
     }
 }

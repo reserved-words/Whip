@@ -32,7 +32,7 @@ namespace Whip.Services
 
             if (trackCriteria.OrderByProperty.HasValue)
             {
-                var orderByFunction = GetTrackPropertyFunction(trackCriteria.OrderByProperty.Value);
+                var orderByFunction = GetTrackOrderByFunction(trackCriteria.OrderByProperty.Value);
 
                 list = trackCriteria.OrderByDescending 
                     ? list.OrderByDescending(t => orderByFunction(t))
@@ -160,7 +160,7 @@ namespace Whip.Services
             }
         }
 
-        public Func<Track, object> GetTrackPropertyFunction(PropertyName propertyName)
+        public Func<Track, object> GetTrackOrderByFunction(PropertyName propertyName)
         {
             switch (propertyName)
             {
@@ -185,7 +185,7 @@ namespace Whip.Services
                 case PropertyName.DiscTrackCount:
                     return t => t.Disc.Tracks.Count;
                 case PropertyName.Artist:
-                    return t => t.Artist.Name;
+                    return t => t.Artist.Sort;
                 case PropertyName.City:
                     return t => t.Artist.City.Name;
                 case PropertyName.State:
@@ -199,7 +199,7 @@ namespace Whip.Services
                 case PropertyName.DiscCount:
                     return t => t.Disc.Album.Discs.Count;
                 case PropertyName.AlbumArtist:
-                    return t => t.Disc.Album.Artist.Name;
+                    return t => t.Disc.Album.Artist.Sort;
                 case PropertyName.AlbumTitle:
                     return t => t.Disc.Album.Title;
                 case PropertyName.AlbumTrackCount:

@@ -22,13 +22,13 @@ namespace Whip.ViewModels.TabViewModels
         private readonly Common.Singletons.Library _library;
 
         private CriteriaPlaylist _playlist;
-
+        
         private List<Track> _tracks;
         private string _playlistTitle;
         private PropertyName? _orderByProperty;
         private bool _orderByDescending;
         private int? _maxTracks;
-
+        
         private Lazy<List<string>> _tags;
         private Lazy<List<string>> _groupings;
         private Lazy<List<string>> _countries;
@@ -85,7 +85,36 @@ namespace Whip.ViewModels.TabViewModels
 
         public ObservableCollection<CriteriaGroupViewModel> Criteria { get; private set; }
 
-        protected override string ErrorMessage => string.Empty;
+        protected override string ErrorMessage
+        {
+            get
+            {
+                var errorMessage = "";
+
+                if (string.IsNullOrEmpty(PlaylistTitle))
+                {
+                    errorMessage = errorMessage + "You must select a playlist title" + Environment.NewLine;
+                }
+                else if (!_repository.ValidatePlaylistTitle(PlaylistTitle, _playlist.Id))
+                {
+                    errorMessage = errorMessage + string.Format("There is already a playlist called {0}{1}", PlaylistTitle, Environment.NewLine);
+                }
+
+                if (!Criteria.Any(c => c.Criteria.Any(cr => cr.PropertyName != null)) && (!MaxTracks.HasValue || OrderByProperty == null))
+                {
+                    errorMessage = errorMessage 
+                        + "You must select at least one filter criteria or set a sort property and a maximum number of tracks" 
+                        + Environment.NewLine;
+                }
+                else if (Criteria.Any(c => c.Criteria.Any(cr => cr.PropertyName != null
+                    && (cr.CriteriaType == null || string.IsNullOrEmpty(cr.ValueString)))))
+                {
+                    errorMessage = errorMessage + "You must select a criteria type and value for each criterion";
+                }
+
+                return errorMessage;
+            }
+        }
 
         protected override bool CustomCancel()
         {
@@ -128,12 +157,14 @@ namespace Whip.ViewModels.TabViewModels
                     .ToList()));
             }
 
-            if (Criteria.Any())
+            OnPreviewResults(false);
+
+            if (!Criteria.Any())
             {
-                Criteria.Last().IsLastGroup = true;
+                Criteria.Add(new CriteriaGroupViewModel(new List<CriteriaViewModel> { new CriteriaViewModel() }));
             }
 
-            OnPreviewResults(false);
+            Criteria.Last().IsLastGroup = true;
         }
 
         private void OnAddNewCriteriaGroup()

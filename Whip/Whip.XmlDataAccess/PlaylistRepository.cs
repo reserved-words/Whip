@@ -30,9 +30,7 @@ namespace Whip.XmlDataAccess
         {
             var criteriaPlaylists = new List<CriteriaPlaylist>();
             var orderedPlaylists = new List<OrderedPlaylist>();
-
-            var feeds = new List<Feed>();
-
+            
             if (System.IO.File.Exists(XmlFilePath))
             {
                 var xml = XDocument.Load(XmlFilePath);
@@ -99,7 +97,13 @@ namespace Whip.XmlDataAccess
                             criteriaGroup.TrackCriteria.Add(GetTrackCriteria(criteriaXml));
                         }
 
-                        playlist.CriteriaGroups.Add(criteriaGroup);
+                        if (criteriaGroup.TrackCriteria.Any()
+                            || criteriaGroup.DiscCriteria.Any()
+                            || criteriaGroup.AlbumCriteria.Any()
+                            || criteriaGroup.ArtistCriteria.Any())
+                        {
+                            playlist.CriteriaGroups.Add(criteriaGroup);
+                        }
                     }
 
                     criteriaPlaylists.Add(playlist);
@@ -259,6 +263,18 @@ namespace Whip.XmlDataAccess
             playlistXml.Remove();
 
             xml.Save(XmlFilePath);
+        }
+
+        public bool ValidatePlaylistTitle(string title, int id)
+        {
+            if (!System.IO.File.Exists(XmlFilePath))
+                return true;
+
+            var xml = XDocument.Load(XmlFilePath);
+
+            return xml.Root.Element(PlaylistsCriteria).Elements(Playlist)
+                .All(el => el.Attribute(PlaylistTitle).Value != title
+                    || el.Attribute(PlaylistId).Value == id.ToString());
         }
     }
 }
