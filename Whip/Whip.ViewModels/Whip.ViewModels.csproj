@@ -67,6 +67,7 @@
     <Compile Include="MessageHandlers\PlayerCoordinator.cs" />
     <Compile Include="MessageHandlers\PlayRequestHandler.cs" />
     <Compile Include="MessageHandlers\TrackChangeCoordinator.cs" />
+    <Compile Include="Messages\EditOrderedPlaylistMessage.cs" />
     <Compile Include="Messages\EditCriteraPlaylistMessage.cs" />
     <Compile Include="Messages\EditSettingsMessage.cs" />
     <Compile Include="Messages\EditTrackMessage.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="TabViewModels\CurrentPlaylistViewModel.cs" />
     <Compile Include="TabViewModels\CurrentTrackViewModel.cs" />
     <Compile Include="TabViewModels\BaseClasses\EditableTabViewModelBase.cs" />
+    <Compile Include="TabViewModels\EditOrderedPlaylistViewModel.cs" />
     <Compile Include="TabViewModels\EditCriteriaPlaylistViewModel.cs" />
     <Compile Include="TabViewModels\EditTrackViewModel.cs" />
     <Compile Include="TabViewModels\EditTrack\AlbumViewModel.cs" />

@@ -8,5 +8,6 @@ namespace Whip.Common.Interfaces
         event Action<Track> ShowEditTrackTab;
         event Action ShowSettingsTab;
         event Action<CriteriaPlaylist> ShowEditCriteriaPlaylistTab;
+        event Action<OrderedPlaylist> ShowEditOrderedPlaylistTab;
     }
 }

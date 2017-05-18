@@ -212,5 +212,22 @@ namespace Whip.Services
                     throw new InvalidOperationException();
             }
         }
+
+        public List<Track> GetTracks(List<string> filepaths)
+        {
+            var tracks = new List<Track>();
+
+            foreach (var fp in filepaths)
+            {
+                var track = _library.Artists.SelectMany(a => a.Tracks).SingleOrDefault(t => t.File.FullPath == fp);
+
+                if (track != null)
+                {
+                    tracks.Add(track);
+                }
+            }
+
+            return tracks;
+        }
     }
 }

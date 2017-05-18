@@ -26,7 +26,7 @@
         
         <Label Grid.Row="0" 
                Style="{StaticResource TitleLabel}"
-               Content="Auto Playlists" />
+               Content="Quick Playlists" />
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>

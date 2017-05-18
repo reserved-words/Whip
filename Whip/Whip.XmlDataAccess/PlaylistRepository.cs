@@ -188,7 +188,60 @@ namespace Whip.XmlDataAccess
 
         public void Save(OrderedPlaylist playlist)
         {
-            throw new NotImplementedException();
+            XDocument xml;
+
+            if (!System.IO.File.Exists(XmlFilePath))
+            {
+                xml = new XDocument();
+                xml.Add(new XElement(PlaylistsRoot));
+            }
+            else
+            {
+                xml = XDocument.Load(XmlFilePath);
+            }
+
+            var orderedPlaylistsXml = xml.Root.Element(PlaylistsOrdered);
+
+            if (orderedPlaylistsXml == null)
+            {
+                orderedPlaylistsXml = new XElement(PlaylistsCriteria);
+            }
+
+            XElement playlistXml;
+
+            if (playlist.Id == 0)
+            {
+                var maxId = orderedPlaylistsXml
+                    .Elements(Playlist)
+                    .Max(pl => Convert.ToInt16(pl.Attribute(PlaylistId).Value));
+
+                playlist.Id = maxId + 1;
+
+                playlistXml = new XElement(Playlist);
+                orderedPlaylistsXml.Add(playlistXml);
+            }
+            else
+            {
+                playlistXml = orderedPlaylistsXml
+                    .Elements(Playlist)
+                    .Single(pl => pl.Attribute(PlaylistId).Value == playlist.Id.ToString());
+            }
+
+            playlistXml.RemoveAll();
+
+            var tracksXml = new XElement(PlaylistTracks);
+            playlistXml.Add(tracksXml);
+
+            foreach (var track in playlist.Tracks)
+            {
+                var trackXml = new XElement(PlaylistTrack);
+                trackXml.Add(new XAttribute(PlaylistTrackFilepath, track));
+                tracksXml.Add(trackXml);
+            }
+            
+            Directory.CreateDirectory(_userSettings.DataDirectory);
+
+            xml.Save(XmlFilePath);
         }
 
         private XElement GetCriteriaXml<T>(List<Criteria<T>> criteria, string criteriaType)
@@ -257,6 +310,21 @@ namespace Whip.XmlDataAccess
             var criteriaPlaylistsXml = xml.Root.Element(PlaylistsCriteria);
 
             var playlistXml = criteriaPlaylistsXml
+                .Elements(Playlist)
+                .Single(pl => pl.Attribute(PlaylistId).Value == playlist.Id.ToString());
+
+            playlistXml.Remove();
+
+            xml.Save(XmlFilePath);
+        }
+
+        public void Delete(OrderedPlaylist playlist)
+        {
+            var xml = XDocument.Load(XmlFilePath);
+
+            var orderedPlaylistsXml = xml.Root.Element(PlaylistsOrdered);
+
+            var playlistXml = orderedPlaylistsXml
                 .Elements(Playlist)
                 .Single(pl => pl.Attribute(PlaylistId).Value == playlist.Id.ToString());
 

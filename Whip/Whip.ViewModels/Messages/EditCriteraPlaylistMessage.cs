@@ -2,9 +2,9 @@
 
 namespace Whip.ViewModels.Messages
 {
-    public class EditCriteraPlaylistMessage
+    public class EditCriteriaPlaylistMessage
     {
-        public EditCriteraPlaylistMessage(CriteriaPlaylist playlist)
+        public EditCriteriaPlaylistMessage(CriteriaPlaylist playlist)
         {
             Playlist = playlist;
         }

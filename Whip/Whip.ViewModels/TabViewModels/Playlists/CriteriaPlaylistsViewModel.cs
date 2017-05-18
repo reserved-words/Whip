@@ -47,7 +47,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
         private void OnAddNewPlaylist()
         {
             var newPlaylist = new CriteriaPlaylist(0, "New Playlist");
-            _messenger.Send(new EditCriteraPlaylistMessage(newPlaylist));
+            _messenger.Send(new EditCriteriaPlaylistMessage(newPlaylist));
         }
 
         private void OnDelete(CriteriaPlaylist playlist)
@@ -57,7 +57,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
 
         private void OnEdit(CriteriaPlaylist playlist)
         {
-            _messenger.Send(new EditCriteraPlaylistMessage(playlist));
+            _messenger.Send(new EditCriteriaPlaylistMessage(playlist));
         }
 
         private void OnPlay(CriteriaPlaylist playlist)

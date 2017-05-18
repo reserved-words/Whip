@@ -60,6 +60,9 @@
     <DataTemplate DataType="{x:Type tabsvm:EditCriteriaPlaylistViewModel}">
         <local:TabEditCriteriaPlaylist />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type tabsvm:EditOrderedPlaylistViewModel}">
+        <local:TabEditOrderedPlaylist />
+    </DataTemplate>
 
     <!-- STYLES -->
     <Style TargetType="{x:Type CheckBox}">

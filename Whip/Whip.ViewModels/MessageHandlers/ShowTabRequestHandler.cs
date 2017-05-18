@@ -12,6 +12,7 @@ namespace Whip.ViewModels.MessageHandlers
 
         public event Action<Track> ShowEditTrackTab;
         public event Action<CriteriaPlaylist> ShowEditCriteriaPlaylistTab;
+        public event Action<OrderedPlaylist> ShowEditOrderedPlaylistTab;
         public event Action ShowSettingsTab;
 
         public ShowTabRequestHandler(IMessenger messenger)
@@ -23,14 +24,16 @@ namespace Whip.ViewModels.MessageHandlers
         {
             _messenger.Register<EditTrackMessage>(this, OnEditTrack);
             _messenger.Register<EditSettingsMessage>(this, OnEditSettings);
-            _messenger.Register<EditCriteraPlaylistMessage>(this, OnEditCriteriaPlaylist);
+            _messenger.Register<EditCriteriaPlaylistMessage>(this, OnEditCriteriaPlaylist);
+            _messenger.Register<EditOrderedPlaylistMessage>(this, OnEditOrderedPlaylist);
         }
 
         public void Stop()
         {
             _messenger.Unregister<EditTrackMessage>(this, OnEditTrack);
             _messenger.Unregister<EditSettingsMessage>(this, OnEditSettings);
-            _messenger.Unregister<EditCriteraPlaylistMessage>(this, OnEditCriteriaPlaylist);
+            _messenger.Unregister<EditCriteriaPlaylistMessage>(this, OnEditCriteriaPlaylist);
+            _messenger.Unregister<EditOrderedPlaylistMessage>(this, OnEditOrderedPlaylist);
         }
 
         private void OnEditSettings(EditSettingsMessage message)
@@ -46,9 +49,14 @@ namespace Whip.ViewModels.MessageHandlers
             ShowEditTrackTab?.Invoke(message.Track);
         }
 
-        private void OnEditCriteriaPlaylist(EditCriteraPlaylistMessage message)
+        private void OnEditCriteriaPlaylist(EditCriteriaPlaylistMessage message)
         {
             ShowEditCriteriaPlaylistTab?.Invoke(message.Playlist);
+        }
+
+        private void OnEditOrderedPlaylist(EditOrderedPlaylistMessage message)
+        {
+            ShowEditOrderedPlaylistTab?.Invoke(message.Playlist);
         }
     }
 }

@@ -10,6 +10,7 @@ namespace Whip.Services.Interfaces
     public interface ITrackSearchService
     {
         List<Track> GetTracks(ITrackCriteria trackCriteria);
+        List<Track> GetTracks(List<string> filepaths);
         Criteria<Album> GetAlbumCriteria(PropertyName value1, CriteriaType value2, string valueString);
         Criteria<Artist> GetArtistCriteria(PropertyName propertyName, CriteriaType criteriaType, string valueString);
         Criteria<Disc> GetDiscCriteria(PropertyName value1, CriteriaType value2, string valueString);

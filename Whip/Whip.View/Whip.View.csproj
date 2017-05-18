@@ -186,6 +186,9 @@
     <Compile Include="TabControls\TabEditCriteriaPlaylist.xaml.cs">
       <DependentUpon>TabEditCriteriaPlaylist.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TabControls\TabEditOrderedPlaylist.xaml.cs">
+      <DependentUpon>TabEditOrderedPlaylist.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TabControls\TabEditTrack.xaml.cs">
       <DependentUpon>TabEditTrack.xaml</DependentUpon>
     </Compile>
@@ -310,6 +313,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TabControls\TabEditCriteriaPlaylist.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TabControls\TabEditOrderedPlaylist.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

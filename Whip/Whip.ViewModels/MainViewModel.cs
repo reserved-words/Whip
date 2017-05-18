@@ -20,6 +20,7 @@ namespace Whip.ViewModels
         private readonly IMessenger _messenger;
         private readonly EditTrackViewModel _editTrackViewModel;
         private readonly EditCriteriaPlaylistViewModel _editCriteriaPlaylistViewModel;
+        private readonly EditOrderedPlaylistViewModel _editOrderedPlaylistViewModel;
         private readonly EditSettingsViewModel _settingsViewModel;
 
         private readonly TabViewModelBase _defaultViewModel;
@@ -44,6 +45,7 @@ namespace Whip.ViewModels
             EditSettingsViewModel settingsViewModel,
             EditTrackViewModel editTrackViewModel,
             EditCriteriaPlaylistViewModel editCriteriaPlaylistViewModel,
+            EditOrderedPlaylistViewModel editOrderedPlaylistViewModel,
             IMessenger messenger,
             IShowTabRequestHandler showTabRequester)
         {
@@ -61,10 +63,12 @@ namespace Whip.ViewModels
                 archiveViewModel,
                 settingsViewModel,
                 editTrackViewModel,
-                editCriteriaPlaylistViewModel
+                editCriteriaPlaylistViewModel,
+                editOrderedPlaylistViewModel,
             };
 
             _editCriteriaPlaylistViewModel = editCriteriaPlaylistViewModel;
+            _editOrderedPlaylistViewModel = editOrderedPlaylistViewModel;
             _editTrackViewModel = editTrackViewModel;
             _settingsViewModel = settingsViewModel;
             _messenger = messenger;
@@ -79,10 +83,12 @@ namespace Whip.ViewModels
             showTabRequester.ShowEditTrackTab += ShowEditTrackTab;
             showTabRequester.ShowSettingsTab += ShowSettingsTab;
             showTabRequester.ShowEditCriteriaPlaylistTab += ShowEditCriteriaPlaylistTab;
+            showTabRequester.ShowEditOrderedPlaylistTab += ShowEditOrderedPlaylistTab;
 
-            editTrackViewModel.FinishedEditing += OnFinishedEditing;
-            settingsViewModel.FinishedEditing += OnFinishedEditing;
-            editCriteriaPlaylistViewModel.FinishedEditing += OnFinishedEditing;
+            _editTrackViewModel.FinishedEditing += OnFinishedEditing;
+            _settingsViewModel.FinishedEditing += OnFinishedEditing;
+            _editCriteriaPlaylistViewModel.FinishedEditing += OnFinishedEditing;
+            _editOrderedPlaylistViewModel.FinishedEditing += OnFinishedEditing;
         }
 
         private void OnFinishedEditing(EditableTabViewModelBase sender)
@@ -148,6 +154,14 @@ namespace Whip.ViewModels
             _editCriteriaPlaylistViewModel.Edit(playlist);
             _editCriteriaPlaylistViewModel.IsVisible = true;
             SetSelectedTab(_editCriteriaPlaylistViewModel);
+        }
+
+        private void ShowEditOrderedPlaylistTab(OrderedPlaylist playlist)
+        {
+            _returnToTab = SelectedTab;
+            _editOrderedPlaylistViewModel.Edit(playlist);
+            _editOrderedPlaylistViewModel.IsVisible = true;
+            SetSelectedTab(_editOrderedPlaylistViewModel);
         }
 
         private void OnChangingTab(TabViewModelBase newTab) { }
