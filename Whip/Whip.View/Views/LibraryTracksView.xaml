@@ -57,7 +57,7 @@
                                       HeadersVisibility="None"
                                       BorderThickness="0"
                                       SelectionMode="Single"
-                                      Tag="{Binding ElementName=AlbumGrid, Path=DataContext.TrackContextMenu}"
+                                      ContextMenu="{StaticResource TrackContextMenu}"
                                       SelectedItem="{Binding SelectedTrack, Mode=TwoWay}">
                                 <DataGrid.GroupStyle>
                                     <GroupStyle>
@@ -75,27 +75,6 @@
                                     <MouseBinding Gesture="LeftDoubleClick"
                                                   Command="{Binding PlayArtistCommand}"/>
                                 </DataGrid.InputBindings>
-                                <DataGrid.ContextMenu>
-                                    <ContextMenu ItemsSource="{Binding PlacementTarget.Tag.MenuCommands, RelativeSource={RelativeSource Self}}" >
-                                        <ContextMenu.Resources>
-                                            <Style TargetType="{x:Type MenuItem}" x:Key="MenuItemStyle">
-                                                <Setter Property="ItemsSource" Value="{Binding SubCommands}"></Setter>
-                                                <Setter Property="Header" Value="{Binding Header}"></Setter>
-                                                <Setter Property="Command" Value="{Binding Command}"></Setter>
-                                                <Setter Property="CommandParameter" Value="{Binding CommandParameter}"></Setter>
-                                            </Style>
-                                        </ContextMenu.Resources>
-                                        <ContextMenu.ItemContainerStyle>
-                                            <Style TargetType="{x:Type MenuItem}">
-                                                <Setter Property="ItemsSource" Value="{Binding SubCommands}"></Setter>
-                                                <Setter Property="Header" Value="{Binding Header}"></Setter>
-                                                <Setter Property="Command" Value="{Binding Command}"></Setter>
-                                                <Setter Property="CommandParameter" Value="{Binding CommandParameter}"></Setter>
-                                                <Setter Property="ItemContainerStyle" Value="{StaticResource MenuItemStyle}"></Setter>
-                                            </Style>
-                                        </ContextMenu.ItemContainerStyle>
-                                    </ContextMenu>
-                                </DataGrid.ContextMenu>
                                 <DataGrid.Columns>
                                     <DataGridTemplateColumn Width="45">
                                         <DataGridTemplateColumn.CellTemplate>

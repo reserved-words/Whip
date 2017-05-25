@@ -16,7 +16,7 @@ namespace Whip.ViewModels.TabViewModels
 
         private Track _selectedTrack;
 
-        public CurrentPlaylistViewModel(IPlaylist playlist, IMessenger messenger, Common.Singletons.Library library)
+        public CurrentPlaylistViewModel(IPlaylist playlist, IMessenger messenger, Common.Singletons.Library library, TrackContextMenuViewModel trackContextMenu)
             :base(TabType.CurrentPlaylist, IconType.ListOl, "Current Playlist")
         {
             _messenger = messenger;
@@ -24,9 +24,10 @@ namespace Whip.ViewModels.TabViewModels
 
             _playlist.ListUpdated += OnPlaylistUpdated;
             library.Updated += OnLibraryUpdated;
-
-            EditTrackCommand = new RelayCommand(OnEditTrack);
+            
             PlayCommand = new RelayCommand(OnPlay);
+
+            TrackContextMenu = trackContextMenu;
         }
 
         private void OnLibraryUpdated(Track track)
@@ -37,23 +38,23 @@ namespace Whip.ViewModels.TabViewModels
             }
         }
 
+        public TrackContextMenuViewModel TrackContextMenu { get; private set; }
+
         public RelayCommand PlayCommand { get; private set; }
-        public RelayCommand EditTrackCommand { get; private set; }
 
         public string PlaylistName => _playlist.PlaylistName;
 
         public Track SelectedTrack
         {
             get { return _selectedTrack; }
-            set { Set(ref _selectedTrack, value); }
+            set
+            {
+                Set(ref _selectedTrack, value);
+                TrackContextMenu.SetTrack(_selectedTrack);
+            }
         }
 
         public List<Track> Tracks => _playlist.Tracks;
-
-        private void OnEditTrack()
-        {
-            _messenger.Send(new EditTrackMessage(SelectedTrack));
-        }
 
         private void OnPlay()
         {

@@ -16,10 +16,12 @@ namespace Whip.ViewModels
         private bool _loved;
         private Track _track;
 
-        public CurrentTrackMiniViewModel(ITrackLoveService trackLoveService, IMessenger messenger, Library library)
+        public CurrentTrackMiniViewModel(ITrackLoveService trackLoveService, IMessenger messenger, Library library, TrackContextMenuViewModel trackContextMenu)
         {
             _messenger = messenger;
             _trackLoveService = trackLoveService;
+
+            TrackContextMenu = trackContextMenu;
 
             library.Updated += OnLibraryUpdated;
 
@@ -27,13 +29,19 @@ namespace Whip.ViewModels
             UnloveTrackCommand = new RelayCommand(OnUnloveTrack);
         }
 
+        public TrackContextMenuViewModel TrackContextMenu { get; private set; }
+
         public RelayCommand LoveTrackCommand { get; private set; }
         public RelayCommand UnloveTrackCommand { get; private set; }
 
         public Track Track
         {
             get { return _track; }
-            set { Set(ref _track, value); }
+            set
+            {
+                Set(ref _track, value);
+                TrackContextMenu.SetTrack(_track);
+            }
         }
 
         public bool Loved

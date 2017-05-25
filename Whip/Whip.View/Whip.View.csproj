@@ -253,9 +253,6 @@
     <Compile Include="Views\SpinnerImage.xaml.cs">
       <DependentUpon>SpinnerImage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TrackContextMenu.xaml.cs">
-      <DependentUpon>TrackContextMenu.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\TrackCriteriaView.xaml.cs">
       <DependentUpon>TrackCriteriaView.xaml</DependentUpon>
     </Compile>
@@ -404,10 +401,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SpinnerImage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\TrackContextMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

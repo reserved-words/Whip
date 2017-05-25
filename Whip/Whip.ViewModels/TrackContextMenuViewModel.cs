@@ -23,7 +23,7 @@ namespace Whip.ViewModels
             EditTrackCommand = new RelayCommand(OnEditTrack);
             AddToPlaylistCommand = new RelayCommand<OrderedPlaylist>(OnAddToPlaylist);
 
-            MenuCommands = new List<MenuCommand>
+            MenuItems = new List<MenuCommand>
             {
                 new MenuCommand { Header = "Edit Track", Command = EditTrackCommand },
                 new MenuCommand
@@ -44,7 +44,7 @@ namespace Whip.ViewModels
         public Track Track { get; private set; }
         public RelayCommand EditTrackCommand { get; private set; }
         public RelayCommand<OrderedPlaylist> AddToPlaylistCommand { get; private set; }
-        public List<MenuCommand> MenuCommands { get; private set; }
+        public List<MenuCommand> MenuItems { get; private set; }
 
         public void SetTrack(Track track)
         {

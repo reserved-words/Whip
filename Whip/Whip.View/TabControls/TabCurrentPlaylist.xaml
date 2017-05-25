@@ -29,17 +29,12 @@
                   HeadersVisibility="Column"
                   GridLinesVisibility="All"
                   CanUserSortColumns="False"
+                  ContextMenu="{StaticResource TrackContextMenu}"
                   SelectedItem="{Binding SelectedTrack, Mode=TwoWay}"
                   ScrollViewer.HorizontalScrollBarVisibility="Hidden">
             <DataGrid.InputBindings>
                 <MouseBinding Gesture="LeftDoubleClick" Command="{Binding PlayCommand}" />
             </DataGrid.InputBindings>
-            <DataGrid.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Edit Track"
-                              Command="{Binding EditTrackCommand}" />
-                </ContextMenu>
-            </DataGrid.ContextMenu>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title"
                                     Binding="{Binding Title}"

@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Whip"
              xmlns:controls="clr-namespace:Whip.Controls"
              mc:Ignorable="d" 
+             x:Name="CurrentTrackUserControl"
              d:DesignHeight="300" d:DesignWidth="300">
     <Border Style="{StaticResource ColourBorder}">
         <StackPanel Height="380">
@@ -47,7 +48,9 @@
             <Image Source="{Binding Track.Disc.Album.Artwork, Converter={StaticResource BytesToImageConverter}}"
                    Width="200"
                    Height="200"
-                   Margin="0, 10"/>
+                   Margin="0, 10"
+                   Tag="{Binding ElementName=CurrentTrackUserControl, Path=DataContext}"
+                   ContextMenu="{StaticResource TrackContextMenu}"/>
             <Label Content="{Binding Track.Artist.Name}" />
             <Label Content="{Binding Track.Title}" />
             <Label Content="{Binding Track.Disc.Album.Title}" />
