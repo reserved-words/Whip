@@ -11,21 +11,21 @@ namespace Whip.ViewModels.TabViewModels.Library
         private readonly ArtistViewModel _artist;
         private Track _selectedTrack;
 
-        public AlbumViewModel(Album album, ArtistViewModel artist)
+        public AlbumViewModel(Album album, ArtistViewModel artist, TrackContextMenuViewModel trackContextMenu)
         {
             _artist = artist;
 
+            TrackContextMenu = trackContextMenu;
             Album = album;
             ByArtist = album.Artist == artist.Artist;
-
-            EditTrackCommand = new RelayCommand(OnEditTrack);
+            
             PlayCommand = new RelayCommand(OnPlay);
             PlayArtistCommand = new RelayCommand(OnPlayArtist);
-
+            
             PopulateTracks();
         }
 
-        public RelayCommand EditTrackCommand { get; private set; }
+        public TrackContextMenuViewModel TrackContextMenu { get; private set; }
         public RelayCommand PlayArtistCommand { get; private set; }
         public RelayCommand PlayCommand { get; private set; }
 
@@ -37,14 +37,13 @@ namespace Whip.ViewModels.TabViewModels.Library
         public Track SelectedTrack
         {
             get { return _selectedTrack; }
-            set { Set(ref _selectedTrack, value); }
+            set
+            {
+                Set(ref _selectedTrack, value);
+                TrackContextMenu.SetTrack(_selectedTrack);
+            }
         }
-
-        private void OnEditTrack()
-        {
-            _artist.OnEditTrack(SelectedTrack);
-        }
-
+        
         private void OnPlay()
         {
             _artist.OnPlayAlbum(this);

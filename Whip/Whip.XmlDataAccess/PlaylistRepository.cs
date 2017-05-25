@@ -229,6 +229,9 @@ namespace Whip.XmlDataAccess
 
             playlistXml.RemoveAll();
 
+            playlistXml.Add(new XAttribute(PlaylistId, playlist.Id));
+            playlistXml.Add(new XAttribute(PlaylistTitle, playlist.Title));
+
             var tracksXml = new XElement(PlaylistTracks);
             playlistXml.Add(tracksXml);
 

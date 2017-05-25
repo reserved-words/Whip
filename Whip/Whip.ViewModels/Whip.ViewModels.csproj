@@ -106,6 +106,7 @@
     <Compile Include="TabViewModels\Playlists\CriteriaViewModel.cs" />
     <Compile Include="TabViewModels\Playlists\OrderedPlaylistsViewModel.cs" />
     <Compile Include="TabViewModels\Playlists\StandardPlaylistsViewModel.cs" />
+    <Compile Include="TrackContextMenuViewModel.cs" />
     <Compile Include="Validation\ImageUrlAttribute.cs" />
     <Compile Include="Windows\Bases\EditableDialogViewModel.cs" />
     <Compile Include="Windows\EditFeedViewModel.cs" />

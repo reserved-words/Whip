@@ -17,12 +17,14 @@ namespace Whip.ViewModels.TabViewModels.Library
         private readonly IMessenger _messenger;
         private readonly ITrackFilterService _trackFilterService;
         private readonly IWebArtistInfoService _webArtistInfoService;
+        private readonly TrackContextMenuViewModel _trackContextMenuViewModel;
 
         public ArtistViewModel(ITrackFilterService trackFilterService, IMessenger messenger, IWebArtistInfoService webArtistInfoService,
-            IImageProcessingService imageProcessingService)
+            IImageProcessingService imageProcessingService, TrackContextMenuViewModel trackContextMenuViewModel)
         {
             _imageProcessingService = imageProcessingService;
             _messenger = messenger;
+            _trackContextMenuViewModel = trackContextMenuViewModel;
             _trackFilterService = trackFilterService;
             _webArtistInfoService = webArtistInfoService;
         }
@@ -118,7 +120,7 @@ namespace Whip.ViewModels.TabViewModels.Library
             Albums = tracks.Select(t => t.Disc)
                 .Select(d => d.Album)
                 .Distinct()
-                .Select(a => new AlbumViewModel(a, this))
+                .Select(a => new AlbumViewModel(a, this, _trackContextMenuViewModel))
                 .ToList();
         }
     }

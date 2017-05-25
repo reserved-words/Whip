@@ -28,11 +28,12 @@ namespace Whip.ViewModels.TabViewModels
         private string _selectedGrouping;
 
         public LibraryViewModel(Common.Singletons.Library library, IMessenger messenger, ITrackFilterService trackFilterService,
-            ILibrarySortingService librarySortingService, IWebArtistInfoService webArtistInfoService, IImageProcessingService imageProcessingService)
+            ILibrarySortingService librarySortingService, IWebArtistInfoService webArtistInfoService, IImageProcessingService imageProcessingService,
+            TrackContextMenuViewModel trackContextMenu)
             :base(TabType.Library, IconType.Book, "Library")
         {
             Artists = new List<Artist>();
-            SelectedArtistViewModel = new ArtistViewModel(trackFilterService, messenger, webArtistInfoService, imageProcessingService);
+            SelectedArtistViewModel = new ArtistViewModel(trackFilterService, messenger, webArtistInfoService, imageProcessingService, trackContextMenu);
 
             _library = library;
             _librarySortingService = librarySortingService;
