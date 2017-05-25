@@ -22,62 +22,22 @@ namespace Whip.ViewModels.TabViewModels
         private string _playlistTitle;
         private Track _selectedTrack;
         
-        public EditOrderedPlaylistViewModel(IMessenger messenger, IPlaylistRepository repository, ITrackSearchService trackSearchService)
+        public EditOrderedPlaylistViewModel(IMessenger messenger, IPlaylistRepository repository, ITrackSearchService trackSearchService,
+            TrackContextMenuViewModel trackContextMenu)
             :base(TabType.Playlists, IconType.Cog, "Edit Playlist", messenger, false)
         {
             _trackSearchService = trackSearchService;
             _messenger = messenger;
             _repository = repository;
 
+            TrackContextMenu = trackContextMenu;
+
             MoveUpCommand = new RelayCommand(OnMoveUp);
             MoveDownCommand = new RelayCommand(OnMoveDown);
             RemoveCommand = new RelayCommand(OnRemove);
         }
 
-        private void OnMoveUp()
-        {
-            var trackToMove = SelectedTrack;
-
-            var index = Tracks.IndexOf(trackToMove);
-
-            if (index == 0)
-                return;
-
-            Tracks.Remove(trackToMove);
-
-            Tracks.Insert(index - 1, trackToMove);
-
-            Modified = true;
-        }
-
-        private void OnMoveDown()
-        {
-            var trackToMove = SelectedTrack;
-
-            var index = Tracks.IndexOf(trackToMove);
-
-            if (index == Tracks.Count - 1)
-                return;
-
-            Tracks.Remove(trackToMove);
-
-            Tracks.Insert(index + 1, trackToMove);
-
-            Modified = true;
-        }
-
-        private void OnRemove()
-        {
-            Tracks.Remove(SelectedTrack);
-            Modified = true;
-        }
-
-        public void Insert(Track selected, Track currentPosition)
-        {
-            Tracks.Remove(selected);
-            Tracks.Insert(Tracks.IndexOf(currentPosition), selected);
-            Modified = true;
-        }
+        public TrackContextMenuViewModel TrackContextMenu { get; private set; }
 
         public RelayCommand MoveUpCommand { get; private set; }
         public RelayCommand MoveDownCommand { get; private set; }
@@ -98,7 +58,43 @@ namespace Whip.ViewModels.TabViewModels
         public Track SelectedTrack
         {
             get { return _selectedTrack; }
-            set { Set(ref _selectedTrack, value); }
+            set
+            {
+                Set(ref _selectedTrack, value);
+                TrackContextMenu.SetTrack(_selectedTrack);
+            }
+        }
+
+        private void OnMoveUp()
+        {
+            var trackToMove = SelectedTrack;
+
+            var index = Tracks.IndexOf(trackToMove);
+
+            if (index == 0)
+                return;
+
+            Tracks.Remove(trackToMove);
+
+            Tracks.Insert(index - 1, trackToMove);
+
+            Modified = true;
+        }
+
+        public void Insert(Track selected, Track currentPosition)
+        {
+            Tracks.Remove(selected);
+            Tracks.Insert(Tracks.IndexOf(currentPosition), selected);
+            Modified = true;
+        }
+
+        public void Edit(OrderedPlaylist playlist)
+        {
+            _playlist = playlist;
+
+            PlaylistTitle = _playlist.Title;
+
+            Tracks = new ObservableCollection<Track>(_trackSearchService.GetTracks(playlist.Tracks));
         }
 
         protected override string ErrorMessage
@@ -134,13 +130,26 @@ namespace Whip.ViewModels.TabViewModels
             return true;
         }
 
-        public void Edit(OrderedPlaylist playlist)
+        private void OnMoveDown()
         {
-            _playlist = playlist;
+            var trackToMove = SelectedTrack;
 
-            PlaylistTitle = _playlist.Title;
+            var index = Tracks.IndexOf(trackToMove);
 
-            Tracks = new ObservableCollection<Track>(_trackSearchService.GetTracks(playlist.Tracks));
+            if (index == Tracks.Count - 1)
+                return;
+
+            Tracks.Remove(trackToMove);
+
+            Tracks.Insert(index + 1, trackToMove);
+
+            Modified = true;
+        }
+
+        private void OnRemove()
+        {
+            Tracks.Remove(SelectedTrack);
+            Modified = true;
         }
         
         private OrderedPlaylist CreatePlaylist(OrderedPlaylist playlist = null)

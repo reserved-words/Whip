@@ -59,6 +59,7 @@
                   SelectedItem="{Binding SelectedTrack}"
                   HeadersVisibility="Column"
                   GridLinesVisibility="All"
+                  ContextMenu="{StaticResource TrackContextMenu}"
                   ScrollViewer.HorizontalScrollBarVisibility="Hidden">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title"

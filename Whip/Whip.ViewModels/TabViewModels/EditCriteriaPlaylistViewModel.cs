@@ -28,6 +28,7 @@ namespace Whip.ViewModels.TabViewModels
         private PropertyName? _orderByProperty;
         private bool _orderByDescending;
         private int? _maxTracks;
+        private Track _selectedTrack;
         
         private Lazy<List<string>> _tags;
         private Lazy<List<string>> _groupings;
@@ -36,13 +37,15 @@ namespace Whip.ViewModels.TabViewModels
         private Lazy<List<string>> _cities;
 
         public EditCriteriaPlaylistViewModel(IMessenger messenger, IPlaylistRepository repository, ITrackSearchService trackSearchService,
-            Common.Singletons.Library library)
+            Common.Singletons.Library library, TrackContextMenuViewModel trackContextMenu)
             :base(TabType.Playlists, IconType.Cog, "Edit Playlist", messenger, false)
         {
             _library = library;
             _messenger = messenger;
             _trackSearchService = trackSearchService;
             _repository = repository;
+
+            TrackContextMenu = trackContextMenu;
 
             AddNewCriteriaGroupCommand = new RelayCommand(OnAddNewCriteriaGroup);
             PreviewResultsCommand = new RelayCommand(OnPreviewResults);
@@ -52,6 +55,8 @@ namespace Whip.ViewModels.TabViewModels
         public RelayCommand AddNewCriteriaGroupCommand { get; private set; }
         public RelayCommand PreviewResultsCommand { get; private set; }
         public RelayCommand<CriteriaGroupViewModel> RemoveGroupCommand { get; private set; }
+
+        public TrackContextMenuViewModel TrackContextMenu { get; private set; }
 
         public string PlaylistTitle
         {
@@ -81,6 +86,16 @@ namespace Whip.ViewModels.TabViewModels
         {
             get { return _tracks; }
             set { Set(ref _tracks, value); }
+        }
+
+        public Track SelectedTrack
+        {
+            get { return _selectedTrack; }
+            set
+            {
+                Set(ref _selectedTrack, value);
+                TrackContextMenu.SetTrack(_selectedTrack);
+            }
         }
 
         public ObservableCollection<CriteriaGroupViewModel> Criteria { get; private set; }

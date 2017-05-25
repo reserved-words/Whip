@@ -23,14 +23,16 @@ namespace Whip.ViewModels
             EditTrackCommand = new RelayCommand(OnEditTrack);
             AddToPlaylistCommand = new RelayCommand<OrderedPlaylist>(OnAddToPlaylist);
 
+            var playlists = _playlistRepository.GetPlaylists().OrderedPlaylists;
+            playlists.Add(new OrderedPlaylist(0, "New Playlist"));
+
             MenuItems = new List<MenuCommand>
             {
                 new MenuCommand { Header = "Edit Track", Command = EditTrackCommand },
                 new MenuCommand
                 {
                     Header = "Add to Playlist",
-                    SubCommands = _playlistRepository.GetPlaylists()
-                        .OrderedPlaylists
+                    SubCommands = playlists
                         .Select(pl => new MenuCommand
                         {
                             Header = pl.Title,
