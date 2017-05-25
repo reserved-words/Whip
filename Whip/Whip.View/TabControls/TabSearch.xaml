@@ -95,19 +95,12 @@
                   SelectedItem="{Binding SelectedTrack}"
                   HeadersVisibility="Column"
                   GridLinesVisibility="All"
+                  ContextMenu="{StaticResource TrackContextMenu}"
                   ScrollViewer.HorizontalScrollBarVisibility="Hidden">
             <DataGrid.InputBindings>
                 <MouseBinding Gesture="LeftDoubleClick" 
                               Command="{Binding PlayCommand}"/>
             </DataGrid.InputBindings>
-            <DataGrid.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Play All"
-                              Command="{Binding PlayCommand}"/>
-                    <MenuItem Header="Edit Track"
-                              Command="{Binding EditCommand}"/>
-                </ContextMenu>
-            </DataGrid.ContextMenu>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title"
                                     Binding="{Binding Title}"

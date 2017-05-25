@@ -31,13 +31,15 @@ namespace Whip.ViewModels.TabViewModels
         private int? _maxTracks;
 
         public SearchViewModel(Common.Singletons.Library library, IMessenger messenger, ITrackSearchService trackSearchService,
-            IPlaylistRepository repository)
+            IPlaylistRepository repository, TrackContextMenuViewModel trackContextMenu)
             :base(TabType.Search, IconType.Search, "Library Search")
         {
             _library = library;
             _messenger = messenger;
             _repository = repository;
             _trackSearchService = trackSearchService;
+
+            TrackContextMenu = trackContextMenu;
 
             Criteria = new ObservableCollection<CriteriaGroupViewModel>();
 
@@ -49,6 +51,8 @@ namespace Whip.ViewModels.TabViewModels
             EditCommand = new RelayCommand(OnEdit);
             RemoveGroupCommand = new RelayCommand<CriteriaGroupViewModel>(OnRemoveGroup);
         }
+
+        public TrackContextMenuViewModel TrackContextMenu { get; private set; }
 
         public RelayCommand AddNewCriteriaGroupCommand { get; private set; }
         public RelayCommand SearchCommand { get; private set; }
@@ -69,7 +73,11 @@ namespace Whip.ViewModels.TabViewModels
         public Track SelectedTrack
         {
             get { return _selectedTrack; }
-            set { Set(ref (_selectedTrack), value); }
+            set
+            {
+                Set(ref (_selectedTrack), value);
+                TrackContextMenu.SetTrack(_selectedTrack);
+            }
         }
 
         public List<CriteriaGroup> CriteriaGroups
