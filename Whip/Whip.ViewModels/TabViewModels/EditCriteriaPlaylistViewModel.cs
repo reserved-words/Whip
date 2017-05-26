@@ -37,15 +37,13 @@ namespace Whip.ViewModels.TabViewModels
         private Lazy<List<string>> _cities;
 
         public EditCriteriaPlaylistViewModel(IMessenger messenger, IPlaylistRepository repository, ITrackSearchService trackSearchService,
-            Common.Singletons.Library library, TrackContextMenuViewModel trackContextMenu)
+            Common.Singletons.Library library)
             :base(TabType.Playlists, IconType.Cog, "Edit Playlist", messenger, false)
         {
             _library = library;
             _messenger = messenger;
             _trackSearchService = trackSearchService;
             _repository = repository;
-
-            TrackContextMenu = trackContextMenu;
 
             AddNewCriteriaGroupCommand = new RelayCommand(OnAddNewCriteriaGroup);
             PreviewResultsCommand = new RelayCommand(OnPreviewResults);
@@ -55,8 +53,6 @@ namespace Whip.ViewModels.TabViewModels
         public RelayCommand AddNewCriteriaGroupCommand { get; private set; }
         public RelayCommand PreviewResultsCommand { get; private set; }
         public RelayCommand<CriteriaGroupViewModel> RemoveGroupCommand { get; private set; }
-
-        public TrackContextMenuViewModel TrackContextMenu { get; private set; }
 
         public string PlaylistTitle
         {
@@ -94,7 +90,6 @@ namespace Whip.ViewModels.TabViewModels
             set
             {
                 Set(ref _selectedTrack, value);
-                TrackContextMenu.SetTrack(_selectedTrack);
             }
         }
 

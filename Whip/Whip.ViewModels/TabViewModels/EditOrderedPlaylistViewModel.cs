@@ -22,22 +22,17 @@ namespace Whip.ViewModels.TabViewModels
         private string _playlistTitle;
         private Track _selectedTrack;
         
-        public EditOrderedPlaylistViewModel(IMessenger messenger, IPlaylistRepository repository, ITrackSearchService trackSearchService,
-            TrackContextMenuViewModel trackContextMenu)
+        public EditOrderedPlaylistViewModel(IMessenger messenger, IPlaylistRepository repository, ITrackSearchService trackSearchService)
             :base(TabType.Playlists, IconType.Cog, "Edit Playlist", messenger, false)
         {
             _trackSearchService = trackSearchService;
             _messenger = messenger;
             _repository = repository;
 
-            TrackContextMenu = trackContextMenu;
-
             MoveUpCommand = new RelayCommand(OnMoveUp);
             MoveDownCommand = new RelayCommand(OnMoveDown);
             RemoveCommand = new RelayCommand(OnRemove);
         }
-
-        public TrackContextMenuViewModel TrackContextMenu { get; private set; }
 
         public RelayCommand MoveUpCommand { get; private set; }
         public RelayCommand MoveDownCommand { get; private set; }
@@ -61,7 +56,6 @@ namespace Whip.ViewModels.TabViewModels
             set
             {
                 Set(ref _selectedTrack, value);
-                TrackContextMenu.SetTrack(_selectedTrack);
             }
         }
 
@@ -126,8 +120,6 @@ namespace Whip.ViewModels.TabViewModels
             _playlist = CreatePlaylist(_playlist);
 
             _repository.Save(_playlist);
-
-            TrackContextMenu.SetCommands();
 
             return true;
         }
