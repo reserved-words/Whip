@@ -17,6 +17,7 @@ using Whip.Services.Singletons;
 using Whip.LastFm.ErrorHandlingDecorators;
 using Whip.View;
 using Whip.XmlDataAccess;
+using Whip.ViewModels;
 
 namespace Whip.Ioc
 {
@@ -38,7 +39,8 @@ namespace Whip.Ioc
                 .RegisterSingleton<IPlaylist, Playlist>()
                 .RegisterSingleton<IMessenger, Messenger>()
                 .RegisterSingleton<IUserSettings, UserSettings>()
-                .RegisterSingleton<ILastFmApiClientService, LastFmApiClientService>();
+                .RegisterSingleton<ILastFmApiClientService, LastFmApiClientService>()
+                .RegisterSingleton<TrackContextMenuViewModel, TrackContextMenuViewModel>();
 
             return kernel;
         }

@@ -127,6 +127,8 @@ namespace Whip.ViewModels.TabViewModels
 
             _repository.Save(_playlist);
 
+            TrackContextMenu.SetCommands();
+
             return true;
         }
 
