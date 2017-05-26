@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace Whip.Common.ExtensionMethods
@@ -11,12 +7,12 @@ namespace Whip.Common.ExtensionMethods
     {
         public static string GetValue(this XElement xml, string key)
         {
-            return xml.Element(key)?.Value ?? string.Empty;
+            return xml.Element(key)?.Value.Trim() ?? string.Empty;
         }
 
         public static string GetAttribute(this XElement xml, string key)
         {
-            return xml.Attribute(key)?.Value ?? string.Empty;
+            return xml.Attribute(key)?.Value.Trim() ?? string.Empty;
         }
 
         public static int GetIntAttribute(this XElement xml, string key)
@@ -49,7 +45,7 @@ namespace Whip.Common.ExtensionMethods
 
         public static void AddAttribute(this XElement xml, string key, string value)
         {
-            xml.Add(new XAttribute(key, value ?? string.Empty));
+            xml.Add(new XAttribute(key, value?.Trim() ?? string.Empty));
         }
 
         public static void AddAttribute(this XElement xml, string key, int value)

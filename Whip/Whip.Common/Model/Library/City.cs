@@ -31,5 +31,17 @@ namespace Whip.Common.Model
 
             return string.Join(", ", array.Where(s => !string.IsNullOrEmpty(s)));
         }
+
+        public override bool Equals(object obj)
+        {
+            var city = obj as City;
+
+            return city != null && city.Name == Name && city.State == State && city.Country == Country;
+        }
+
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode() ^ State.GetHashCode() ^ Country.GetHashCode();
+        }
     }
 }

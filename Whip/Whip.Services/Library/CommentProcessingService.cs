@@ -34,19 +34,19 @@ namespace Whip.Services
             var root = new XElement(Root);
             xml.Add(root);
 
-            root.Add(new XElement(TrackYear, track.Year));
+            root.Add(new XElement(TrackYear, track.Year.Trim()));
             root.Add(new XElement(Tags, string.Join(TagDelimiter.ToString(), track.Tags.Where(t => !string.IsNullOrEmpty(t)))));
-            root.Add(new XElement(Country, track.Artist.City.Country));
-            root.Add(new XElement(State, track.Artist.City.State));
-            root.Add(new XElement(City, track.Artist.City.Name));
-            root.Add(new XElement(Website, track.Artist.Website));
-            root.Add(new XElement(Twitter, track.Artist.Twitter));
-            root.Add(new XElement(Facebook, track.Artist.Facebook));
-            root.Add(new XElement(LastFm, track.Artist.LastFm));
-            root.Add(new XElement(Wikipedia, track.Artist.Wikipedia));
-            root.Add(new XElement(YouTube, track.Artist.Wikipedia));
-            root.Add(new XElement(BandsInTown, track.Artist.Wikipedia));
-            root.Add(new XElement(BandCamp, track.Artist.Wikipedia));
+            root.Add(new XElement(Country, track.Artist.City.Country.Trim()));
+            root.Add(new XElement(State, track.Artist.City.State.Trim()));
+            root.Add(new XElement(City, track.Artist.City.Name.Trim()));
+            root.Add(new XElement(Website, track.Artist.Website.Trim()));
+            root.Add(new XElement(Twitter, track.Artist.Twitter.Trim()));
+            root.Add(new XElement(Facebook, track.Artist.Facebook.Trim()));
+            root.Add(new XElement(LastFm, track.Artist.LastFm.Trim()));
+            root.Add(new XElement(Wikipedia, track.Artist.Wikipedia.Trim()));
+            root.Add(new XElement(YouTube, track.Artist.YouTube.Trim()));
+            root.Add(new XElement(BandsInTown, track.Artist.BandsInTown.Trim()));
+            root.Add(new XElement(BandCamp, track.Artist.BandCamp.Trim()));
 
             return xml.ToString();
         }
