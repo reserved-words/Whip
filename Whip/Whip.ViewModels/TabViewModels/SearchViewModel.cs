@@ -162,9 +162,21 @@ namespace Whip.ViewModels.TabViewModels
 
             _messenger.Send(new ShowDialogMessage(getPlaylistNameViewModel));
 
-            var playlistTitle = getPlaylistNameViewModel.Result;
+            _repository.Save(GetCriteriaPlaylist(getPlaylistNameViewModel.Result));
+        }
 
-            var playlist = new CriteriaPlaylist(0, playlistTitle)
+        private void OnSaveAsOrderedPlaylist()
+        {
+            var getPlaylistNameViewModel = new EnterStringViewModel(_messenger, "Save Playlist", "Enter playlist name");
+
+            _messenger.Send(new ShowDialogMessage(getPlaylistNameViewModel));
+
+            _repository.Save(GetOrderedPlaylist(getPlaylistNameViewModel.Result));
+        }
+
+        private CriteriaPlaylist GetCriteriaPlaylist(string title)
+        {
+            var playlist = new CriteriaPlaylist(0, title)
             {
                 OrderByProperty = OrderByProperty,
                 OrderByDescending = OrderByDescending,
@@ -199,23 +211,15 @@ namespace Whip.ViewModels.TabViewModels
                 playlist.CriteriaGroups.Add(criteriaGroup);
             }
 
-            _repository.Save(playlist);
+            return playlist;
         }
 
-        private void OnSaveAsOrderedPlaylist()
+        private OrderedPlaylist GetOrderedPlaylist(string title)
         {
-            var getPlaylistNameViewModel = new EnterStringViewModel(_messenger, "Save Playlist", "Enter playlist name");
-
-            _messenger.Send(new ShowDialogMessage(getPlaylistNameViewModel));
-
-            var playlistTitle = getPlaylistNameViewModel.Result;
-
-            var playlist = new OrderedPlaylist(0, playlistTitle)
+            return new OrderedPlaylist(0, title)
             {
                 Tracks = Results.Select(t => t.File.FullPath).ToList()
             };
-
-            _repository.Save(playlist);
         }
 
         private void OnClear()
