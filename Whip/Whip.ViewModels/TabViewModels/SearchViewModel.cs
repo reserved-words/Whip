@@ -46,7 +46,8 @@ namespace Whip.ViewModels.TabViewModels
             AddNewCriteriaGroupCommand = new RelayCommand(OnAddNewCriteriaGroup);
             SearchCommand = new RelayCommand(OnSearch);
             ClearCommand = new RelayCommand(OnClear);
-            SaveAsPlaylistCommand = new RelayCommand(OnSaveAsPlaylist);
+            SaveAsCriteriaPlaylistCommand = new RelayCommand(OnSaveAsCriteriaPlaylist);
+            SaveAsOrderedPlaylistCommand = new RelayCommand(OnSaveAsOrderedPlaylist);
             PlayCommand = new RelayCommand(OnPlay);
             EditCommand = new RelayCommand(OnEdit);
             RemoveGroupCommand = new RelayCommand<CriteriaGroupViewModel>(OnRemoveGroup);
@@ -57,7 +58,8 @@ namespace Whip.ViewModels.TabViewModels
         public RelayCommand AddNewCriteriaGroupCommand { get; private set; }
         public RelayCommand SearchCommand { get; private set; }
         public RelayCommand ClearCommand { get; private set; }
-        public RelayCommand SaveAsPlaylistCommand { get; private set; }
+        public RelayCommand SaveAsCriteriaPlaylistCommand { get; private set; }
+        public RelayCommand SaveAsOrderedPlaylistCommand { get; private set; }
         public RelayCommand PlayCommand { get; private set; }
         public RelayCommand EditCommand { get; private set; }
         public RelayCommand<CriteriaGroupViewModel> RemoveGroupCommand { get; private set; }
@@ -154,12 +156,8 @@ namespace Whip.ViewModels.TabViewModels
             _messenger.Send(new PlayPlaylistMessage("Search Results", SortType.Random, Results, SelectedTrack));
         }
 
-        private void OnSaveAsPlaylist()
+        private void OnSaveAsCriteriaPlaylist()
         {
-            // Could add an option to save as either criteria OR ordered playlist
-            // Ordered playlist would preserve same tracks even if library changed
-            // Criteria playlist would update with ilbrary
-
             var getPlaylistNameViewModel = new EnterStringViewModel(_messenger, "Save Playlist", "Enter playlist name");
 
             _messenger.Send(new ShowDialogMessage(getPlaylistNameViewModel));
@@ -200,6 +198,22 @@ namespace Whip.ViewModels.TabViewModels
 
                 playlist.CriteriaGroups.Add(criteriaGroup);
             }
+
+            _repository.Save(playlist);
+        }
+
+        private void OnSaveAsOrderedPlaylist()
+        {
+            var getPlaylistNameViewModel = new EnterStringViewModel(_messenger, "Save Playlist", "Enter playlist name");
+
+            _messenger.Send(new ShowDialogMessage(getPlaylistNameViewModel));
+
+            var playlistTitle = getPlaylistNameViewModel.Result;
+
+            var playlist = new OrderedPlaylist(0, playlistTitle)
+            {
+                Tracks = Results.Select(t => t.File.FullPath).ToList()
+            };
 
             _repository.Save(playlist);
         }

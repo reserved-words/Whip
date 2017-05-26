@@ -10,6 +10,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
@@ -74,56 +75,79 @@
                             Command="{Binding AddNewCriteriaGroupCommand}"
                             Width="100"/>
                 <WrapPanel HorizontalAlignment="Right">
-                    <Button Content="Search"
-                            HorizontalAlignment="Right"
-                            Command="{Binding SearchCommand}"
-                            Width="60"/>
                     <Button Content="Clear"
                             HorizontalAlignment="Right"
                             Command="{Binding ClearCommand}"
                             Width="50"/>
-                    <Button Content="Save As Playlist"
+                    <Button Content="Search"
                             HorizontalAlignment="Right"
-                            Command="{Binding SaveAsPlaylistCommand}"
-                            Width="100"/>
+                            Command="{Binding SearchCommand}"
+                            Width="60"/>
                 </WrapPanel>
             </DockPanel>
         </Grid>
 
-        <DataGrid Grid.Column="1"
+        <Border Style="{StaticResource VerticalLine}"
+                Grid.Column="1"
+                Margin="0"/>
+
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <DataGrid Grid.Row="0"
                   ItemsSource="{Binding Results}"
                   SelectedItem="{Binding SelectedTrack}"
                   HeadersVisibility="Column"
                   GridLinesVisibility="All"
                   ContextMenu="{StaticResource TrackContextMenu}"
                   ScrollViewer.HorizontalScrollBarVisibility="Hidden">
-            <DataGrid.InputBindings>
-                <MouseBinding Gesture="LeftDoubleClick" 
+                <DataGrid.InputBindings>
+                    <MouseBinding Gesture="LeftDoubleClick" 
                               Command="{Binding PlayCommand}"/>
-            </DataGrid.InputBindings>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Title"
+                </DataGrid.InputBindings>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Title"
                                     Binding="{Binding Title}"
                                     Width="*"/>
-                <DataGridTemplateColumn Header="Duration"
+                    <DataGridTemplateColumn Header="Duration"
                                         Width="60">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Duration, StringFormat=mm\\:ss}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Artist"
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Duration, StringFormat=mm\\:ss}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Artist"
                                     Binding="{Binding Artist.Name}"
                                     Width="*"/>
-                <DataGridTextColumn Header="Album Title"
+                    <DataGridTextColumn Header="Album Title"
                                     Binding="{Binding Disc.Album.Title}"
                                     Width="*"/>
-                <DataGridTextColumn Header="Album Artist"
+                    <DataGridTextColumn Header="Album Artist"
                                     Binding="{Binding Disc.Album.Artist.Name}"
                                     Width="*"/>
-            </DataGrid.Columns>
-        </DataGrid>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <DockPanel Grid.Row="2"
+                       Margin="5">
+                <WrapPanel HorizontalAlignment="Right">
+                    <Button Content="Save As Criteria Playlist"
+                            HorizontalAlignment="Right"
+                            Command="{Binding SaveAsCriteriaPlaylistCommand}"
+                            Width="140"/>
+                    <Button Content="Save As Ordered Playlist"
+                            HorizontalAlignment="Right"
+                            Command="{Binding SaveAsOrderedPlaylistCommand}"
+                            Width="150"/>
+                </WrapPanel>
+            </DockPanel>
+            
+        </Grid>
+        
+        
 
     </Grid>
 </UserControl>
