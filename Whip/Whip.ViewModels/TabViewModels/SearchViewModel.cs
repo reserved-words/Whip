@@ -30,6 +30,12 @@ namespace Whip.ViewModels.TabViewModels
         private bool _orderByDescending;
         private int? _maxTracks;
 
+        private Lazy<List<string>> _tags;
+        private Lazy<List<string>> _groupings;
+        private Lazy<List<string>> _countries;
+        private Lazy<List<string>> _states;
+        private Lazy<List<string>> _cities;
+
         public SearchViewModel(Common.Singletons.Library library, IMessenger messenger, ITrackSearchService trackSearchService,
             IPlaylistRepository repository, TrackContextMenuViewModel trackContextMenu)
             :base(TabType.Search, IconType.Search, "Library Search")
@@ -140,11 +146,23 @@ namespace Whip.ViewModels.TabViewModels
 
         public override void OnShow(Track currentTrack)
         {
+            _tags = new Lazy<List<string>>(() => _library.Artists.SelectMany(a => a.Tracks).SelectMany(t => t.Tags).Distinct().OrderBy(g => g).ToList());
+            _groupings = new Lazy<List<string>>(() => _library.Artists.Select(a => a.Grouping).Distinct().OrderBy(g => g).ToList());
+            _countries = new Lazy<List<string>>(() => _library.Artists.Select(a => a.City.Country).Distinct().OrderBy(g => g).ToList());
+            _states = new Lazy<List<string>>(() => _library.Artists.Select(a => a.City.State).Distinct().OrderBy(g => g).ToList());
+            _cities = new Lazy<List<string>>(() => _library.Artists.Select(a => a.City.Name).Distinct().OrderBy(g => g).ToList());
+
             if (Criteria.Any())
                 return;
 
             OnClear();
         }
+
+        public List<string> Tags => _tags.Value;
+        public List<string> Cities => _cities.Value;
+        public List<string> States => _states.Value;
+        public List<string> Countries => _countries.Value;
+        public List<string> Groupings => _groupings.Value;
 
         private void OnEdit()
         {
