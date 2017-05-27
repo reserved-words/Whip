@@ -26,7 +26,7 @@
                                         UpdateSourceTrigger=PropertyChanged}">
                         <Image.InputBindings>
                             <MouseBinding Gesture="LeftClick"
-                                      Command="{Binding UnloveTrackCommand}" />
+                                          Command="{Binding UnloveTrackCommand}" />
                         </Image.InputBindings>
                     </controls:Icon16>
                     <controls:Icon16 Icon="HeartOutline"
@@ -40,7 +40,7 @@
                                     UpdateSourceTrigger=PropertyChanged}">
                         <Image.InputBindings>
                             <MouseBinding Gesture="LeftClick"
-                                      Command="{Binding LoveTrackCommand}" />
+                                          Command="{Binding LoveTrackCommand}" />
                         </Image.InputBindings>
                     </controls:Icon16>
                 </WrapPanel>
@@ -50,7 +50,11 @@
                    Height="200"
                    Margin="0, 10"
                    Tag="{Binding ElementName=CurrentTrackUserControl, Path=DataContext}"
-                   ContextMenu="{StaticResource TrackContextMenu}"/>
+                   ContextMenu="{StaticResource TrackContextMenu}">
+                <Image.InputBindings>
+                    <MouseBinding Gesture="RightClick" Command="{Binding SetContextMenuTrackCommand}" />
+                </Image.InputBindings>
+            </Image>
             <Label Content="{Binding Track.Artist.Name}" />
             <Label Content="{Binding Track.Title}" />
             <Label Content="{Binding Track.Disc.Album.Title}" />

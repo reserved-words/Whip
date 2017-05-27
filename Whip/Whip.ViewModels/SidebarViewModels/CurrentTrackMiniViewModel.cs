@@ -27,21 +27,19 @@ namespace Whip.ViewModels
 
             LoveTrackCommand = new RelayCommand(OnLoveTrack);
             UnloveTrackCommand = new RelayCommand(OnUnloveTrack);
+            SetContextMenuTrackCommand = new RelayCommand(OnSetContextMenuTrack);
         }
 
         public TrackContextMenuViewModel TrackContextMenu { get; private set; }
 
+        public RelayCommand SetContextMenuTrackCommand { get; private set; }
         public RelayCommand LoveTrackCommand { get; private set; }
         public RelayCommand UnloveTrackCommand { get; private set; }
 
         public Track Track
         {
             get { return _track; }
-            set
-            {
-                Set(ref _track, value);
-                TrackContextMenu.SetTrack(_track);
-            }
+            set { Set(ref _track, value); }
         }
 
         public bool Loved
@@ -89,6 +87,11 @@ namespace Whip.ViewModels
                 _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, "Error", "There was an error removing Loved status from this track"));
                 Loved = true;
             }
+        }
+
+        private void OnSetContextMenuTrack()
+        {
+            TrackContextMenu.SetTrack(_track);
         }
     }
 }
