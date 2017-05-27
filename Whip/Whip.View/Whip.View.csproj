@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Whip.View</RootNamespace>
-    <AssemblyName>Whip.View</AssemblyName>
+    <AssemblyName>Whip</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -177,6 +177,9 @@
     <Compile Include="TabControls\TabArchive.xaml.cs">
       <DependentUpon>TabArchive.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TabControls\TabArtist.xaml.cs">
+      <DependentUpon>TabArtist.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TabControls\TabCurrentPlaylist.xaml.cs">
       <DependentUpon>TabCurrentPlaylist.xaml</DependentUpon>
     </Compile>
@@ -301,6 +304,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TabControls\TabArchive.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TabControls\TabArtist.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

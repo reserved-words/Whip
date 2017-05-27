@@ -6,7 +6,6 @@ using Whip.Common;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
-using Whip.ViewModels.TabViewModels.Library;
 using Whip.ViewModels.Utilities;
 
 namespace Whip.ViewModels.TabViewModels
@@ -23,7 +22,7 @@ namespace Whip.ViewModels.TabViewModels
         private List<string> _genres;
         private List<string> _groupings;
         private Artist _selectedArtist;
-        private ArtistViewModel _selectedArtistViewModel;
+        private Library.ArtistViewModel _selectedArtistViewModel;
         private string _selectedGenre;
         private string _selectedGrouping;
 
@@ -33,7 +32,7 @@ namespace Whip.ViewModels.TabViewModels
             :base(TabType.Library, IconType.Book, "Library")
         {
             Artists = new List<Artist>();
-            SelectedArtistViewModel = new ArtistViewModel(trackFilterService, messenger, webArtistInfoService, imageProcessingService, trackContextMenu);
+            SelectedArtistViewModel = new Library.ArtistViewModel(trackFilterService, messenger, webArtistInfoService, imageProcessingService, trackContextMenu);
 
             _library = library;
             _librarySortingService = librarySortingService;
@@ -98,7 +97,7 @@ namespace Whip.ViewModels.TabViewModels
             }
         }
 
-        public ArtistViewModel SelectedArtistViewModel
+        public Library.ArtistViewModel SelectedArtistViewModel
         {
             get { return _selectedArtistViewModel; }
             set { Set(ref _selectedArtistViewModel, value); }

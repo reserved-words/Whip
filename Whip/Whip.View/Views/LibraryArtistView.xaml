@@ -18,9 +18,9 @@
                        Text="{Binding Artist.Name}"/>
 
                 <Grid Width="300"
-                  Height="300"
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center">
+                      Height="300"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center">
 
                     <Image Source="{Binding Image}"
                            Stretch="Uniform"

@@ -1,0 +1,103 @@
+﻿<UserControl x:Class="Whip.TabArtist"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Whip"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1200">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <DockPanel Grid.Row="0">
+                <WrapPanel DockPanel.Dock="Left"
+                           VerticalAlignment="Center">
+                    <Label Style="{StaticResource TitleLabel}"
+                           Content="Show:"/>
+                    <ComboBox Width="200"
+                              IsEditable="False"
+                              VerticalAlignment="Center"
+                              ItemsSource="{Binding Artists}"
+                              DisplayMemberPath="Name"
+                              IsEnabled="{Binding NotShowingCurrentArtist}"
+                              SelectedItem="{Binding Artist}" />
+                </WrapPanel>
+                <WrapPanel DockPanel.Dock="Right"
+                           HorizontalAlignment="Right"
+                           Margin="5"
+                           VerticalAlignment="Center">
+                    <CheckBox DockPanel.Dock="Right"
+                              IsChecked="{Binding ShowingCurrentArtist}"
+                              Content="Current"/>
+                </WrapPanel>
+            </DockPanel>
+
+            <local:LibraryArtistView Grid.Row="1"
+                                         DataContext="{Binding LibraryArtistViewModel}" />
+
+            <Label Grid.Row="2"
+                       VerticalContentAlignment="Top"
+                       Content="Bio" />
+
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0"
+                       Style="{StaticResource TitleLabel}"
+                       Content="Twitter Feed" />
+
+            <Label Grid.Row="1"/>
+
+            <Label Grid.Row="2"
+                       Style="{StaticResource TitleLabel}"
+                       Content="Latest YouTube Video" />
+
+            <Label Grid.Row="3"
+                       Height="250" />
+
+        </Grid>
+
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0"
+                       Style="{StaticResource TitleLabel}"
+                       Content="Upcoming Events" />
+
+            <Label Grid.Row="1"/>
+
+            <Label Grid.Row="2"
+                       Style="{StaticResource TitleLabel}"
+                       Content="Similar Artists" />
+
+            <Label Grid.Row="3"
+                       Height="400" />
+
+        </Grid>
+
+    </Grid>
+</UserControl>

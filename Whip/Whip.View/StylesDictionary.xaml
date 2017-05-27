@@ -33,8 +33,8 @@
     <DataTemplate DataType="{x:Type tabsvm:CurrentTrackViewModel}">
         <local:TabCurrentTrack />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type tabsvm:CurrentArtistViewModel}">
-        <local:TabGenericTemp />
+    <DataTemplate DataType="{x:Type tabsvm:ArtistViewModel}">
+        <local:TabArtist />
     </DataTemplate>
     <DataTemplate DataType="{x:Type tabsvm:CurrentPlaylistViewModel}">
         <local:TabCurrentPlaylist />
