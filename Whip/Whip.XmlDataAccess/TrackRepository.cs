@@ -220,9 +220,9 @@ namespace Whip.XmlDataAccess
             xml.AddAttribute(PropertyNames.YouTube, artist.YouTube);
             xml.AddAttribute(PropertyNames.BandCamp, artist.BandCamp);
             xml.AddAttribute(PropertyNames.BandsInTown, artist.BandsInTown);
-            xml.AddAttribute(PropertyNames.City, artist.City.Name);
-            xml.AddAttribute(PropertyNames.State, artist.City.State);
-            xml.AddAttribute(PropertyNames.Country, artist.City.Country);
+            xml.AddAttribute(PropertyNames.City, artist.City?.Name);
+            xml.AddAttribute(PropertyNames.State, artist.City?.State);
+            xml.AddAttribute(PropertyNames.Country, artist.City?.Country);
 
             return xml;
         }

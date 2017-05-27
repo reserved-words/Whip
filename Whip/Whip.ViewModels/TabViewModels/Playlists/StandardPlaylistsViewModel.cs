@@ -318,7 +318,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
 
         private List<City> GetCities(List<City> cities)
         {
-            return cities.Where(c => !string.IsNullOrEmpty(c.Name))
+            return cities.Where(c => c != null && !string.IsNullOrEmpty(c.Name))
                 .Distinct()
                 .OrderBy(c => c.Country)
                 .ThenBy(c => c.State)
@@ -327,7 +327,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
         }
         private List<State> GetStates(List<City> cities)
         {
-            return cities.Where(c => !string.IsNullOrEmpty(c.State))
+            return cities.Where(c => c != null && !string.IsNullOrEmpty(c.State))
                 .Select(c => new State(c))
                 .Distinct()
                 .OrderBy(s => s.Country)
@@ -337,7 +337,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
 
         private List<string> GetCountries(List<City> cities)
         {
-            return cities.Where(c => !string.IsNullOrEmpty(c.Country))
+            return cities.Where(c => c != null && !string.IsNullOrEmpty(c.Country))
                 .Select(c => c.Country)
                 .Distinct()
                 .OrderBy(c => c)

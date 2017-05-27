@@ -13,7 +13,8 @@
     <Grid ScrollViewer.HorizontalScrollBarVisibility="Hidden">
         <ListView BorderThickness="0"
                   ItemsSource="{Binding Albums}"
-                  ItemContainerStyle="{StaticResource ListViewItemNoHighlight}">
+                  ItemContainerStyle="{StaticResource ListViewItemNoHighlight}"
+                  ScrollViewer.CanContentScroll="False">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border Style="{StaticResource HoriztonalLine}">

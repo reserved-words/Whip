@@ -420,9 +420,9 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             Name = artist?.Name ?? string.Empty;
             Grouping = artist?.Grouping ?? string.Empty;
             Genre = artist?.Genre ?? string.Empty;
-            Country = artist?.City.Country ?? string.Empty;
-            State = artist?.City.State ?? string.Empty;
-            City = artist?.City.Name ?? string.Empty;
+            Country = artist?.City?.Country ?? string.Empty;
+            State = artist?.City?.State ?? string.Empty;
+            City = artist?.City?.Name ?? string.Empty;
 
             Website = artist?.Website ?? string.Empty;
             Facebook = artist?.Facebook ?? string.Empty;
