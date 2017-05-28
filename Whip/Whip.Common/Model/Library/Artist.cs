@@ -30,6 +30,10 @@ namespace Whip.Common.Model
         public string BandsInTown { get; set; }
 
         public ArtistWebInfo WebInfo { get; set; }
+
+        public DateTime UpcomingEventsUpdated { get; set; }
+        public List<ArtistEvent> UpcomingEvents { get; set; }
+
         public List<Album> Albums { get; set; }
         public List<Track> Tracks { get; set; }
 

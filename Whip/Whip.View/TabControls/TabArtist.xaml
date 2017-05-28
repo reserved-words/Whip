@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Whip"
              xmlns:controls="clr-namespace:Whip.Controls"
+             xmlns:res="clr-namespace:Whip.Resources;assembly=Whip.Resources"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1200">
     <Grid>
@@ -40,6 +41,7 @@
                            VerticalAlignment="Center">
                     <CheckBox DockPanel.Dock="Right"
                               IsChecked="{Binding ShowingCurrentArtist}"
+                              VerticalAlignment="Center"
                               Content="Current"/>
                 </WrapPanel>
             </DockPanel>
@@ -80,19 +82,74 @@
                 <RowDefinition Height="2*" />
             </Grid.RowDefinitions>
 
-            <Label Grid.Row="0"
-                       Style="{StaticResource TitleLabel}"
-                       VerticalAlignment="Top"
-                       Content="Upcoming Events" />
+            <DockPanel Grid.Row="0">
+                <WrapPanel Grid.Row="0">
+                    <controls:HyperlinkLabel Username="{Binding Artist.BandsInTown}" 
+                                             UrlFormat="{x:Static res:Resources.BandsInTownUrl}">
+                        <Image Source="/Images/bandsintown.ico"
+                               Style="{StaticResource Icon32}"
+                               Width="16"
+                               Height="16"/>
+                    </controls:HyperlinkLabel>
+                    <Label Style="{StaticResource TitleLabel}"
+                           VerticalAlignment="Top"
+                           Content="Upcoming Events" />
+                </WrapPanel>
+                <WrapPanel DockPanel.Dock="Right"
+                           HorizontalAlignment="Right"
+                           Margin="5"
+                           VerticalAlignment="Center">
+                    <CheckBox DockPanel.Dock="Right"
+                              IsChecked="{Binding UKEventsOnly}"
+                              VerticalAlignment="Center"
+                              Content="UK Only"/>
+                </WrapPanel>
+            </DockPanel>
 
-            <Label Grid.Row="1"/>
+            <DataGrid Grid.Row="1"
+                      Margin="0,5,0,0"
+                      ItemsSource="{Binding UpcomingEvents}"
+                      HeadersVisibility="None"
+                      GridLinesVisibility="Horizontal"
+                      BorderThickness="0">
+                <DataGrid.Resources>
+                    <Style TargetType="{x:Type DataGridCell}">
+                        <Setter Property="ToolTip" Value="{Binding ArtistList}" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                    </Style>
+                    <Style TargetType="{x:Type TextBlock}" x:Key="EventElementStyle">
+                        <Setter Property="Margin" Value="10, 0"/>
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                    </Style>
+                    <Style TargetType="{x:Type DataGridRow}">
+                        <Setter Property="Height" Value="28" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                    </Style>
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="Auto"
+                                        Binding="{Binding Date, StringFormat=dd/MM/yyyy}"
+                                        ElementStyle="{StaticResource EventElementStyle}"/>
+                    <DataGridTextColumn Width="*"
+                                        Binding="{Binding Venue}"
+                                        ElementStyle="{StaticResource EventElementStyle}"/>
+                    <DataGridTextColumn Width="Auto"
+                                        Binding="{Binding City}"
+                                        ElementStyle="{StaticResource EventElementStyle}"/>
+                    <DataGridTextColumn Width="Auto"
+                                        Binding="{Binding Country}"
+                                        ElementStyle="{StaticResource EventElementStyle}"/>
+                </DataGrid.Columns>
+            </DataGrid>
 
             <WrapPanel Grid.Row="2">
-                <Image Source="/Images/lastfm.ico"
-                       Style="{StaticResource Icon32}"
-                       Margin="5"
-                       Width="16"
-                       Height="16"/>
+                <controls:HyperlinkLabel Username="{Binding Artist.LastFm}" 
+                                         UrlFormat="{x:Static res:Resources.LastFmUrl}">
+                    <Image Source="/Images/lastfm.ico"
+                           Style="{StaticResource Icon32}"
+                           Width="16"
+                           Height="16"/>
+                </controls:HyperlinkLabel>
                 <Label Style="{StaticResource TitleLabel}"
                        Content="Similar Artists"
                        Margin="0"/>
