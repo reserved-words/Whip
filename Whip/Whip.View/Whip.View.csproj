@@ -214,6 +214,7 @@
     <Compile Include="TabControls\TabSettings.xaml.cs">
       <DependentUpon>TabSettings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\TextBlockWithHyperlinks.cs" />
     <Compile Include="Utilities\EnumExtension.cs" />
     <Compile Include="Views\ArtistLinksView.xaml.cs">
       <DependentUpon>ArtistLinksView.xaml</DependentUpon>

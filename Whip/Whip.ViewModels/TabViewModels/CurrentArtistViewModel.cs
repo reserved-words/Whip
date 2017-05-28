@@ -109,7 +109,7 @@ namespace Whip.ViewModels.TabViewModels
 
         private void ShowCurrentArtist()
         {
-            Artist = _currentTrack.Artist;
+            Artist = _currentTrack?.Artist;
             _showingCurrentArtist = true;
         }
 

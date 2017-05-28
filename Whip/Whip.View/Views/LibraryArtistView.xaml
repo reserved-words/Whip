@@ -6,6 +6,7 @@
              xmlns:conv="clr-namespace:Whip.Converters"
              xmlns:res="clr-namespace:Whip.Resources;assembly=Whip.Resources"
              xmlns:controls="clr-namespace:Whip.Controls"
+             xmlns:properties="clr-namespace:Whip.View.Properties"
              xmlns:local="clr-namespace:Whip"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
@@ -38,9 +39,9 @@
                 </Grid>
 
                 <TextBlock Text="{Binding Artist.City.Description}"
-                       Visibility="{Binding Artist.City.Description, Converter={StaticResource StringVisibilityConverter}}"/>
+                           Visibility="{Binding Artist.City.Description, Converter={StaticResource StringVisibilityConverter}}"/>
                 <TextBlock Text="{Binding Artist.Genre}"
-                       Visibility="{Binding Artist.Genre, Converter={StaticResource StringVisibilityConverter}}"/>
+                           Visibility="{Binding Artist.Genre, Converter={StaticResource StringVisibilityConverter}}"/>
 
                 <local:ArtistLinksTemplate Margin="0,10"
                                            DataContext="{Binding Artist}" />
@@ -49,8 +50,9 @@
             <ScrollViewer Grid.Row="1" 
                           VerticalScrollBarVisibility="Auto"
                           HorizontalScrollBarVisibility="Disabled">
-                <TextBlock Text="{Binding Wiki}"
-                           TextWrapping="WrapWithOverflow" />
+                <controls:TextBlockWithHyperlinks Content="{Binding Wiki}"
+                                                  TextWrapping="WrapWithOverflow"
+                                                  HyperlinkColor="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"/>
             </ScrollViewer>
         </Grid>
     </Border>

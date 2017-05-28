@@ -116,6 +116,7 @@
     <Compile Include="Utilities\DefaultValueAttribute.cs" />
     <Compile Include="ExtensionMethods\EnumExtensionMethods.cs" />
     <Compile Include="Utilities\EnumHelpers.cs" />
+    <Compile Include="Utilities\HyperlinkRegexPattern.cs" />
     <Compile Include="Utilities\MetaDataAttribute.cs" />
     <Compile Include="Utilities\ProgressArgs.cs" />
     <Compile Include="ExtensionMethods\TrackSortExtensionMethods.cs" />
