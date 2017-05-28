@@ -102,7 +102,7 @@ namespace Whip.ViewModels.TabViewModels.Library
 
             if (string.IsNullOrEmpty(Artist.WebInfo.Wiki))
             {
-                Artist.WebInfo = await _webArtistInfoService.PopulateArtistInfo(Artist);
+                Artist.WebInfo = await _webArtistInfoService.PopulateArtistInfo(Artist, ApplicationSettings.NumberOfSimilarArtistsToDisplay);
             }
 
             Image = await _imageProcessingService.GetImageFromUrl(Artist?.WebInfo.ExtraLargeImageUrl);

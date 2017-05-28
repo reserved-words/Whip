@@ -21,11 +21,20 @@ namespace LastFmApi.Methods.Artist
 
             var artistInfo = new ArtistInfo();
 
-            var artistName = artistXml.Element("name").Value.Trim();
+            artistInfo.Name = artistXml.Element("name").Value.Trim();
             
             artistInfo.Wiki = artistXml.Element("bio").Element("summary").Value.Trim();
 
-            foreach (var image in artistXml.Elements("image"))
+            PopulateImages(artistInfo, artistXml.Elements("image"));
+            
+            PopulateSimilarArtists(artistInfo, artistXml.Element("similar"));
+
+            return artistInfo;
+        }
+
+        private void PopulateImages(ArtistInfo artistInfo, IEnumerable<XElement> imageElements)
+        {
+            foreach (var image in imageElements)
             {
                 switch (image.Attribute("size").Value)
                 {
@@ -43,8 +52,27 @@ namespace LastFmApi.Methods.Artist
                         break;
                 }
             }
+        }
 
-            return artistInfo;
+        private void PopulateSimilarArtists(ArtistInfo artistInfo, XElement similarArtistsElement)
+        {
+            artistInfo.SimilarArtists = new List<ArtistInfo>();
+
+            if (similarArtistsElement == null)
+                return;
+
+            foreach (var artist in similarArtistsElement.Elements("artist"))
+            {
+                var similarArtistInfo = new ArtistInfo
+                {
+                    Name = artist.Element("name").Value.Trim(),
+                    Url = artist.Element("url").Value.Trim()
+                };
+
+                PopulateImages(similarArtistInfo, artist.Elements("image"));
+
+                artistInfo.SimilarArtists.Add(similarArtistInfo);
+            }
         }
     }
 }

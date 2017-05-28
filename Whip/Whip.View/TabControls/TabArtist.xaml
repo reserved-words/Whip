@@ -4,13 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Whip"
+             xmlns:controls="clr-namespace:Whip.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1200">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="350" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*"
+                              MaxWidth="600"/>
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0">
@@ -62,8 +64,8 @@
             <Label Grid.Row="1"/>
 
             <Label Grid.Row="2"
-                       Style="{StaticResource TitleLabel}"
-                       Content="Latest YouTube Video" />
+                   Style="{StaticResource TitleLabel}"
+                   Content="Latest YouTube Video" />
 
             <Label Grid.Row="3"
                    Height="300" />
@@ -72,24 +74,53 @@
 
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="2*" />
             </Grid.RowDefinitions>
 
             <Label Grid.Row="0"
                        Style="{StaticResource TitleLabel}"
+                       VerticalAlignment="Top"
                        Content="Upcoming Events" />
 
             <Label Grid.Row="1"/>
 
-            <Label Grid.Row="2"
-                       Style="{StaticResource TitleLabel}"
-                       Content="Similar Artists" />
+            <WrapPanel Grid.Row="2">
+                <Image Source="/Images/lastfm.ico"
+                       Style="{StaticResource Icon32}"
+                       Margin="5"
+                       Width="16"
+                       Height="16"/>
+                <Label Style="{StaticResource TitleLabel}"
+                       Content="Similar Artists"
+                       Margin="0"/>
+            </WrapPanel>
 
-            <Label Grid.Row="3"
-                       Height="400" />
+            <Grid Grid.Row="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <local:SimilarArtistView Grid.Row="0"
+                                         Grid.Column="0"
+                                         DataContext="{Binding SimilarArtists[0]}" />
+                <local:SimilarArtistView Grid.Row="0"
+                                         Grid.Column="1"
+                                         DataContext="{Binding SimilarArtists[1]}" />
+                <local:SimilarArtistView Grid.Row="1"
+                                         Grid.Column="0"
+                                         DataContext="{Binding SimilarArtists[2]}" />
+                <local:SimilarArtistView Grid.Row="1"
+                                         Grid.Column="1"
+                                         DataContext="{Binding SimilarArtists[3]}" />
+            </Grid>
 
         </Grid>
 

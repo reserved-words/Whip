@@ -19,7 +19,7 @@ namespace Whip.ViewModels.TabViewModels
         private bool _showingCurrentArtist = true;
         private Track _currentTrack;
         private Artist _artist;
-
+        private List<ArtistWebSimilarArtist> _similarArtists;
         private BitmapImage _image;
         private bool _loadingArtistImage;
 
@@ -32,6 +32,13 @@ namespace Whip.ViewModels.TabViewModels
             _webArtistInfoService = webArtistInfoService;
 
             ShowCurrentArtistCommand = new RelayCommand(ShowCurrentArtist);
+
+            _similarArtists = new List<ArtistWebSimilarArtist>();
+
+            for (var i = 0; i < ApplicationSettings.NumberOfSimilarArtistsToDisplay; i++)
+            {
+                _similarArtists.Add(new ArtistWebSimilarArtist());
+            }
         }
 
         public RelayCommand ShowCurrentArtistCommand { get; private set; }
@@ -79,8 +86,14 @@ namespace Whip.ViewModels.TabViewModels
             private set { Set(ref _image, value); }
         }
 
-        public string Wiki => Artist?.WebInfo?.Wiki;
+        public List<ArtistWebSimilarArtist> SimilarArtists
+        {
+            get { return _similarArtists; }
+            private set { Set(ref _similarArtists, value); }
+        }
 
+        public string Wiki => Artist?.WebInfo?.Wiki;
+        
         public override void OnCurrentTrackChanged(Track track)
         {
             _currentTrack = track;
@@ -122,12 +135,25 @@ namespace Whip.ViewModels.TabViewModels
 
             if (string.IsNullOrEmpty(Artist.WebInfo.Wiki))
             {
-                Artist.WebInfo = await _webArtistInfoService.PopulateArtistInfo(Artist);
+                Artist.WebInfo = await _webArtistInfoService.PopulateArtistInfo(Artist, ApplicationSettings.NumberOfSimilarArtistsToDisplay);
             }
 
             Image = await _imageProcessingService.GetImageFromUrl(Artist?.WebInfo.ExtraLargeImageUrl);
             LoadingArtistImage = false;
             RaisePropertyChanged(nameof(Wiki));
+            PopulateSimilarArtists();
+        }
+
+        private void PopulateSimilarArtists()
+        {
+            for (var i = 0; i < ApplicationSettings.NumberOfSimilarArtistsToDisplay; i++)
+            {
+                _similarArtists[i] = Artist.WebInfo.SimilarArtists.Count < i + 1
+                    ? new ArtistWebSimilarArtist()
+                    : Artist.WebInfo.SimilarArtists[i];
+            }
+
+            RaisePropertyChanged(nameof(SimilarArtists));
         }
     }
 }
