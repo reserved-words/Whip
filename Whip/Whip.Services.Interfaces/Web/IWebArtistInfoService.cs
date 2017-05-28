@@ -5,6 +5,6 @@ namespace Whip.Services.Interfaces
 {
     public interface IWebArtistInfoService
     {
-        Task<ArtistWebInfo> PopulateArtistImages(Artist artist);
+        Task<ArtistWebInfo> PopulateArtistInfo(Artist artist);
     }
 }

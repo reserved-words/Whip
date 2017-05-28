@@ -19,6 +19,7 @@
     <conv:EqualityConverter x:Key="EqualityConverter" />
     <conv:BytesToImageConverter x:Key="BytesToImageConverter" />
     <conv:NegateBoolConverter x:Key="NegateBoolConverter" />
+    <conv:NullVisibilityConverter x:Key="NullVisibilityConverter" />
 
     <!-- DATA TEMPLATES -->
     <DataTemplate DataType="{x:Type tabsvm:LibraryViewModel}">
@@ -33,7 +34,7 @@
     <DataTemplate DataType="{x:Type tabsvm:CurrentTrackViewModel}">
         <local:TabCurrentTrack />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type tabsvm:ArtistViewModel}">
+    <DataTemplate DataType="{x:Type tabsvm:CurrentArtistViewModel}">
         <local:TabArtist />
     </DataTemplate>
     <DataTemplate DataType="{x:Type tabsvm:CurrentPlaylistViewModel}">

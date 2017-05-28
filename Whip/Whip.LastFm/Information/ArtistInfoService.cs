@@ -16,10 +16,11 @@ namespace Whip.LastFm
             _clientService = clientService;
         }
 
-        public async Task<ArtistWebInfo> PopulateArtistImages(Artist artist)
+        public async Task<ArtistWebInfo> PopulateArtistInfo(Artist artist)
         {
             var info = await _artistInfoService.GetInfo(_clientService.ApiClient, artist.Name);
 
+            artist.WebInfo.Wiki = info.Wiki;
             artist.WebInfo.SmallImageUrl = info.SmallImageUrl;
             artist.WebInfo.MediumImageUrl = info.MediumImageUrl;
             artist.WebInfo.LargeImageUrl = info.LargeImageUrl;

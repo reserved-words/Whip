@@ -144,6 +144,7 @@
     <Compile Include="Converters\EnumToStringConverter.cs" />
     <Compile Include="Converters\EqualityConverter.cs" />
     <Compile Include="Converters\NegateBoolConverter.cs" />
+    <Compile Include="Converters\NullVisibilityConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Dialogs\EditFeedView.xaml.cs">
       <DependentUpon>EditFeedView.xaml</DependentUpon>

@@ -44,10 +44,8 @@ namespace Whip.ViewModels.TabViewModels.Library
                     return;
 
                 Set(ref _artist, value);
-                Task.Run(PopulateImage);
+                Task.Run(PopulateLastFmInfo);
                 PopulateAlbums();
-                RaisePropertyChanged(nameof(NumberOfAlbums));
-                RaisePropertyChanged(nameof(NumberOfTracks));
             }
         }
 
@@ -69,9 +67,8 @@ namespace Whip.ViewModels.TabViewModels.Library
             private set { Set(ref _image, value); }
         }
 
-        public string NumberOfAlbums => Format(Artist?.Albums.Count, "album");
-        public string NumberOfTracks => Format(Artist?.Tracks.Count, "track");
-        
+        public string Wiki => Artist?.WebInfo?.Wiki;
+
         public void OnEditTrack(Track track)
         {
             _messenger.Send(new EditTrackMessage(track));
@@ -96,15 +93,21 @@ namespace Whip.ViewModels.TabViewModels.Library
                 : string.Format("{0} {1}s", count, description);
         }
 
-        private async Task PopulateImage()
+        private async Task PopulateLastFmInfo()
         {
             if (Artist == null)
                 return;
 
             LoadingArtistImage = true;
-            Artist.WebInfo = await _webArtistInfoService.PopulateArtistImages(Artist);
+
+            if (string.IsNullOrEmpty(Artist.WebInfo.Wiki))
+            {
+                Artist.WebInfo = await _webArtistInfoService.PopulateArtistInfo(Artist);
+            }
+
             Image = await _imageProcessingService.GetImageFromUrl(Artist?.WebInfo.ExtraLargeImageUrl);
             LoadingArtistImage = false;
+            RaisePropertyChanged(nameof(Wiki));
         }
 
         private void PopulateAlbums()

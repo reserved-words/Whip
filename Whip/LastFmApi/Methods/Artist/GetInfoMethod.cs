@@ -21,6 +21,10 @@ namespace LastFmApi.Methods.Artist
 
             var artistInfo = new ArtistInfo();
 
+            var artistName = artistXml.Element("name").Value.Trim();
+            
+            artistInfo.Wiki = artistXml.Element("bio").Element("summary").Value.Trim();
+
             foreach (var image in artistXml.Elements("image"))
             {
                 switch (image.Attribute("size").Value)

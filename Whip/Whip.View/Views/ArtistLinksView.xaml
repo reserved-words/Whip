@@ -9,14 +9,14 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel>
-        <WrapPanel Grid.Row="9" Grid.Column="1">
+        <WrapPanel Visibility="{Binding Converter={StaticResource NullVisibilityConverter}}">
             <controls:HyperlinkLabel Username="{Binding Wikipedia}" 
                                      UrlFormat="{x:Static res:Resources.WikipediaUrl}">
                 <Image Source="/Images/wikipedia.png"
                        Style="{StaticResource Icon32}"/>
             </controls:HyperlinkLabel>
             <controls:HyperlinkLabel Username="{Binding LastFm}" 
-                                 UrlFormat="{x:Static res:Resources.LastFmUrl}">
+                                     UrlFormat="{x:Static res:Resources.LastFmUrl}">
                 <Image Source="/Images/lastfm.ico"
                        Style="{StaticResource Icon32}"/>
             </controls:HyperlinkLabel>

@@ -15,10 +15,10 @@ namespace Whip.LastFm.ErrorHandlingDecorators
             _service = service;
         }
 
-        public async Task<ArtistWebInfo> PopulateArtistImages(Artist artist)
+        public async Task<ArtistWebInfo> PopulateArtistInfo(Artist artist)
         {
             return await _interceptor.TryMethod(
-                _service.PopulateArtistImages(artist), 
+                _service.PopulateArtistInfo(artist), 
                 artist.WebInfo, 
                 "Populate Artist Images (Artist: " + artist.Name + ")");
         }
