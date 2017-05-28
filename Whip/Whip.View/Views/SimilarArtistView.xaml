@@ -13,7 +13,7 @@
         <controls:HyperlinkLabel Url="{Binding Url}">
             <Grid>
                 <Image Source="{Binding ImageUrl}"
-                       Stretch="UniformToFill"
+                       Stretch="Fill"
                        Margin="5"/>
                 <Border BorderThickness="0" 
                         BorderBrush="Transparent" 
