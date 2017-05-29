@@ -65,7 +65,10 @@ namespace Whip.Ioc
                 .Register<IArchiveService, ArchiveService>()
                 .Register<IRssService, RssService>()
                 .Register<ITrackSearchService, TrackSearchService>()
-                .Register<IAsyncMethodInterceptor, WebMethodInterceptor>();
+                .Register<IAsyncMethodInterceptor, WebMethodInterceptor>()
+                .Register<IWebHelperService, WebHelperService>();
+
+            kernel.RegisterErrorHandlingWebService<IWebArtistEventsService, ErrorHandlingWebArtistEventsService, BandsInTownArtistEventsService>();
 
             return kernel;
         }
@@ -103,6 +106,18 @@ namespace Whip.Ioc
                 .InTransientScope()
                 .WithConstructorArgument(typeof(IService), ctx => ctx.Kernel.Get<Service>())
                 .WithConstructorArgument(typeof(IAsyncMethodInterceptor), ctx => ctx.Kernel.Get<LastFmMethodInterceptor>());
+
+            return kernel;
+        }
+
+        private static IKernel RegisterErrorHandlingWebService<IService, ErrorHandlingService, Service>(this IKernel kernel)
+            where Service : IService
+            where ErrorHandlingService : IService
+        {
+            kernel.Bind<IService>()
+                .To<ErrorHandlingService>()
+                .InTransientScope()
+                .WithConstructorArgument(typeof(IService), ctx => ctx.Kernel.Get<Service>());
 
             return kernel;
         }

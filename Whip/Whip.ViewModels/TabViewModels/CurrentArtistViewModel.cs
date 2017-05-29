@@ -1,5 +1,4 @@
 ﻿using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +13,20 @@ namespace Whip.ViewModels.TabViewModels
 {
     public class CurrentArtistViewModel : TabViewModelBase
     {
+        private readonly string[] ValidUKCountryNames = new string[] 
+        {
+            "UK",
+            "United Kingdom",
+            "England",
+            "Wales",
+            "Scotland",
+            "Northern Ireland"
+        };
+
         private readonly Common.Singletons.Library _library;
         private readonly IWebArtistInfoService _webArtistInfoService;
         private readonly IImageProcessingService _imageProcessingService;
+        private readonly IWebArtistEventsService _webArtistEventsService;
 
         private bool _showingCurrentArtist = true;
         private Track _currentTrack;
@@ -26,13 +36,14 @@ namespace Whip.ViewModels.TabViewModels
         private bool _loadingArtistImage;
         private bool _ukEventsOnly;
 
-        public CurrentArtistViewModel(Common.Singletons.Library library, IMessenger messenger, ITrackFilterService trackFilterService,
-            ILibrarySortingService librarySortingService, IWebArtistInfoService webArtistInfoService, IImageProcessingService imageProcessingService)
+        public CurrentArtistViewModel(Common.Singletons.Library library, IWebArtistInfoService webArtistInfoService, 
+            IImageProcessingService imageProcessingService, IWebArtistEventsService webArtistEventsService)
             :base(TabType.CurrentArtist, IconType.Users, "Artist")
         {
             _imageProcessingService = imageProcessingService;
             _library = library;
             _webArtistInfoService = webArtistInfoService;
+            _webArtistEventsService = webArtistEventsService;
 
             ShowCurrentArtistCommand = new RelayCommand(ShowCurrentArtist);
 
@@ -108,7 +119,8 @@ namespace Whip.ViewModels.TabViewModels
 
         public string Wiki => Artist?.WebInfo?.Wiki;
 
-        public List<ArtistEvent> UpcomingEvents => Artist?.UpcomingEvents.Where(ev => !UKEventsOnly || ev.Country == "UK").ToList();
+        public List<ArtistEvent> UpcomingEvents => Artist?.UpcomingEvents
+            .Where(ev => !UKEventsOnly || ValidUKCountryNames.Contains(ev.Country)).ToList();
 
         public override void OnCurrentTrackChanged(Track track)
         {
@@ -164,43 +176,7 @@ namespace Whip.ViewModels.TabViewModels
         {
             if (Artist != null && Artist.UpcomingEventsUpdated.AddDays(ApplicationSettings.DaysBeforeUpdatingArtistEvents) < DateTime.Now)
             {
-                // Change to using service
-
-                Artist.UpcomingEvents = new List<ArtistEvent>
-                {
-                    new ArtistEvent
-                    {
-                        Date = DateTime.Now.AddDays(3),
-                        Venue = "Venue Number 1",
-                        City = "London",
-                        Country = "UK",
-                        ArtistList = "Manic Street Preachers, Super Furry Animals, Catatonia"
-                    },
-                    new ArtistEvent
-                    {
-                        Date = DateTime.Now.AddDays(3),
-                        Venue = "Venue Number 2",
-                        City = "Bristol",
-                        Country = "UK",
-                        ArtistList = "Manic Street Preachers, Super Furry Animals, Catatonia"
-                    },
-                    new ArtistEvent
-                    {
-                        Date = DateTime.Now.AddDays(3),
-                        Venue = "Venue Number 3",
-                        City = "Manchester",
-                        Country = "UK",
-                        ArtistList = "Manic Street Preachers, Super Furry Animals, Catatonia"
-                    },
-                    new ArtistEvent
-                    {
-                        Date = DateTime.Now.AddDays(3),
-                        Venue = "Venue Number 4",
-                        City = "Los Angeles",
-                        Country = "USA",
-                        ArtistList = "Manic Street Preachers, Super Furry Animals, Catatonia"
-                    }
-                };
+                Artist.UpcomingEvents = await _webArtistEventsService.GetEventsAsync(Artist);
                 Artist.UpcomingEventsUpdated = DateTime.Now;
             }
 

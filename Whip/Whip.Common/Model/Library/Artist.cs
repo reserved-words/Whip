@@ -13,6 +13,7 @@ namespace Whip.Common.Model
             WebInfo = new ArtistWebInfo();
             Albums = new List<Album>();
             Tracks = new List<Track>();
+            UpcomingEvents = new List<ArtistEvent>();
         }
 
         public string Name { get; set; }
