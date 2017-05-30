@@ -154,5 +154,17 @@ namespace Whip.View.Properties {
                 this["Offline"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BandsInTownAppId {
+            get {
+                return ((string)(this["BandsInTownAppId"]));
+            }
+            set {
+                this["BandsInTownAppId"] = value;
+            }
+        }
     }
 }

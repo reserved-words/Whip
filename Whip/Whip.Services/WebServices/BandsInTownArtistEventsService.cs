@@ -17,7 +17,6 @@ namespace Whip.Services
         private const string ApiVersionParameterName = "api_version";
         private const string ApiVersionParameterValue = "2.0";
         private const string AppIdParameterName = "app_id";
-        private const string AppIdParameterValue = "Whip";
         private const string JsonElementVenue = "venue";
         private const string JsonElementCountry = "country";
         private const string JsonElementCity = "city";
@@ -28,9 +27,11 @@ namespace Whip.Services
         private const string JsonElementErrors = "errors";
 
         private readonly IWebHelperService _webHelperService;
+        private readonly Lazy<string> _apiId;
 
-        public BandsInTownArtistEventsService(IWebHelperService webHelperService)
+        public BandsInTownArtistEventsService(IWebHelperService webHelperService, IUserSettings userSettings)
         {
+            _apiId = new Lazy<string>(() => userSettings.BandsInTownApiId);
             _webHelperService = webHelperService;
         }
 
@@ -49,7 +50,7 @@ namespace Whip.Services
         {
             var parameters = new Dictionary<string, string>();
             parameters.Add(ApiVersionParameterName, ApiVersionParameterValue);
-            parameters.Add(AppIdParameterName, AppIdParameterValue);
+            parameters.Add(AppIdParameterName, _apiId.Value);
             return parameters;
         }
 

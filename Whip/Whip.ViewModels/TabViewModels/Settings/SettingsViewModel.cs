@@ -15,6 +15,7 @@ namespace Whip.ViewModels.TabViewModels.Settings
         private string _lastFmUsername;
         private string _lastFmApiKey;
         private string _lastFmApiSecret;
+        private string _bandsInTownApiId;
         private string _musicDirectory;
         private string _mainColourRgb;
         private bool _scrobbling;
@@ -61,6 +62,14 @@ namespace Whip.ViewModels.TabViewModels.Settings
         {
             get { return _lastFmApiSecret; }
             set { SetModified(nameof(LastFmApiSecret), ref _lastFmApiSecret, value); }
+        }
+
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [Display(Name = "Bands In Town API ID")]
+        public string BandsInTownApiId
+        {
+            get { return _bandsInTownApiId; }
+            set { SetModified(nameof(BandsInTownApiId), ref _bandsInTownApiId, value); }
         }
 
         [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
@@ -113,6 +122,7 @@ namespace Whip.ViewModels.TabViewModels.Settings
             LastFmUsername = _userSettings.LastFmUsername;
             LastFmApiKey = _userSettings.LastFmApiKey;
             LastFmApiSecret = _userSettings.LastFmApiSecret;
+            BandsInTownApiId = _userSettings.BandsInTownApiId;
             MusicDirectory = _userSettings.MusicDirectory;
             MainColourRgb = _userSettings.MainColourRgb;
             Scrobbling = _userSettings.Scrobbling;
@@ -127,6 +137,7 @@ namespace Whip.ViewModels.TabViewModels.Settings
             _userSettings.LastFmUsername = LastFmUsername;
             _userSettings.LastFmApiKey = LastFmApiKey;
             _userSettings.LastFmApiSecret = LastFmApiSecret;
+            _userSettings.BandsInTownApiId = BandsInTownApiId;
             _userSettings.MusicDirectory = MusicDirectory;
             _userSettings.MainColourRgb = MainColourRgb;
             _userSettings.Scrobbling = Scrobbling;

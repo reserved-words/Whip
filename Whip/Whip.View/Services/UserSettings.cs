@@ -35,6 +35,7 @@ namespace Whip.View
             && !string.IsNullOrEmpty(LastFmUsername)
             && !string.IsNullOrEmpty(LastFmApiKey)
             && !string.IsNullOrEmpty(LastFmApiSecret)
+            && !string.IsNullOrEmpty(BandsInTownApiId)
             && !string.IsNullOrEmpty(MainColourRgb);
 
         public string MusicDirectory
@@ -92,6 +93,12 @@ namespace Whip.View
                     _lastFmUsernameChanged = true;
                 }
             }
+        }
+
+        public string BandsInTownApiId
+        {
+            get { return Properties.Settings.Default.BandsInTownAppId; }
+            set { Properties.Settings.Default.BandsInTownAppId = value; }
         }
 
         public bool Scrobbling
