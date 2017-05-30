@@ -168,7 +168,7 @@ namespace Whip.ViewModels.TabViewModels
 
             LoadingArtistImage = true;
 
-            if (string.IsNullOrEmpty(Artist.WebInfo.Wiki))
+            if (Artist.WebInfo.Updated.AddDays(ApplicationSettings.DaysBeforeUpdatingArtistWebInfo) < DateTime.Now)
             {
                 Artist.WebInfo = await _webArtistInfoService.PopulateArtistInfo(Artist, ApplicationSettings.NumberOfSimilarArtistsToDisplay);
             }

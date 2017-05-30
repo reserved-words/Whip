@@ -8,5 +8,6 @@ namespace Whip.Common
         public static int MinutesBeforeRefreshNews => 30;
         public static int NumberOfSimilarArtistsToDisplay => 4;
         public static int DaysBeforeUpdatingArtistEvents => 7;
+        public static int DaysBeforeUpdatingArtistWebInfo => 14;
     }
 }

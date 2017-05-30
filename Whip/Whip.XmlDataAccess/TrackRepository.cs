@@ -122,15 +122,6 @@ namespace Whip.XmlDataAccess
             {
                 var artistXml = GetXElement(artist);
 
-                var eventsXml = new XElement(PropertyNames.Events);
-                eventsXml.Add(new XAttribute(PropertyNames.EventsUpdated, artist.UpcomingEventsUpdated.ToString(StandardDateFormat)));
-                foreach (var ev in artist.UpcomingEvents)
-                {
-                    var eventXml = GetXElement(ev);
-                    eventsXml.Add(eventXml);
-                }
-                artistXml.Add(eventsXml);
-
                 var albumsXml = new XElement(PropertyNames.Albums);
                 foreach (var album in artist.Albums)
                 {
@@ -176,143 +167,205 @@ namespace Whip.XmlDataAccess
                 YouTube = xml.GetAttribute(PropertyNames.YouTube),
                 BandCamp = xml.GetAttribute(PropertyNames.BandCamp),
                 BandsInTown = xml.GetAttribute(PropertyNames.BandsInTown),
-                City = new City(xml.GetAttribute(PropertyNames.City), xml.GetAttribute(PropertyNames.State), xml.GetAttribute(PropertyNames.Country))
+                City = new City(xml.GetAttribute(PropertyNames.City), xml.GetAttribute(PropertyNames.State), xml.GetAttribute(PropertyNames.Country)),
+                WebInfo = GetWebInfo(xml.Element(PropertyNames.WebInfo))
             };
         }
 
-        private Album GetAlbum(XElement xml, Artist artist)
+        private ArtistWebInfo GetWebInfo(XElement xml)
         {
-            return new Album
+            var webInfo = new ArtistWebInfo
             {
-                Artist = artist,
-                Title = xml.GetAttribute(PropertyNames.Title),
-                Year = xml.GetAttribute(PropertyNames.Year),
-                DiscCount = xml.GetIntAttribute(PropertyNames.DiscCount),
-                ReleaseType = EnumHelpers.Parse<ReleaseType>(xml.GetAttribute(PropertyNames.ReleaseType))
+                Updated = xml.GetDateTimeAttribute(PropertyNames.WebInfoUpdated),
+                Wiki = xml.GetAttribute(PropertyNames.WebInfoWiki),
+                SmallImageUrl = xml.GetAttribute(PropertyNames.WebInfoImageSmall),
+                MediumImageUrl = xml.GetAttribute(PropertyNames.WebInfoImageMedium),
+                LargeImageUrl = xml.GetAttribute(PropertyNames.WebInfoImageLarge),
+                ExtraLargeImageUrl = xml.GetAttribute(PropertyNames.WebInfoImageExtraLarge)
             };
-        }
 
-        private Disc GetDisc(XElement xml, Album album)
-        {
-            return new Disc
+            foreach (var artistXml in xml.Element(PropertyNames.WebInfoSimilarArtists).Elements(PropertyNames.WebInfoSimilarArtist))
             {
-                Album = album,
-                DiscNo = xml.GetIntAttribute(PropertyNames.DiscNo),
-                TrackCount = xml.GetIntAttribute(PropertyNames.TrackCount)
-            };
-        }
-
-        private Track GetTrack(XElement xml, Disc disc, Artist artist)
-        {
-            return new Track
-            {
-                Disc = disc,
-                Artist = artist,
-                Title = xml.GetAttribute(PropertyNames.Title),
-                File = new Common.Model.File(
-                    xml.GetAttribute(PropertyNames.FullFilepath),
-                    xml.GetAttribute(PropertyNames.RelativeFilepath),
-                    xml.GetDateTimeAttribute(PropertyNames.DateCreated),
-                    xml.GetDateTimeAttribute(PropertyNames.DateModified)
-                ),
-                TrackNo = xml.GetIntAttribute(PropertyNames.TrackNo),
-                Duration = TimeSpan.ParseExact(xml.GetAttribute(PropertyNames.Duration), StandardTimeSpanFormat, CultureInfo.InvariantCulture),
-                Tags = xml.GetAttribute(PropertyNames.Tags).Split(TagsDelimiter).ToList(),
-                Year = xml.GetAttribute(PropertyNames.TrackYear),
-                Lyrics = xml.GetAttribute(PropertyNames.Lyrics)
-            };
-        }
-
-        private ArtistEvent GetEvent(XElement xml)
-        {
-            return new ArtistEvent
-            {
-                Date = xml.GetDateTimeAttribute(PropertyNames.EventDate),
-                Venue = xml.GetAttribute(PropertyNames.EventVenue),
-                City = xml.GetAttribute(PropertyNames.EventCity),
-                Country = xml.GetAttribute(PropertyNames.EventCountry),
-                ArtistList = xml.GetAttribute(PropertyNames.EventArtistList),
-            };
-        }
-
-        private XElement GetXElement(Artist artist)
-        {
-            var xml = new XElement(PropertyNames.Artist);
-
-            xml.AddAttribute(PropertyNames.Name, artist.Name);
-            xml.AddAttribute(PropertyNames.Genre, artist.Genre);
-            xml.AddAttribute(PropertyNames.Grouping, artist.Grouping);
-            xml.AddAttribute(PropertyNames.Website, artist.Website);
-            xml.AddAttribute(PropertyNames.Twitter, artist.Twitter);
-            xml.AddAttribute(PropertyNames.Facebook, artist.Facebook);
-            xml.AddAttribute(PropertyNames.LastFm, artist.LastFm);
-            xml.AddAttribute(PropertyNames.Wikipedia, artist.Wikipedia);
-            xml.AddAttribute(PropertyNames.YouTube, artist.YouTube);
-            xml.AddAttribute(PropertyNames.BandCamp, artist.BandCamp);
-            xml.AddAttribute(PropertyNames.BandsInTown, artist.BandsInTown);
-            xml.AddAttribute(PropertyNames.City, artist.City?.Name);
-            xml.AddAttribute(PropertyNames.State, artist.City?.State);
-            xml.AddAttribute(PropertyNames.Country, artist.City?.Country);
-
-            return xml;
-        }
-
-        private XElement GetXElement(Album album)
-        {
-            var xml = new XElement(PropertyNames.Album);
-
-            xml.AddAttribute(PropertyNames.Title, album.Title);
-            xml.AddAttribute(PropertyNames.Year, album.Year);
-            xml.AddAttribute(PropertyNames.DiscCount, album.DiscCount);
-            xml.AddAttribute(PropertyNames.ReleaseType, album.ReleaseType.ToString());
-
-            return xml;
-        }
-
-        private XElement GetXElement(Disc disc)
-        {
-            var xml = new XElement(PropertyNames.Disc);
-
-            xml.AddAttribute(PropertyNames.DiscNo, disc.DiscNo);
-            xml.AddAttribute(PropertyNames.TrackCount, disc.TrackCount);
-
-            return xml;
-        }
-
-        private XElement GetXElement(Track track)
-        {
-            var xml = new XElement(PropertyNames.Track);
-
-            xml.AddAttribute(PropertyNames.RelativeFilepath, track.File.RelativePath);
-            xml.AddAttribute(PropertyNames.FullFilepath, track.File.FullPath);
-            xml.AddAttribute(PropertyNames.DateCreated, track.File.DateCreated.ToString(StandardDateFormat));
-            xml.AddAttribute(PropertyNames.DateModified, track.File.DateModified.ToString(StandardDateFormat));
-            xml.AddAttribute(PropertyNames.Title, track.Title);
-            xml.AddAttribute(PropertyNames.TrackNo, track.TrackNo);
-            xml.AddAttribute(PropertyNames.Duration, track.Duration.ToString(StandardTimeSpanFormat));
-            xml.AddAttribute(PropertyNames.TrackYear, track.Year);
-            xml.AddAttribute(PropertyNames.Tags, string.Join(TagsDelimiter.ToString(), track.Tags));
-            xml.AddAttribute(PropertyNames.Lyrics, track.Lyrics);
-
-            if (track.Artist != track.Disc.Album.Artist)
-            {
-                xml.AddAttribute(PropertyNames.Artist, track.Artist.Name);
+                webInfo.SimilarArtists.Add(new ArtistWebSimilarArtist
+                {
+                    Name = artistXml.GetAttribute(PropertyNames.WebInfoSimilarArtistName),
+                    Url = artistXml.GetAttribute(PropertyNames.WebInfoSimilarArtistUrl),
+                    ImageUrl = artistXml.GetAttribute(PropertyNames.WebInfoSimilarArtistImage)
+                });
             }
 
-            return xml;
+            return webInfo;
         }
 
-        private XElement GetXElement(ArtistEvent ev)
+    private Album GetAlbum(XElement xml, Artist artist)
+    {
+        return new Album
         {
-            var xml = new XElement(PropertyNames.Event);
-
-            xml.AddAttribute(PropertyNames.EventDate, ev.Date.ToString(StandardDateFormat));
-            xml.AddAttribute(PropertyNames.EventVenue, ev.Venue);
-            xml.AddAttribute(PropertyNames.EventCity, ev.City);
-            xml.AddAttribute(PropertyNames.EventCountry, ev.Country);
-            xml.AddAttribute(PropertyNames.EventArtistList, ev.ArtistList);
-
-            return xml;
-        }
+            Artist = artist,
+            Title = xml.GetAttribute(PropertyNames.Title),
+            Year = xml.GetAttribute(PropertyNames.Year),
+            DiscCount = xml.GetIntAttribute(PropertyNames.DiscCount),
+            ReleaseType = EnumHelpers.Parse<ReleaseType>(xml.GetAttribute(PropertyNames.ReleaseType))
+        };
     }
+
+    private Disc GetDisc(XElement xml, Album album)
+    {
+        return new Disc
+        {
+            Album = album,
+            DiscNo = xml.GetIntAttribute(PropertyNames.DiscNo),
+            TrackCount = xml.GetIntAttribute(PropertyNames.TrackCount)
+        };
+    }
+
+    private Track GetTrack(XElement xml, Disc disc, Artist artist)
+    {
+        return new Track
+        {
+            Disc = disc,
+            Artist = artist,
+            Title = xml.GetAttribute(PropertyNames.Title),
+            File = new Common.Model.File(
+                xml.GetAttribute(PropertyNames.FullFilepath),
+                xml.GetAttribute(PropertyNames.RelativeFilepath),
+                xml.GetDateTimeAttribute(PropertyNames.DateCreated),
+                xml.GetDateTimeAttribute(PropertyNames.DateModified)
+            ),
+            TrackNo = xml.GetIntAttribute(PropertyNames.TrackNo),
+            Duration = TimeSpan.ParseExact(xml.GetAttribute(PropertyNames.Duration), StandardTimeSpanFormat, CultureInfo.InvariantCulture),
+            Tags = xml.GetAttribute(PropertyNames.Tags).Split(TagsDelimiter).ToList(),
+            Year = xml.GetAttribute(PropertyNames.TrackYear),
+            Lyrics = xml.GetAttribute(PropertyNames.Lyrics)
+        };
+    }
+
+    private ArtistEvent GetEvent(XElement xml)
+    {
+        return new ArtistEvent
+        {
+            Date = xml.GetDateTimeAttribute(PropertyNames.EventDate),
+            Venue = xml.GetAttribute(PropertyNames.EventVenue),
+            City = xml.GetAttribute(PropertyNames.EventCity),
+            Country = xml.GetAttribute(PropertyNames.EventCountry),
+            ArtistList = xml.GetAttribute(PropertyNames.EventArtistList),
+        };
+    }
+
+    private XElement GetXElement(Artist artist)
+    {
+        var xml = new XElement(PropertyNames.Artist);
+
+        xml.AddAttribute(PropertyNames.Name, artist.Name);
+        xml.AddAttribute(PropertyNames.Genre, artist.Genre);
+        xml.AddAttribute(PropertyNames.Grouping, artist.Grouping);
+        xml.AddAttribute(PropertyNames.Website, artist.Website);
+        xml.AddAttribute(PropertyNames.Twitter, artist.Twitter);
+        xml.AddAttribute(PropertyNames.Facebook, artist.Facebook);
+        xml.AddAttribute(PropertyNames.LastFm, artist.LastFm);
+        xml.AddAttribute(PropertyNames.Wikipedia, artist.Wikipedia);
+        xml.AddAttribute(PropertyNames.YouTube, artist.YouTube);
+        xml.AddAttribute(PropertyNames.BandCamp, artist.BandCamp);
+        xml.AddAttribute(PropertyNames.BandsInTown, artist.BandsInTown);
+        xml.AddAttribute(PropertyNames.City, artist.City?.Name);
+        xml.AddAttribute(PropertyNames.State, artist.City?.State);
+        xml.AddAttribute(PropertyNames.Country, artist.City?.Country);
+
+        var eventsXml = new XElement(PropertyNames.Events);
+        eventsXml.Add(new XAttribute(PropertyNames.EventsUpdated, artist.UpcomingEventsUpdated.ToString(StandardDateFormat)));
+        foreach (var ev in artist.UpcomingEvents)
+        {
+            var eventXml = GetXElement(ev);
+            eventsXml.Add(eventXml);
+        }
+        xml.Add(eventsXml);
+
+        xml.Add(GetXElement(artist.WebInfo));
+
+        return xml;
+    }
+
+    private XElement GetXElement(ArtistWebInfo webInfo)
+    {
+        var xml = new XElement(PropertyNames.WebInfo);
+
+        xml.AddAttribute(PropertyNames.WebInfoUpdated, webInfo.Updated.ToString(StandardDateFormat));
+        xml.AddAttribute(PropertyNames.WebInfoWiki, webInfo.Wiki);
+        xml.AddAttribute(PropertyNames.WebInfoImageSmall, webInfo.MediumImageUrl);
+        xml.AddAttribute(PropertyNames.WebInfoImageMedium, webInfo.SmallImageUrl);
+        xml.AddAttribute(PropertyNames.WebInfoImageLarge, webInfo.LargeImageUrl);
+        xml.AddAttribute(PropertyNames.WebInfoImageExtraLarge, webInfo.ExtraLargeImageUrl);
+
+        var similarArtistsXml = new XElement(PropertyNames.WebInfoSimilarArtists);
+        foreach (var artist in webInfo.SimilarArtists)
+        {
+            var artistXml = new XElement(PropertyNames.WebInfoSimilarArtist);
+            artistXml.AddAttribute(PropertyNames.WebInfoSimilarArtistName, artist.Name);
+            artistXml.AddAttribute(PropertyNames.WebInfoSimilarArtistUrl, artist.Url);
+            artistXml.AddAttribute(PropertyNames.WebInfoSimilarArtistImage, artist.ImageUrl);
+            similarArtistsXml.Add(artistXml);
+        }
+        xml.Add(similarArtistsXml);
+
+        return xml;
+    }
+
+    private XElement GetXElement(Album album)
+    {
+        var xml = new XElement(PropertyNames.Album);
+
+        xml.AddAttribute(PropertyNames.Title, album.Title);
+        xml.AddAttribute(PropertyNames.Year, album.Year);
+        xml.AddAttribute(PropertyNames.DiscCount, album.DiscCount);
+        xml.AddAttribute(PropertyNames.ReleaseType, album.ReleaseType.ToString());
+
+        return xml;
+    }
+
+    private XElement GetXElement(Disc disc)
+    {
+        var xml = new XElement(PropertyNames.Disc);
+
+        xml.AddAttribute(PropertyNames.DiscNo, disc.DiscNo);
+        xml.AddAttribute(PropertyNames.TrackCount, disc.TrackCount);
+
+        return xml;
+    }
+
+    private XElement GetXElement(Track track)
+    {
+        var xml = new XElement(PropertyNames.Track);
+
+        xml.AddAttribute(PropertyNames.RelativeFilepath, track.File.RelativePath);
+        xml.AddAttribute(PropertyNames.FullFilepath, track.File.FullPath);
+        xml.AddAttribute(PropertyNames.DateCreated, track.File.DateCreated.ToString(StandardDateFormat));
+        xml.AddAttribute(PropertyNames.DateModified, track.File.DateModified.ToString(StandardDateFormat));
+        xml.AddAttribute(PropertyNames.Title, track.Title);
+        xml.AddAttribute(PropertyNames.TrackNo, track.TrackNo);
+        xml.AddAttribute(PropertyNames.Duration, track.Duration.ToString(StandardTimeSpanFormat));
+        xml.AddAttribute(PropertyNames.TrackYear, track.Year);
+        xml.AddAttribute(PropertyNames.Tags, string.Join(TagsDelimiter.ToString(), track.Tags));
+        xml.AddAttribute(PropertyNames.Lyrics, track.Lyrics);
+
+        if (track.Artist != track.Disc.Album.Artist)
+        {
+            xml.AddAttribute(PropertyNames.Artist, track.Artist.Name);
+        }
+
+        return xml;
+    }
+
+    private XElement GetXElement(ArtistEvent ev)
+    {
+        var xml = new XElement(PropertyNames.Event);
+
+        xml.AddAttribute(PropertyNames.EventDate, ev.Date.ToString(StandardDateFormat));
+        xml.AddAttribute(PropertyNames.EventVenue, ev.Venue);
+        xml.AddAttribute(PropertyNames.EventCity, ev.City);
+        xml.AddAttribute(PropertyNames.EventCountry, ev.Country);
+        xml.AddAttribute(PropertyNames.EventArtistList, ev.ArtistList);
+
+        return xml;
+    }
+}
 }

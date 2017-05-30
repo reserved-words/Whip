@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Whip.Services.Interfaces;
 using Whip.Common.Model;
 using System.Linq;
+using System;
 
 namespace Whip.LastFm
 {
@@ -21,6 +22,7 @@ namespace Whip.LastFm
         {
             var info = await _artistInfoService.GetInfo(_clientService.ApiClient, artist.Name);
 
+            artist.WebInfo.Updated = DateTime.Now;
             artist.WebInfo.Wiki = info.Wiki;
             artist.WebInfo.SmallImageUrl = info.SmallImageUrl;
             artist.WebInfo.MediumImageUrl = info.MediumImageUrl;

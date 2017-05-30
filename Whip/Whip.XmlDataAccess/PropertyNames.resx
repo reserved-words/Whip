@@ -357,4 +357,40 @@
   <data name="EventVenue" xml:space="preserve">
     <value>venue</value>
   </data>
+  <data name="WebInfo" xml:space="preserve">
+    <value>web_info</value>
+  </data>
+  <data name="WebInfoImageLarge" xml:space="preserve">
+    <value>image_large</value>
+  </data>
+  <data name="WebInfoImageMedium" xml:space="preserve">
+    <value>image_medium</value>
+  </data>
+  <data name="WebInfoImageExtraLarge" xml:space="preserve">
+    <value>image_mega</value>
+  </data>
+  <data name="WebInfoImageSmall" xml:space="preserve">
+    <value>image_small</value>
+  </data>
+  <data name="WebInfoSimilarArtist" xml:space="preserve">
+    <value>similar_artist</value>
+  </data>
+  <data name="WebInfoSimilarArtistImage" xml:space="preserve">
+    <value>image</value>
+  </data>
+  <data name="WebInfoSimilarArtistName" xml:space="preserve">
+    <value>name</value>
+  </data>
+  <data name="WebInfoSimilarArtists" xml:space="preserve">
+    <value>similar_artists</value>
+  </data>
+  <data name="WebInfoSimilarArtistUrl" xml:space="preserve">
+    <value>url</value>
+  </data>
+  <data name="WebInfoUpdated" xml:space="preserve">
+    <value>updated</value>
+  </data>
+  <data name="WebInfoWiki" xml:space="preserve">
+    <value>wiki</value>
+  </data>
 </root>

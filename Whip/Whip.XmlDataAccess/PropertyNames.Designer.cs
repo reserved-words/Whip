@@ -745,6 +745,114 @@ namespace Whip.XmlDataAccess {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to web_info.
+        /// </summary>
+        internal static string WebInfo {
+            get {
+                return ResourceManager.GetString("WebInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to image_mega.
+        /// </summary>
+        internal static string WebInfoImageExtraLarge {
+            get {
+                return ResourceManager.GetString("WebInfoImageExtraLarge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to image_large.
+        /// </summary>
+        internal static string WebInfoImageLarge {
+            get {
+                return ResourceManager.GetString("WebInfoImageLarge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to image_medium.
+        /// </summary>
+        internal static string WebInfoImageMedium {
+            get {
+                return ResourceManager.GetString("WebInfoImageMedium", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to image_small.
+        /// </summary>
+        internal static string WebInfoImageSmall {
+            get {
+                return ResourceManager.GetString("WebInfoImageSmall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to similar_artist.
+        /// </summary>
+        internal static string WebInfoSimilarArtist {
+            get {
+                return ResourceManager.GetString("WebInfoSimilarArtist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to image.
+        /// </summary>
+        internal static string WebInfoSimilarArtistImage {
+            get {
+                return ResourceManager.GetString("WebInfoSimilarArtistImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to name.
+        /// </summary>
+        internal static string WebInfoSimilarArtistName {
+            get {
+                return ResourceManager.GetString("WebInfoSimilarArtistName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to similar_artists.
+        /// </summary>
+        internal static string WebInfoSimilarArtists {
+            get {
+                return ResourceManager.GetString("WebInfoSimilarArtists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to url.
+        /// </summary>
+        internal static string WebInfoSimilarArtistUrl {
+            get {
+                return ResourceManager.GetString("WebInfoSimilarArtistUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to updated.
+        /// </summary>
+        internal static string WebInfoUpdated {
+            get {
+                return ResourceManager.GetString("WebInfoUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to wiki.
+        /// </summary>
+        internal static string WebInfoWiki {
+            get {
+                return ResourceManager.GetString("WebInfoWiki", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to website.
         /// </summary>
         internal static string Website {
