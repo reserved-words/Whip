@@ -53,6 +53,13 @@ namespace Whip.XmlDataAccess
             {
                 var artist = GetArtist(artistXml);
 
+                var eventsXml = artistXml.Element(PropertyNames.Events);
+                artist.UpcomingEventsUpdated = eventsXml.GetDateTimeAttribute(PropertyNames.EventsUpdated);
+                foreach (var eventXml in eventsXml.Elements(PropertyNames.Event))
+                {
+                    artist.UpcomingEvents.Add(GetEvent(eventXml));
+                }
+
                 library.Artists.Add(artist);
             }
 
@@ -114,6 +121,16 @@ namespace Whip.XmlDataAccess
             foreach (var artist in library.Artists)
             {
                 var artistXml = GetXElement(artist);
+
+                var eventsXml = new XElement(PropertyNames.Events);
+                eventsXml.Add(new XAttribute(PropertyNames.EventsUpdated, artist.UpcomingEventsUpdated.ToString(StandardDateFormat)));
+                foreach (var ev in artist.UpcomingEvents)
+                {
+                    var eventXml = GetXElement(ev);
+                    eventsXml.Add(eventXml);
+                }
+                artistXml.Add(eventsXml);
+
                 var albumsXml = new XElement(PropertyNames.Albums);
                 foreach (var album in artist.Albums)
                 {
@@ -135,6 +152,7 @@ namespace Whip.XmlDataAccess
                     albumsXml.Add(albumXml);
                 }
                 artistXml.Add(albumsXml);
+
                 artistsXml.Add(artistXml);
             }
 
@@ -205,6 +223,18 @@ namespace Whip.XmlDataAccess
             };
         }
 
+        private ArtistEvent GetEvent(XElement xml)
+        {
+            return new ArtistEvent
+            {
+                Date = xml.GetDateTimeAttribute(PropertyNames.EventDate),
+                Venue = xml.GetAttribute(PropertyNames.EventVenue),
+                City = xml.GetAttribute(PropertyNames.EventCity),
+                Country = xml.GetAttribute(PropertyNames.EventCountry),
+                ArtistList = xml.GetAttribute(PropertyNames.EventArtistList),
+            };
+        }
+
         private XElement GetXElement(Artist artist)
         {
             var xml = new XElement(PropertyNames.Artist);
@@ -268,6 +298,19 @@ namespace Whip.XmlDataAccess
             {
                 xml.AddAttribute(PropertyNames.Artist, track.Artist.Name);
             }
+
+            return xml;
+        }
+
+        private XElement GetXElement(ArtistEvent ev)
+        {
+            var xml = new XElement(PropertyNames.Event);
+
+            xml.AddAttribute(PropertyNames.EventDate, ev.Date.ToString(StandardDateFormat));
+            xml.AddAttribute(PropertyNames.EventVenue, ev.Venue);
+            xml.AddAttribute(PropertyNames.EventCity, ev.City);
+            xml.AddAttribute(PropertyNames.EventCountry, ev.Country);
+            xml.AddAttribute(PropertyNames.EventArtistList, ev.ArtistList);
 
             return xml;
         }

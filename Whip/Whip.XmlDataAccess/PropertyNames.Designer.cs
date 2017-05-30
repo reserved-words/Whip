@@ -205,6 +205,78 @@ namespace Whip.XmlDataAccess {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to event.
+        /// </summary>
+        internal static string Event {
+            get {
+                return ResourceManager.GetString("Event", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to artists.
+        /// </summary>
+        internal static string EventArtistList {
+            get {
+                return ResourceManager.GetString("EventArtistList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to city.
+        /// </summary>
+        internal static string EventCity {
+            get {
+                return ResourceManager.GetString("EventCity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to country.
+        /// </summary>
+        internal static string EventCountry {
+            get {
+                return ResourceManager.GetString("EventCountry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to date.
+        /// </summary>
+        internal static string EventDate {
+            get {
+                return ResourceManager.GetString("EventDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to events.
+        /// </summary>
+        internal static string Events {
+            get {
+                return ResourceManager.GetString("Events", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to updated.
+        /// </summary>
+        internal static string EventsUpdated {
+            get {
+                return ResourceManager.GetString("EventsUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to venue.
+        /// </summary>
+        internal static string EventVenue {
+            get {
+                return ResourceManager.GetString("EventVenue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to facebook.
         /// </summary>
         internal static string Facebook {

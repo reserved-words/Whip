@@ -333,4 +333,28 @@
   <data name="TrueValue" xml:space="preserve">
     <value>true</value>
   </data>
+  <data name="Event" xml:space="preserve">
+    <value>event</value>
+  </data>
+  <data name="EventArtistList" xml:space="preserve">
+    <value>artists</value>
+  </data>
+  <data name="EventCity" xml:space="preserve">
+    <value>city</value>
+  </data>
+  <data name="EventCountry" xml:space="preserve">
+    <value>country</value>
+  </data>
+  <data name="EventDate" xml:space="preserve">
+    <value>date</value>
+  </data>
+  <data name="Events" xml:space="preserve">
+    <value>events</value>
+  </data>
+  <data name="EventsUpdated" xml:space="preserve">
+    <value>updated</value>
+  </data>
+  <data name="EventVenue" xml:space="preserve">
+    <value>venue</value>
+  </data>
 </root>
