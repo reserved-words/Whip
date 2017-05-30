@@ -106,7 +106,13 @@
                 </WrapPanel>
             </DockPanel>
 
+            <Label Grid.Row="1"
+                   Content="{Binding NoUpcomingEvents}"
+                   VerticalAlignment="Top"
+                   Visibility="{Binding NoUpcomingEvents, Converter={StaticResource StringVisibilityConverter}}" />
+
             <DataGrid Grid.Row="1"
+                      Visibility="{Binding NoUpcomingEvents, Converter={StaticResource NegBoolVisibilityConverter}}"
                       Margin="0,5,0,0"
                       ItemsSource="{Binding UpcomingEvents}"
                       HeadersVisibility="None"

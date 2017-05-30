@@ -114,6 +114,7 @@ namespace Whip.ViewModels.TabViewModels
             {
                 Set(ref(_ukEventsOnly), value);
                 RaisePropertyChanged(nameof(UpcomingEvents));
+                RaisePropertyChanged(nameof(NoUpcomingEvents));
             }
         }
 
@@ -121,6 +122,12 @@ namespace Whip.ViewModels.TabViewModels
 
         public List<ArtistEvent> UpcomingEvents => Artist?.UpcomingEvents
             .Where(ev => !UKEventsOnly || ValidUKCountryNames.Contains(ev.Country)).ToList();
+
+        public string NoUpcomingEvents => Artist == null || UpcomingEvents.Any()
+            ? string.Empty
+            : UKEventsOnly
+            ? "No upcoming UK events"
+            : "No upcoming events";
 
         public override void OnCurrentTrackChanged(Track track)
         {
@@ -181,6 +188,7 @@ namespace Whip.ViewModels.TabViewModels
             }
 
             RaisePropertyChanged(nameof(UpcomingEvents));
+            RaisePropertyChanged(nameof(NoUpcomingEvents));
         }
 
         private void PopulateSimilarArtists()
