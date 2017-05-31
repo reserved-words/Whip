@@ -40,8 +40,6 @@
 
                 <TextBlock Text="{Binding Artist.City.Description}"
                            Visibility="{Binding Artist.City.Description, Converter={StaticResource StringVisibilityConverter}}"/>
-                <TextBlock Text="{Binding Artist.Genre}"
-                           Visibility="{Binding Artist.Genre, Converter={StaticResource StringVisibilityConverter}}"/>
 
                 <local:ArtistLinksTemplate Margin="0,10"
                                            DataContext="{Binding Artist}" />
