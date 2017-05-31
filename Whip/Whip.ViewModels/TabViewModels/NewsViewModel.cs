@@ -19,6 +19,7 @@ namespace Whip.ViewModels.TabViewModels
         private readonly IMessenger _messenger;
         private readonly IRssFeedsRepository _repository;
         private readonly IRssService _service;
+        private readonly IConfigSettings _configSettings;
 
         private readonly Feed _allFeeds = new Feed("All Feeds", "", "", "", "");
 
@@ -29,12 +30,13 @@ namespace Whip.ViewModels.TabViewModels
         private List<Feed> _realFeeds;
         private Feed _selectedFeed;
         
-        public NewsViewModel(IMessenger messenger, IRssFeedsRepository repository, IRssService service)
+        public NewsViewModel(IMessenger messenger, IRssFeedsRepository repository, IRssService service, IConfigSettings configSettings)
             :base(TabType.News, IconType.Rss, "News")
         {
             _messenger = messenger;
             _repository = repository;
             _service = service;
+            _configSettings = configSettings;
 
             AddFeedCommand = new RelayCommand(OnAddFeed);
             RefreshCommand = new RelayCommand(OnRefresh);
@@ -143,7 +145,7 @@ namespace Whip.ViewModels.TabViewModels
 
         private void UpdatePosts(bool force)
         {
-            if (force || _lastUpdated.AddMinutes(ApplicationSettings.MinutesBeforeRefreshNews) <= DateTime.Now)
+            if (force || _lastUpdated.AddMinutes(_configSettings.MinutesBeforeRefreshNews) <= DateTime.Now)
             {
                 _lastUpdated = DateTime.Now;
 

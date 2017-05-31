@@ -9,11 +9,8 @@ namespace Whip.Services.Interfaces
         event Action ShufflingStatusChanged;
 
         bool EssentialSettingsSet { get; }
-        string LastFmApiKey { get; set; }
-        string LastFmApiSecret { get; set; }
         string LastFmApiSessionKey { get; set; }
         string LastFmUsername { get; set; }
-        string BandsInTownApiId { get; set; }
         string MusicDirectory { get; set; }
         string ArchiveDirectory { get; set; }
         string MainColourRgb { get; set; }

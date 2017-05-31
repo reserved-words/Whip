@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccess\IPlaylistRepository.cs" />
+    <Compile Include="IConfigSettings.cs" />
     <Compile Include="Library\IArchiveService.cs" />
     <Compile Include="Library\ICommentProcessingService.cs" />
     <Compile Include="Library\ILibrarySortingService.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Utilities\IUserSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\IWebBrowserService.cs" />
+    <Compile Include="Web\IVideoService.cs" />
     <Compile Include="Web\IWebArtistEventsService.cs" />
     <Compile Include="Web\IWebArtistInfoService.cs" />
     <Compile Include="Web\IWebAlbumInfoService.cs" />

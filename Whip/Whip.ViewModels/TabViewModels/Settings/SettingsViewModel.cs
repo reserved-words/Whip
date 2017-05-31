@@ -49,30 +49,6 @@ namespace Whip.ViewModels.TabViewModels.Settings
         }
 
         [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
-        [Display(Name = "Last.FM API Key")]
-        public string LastFmApiKey
-        {
-            get { return _lastFmApiKey; }
-            set { SetModified(nameof(LastFmApiKey), ref _lastFmApiKey, value); }
-        }
-
-        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
-        [Display(Name = "Last.FM API Secret")]
-        public string LastFmApiSecret
-        {
-            get { return _lastFmApiSecret; }
-            set { SetModified(nameof(LastFmApiSecret), ref _lastFmApiSecret, value); }
-        }
-
-        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
-        [Display(Name = "Bands In Town API ID")]
-        public string BandsInTownApiId
-        {
-            get { return _bandsInTownApiId; }
-            set { SetModified(nameof(BandsInTownApiId), ref _bandsInTownApiId, value); }
-        }
-
-        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
         [Display(Name = "Main Colour")]
         public string MainColourRgb
         {
@@ -120,9 +96,6 @@ namespace Whip.ViewModels.TabViewModels.Settings
         {
             ArchiveDirectory = _userSettings.ArchiveDirectory;
             LastFmUsername = _userSettings.LastFmUsername;
-            LastFmApiKey = _userSettings.LastFmApiKey;
-            LastFmApiSecret = _userSettings.LastFmApiSecret;
-            BandsInTownApiId = _userSettings.BandsInTownApiId;
             MusicDirectory = _userSettings.MusicDirectory;
             MainColourRgb = _userSettings.MainColourRgb;
             Scrobbling = _userSettings.Scrobbling;
@@ -135,9 +108,6 @@ namespace Whip.ViewModels.TabViewModels.Settings
         {
             _userSettings.ArchiveDirectory = ArchiveDirectory;
             _userSettings.LastFmUsername = LastFmUsername;
-            _userSettings.LastFmApiKey = LastFmApiKey;
-            _userSettings.LastFmApiSecret = LastFmApiSecret;
-            _userSettings.BandsInTownApiId = BandsInTownApiId;
             _userSettings.MusicDirectory = MusicDirectory;
             _userSettings.MainColourRgb = MainColourRgb;
             _userSettings.Scrobbling = Scrobbling;

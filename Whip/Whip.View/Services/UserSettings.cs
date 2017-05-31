@@ -33,9 +33,6 @@ namespace Whip.View
 
         public bool EssentialSettingsSet => !string.IsNullOrEmpty(MusicDirectory)
             && !string.IsNullOrEmpty(LastFmUsername)
-            && !string.IsNullOrEmpty(LastFmApiKey)
-            && !string.IsNullOrEmpty(LastFmApiSecret)
-            && !string.IsNullOrEmpty(BandsInTownApiId)
             && !string.IsNullOrEmpty(MainColourRgb);
 
         public string MusicDirectory
@@ -63,18 +60,6 @@ namespace Whip.View
             set { Properties.Settings.Default.MainColourRgb = value; }
         }
 
-        public string LastFmApiKey
-        {
-            get { return Properties.Settings.Default.LastFmApiKey; }
-            set { Properties.Settings.Default.LastFmApiKey = value; }
-        }
-
-        public string LastFmApiSecret
-        {
-            get { return Properties.Settings.Default.LastFmApiSecret; }
-            set { Properties.Settings.Default.LastFmApiSecret = value; }
-        }
-
         public string LastFmApiSessionKey
         {
             get { return Properties.Settings.Default.LastFmApiSessionKey; }
@@ -93,12 +78,6 @@ namespace Whip.View
                     _lastFmUsernameChanged = true;
                 }
             }
-        }
-
-        public string BandsInTownApiId
-        {
-            get { return Properties.Settings.Default.BandsInTownAppId; }
-            set { Properties.Settings.Default.BandsInTownAppId = value; }
         }
 
         public bool Scrobbling
@@ -181,7 +160,7 @@ namespace Whip.View
 
             try
             {
-                await _lastFmApiClientService.SetClients(LastFmApiKey, LastFmApiSecret, LastFmUsername, LastFmApiSessionKey);
+                await _lastFmApiClientService.SetClients(LastFmUsername, LastFmApiSessionKey);
                 LastFmApiSessionKey = _lastFmApiClientService.AuthorizedApiClient.SessionKey;
             }
             catch (LastFmApiException ex)

@@ -29,9 +29,9 @@ namespace Whip.Services
         private readonly IWebHelperService _webHelperService;
         private readonly Lazy<string> _apiId;
 
-        public BandsInTownArtistEventsService(IWebHelperService webHelperService, IUserSettings userSettings)
+        public BandsInTownArtistEventsService(IWebHelperService webHelperService, IConfigSettings configSettings)
         {
-            _apiId = new Lazy<string>(() => userSettings.BandsInTownApiId);
+            _apiId = new Lazy<string>(() => configSettings.BandsInTownApiKey);
             _webHelperService = webHelperService;
         }
 

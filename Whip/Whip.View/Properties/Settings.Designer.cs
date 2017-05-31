@@ -38,30 +38,6 @@ namespace Whip.View.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string LastFmApiKey {
-            get {
-                return ((string)(this["LastFmApiKey"]));
-            }
-            set {
-                this["LastFmApiKey"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string LastFmApiSecret {
-            get {
-                return ((string)(this["LastFmApiSecret"]));
-            }
-            set {
-                this["LastFmApiSecret"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string LastFmApiSessionKey {
             get {
                 return ((string)(this["LastFmApiSessionKey"]));
@@ -152,18 +128,6 @@ namespace Whip.View.Properties {
             }
             set {
                 this["Offline"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string BandsInTownAppId {
-            get {
-                return ((string)(this["BandsInTownAppId"]));
-            }
-            set {
-                this["BandsInTownAppId"] = value;
             }
         }
     }

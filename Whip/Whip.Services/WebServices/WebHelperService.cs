@@ -9,7 +9,7 @@ namespace Whip.Services
 {
     public class WebHelperService : IWebHelperService
     {
-        public async Task<string> HttpGetAsync(string baseUrl, Dictionary<string, string> parameters)
+        public async Task<string> HttpGetAsync(string baseUrl, Dictionary<string, string> parameters = null)
         {
             var url = BuildUrl(baseUrl, parameters);
 
@@ -25,8 +25,11 @@ namespace Whip.Services
             return HttpUtility.UrlPathEncode(str);
         }
 
-        private static string BuildUrl(string url, Dictionary<string, string> parameters)
+        private static string BuildUrl(string url, Dictionary<string, string> parameters = null)
         {
+            if (parameters == null)
+                return url;
+
             return url + "?" + string.Join("&", parameters.Select(p => string.Format("{0}={1}", p.Key, p.Value)));
         }
     }

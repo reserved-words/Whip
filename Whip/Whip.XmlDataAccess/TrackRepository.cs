@@ -168,8 +168,24 @@ namespace Whip.XmlDataAccess
                 BandCamp = xml.GetAttribute(PropertyNames.BandCamp),
                 BandsInTown = xml.GetAttribute(PropertyNames.BandsInTown),
                 City = new City(xml.GetAttribute(PropertyNames.City), xml.GetAttribute(PropertyNames.State), xml.GetAttribute(PropertyNames.Country)),
-                WebInfo = GetWebInfo(xml.Element(PropertyNames.WebInfo))
+                WebInfo = GetWebInfo(xml.Element(PropertyNames.WebInfo)),
+                VideoUpdated = xml.Element(PropertyNames.Video).GetDateTimeAttribute(PropertyNames.VideoUpdated),
+                LatestVideo = GetVideo(xml.Element(PropertyNames.Video))
             };
+        }
+
+        private Video GetVideo(XElement xml)
+        {
+            var url = xml.GetAttribute(PropertyNames.VideoUrl);
+
+            return string.IsNullOrEmpty(url)
+                ? null
+                : new Video
+                {
+                    Url = url,
+                    Title = xml.GetAttribute(PropertyNames.VideoTitle),
+                    Published = xml.GetDateTimeAttribute(PropertyNames.VideoPublished)
+                };
         }
 
         private ArtistWebInfo GetWebInfo(XElement xml)
@@ -279,6 +295,13 @@ namespace Whip.XmlDataAccess
             eventsXml.Add(eventXml);
         }
         xml.Add(eventsXml);
+
+        var videoXml = new XElement(PropertyNames.Video);
+        videoXml.AddAttribute(PropertyNames.VideoUpdated, artist.VideoUpdated.ToString(StandardDateFormat));
+        videoXml.AddAttribute(PropertyNames.VideoUrl, artist.LatestVideo?.Url);
+        videoXml.AddAttribute(PropertyNames.VideoTitle, artist.LatestVideo?.Title);
+        videoXml.AddAttribute(PropertyNames.VideoPublished, artist.LatestVideo?.Published.ToString(StandardDateFormat));
+        xml.Add(videoXml);
 
         xml.Add(GetXElement(artist.WebInfo));
 

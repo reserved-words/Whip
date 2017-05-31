@@ -39,6 +39,7 @@ namespace Whip.Ioc
                 .RegisterSingleton<IPlaylist, Playlist>()
                 .RegisterSingleton<IMessenger, Messenger>()
                 .RegisterSingleton<IUserSettings, UserSettings>()
+                .RegisterSingleton<IConfigSettings, ConfigSettings>()
                 .RegisterSingleton<ILastFmApiClientService, LastFmApiClientService>()
                 .RegisterSingleton<TrackContextMenuViewModel, TrackContextMenuViewModel>();
 
@@ -66,7 +67,8 @@ namespace Whip.Ioc
                 .Register<IRssService, RssService>()
                 .Register<ITrackSearchService, TrackSearchService>()
                 .Register<IAsyncMethodInterceptor, WebMethodInterceptor>()
-                .Register<IWebHelperService, WebHelperService>();
+                .Register<IWebHelperService, WebHelperService>()
+                .Register<IVideoService, VideoService>();
 
             kernel.RegisterErrorHandlingWebService<IWebArtistEventsService, ErrorHandlingWebArtistEventsService, BandsInTownArtistEventsService>();
 

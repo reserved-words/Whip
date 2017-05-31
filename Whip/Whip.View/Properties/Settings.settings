@@ -5,12 +5,6 @@
     <Setting Name="MusicDirectory" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="LastFmApiKey" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="LastFmApiSecret" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="LastFmApiSessionKey" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
@@ -34,9 +28,6 @@
     </Setting>
     <Setting Name="Offline" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="BandsInTownAppId" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

@@ -10,7 +10,7 @@ namespace Whip.Services
 {
     public class FileService : IFileService
     {
-        public FilesWithStatus GetFiles(string directory, string[] extensions, DateTime lastUpdated)
+        public FilesWithStatus GetFiles(string directory, List<string> extensions, DateTime lastUpdated)
         {
             var files = new FilesWithStatus();
 
@@ -40,7 +40,7 @@ namespace Whip.Services
             return files;
         }
 
-        public List<File> GetAllFiles(string directory, string[] extensions)
+        public List<File> GetAllFiles(string directory, List<string> extensions)
         {
             var files = new List<File>();
 

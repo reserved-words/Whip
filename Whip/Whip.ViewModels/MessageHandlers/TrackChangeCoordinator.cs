@@ -1,9 +1,9 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Timers;
-using Whip.Common;
 using Whip.Common.Interfaces;
 using Whip.Common.Model;
+using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 
 namespace Whip.ViewModels.MessageHandlers
@@ -11,21 +11,25 @@ namespace Whip.ViewModels.MessageHandlers
     public class TrackChangeCoordinator : IStartable, IPlayerUpdate
     {
         private readonly System.Threading.SynchronizationContext _synchronizationContext = System.Threading.SynchronizationContext.Current;
-        private readonly Timer _timer = new Timer(ApplicationSettings.TrackChangeDelay);
+        private readonly Timer _timer;
 
         private readonly IPlaylist _playlist;
         private readonly IPlayer _player;
         private readonly IMessenger _messenger;
+        private readonly IConfigSettings _configSettings;
 
         private Track _track;
 
         public event Action<Track> NewTrackStarted;
 
-        public TrackChangeCoordinator(IPlaylist playlist, IPlayer player, IMessenger messenger)
+        public TrackChangeCoordinator(IPlaylist playlist, IPlayer player, IMessenger messenger, IConfigSettings configSettings)
         {
             _playlist = playlist;
             _player = player;
             _messenger = messenger;
+            _configSettings = configSettings;
+
+            _timer = new Timer(_configSettings.TrackChangeDelay);
 
             _timer.Elapsed += _timer_Elapsed;
         }

@@ -54,9 +54,9 @@
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="16*" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="13*" />
             </Grid.RowDefinitions>
 
             <Label Grid.Row="0"
@@ -65,12 +65,39 @@
 
             <Label Grid.Row="1"/>
 
-            <Label Grid.Row="2"
-                   Style="{StaticResource TitleLabel}"
-                   Content="Latest YouTube Video" />
+            <WrapPanel Grid.Row="2">
+                <controls:HyperlinkLabel Username="{Binding Artist.YouTube}" 
+                                         UrlFormat="{x:Static res:Resources.YouTubeUrl}">
+                    <Image Source="/Images/youtube.png"
+                           Style="{StaticResource Icon32}"
+                           Width="16"
+                           Height="16"/>
+                </controls:HyperlinkLabel>
+                <Label Style="{StaticResource TitleLabel}"
+                       Content="Latest Video"
+                       Margin="0"/>
+            </WrapPanel>
 
-            <Label Grid.Row="3"
-                   Height="300" />
+            <Border Grid.Row="3"
+                    Style="{StaticResource ColourBorder}"
+                    Padding="15, 15, 15, 5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <WebBrowser Grid.Row="0"
+                                local:WebBrowserUtility.BindableSource="{Binding Video.Url}"/>
+                    <DockPanel Grid.Row="1"
+                               Margin="0, 5, 0, 0">
+                        <Label Content="{Binding Video.Title}" />
+                        <Label Content="{Binding Video.Published}"
+                               ContentStringFormat="dd/MM/yyyy HH:mm:ss"
+                               DockPanel.Dock="Right"
+                               HorizontalAlignment="Right"/>
+                    </DockPanel>
+                </Grid>
+            </Border>
 
         </Grid>
 

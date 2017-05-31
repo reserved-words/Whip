@@ -230,6 +230,7 @@
     </Compile>
     <Compile Include="Controls\TextBlockWithHyperlinks.cs" />
     <Compile Include="Utilities\EnumExtension.cs" />
+    <Compile Include="Utilities\WebBrowserUtility.cs" />
     <Compile Include="Views\ArtistLinksView.xaml.cs">
       <DependentUpon>ArtistLinksView.xaml</DependentUpon>
     </Compile>

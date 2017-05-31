@@ -27,6 +27,8 @@ namespace Whip.ViewModels.TabViewModels
         private readonly IWebArtistInfoService _webArtistInfoService;
         private readonly IImageProcessingService _imageProcessingService;
         private readonly IWebArtistEventsService _webArtistEventsService;
+        private readonly IVideoService _videoService;
+        private readonly IConfigSettings _configSettings;
 
         private bool _showingCurrentArtist = true;
         private Track _currentTrack;
@@ -37,19 +39,22 @@ namespace Whip.ViewModels.TabViewModels
         private bool _ukEventsOnly;
 
         public CurrentArtistViewModel(Common.Singletons.Library library, IWebArtistInfoService webArtistInfoService, 
-            IImageProcessingService imageProcessingService, IWebArtistEventsService webArtistEventsService)
+            IImageProcessingService imageProcessingService, IWebArtistEventsService webArtistEventsService, IVideoService videoService,
+            IConfigSettings configSettings)
             :base(TabType.CurrentArtist, IconType.Users, "Artist")
         {
             _imageProcessingService = imageProcessingService;
             _library = library;
             _webArtistInfoService = webArtistInfoService;
             _webArtistEventsService = webArtistEventsService;
+            _videoService = videoService;
+            _configSettings = configSettings;
 
             ShowCurrentArtistCommand = new RelayCommand(ShowCurrentArtist);
 
             _similarArtists = new List<ArtistWebSimilarArtist>();
 
-            for (var i = 0; i < ApplicationSettings.NumberOfSimilarArtistsToDisplay; i++)
+            for (var i = 0; i < _configSettings.NumberOfSimilarArtistsToDisplay; i++)
             {
                 _similarArtists.Add(new ArtistWebSimilarArtist());
             }
@@ -86,6 +91,7 @@ namespace Whip.ViewModels.TabViewModels
                 Set(ref _artist, value);
                 Task.Run(PopulateLastFmInfo);
                 Task.Run(PopulateEvents);
+                Task.Run(PopulateVideo);
             }
         }
 
@@ -119,6 +125,8 @@ namespace Whip.ViewModels.TabViewModels
         }
 
         public string Wiki => Artist?.WebInfo?.Wiki;
+
+        public Video Video => Artist?.LatestVideo;
 
         public List<ArtistEvent> UpcomingEvents => Artist?.UpcomingEvents
             .Where(ev => !UKEventsOnly || ValidUKCountryNames.Contains(ev.Country)).ToList();
@@ -168,9 +176,9 @@ namespace Whip.ViewModels.TabViewModels
 
             LoadingArtistImage = true;
 
-            if (Artist.WebInfo.Updated.AddDays(ApplicationSettings.DaysBeforeUpdatingArtistWebInfo) < DateTime.Now)
+            if (Artist.WebInfo.Updated.AddDays(_configSettings.DaysBeforeUpdatingArtistWebInfo) < DateTime.Now)
             {
-                Artist.WebInfo = await _webArtistInfoService.PopulateArtistInfo(Artist, ApplicationSettings.NumberOfSimilarArtistsToDisplay);
+                Artist.WebInfo = await _webArtistInfoService.PopulateArtistInfo(Artist, _configSettings.NumberOfSimilarArtistsToDisplay);
             }
 
             Image = await _imageProcessingService.GetImageFromUrl(Artist?.WebInfo.ExtraLargeImageUrl);
@@ -181,7 +189,7 @@ namespace Whip.ViewModels.TabViewModels
 
         private async Task PopulateEvents()
         {
-            if (Artist != null && Artist.UpcomingEventsUpdated.AddDays(ApplicationSettings.DaysBeforeUpdatingArtistEvents) < DateTime.Now)
+            if (Artist != null && Artist.UpcomingEventsUpdated.AddDays(_configSettings.DaysBeforeUpdatingArtistWebInfo) < DateTime.Now)
             {
                 Artist.UpcomingEvents = await _webArtistEventsService.GetEventsAsync(Artist);
                 Artist.UpcomingEventsUpdated = DateTime.Now;
@@ -191,9 +199,20 @@ namespace Whip.ViewModels.TabViewModels
             RaisePropertyChanged(nameof(NoUpcomingEvents));
         }
 
+        private async Task PopulateVideo()
+        {
+            if (Artist != null && Artist.VideoUpdated.AddDays(_configSettings.DaysBeforeUpdatingArtistWebInfo) < DateTime.Now)
+            {
+                Artist.LatestVideo = await _videoService.GetLatestVideoAsync(Artist);
+                Artist.VideoUpdated = DateTime.Now;
+            }
+
+            RaisePropertyChanged(nameof(Video));
+        }
+
         private void PopulateSimilarArtists()
         {
-            for (var i = 0; i < ApplicationSettings.NumberOfSimilarArtistsToDisplay; i++)
+            for (var i = 0; i < _configSettings.NumberOfSimilarArtistsToDisplay; i++)
             {
                 _similarArtists[i] = Artist.WebInfo.SimilarArtists.Count < i + 1
                     ? new ArtistWebSimilarArtist()

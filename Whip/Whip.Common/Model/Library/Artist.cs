@@ -35,6 +35,9 @@ namespace Whip.Common.Model
         public DateTime UpcomingEventsUpdated { get; set; }
         public List<ArtistEvent> UpcomingEvents { get; set; }
 
+        public DateTime VideoUpdated { get; set; }
+        public Video LatestVideo { get; set; }
+
         public List<Album> Albums { get; set; }
         public List<Track> Tracks { get; set; }
 

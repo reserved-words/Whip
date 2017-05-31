@@ -14,13 +14,15 @@ namespace Whip.Services
     {
         private readonly IFileService _fileService;
         private readonly ITaggingService _taggingService;
+        private readonly IConfigSettings _configSettings;
         private readonly IUserSettings _userSettings;
 
-        public ArchiveService(IUserSettings userSettings, IFileService fileService, ITaggingService taggingService)
+        public ArchiveService(IUserSettings userSettings, IFileService fileService, ITaggingService taggingService, IConfigSettings configSettings)
         {
             _fileService = fileService;
             _taggingService = taggingService;
             _userSettings = userSettings;
+            _configSettings = configSettings;
         }
 
         public void ArchiveTrack(Track track)
@@ -39,7 +41,7 @@ namespace Whip.Services
 
                 progressHandler?.Report(new ProgressArgs(10, "Getting files"));
 
-                var files = _fileService.GetAllFiles(_userSettings.ArchiveDirectory, ApplicationSettings.FileExtensions);
+                var files = _fileService.GetAllFiles(_userSettings.ArchiveDirectory, _configSettings.FileExtensions);
 
                 progressHandler?.Report(new ProgressArgs(50, "Processing files"));
 

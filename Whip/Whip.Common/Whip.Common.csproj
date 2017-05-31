@@ -41,7 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationSettings.cs" />
     <Compile Include="Enums\CriteriaType.cs" />
     <Compile Include="Enums\IconType.cs" />
     <Compile Include="Enums\ImageType.cs" />
@@ -104,6 +103,7 @@
     <Compile Include="Model\Rss\Feed.cs" />
     <Compile Include="Model\Rss\Post.cs" />
     <Compile Include="Model\State.cs" />
+    <Compile Include="Model\Video.cs" />
     <Compile Include="Singletons\Library.cs" />
     <Compile Include="Model\Library\Track.cs" />
     <Compile Include="TagModel\AlbumId3Data.cs" />
