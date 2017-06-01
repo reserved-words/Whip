@@ -10,7 +10,7 @@ using Whip.Services.Interfaces;
 
 namespace Whip.Services
 {
-    public class BandsInTownArtistEventsService : IWebArtistEventsService
+    public class BandsInTownArtistEventsService : IEventsService
     {
         private const string BandsInTownApiBaseUrl = "https://api.bandsintown.com/artists/{0}/events.json";
         private const string BandsInTownDateFormat = "MM/dd/yyyy HH:mm:ss";
@@ -35,7 +35,7 @@ namespace Whip.Services
             _webHelperService = webHelperService;
         }
 
-        public async Task<List<ArtistEvent>> GetEventsAsync(Artist artist)
+        public async Task<bool> PopulateEventsAsync(Artist artist)
         {
             var baseUrl = string.Format(BandsInTownApiBaseUrl, _webHelperService.UrlEncode(artist.Name));
 
@@ -43,7 +43,9 @@ namespace Whip.Services
 
             HandleErrors(jsonString);
 
-            return GetEventsList(jsonString, artist.Name).OrderBy(ev => ev.Date).ToList();
+            artist.UpcomingEvents = GetEventsList(jsonString, artist.Name).OrderBy(ev => ev.Date).ToList();
+
+            return true;
         }
 
         private Dictionary<string, string> GetUrlParameters()

@@ -1,5 +1,4 @@
 ﻿using GalaSoft.MvvmLight.Command;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,10 +23,8 @@ namespace Whip.ViewModels.TabViewModels
         };
 
         private readonly Common.Singletons.Library _library;
-        private readonly IWebArtistInfoService _webArtistInfoService;
+        private readonly IArtistWebInfoService _artistWebInfoService;
         private readonly IImageProcessingService _imageProcessingService;
-        private readonly IWebArtistEventsService _webArtistEventsService;
-        private readonly IVideoService _videoService;
         private readonly IConfigSettings _configSettings;
 
         private bool _showingCurrentArtist = true;
@@ -38,16 +35,13 @@ namespace Whip.ViewModels.TabViewModels
         private bool _loadingArtistImage;
         private bool _ukEventsOnly;
 
-        public CurrentArtistViewModel(Common.Singletons.Library library, IWebArtistInfoService webArtistInfoService, 
-            IImageProcessingService imageProcessingService, IWebArtistEventsService webArtistEventsService, IVideoService videoService,
-            IConfigSettings configSettings)
+        public CurrentArtistViewModel(Common.Singletons.Library library, IArtistWebInfoService artistWebInfoService,
+            IImageProcessingService imageProcessingService, IConfigSettings configSettings)
             :base(TabType.CurrentArtist, IconType.Users, "Artist")
         {
             _imageProcessingService = imageProcessingService;
             _library = library;
-            _webArtistInfoService = webArtistInfoService;
-            _webArtistEventsService = webArtistEventsService;
-            _videoService = videoService;
+            _artistWebInfoService = artistWebInfoService;
             _configSettings = configSettings;
 
             ShowCurrentArtistCommand = new RelayCommand(ShowCurrentArtist);
@@ -89,7 +83,7 @@ namespace Whip.ViewModels.TabViewModels
                     return;
 
                 Set(ref _artist, value);
-                Task.Run(PopulateLastFmInfo);
+                Task.Run(PopulateMainInfo);
                 Task.Run(PopulateEvents);
                 Task.Run(PopulateVideo);
             }
@@ -169,31 +163,30 @@ namespace Whip.ViewModels.TabViewModels
             _showingCurrentArtist = true;
         }
 
-        private async Task PopulateLastFmInfo()
+        private async Task PopulateMainInfo()
         {
-            if (Artist == null)
-                return;
-
             LoadingArtistImage = true;
 
-            if (Artist.WebInfo.Updated.AddDays(_configSettings.DaysBeforeUpdatingArtistWebInfo) < DateTime.Now)
-            {
-                Artist.WebInfo = await _webArtistInfoService.PopulateArtistInfo(Artist, _configSettings.NumberOfSimilarArtistsToDisplay);
-            }
+            await _artistWebInfoService.PopulateArtistInfo(Artist, _configSettings.NumberOfSimilarArtistsToDisplay);
 
             Image = await _imageProcessingService.GetImageFromUrl(Artist?.WebInfo.ExtraLargeImageUrl);
+            
+            for (var i = 0; i < _configSettings.NumberOfSimilarArtistsToDisplay; i++)
+            {
+                _similarArtists[i] = Artist == null || Artist.WebInfo.SimilarArtists.Count < i + 1
+                    ? new ArtistWebSimilarArtist()
+                    : Artist.WebInfo.SimilarArtists[i];
+            }
+
             LoadingArtistImage = false;
+
             RaisePropertyChanged(nameof(Wiki));
-            PopulateSimilarArtists();
+            RaisePropertyChanged(nameof(SimilarArtists));
         }
 
         private async Task PopulateEvents()
         {
-            if (Artist != null && Artist.UpcomingEventsUpdated.AddDays(_configSettings.DaysBeforeUpdatingArtistWebInfo) < DateTime.Now)
-            {
-                Artist.UpcomingEvents = await _webArtistEventsService.GetEventsAsync(Artist);
-                Artist.UpcomingEventsUpdated = DateTime.Now;
-            }
+            await _artistWebInfoService.PopulateEventsAsync(Artist);
 
             RaisePropertyChanged(nameof(UpcomingEvents));
             RaisePropertyChanged(nameof(NoUpcomingEvents));
@@ -201,25 +194,9 @@ namespace Whip.ViewModels.TabViewModels
 
         private async Task PopulateVideo()
         {
-            if (Artist != null && Artist.VideoUpdated.AddDays(_configSettings.DaysBeforeUpdatingArtistWebInfo) < DateTime.Now)
-            {
-                Artist.LatestVideo = await _videoService.GetLatestVideoAsync(Artist);
-                Artist.VideoUpdated = DateTime.Now;
-            }
+            await _artistWebInfoService.PopulateLatestVideoAsync(Artist);
 
             RaisePropertyChanged(nameof(Video));
-        }
-
-        private void PopulateSimilarArtists()
-        {
-            for (var i = 0; i < _configSettings.NumberOfSimilarArtistsToDisplay; i++)
-            {
-                _similarArtists[i] = Artist.WebInfo.SimilarArtists.Count < i + 1
-                    ? new ArtistWebSimilarArtist()
-                    : Artist.WebInfo.SimilarArtists[i];
-            }
-
-            RaisePropertyChanged(nameof(SimilarArtists));
         }
     }
 }

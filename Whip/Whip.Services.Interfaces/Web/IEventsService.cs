@@ -4,8 +4,8 @@ using Whip.Common.Model;
 
 namespace Whip.Services.Interfaces
 {
-    public interface IWebArtistEventsService
+    public interface IEventsService
     {
-        Task<List<ArtistEvent>> GetEventsAsync(Artist artist);
+        Task<bool> PopulateEventsAsync(Artist artist);
     }
 }

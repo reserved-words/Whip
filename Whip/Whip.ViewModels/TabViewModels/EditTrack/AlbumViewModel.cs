@@ -22,7 +22,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
     public class AlbumViewModel : EditableViewModelBase
     {
         private readonly IMessenger _messenger;
-        private readonly IWebAlbumInfoService _webAlbumInfoService;
+        private readonly IAlbumInfoService _webAlbumInfoService;
         private readonly IImageProcessingService _imageProcessingService;
         private readonly IFileDialogService _fileDialogService;
 
@@ -45,7 +45,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
         private BitmapImage _artwork;
         private bool _loadingArtwork;
 
-        public AlbumViewModel(DiscViewModel disc, IMessenger messenger, IWebAlbumInfoService albumInfoService,
+        public AlbumViewModel(DiscViewModel disc, IMessenger messenger, IAlbumInfoService albumInfoService,
             IImageProcessingService imageProcessingService, IFileDialogService fileDialogService, List<Artist> artists, Track track)
         {
             _fileDialogService = fileDialogService;

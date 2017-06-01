@@ -68,9 +68,9 @@ namespace Whip.Ioc
                 .Register<ITrackSearchService, TrackSearchService>()
                 .Register<IAsyncMethodInterceptor, WebMethodInterceptor>()
                 .Register<IWebHelperService, WebHelperService>()
-                .Register<IVideoService, VideoService>();
-
-            kernel.RegisterErrorHandlingWebService<IWebArtistEventsService, ErrorHandlingWebArtistEventsService, BandsInTownArtistEventsService>();
+                .Register<IVideoService, YouTubeVideoService>()
+                .Register<IEventsService, BandsInTownArtistEventsService>()
+                .Register<IArtistWebInfoService, ArtistWebInfoService>();
 
             return kernel;
         }
@@ -88,10 +88,26 @@ namespace Whip.Ioc
         {
             kernel.Register<ISessionService, SessionService>();
 
-            kernel.RegisterErrorHandlingLastFmService<LastFmApi.Interfaces.IScrobblingService, LastFmApi.ScrobblingService, Services.Interfaces.IScrobblingService, ErrorHandlingScrobblingService, LastFm.ScrobblingService>()
-                .RegisterErrorHandlingLastFmService<LastFmApi.Interfaces.ITrackLoveService, LastFmApi.TrackLoveService, Services.Interfaces.ITrackLoveService, ErrorHandlingTrackLoveService, LastFm.TrackLoveService>()
-                .RegisterErrorHandlingLastFmService<IArtistInfoService, LastFmApi.ArtistInfoService, IWebArtistInfoService, ErrorHandlingArtistInfoService, LastFm.ArtistInfoService>()
-                .RegisterErrorHandlingLastFmService<IAlbumInfoService, LastFmApi.AlbumInfoService, IWebAlbumInfoService, ErrorHandlingAlbumInfoService, LastFm.AlbumInfoService>();
+            kernel.RegisterErrorHandlingLastFmService<LastFmApi.Interfaces.IScrobblingService, 
+                    LastFmApi.ScrobblingService, 
+                    Services.Interfaces.IScrobblingService, 
+                    ErrorHandlingScrobblingService, 
+                    LastFm.ScrobblingService>()
+                .RegisterErrorHandlingLastFmService<LastFmApi.Interfaces.ITrackLoveService, 
+                    LastFmApi.TrackLoveService,
+                    Services.Interfaces.ITrackLoveService, 
+                    ErrorHandlingTrackLoveService, 
+                    LastFm.TrackLoveService>()
+                .RegisterErrorHandlingLastFmService<LastFmApi.Interfaces.IArtistInfoService, 
+                    LastFmApi.ArtistInfoService, 
+                    Services.Interfaces.IArtistInfoService, 
+                    ErrorHandlingArtistInfoService, 
+                    LastFm.ArtistInfoService>()
+                .RegisterErrorHandlingLastFmService<LastFmApi.Interfaces.IAlbumInfoService, 
+                    LastFmApi.AlbumInfoService, 
+                    Services.Interfaces.IAlbumInfoService, 
+                    ErrorHandlingAlbumInfoService, 
+                    LastFm.AlbumInfoService>();
 
             return kernel;
         }

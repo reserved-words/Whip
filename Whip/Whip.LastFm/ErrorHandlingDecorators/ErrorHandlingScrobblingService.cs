@@ -58,10 +58,10 @@ namespace Whip.Services
 
             if (!_userSettings.Scrobbling)   
                 return true;
-
+            
             return await _asyncMethodInterceptor.TryMethod(
                 _scrobblingService.UpdateNowPlayingAsync(track, duration),
-                false, 
+                false,
                 "UpdateNowPlayingAsync (Track: " + track.Title + " by " + track.Artist.Name + ")");
         }
     }

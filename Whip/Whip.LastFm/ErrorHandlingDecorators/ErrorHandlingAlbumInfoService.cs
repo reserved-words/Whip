@@ -3,12 +3,12 @@ using Whip.Services.Interfaces;
 
 namespace Whip.LastFm.ErrorHandlingDecorators
 {
-    public class ErrorHandlingAlbumInfoService : IWebAlbumInfoService
+    public class ErrorHandlingAlbumInfoService : IAlbumInfoService
     {
-        private readonly IWebAlbumInfoService _service;
+        private readonly IAlbumInfoService _service;
         private readonly IAsyncMethodInterceptor _interceptor;
 
-        public ErrorHandlingAlbumInfoService(IWebAlbumInfoService service, IAsyncMethodInterceptor interceptor)
+        public ErrorHandlingAlbumInfoService(IAlbumInfoService service, IAsyncMethodInterceptor interceptor)
         {
             _interceptor = interceptor;
             _service = service;

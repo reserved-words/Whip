@@ -26,7 +26,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
 
         private bool _syncArtistNames;
 
-        public TrackViewModel(EditTrackViewModel parent, IMessenger messenger, IWebAlbumInfoService albumInfoService, IImageProcessingService imageProcessingService,
+        public TrackViewModel(EditTrackViewModel parent, IMessenger messenger, IAlbumInfoService albumInfoService, IImageProcessingService imageProcessingService,
             IWebBrowserService webBrowserService, IFileDialogService fileDialogService, List<Artist> artists, List<string> tags, Track track)
         {
             Artist = new ArtistViewModel(this, artists, track.Artist, webBrowserService);

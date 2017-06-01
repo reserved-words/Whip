@@ -27,7 +27,7 @@ namespace Whip.ViewModels.TabViewModels
         private string _selectedGrouping;
 
         public LibraryViewModel(Common.Singletons.Library library, IMessenger messenger, ITrackFilterService trackFilterService,
-            ILibrarySortingService librarySortingService, IWebArtistInfoService webArtistInfoService, IImageProcessingService imageProcessingService,
+            ILibrarySortingService librarySortingService, IArtistInfoService webArtistInfoService, IImageProcessingService imageProcessingService,
             TrackContextMenuViewModel trackContextMenu, IConfigSettings configSettings)
             :base(TabType.Library, IconType.Book, "Library")
         {

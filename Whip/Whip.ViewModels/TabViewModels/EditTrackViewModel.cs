@@ -16,7 +16,7 @@ namespace Whip.ViewModels.TabViewModels
         private readonly IFileDialogService _fileDialogService;
         private readonly IImageProcessingService _imageProcessingService;
         private readonly IMessenger _messenger;
-        private readonly IWebAlbumInfoService _webAlbumInfoService;
+        private readonly IAlbumInfoService _webAlbumInfoService;
         private readonly ITrackUpdateService _trackUpdateService;
         private readonly IWebBrowserService _webBrowserService;
 
@@ -24,7 +24,7 @@ namespace Whip.ViewModels.TabViewModels
 
         private Track _editedTrack;
         
-        public EditTrackViewModel(Common.Singletons.Library library, IMessenger messenger, IWebAlbumInfoService webAlbumInfoService,
+        public EditTrackViewModel(Common.Singletons.Library library, IMessenger messenger, IAlbumInfoService webAlbumInfoService,
              ITrackUpdateService trackUpdateService, IImageProcessingService imageProcessingService, IWebBrowserService webBrowserService,
              IFileDialogService fileDialogService)
             : base(TabType.EditTrack, IconType.Edit, "Edit Track", messenger, false)

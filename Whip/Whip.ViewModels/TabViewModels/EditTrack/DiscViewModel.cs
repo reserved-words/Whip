@@ -17,7 +17,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
         private string _trackCount;
         private string _discNo;
 
-        public DiscViewModel(TrackViewModel trackViewModel, IMessenger messenger, IWebAlbumInfoService albumInfoService, IImageProcessingService imageProcessingService,
+        public DiscViewModel(TrackViewModel trackViewModel, IMessenger messenger, IAlbumInfoService albumInfoService, IImageProcessingService imageProcessingService,
             IFileDialogService fileDialogService, List<Artist> artists, Track track)
         {
             _track = trackViewModel;

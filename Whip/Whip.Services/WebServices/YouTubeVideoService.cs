@@ -5,7 +5,7 @@ using Whip.Services.Interfaces;
 
 namespace Whip.Services
 {
-    public class VideoService : IVideoService
+    public class YouTubeVideoService : IVideoService
     {
         private const string UploadsPlaylistUrl = "https://www.googleapis.com/youtube/v3/channels?part={0}&forUsername={1}&key={2}";
         private const string PlaylistVideosUrl = "https://www.googleapis.com/youtube/v3/playlistItems?part={0}&maxResults={1}&playlistId={2}&key={3}&order={4}";
@@ -14,16 +14,17 @@ namespace Whip.Services
         private readonly IConfigSettings _configSettings;
         private readonly IWebHelperService _webHelperService;
 
-        public VideoService(IWebHelperService webHelperService, IConfigSettings configSettings)
+        public YouTubeVideoService(IWebHelperService webHelperService, IConfigSettings configSettings)
         {
             _configSettings = configSettings;
             _webHelperService = webHelperService;
         }
 
-        public async Task<Video> GetLatestVideoAsync(Artist artist)
+        public async Task<bool> PopulateLatestVideoAsync(Artist artist)
         {
             if (string.IsNullOrEmpty(artist.YouTube))
-                return null;
+                return true;
+                
 
             var url = string.Format(UploadsPlaylistUrl, "contentDetails", artist.YouTube, _configSettings.YouTubeApiKey);
             var response = await _webHelperService.HttpGetAsync(url);
@@ -32,7 +33,7 @@ namespace Whip.Services
             var playlistId = items.First.contentDetails.relatedPlaylists.uploads;
 
             if (playlistId == null)
-                return null;
+                return false;
 
             url = string.Format(PlaylistVideosUrl, "snippet", 1, playlistId, _configSettings.YouTubeApiKey, "date");
             response = await _webHelperService.HttpGetAsync(url);
@@ -45,16 +46,17 @@ namespace Whip.Services
 
                 if (snippet != null)
                 {
-                    return new Video
+                    artist.LatestVideo = new Video
                     {
                         Title = snippet.title,
                         Url = string.Format(UrlFormat, snippet.resourceId.videoId),
                         Published = snippet.publishedAt
                     };
+                    return true;
                 }
             }
 
-            return null;
+            return false;
         }
     }
 }

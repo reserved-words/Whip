@@ -33,9 +33,18 @@ namespace Whip.Services
             return defaultReturnValue;
         }
 
-        public Task TryMethod(Task task, string additionalErrorInfo = null)
+        public async Task TryMethod(Task task, string additionalErrorInfo = null)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await task;
+                _userSettings.SetInternetStatus(true);
+            }
+            catch (WebException ex)
+            {
+                _userSettings.SetInternetStatus(false);
+                _errorHandler.Warn(new Exception(additionalErrorInfo, ex));
+            }
         }
     }
 }

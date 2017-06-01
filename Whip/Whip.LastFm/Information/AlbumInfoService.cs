@@ -6,12 +6,12 @@ using Whip.Services.Interfaces;
 
 namespace Whip.LastFm
 {
-    public class AlbumInfoService : IWebAlbumInfoService
+    public class AlbumInfoService : Services.Interfaces.IAlbumInfoService
     {
         private readonly ILastFmApiClientService _clientService;
-        private readonly IAlbumInfoService _albumInfoService;
+        private readonly LastFmApi.Interfaces.IAlbumInfoService _albumInfoService;
 
-        public AlbumInfoService(ILastFmApiClientService clientService, IAlbumInfoService albumInfoService)
+        public AlbumInfoService(ILastFmApiClientService clientService, LastFmApi.Interfaces.IAlbumInfoService albumInfoService)
         {
             _albumInfoService = albumInfoService;
             _clientService = clientService;

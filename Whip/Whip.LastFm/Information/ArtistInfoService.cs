@@ -7,18 +7,18 @@ using System;
 
 namespace Whip.LastFm
 {
-    public class ArtistInfoService : IWebArtistInfoService
+    public class ArtistInfoService : Services.Interfaces.IArtistInfoService
     {
         private readonly ILastFmApiClientService _clientService;
-        private readonly IArtistInfoService _artistInfoService;
+        private readonly LastFmApi.Interfaces.IArtistInfoService _artistInfoService;
 
-        public ArtistInfoService(ILastFmApiClientService clientService, IArtistInfoService artistInfoService)
+        public ArtistInfoService(ILastFmApiClientService clientService, LastFmApi.Interfaces.IArtistInfoService artistInfoService)
         {
             _artistInfoService = artistInfoService;
             _clientService = clientService;
         }
 
-        public async Task<ArtistWebInfo> PopulateArtistInfo(Artist artist, int numberOfSimilarArtists)
+        public async Task<bool> PopulateArtistInfo(Artist artist, int numberOfSimilarArtists)
         {
             var info = await _artistInfoService.GetInfo(_clientService.ApiClient, artist.Name);
 
@@ -39,7 +39,7 @@ namespace Whip.LastFm
                 })
                 .ToList();
 
-            return artist.WebInfo;
+            return true;
         }
     }
 }

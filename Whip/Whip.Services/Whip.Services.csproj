@@ -61,7 +61,7 @@
     <Compile Include="Singletons\Playlist.cs" />
     <Compile Include="Singletons\ScrobblingPlayer.cs" />
     <Compile Include="Utilities\ImageProcessingService.cs" />
-    <Compile Include="WebServices\ErrorHandlingWebArtistEventsService.cs" />
+    <Compile Include="WebServices\ArtistWebInfoService.cs" />
     <Compile Include="WebServices\RssService.cs" />
     <Compile Include="Utilities\TrackQueue.cs" />
     <Compile Include="Utilities\FileService.cs" />
@@ -70,7 +70,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ScrobblingRulesService.cs" />
     <Compile Include="WebServices\BandsInTownArtistEventsService.cs" />
-    <Compile Include="WebServices\VideoService.cs" />
+    <Compile Include="WebServices\YouTubeVideoService.cs" />
     <Compile Include="WebServices\WebBrowserService.cs" />
     <Compile Include="WebServices\WebHelperService.cs" />
   </ItemGroup>

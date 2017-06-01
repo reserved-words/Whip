@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Whip.Common.Model;
 
 namespace Whip.Services.Interfaces
 {
-    public interface IVideoService
+    public interface IArtistWebInfoService : IArtistInfoService, IVideoService, IEventsService
     {
-        Task<bool> PopulateLatestVideoAsync(Artist artist);
     }
 }

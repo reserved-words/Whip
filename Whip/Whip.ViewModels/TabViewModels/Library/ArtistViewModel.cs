@@ -16,11 +16,11 @@ namespace Whip.ViewModels.TabViewModels.Library
         private readonly IImageProcessingService _imageProcessingService;
         private readonly IMessenger _messenger;
         private readonly ITrackFilterService _trackFilterService;
-        private readonly IWebArtistInfoService _webArtistInfoService;
+        private readonly IArtistInfoService _webArtistInfoService;
         private readonly TrackContextMenuViewModel _trackContextMenuViewModel;
         private readonly IConfigSettings _configSettings;
 
-        public ArtistViewModel(ITrackFilterService trackFilterService, IMessenger messenger, IWebArtistInfoService webArtistInfoService,
+        public ArtistViewModel(ITrackFilterService trackFilterService, IMessenger messenger, IArtistInfoService webArtistInfoService,
             IImageProcessingService imageProcessingService, TrackContextMenuViewModel trackContextMenuViewModel, IConfigSettings configSettings)
         {
             _imageProcessingService = imageProcessingService;
@@ -102,10 +102,7 @@ namespace Whip.ViewModels.TabViewModels.Library
 
             LoadingArtistImage = true;
 
-            if (string.IsNullOrEmpty(Artist.WebInfo.Wiki))
-            {
-                Artist.WebInfo = await _webArtistInfoService.PopulateArtistInfo(Artist, _configSettings.NumberOfSimilarArtistsToDisplay);
-            }
+            await _webArtistInfoService.PopulateArtistInfo(Artist, _configSettings.NumberOfSimilarArtistsToDisplay);
 
             Image = await _imageProcessingService.GetImageFromUrl(Artist?.WebInfo.ExtraLargeImageUrl);
             LoadingArtistImage = false;

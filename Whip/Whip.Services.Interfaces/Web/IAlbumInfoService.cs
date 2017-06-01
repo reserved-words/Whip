@@ -2,7 +2,7 @@
 
 namespace Whip.Services.Interfaces
 {
-    public interface IWebAlbumInfoService
+    public interface IAlbumInfoService
     {
         Task<string> GetArtworkUrl(string artistName, string albumTitle);
     }

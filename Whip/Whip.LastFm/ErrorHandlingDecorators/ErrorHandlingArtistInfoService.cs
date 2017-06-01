@@ -4,22 +4,22 @@ using Whip.Services.Interfaces;
 
 namespace Whip.LastFm.ErrorHandlingDecorators
 {
-    public class ErrorHandlingArtistInfoService : IWebArtistInfoService
+    public class ErrorHandlingArtistInfoService : IArtistInfoService
     {
-        private readonly IWebArtistInfoService _service;
+        private readonly IArtistInfoService _service;
         private readonly IAsyncMethodInterceptor _interceptor;
 
-        public ErrorHandlingArtistInfoService(IWebArtistInfoService service, IAsyncMethodInterceptor interceptor)
+        public ErrorHandlingArtistInfoService(IArtistInfoService service, IAsyncMethodInterceptor interceptor)
         {
             _interceptor = interceptor;
             _service = service;
         }
 
-        public async Task<ArtistWebInfo> PopulateArtistInfo(Artist artist, int numberOfSimilarArtists)
+        public async Task<bool> PopulateArtistInfo(Artist artist, int numberOfSimilarArtists)
         {
             return await _interceptor.TryMethod(
                 _service.PopulateArtistInfo(artist, numberOfSimilarArtists), 
-                artist.WebInfo, 
+                false, 
                 "Populate Artist Images (Artist: " + artist.Name + ")");
         }
     }
