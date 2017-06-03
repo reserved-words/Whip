@@ -51,6 +51,9 @@
     <Compile Include="Enums\SortType.cs" />
     <Compile Include="ExtensionMethods\ArtistExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\LibraryExtensionMethods.cs" />
+    <Compile Include="HyperlinkMatchers\HtmlAnchorHyperlinkPatternGroup.cs" />
+    <Compile Include="HyperlinkMatchers\IHyperlinkPatternGroup.cs" />
+    <Compile Include="HyperlinkMatchers\TweetHyperlinkPatternGroup.cs" />
     <Compile Include="Interfaces\ITrackCriteria.cs" />
     <Compile Include="Interfaces\ShowTabRequestHandler.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
@@ -119,7 +122,7 @@
     <Compile Include="Utilities\DefaultValueAttribute.cs" />
     <Compile Include="ExtensionMethods\EnumExtensionMethods.cs" />
     <Compile Include="Utilities\EnumHelpers.cs" />
-    <Compile Include="Utilities\HyperlinkRegexPattern.cs" />
+    <Compile Include="HyperlinkMatchers\HyperlinkPattern.cs" />
     <Compile Include="Utilities\MetaDataAttribute.cs" />
     <Compile Include="Utilities\ProgressArgs.cs" />
     <Compile Include="ExtensionMethods\TrackSortExtensionMethods.cs" />

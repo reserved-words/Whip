@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
-using Whip.Common.Utilities;
+using Whip.Common;
 
 namespace Whip.Controls
 {
@@ -25,15 +25,15 @@ namespace Whip.Controls
 
 
 
-        public HyperlinkRegexPatternType PatternType
+        public HyperlinkPatternType PatternType
         {
-            get { return (HyperlinkRegexPatternType)GetValue(PatternTypeProperty); }
+            get { return (HyperlinkPatternType)GetValue(PatternTypeProperty); }
             set { SetValue(PatternTypeProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for PatternType.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PatternTypeProperty =
-            DependencyProperty.Register(nameof(PatternType), typeof(HyperlinkRegexPatternType), typeof(TextBlockWithHyperlinks), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(PatternType), typeof(HyperlinkPatternType), typeof(TextBlockWithHyperlinks), new PropertyMetadata(null));
 
 
 
@@ -78,17 +78,17 @@ namespace Whip.Controls
             if (string.IsNullOrEmpty(newText))
                 return;
 
-            var patterns = HyperlinkRegexPattern.GetPatterns(PatternType);
+            var patternGroup = HyperlinkPattern.GetPatternGroup(PatternType);
 
-            var matches = new List<Tuple<Match, HyperlinkRegexPattern>>();
+            var matches = new List<Tuple<Match, HyperlinkPattern>>();
 
-            foreach (var pattern in patterns)
+            foreach (var pattern in patternGroup.Patterns)
             {
                 var regex = new Regex(pattern.Pattern);
 
                 foreach (Match match in regex.Matches(newText))
                 {
-                    matches.Add(new Tuple<Match, HyperlinkRegexPattern>(match, pattern));
+                    matches.Add(new Tuple<Match, HyperlinkPattern>(match, pattern));
                 }
             }
 
@@ -114,19 +114,26 @@ namespace Whip.Controls
             }
         }
 
-        private Hyperlink MakeHyperlink(string url, string text = null)
+        private Span MakeHyperlink(string url, string text = null)
         {
-            var navigateUri = new Uri(url);
-
-            var link = new Hyperlink(new Run(text ?? url))
+            try
             {
-                NavigateUri = navigateUri,
-                Foreground = _hyperlinkForegroundBrush,
-                ToolTip = navigateUri
-            };
-            link.Click += OnUrlClick;
+                var navigateUri = new Uri(url);
 
-            return link;
+                var link = new Hyperlink(new Run(text ?? url))
+                {
+                    NavigateUri = navigateUri,
+                    Foreground = _hyperlinkForegroundBrush,
+                    ToolTip = navigateUri
+                };
+                link.Click += OnUrlClick;
+
+                return link;
+            }
+            catch (UriFormatException)
+            {
+                return new Span(new Run(text));
+            }
         }
 
         private static void OnUrlClick(object sender, RoutedEventArgs e)
