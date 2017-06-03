@@ -49,6 +49,7 @@
                           VerticalScrollBarVisibility="Auto"
                           HorizontalScrollBarVisibility="Disabled">
                 <controls:TextBlockWithHyperlinks Content="{Binding Wiki}"
+                                                  PatternType="HtmlAnchor"
                                                   TextWrapping="WrapWithOverflow"
                                                   HyperlinkColor="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"/>
             </ScrollViewer>

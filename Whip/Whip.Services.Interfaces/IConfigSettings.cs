@@ -12,10 +12,16 @@ namespace Whip.Services.Interfaces
         string LastFmApiSecret { get; }
         string BandsInTownApiKey { get; }
         string YouTubeApiKey { get; }
+        string TwitterApiKey { get; }
+        string TwitterApiSecret { get; }
+        string TwitterApiAccessToken { get; }
+        string TwitterApiAccessTokenSecret { get; }
+
         List<string> FileExtensions { get; }
         int TrackChangeDelay { get; }
         int MinutesBeforeRefreshNews { get; }
         int NumberOfSimilarArtistsToDisplay { get; }
         int DaysBeforeUpdatingArtistWebInfo { get; }
+        int MinutesBeforeUpdatingTweets { get; }
     }
 }

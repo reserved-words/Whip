@@ -279,6 +279,9 @@
     <Compile Include="Views\TrackCriteriaView.xaml.cs">
       <DependentUpon>TrackCriteriaView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TweetView.xaml.cs">
+      <DependentUpon>TweetView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Dialogs\EditFeedView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -439,6 +442,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\TweetView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -520,6 +527,10 @@
     <ProjectReference Include="..\Whip.TagLibSharp\Whip.TagLibSharp.csproj">
       <Project>{cfbc7910-b952-4227-9294-810f4d6c17cb}</Project>
       <Name>Whip.TagLibSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Whip.TweetInvi\Whip.TweetInvi.csproj">
+      <Project>{BDBDA3CD-E707-496C-B1AA-C4FF83764CA6}</Project>
+      <Name>Whip.TweetInvi</Name>
     </ProjectReference>
     <ProjectReference Include="..\Whip.ViewModels\Whip.ViewModels.csproj">
       <Project>{0d421905-07ec-46a2-b783-3744a1ceb4c8}</Project>

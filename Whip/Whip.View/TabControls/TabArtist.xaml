@@ -59,13 +59,32 @@
                 <RowDefinition Height="13*" />
             </Grid.RowDefinitions>
 
-            <Label Grid.Row="0"
-                   Style="{StaticResource TitleLabel}"
-                   Content="Twitter Feed" />
+            <WrapPanel Grid.Row="0"
+                       Margin="5,0">
+                <controls:HyperlinkLabel Username="{Binding Artist.Twitter}" 
+                                         UrlFormat="{x:Static res:Resources.TwitterUrl}">
+                    <Image Source="/Images/twitter.png"
+                           Style="{StaticResource Icon32}"
+                           Width="16"
+                           Height="16"/>
+                </controls:HyperlinkLabel>
+                <Label Style="{StaticResource TitleLabel}"
+                       Content="Twitter Feed"
+                       Margin="0"/>
+            </WrapPanel>
 
-            <Label Grid.Row="1"/>
+            <ListView Grid.Row="1" 
+                      ItemsSource="{Binding Tweets}"
+                      ItemContainerStyle="{StaticResource ListViewItemNoHighlight}"
+                      Background="Transparent"
+                      BorderThickness="0"
+                      HorizontalAlignment="Stretch"
+                      HorizontalContentAlignment="Stretch"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      ScrollViewer.CanContentScroll="False"/>
 
-            <WrapPanel Grid.Row="2">
+            <WrapPanel Grid.Row="2"
+                       Margin="5,0">
                 <controls:HyperlinkLabel Username="{Binding Artist.YouTube}" 
                                          UrlFormat="{x:Static res:Resources.YouTubeUrl}">
                     <Image Source="/Images/youtube.png"
@@ -109,7 +128,8 @@
                 <RowDefinition Height="2*" />
             </Grid.RowDefinitions>
 
-            <DockPanel Grid.Row="0">
+            <DockPanel Grid.Row="0"
+                       Margin="5,0">
                 <WrapPanel Grid.Row="0">
                     <controls:HyperlinkLabel Username="{Binding Artist.BandsInTown}" 
                                              UrlFormat="{x:Static res:Resources.BandsInTownUrl}">
@@ -175,7 +195,8 @@
                 </DataGrid.Columns>
             </DataGrid>
 
-            <WrapPanel Grid.Row="2">
+            <WrapPanel Grid.Row="2"
+                       Margin="5,0">
                 <controls:HyperlinkLabel Username="{Binding Artist.LastFm}" 
                                          UrlFormat="{x:Static res:Resources.LastFmUrl}">
                     <Image Source="/Images/lastfm.ico"

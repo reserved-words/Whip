@@ -14,6 +14,7 @@ namespace Whip.Common.Model
             Albums = new List<Album>();
             Tracks = new List<Track>();
             UpcomingEvents = new List<ArtistEvent>();
+            Tweets = new List<Tweet>();
         }
 
         public string Name { get; set; }
@@ -37,6 +38,9 @@ namespace Whip.Common.Model
 
         public DateTime VideoUpdated { get; set; }
         public Video LatestVideo { get; set; }
+
+        public DateTime TweetsUpdated { get; set; }
+        public List<Tweet> Tweets { get; set; }
 
         public List<Album> Albums { get; set; }
         public List<Track> Tracks { get; set; }

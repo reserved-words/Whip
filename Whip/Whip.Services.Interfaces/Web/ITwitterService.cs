@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Whip.Common.Model;
 
 namespace Whip.Services.Interfaces
 {
-    public interface IArtistWebInfoService : IArtistInfoService, IVideoService, IEventsService, ITwitterService
+    public interface ITwitterService
     {
+        Task<bool> PopulateTweets(Artist artist);
     }
 }

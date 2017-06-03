@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using Whip.Services.Interfaces;
 
@@ -30,6 +27,11 @@ namespace Whip.Services
         public int MinutesBeforeRefreshNews { get; set; }
         public int NumberOfSimilarArtistsToDisplay { get; set; }
         public int DaysBeforeUpdatingArtistWebInfo { get; set; }
+        public int MinutesBeforeUpdatingTweets { get; set; }
+        public string TwitterApiKey { get; set; }
+        public string TwitterApiSecret { get; set; }
+        public string TwitterApiAccessToken { get; set; }
+        public string TwitterApiAccessTokenSecret { get; set; }
 
         private void PopulateSettings()
         {
@@ -43,6 +45,7 @@ namespace Whip.Services
             NumberOfSimilarArtistsToDisplay = Convert.ToInt16(root.Element("num_similar_artists").Value);
             MinutesBeforeRefreshNews = Convert.ToInt16(root.Element("minutes_before_update_news").Value);
             DaysBeforeUpdatingArtistWebInfo = Convert.ToInt16(root.Element("days_before_update_web_info").Value);
+            MinutesBeforeUpdatingTweets = Convert.ToInt16(root.Element("minutes_before_update_tweets").Value);
 
             FileExtensions = new List<string>();
             foreach (var fileExtension in root.Element("file_extensions").Elements("file_extension"))
@@ -63,6 +66,12 @@ namespace Whip.Services
                         break;
                     case "YouTube":
                         YouTubeApiKey = apiSetting.Attribute("api_key").Value;
+                        break;
+                    case "Twitter":
+                        TwitterApiKey = apiSetting.Attribute("api_key").Value;
+                        TwitterApiSecret = apiSetting.Attribute("secret").Value;
+                        TwitterApiAccessToken = apiSetting.Attribute("token").Value;
+                        TwitterApiAccessTokenSecret = apiSetting.Attribute("token_secret").Value;
                         break;
                     default:
                         break;

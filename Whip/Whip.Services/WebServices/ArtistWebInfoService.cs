@@ -11,15 +11,17 @@ namespace Whip.Services
         private readonly IVideoService _videoService;
         private readonly IEventsService _eventsService;
         private readonly IArtistInfoService _artistInfoService;
+        private readonly ITwitterService _twitterService;
         private readonly IAsyncMethodInterceptor _interceptor;
-
+        
         public ArtistWebInfoService(IVideoService videoService, IEventsService eventsService, IArtistInfoService artistInfoService,
-            IConfigSettings configSettings, IAsyncMethodInterceptor interceptor)
+            ITwitterService twitterService, IConfigSettings configSettings, IAsyncMethodInterceptor interceptor)
         {
             _configSettings = configSettings;
             _videoService = videoService;
             _eventsService = eventsService;
             _artistInfoService = artistInfoService;
+            _twitterService = twitterService;
             _interceptor = interceptor;
         }
 
@@ -81,6 +83,27 @@ namespace Whip.Services
             if (success)
             {
                 artist.WebInfo.Updated = DateTime.Now;
+            }
+
+            return success;
+        }
+
+        public async Task<bool> PopulateTweets(Artist artist)
+        {
+            if (artist == null)
+                return true;
+
+            if (artist.TweetsUpdated.AddMinutes(_configSettings.MinutesBeforeUpdatingTweets) > DateTime.Now)
+                return true;
+
+            var success = await _interceptor.TryMethod(
+                _twitterService.PopulateTweets(artist),
+                false,
+                GetMethodDescription(nameof(PopulateTweets), artist));
+
+            if (success)
+            {
+                artist.TweetsUpdated = DateTime.Now;
             }
 
             return success;

@@ -6,7 +6,8 @@
                     xmlns:ioc="clr-namespace:Whip.Ioc"
                     xmlns:controls="clr-namespace:Whip.Controls"
                     xmlns:tabsvm="clr-namespace:Whip.ViewModels.TabViewModels;assembly=Whip.ViewModels"
-                    xmlns:viewModel="clr-namespace:Whip.ViewModels;assembly=Whip.ViewModels">
+                    xmlns:viewModel="clr-namespace:Whip.ViewModels;assembly=Whip.ViewModels"
+                    xmlns:model="clr-namespace:Whip.Common.Model;assembly=Whip.Common">
     
     <!-- VIEW MODEL LOCATOR -->
     <ioc:ViewModelLocator x:Key="ViewModelLocator" />
@@ -65,6 +66,10 @@
         <local:TabEditOrderedPlaylist />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type model:Tweet}">
+        <local:TweetView />
+    </DataTemplate>
+    
     <!-- STYLES -->
     <Style TargetType="{x:Type CheckBox}">
         <Setter Property="VerticalContentAlignment" Value="Center" />

@@ -23,6 +23,20 @@ namespace Whip.Controls
         public static readonly DependencyProperty ContentProperty =
             DependencyProperty.Register(nameof(Content), typeof(string), typeof(TextBlockWithHyperlinks), new PropertyMetadata(null, new PropertyChangedCallback(OnContentChanged)));
 
+
+
+        public HyperlinkRegexPatternType PatternType
+        {
+            get { return (HyperlinkRegexPatternType)GetValue(PatternTypeProperty); }
+            set { SetValue(PatternTypeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for PatternType.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PatternTypeProperty =
+            DependencyProperty.Register(nameof(PatternType), typeof(HyperlinkRegexPatternType), typeof(TextBlockWithHyperlinks), new PropertyMetadata(null));
+
+
+
         private static void OnContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var textBlock = d as TextBlockWithHyperlinks;
@@ -64,7 +78,7 @@ namespace Whip.Controls
             if (string.IsNullOrEmpty(newText))
                 return;
 
-            var patterns = HyperlinkRegexPattern.GetPatterns(HyperlinkRegexPatternType.HtmlAnchor);
+            var patterns = HyperlinkRegexPattern.GetPatterns(PatternType);
 
             var matches = new List<Tuple<Match, HyperlinkRegexPattern>>();
 
@@ -89,7 +103,7 @@ namespace Whip.Controls
                     Inlines.Add(new Run(raw_text));
                 }
 
-                Inlines.Add(MakeHyperlink(match.Item1.Groups[match.Item2.MatchUrlGroupIndex].ToString(), match.Item1.Groups[match.Item2.MatchTextGroupIndex].ToString()));
+                Inlines.Add(MakeHyperlink(match.Item2.Url(match.Item1), match.Item2.Text(match.Item1)));
 
                 last_pos = match.Item1.Index + match.Item1.Length;
             }

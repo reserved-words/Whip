@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whip.View", "Whip.View\Whip
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whip.XmlDataAccess", "Whip.XmlDataAccess\Whip.XmlDataAccess.csproj", "{FD47AD0A-3499-440A-85B3-786B86E69E3D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whip.TweetInvi", "Whip.TweetInvi\Whip.TweetInvi.csproj", "{BDBDA3CD-E707-496C-B1AA-C4FF83764CA6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,10 @@ Global
 		{FD47AD0A-3499-440A-85B3-786B86E69E3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD47AD0A-3499-440A-85B3-786B86E69E3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD47AD0A-3499-440A-85B3-786B86E69E3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDBDA3CD-E707-496C-B1AA-C4FF83764CA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDBDA3CD-E707-496C-B1AA-C4FF83764CA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDBDA3CD-E707-496C-B1AA-C4FF83764CA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDBDA3CD-E707-496C-B1AA-C4FF83764CA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -131,5 +137,6 @@ Global
 		{E3213160-47F9-4D7C-8374-ACB695281432} = {2D7BA897-7C75-49EF-88AE-F94F8007A188}
 		{F826888B-3BAB-41B8-9ED6-5B790645D1C2} = {0DA057BF-420B-4ED2-90C1-9E3060DEB8A1}
 		{FD47AD0A-3499-440A-85B3-786B86E69E3D} = {2D7BA897-7C75-49EF-88AE-F94F8007A188}
+		{BDBDA3CD-E707-496C-B1AA-C4FF83764CA6} = {2D7BA897-7C75-49EF-88AE-F94F8007A188}
 	EndGlobalSection
 EndGlobal

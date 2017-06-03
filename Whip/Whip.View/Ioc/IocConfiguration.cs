@@ -18,6 +18,7 @@ using Whip.LastFm.ErrorHandlingDecorators;
 using Whip.View;
 using Whip.XmlDataAccess;
 using Whip.ViewModels;
+using Whip.TweetInvi;
 
 namespace Whip.Ioc
 {
@@ -70,6 +71,7 @@ namespace Whip.Ioc
                 .Register<IWebHelperService, WebHelperService>()
                 .Register<IVideoService, YouTubeVideoService>()
                 .Register<IEventsService, BandsInTownArtistEventsService>()
+                .Register<ITwitterService, TwitterService>()
                 .Register<IArtistWebInfoService, ArtistWebInfoService>();
 
             return kernel;

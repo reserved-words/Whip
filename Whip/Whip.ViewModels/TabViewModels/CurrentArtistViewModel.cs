@@ -86,6 +86,7 @@ namespace Whip.ViewModels.TabViewModels
                 Task.Run(PopulateMainInfo);
                 Task.Run(PopulateEvents);
                 Task.Run(PopulateVideo);
+                Task.Run(PopulateTweets);
             }
         }
 
@@ -121,6 +122,8 @@ namespace Whip.ViewModels.TabViewModels
         public string Wiki => Artist?.WebInfo?.Wiki;
 
         public Video Video => Artist?.LatestVideo;
+
+        public List<Tweet> Tweets => Artist?.Tweets;
 
         public List<ArtistEvent> UpcomingEvents => Artist?.UpcomingEvents
             .Where(ev => !UKEventsOnly || ValidUKCountryNames.Contains(ev.Country)).ToList();
@@ -194,9 +197,16 @@ namespace Whip.ViewModels.TabViewModels
 
         private async Task PopulateVideo()
         {
-            await _artistWebInfoService.PopulateLatestVideoAsync(Artist);
+            await _artistWebInfoService.PopulateTweets(Artist);
 
             RaisePropertyChanged(nameof(Video));
+        }
+
+        private async Task PopulateTweets()
+        {
+            await _artistWebInfoService.PopulateTweets(Artist);
+
+            RaisePropertyChanged(nameof(Tweets));
         }
     }
 }
