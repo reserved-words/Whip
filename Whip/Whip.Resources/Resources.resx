@@ -168,7 +168,13 @@
   <data name="StandardTimeSpanFormat" xml:space="preserve">
     <value>mm\:ss</value>
   </data>
+  <data name="TwitterHashTagUrlFormat" xml:space="preserve">
+    <value>https://twitter.com/hashtag/{0}</value>
+  </data>
   <data name="TwitterUrl" xml:space="preserve">
+    <value>https://twitter.com/{0}</value>
+  </data>
+  <data name="TwitterUserUrlFormat" xml:space="preserve">
     <value>https://twitter.com/{0}</value>
   </data>
   <data name="WikipediaUrl" xml:space="preserve">

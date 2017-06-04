@@ -214,11 +214,29 @@ namespace Whip.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to https://twitter.com/hashtag/{0}.
+        /// </summary>
+        public static string TwitterHashTagUrlFormat {
+            get {
+                return ResourceManager.GetString("TwitterHashTagUrlFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://twitter.com/{0}.
         /// </summary>
         public static string TwitterUrl {
             get {
                 return ResourceManager.GetString("TwitterUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://twitter.com/{0}.
+        /// </summary>
+        public static string TwitterUserUrlFormat {
+            get {
+                return ResourceManager.GetString("TwitterUserUrlFormat", resourceCulture);
             }
         }
         

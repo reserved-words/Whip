@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
+using static Whip.Resources.Resources;
 
 namespace Whip.Common
 {
     public class TweetHyperlinkPatternGroup : IHyperlinkPatternGroup
     {
-        private const string TwitterHashTagUrlFormat = "https://twitter.com/hashtag/{0}";
-        private const string TwitterUserUrlFormat = "https://twitter.com/{0}";
-
         public TweetHyperlinkPatternGroup()
         {
             Patterns = new List<HyperlinkPattern>

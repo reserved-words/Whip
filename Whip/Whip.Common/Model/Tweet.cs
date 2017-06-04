@@ -13,9 +13,9 @@ namespace Whip.Common.Model
         public string Name { get; set; }
         public string Content { get; set; }
         public string UserImage { get; set; }
-        public DateTime DatePosted { get; set; }
         public string Image { get; set; }
         public bool IsRetweet { get; set; }
         public string Url { get; set; }
+        public string UserUrl { get; set; }
     }
 }

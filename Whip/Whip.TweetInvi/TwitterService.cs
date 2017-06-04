@@ -6,6 +6,7 @@ using Tweetinvi;
 using Tweetinvi.Models;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
+using static Whip.Resources.Resources;
 
 namespace Whip.TweetInvi
 {
@@ -52,7 +53,8 @@ namespace Whip.TweetInvi
                     Content = t.FullText,
                     UserImage = userImage,
                     Image = image,
-                    IsRetweet = t.IsRetweet
+                    IsRetweet = t.IsRetweet,
+                    UserUrl = string.Format(TwitterUserUrlFormat, screenName)
                 };
 
                 artist.Tweets.Add(tweet);

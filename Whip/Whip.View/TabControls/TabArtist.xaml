@@ -22,7 +22,8 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <DockPanel Grid.Row="0">
+            <DockPanel Grid.Row="0"
+                       Margin="5,5,5,0">
                 <WrapPanel DockPanel.Dock="Left"
                            VerticalAlignment="Center">
                     <Label Style="{StaticResource TitleLabel}"
@@ -53,61 +54,77 @@
 
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="16*" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="13*" />
+                <RowDefinition Height="5*" />
+                <RowDefinition Height="3*" />
             </Grid.RowDefinitions>
 
-            <WrapPanel Grid.Row="0"
-                       Margin="5,0">
-                <controls:HyperlinkLabel Username="{Binding Artist.Twitter}" 
-                                         UrlFormat="{x:Static res:Resources.TwitterUrl}">
-                    <Image Source="/Images/twitter.png"
-                           Style="{StaticResource Icon32}"
-                           Width="16"
-                           Height="16"/>
-                </controls:HyperlinkLabel>
-                <Label Style="{StaticResource TitleLabel}"
-                       Content="Twitter Feed"
-                       Margin="0"/>
-            </WrapPanel>
-
-            <ListView Grid.Row="1" 
-                      ItemsSource="{Binding Tweets}"
-                      ItemContainerStyle="{StaticResource ListViewItemNoHighlight}"
-                      Background="Transparent"
-                      BorderThickness="0"
-                      HorizontalAlignment="Stretch"
-                      HorizontalContentAlignment="Stretch"
-                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                      ScrollViewer.CanContentScroll="False"/>
-
-            <WrapPanel Grid.Row="2"
-                       Margin="5,0">
-                <controls:HyperlinkLabel Username="{Binding Artist.YouTube}" 
-                                         UrlFormat="{x:Static res:Resources.YouTubeUrl}">
-                    <Image Source="/Images/youtube.png"
-                           Style="{StaticResource Icon32}"
-                           Width="16"
-                           Height="16"/>
-                </controls:HyperlinkLabel>
-                <Label Style="{StaticResource TitleLabel}"
-                       Content="Latest Video"
-                       Margin="0"/>
-            </WrapPanel>
-
-            <Border Grid.Row="3"
+            <Border Grid.Row="0"
                     Style="{StaticResource ColourBorder}"
-                    Padding="15, 15, 15, 5">
+                    Padding="5">
+
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <WrapPanel Grid.Row="0"
+                               Margin="5,0">
+                        <controls:HyperlinkLabel Username="{Binding Artist.Twitter}" 
+                                         UrlFormat="{x:Static res:Resources.TwitterUrl}">
+                            <Image Source="/Images/twitter.png"
+                                   Style="{StaticResource Icon32}"
+                                   Width="16"
+                                   Height="16"/>
+                        </controls:HyperlinkLabel>
+                        <Label Style="{StaticResource TitleLabel}"
+                               Content="Twitter Feed"
+                               Margin="0"/>
+                    </WrapPanel>
+
+                    <ListView Grid.Row="1" 
+                              ItemsSource="{Binding Tweets}"
+                              ItemContainerStyle="{StaticResource ListViewItemNoHighlight}"
+                              Background="Transparent"
+                              BorderThickness="0"
+                              HorizontalAlignment="Stretch"
+                              HorizontalContentAlignment="Stretch"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                              ScrollViewer.CanContentScroll="False"/>
+
+                </Grid>
+            </Border>
+
+            <Border Grid.Row="1"
+                    Style="{StaticResource ColourBorder}"
+                    Visibility="{Binding Video, Converter={StaticResource NullVisibilityConverter}}"
+                    Padding="5">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <WebBrowser Grid.Row="0"
+
+                    <WrapPanel Grid.Row="0"
+                               Margin="5,0">
+                        <controls:HyperlinkLabel Username="{Binding Artist.YouTube}" 
+                                                 UrlFormat="{x:Static res:Resources.YouTubeUrl}">
+                            <Image Source="/Images/youtube.png"
+                                   Style="{StaticResource Icon32}"
+                                   Width="16"
+                                   Height="16"/>
+                        </controls:HyperlinkLabel>
+                        <Label Style="{StaticResource TitleLabel}"
+                               Content="Latest Video"
+                               Margin="0"/>
+                    </WrapPanel>
+
+                    <WebBrowser Grid.Row="1"
                                 local:WebBrowserUtility.BindableSource="{Binding Video.Url}"/>
-                    <DockPanel Grid.Row="1"
+                    
+                    <DockPanel Grid.Row="2"
                                Margin="0, 5, 0, 0">
                         <Label Content="{Binding Video.Title}" />
                         <Label Content="{Binding Video.Published}"
@@ -117,85 +134,94 @@
                     </DockPanel>
                 </Grid>
             </Border>
-
         </Grid>
 
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="2*" />
             </Grid.RowDefinitions>
 
-            <DockPanel Grid.Row="0"
+            <Border Style="{StaticResource ColourBorder}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <DockPanel Grid.Row="0"
                        Margin="5,0">
-                <WrapPanel Grid.Row="0">
-                    <controls:HyperlinkLabel Username="{Binding Artist.BandsInTown}" 
-                                             UrlFormat="{x:Static res:Resources.BandsInTownUrl}">
-                        <Image Source="/Images/bandsintown.ico"
-                               Style="{StaticResource Icon32}"
-                               Width="16"
-                               Height="16"/>
-                    </controls:HyperlinkLabel>
-                    <Label Style="{StaticResource TitleLabel}"
+                        <WrapPanel Grid.Row="0">
+                            <controls:HyperlinkLabel Username="{Binding Artist.BandsInTown}" 
+                                                     UrlFormat="{x:Static res:Resources.BandsInTownUrl}">
+                                <Image Source="/Images/bandsintown.ico"
+                                       Style="{StaticResource Icon32}"
+                                       Width="16"
+                                       Height="16"/>
+                            </controls:HyperlinkLabel>
+                            <Label Style="{StaticResource TitleLabel}"
+                                   VerticalAlignment="Top"
+                                   Content="Upcoming Events" />
+                        </WrapPanel>
+                        <WrapPanel DockPanel.Dock="Right"
+                                   HorizontalAlignment="Right"
+                                   Margin="5"
+                                   VerticalAlignment="Center">
+                            <CheckBox DockPanel.Dock="Right"
+                                      IsChecked="{Binding UKEventsOnly}"
+                                      VerticalAlignment="Center"
+                                      Content="UK Only"/>
+                        </WrapPanel>
+                    </DockPanel>
+
+                    <Label Grid.Row="1"
+                           Margin="10"
+                           Content="{Binding NoUpcomingEvents}"
                            VerticalAlignment="Top"
-                           Content="Upcoming Events" />
-                </WrapPanel>
-                <WrapPanel DockPanel.Dock="Right"
-                           HorizontalAlignment="Right"
-                           Margin="5"
-                           VerticalAlignment="Center">
-                    <CheckBox DockPanel.Dock="Right"
-                              IsChecked="{Binding UKEventsOnly}"
-                              VerticalAlignment="Center"
-                              Content="UK Only"/>
-                </WrapPanel>
-            </DockPanel>
+                           Visibility="{Binding NoUpcomingEvents, Converter={StaticResource StringVisibilityConverter}}" />
 
-            <Label Grid.Row="1"
-                   Content="{Binding NoUpcomingEvents}"
-                   VerticalAlignment="Top"
-                   Visibility="{Binding NoUpcomingEvents, Converter={StaticResource StringVisibilityConverter}}" />
-
-            <DataGrid Grid.Row="1"
-                      Visibility="{Binding NoUpcomingEvents, Converter={StaticResource NegBoolVisibilityConverter}}"
-                      Margin="0,5,0,0"
-                      ItemsSource="{Binding UpcomingEvents}"
-                      HeadersVisibility="None"
-                      GridLinesVisibility="Horizontal"
-                      BorderThickness="0">
-                <DataGrid.Resources>
-                    <Style TargetType="{x:Type DataGridCell}">
-                        <Setter Property="ToolTip" Value="{Binding ArtistList}" />
-                        <Setter Property="VerticalContentAlignment" Value="Center" />
-                    </Style>
-                    <Style TargetType="{x:Type TextBlock}" x:Key="EventElementStyle">
-                        <Setter Property="Margin" Value="15, 0"/>
-                        <Setter Property="VerticalAlignment" Value="Center" />
-                    </Style>
-                    <Style TargetType="{x:Type DataGridRow}">
-                        <Setter Property="Height" Value="28" />
-                        <Setter Property="VerticalContentAlignment" Value="Center" />
-                    </Style>
-                </DataGrid.Resources>
-                <DataGrid.Columns>
-                    <DataGridTextColumn Width="Auto"
-                                        Binding="{Binding Date, StringFormat=dd/MM/yyyy}"
-                                        ElementStyle="{StaticResource EventElementStyle}"/>
-                    <DataGridTextColumn Width="*"
-                                        Binding="{Binding Venue}"
-                                        ElementStyle="{StaticResource EventElementStyle}"/>
-                    <DataGridTextColumn Width="Auto"
-                                        Binding="{Binding City}"
-                                        ElementStyle="{StaticResource EventElementStyle}"/>
-                    <DataGridTextColumn Width="Auto"
-                                        Binding="{Binding Country}"
-                                        ElementStyle="{StaticResource EventElementStyle}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-
-            <WrapPanel Grid.Row="2"
+                    <DataGrid Grid.Row="1"
+                              Visibility="{Binding NoUpcomingEvents, Converter={StaticResource NegBoolVisibilityConverter}}"
+                              Margin="0,5,0,0"
+                              ItemsSource="{Binding UpcomingEvents}"
+                              HeadersVisibility="None"
+                              GridLinesVisibility="Horizontal"
+                              BorderThickness="0,1,0,0"
+                              BorderBrush="Silver">
+                        <DataGrid.Resources>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Setter Property="ToolTip" Value="{Binding ArtistList}" />
+                                <Setter Property="VerticalContentAlignment" Value="Center" />
+                            </Style>
+                            <Style TargetType="{x:Type TextBlock}" x:Key="EventElementStyle">
+                                <Setter Property="Margin" Value="15, 0"/>
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                            </Style>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Height" Value="28" />
+                                <Setter Property="VerticalContentAlignment" Value="Center" />
+                            </Style>
+                        </DataGrid.Resources>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Width="Auto"
+                                                Binding="{Binding Date, StringFormat=dd/MM/yyyy}"
+                                                ElementStyle="{StaticResource EventElementStyle}"/>
+                            <DataGridTextColumn Width="*"
+                                                Binding="{Binding Venue}"
+                                                ElementStyle="{StaticResource EventElementStyle}"/>
+                            <DataGridTextColumn Width="Auto"
+                                                Binding="{Binding City}"
+                                                ElementStyle="{StaticResource EventElementStyle}"/>
+                            <DataGridTextColumn Width="Auto"
+                                                Binding="{Binding Country}"
+                                                ElementStyle="{StaticResource EventElementStyle}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+            
+            <WrapPanel Grid.Row="1"
                        Margin="5,0">
                 <controls:HyperlinkLabel Username="{Binding Artist.LastFm}" 
                                          UrlFormat="{x:Static res:Resources.LastFmUrl}">
@@ -209,7 +235,7 @@
                        Margin="0"/>
             </WrapPanel>
 
-            <Grid Grid.Row="3">
+            <Grid Grid.Row="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />

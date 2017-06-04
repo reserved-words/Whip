@@ -10,13 +10,14 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Border BorderBrush="LightGray"
             BorderThickness="0,1,0,0"
+            Padding="5"
             HorizontalAlignment="Stretch">
         <Grid HorizontalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <controls:HyperlinkLabel Url="{Binding Url}"
+            <controls:HyperlinkLabel Url="{Binding UserUrl}"
                                      VerticalAlignment="Top">
                 <Rectangle Grid.Column="0"
                            RadiusX="5" RadiusY="5"
@@ -27,25 +28,31 @@
                 </Rectangle>
             </controls:HyperlinkLabel>
             <StackPanel Grid.Column="1"
-                        HorizontalAlignment="Stretch">
-                <WrapPanel>
-                    <Image Source="{Binding DataContext.RetweetIconSource, ElementName=Main}"
-                           Width="16"
-                           Height="16"
-                           Visibility="{Binding IsRetweet, Converter={StaticResource BoolVisibilityConverter}}" />
-                    <Label Content="{Binding Name}"
-                           FontWeight="Bold" />
-                    <Label Content="{Binding Username}"
-                           Foreground="LightGray" />
-                    <Label Content="{Binding Posted}"
-                           Foreground="LightGray" />
-                </WrapPanel>
+                        HorizontalAlignment="Stretch"
+                        Margin="0">
+                <DockPanel Margin="5,0">
+                    <WrapPanel Margin="0">
+                        <controls:Icon16 Icon="Retweet"
+                                         Visibility="{Binding IsRetweet, Converter={StaticResource BoolVisibilityConverter}}"
+                                         Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"/>
+                        <controls:HyperlinkLabel Url="{Binding UserUrl}">
+                            <Label Content="{Binding Name}"
+                                   FontWeight="Bold" />
+                        </controls:HyperlinkLabel>
+                    </WrapPanel>
+                    <controls:HyperlinkLabel Url="{Binding Url}"
+                                             DockPanel.Dock="Right"
+                                             HorizontalAlignment="Right">
+                        <Label Content="{Binding Posted}"
+                               ContentStringFormat="dd/MM/yyyy HH:mm:ss" />
+                    </controls:HyperlinkLabel>
+                </DockPanel>
                 <controls:TextBlockWithHyperlinks Content="{Binding Content}"
                                                   PatternType="Tweet"
-                                                 HyperlinkColor="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"
-                                                 TextWrapping="WrapWithOverflow"
-                                                 HorizontalAlignment="Stretch"
-                                                 Margin="5,0,5,15"/>
+                                                  HyperlinkColor="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"
+                                                  TextWrapping="WrapWithOverflow"
+                                                  HorizontalAlignment="Stretch"
+                                                  Margin="5,0,5,15"/>
                 <Image Source="{Binding Image}" />  
             </StackPanel>
         </Grid>
