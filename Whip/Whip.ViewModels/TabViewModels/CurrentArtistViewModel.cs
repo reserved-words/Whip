@@ -73,7 +73,9 @@ namespace Whip.ViewModels.TabViewModels
         }
 
         public bool NotShowingCurrentArtist => !ShowingCurrentArtist;
-        
+
+        public bool DisplayLargeSimilarArtistsView => Artist?.LatestVideo == null;
+
         public Artist Artist
         {
             get { return _artist; }
@@ -200,6 +202,7 @@ namespace Whip.ViewModels.TabViewModels
             await _artistWebInfoService.PopulateTweets(Artist);
 
             RaisePropertyChanged(nameof(Video));
+            RaisePropertyChanged(nameof(DisplayLargeSimilarArtistsView));
         }
 
         private async Task PopulateTweets()

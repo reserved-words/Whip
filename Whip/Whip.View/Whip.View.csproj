@@ -231,8 +231,17 @@
     <Compile Include="Controls\TextBlockWithHyperlinks.cs" />
     <Compile Include="Utilities\EnumExtension.cs" />
     <Compile Include="Utilities\WebBrowserUtility.cs" />
+    <Compile Include="Views\ArtistEventsView.xaml.cs">
+      <DependentUpon>ArtistEventsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ArtistLinksView.xaml.cs">
       <DependentUpon>ArtistLinksView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ArtistSimilarArtistsView.xaml.cs">
+      <DependentUpon>ArtistSimilarArtistsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ArtistVideoView.xaml.cs">
+      <DependentUpon>ArtistVideoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ClickableIconView.xaml.cs">
       <DependentUpon>ClickableIconView.xaml</DependentUpon>
@@ -269,6 +278,9 @@
     </Compile>
     <Compile Include="Views\PlaylistView.xaml.cs">
       <DependentUpon>PlaylistView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SimilarArtistMiniView.xaml.cs">
+      <DependentUpon>SimilarArtistMiniView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SimilarArtistView.xaml.cs">
       <DependentUpon>SimilarArtistView.xaml</DependentUpon>
@@ -378,7 +390,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ArtistEventsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ArtistLinksView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ArtistSimilarArtistsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ArtistVideoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -427,6 +451,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PlaylistView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SimilarArtistMiniView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

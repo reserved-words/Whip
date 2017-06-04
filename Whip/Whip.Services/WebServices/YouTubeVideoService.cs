@@ -23,7 +23,7 @@ namespace Whip.Services
         public async Task<bool> PopulateLatestVideoAsync(Artist artist)
         {
             if (string.IsNullOrEmpty(artist.YouTube))
-                return true;
+                return false;
                 
 
             var url = string.Format(UploadsPlaylistUrl, "contentDetails", artist.YouTube, _configSettings.YouTubeApiKey);

@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="Whip.ArtistEventsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Whip"
+             xmlns:controls="clr-namespace:Whip.Controls"
+             xmlns:res="clr-namespace:Whip.Resources;assembly=Whip.Resources"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0"
+                   Margin="5,0">
+            <WrapPanel Grid.Row="0">
+                <controls:HyperlinkLabel Username="{Binding Artist.BandsInTown}" 
+                                         UrlFormat="{x:Static res:Resources.BandsInTownUrl}">
+                    <Image Source="/Images/bandsintown.ico"
+                           Style="{StaticResource Icon32}"
+                           Width="16"
+                           Height="16"/>
+                </controls:HyperlinkLabel>
+                <Label Style="{StaticResource TitleLabel}"
+                       VerticalAlignment="Top"
+                       Content="Upcoming Events" />
+            </WrapPanel>
+            <WrapPanel DockPanel.Dock="Right"
+                       HorizontalAlignment="Right"
+                       Margin="5"
+                       VerticalAlignment="Center">
+                <CheckBox DockPanel.Dock="Right"
+                       IsChecked="{Binding UKEventsOnly}"
+                       VerticalAlignment="Center"
+                       Content="UK Only"/>
+            </WrapPanel>
+        </DockPanel>
+
+        <Label Grid.Row="1"
+               Margin="5,10"
+               Content="{Binding NoUpcomingEvents}"
+               VerticalAlignment="Top"
+               Visibility="{Binding NoUpcomingEvents, Converter={StaticResource StringVisibilityConverter}}" />
+
+        <DataGrid Grid.Row="1"
+                  Visibility="{Binding NoUpcomingEvents, Converter={StaticResource NegBoolVisibilityConverter}}"
+                  Margin="0,5,0,0"
+                  ItemsSource="{Binding UpcomingEvents}"
+                  HeadersVisibility="None"
+                  GridLinesVisibility="Horizontal"
+                  BorderThickness="0,1,0,0"
+                  BorderBrush="Silver">
+            <DataGrid.Resources>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="ToolTip" Value="{Binding ArtistList}" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                </Style>
+                <Style TargetType="{x:Type TextBlock}" x:Key="EventElementStyle">
+                    <Setter Property="Margin" Value="15, 0"/>
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                </Style>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Setter Property="Height" Value="28" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="Auto"
+                                    Binding="{Binding Date, StringFormat=dd/MM/yyyy}"
+                                    ElementStyle="{StaticResource EventElementStyle}"/>
+                <DataGridTextColumn Width="*"
+                                    Binding="{Binding Venue}"
+                                    ElementStyle="{StaticResource EventElementStyle}"/>
+                <DataGridTextColumn Width="Auto"
+                                    Binding="{Binding City}"
+                                    ElementStyle="{StaticResource EventElementStyle}"/>
+                <DataGridTextColumn Width="Auto"
+                                    Binding="{Binding Country}"
+                                    ElementStyle="{StaticResource EventElementStyle}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

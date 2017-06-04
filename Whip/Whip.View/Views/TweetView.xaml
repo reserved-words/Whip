@@ -17,10 +17,11 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <controls:HyperlinkLabel Url="{Binding UserUrl}"
+            <controls:HyperlinkLabel Grid.Column="0"
+                                     Margin="5"
+                                     Url="{Binding UserUrl}"
                                      VerticalAlignment="Top">
-                <Rectangle Grid.Column="0"
-                           RadiusX="5" RadiusY="5"
+                <Rectangle RadiusX="5" RadiusY="5"
                            Width="50" Height="50">
                     <Rectangle.Fill>
                         <ImageBrush x:Name="myImage" ImageSource="{Binding UserImage}" />
@@ -35,17 +36,19 @@
                         <controls:Icon16 Icon="Retweet"
                                          Visibility="{Binding IsRetweet, Converter={StaticResource BoolVisibilityConverter}}"
                                          Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"/>
-                        <controls:HyperlinkLabel Url="{Binding UserUrl}">
-                            <Label Content="{Binding Name}"
-                                   FontWeight="Bold" />
-                        </controls:HyperlinkLabel>
+                        <controls:HyperlinkLabel Url="{Binding UserUrl}"
+                                                 Margin="2,0"
+                                                 Padding="0"
+                                                 Content="{Binding Name}"
+                                                 FontWeight="Bold" />
                     </WrapPanel>
                     <controls:HyperlinkLabel Url="{Binding Url}"
+                                             Margin="2,0"
+                                             Padding="0"
                                              DockPanel.Dock="Right"
-                                             HorizontalAlignment="Right">
-                        <Label Content="{Binding Posted}"
-                               ContentStringFormat="dd/MM/yyyy HH:mm:ss" />
-                    </controls:HyperlinkLabel>
+                                             HorizontalAlignment="Right"
+                                             Content="{Binding Posted}"
+                                             ContentStringFormat="dd/MM/yyyy HH:mm:ss" />
                 </DockPanel>
                 <controls:TextBlockWithHyperlinks Content="{Binding Content}"
                                                   PatternType="Tweet"
@@ -53,7 +56,8 @@
                                                   TextWrapping="WrapWithOverflow"
                                                   HorizontalAlignment="Stretch"
                                                   Margin="5,0,5,15"/>
-                <Image Source="{Binding Image}" />  
+                <Image Source="{Binding Image}"
+                       MaxHeight="200" />  
             </StackPanel>
         </Grid>
     </Border>
