@@ -1,6 +1,8 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using Whip.Common;
@@ -31,7 +33,6 @@ namespace Whip.ViewModels.TabViewModels
         private Track _currentTrack;
         private Artist _artist;
         private List<ArtistWebSimilarArtist> _similarArtists;
-        private List<Tweet> _tweets;
         private BitmapImage _image;
         private bool _loadingArtistImage;
         private bool _ukEventsOnly;
@@ -53,6 +54,8 @@ namespace Whip.ViewModels.TabViewModels
             {
                 _similarArtists.Add(new ArtistWebSimilarArtist());
             }
+
+            Tweets = new ObservableCollection<Tweet>();
         }
 
         public RelayCommand ShowCurrentArtistCommand { get; private set; }
@@ -86,12 +89,12 @@ namespace Whip.ViewModels.TabViewModels
                     return;
 
                 _artist = null;
-                RaisePropertyChanged(nameof(Tweets));
+                Tweets.Clear();
                 Set(ref _artist, value);
                 Task.Run(PopulateMainInfo);
                 Task.Run(PopulateEvents);
                 Task.Run(PopulateVideo);
-                Task.Run(PopulateTweets);
+                Task.Run(PopulateTweets).ContinueWith((t,o)=> { Artist.Tweets.ForEach(Tweets.Add); }, CancellationToken.None, TaskScheduler.FromCurrentSynchronizationContext());
             }
         }
 
@@ -128,11 +131,7 @@ namespace Whip.ViewModels.TabViewModels
 
         public Video Video => Artist?.LatestVideo;
 
-        public List<Tweet> Tweets
-        {
-            get { return _tweets; }
-            set { Set(ref _tweets, value); }
-        } // => Artist?.Tweets;
+        public ObservableCollection<Tweet> Tweets { get; private set; }
 
         public List<ArtistEvent> UpcomingEvents => Artist?.UpcomingEvents
             .Where(ev => !UKEventsOnly || ValidUKCountryNames.Contains(ev.Country)).ToList();
@@ -215,9 +214,6 @@ namespace Whip.ViewModels.TabViewModels
         private async Task PopulateTweets()
         {
             await _artistWebInfoService.PopulateTweets(Artist);
-
-            Tweets = Artist.Tweets;
-            // RaisePropertyChanged(nameof(Tweets));
         }
     }
 }

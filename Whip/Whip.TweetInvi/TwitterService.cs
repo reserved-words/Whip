@@ -73,7 +73,7 @@ namespace Whip.TweetInvi
 
             var tweets = Auth.ExecuteOperationWithCredentials(credentials, () =>
             {
-                return Timeline.GetUserTimeline(username, maxTweets).ToList();
+                return Timeline.GetUserTimeline(username, maxTweets)?.ToList();
             });
 
             return tweets;
