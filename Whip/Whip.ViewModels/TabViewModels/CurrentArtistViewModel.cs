@@ -31,6 +31,7 @@ namespace Whip.ViewModels.TabViewModels
         private Track _currentTrack;
         private Artist _artist;
         private List<ArtistWebSimilarArtist> _similarArtists;
+        private List<Tweet> _tweets;
         private BitmapImage _image;
         private bool _loadingArtistImage;
         private bool _ukEventsOnly;
@@ -84,6 +85,8 @@ namespace Whip.ViewModels.TabViewModels
                 if (value == null || value == _artist)
                     return;
 
+                _artist = null;
+                RaisePropertyChanged(nameof(Tweets));
                 Set(ref _artist, value);
                 Task.Run(PopulateMainInfo);
                 Task.Run(PopulateEvents);
@@ -125,7 +128,11 @@ namespace Whip.ViewModels.TabViewModels
 
         public Video Video => Artist?.LatestVideo;
 
-        public List<Tweet> Tweets => Artist?.Tweets;
+        public List<Tweet> Tweets
+        {
+            get { return _tweets; }
+            set { Set(ref _tweets, value); }
+        } // => Artist?.Tweets;
 
         public List<ArtistEvent> UpcomingEvents => Artist?.UpcomingEvents
             .Where(ev => !UKEventsOnly || ValidUKCountryNames.Contains(ev.Country)).ToList();
@@ -209,7 +216,8 @@ namespace Whip.ViewModels.TabViewModels
         {
             await _artistWebInfoService.PopulateTweets(Artist);
 
-            RaisePropertyChanged(nameof(Tweets));
+            Tweets = Artist.Tweets;
+            // RaisePropertyChanged(nameof(Tweets));
         }
     }
 }
