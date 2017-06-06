@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Whip"
              xmlns:views="clr-namespace:Whip.View"
+             xmlns:controls="clr-namespace:Whip.Controls"
              xmlns:model="clr-namespace:Whip.Common.Model;assembly=Whip.Common"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
@@ -13,17 +14,34 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" 
+        <Label Grid.Row="0" Grid.Column="0"
                Style="{StaticResource TitleLabel}"
-               Content="Ordered Playlists" />
-        
-        <ListView Grid.Row="1"
+               Content="Ordered Playlists"/>
+        <controls:Icon12 Grid.Row="0" Grid.Column="1"
+                         Icon="Plus"
+                         Foreground="Silver"
+                         ToolTip="Add New"
+                         Margin="5"
+                         Cursor="Hand">
+            <Image.InputBindings>
+                <MouseBinding Gesture="LeftClick"
+                              Command="{Binding AddNewPlaylistCommand}"/>
+            </Image.InputBindings>
+        </controls:Icon12>
+
+        <ListView Grid.Row="1" Grid.ColumnSpan="2"
                   ItemsSource="{Binding Playlists}"
                   Margin="0"
                   Padding="0"
                   BorderThickness="0,1,0,0"
                   BorderBrush="Silver"
-                  ItemContainerStyle="{StaticResource ListViewItemNoHighlight}"/>
+                  HorizontalContentAlignment="Stretch"
+                  ItemContainerStyle="{StaticResource ListViewItemNoHighlight}">
+        </ListView>
     </Grid>
 </UserControl>

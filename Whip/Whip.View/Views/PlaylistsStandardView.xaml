@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Whip"
+             xmlns:controls="clr-namespace:Whip.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -17,6 +18,13 @@
                 <PropertyGroupDescription PropertyName="Country" />
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
+        <Style TargetType="{x:Type controls:PlayerControlButton}"
+               BasedOn="{StaticResource ButtonStyle}">
+            <Setter Property="Padding" Value="5 2" />
+            <Setter Property="MinWidth" Value="20" />
+            <Setter Property="MinHeight" Value="20" />
+            <Setter Property="Margin" Value="5" />
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -30,9 +38,10 @@
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="35" />
                 <ColumnDefinition Width="80" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="10" />
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
@@ -46,46 +55,48 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0"
+            <controls:PlayerControlButton Grid.Row="0" Grid.Column="0"
+                                          Type="Play"
+                                          Command="{Binding PlayGroupingCommand}"/>
+            
+            <Label Grid.Row="0" Grid.Column="1"
                    Content="Grouping" />
 
-            <ComboBox Grid.Row="0" Grid.Column="1"
+            <ComboBox Grid.Row="0" Grid.Column="2"
                       ItemsSource="{Binding Groupings}"
                       SelectedItem="{Binding SelectedGrouping}" />
 
-            <Button Grid.Row="0" Grid.Column="2"
-                    Content="Play"
-                    Command="{Binding PlayGroupingCommand}"
-                    Margin="5" />
+            <controls:PlayerControlButton Grid.Row="1" Grid.Column="0"
+                                          Type="Play"
+                                          Command="{Binding PlayGenreCommand}"/>
 
-            <Label Grid.Row="1" Grid.Column="0"
+            <Label Grid.Row="1" Grid.Column="1"
                    Content="Genre" />
-
-            <ComboBox Grid.Row="1" Grid.Column="1"
+            
+            <ComboBox Grid.Row="1" Grid.Column="2"
                       ItemsSource="{Binding Genres}"
                       SelectedItem="{Binding SelectedGenre}" />
 
-            <Button Grid.Row="1" Grid.Column="2"
-                    Content="Play"
-                    Command="{Binding PlayGenreCommand}"
-                    Margin="5" />
+            <controls:PlayerControlButton Grid.Row="2" Grid.Column="0"
+                                          Type="Play"
+                                          Command="{Binding PlayCountryCommand}"
+                                          Margin="5"/>
 
-            <Label Grid.Row="2" Grid.Column="0"
+            <Label Grid.Row="2" Grid.Column="1"
                    Content="Country" />
 
-            <ComboBox Grid.Row="2" Grid.Column="1"
+            <ComboBox Grid.Row="2" Grid.Column="2"
                       ItemsSource="{Binding Countries}"
                       SelectedItem="{Binding SelectedCountry}" />
 
-            <Button Grid.Row="2" Grid.Column="2"
-                    Content="Play"
-                    Command="{Binding PlayCountryCommand}"
-                    Margin="5" />
-
-            <Label Grid.Row="3" Grid.Column="0"
+            <controls:PlayerControlButton Grid.Row="3" Grid.Column="0"
+                                          Type="Play"
+                                          Command="{Binding PlayStateCommand}"/>
+            
+            <Label Grid.Row="3" Grid.Column="1"
                    Content="State" />
 
-            <ComboBox Grid.Row="3" Grid.Column="1"
+            <ComboBox Grid.Row="3" Grid.Column="2"
                       ItemsSource="{Binding Source={StaticResource statesView}}"
                       SelectedItem="{Binding SelectedState}">
                 <ComboBox.GroupStyle>
@@ -101,15 +112,14 @@
                 </ComboBox.GroupStyle>
             </ComboBox>
 
-            <Button Grid.Row="3" Grid.Column="2"
-                    Content="Play"
-                    Command="{Binding PlayStateCommand}"
-                    Margin="5" />
-
-            <Label Grid.Row="4" Grid.Column="0"
+            <controls:PlayerControlButton Grid.Row="4" Grid.Column="0"
+                                          Type="Play"
+                                          Command="{Binding PlayCityCommand}"/>
+            
+            <Label Grid.Row="4" Grid.Column="1"
                    Content="City" />
 
-            <ComboBox Grid.Row="4" Grid.Column="1"
+            <ComboBox Grid.Row="4" Grid.Column="2"
                       ItemsSource="{Binding Source={StaticResource citiesView}}"
                       SelectedItem="{Binding SelectedCity}"
                       DisplayMemberPath="CityStateDescription">
@@ -126,34 +136,27 @@
                 </ComboBox.GroupStyle>
             </ComboBox>
 
-            <Button Grid.Row="4" Grid.Column="2"
-                    Content="Play"
-                    Command="{Binding PlayCityCommand}"
-                    Margin="5" />
-
-            <Label Grid.Row="5" Grid.Column="0"
+            <controls:PlayerControlButton Grid.Row="5" Grid.Column="0"
+                                          Type="Play"
+                                          Command="{Binding PlayCityCommand}"/>
+            
+            <Label Grid.Row="5" Grid.Column="1"
                    Content="Tag" />
 
-            <ComboBox Grid.Row="5" Grid.Column="1"
+            <ComboBox Grid.Row="5" Grid.Column="2"
                       ItemsSource="{Binding Tags}"
                       SelectedItem="{Binding SelectedTag}" />
 
-            <Button Grid.Row="5" Grid.Column="2"
-                    Content="Play"
-                    Command="{Binding PlayTagCommand}"
-                    Margin="5" />
-
-            <Label Grid.Row="6" Grid.Column="0"
+            <controls:PlayerControlButton Grid.Row="6" Grid.Column="0"
+                                          Type="Play"
+                                          Command="{Binding PlayRecentlyAddedCommand}"/>
+            
+            <Label Grid.Row="6" Grid.Column="1"
                    Content="Added" />
 
-            <ComboBox Grid.Row="6" Grid.Column="1"
+            <ComboBox Grid.Row="6" Grid.Column="2"
                       ItemsSource="{Binding AddedDateOptions}"
                       SelectedItem="{Binding SelectedAddedDateOption}" />
-
-            <Button Grid.Row="6" Grid.Column="2"
-                    Content="Play"
-                    Command="{Binding PlayRecentlyAddedCommand}"
-                    Margin="5" />
 
         </Grid>
 

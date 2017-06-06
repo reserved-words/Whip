@@ -214,6 +214,7 @@
                                                 <DataTemplate>
                                                     <controls:Icon12 Icon="TrashOutline"
                                                                      Cursor="Hand"
+                                                                     ToolTip="Delete Clause"
                                                                      Foreground="Silver">
                                                         <Image.InputBindings>
                                                             <MouseBinding Gesture="LeftClick"
@@ -227,15 +228,29 @@
                                     </DataGrid.Columns>
                                 </DataGrid>
                                 <WrapPanel>
-                                    <Button Content="Add New Clause"
-                                            Command="{Binding AddNewClauseCommand}"
-                                            HorizontalAlignment="Left"
-                                            Width="100" />
-                                    <Button Content="Remove Group"
-                                            Command="{Binding Path=DataContext.RemoveGroupCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"
-                                            CommandParameter="{Binding}"
-                                            HorizontalAlignment="Left"
-                                            Width="100" />
+                                    <controls:Icon12 Icon="Plus"
+                                                     Cursor="Hand"
+                                                     ToolTip="Add New Clause"
+                                                     Margin="0,5,5,0"
+                                                     Foreground="Silver"
+                                                     HorizontalAlignment="Left">
+                                        <Image.InputBindings>
+                                            <MouseBinding Gesture="LeftClick"
+                                                          Command="{Binding AddNewClauseCommand}"/>
+                                        </Image.InputBindings>
+                                    </controls:Icon12>
+                                    <controls:Icon12 Icon="TrashOutline"
+                                                     Cursor="Hand"
+                                                     ToolTip="Remove Group"
+                                                     Margin="0,5,5,0"
+                                                     Foreground="Silver"
+                                                     HorizontalAlignment="Left">
+                                        <Image.InputBindings>
+                                            <MouseBinding Gesture="LeftClick"
+                                                          Command="{Binding Path=DataContext.RemoveGroupCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"
+                                                          CommandParameter="{Binding}"/>
+                                        </Image.InputBindings>
+                                    </controls:Icon12>
                                 </WrapPanel>
                             </StackPanel>
                         </Border>

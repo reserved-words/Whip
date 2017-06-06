@@ -7,19 +7,41 @@
              xmlns:controls="clr-namespace:Whip.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type controls:PlayerControlButton}"
+               BasedOn="{StaticResource ButtonStyle}">
+            <Setter Property="Padding" Value="5 2" />
+            <Setter Property="MinWidth" Value="20" />
+            <Setter Property="MinHeight" Value="20" />
+            <Setter Property="Margin" Value="5" />
+        </Style>
+    </UserControl.Resources>
     <Border BorderBrush="Silver"
-            BorderThickness="0,0,0,1">
+            Padding="0,2,2,2"
+            BorderThickness="0,0,0,1"
+            HorizontalAlignment="Stretch">
         <Grid HorizontalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0"
+            <controls:PlayerControlButton Grid.Column="0"
+                                          Type="Play"
+                                          VerticalAlignment="Center"
+                                          Command="{Binding Path=DataContext.PlayCommand, ElementName=PlaylistsGrid}"
+                                          CommandParameter="{Binding}"/>
+            
+            <Label Grid.Column="1"
+                   Content="{Binding Title}"
+                   VerticalAlignment="Center" />
+            
+            <StackPanel Grid.Column="2"
                         VerticalAlignment="Center">
                 <controls:Icon12 Icon="Cog"
                                  Foreground="Silver"
                                  Margin="2"
+                                 ToolTip="Edit"
                                  Cursor="Hand">
                     <Image.InputBindings>
                         <MouseBinding Gesture="LeftClick"
@@ -30,6 +52,7 @@
                 <controls:Icon12 Icon="TrashOutline"
                                 Foreground="Silver"
                                 Margin="2"
+                               ToolTip="Delete"
                                 Cursor="Hand">
                     <Image.InputBindings>
                         <MouseBinding Gesture="LeftClick"
@@ -38,14 +61,6 @@
                     </Image.InputBindings>
                 </controls:Icon12>
             </StackPanel>
-            <Label Grid.Column="1"
-                   Content="{Binding Title}"
-                   VerticalAlignment="Top" />
-            <Button Grid.Column="2"
-                    VerticalAlignment="Center"
-                    Content="Play" 
-                    Command="{Binding Path=DataContext.PlayCommand, ElementName=PlaylistsGrid}"
-                    CommandParameter="{Binding}"/>
         </Grid>
     </Border>
 </UserControl>
