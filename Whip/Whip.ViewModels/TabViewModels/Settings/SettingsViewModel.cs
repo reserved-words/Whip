@@ -13,9 +13,6 @@ namespace Whip.ViewModels.TabViewModels.Settings
 
         private string _archiveDirectory;
         private string _lastFmUsername;
-        private string _lastFmApiKey;
-        private string _lastFmApiSecret;
-        private string _bandsInTownApiId;
         private string _musicDirectory;
         private string _mainColourRgb;
         private bool _scrobbling;
