@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Whip.Common.ExtensionMethods;
+using Whip.Common.Interfaces;
 using Whip.Common.Model;
 using Whip.Common.TrackSorters;
 using Whip.Services.Interfaces;
@@ -13,12 +14,10 @@ namespace Whip.Services
     {
         private readonly TrackQueue _queue = new TrackQueue();
         private readonly IUserSettings _userSettings;
-        private readonly ILoggingService _logger;
 
-        public Playlist(IUserSettings userSettings, ILoggingService logger)
+        public Playlist(IUserSettings userSettings)
         {
             _userSettings = userSettings;
-            _logger = logger;
         }
 
         public event Action ListUpdated;
@@ -32,25 +31,19 @@ namespace Whip.Services
 
         public void Set(string playlistName, List<Track> tracks, Track startAt)
         {
-            _logger.Info($"Playlist Set: {playlistName} ({tracks.Count} tracks)");
-
             PlaylistName = playlistName;
             Tracks = tracks;
 
             var sortedTracks = Sort(tracks);
 
             _queue.Set(sortedTracks, startAt == null ? 0 : sortedTracks.IndexOf(startAt), true);
-
-            _logger.Info("Queue has been set");
-
+            
             ListUpdated?.Invoke();
         }
 
         public void MoveNext()
         {
-            _logger.Info("Playlist move next called");
             _queue.MoveNext();
-            _logger.Info("Calling current track changed for " + (_queue.CurrentTrack?.Title ?? "null track"));
             CurrentTrackChanged?.Invoke(_queue.CurrentTrack);
         }
 
@@ -62,14 +55,11 @@ namespace Whip.Services
 
         private List<Track> Sort(List<Track> tracks)
         {
-            if (_userSettings.ShuffleOn)
-            {
-                return tracks.SortUsing(new RandomTrackSorter()).ToList();
-            }
-            else
-            {
-                return tracks.SortUsing(new DefaultTrackSorter()).ToList();
-            }
+            var sorter = _userSettings.ShuffleOn 
+                ? (ITrackSorter)new RandomTrackSorter() 
+                : new DefaultTrackSorter();
+
+            return tracks.SortUsing(sorter).ToList();
         }
 
         public void Reorder()

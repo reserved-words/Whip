@@ -6,7 +6,6 @@ using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 using Whip.ViewModels.Messages;
 using Whip.ViewModels.Utilities;
-using Whip.ViewModels.Windows;
 
 namespace Whip.ViewModels
 {
@@ -20,23 +19,20 @@ namespace Whip.ViewModels
         private readonly IMessenger _messenger;
 
         private readonly Library _library;
-        private readonly IPlaylist _playlist;
 
         public MainWindowViewModel(ILibraryService libraryService, IUserSettings userSettings, Library library,
-            IMessenger messenger, IPlaylist playlist, ITrackFilterService trackFilterService,
-            MainViewModel mainViewModel, SidebarViewModel sidebarViewModel)
+            IMessenger messenger, IPlaylist playlist, MainViewModel mainViewModel, SidebarViewModel sidebarViewModel)
         {
             _libraryService = libraryService;
             _userSettings = userSettings;
             _messenger = messenger;
 
             _library = library;
-            _playlist = playlist;
 
             MainViewModel = mainViewModel;
             SidebarViewModel = sidebarViewModel;
 
-            _playlist.CurrentTrackChanged += OnCurrentTrackChanged;
+            playlist.CurrentTrackChanged += OnCurrentTrackChanged;
         }
 
         private void OnCurrentTrackChanged(Track track)

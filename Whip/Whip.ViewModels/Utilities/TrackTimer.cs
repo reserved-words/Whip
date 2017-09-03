@@ -12,8 +12,8 @@ namespace Whip.ViewModels.Utilities
         private readonly SynchronizationContext _synchronizationContext = SynchronizationContext.Current;
         private readonly Timer _timer = new Timer(1000);
 
-        private double _trackDurationInSeconds;
-        private double _secondsPlayed;
+        private int _trackDurationInSeconds;
+        private int _secondsPlayed;
 
         private int _percentagePlayed;
         private string _timePlayed;
@@ -49,13 +49,13 @@ namespace Whip.ViewModels.Utilities
         public void Reset(Track track)
         {
             _secondsPlayed = 0;
-            _trackDurationInSeconds = track?.Duration.TotalSeconds ?? 0;
+            _trackDurationInSeconds = (int)(track?.Duration.TotalSeconds ?? 0);
             SetProperties();
         }
 
         public void SkipToPercentage(double newPercentage)
         {
-            _secondsPlayed = (newPercentage / 100) * _trackDurationInSeconds;
+            _secondsPlayed = (int)(newPercentage / 100) * _trackDurationInSeconds;
             SetProperties();
         }
 

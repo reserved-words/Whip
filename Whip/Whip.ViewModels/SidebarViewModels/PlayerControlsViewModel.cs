@@ -37,7 +37,7 @@ namespace Whip.ViewModels
 
             _library.Updated += OnLibraryUpdated;
             _playlist.ListUpdated += OnPlaylistUpdated;
-            
+
             MoveNextCommand = new RelayCommand(OnMoveNext, CanMoveNext);
             MovePreviousCommand = new RelayCommand(OnMovePrevious, CanMovePrevious);
             PauseCommand = new RelayCommand(OnPause, CanPause);
@@ -113,17 +113,9 @@ namespace Whip.ViewModels
 
         public void OnCurrentTrackChanged(Track track)
         {
-            TrackTimer.Reset(null);
-            TrackTimer.Stop();
-
-            if (track == null)
-            {
-                CurrentStatus = PlayerStatus.Stopped;
-            }
-            else
-            {
-                CurrentStatus = PlayerStatus.Playing;
-            }
+            CurrentStatus = track == null
+                ? PlayerStatus.Stopped
+                : PlayerStatus.Playing;
         }
 
         private void OnMoveNext()
