@@ -61,6 +61,7 @@ namespace Whip.Ioc
                 .Register<ITrackFilterService, TrackFilterService>()
                 .Register<IScrobblingRulesService, ScrobblingRulesService>()
                 .Register<ILibrarySortingService, LibrarySortingService>()
+                .Register<IPlayRequestHandler, PlayRequestHandler>()
                 .Register<ITrackUpdateService, TrackUpdateService>()
                 .Register<IImageProcessingService, ImageProcessingService>()
                 .Register<IWebBrowserService, WebBrowserService>()
@@ -145,7 +146,6 @@ namespace Whip.Ioc
         private static IKernel RegisterMessageHandlers(this IKernel kernel)
         {
             kernel.RegisterSingleton<DialogMessageHandler>()
-                .RegisterSingleton<PlayRequestHandler>()
                 .RegisterSingleton<TrackChangeCoordinator>()
                 .RegisterSingleton<LibraryHandler>()
                 .RegisterSingleton<ShowTabRequestHandler>();

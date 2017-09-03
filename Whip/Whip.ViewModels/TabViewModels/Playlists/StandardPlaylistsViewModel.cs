@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Whip.Common;
 using Whip.Common.Model;
+using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
 
 namespace Whip.ViewModels.TabViewModels.Playlists
@@ -14,6 +15,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
     {
         private readonly Common.Singletons.Library _library;
         private readonly IMessenger _messenger;
+        private readonly IPlayRequestHandler _playRequestHandler;
 
         private Dictionary<string, Predicate<Track>> _dateAddedOptions;
 
@@ -32,10 +34,11 @@ namespace Whip.ViewModels.TabViewModels.Playlists
         private List<City> _cities;
         private List<string> _tags;
 
-        public StandardPlaylistsViewModel(Common.Singletons.Library library, IMessenger messenger)
+        public StandardPlaylistsViewModel(Common.Singletons.Library library, IMessenger messenger, IPlayRequestHandler playRequestHandler)
         {
             _library = library;
             _messenger = messenger;
+            _playRequestHandler = playRequestHandler;
 
             _dateAddedOptions = GetDateAddedOptions();
 
@@ -73,7 +76,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
                 return;
             }
 
-            _messenger.Send(new PlayPlaylistMessage(string.Format("Tracks Added {0}", SelectedAddedDateOption), SortType.Random, tracks));
+            _playRequestHandler.PlayPlaylist(string.Format("Tracks Added {0}", SelectedAddedDateOption), tracks, SortType.Random);
         }
 
         private void OnPlayTag()
@@ -82,7 +85,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
                 return;
 
             var tracks = _library.Artists.SelectMany(a => a.Tracks.Where(t => t.Tags.Contains(SelectedTag))).ToList();
-            _messenger.Send(new PlayPlaylistMessage(SelectedTag, SortType.Random, tracks));
+            _playRequestHandler.PlayPlaylist(SelectedTag, tracks, SortType.Random);
         }
 
         private void OnPlayCity()
@@ -91,7 +94,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
                 return;
 
             var tracks = _library.Artists.Where(a => a.City == SelectedCity).SelectMany(a => a.Tracks).ToList();
-            _messenger.Send(new PlayPlaylistMessage(SelectedCity.Description, SortType.Random, tracks));
+            _playRequestHandler.PlayPlaylist(SelectedCity.Description, tracks, SortType.Random);
         }
 
         private void OnPlayState()
@@ -100,7 +103,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
                 return;
 
             var tracks = _library.Artists.Where(a => a.City.State == SelectedState.Name && a.City.Country == SelectedState.Country).SelectMany(a => a.Tracks).ToList();
-            _messenger.Send(new PlayPlaylistMessage(SelectedState.Description, SortType.Random, tracks));
+            _playRequestHandler.PlayPlaylist(SelectedState.Description, tracks, SortType.Random);
         }
 
         private void OnPlayCountry()
@@ -109,7 +112,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
                 return;
 
             var tracks = _library.Artists.Where(a => a.City.Country == SelectedCountry).SelectMany(a => a.Tracks).ToList();
-            _messenger.Send(new PlayPlaylistMessage(SelectedCountry, SortType.Random, tracks));
+            _playRequestHandler.PlayPlaylist(SelectedCountry, tracks, SortType.Random);
         }
 
         private void OnPlayGenre()
@@ -118,7 +121,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
                 return;
 
             var tracks = _library.Artists.Where(a => a.Genre == SelectedGenre).SelectMany(a => a.Tracks).ToList();
-            _messenger.Send(new PlayPlaylistMessage(SelectedGenre, SortType.Random, tracks));
+            _playRequestHandler.PlayPlaylist(SelectedGenre, tracks, SortType.Random);
         }
 
         private void OnPlayGrouping()
@@ -127,7 +130,8 @@ namespace Whip.ViewModels.TabViewModels.Playlists
                 return;
 
             var tracks = _library.Artists.Where(a => a.Grouping == SelectedGrouping).SelectMany(a => a.Tracks).ToList();
-            _messenger.Send(new PlayPlaylistMessage(SelectedGrouping, SortType.Random, tracks));
+
+            _playRequestHandler.PlayPlaylist(SelectedGrouping, tracks, SortType.Random);
         }
 
         public RelayCommand PlayGroupingCommand { get; private set; }

@@ -26,7 +26,6 @@ namespace Whip.Ioc
         public static void StartMessageHandlers()
         {
             _kernel.Get<DialogMessageHandler>().Start();
-            _kernel.Get<PlayRequestHandler>().Start();
             _kernel.Get<TrackChangeCoordinator>().Start();
             _kernel.Get<LibraryHandler>().Start();
             _kernel.Get<ShowTabRequestHandler>().Start();
@@ -35,7 +34,6 @@ namespace Whip.Ioc
         public static void StopMessageHandlers()
         {
             _kernel.Get<DialogMessageHandler>().Stop();
-            _kernel.Get<PlayRequestHandler>().Stop();
             _kernel.Get<TrackChangeCoordinator>().Stop();
             _kernel.Get<LibraryHandler>().Stop();
             _kernel.Get<ShowTabRequestHandler>().Stop();

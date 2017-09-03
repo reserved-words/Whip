@@ -3,13 +3,13 @@ using GalaSoft.MvvmLight.Command;
 using Whip.Common.Model;
 using Whip.Common.Singletons;
 using Whip.Common;
-using Whip.ViewModels.Messages;
 using Whip.ViewModels.Utilities;
 using System.Collections.Generic;
 using Whip.Common.ExtensionMethods;
 using GalaSoft.MvvmLight.Messaging;
 using System.Linq;
 using Whip.Common.Interfaces;
+using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 
 namespace Whip.ViewModels
@@ -22,16 +22,21 @@ namespace Whip.ViewModels
         private readonly IMessenger _messenger;
         private readonly IPlaylist _playlist;
         private readonly IPlayer _player;
+        private readonly ILoggingService _logger;
+        private readonly IPlayRequestHandler _playRequestHandler;
 
         private List<string> _groupings;
         private PlayerStatus _currentStatus;
         
-        public PlayerControlsViewModel(Library library, IMessenger messenger, IPlaylist playlist, IPlayer player) 
+        public PlayerControlsViewModel(Library library, IMessenger messenger, IPlaylist playlist, IPlayer player, ILoggingService logger,
+            IPlayRequestHandler playRequestHandler)
         {
+            _logger = logger;
             _library = library;
             _messenger = messenger;
             _playlist = playlist;
             _player = player;
+            _playRequestHandler = playRequestHandler;
 
             _library.Updated += OnLibraryUpdated;
             _playlist.ListUpdated += OnPlaylistUpdated;
@@ -148,12 +153,13 @@ namespace Whip.ViewModels
 
         private void OnShuffleGrouping(string grouping)
         {
-            _messenger.Send(new PlayGroupingMessage(grouping, SortType.Random));
+            _playRequestHandler.PlayGrouping(grouping, SortType.Random);
         }
 
         private void OnShuffleLibrary()
         {
-            _messenger.Send(new PlayAllMessage(SortType.Random));
+            _logger.Info("OnShuffleLibrary");
+            _playRequestHandler.PlayAll(SortType.Random);
         }
 
         private void OnSkip(double newPercentage)

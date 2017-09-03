@@ -22,6 +22,7 @@ namespace Whip.ViewModels.TabViewModels
         private readonly IMessenger _messenger;
         private readonly ITrackSearchService _trackSearchService;
         private readonly IPlaylistRepository _repository;
+        private readonly IPlayRequestHandler _playRequestHandler;
 
         private List<Track> _results;
         private Track _selectedTrack;
@@ -37,13 +38,14 @@ namespace Whip.ViewModels.TabViewModels
         private Lazy<List<string>> _cities;
 
         public SearchViewModel(Common.Singletons.Library library, IMessenger messenger, ITrackSearchService trackSearchService,
-            IPlaylistRepository repository, TrackContextMenuViewModel trackContextMenu)
+            IPlaylistRepository repository, TrackContextMenuViewModel trackContextMenu, IPlayRequestHandler playRequestHandler)
             :base(TabType.Search, IconType.Search, "Library Search")
         {
             _library = library;
             _messenger = messenger;
             _repository = repository;
             _trackSearchService = trackSearchService;
+            _playRequestHandler = playRequestHandler;
 
             TrackContextMenu = trackContextMenu;
 
@@ -171,7 +173,7 @@ namespace Whip.ViewModels.TabViewModels
 
         private void OnPlay()
         {
-            _messenger.Send(new PlayPlaylistMessage("Search Results", SortType.Random, Results, SelectedTrack));
+            _playRequestHandler.PlayPlaylist("Search Results", Results, SortType.Random, SelectedTrack);
         }
 
         private void OnSaveAsCriteriaPlaylist()

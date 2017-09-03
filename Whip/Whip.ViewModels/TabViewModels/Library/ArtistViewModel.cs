@@ -19,9 +19,11 @@ namespace Whip.ViewModels.TabViewModels.Library
         private readonly IArtistInfoService _webArtistInfoService;
         private readonly TrackContextMenuViewModel _trackContextMenuViewModel;
         private readonly IConfigSettings _configSettings;
+        private readonly IPlayRequestHandler _playRequestHandler;
 
         public ArtistViewModel(ITrackFilterService trackFilterService, IMessenger messenger, IArtistInfoService webArtistInfoService,
-            IImageProcessingService imageProcessingService, TrackContextMenuViewModel trackContextMenuViewModel, IConfigSettings configSettings)
+            IImageProcessingService imageProcessingService, TrackContextMenuViewModel trackContextMenuViewModel, IConfigSettings configSettings,
+            IPlayRequestHandler playRequestHandler)
         {
             _imageProcessingService = imageProcessingService;
             _messenger = messenger;
@@ -29,6 +31,7 @@ namespace Whip.ViewModels.TabViewModels.Library
             _trackFilterService = trackFilterService;
             _webArtistInfoService = webArtistInfoService;
             _configSettings = configSettings;
+            _playRequestHandler = playRequestHandler;
         }
 
         private Artist _artist;
@@ -78,12 +81,12 @@ namespace Whip.ViewModels.TabViewModels.Library
 
         public void OnPlay(Track startAt)
         {
-            _messenger.Send(new PlayArtistMessage(Artist, SortType.Ordered, startAt));
+            _playRequestHandler.PlayArtist(Artist, SortType.Ordered, startAt);
         }
 
         public void OnPlayAlbum(AlbumViewModel album)
         {
-            _messenger.Send(new PlayAlbumMessage(album.Album, SortType.Ordered));
+            _playRequestHandler.PlayAlbum(album.Album, SortType.Ordered);
         }
 
         private string Format(int? count, string description)

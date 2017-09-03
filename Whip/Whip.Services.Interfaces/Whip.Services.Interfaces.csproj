@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="DataAccess\IPlaylistRepository.cs" />
     <Compile Include="IConfigSettings.cs" />
+    <Compile Include="IPlayRequestHandler.cs" />
     <Compile Include="Library\IArchiveService.cs" />
     <Compile Include="Library\ICommentProcessingService.cs" />
     <Compile Include="Library\ILibrarySortingService.cs" />

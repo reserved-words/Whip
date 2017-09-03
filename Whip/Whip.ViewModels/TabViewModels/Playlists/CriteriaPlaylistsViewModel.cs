@@ -11,17 +11,18 @@ namespace Whip.ViewModels.TabViewModels.Playlists
 {
     public class CriteriaPlaylistsViewModel
     {
-        private readonly Common.Singletons.Library _library;
         private readonly IMessenger _messenger;
         private readonly PlaylistsViewModel _parent;
         private readonly ITrackSearchService _playlistService;
+        private readonly IPlayRequestHandler _playRequestHandler;
 
-        public CriteriaPlaylistsViewModel(PlaylistsViewModel parent, Common.Singletons.Library library, IMessenger messenger, ITrackSearchService playlistService)
+        public CriteriaPlaylistsViewModel(PlaylistsViewModel parent, IMessenger messenger, ITrackSearchService playlistService,
+            IPlayRequestHandler playRequestHandler)
         {
-            _library = library;
             _messenger = messenger;
             _playlistService = playlistService;
             _parent = parent;
+            _playRequestHandler = playRequestHandler;
 
             Playlists = new ObservableCollection<CriteriaPlaylist>();
 
@@ -62,7 +63,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
 
         private void OnPlay(CriteriaPlaylist playlist)
         {
-            _messenger.Send(new PlayPlaylistMessage(playlist.Title, SortType.Random, _playlistService.GetTracks(playlist)));
+            _playRequestHandler.PlayPlaylist(playlist.Title, _playlistService.GetTracks(playlist), SortType.Random);
         }
     }
 }

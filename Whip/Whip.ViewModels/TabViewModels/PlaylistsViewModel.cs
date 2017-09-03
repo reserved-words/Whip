@@ -15,15 +15,16 @@ namespace Whip.ViewModels.TabViewModels
         private readonly IMessenger _messenger;
         private readonly IPlaylistRepository _repository;
 
-        public PlaylistsViewModel(IPlaylistRepository repository, Common.Singletons.Library library, IMessenger messenger, ITrackSearchService trackSearchService)
+        public PlaylistsViewModel(IPlaylistRepository repository, Common.Singletons.Library library, IMessenger messenger,
+            ITrackSearchService trackSearchService, IPlayRequestHandler playRequestHandler)
             :base(TabType.Playlists, IconType.ListUl, "Playlists")
         {
             _messenger = messenger;
             _repository = repository;
 
-            OrderedPlaylists = new OrderedPlaylistsViewModel(this, _messenger, trackSearchService, _repository);
-            CriteriaPlaylists = new CriteriaPlaylistsViewModel(this, library, messenger, trackSearchService);
-            StandardPlaylists = new StandardPlaylistsViewModel(library, messenger);
+            OrderedPlaylists = new OrderedPlaylistsViewModel(this, _messenger, trackSearchService, _repository, playRequestHandler);
+            CriteriaPlaylists = new CriteriaPlaylistsViewModel(this, messenger, trackSearchService, playRequestHandler);
+            StandardPlaylists = new StandardPlaylistsViewModel(library, messenger, playRequestHandler);
         }
 
         public StandardPlaylistsViewModel StandardPlaylists { get; private set; }

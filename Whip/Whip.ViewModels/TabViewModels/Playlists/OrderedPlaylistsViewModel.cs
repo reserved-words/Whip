@@ -15,14 +15,16 @@ namespace Whip.ViewModels.TabViewModels.Playlists
         private readonly IMessenger _messenger;
         private readonly IPlaylistRepository _repository;
         private readonly ITrackSearchService _trackSearchService;
+        private readonly IPlayRequestHandler _playRequestHandler;
 
         public OrderedPlaylistsViewModel(PlaylistsViewModel parent, IMessenger messenger, ITrackSearchService trackSearchService,
-            IPlaylistRepository repository)
+            IPlaylistRepository repository, IPlayRequestHandler playRequestHandler)
         {
             _messenger = messenger;
             _parent = parent;
             _repository = repository;
             _trackSearchService = trackSearchService;
+            _playRequestHandler = playRequestHandler;
 
             Playlists = new ObservableCollection<OrderedPlaylist>();
 
@@ -63,7 +65,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
 
         private void OnPlay(OrderedPlaylist playlist)
         {
-            _messenger.Send(new PlayPlaylistMessage(playlist.Title, SortType.Random, _trackSearchService.GetTracks(playlist.Tracks)));
+            _playRequestHandler.PlayPlaylist(playlist.Title, _trackSearchService.GetTracks(playlist.Tracks), SortType.Random);
         }
     }
 }
