@@ -4,25 +4,29 @@ using System.Linq;
 using System.Threading.Tasks;
 using Whip.Common.Interfaces;
 using Whip.Common.Model;
+using Whip.Services.Interfaces;
 
 namespace Whip.Services.Singletons
 {
     public class NewFilePlayer : IPlayer
     {
+        private const string ApplicationDirectoryName = "Whip";
         private const string CurrentPlayingDirectoryName = "CurrentlyPlaying";
 
         private readonly IPlayer _basePlayer;
 
         private readonly DirectoryInfo _currentlyPlayingDirectory;
         private readonly string _currentlyPlayingDirectoryPath;
+        private readonly ILoggingService _logger;
 
         private string _currentlyPlayingFilepath;
         
-        public NewFilePlayer(IPlayer basePlayer)
+        public NewFilePlayer(IPlayer basePlayer, ILoggingService logger)
         {
             _basePlayer = basePlayer;
+            _logger = logger;
 
-            _currentlyPlayingDirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, CurrentPlayingDirectoryName);
+            _currentlyPlayingDirectoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ApplicationDirectoryName, CurrentPlayingDirectoryName);
             _currentlyPlayingDirectory = Directory.CreateDirectory(_currentlyPlayingDirectoryPath);
         }
 
@@ -33,6 +37,8 @@ namespace Whip.Services.Singletons
 
         public void Play(Track track)
         {
+            _logger.Info("NewFilePlayer: Play " + track.Title);
+
             if (track == null)
             {
                 _basePlayer.Play(track);
@@ -41,9 +47,11 @@ namespace Whip.Services.Singletons
             {
                 CopyFile(track);
 
+                _logger.Info("Invoke basePlayer.Play");
                 _basePlayer.Play(new Track { File = new Common.Model.File(_currentlyPlayingFilepath, null, DateTime.MinValue, DateTime.MinValue) });
             }
 
+            _logger.Info("Deleting played files");
             Task.Run(() => DeletePlayedFiles());
         }
 
@@ -63,12 +71,20 @@ namespace Whip.Services.Singletons
 
             _currentlyPlayingFilepath = Path.Combine(_currentlyPlayingDirectoryPath, copyFilename);
 
+            _logger.Info("Copying file " + track.File.FullPath + " to " + _currentlyPlayingFilepath);
+
             System.IO.File.Copy(track.File.FullPath, _currentlyPlayingFilepath);
             System.IO.File.SetAttributes(_currentlyPlayingFilepath, FileAttributes.Normal);
+
+            _logger.Info(System.IO.File.Exists(_currentlyPlayingFilepath)
+                ? "File exists!"
+                : "File does not exist!");
         }
 
         private void DeletePlayedFiles()
         {
+            _logger.Info("Deleting all files except " + _currentlyPlayingFilepath ?? "");
+
             _currentlyPlayingDirectory
                 .EnumerateFiles()
                 .Where(f => _currentlyPlayingFilepath == null || f.Name != _currentlyPlayingFilepath)

@@ -10,6 +10,7 @@ namespace Whip.Services
         private readonly IPlayer _player;
         private readonly IScrobblingRulesService _scrobblingRulesService;
         private readonly IScrobblingService _scrobblingService;
+        private readonly ILoggingService _logger;
 
         private Track _currentTrack;
 
@@ -20,11 +21,13 @@ namespace Whip.Services
         private DateTime _pausedAt;
         private DateTime _playingAt;
 
-        public ScrobblingPlayer(IPlayer player, IScrobblingRulesService scrobblingRulesService, IScrobblingService scrobblingService)
+        public ScrobblingPlayer(IPlayer player, IScrobblingRulesService scrobblingRulesService, IScrobblingService scrobblingService,
+            ILoggingService logger)
         {
             _player = player;
             _scrobblingRulesService = scrobblingRulesService;
             _scrobblingService = scrobblingService;
+            _logger = logger;
         }
 
         public void Pause()
@@ -40,6 +43,8 @@ namespace Whip.Services
 
         public void Play(Track track)
         {
+            _logger.Info("ScrobblingPlayer: Play " + track.Title);
+
             var previousTrack = _currentTrack;
             _totalSeconds = track?.Duration.TotalSeconds ?? 0;
 

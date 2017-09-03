@@ -1,5 +1,6 @@
 ﻿using Whip.Common.Interfaces;
 using Whip.Common.Model;
+using Whip.Services.Interfaces;
 using WMPLib;
 
 namespace Whip.WmpPlayer
@@ -7,9 +8,11 @@ namespace Whip.WmpPlayer
     public class Player : IPlayer
     {
         private readonly WindowsMediaPlayer _player = new WindowsMediaPlayer();
+        private readonly ILoggingService _logger;
 
-        public Player()
+        public Player(ILoggingService logger)
         {
+            _logger = logger;
             _player.settings.volume = 50;
         }
         
@@ -20,17 +23,31 @@ namespace Whip.WmpPlayer
 
         public void Play(Track track)
         {
+            _logger.Info("Player: Play " + track.File.FullPath);
+
             if (track == null)
             {
+                _logger.Error("Error playing file: Track is null");
                 _player.URL = string.Empty;
                 _player.controls.currentPosition = 0;
                 _player.controls.stop();
                 return;
             }
 
-            _player.URL = track.File.FullPath;
-            _player.controls.currentPosition = 0;
-            _player.controls.play();
+            try
+            {
+                _player.URL = track.File.FullPath;
+
+                _logger.Info("Playing " + _player.URL);
+                _logger.Info("Duration " + _player.controls.currentItem.duration);
+
+                _player.controls.currentPosition = 0;
+                _player.controls.play();
+            }
+            catch (System.Exception ex)
+            {
+                _logger.Error("Error playing file: " + ex.Message);
+            }
         }
 
         public void Resume()

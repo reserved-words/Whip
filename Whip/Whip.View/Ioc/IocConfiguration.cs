@@ -160,7 +160,7 @@ namespace Whip.Ioc
         {
             kernel.Bind<NewFilePlayer>().ToSelf()
                 .InSingletonScope()
-                .WithConstructorArgument<IPlayer>(new Player());
+                .WithConstructorArgument(typeof(IPlayer), ctx => ctx.Kernel.Get<Player>());
 
             kernel.Bind<IPlayer>().To<ScrobblingPlayer>()
                 .InSingletonScope()

@@ -13,10 +13,12 @@ namespace Whip.Services
     {
         private readonly TrackQueue _queue = new TrackQueue();
         private readonly IUserSettings _userSettings;
+        private readonly ILoggingService _logger;
 
-        public Playlist(IUserSettings userSettings)
+        public Playlist(IUserSettings userSettings, ILoggingService logger)
         {
             _userSettings = userSettings;
+            _logger = logger;
         }
 
         public event Action ListUpdated;
@@ -30,6 +32,8 @@ namespace Whip.Services
 
         public void Set(string playlistName, List<Track> tracks, Track startAt)
         {
+            _logger.Info($"Playlist Set: {playlistName} ({tracks.Count} tracks)");
+
             PlaylistName = playlistName;
             Tracks = tracks;
 
@@ -37,12 +41,16 @@ namespace Whip.Services
 
             _queue.Set(sortedTracks, startAt == null ? 0 : sortedTracks.IndexOf(startAt), true);
 
+            _logger.Info("Queue has been set");
+
             ListUpdated?.Invoke();
         }
 
         public void MoveNext()
         {
+            _logger.Info("Playlist move next called");
             _queue.MoveNext();
+            _logger.Info("Calling current track changed for " + (_queue.CurrentTrack?.Title ?? "null track"));
             CurrentTrackChanged?.Invoke(_queue.CurrentTrack);
         }
 

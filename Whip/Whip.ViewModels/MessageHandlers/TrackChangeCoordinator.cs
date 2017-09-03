@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight.Messaging;
-using System;
+﻿using System;
 using System.Timers;
 using Whip.Common.Interfaces;
 using Whip.Common.Model;
@@ -15,19 +14,19 @@ namespace Whip.ViewModels.MessageHandlers
 
         private readonly IPlaylist _playlist;
         private readonly IPlayer _player;
-        private readonly IConfigSettings _configSettings;
+        private readonly ILoggingService _logger;
 
         private Track _track;
 
         public event Action<Track> NewTrackStarted;
 
-        public TrackChangeCoordinator(IPlaylist playlist, IPlayer player, IConfigSettings configSettings)
+        public TrackChangeCoordinator(IPlaylist playlist, IPlayer player, IConfigSettings configSettings, ILoggingService logger)
         {
             _playlist = playlist;
             _player = player;
-            _configSettings = configSettings;
+            _logger = logger;
 
-            _timer = new Timer(_configSettings.TrackChangeDelay);
+            _timer = new Timer(configSettings.TrackChangeDelay);
 
             _timer.Elapsed += _timer_Elapsed;
         }
@@ -36,8 +35,11 @@ namespace Whip.ViewModels.MessageHandlers
         {
             _synchronizationContext.Send(state =>
             {
+                _logger.Info("Stopping timer");
                 _timer.Stop();
+                _logger.Info("Start playing " + _track.Title);
                 _player.Play(_track);
+                _logger.Info("Invoke new track started");
                 NewTrackStarted?.Invoke(_track);
             }
             , null);
@@ -55,10 +57,14 @@ namespace Whip.ViewModels.MessageHandlers
 
         private void OnCurrentTrackChanged(Track track)
         {
+            _logger.Info("TrackChangeCoordinator: Track changed to " + track);
+
             _synchronizationContext.Send(state =>
             {
                 _timer.Stop();
+                _logger.Info("Pausing player");
                 _player.Pause();
+                _logger.Info("Setting track to " + track);
                 _track = track;
                 _timer.Start();
             }
