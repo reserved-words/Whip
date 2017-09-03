@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using Whip.Common.ExtensionMethods;
 using GalaSoft.MvvmLight.Messaging;
 using System.Linq;
+using Whip.Common.Interfaces;
+using Whip.Services.Interfaces.Singletons;
 
 namespace Whip.ViewModels
 {
@@ -18,16 +20,21 @@ namespace Whip.ViewModels
 
         private readonly Library _library;
         private readonly IMessenger _messenger;
+        private readonly IPlaylist _playlist;
+        private readonly IPlayer _player;
 
         private List<string> _groupings;
         private PlayerStatus _currentStatus;
         
-        public PlayerControlsViewModel(Library library, IMessenger messenger) 
+        public PlayerControlsViewModel(Library library, IMessenger messenger, IPlaylist playlist, IPlayer player) 
         {
             _library = library;
             _messenger = messenger;
+            _playlist = playlist;
+            _player = player;
 
             _library.Updated += OnLibraryUpdated;
+            _playlist.ListUpdated += OnPlaylistUpdated;
             
             MoveNextCommand = new RelayCommand(OnMoveNext, CanMoveNext);
             MovePreviousCommand = new RelayCommand(OnMovePrevious, CanMovePrevious);
@@ -41,6 +48,14 @@ namespace Whip.ViewModels
             TrackTimer.TrackEnded += OnTrackEnded;
 
             CurrentStatus = PlayerStatus.Stopped;
+        }
+
+        private void OnPlaylistUpdated()
+        {
+            if (_playlist.CurrentTrack == null)
+            {
+                _playlist.MoveNext();
+            }
         }
 
         public bool Playing => CurrentStatus == PlayerStatus.Playing;
@@ -109,24 +124,24 @@ namespace Whip.ViewModels
 
         private void OnMoveNext()
         {
-            _messenger.Send(new PlayNextMessage());
+            _playlist.MoveNext();
         }
 
         private void OnMovePrevious()
         {
-            _messenger.Send(new PlayPreviousMessage());
+            _playlist.MovePrevious();
         } 
 
         private void OnPause()
         {
-            _messenger.Send(new PausePlayerMessage());
+            _player.Pause();
             TrackTimer.Stop();
             CurrentStatus = PlayerStatus.Paused;
         }
 
         private void OnResume()
         {
-            _messenger.Send(new ResumePlayerMessage());
+            _player.Resume();
             TrackTimer.Start();
             CurrentStatus = PlayerStatus.Playing;
         }
@@ -143,13 +158,13 @@ namespace Whip.ViewModels
 
         private void OnSkip(double newPercentage)
         {
-            _messenger.Send(new SkipToPercentageMessage(newPercentage));
+            _player.SkipToPercentage(newPercentage);
             TrackTimer.SkipToPercentage(newPercentage);
         }
 
         private void OnTrackEnded()
         {
-            _messenger.Send(new PlayNextMessage());
+            _playlist.MoveNext();
         }
 
         private void RaisePlayerStatusChanged()

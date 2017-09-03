@@ -64,7 +64,6 @@
   <ItemGroup>
     <Compile Include="MessageHandlers\ShowTabRequestHandler.cs" />
     <Compile Include="MessageHandlers\LibraryHandler.cs" />
-    <Compile Include="MessageHandlers\PlayerCoordinator.cs" />
     <Compile Include="MessageHandlers\PlayRequestHandler.cs" />
     <Compile Include="MessageHandlers\TrackChangeCoordinator.cs" />
     <Compile Include="Messages\EditOrderedPlaylistMessage.cs" />
@@ -72,18 +71,13 @@
     <Compile Include="Messages\EditSettingsMessage.cs" />
     <Compile Include="Messages\EditTrackMessage.cs" />
     <Compile Include="Messages\LibraryUpdateRequest.cs" />
-    <Compile Include="Messages\PausePlayerMessage.cs" />
     <Compile Include="Messages\PlayAlbumMessage.cs" />
     <Compile Include="Messages\PlayArtistMessage.cs" />
     <Compile Include="Messages\PlayGroupingMessage.cs" />
     <Compile Include="Messages\PlayAllMessage.cs" />
     <Compile Include="Messages\MoveToTrackMessage.cs" />
     <Compile Include="Messages\PlayMessage.cs" />
-    <Compile Include="Messages\PlayNextMessage.cs" />
     <Compile Include="Messages\PlayPlaylistMessage.cs" />
-    <Compile Include="Messages\PlayPreviousMessage.cs" />
-    <Compile Include="Messages\ResumePlayerMessage.cs" />
-    <Compile Include="Messages\SkipPlayerMessage.cs" />
     <Compile Include="SidebarViewModels\CurrentTrackMiniViewModel.cs" />
     <Compile Include="SidebarViewModels\SettingsIconsViewModel.cs" />
     <Compile Include="SidebarViewModels\SidebarViewModel.cs" />

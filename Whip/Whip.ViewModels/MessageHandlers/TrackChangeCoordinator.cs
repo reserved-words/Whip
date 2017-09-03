@@ -15,18 +15,16 @@ namespace Whip.ViewModels.MessageHandlers
 
         private readonly IPlaylist _playlist;
         private readonly IPlayer _player;
-        private readonly IMessenger _messenger;
         private readonly IConfigSettings _configSettings;
 
         private Track _track;
 
         public event Action<Track> NewTrackStarted;
 
-        public TrackChangeCoordinator(IPlaylist playlist, IPlayer player, IMessenger messenger, IConfigSettings configSettings)
+        public TrackChangeCoordinator(IPlaylist playlist, IPlayer player, IConfigSettings configSettings)
         {
             _playlist = playlist;
             _player = player;
-            _messenger = messenger;
             _configSettings = configSettings;
 
             _timer = new Timer(_configSettings.TrackChangeDelay);

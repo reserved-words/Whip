@@ -145,7 +145,6 @@ namespace Whip.Ioc
         private static IKernel RegisterMessageHandlers(this IKernel kernel)
         {
             kernel.RegisterSingleton<DialogMessageHandler>()
-                .RegisterSingleton<PlayerCoordinator>()
                 .RegisterSingleton<PlayRequestHandler>()
                 .RegisterSingleton<TrackChangeCoordinator>()
                 .RegisterSingleton<LibraryHandler>()
