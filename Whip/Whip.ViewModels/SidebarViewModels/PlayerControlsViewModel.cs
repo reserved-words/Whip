@@ -26,7 +26,7 @@ namespace Whip.ViewModels
         private PlayerStatus _currentStatus;
         
         public PlayerControlsViewModel(Library library, IPlaylist playlist, IPlayer player,
-            IPlayRequestHandler playRequestHandler)
+            IPlayRequestHandler playRequestHandler, TrackTimer trackTimer)
         {
             _library = library;
             _playlist = playlist;
@@ -34,7 +34,6 @@ namespace Whip.ViewModels
             _playRequestHandler = playRequestHandler;
 
             _library.Updated += OnLibraryUpdated;
-            _playlist.ListUpdated += OnPlaylistUpdated;
 
             MoveNextCommand = new RelayCommand(OnMoveNext, CanMoveNext);
             MovePreviousCommand = new RelayCommand(OnMovePrevious, CanMovePrevious);
@@ -44,18 +43,10 @@ namespace Whip.ViewModels
             ShuffleLibraryCommand = new RelayCommand(OnShuffleLibrary);
             SkipToPercentageCommand = new RelayCommand<double>(OnSkip, CanSkip);
 
-            TrackTimer = new TrackTimer();
+            TrackTimer = trackTimer;
             TrackTimer.TrackEnded += OnTrackEnded;
 
             CurrentStatus = PlayerStatus.Stopped;
-        }
-
-        private void OnPlaylistUpdated()
-        {
-            if (_playlist.CurrentTrack == null)
-            {
-                _playlist.MoveNext();
-            }
         }
 
         public bool Playing => CurrentStatus == PlayerStatus.Playing;
@@ -102,9 +93,12 @@ namespace Whip.ViewModels
                 ? PlayerStatus.Stopped
                 : PlayerStatus.Playing;
 
-            _player.Play(track);
-
             TrackTimer.Reset(track);
+
+            if (track == null)
+                return;
+
+            _player.Play(track);
             TrackTimer.Start();
         }
 

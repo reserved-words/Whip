@@ -131,18 +131,6 @@ namespace Whip.Ioc
             return kernel;
         }
 
-        private static IKernel RegisterErrorHandlingWebService<IService, ErrorHandlingService, Service>(this IKernel kernel)
-            where Service : IService
-            where ErrorHandlingService : IService
-        {
-            kernel.Bind<IService>()
-                .To<ErrorHandlingService>()
-                .InTransientScope()
-                .WithConstructorArgument(typeof(IService), ctx => ctx.Kernel.Get<Service>());
-
-            return kernel;
-        }
-
         private static IKernel RegisterMessageHandlers(this IKernel kernel)
         {
             kernel.RegisterSingleton<DialogMessageHandler>()
@@ -164,12 +152,6 @@ namespace Whip.Ioc
                 .InSingletonScope()
                 .WithConstructorArgument(typeof(IPlayer), ctx => ctx.Kernel.Get<NewFilePlayer>());
 
-            return kernel;
-        }
-
-        private static IKernel Register<Service>(this IKernel kernel)
-        {
-            kernel.Bind<Service>().ToSelf().InTransientScope();
             return kernel;
         }
 

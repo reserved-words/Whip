@@ -46,25 +46,25 @@ namespace Whip.ViewModels.Utilities
             set { Set(ref _timeToPlay, value); }
         }
 
-        public void Reset(Track track)
+        public virtual void Reset(Track track)
         {
             _secondsPlayed = 0;
             _trackDurationInSeconds = (int)(track?.Duration.TotalSeconds ?? 0);
             SetProperties();
         }
 
-        public void SkipToPercentage(double newPercentage)
+        public virtual void SkipToPercentage(double newPercentage)
         {
             _secondsPlayed = (int)((newPercentage / 100) * _trackDurationInSeconds);
             SetProperties();
         }
 
-        public void Start()
+        public virtual void Start()
         {
             _timer.Start();
         }
 
-        public void Stop()
+        public virtual void Stop()
         {
             _timer.Stop();
         }

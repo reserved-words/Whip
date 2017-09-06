@@ -6,7 +6,7 @@ namespace Whip.Common.Singletons
 {
     public class Library
     {
-        public event Action<Track> Updated;
+        public virtual event Action<Track> Updated;
 
         public Library()
         {

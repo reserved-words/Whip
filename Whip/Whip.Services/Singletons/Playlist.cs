@@ -37,8 +37,8 @@ namespace Whip.Services
             var sortedTracks = Sort(tracks);
 
             _queue.Set(sortedTracks, startAt == null ? 0 : sortedTracks.IndexOf(startAt), true);
-            
-            ListUpdated?.Invoke();
+
+            OnListUpdated();
         }
 
         public void MoveNext()
@@ -67,6 +67,16 @@ namespace Whip.Services
             var sortedTracks = Sort(Tracks);
 
             _queue.Set(sortedTracks, CurrentTrack == null ? 0 : sortedTracks.IndexOf(CurrentTrack) + 1, false);
+
+            OnListUpdated();
+        }
+
+        private void OnListUpdated()
+        {
+            if (CurrentTrack == null)
+            {
+                MoveNext();
+            }
 
             ListUpdated?.Invoke();
         }
