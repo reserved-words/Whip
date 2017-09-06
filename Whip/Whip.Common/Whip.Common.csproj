@@ -57,7 +57,6 @@
     <Compile Include="Interfaces\ITrackCriteria.cs" />
     <Compile Include="Interfaces\ShowTabRequestHandler.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
-    <Compile Include="Interfaces\IPlayerUpdate.cs" />
     <Compile Include="Interfaces\IStartable.cs" />
     <Compile Include="Interfaces\ITrackSorter.cs" />
     <Compile Include="Model\ArtistEvent.cs" />

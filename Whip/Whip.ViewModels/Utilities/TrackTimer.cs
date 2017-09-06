@@ -55,7 +55,7 @@ namespace Whip.ViewModels.Utilities
 
         public void SkipToPercentage(double newPercentage)
         {
-            _secondsPlayed = (int)(newPercentage / 100) * _trackDurationInSeconds;
+            _secondsPlayed = (int)((newPercentage / 100) * _trackDurationInSeconds);
             SetProperties();
         }
 

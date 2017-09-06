@@ -146,11 +146,9 @@ namespace Whip.Ioc
         private static IKernel RegisterMessageHandlers(this IKernel kernel)
         {
             kernel.RegisterSingleton<DialogMessageHandler>()
-                .RegisterSingleton<TrackChangeCoordinator>()
                 .RegisterSingleton<LibraryHandler>()
                 .RegisterSingleton<ShowTabRequestHandler>();
 
-            kernel.Bind<IPlayerUpdate>().ToMethod(ctx => ctx.Kernel.Get<TrackChangeCoordinator>());
             kernel.Bind<IShowTabRequestHandler>().ToMethod(ctx => ctx.Kernel.Get<ShowTabRequestHandler>());
 
             return kernel;

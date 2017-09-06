@@ -16,7 +16,8 @@ namespace Whip.ViewModels
         private bool _loved;
         private Track _track;
 
-        public CurrentTrackMiniViewModel(ITrackLoveService trackLoveService, IMessenger messenger, Library library, TrackContextMenuViewModel trackContextMenu)
+        public CurrentTrackMiniViewModel(ITrackLoveService trackLoveService, IMessenger messenger, Library library, 
+            TrackContextMenuViewModel trackContextMenu)
         {
             _messenger = messenger;
             _trackLoveService = trackLoveService;
@@ -30,11 +31,11 @@ namespace Whip.ViewModels
             SetContextMenuTrackCommand = new RelayCommand(OnSetContextMenuTrack);
         }
 
-        public TrackContextMenuViewModel TrackContextMenu { get; private set; }
+        public TrackContextMenuViewModel TrackContextMenu { get; }
 
-        public RelayCommand SetContextMenuTrackCommand { get; private set; }
-        public RelayCommand LoveTrackCommand { get; private set; }
-        public RelayCommand UnloveTrackCommand { get; private set; }
+        public RelayCommand SetContextMenuTrackCommand { get; }
+        public RelayCommand LoveTrackCommand { get; }
+        public RelayCommand UnloveTrackCommand { get; }
 
         public Track Track
         {
@@ -55,38 +56,32 @@ namespace Whip.ViewModels
             }
         }
 
-        public void OnCurrentTrackChanged(Track track)
+        public async void OnCurrentTrackChanged(Track track)
         {
-            Loved = false;
             Track = track;
-        }
-
-        public async void OnNewTrackStarted(Track track)
-        {
-            if (track == null)
-                return;
-
-            Loved = await _trackLoveService.IsLovedAsync(track);
+            Loved = track != null && await _trackLoveService.IsLovedAsync(track);
         }
 
         private async void OnLoveTrack()
         {
             Loved = true;
-            if (!await _trackLoveService.LoveTrackAsync(Track))
-            {
-                _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, "Error", "There was an error setting this track as Loved"));
-                Loved = false;
-            }
+
+            if (await _trackLoveService.LoveTrackAsync(Track))
+                return;
+
+            _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, "Error", "There was an error setting this track as Loved"));
+            Loved = false;
         }
 
         private async void OnUnloveTrack()
         {
             Loved = false;
-            if (!await _trackLoveService.UnloveTrackAsync(Track))
-            {
-                _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, "Error", "There was an error removing Loved status from this track"));
-                Loved = true;
-            }
+
+            if (await _trackLoveService.UnloveTrackAsync(Track))
+                return;
+
+            _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, "Error", "There was an error removing Loved status from this track"));
+            Loved = true;
         }
 
         private void OnSetContextMenuTrack()

@@ -20,16 +20,14 @@ namespace Whip.ViewModels
         private readonly Library _library;
         private readonly IPlaylist _playlist;
         private readonly IPlayer _player;
-        private readonly ILoggingService _logger;
         private readonly IPlayRequestHandler _playRequestHandler;
 
         private List<string> _groupings;
         private PlayerStatus _currentStatus;
         
-        public PlayerControlsViewModel(Library library, IPlaylist playlist, IPlayer player, ILoggingService logger,
+        public PlayerControlsViewModel(Library library, IPlaylist playlist, IPlayer player,
             IPlayRequestHandler playRequestHandler)
         {
-            _logger = logger;
             _library = library;
             _playlist = playlist;
             _player = player;
@@ -54,8 +52,6 @@ namespace Whip.ViewModels
 
         private void OnPlaylistUpdated()
         {
-            _logger.Info("Back in player controls view model - playlist has been updated");
-
             if (_playlist.CurrentTrack == null)
             {
                 _playlist.MoveNext();
@@ -81,7 +77,6 @@ namespace Whip.ViewModels
         }
 
         public TrackTimer TrackTimer { get; }
-
         public RelayCommand MoveNextCommand { get; }
         public RelayCommand MovePreviousCommand { get; }
         public RelayCommand PauseCommand { get; }
@@ -91,13 +86,9 @@ namespace Whip.ViewModels
         public RelayCommand<double> SkipToPercentageCommand { get; }
 
         private bool CanMovePrevious() => CurrentStatus != PlayerStatus.Stopped;
-
         private bool CanMoveNext() => CurrentStatus != PlayerStatus.Stopped;
-
         private bool CanPause() => CurrentStatus == PlayerStatus.Playing;
-
         private bool CanResume() => CurrentStatus == PlayerStatus.Paused;
-
         private bool CanSkip(double newPercentage) => CurrentStatus != PlayerStatus.Stopped;
         
         private void OnLibraryUpdated(Track track)
@@ -105,17 +96,16 @@ namespace Whip.ViewModels
             Groupings = _library.GetGroupings().Where(g => !string.IsNullOrEmpty(g)).ToList();
         }
 
-        public void OnNewTrackStarted(Track track)
-        {
-            TrackTimer.Reset(track);
-            TrackTimer.Start();
-        }
-
         public void OnCurrentTrackChanged(Track track)
         {
             CurrentStatus = track == null
                 ? PlayerStatus.Stopped
                 : PlayerStatus.Playing;
+
+            _player.Play(track);
+
+            TrackTimer.Reset(track);
+            TrackTimer.Start();
         }
 
         private void OnMoveNext()
@@ -149,7 +139,6 @@ namespace Whip.ViewModels
 
         private void OnShuffleLibrary()
         {
-            _logger.Info("OnShuffleLibrary");
             _playRequestHandler.PlayAll(SortType.Random);
         }
 
