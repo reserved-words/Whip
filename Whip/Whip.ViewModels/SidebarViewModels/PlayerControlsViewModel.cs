@@ -15,7 +15,7 @@ namespace Whip.ViewModels
 {
     public class PlayerControlsViewModel : ViewModelBase
     {
-        private enum PlayerStatus { Playing, Paused, Stopped }
+        public enum PlayerStatus { Playing, Paused, Stopped }
 
         private readonly Library _library;
         private readonly IPlaylist _playlist;
@@ -57,7 +57,7 @@ namespace Whip.ViewModels
             set { Set(ref _groupings, value); }
         }
 
-        private PlayerStatus CurrentStatus
+        public PlayerStatus CurrentStatus
         {
             get { return _currentStatus; }
             set

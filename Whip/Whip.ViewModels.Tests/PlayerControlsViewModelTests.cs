@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
+using Whip.Common;
 using Whip.Common.Interfaces;
 using Whip.Common.Model;
 using Whip.Common.Singletons;
@@ -41,7 +42,7 @@ namespace Whip.ViewModels.Tests
             return new PlayerControlsViewModel(_mockLibrary.Object, _mockPlaylist.Object,
                 _mockPlayer.Object, _mockPlayRequestHandler.Object, _mockTrackTimer.Object);
         }
-
+        
         [TestMethod]
         public void Groupings_AreUpdatedOnLibraryUpdate()
         {
@@ -136,6 +137,93 @@ namespace Whip.ViewModels.Tests
             // Assert
             _mockTrackTimer.Verify(t => t.Reset(testTrack), Times.Once);
             _mockTrackTimer.Verify(t => t.Start(), Times.Once);
+        }
+
+        [TestMethod]
+        public void MoveNextCommand_GivenPlaying_CallsPlaylistMoveNext()
+        {
+            // Arrange
+            var sut = GetSubjectUnderTest();
+            sut.CurrentStatus = PlayerControlsViewModel.PlayerStatus.Playing;
+
+            // Act
+            sut.MoveNextCommand.Execute(0);
+
+            // Assert
+            _mockPlaylist.Verify(p => p.MoveNext(), Times.Once);
+        }
+
+        [TestMethod]
+        public void MovePreviousCommand_GivenPlaying_CallsPlaylistMovePrevious()
+        {
+            // Arrange
+            var sut = GetSubjectUnderTest();
+            sut.CurrentStatus = PlayerControlsViewModel.PlayerStatus.Playing;
+
+            // Act
+            sut.MovePreviousCommand.Execute(0);
+
+            // Assert
+            _mockPlaylist.Verify(p => p.MovePrevious(), Times.Once);
+        }
+
+        [TestMethod]
+        public void PauseCommand_GivenPlaying_PausesPlay()
+        {
+            // Arrange
+            var sut = GetSubjectUnderTest();
+            sut.CurrentStatus = PlayerControlsViewModel.PlayerStatus.Playing;
+
+            // Act
+            sut.PauseCommand.Execute(0);
+
+            // Assert
+            _mockPlayer.Verify(p => p.Pause(), Times.Once);
+            _mockTrackTimer.Verify(t => t.Stop(), Times.Once);
+            sut.CurrentStatus.Should().Be(PlayerControlsViewModel.PlayerStatus.Paused);
+        }
+
+        [TestMethod]
+        public void ResumeCommand_GivenPaused_ResumesPlay()
+        {
+            // Arrange
+            var sut = GetSubjectUnderTest();
+            sut.CurrentStatus = PlayerControlsViewModel.PlayerStatus.Paused;
+
+            // Act
+            sut.ResumeCommand.Execute(0);
+
+            // Assert
+            _mockPlayer.Verify(p => p.Resume(), Times.Once);
+            _mockTrackTimer.Verify(t => t.Start(), Times.Once);
+            sut.CurrentStatus.Should().Be(PlayerControlsViewModel.PlayerStatus.Playing);
+        }
+
+        [TestMethod]
+        public void PlayGroupingCommand_SendsPlayRequest()
+        {
+            // Arrange
+            var testGrouping = "some grouping";
+            var sut = GetSubjectUnderTest();
+
+            // Act
+            sut.PlayGroupingCommand.Execute(testGrouping);
+
+            // Assert
+            _mockPlayRequestHandler.Verify(p => p.PlayGrouping(testGrouping, SortType.Random, null), Times.Once);
+        }
+
+        [TestMethod]
+        public void ShuffleLibraryCommand_SendsPlayRequest()
+        {
+            // Arrange
+            var sut = GetSubjectUnderTest();
+
+            // Act
+            sut.ShuffleLibraryCommand.Execute(0);
+
+            // Assert
+            _mockPlayRequestHandler.Verify(p => p.PlayAll(SortType.Random, null), Times.Once);
         }
     }
 }
