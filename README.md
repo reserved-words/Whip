@@ -1,2 +1,4 @@
 # Whip
-A highly personalised WPF music player which is a perpetual work in progress. This should be of no interest to anyone but me. Do not download this unless you want your ID3 tags overwritten and your music collection ruined.
+A highly personalised WPF music player which is a perpetual work in progress. This does (or will eventually do) everything I want a music player to do, but is unlikely to be of any use or interest to anyone else. 
+
+Do not download or run this as it may overwrite your ID3 tags overwritten and your music collection ruined.
