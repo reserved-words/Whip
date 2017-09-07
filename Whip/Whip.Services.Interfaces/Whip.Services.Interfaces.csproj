@@ -68,6 +68,7 @@
     <Compile Include="MethodInterceptors\IAsyncMethodInterceptor.cs" />
     <Compile Include="Utilities\IRssService.cs" />
     <Compile Include="Utilities\IScrobblingRulesService.cs" />
+    <Compile Include="Utilities\ITrackQueue.cs" />
     <Compile Include="Utilities\IUserSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\IWebBrowserService.cs" />

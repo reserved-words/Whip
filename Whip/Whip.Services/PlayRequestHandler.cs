@@ -27,7 +27,7 @@ namespace Whip.Services
 
         public void MoveToTrack(Track track)
         {
-            _playlist.Set(_playlist.PlaylistName, _playlist.Tracks, track);
+            _playlist.Set(_playlist.PlaylistName, _playlist.Tracks, track, _userSettings.ShuffleOn);
         }
 
         public void PlayAll(SortType? sortType, Track firstTrack = null)
@@ -58,7 +58,7 @@ namespace Whip.Services
         private void UpdatePlaylist(SortType? sortType, string playlistName, List<Track> tracks, Track startAt)
         {
             UpdateSortType(sortType);
-            _playlist.Set(playlistName, tracks, startAt);
+            _playlist.Set(playlistName, tracks, startAt, _userSettings.ShuffleOn);
         }
 
         private void UpdateSortType(SortType? sortType)
@@ -83,7 +83,7 @@ namespace Whip.Services
                 return;
             }
 
-            _playlist.Reorder();
+            _playlist.Reorder(_userSettings.ShuffleOn);
         }
     }
 }

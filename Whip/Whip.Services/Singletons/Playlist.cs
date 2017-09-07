@@ -4,7 +4,6 @@ using System.Linq;
 using Whip.Common.ExtensionMethods;
 using Whip.Common.Interfaces;
 using Whip.Common.Model;
-using Whip.Common.TrackSorters;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 
@@ -12,61 +11,64 @@ namespace Whip.Services
 {
     public class Playlist : IPlaylist
     {
-        private readonly TrackQueue _queue = new TrackQueue();
-        private readonly IUserSettings _userSettings;
+        private readonly ITrackQueue _trackQueue;
+        private readonly IRandomTrackSorter _randomTrackSorter;
+        private readonly IDefaultTrackSorter _defaultTrackSorter;
 
-        public Playlist(IUserSettings userSettings)
+        public Playlist(ITrackQueue trackQueue, IDefaultTrackSorter defaultTrackSorter, IRandomTrackSorter randomTrackSorter)
         {
-            _userSettings = userSettings;
+            _trackQueue = trackQueue;
+            _randomTrackSorter = randomTrackSorter;
+            _defaultTrackSorter = defaultTrackSorter;
         }
 
         public event Action ListUpdated;
         public event Action<Track> CurrentTrackChanged;
 
-        public Track CurrentTrack => _queue.CurrentTrack;
+        public Track CurrentTrack => _trackQueue.CurrentTrack;
 
         public string PlaylistName { get; private set; }
 
         public List<Track> Tracks { get; private set; }
 
-        public void Set(string playlistName, List<Track> tracks, Track startAt)
+        public void Set(string playlistName, List<Track> tracks, Track startAt, bool shuffle)
         {
             PlaylistName = playlistName;
             Tracks = tracks;
 
-            var sortedTracks = Sort(tracks);
+            var sortedTracks = Sort(tracks, shuffle);
 
-            _queue.Set(sortedTracks, startAt == null ? 0 : sortedTracks.IndexOf(startAt), true);
+            _trackQueue.Set(sortedTracks, startAt == null ? 0 : sortedTracks.IndexOf(startAt), true);
 
             OnListUpdated();
         }
 
         public void MoveNext()
         {
-            _queue.MoveNext();
-            CurrentTrackChanged?.Invoke(_queue.CurrentTrack);
+            _trackQueue.MoveNext();
+            CurrentTrackChanged?.Invoke(_trackQueue.CurrentTrack);
         }
 
         public void MovePrevious()
         {
-            _queue.MovePrevious();
-            CurrentTrackChanged?.Invoke(_queue.CurrentTrack);
+            _trackQueue.MovePrevious();
+            CurrentTrackChanged?.Invoke(_trackQueue.CurrentTrack);
         }
 
-        private List<Track> Sort(List<Track> tracks)
+        private List<Track> Sort(List<Track> tracks, bool shuffle)
         {
-            var sorter = _userSettings.ShuffleOn 
-                ? (ITrackSorter)new RandomTrackSorter() 
-                : new DefaultTrackSorter();
+            var sorter = shuffle
+                ? (ITrackSorter)_randomTrackSorter
+                : _defaultTrackSorter;
 
             return tracks.SortUsing(sorter).ToList();
         }
 
-        public void Reorder()
+        public void Reorder(bool shuffle)
         {
-            var sortedTracks = Sort(Tracks);
+            var sortedTracks = Sort(Tracks, shuffle);
 
-            _queue.Set(sortedTracks, CurrentTrack == null ? 0 : sortedTracks.IndexOf(CurrentTrack) + 1, false);
+            _trackQueue.Set(sortedTracks, CurrentTrack == null ? 0 : sortedTracks.IndexOf(CurrentTrack) + 1, false);
 
             OnListUpdated();
         }

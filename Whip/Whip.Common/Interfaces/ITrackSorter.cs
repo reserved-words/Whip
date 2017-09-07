@@ -11,4 +11,12 @@ namespace Whip.Common.Interfaces
     {
         IEnumerable<Track> Sort(IEnumerable<Track> tracks);
     }
+
+    public interface IDefaultTrackSorter : ITrackSorter
+    {
+    }
+
+    public interface IRandomTrackSorter : ITrackSorter
+    {
+    }
 }

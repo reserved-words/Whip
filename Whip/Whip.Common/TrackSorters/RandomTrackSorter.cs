@@ -6,7 +6,7 @@ using Whip.Common.Model;
 
 namespace Whip.Common.TrackSorters
 {
-    public class RandomTrackSorter : ITrackSorter
+    public class RandomTrackSorter : IRandomTrackSorter
     {
         public IEnumerable<Track> Sort(IEnumerable<Track> tracks)
         {

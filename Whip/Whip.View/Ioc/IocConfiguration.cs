@@ -11,6 +11,7 @@ using LastFmApi.Interfaces;
 using LastFmApi;
 using Ninject;
 using GalaSoft.MvvmLight.Messaging;
+using Whip.Common.TrackSorters;
 using Whip.NLog;
 using Whip.Services.Interfaces.Singletons;
 using Whip.Services.Singletons;
@@ -36,14 +37,14 @@ namespace Whip.Ioc
 
         private static IKernel RegisterSingletons(this IKernel kernel)
         {
-            kernel.RegisterSingleton<Library>()
-                .RegisterSingleton<IPlaylist, Playlist>()
+            kernel.RegisterSingleton<IPlaylist, Playlist>()
+                .RegisterSingleton<Library>()
                 .RegisterSingleton<IMessenger, Messenger>()
                 .RegisterSingleton<IUserSettings, UserSettings>()
                 .RegisterSingleton<IConfigSettings, ConfigSettings>()
                 .RegisterSingleton<ILastFmApiClientService, LastFmApiClientService>()
                 .RegisterSingleton<TrackContextMenuViewModel, TrackContextMenuViewModel>();
-
+            
             return kernel;
         }
 
@@ -55,6 +56,7 @@ namespace Whip.Ioc
                 .Register<IFolderDialogService, FolderDialogService>()
                 .Register<IExceptionHandlingService, ExceptionHandlingService>()
                 .Register<IFileService, FileService>()
+                .Register<ITrackQueue, TrackQueue>()
                 .Register<ILibraryService, LibraryService>()
                 .Register<ILibraryDataOrganiserService, LibraryDataOrganiserService>()
                 .Register<ICommentProcessingService, CommentProcessingService>()
@@ -73,7 +75,9 @@ namespace Whip.Ioc
                 .Register<IVideoService, YouTubeVideoService>()
                 .Register<IEventsService, BandsInTownArtistEventsService>()
                 .Register<ITwitterService, TwitterService>()
-                .Register<IArtistWebInfoService, ArtistWebInfoService>();
+                .Register<IArtistWebInfoService, ArtistWebInfoService>()
+                .Register<IRandomTrackSorter, RandomTrackSorter>()
+                .Register<IDefaultTrackSorter, DefaultTrackSorter>();
 
             return kernel;
         }

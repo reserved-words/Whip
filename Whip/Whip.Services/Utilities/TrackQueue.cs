@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Whip.Common.Model;
+using Whip.Services.Interfaces;
 
 namespace Whip.Services
 {
-    public class TrackQueue
+    public class TrackQueue : ITrackQueue
     {
         private readonly Stack<Track> _toPlay = new Stack<Track>();
         private readonly Stack<Track> _played = new Stack<Track>();

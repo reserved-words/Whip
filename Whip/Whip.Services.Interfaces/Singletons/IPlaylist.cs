@@ -15,9 +15,9 @@ namespace Whip.Services.Interfaces.Singletons
 
         List<Track> Tracks { get; }
 
-        void Set(string playlistName, List<Track> tracks, Track startAt);
+        void Set(string playlistName, List<Track> tracks, Track startAt, bool shuffle);
 
-        void Reorder();
+        void Reorder(bool shuffle);
 
         void MoveNext();
 

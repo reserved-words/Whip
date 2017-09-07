@@ -5,7 +5,7 @@ using Whip.Common.Model;
 
 namespace Whip.Common.TrackSorters
 {
-    public class DefaultTrackSorter : ITrackSorter
+    public class DefaultTrackSorter : IDefaultTrackSorter
     {
         public IEnumerable<Track> Sort(IEnumerable<Track> tracks)
         {
