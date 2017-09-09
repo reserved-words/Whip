@@ -43,14 +43,14 @@
     <Compile Include="ErrorHandlingDecorators\ErrorHandlingAlbumInfoService.cs" />
     <Compile Include="ErrorHandlingDecorators\ErrorHandlingArtistInfoService.cs" />
     <Compile Include="ErrorHandlingDecorators\ErrorHandlingTrackLoveService.cs" />
-    <Compile Include="ErrorHandlingDecorators\ErrorHandlingScrobblingService.cs" />
+    <Compile Include="ErrorHandlingDecorators\ErrorHandlingScrobbler.cs" />
     <Compile Include="Information\ArtistInfoService.cs" />
     <Compile Include="Information\AlbumInfoService.cs" />
     <Compile Include="LastFmApiClientService.cs" />
     <Compile Include="LastFmMethodInterceptor.cs" />
     <Compile Include="ILastFmApiClientService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scrobbling\ScrobblingService.cs" />
+    <Compile Include="Scrobbling\Scrobbler.cs" />
     <Compile Include="Scrobbling\TrackLoveService.cs" />
   </ItemGroup>
   <ItemGroup>

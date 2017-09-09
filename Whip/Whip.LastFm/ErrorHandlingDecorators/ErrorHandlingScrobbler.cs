@@ -5,21 +5,21 @@ using Whip.Services.Interfaces;
 
 namespace Whip.Services
 {
-    public class ErrorHandlingScrobblingService : IScrobblingService
+    public class ErrorHandlingScrobbler : IScrobbler
     {
         private const int MinimumTrackDuration = 31;
 
         private readonly IAsyncMethodInterceptor _asyncMethodInterceptor;
-        private readonly IScrobblingService _scrobblingService;
+        private readonly IScrobbler _scrobbler;
         private readonly IUserSettings _userSettings;
 
         private Track _track;
         private int _duration;
 
-        public ErrorHandlingScrobblingService(IScrobblingService scrobblingService, IUserSettings userSettings, IAsyncMethodInterceptor asyncMethodInterceptor)
+        public ErrorHandlingScrobbler(IScrobbler scrobbler, IUserSettings userSettings, IAsyncMethodInterceptor asyncMethodInterceptor)
         {
             _asyncMethodInterceptor = asyncMethodInterceptor;
-            _scrobblingService = scrobblingService;
+            _scrobbler = scrobbler;
             _userSettings = userSettings;
 
             _userSettings.ScrobblingStatusChanged += OnScrobblingStatusChanged;
@@ -39,7 +39,7 @@ namespace Whip.Services
                 return true;
             
             var success = await _asyncMethodInterceptor.TryMethod(
-                _scrobblingService.ScrobbleAsync(track, timePlayed),
+                _scrobbler.ScrobbleAsync(track, timePlayed),
                 false,
                 "ScrobbleAsync (Track: " + track.Title + " by " + track.Artist.Name + ")");
 
@@ -60,7 +60,7 @@ namespace Whip.Services
                 return true;
             
             return await _asyncMethodInterceptor.TryMethod(
-                _scrobblingService.UpdateNowPlayingAsync(track, duration),
+                _scrobbler.UpdateNowPlayingAsync(track, duration),
                 false,
                 "UpdateNowPlayingAsync (Track: " + track.Title + " by " + track.Artist.Name + ")");
         }

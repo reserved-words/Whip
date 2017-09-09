@@ -61,7 +61,7 @@ namespace Whip.Ioc
                 .Register<ILibraryDataOrganiserService, LibraryDataOrganiserService>()
                 .Register<ICommentProcessingService, CommentProcessingService>()
                 .Register<ITrackFilterService, TrackFilterService>()
-                .Register<IScrobblingRulesService, ScrobblingRulesService>()
+                .Register<IScrobblingRules, ScrobblingRules>()
                 .Register<ILibrarySortingService, LibrarySortingService>()
                 .Register<IPlayRequestHandler, PlayRequestHandler>()
                 .Register<ITrackUpdateService, TrackUpdateService>()
@@ -78,7 +78,8 @@ namespace Whip.Ioc
                 .Register<IArtistWebInfoService, ArtistWebInfoService>()
                 .Register<IRandomTrackSorter, RandomTrackSorter>()
                 .Register<IDefaultTrackSorter, DefaultTrackSorter>()
-                .Register<ICurrentDateTime, CurrentDateTime>();
+                .Register<ICurrentDateTime, CurrentDateTime>()
+                .Register<IPlayTimer, PlayTimer>();
 
             return kernel;
         }
@@ -98,9 +99,9 @@ namespace Whip.Ioc
 
             kernel.RegisterErrorHandlingLastFmService<LastFmApi.Interfaces.IScrobblingService, 
                     LastFmApi.ScrobblingService, 
-                    Services.Interfaces.IScrobblingService, 
-                    ErrorHandlingScrobblingService, 
-                    LastFm.ScrobblingService>()
+                    Services.Interfaces.IScrobbler, 
+                    ErrorHandlingScrobbler, 
+                    LastFm.Scrobbler>()
                 .RegisterErrorHandlingLastFmService<LastFmApi.Interfaces.ITrackLoveService, 
                     LastFmApi.TrackLoveService,
                     Services.Interfaces.ITrackLoveService, 

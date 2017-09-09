@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Whip.Common.Model;
+using Whip.Services.Interfaces;
 
 namespace Whip.LastFm
 {
-    public class ScrobblingService : Services.Interfaces.IScrobblingService
+    public class Scrobbler : IScrobbler
     {
         private readonly ILastFmApiClientService _clientService;
         private readonly LastFmApi.Interfaces.IScrobblingService _service;
 
-        public ScrobblingService(LastFmApi.Interfaces.IScrobblingService service, ILastFmApiClientService clientService)
+        public Scrobbler(LastFmApi.Interfaces.IScrobblingService service, ILastFmApiClientService clientService)
         {
             _clientService = clientService;
             _service = service;

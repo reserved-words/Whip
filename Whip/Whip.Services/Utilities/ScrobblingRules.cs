@@ -7,9 +7,11 @@ using Whip.Services.Interfaces;
 
 namespace Whip.Services
 {
-    public class ScrobblingRulesService : IScrobblingRulesService
+    public class ScrobblingRules : IScrobblingRules
     {
         private const double MaxSecondsBeforeScrobbling = 240;
+
+        public int MinimumUpdateNowPlayingDuration => 30;
 
         public bool CanScrobble(double totalSeconds, double playedSeconds)
         {

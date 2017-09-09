@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Whip.Services.Interfaces
 {
-    public interface IScrobblingRulesService
+    public interface IScrobblingRules
     {
+        int MinimumUpdateNowPlayingDuration { get; }
         bool CanScrobble(double totalSeconds, double playedSeconds);
     }
 }

@@ -4,7 +4,7 @@ using Whip.Common.Model;
 
 namespace Whip.Services.Interfaces
 {
-    public interface IScrobblingService
+    public interface IScrobbler
     {
         Task<bool> ScrobbleAsync(Track track, DateTime timePlayed);
         Task<bool> UpdateNowPlayingAsync(Track track, int duration);
