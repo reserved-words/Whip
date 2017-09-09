@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Whip.Resources {
+namespace Whip.Common {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Whip.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Whip.Resources.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Whip.Common.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -93,6 +93,15 @@ namespace Whip.Resources {
         public static string BandsInTownUrl {
             get {
                 return ResourceManager.GetString("BandsInTownUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CurrentlyPlaying.
+        /// </summary>
+        public static string CurrentPlayingDirectoryName {
+            get {
+                return ResourceManager.GetString("CurrentPlayingDirectoryName", resourceCulture);
             }
         }
         

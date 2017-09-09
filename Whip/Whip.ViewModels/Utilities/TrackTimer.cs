@@ -3,7 +3,7 @@ using System;
 using System.Threading;
 using Timer = System.Timers.Timer;
 using Whip.Common.Model;
-using static Whip.Resources.Resources;
+using static Whip.Common.Resources;
 
 namespace Whip.ViewModels.Utilities
 {

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using static Whip.Resources.Resources;
+using static Whip.Common.Resources;
 
 namespace Whip.Common
 {

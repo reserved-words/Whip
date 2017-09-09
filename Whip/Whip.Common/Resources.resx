@@ -129,6 +129,9 @@
   <data name="BandsInTownUrl" xml:space="preserve">
     <value>https://www.bandsintown.com/{0}</value>
   </data>
+  <data name="CurrentPlayingDirectoryName" xml:space="preserve">
+    <value>CurrentlyPlaying</value>
+  </data>
   <data name="FacebookUrl" xml:space="preserve">
     <value>https://facebook.com/{0}</value>
   </data>

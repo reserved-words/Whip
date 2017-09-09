@@ -6,7 +6,7 @@ using Whip.Common.Model;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.TabViewModels.EditTrack;
 using Whip.ViewModels.Utilities;
-using static Whip.Resources.Resources;
+using static Whip.Common.Resources;
 
 namespace Whip.ViewModels.TabViewModels
 {

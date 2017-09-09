@@ -7,7 +7,7 @@ using Whip.Common.Model;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Utilities;
 using Whip.ViewModels.Validation;
-using static Whip.Resources.Resources;
+using static Whip.Common.Resources;
 
 namespace Whip.ViewModels.TabViewModels.EditTrack
 {
@@ -31,7 +31,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
 
         public AlbumViewModel Album { get; private set; }
 
-        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
         [TrackCount]
         [Display(Name = "Track Count")]
         public string TrackCount
@@ -45,7 +45,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             }
         }
 
-        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
         [DiscNo]
         [Display(Name = "Disc No")]
         public string DiscNo

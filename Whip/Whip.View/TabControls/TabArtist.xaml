@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Whip"
              xmlns:controls="clr-namespace:Whip.Controls"
-             xmlns:res="clr-namespace:Whip.Resources;assembly=Whip.Resources"
+             xmlns:common="clr-namespace:Whip.Common;assembly=Whip.Common"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1200">
     <Grid>
@@ -65,7 +65,7 @@
                 <WrapPanel Grid.Row="0"
                            Margin="5,0">
                     <controls:HyperlinkLabel Username="{Binding Artist.Twitter}" 
-                                             UrlFormat="{x:Static res:Resources.TwitterUrl}">
+                                             UrlFormat="{x:Static common:Resources.TwitterUrl}">
                         <Image Source="/Images/twitter.png"
                                 Style="{StaticResource Icon32}"
                                 Width="16"

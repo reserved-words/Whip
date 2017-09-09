@@ -15,7 +15,7 @@ using Whip.ViewModels.Messages;
 using Whip.ViewModels.Utilities;
 using Whip.ViewModels.Validation;
 using Whip.ViewModels.Windows;
-using static Whip.Resources.Resources;
+using static Whip.Common.Resources;
 
 namespace Whip.ViewModels.TabViewModels.EditTrack
 {
@@ -138,7 +138,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             album.Artwork = _artworkBytes;
         }
 
-        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
         [Year]
         [Display(Name = "Album Year")]
         public string Year
@@ -147,7 +147,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             set { SetModified(nameof(Year), ref _year, value); }
         }
 
-        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
         [Display(Name = "Release Type")]
         public ReleaseType ReleaseType
         {
@@ -171,7 +171,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             set { SetModified(nameof(Title), ref _title, value); }
         }
 
-        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
         [DiscCount]
         [Display(Name = "Disc Count")]
         public string DiscCount

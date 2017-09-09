@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Whip.LastFm;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
-using static Whip.Resources.Resources;
+using static Whip.Common.Resources;
 
 namespace Whip.View
 {

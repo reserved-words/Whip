@@ -144,10 +144,6 @@
       <Project>{D045C31F-E8B5-41AC-B6C9-D0C9120AA799}</Project>
       <Name>Whip.LastFm</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Whip.Resources\Whip.Resources.csproj">
-      <Project>{12cb240b-3a9b-4790-b523-2b170e6b75c3}</Project>
-      <Name>Whip.Resources</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Whip.Services.Interfaces\Whip.Services.Interfaces.csproj">
       <Project>{2107D5AB-8805-4C97-B657-46E5EAECB0E3}</Project>
       <Name>Whip.Services.Interfaces</Name>

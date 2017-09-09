@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Whip.Common.Model;
 
 namespace Whip.Services.Interfaces
@@ -8,5 +9,7 @@ namespace Whip.Services.Interfaces
     {
         FilesWithStatus GetFiles(string directory, List<string> extensions, DateTime lastUpdated);
         List<File> GetAllFiles(string directory, List<string> extensions);
+        string CopyFile(string copyFromPath, string copyToDirectoryName);
+        void DeleteFiles(string directoryName, params string[] excludeFiles);
     }
 }

@@ -4,12 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Whip"
-        xmlns:res="clr-namespace:Whip.Resources;assembly=Whip.Resources"
+        xmlns:common="clr-namespace:Whip.Common;assembly=Whip.Common"
         xmlns:controls="clr-namespace:Whip.Controls"
         xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
         xmlns:properties="clr-namespace:Whip.View.Properties"
         mc:Ignorable="d"
-        Title="{x:Static res:Resources.ApplicationTitle}" 
+        Title="{x:Static common:Resources.ApplicationTitle}" 
         Height="800" 
         Width="1400"
         DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator} }" Loaded="Window_Loaded" Closing="Window_Closing">
@@ -53,7 +53,7 @@
                             <Label Content="Online" />
                         </WrapPanel>
                         <WrapPanel Visibility="{Binding Source={x:Static properties:Settings.Default}, Path=Offline, Converter={StaticResource BoolVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
-                                   ToolTip="{x:Static res:Resources.OfflineErrorMessage}">
+                                   ToolTip="{x:Static common:Resources.OfflineErrorMessage}">
                             <controls:Icon16 Icon="Warning" />
                             <Label Content="Offline" />
                         </WrapPanel>
@@ -71,7 +71,7 @@
                             <Label Content="Last.FM: On" />
                         </WrapPanel>
                         <WrapPanel Visibility="{Binding Source={x:Static properties:Settings.Default}, Path=LastFmStatus, Converter={StaticResource NegBoolVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
-                                   ToolTip="{x:Static res:Resources.LastFmOffErrorMessage}">
+                                   ToolTip="{x:Static common:Resources.LastFmOffErrorMessage}">
                             <controls:Icon16 Icon="Warning" />
                             <Label Content="Last.FM: Off"/>
                         </WrapPanel>

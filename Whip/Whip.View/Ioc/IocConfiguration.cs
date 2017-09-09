@@ -77,7 +77,8 @@ namespace Whip.Ioc
                 .Register<ITwitterService, TwitterService>()
                 .Register<IArtistWebInfoService, ArtistWebInfoService>()
                 .Register<IRandomTrackSorter, RandomTrackSorter>()
-                .Register<IDefaultTrackSorter, DefaultTrackSorter>();
+                .Register<IDefaultTrackSorter, DefaultTrackSorter>()
+                .Register<ICurrentDateTime, CurrentDateTime>();
 
             return kernel;
         }

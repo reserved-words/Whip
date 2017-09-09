@@ -6,7 +6,7 @@ using Whip.ViewModels.Utilities;
 using Whip.ViewModels.Validation;
 using Whip.Common.Validation;
 using System.Collections.ObjectModel;
-using static Whip.Resources.Resources;
+using static Whip.Common.Resources;
 using System.Linq;
 using GalaSoft.MvvmLight.Messaging;
 using Whip.Services.Interfaces;
@@ -69,15 +69,15 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             set { Set(ref _allTags, value); }
         }
 
-        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
-        [MaxLength(TrackValidation.MaxLengthTrackTitle, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
+        [MaxLength(TrackValidation.MaxLengthTrackTitle, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
         public string Title
         {
             get { return _title; }
             set { SetModified(nameof(Title), ref _title, value); }
         }
 
-        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
         [Year]
         [Display(Name = "Track Year")]
         public string Year
@@ -86,7 +86,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             set { SetModified(nameof(Year), ref _year, value); }
         }
 
-        [MaxLength(TrackValidation.MaxLengthLyrics, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [MaxLength(TrackValidation.MaxLengthLyrics, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
         public string Lyrics
         {
             get { return _lyrics; }
@@ -110,7 +110,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             }
         }
 
-        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
         [TrackNo]
         [Display(Name = "Track No")]
         public string TrackNo

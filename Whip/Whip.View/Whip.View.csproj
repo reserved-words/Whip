@@ -563,10 +563,6 @@
       <Project>{E3213160-47F9-4D7C-8374-ACB695281432}</Project>
       <Name>Whip.NLog</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Whip.Resources\Whip.Resources.csproj">
-      <Project>{12cb240b-3a9b-4790-b523-2b170e6b75c3}</Project>
-      <Name>Whip.Resources</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Whip.Services.Interfaces\Whip.Services.Interfaces.csproj">
       <Project>{2107d5ab-8805-4c97-b657-46e5eaecb0e3}</Project>
       <Name>Whip.Services.Interfaces</Name>

@@ -5,47 +5,47 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Whip"
              xmlns:controls="clr-namespace:Whip.Controls"
-             xmlns:res="clr-namespace:Whip.Resources;assembly=Whip.Resources"
+             xmlns:common="clr-namespace:Whip.Common;assembly=Whip.Common"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel>
         <WrapPanel Visibility="{Binding Converter={StaticResource NullVisibilityConverter}}">
             <controls:HyperlinkLabel Username="{Binding Wikipedia}" 
-                                     UrlFormat="{x:Static res:Resources.WikipediaUrl}">
+                                     UrlFormat="{x:Static common:Resources.WikipediaUrl}">
                 <Image Source="/Images/wikipedia.png"
                        Style="{StaticResource Icon32}"/>
             </controls:HyperlinkLabel>
             <controls:HyperlinkLabel Username="{Binding LastFm}" 
-                                     UrlFormat="{x:Static res:Resources.LastFmUrl}">
+                                     UrlFormat="{x:Static common:Resources.LastFmUrl}">
                 <Image Source="/Images/lastfm.ico"
                        Style="{StaticResource Icon32}"/>
             </controls:HyperlinkLabel>
             <controls:HyperlinkLabel Username="{Binding Facebook}" 
-                                     UrlFormat="{x:Static res:Resources.FacebookUrl}"
+                                     UrlFormat="{x:Static common:Resources.FacebookUrl}"
                                      Visibility="{Binding Facebook, Converter={StaticResource StringVisibilityConverter}}">
                 <Image Source="/Images/facebook.png"
                        Style="{StaticResource Icon32}"/>
             </controls:HyperlinkLabel>
             <controls:HyperlinkLabel Username="{Binding Twitter}" 
-                                     UrlFormat="{x:Static res:Resources.TwitterUrl}"
+                                     UrlFormat="{x:Static common:Resources.TwitterUrl}"
                                      Visibility="{Binding Twitter, Converter={StaticResource StringVisibilityConverter}}">
                 <Image Source="/Images/twitter.png"
                        Style="{StaticResource Icon32}"/>
             </controls:HyperlinkLabel>
             <controls:HyperlinkLabel Username="{Binding YouTube}" 
-                                     UrlFormat="{x:Static res:Resources.YouTubeUrl}"
+                                     UrlFormat="{x:Static common:Resources.YouTubeUrl}"
                                      Visibility="{Binding YouTube, Converter={StaticResource StringVisibilityConverter}}">
                 <Image Source="/Images/youtube.png"
                        Style="{StaticResource Icon32}"/>
             </controls:HyperlinkLabel>
             <controls:HyperlinkLabel Username="{Binding BandsInTown}" 
-                                     UrlFormat="{x:Static res:Resources.BandsInTownUrl}"
+                                     UrlFormat="{x:Static common:Resources.BandsInTownUrl}"
                                      Visibility="{Binding BandsInTown, Converter={StaticResource StringVisibilityConverter}}">
                 <Image Source="/Images/bandsintown.ico"
                        Style="{StaticResource Icon32}"/>
             </controls:HyperlinkLabel>
             <controls:HyperlinkLabel Username="{Binding BandCamp}" 
-                                     UrlFormat="{x:Static res:Resources.BandCampUrl}"
+                                     UrlFormat="{x:Static common:Resources.BandCampUrl}"
                                      Visibility="{Binding BandCamp, Converter={StaticResource StringVisibilityConverter}}">
                 <Image Source="/Images/bandcamp.png"
                        Style="{StaticResource Icon32}"/>

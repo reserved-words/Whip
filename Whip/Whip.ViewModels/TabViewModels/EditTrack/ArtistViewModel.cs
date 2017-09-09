@@ -7,7 +7,7 @@ using Whip.Common.Validation;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Utilities;
 using Whip.ViewModels.Validation;
-using static Whip.Resources.Resources;
+using static Whip.Common.Resources;
 
 namespace Whip.ViewModels.TabViewModels.EditTrack
 {
@@ -65,13 +65,13 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
 
         public bool ExistingArtistSelected => Artist != null && Artist.Name != AddNew;
 
-        public string FacebookUrl => string.Format(Resources.Resources.FacebookUrl, Facebook);
-        public string TwitterUrl => string.Format(Resources.Resources.TwitterUrl, Twitter);
-        public string WikipediaUrl => string.Format(Resources.Resources.WikipediaUrl, Wikipedia);
-        public string LastFmUrl => string.Format(Resources.Resources.LastFmUrl, LastFm);
-        public string YouTubeUrl => string.Format(Resources.Resources.YouTubeUrl, YouTube);
-        public string BandCampUrl => string.Format(Resources.Resources.BandCampUrl, BandCamp);
-        public string BandsInTownUrl => string.Format(Resources.Resources.BandsInTownUrl, BandsInTown);
+        public string FacebookUrl => string.Format(FacebookUrl, Facebook);
+        public string TwitterUrl => string.Format(TwitterUrl, Twitter);
+        public string WikipediaUrl => string.Format(WikipediaUrl, Wikipedia);
+        public string LastFmUrl => string.Format(LastFmUrl, LastFm);
+        public string YouTubeUrl => string.Format(YouTubeUrl, YouTube);
+        public string BandCampUrl => string.Format(BandCampUrl, BandCamp);
+        public string BandsInTownUrl => string.Format(BandsInTownUrl, BandsInTown);
 
         public RelayCommand TestWebsiteCommand { get; private set; }
         public RelayCommand TestFacebookCommand { get; private set; }
@@ -141,8 +141,8 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             }
         }
 
-        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
-        [MaxLength(TrackValidation.MaxLengthGrouping, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
+        [MaxLength(TrackValidation.MaxLengthGrouping, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
         [Display(Name = "Grouping")]
         public string Grouping
         {
@@ -150,15 +150,15 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             set { SetModified(nameof(Grouping), ref _grouping, value); }
         }
 
-        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
-        [MaxLength(TrackValidation.MaxLengthGenre, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
+        [MaxLength(TrackValidation.MaxLengthGenre, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
         public string Genre
         {
             get { return _genre; }
             set { SetModified(nameof(Genre), ref _genre, value); }
         }
 
-        [MaxLength(TrackValidation.MaxLengthCountry, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [MaxLength(TrackValidation.MaxLengthCountry, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
         public string Country
         {
             get { return _country; }
@@ -169,7 +169,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             }
         }
 
-        [MaxLength(TrackValidation.MaxLengthState, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [MaxLength(TrackValidation.MaxLengthState, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
         public string State
         {
             get { return _state; }
@@ -180,7 +180,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             }
         }
 
-        [MaxLength(TrackValidation.MaxLengthCity, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [MaxLength(TrackValidation.MaxLengthCity, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
         public string City
         {
             get { return _city; }

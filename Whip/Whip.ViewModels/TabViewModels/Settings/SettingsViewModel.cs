@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Utilities;
-using static Whip.Resources.Resources;
+using static Whip.Common.Resources;
 
 namespace Whip.ViewModels.TabViewModels.Settings
 {
@@ -37,7 +37,7 @@ namespace Whip.ViewModels.TabViewModels.Settings
             set { SetModified(nameof(ArchiveDirectory), ref _archiveDirectory, value); }
         }
 
-        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
         [Display(Name = "Last.FM Username")]
         public string LastFmUsername
         {
@@ -45,7 +45,7 @@ namespace Whip.ViewModels.TabViewModels.Settings
             set { SetModified(nameof(LastFmUsername), ref _lastFmUsername, value); }
         }
 
-        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
         [Display(Name = "Main Colour")]
         public string MainColourRgb
         {
@@ -53,7 +53,7 @@ namespace Whip.ViewModels.TabViewModels.Settings
             set { SetModified(nameof(MainColourRgb), ref _mainColourRgb, value); }
         }
 
-        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Resources.Resources))]
+        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
         [Display(Name = "Music Directory")]
         public string MusicDirectory
         {

@@ -107,6 +107,11 @@
     <Compile Include="Model\State.cs" />
     <Compile Include="Model\Tweet.cs" />
     <Compile Include="Model\Video.cs" />
+    <Compile Include="Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Singletons\Library.cs" />
     <Compile Include="Model\Library\Track.cs" />
     <Compile Include="TagModel\AlbumId3Data.cs" />
@@ -132,12 +137,11 @@
     <Compile Include="Validation\UrlValidation.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Whip.Resources\Whip.Resources.csproj">
-      <Project>{12CB240B-3A9B-4790-B523-2B170E6B75C3}</Project>
-      <Name>Whip.Resources</Name>
-    </ProjectReference>
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Whip"
              xmlns:controls="clr-namespace:Whip.Controls"
              xmlns:conv="clr-namespace:Whip.Converters"
-             xmlns:res="clr-namespace:Whip.Resources;assembly=Whip.Resources"
+             xmlns:common="clr-namespace:Whip.Common;assembly=Whip.Common"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1200">
     <Grid DataContext="{Binding Track}">

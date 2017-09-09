@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using Whip.Services.Interfaces;
-using static Whip.Resources.Resources;
+using static Whip.Common.Resources;
 
 namespace Whip.LastFm
 {

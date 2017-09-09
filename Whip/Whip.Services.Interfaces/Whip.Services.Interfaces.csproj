@@ -57,6 +57,7 @@
     <Compile Include="Singletons\IPlaylist.cs" />
     <Compile Include="Library\ILibraryDataOrganiserService.cs" />
     <Compile Include="DataAccess\ITrackRepository.cs" />
+    <Compile Include="Utilities\ICurrentDateTime.cs" />
     <Compile Include="Utilities\IExceptionHandlingService.cs" />
     <Compile Include="Utilities\IFolderDialogService.cs" />
     <Compile Include="Utilities\IFileDialogService.cs" />

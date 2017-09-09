@@ -9,7 +9,7 @@ using Whip.Common.Model;
 using Whip.Common.Singletons;
 using Whip.Common.Utilities;
 using Whip.Services.Interfaces;
-using static Whip.Resources.Resources;
+using static Whip.Common.Resources;
 
 namespace Whip.XmlDataAccess
 {

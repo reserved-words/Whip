@@ -6,7 +6,7 @@ using Tweetinvi;
 using Tweetinvi.Models;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
-using static Whip.Resources.Resources;
+using static Whip.Common.Resources;
 
 namespace Whip.TweetInvi
 {
