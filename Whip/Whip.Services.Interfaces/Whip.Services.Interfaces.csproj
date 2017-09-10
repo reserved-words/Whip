@@ -51,7 +51,7 @@
     <Compile Include="Library\ITrackUpdateService.cs" />
     <Compile Include="MethodInterceptors\IMethodInterceptor.cs" />
     <Compile Include="DataAccess\IRssFeedsRepository.cs" />
-    <Compile Include="Scrobbling\IPlayTimer.cs" />
+    <Compile Include="Scrobbling\IPlayProgressTracker.cs" />
     <Compile Include="TrackSearch\ITrackSearchService.cs" />
     <Compile Include="Scrobbling\IScrobbler.cs" />
     <Compile Include="Scrobbling\ITrackLoveService.cs" />

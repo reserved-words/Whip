@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Whip.Services.Interfaces
 {
-    public interface IPlayTimer
+    public interface IPlayProgressTracker
     {
         int RemainingSeconds { get; }
         int TotalTrackDurationInSeconds { get; }

@@ -18,7 +18,7 @@ namespace Whip.Services.Tests
         private Mock<IScrobblingRules> _mockScrobblingRules;
         private Mock<IScrobbler> _mockScrobbler;
         private Mock<ICurrentDateTime> _mockCurrentDateTime;
-        private Mock<IPlayTimer> _mockPlayTimer;
+        private Mock<IPlayProgressTracker> _mockPlayTimer;
         
         private ScrobblingPlayer GetSubjectUnderTest()
         {
@@ -26,7 +26,7 @@ namespace Whip.Services.Tests
             _mockScrobblingRules = new Mock<IScrobblingRules>();
             _mockScrobbler = new Mock<IScrobbler>();
             _mockCurrentDateTime = new Mock<ICurrentDateTime>();
-            _mockPlayTimer = new Mock<IPlayTimer>();
+            _mockPlayTimer = new Mock<IPlayProgressTracker>();
 
             _mockCurrentDateTime.Setup(c => c.Get()).Returns(_testTime);
             _mockScrobblingRules.Setup(r => r.MinimumUpdateNowPlayingDuration).Returns(MinimumUpdateNowPlayingDuration);

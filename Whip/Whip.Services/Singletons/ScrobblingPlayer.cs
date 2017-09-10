@@ -10,24 +10,24 @@ namespace Whip.Services
         private readonly IScrobblingRules _scrobblingRules;
         private readonly IScrobbler _scrobbler;
         private readonly ICurrentDateTime _currentDateTime;
-        private readonly IPlayTimer _playingTimeTracker;
+        private readonly IPlayProgressTracker _playProgressTracker;
 
         private Track _currentTrack;
 
         public ScrobblingPlayer(IPlayer player, IScrobblingRules scrobblingRules, IScrobbler scrobbler, ICurrentDateTime currentDateTime,
-            IPlayTimer playingTimeTracker)
+            IPlayProgressTracker playProgressTracker)
         {
             _currentDateTime = currentDateTime;
             _player = player;
             _scrobblingRules = scrobblingRules;
             _scrobbler = scrobbler;
-            _playingTimeTracker = playingTimeTracker;
+            _playProgressTracker = playProgressTracker;
         }
 
         public void Pause()
         {
             _player.Pause();
-            _playingTimeTracker.Pause();
+            _playProgressTracker.Pause();
             _scrobbler.UpdateNowPlayingAsync(_currentTrack, _scrobblingRules.MinimumUpdateNowPlayingDuration);
         }
 
@@ -37,16 +37,16 @@ namespace Whip.Services
 
             var currentTime = _currentDateTime.Get();
 
-            if (_currentTrack != null && _scrobblingRules.CanScrobble(_playingTimeTracker.TotalTrackDurationInSeconds,
-                    _playingTimeTracker.SecondsOfTrackPlayed))
+            if (_currentTrack != null && _scrobblingRules.CanScrobble(_playProgressTracker.TotalTrackDurationInSeconds,
+                    _playProgressTracker.SecondsOfTrackPlayed))
             {
                 _scrobbler.ScrobbleAsync(_currentTrack, currentTime);
             }
 
             if (track != null)
             {
-                _playingTimeTracker.StartNewTrack((int)track.Duration.TotalSeconds);
-                _scrobbler.UpdateNowPlayingAsync(track, _playingTimeTracker.RemainingSeconds);
+                _playProgressTracker.StartNewTrack((int)track.Duration.TotalSeconds);
+                _scrobbler.UpdateNowPlayingAsync(track, _playProgressTracker.RemainingSeconds);
             }
             else
             {
@@ -59,15 +59,15 @@ namespace Whip.Services
         public void Resume()
         {
             _player.Resume();
-            _playingTimeTracker.Resume();
-            _scrobbler.UpdateNowPlayingAsync(_currentTrack, _playingTimeTracker.RemainingSeconds);
+            _playProgressTracker.Resume();
+            _scrobbler.UpdateNowPlayingAsync(_currentTrack, _playProgressTracker.RemainingSeconds);
         }
         
         public void SkipToPercentage(double newPercentage)
         {
             _player.SkipToPercentage(newPercentage);
-            _playingTimeTracker.SkipToPercentage(newPercentage);
-            _scrobbler.UpdateNowPlayingAsync(_currentTrack, _playingTimeTracker.RemainingSeconds);
+            _playProgressTracker.SkipToPercentage(newPercentage);
+            _scrobbler.UpdateNowPlayingAsync(_currentTrack, _playProgressTracker.RemainingSeconds);
         }
     }
 }

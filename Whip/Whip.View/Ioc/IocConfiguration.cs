@@ -79,7 +79,7 @@ namespace Whip.Ioc
                 .Register<IRandomTrackSorter, RandomTrackSorter>()
                 .Register<IDefaultTrackSorter, DefaultTrackSorter>()
                 .Register<ICurrentDateTime, CurrentDateTime>()
-                .Register<IPlayTimer, PlayTimer>();
+                .Register<IPlayProgressTracker, PlayProgressTracker>();
 
             return kernel;
         }
@@ -97,11 +97,11 @@ namespace Whip.Ioc
         {
             kernel.Register<ISessionService, SessionService>();
 
-            kernel.RegisterErrorHandlingLastFmService<LastFmApi.Interfaces.IScrobblingService, 
-                    LastFmApi.ScrobblingService, 
-                    Services.Interfaces.IScrobbler, 
+            kernel.RegisterErrorHandlingLastFmService<IScrobblingService, 
+                    ScrobblingService, 
+                    IScrobbler, 
                     ErrorHandlingScrobbler, 
-                    LastFm.Scrobbler>()
+                    Scrobbler>()
                 .RegisterErrorHandlingLastFmService<LastFmApi.Interfaces.ITrackLoveService, 
                     LastFmApi.TrackLoveService,
                     Services.Interfaces.ITrackLoveService, 
