@@ -1,7 +1,7 @@
 ﻿using LastFmApi;
 using LastFmApi.Interfaces;
 using System.Threading.Tasks;
-using Whip.Services.Interfaces;
+using Whip.Services.Interfaces.Singletons;
 
 namespace Whip.LastFm
 {

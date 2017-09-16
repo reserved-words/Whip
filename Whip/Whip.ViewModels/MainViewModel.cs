@@ -9,21 +9,17 @@ using Whip.ViewModels.Messages;
 using Whip.ViewModels.TabViewModels;
 using Whip.ViewModels.Utilities;
 using Whip.ViewModels.Windows;
+using static Whip.Common.Resources;
 
 namespace Whip.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        private const string UnsavedChangesTitle = "Unsaved Changes";
-        private const string UnsavedChangesText = "There are unsaved changes on this tab. Are you happy to cancel these changes?";
-
         private readonly IMessenger _messenger;
         private readonly EditTrackViewModel _editTrackViewModel;
         private readonly EditCriteriaPlaylistViewModel _editCriteriaPlaylistViewModel;
         private readonly EditOrderedPlaylistViewModel _editOrderedPlaylistViewModel;
         private readonly EditSettingsViewModel _settingsViewModel;
-
-        private readonly TabViewModelBase _defaultViewModel;
 
         private TabViewModelBase _selectedTab;
         private TabViewModelBase _returnToTab;
@@ -73,10 +69,9 @@ namespace Whip.ViewModels
             _settingsViewModel = settingsViewModel;
             _messenger = messenger;
 
-            _defaultViewModel = dashboardViewModel;
-            _returnToTab = _defaultViewModel;
+            _returnToTab = dashboardViewModel;
 
-            SetSelectedTab(_defaultViewModel);
+            SetSelectedTab(dashboardViewModel);
 
             ChangeTabCommand = new RelayCommand<TabViewModelBase>(OnChangingTab, CanChangeTab);
 

@@ -23,8 +23,6 @@ namespace Whip.WmpPlayer
 
         public void Play(Track track)
         {
-            _logger.Info("Player: Play " + track.File.FullPath);
-
             if (track == null)
             {
                 _logger.Error("Error playing file: Track is null");
@@ -36,6 +34,8 @@ namespace Whip.WmpPlayer
 
             try
             {
+                _logger.Info("Player: Play " + track.File.FullPath);
+
                 _player.URL = track.File.FullPath;
 
                 _logger.Info("Playing " + _player.URL);

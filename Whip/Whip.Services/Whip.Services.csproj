@@ -73,6 +73,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ScrobblingRules.cs" />
     <Compile Include="WebServices\BandsInTownArtistEventsService.cs" />
+    <Compile Include="WebServices\SyndicationFeedService.cs" />
     <Compile Include="WebServices\YouTubeVideoService.cs" />
     <Compile Include="WebServices\WebBrowserService.cs" />
     <Compile Include="WebServices\WebHelperService.cs" />

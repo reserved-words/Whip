@@ -250,6 +250,24 @@ namespace Whip.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There are unsaved changes on this tab. Are you happy to cancel these changes?.
+        /// </summary>
+        public static string UnsavedChangesText {
+            get {
+                return ResourceManager.GetString("UnsavedChangesText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unsaved Changes.
+        /// </summary>
+        public static string UnsavedChangesTitle {
+            get {
+                return ResourceManager.GetString("UnsavedChangesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://en.wikipedia.org/wiki/{0}.
         /// </summary>
         public static string WikipediaUrl {

@@ -6,6 +6,7 @@ using Moq;
 using Whip.Common.Interfaces;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
+using Whip.Services.Singletons;
 
 namespace Whip.Services.Tests
 {

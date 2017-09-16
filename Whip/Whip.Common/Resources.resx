@@ -180,6 +180,12 @@
   <data name="TwitterUserUrlFormat" xml:space="preserve">
     <value>https://twitter.com/{0}</value>
   </data>
+  <data name="UnsavedChangesText" xml:space="preserve">
+    <value>There are unsaved changes on this tab. Are you happy to cancel these changes?</value>
+  </data>
+  <data name="UnsavedChangesTitle" xml:space="preserve">
+    <value>Unsaved Changes</value>
+  </data>
   <data name="WikipediaUrl" xml:space="preserve">
     <value>https://en.wikipedia.org/wiki/{0}</value>
   </data>

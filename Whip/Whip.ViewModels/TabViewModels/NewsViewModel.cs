@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Whip.Common;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
+using Whip.Services.Interfaces.Singletons;
 using Whip.ViewModels.Messages;
 using Whip.ViewModels.Utilities;
 using Whip.ViewModels.Windows;

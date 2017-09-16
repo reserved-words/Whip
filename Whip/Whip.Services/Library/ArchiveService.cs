@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Whip.Common;
 using Whip.Common.Model;
 using Whip.Common.TagModel;
 using Whip.Common.Utilities;
 using Whip.Services.Interfaces;
+using Whip.Services.Interfaces.Singletons;
 
 namespace Whip.Services
 {

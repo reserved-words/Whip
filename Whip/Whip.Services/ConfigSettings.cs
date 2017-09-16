@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
-using Whip.Services.Interfaces;
+using Whip.Services.Interfaces.Singletons;
 
-namespace Whip.Services
+namespace Whip.Services.Singletons
 {
     public class ConfigSettings : IConfigSettings
     {

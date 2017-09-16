@@ -5,6 +5,7 @@ using Whip.Common;
 using Whip.Common.Singletons;
 using Whip.Common.Utilities;
 using Whip.Services.Interfaces;
+using Whip.Services.Interfaces.Singletons;
 
 namespace Whip.Services
 {

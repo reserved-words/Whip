@@ -10,6 +10,7 @@ using Whip.LastFm;
 using LastFmApi.Interfaces;
 using LastFmApi;
 using Ninject;
+using Ninject.Extensions.Conventions;
 using GalaSoft.MvvmLight.Messaging;
 using Whip.Common.TrackSorters;
 using Whip.NLog;
@@ -50,45 +51,35 @@ namespace Whip.Ioc
 
         private static IKernel RegisterServices(this IKernel kernel)
         {
+            kernel.Bind(x => x.FromAssemblyContaining<FileDialogService>()
+                .SelectAllClasses()
+                .InNamespaceOf<FileDialogService>()
+                .BindDefaultInterface());
+
+            kernel.Bind(x => x.FromAssemblyContaining<FileService>()
+                .SelectAllClasses()
+                .InNamespaceOf<FileService>()
+                .NotInNamespaceOf<ConfigSettings>()
+                .BindDefaultInterface());
+
             kernel.Register<ILoggingService, LoggingService>()
                 .Register<ITaggingService, TagLibService>()
-                .Register<IFileDialogService, FileDialogService>()
-                .Register<IFolderDialogService, FolderDialogService>()
-                .Register<IExceptionHandlingService, ExceptionHandlingService>()
-                .Register<IFileService, FileService>()
-                .Register<ITrackQueue, TrackQueue>()
-                .Register<ILibraryService, LibraryService>()
-                .Register<ILibraryDataOrganiserService, LibraryDataOrganiserService>()
-                .Register<ICommentProcessingService, CommentProcessingService>()
-                .Register<ITrackFilterService, TrackFilterService>()
-                .Register<IScrobblingRules, ScrobblingRules>()
-                .Register<ILibrarySortingService, LibrarySortingService>()
-                .Register<IPlayRequestHandler, PlayRequestHandler>()
-                .Register<ITrackUpdateService, TrackUpdateService>()
-                .Register<IImageProcessingService, ImageProcessingService>()
-                .Register<IWebBrowserService, WebBrowserService>()
-                .Register<IArchiveService, ArchiveService>()
-                .Register<IRssService, RssService>()
-                .Register<ITrackSearchService, TrackSearchService>()
-                .Register<IAsyncMethodInterceptor, WebMethodInterceptor>()
-                .Register<IWebHelperService, WebHelperService>()
+                .Register<ITwitterService, TwitterService>()
                 .Register<IVideoService, YouTubeVideoService>()
                 .Register<IEventsService, BandsInTownArtistEventsService>()
-                .Register<ITwitterService, TwitterService>()
-                .Register<IArtistWebInfoService, ArtistWebInfoService>()
-                .Register<IRandomTrackSorter, RandomTrackSorter>()
                 .Register<IDefaultTrackSorter, DefaultTrackSorter>()
-                .Register<ICurrentDateTime, CurrentDateTime>()
-                .Register<IPlayProgressTracker, PlayProgressTracker>();
+                .Register<IRandomTrackSorter, RandomTrackSorter>()
+                .Register<IAsyncMethodInterceptor, WebMethodInterceptor>();
 
             return kernel;
         }
 
         private static IKernel RegisterRepositories(this IKernel kernel)
         {
-            kernel.Register<ITrackRepository, TrackRepository>()
-                .Register<IRssFeedsRepository, RssFeedsRepository>()
-                .Register<IPlaylistRepository, PlaylistRepository>();
+            kernel.Bind(x => x.FromAssemblyContaining<TrackRepository>()
+                .SelectAllClasses()
+                .InNamespaceOf<TrackRepository>()
+                .BindDefaultInterface());
 
             return kernel;
         }
@@ -97,25 +88,25 @@ namespace Whip.Ioc
         {
             kernel.Register<ISessionService, SessionService>();
 
-            kernel.RegisterErrorHandlingLastFmService<IScrobblingService, 
-                    ScrobblingService, 
-                    IScrobbler, 
-                    ErrorHandlingScrobbler, 
+            kernel.RegisterErrorHandlingLastFmService<IScrobblingService,
+                    ScrobblingService,
+                    IScrobbler,
+                    ErrorHandlingScrobbler,
                     Scrobbler>()
-                .RegisterErrorHandlingLastFmService<LastFmApi.Interfaces.ITrackLoveService, 
+                .RegisterErrorHandlingLastFmService<LastFmApi.Interfaces.ITrackLoveService,
                     LastFmApi.TrackLoveService,
-                    Services.Interfaces.ITrackLoveService, 
-                    ErrorHandlingTrackLoveService, 
+                    Services.Interfaces.ITrackLoveService,
+                    ErrorHandlingTrackLoveService,
                     LastFm.TrackLoveService>()
-                .RegisterErrorHandlingLastFmService<LastFmApi.Interfaces.IArtistInfoService, 
-                    LastFmApi.ArtistInfoService, 
-                    Services.Interfaces.IArtistInfoService, 
-                    ErrorHandlingArtistInfoService, 
+                .RegisterErrorHandlingLastFmService<LastFmApi.Interfaces.IArtistInfoService,
+                    LastFmApi.ArtistInfoService,
+                    Services.Interfaces.IArtistInfoService,
+                    ErrorHandlingArtistInfoService,
                     LastFm.ArtistInfoService>()
-                .RegisterErrorHandlingLastFmService<LastFmApi.Interfaces.IAlbumInfoService, 
-                    LastFmApi.AlbumInfoService, 
-                    Services.Interfaces.IAlbumInfoService, 
-                    ErrorHandlingAlbumInfoService, 
+                .RegisterErrorHandlingLastFmService<LastFmApi.Interfaces.IAlbumInfoService,
+                    LastFmApi.AlbumInfoService,
+                    Services.Interfaces.IAlbumInfoService,
+                    ErrorHandlingAlbumInfoService,
                     LastFm.AlbumInfoService>();
 
             return kernel;

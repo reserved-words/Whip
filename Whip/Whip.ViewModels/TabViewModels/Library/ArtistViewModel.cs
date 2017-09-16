@@ -7,6 +7,7 @@ using System.Windows.Media.Imaging;
 using Whip.Common;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
+using Whip.Services.Interfaces.Singletons;
 using Whip.ViewModels.Messages;
 
 namespace Whip.ViewModels.TabViewModels.Library
