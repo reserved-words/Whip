@@ -70,11 +70,29 @@ namespace Whip.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Published: {0:dd/MM/yyyy}.
+        /// </summary>
+        public static string ApplicationPublishedFormat {
+            get {
+                return ResourceManager.GetString("ApplicationPublishedFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Whip.
         /// </summary>
         public static string ApplicationTitle {
             get {
                 return ResourceManager.GetString("ApplicationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version: {0}.
+        /// </summary>
+        public static string ApplicationVersionFormat {
+            get {
+                return ResourceManager.GetString("ApplicationVersionFormat", resourceCulture);
             }
         }
         
@@ -169,6 +187,24 @@ namespace Whip.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Off.
+        /// </summary>
+        public static string Off {
+            get {
+                return ResourceManager.GetString("Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Offline.
+        /// </summary>
+        public static string Offline {
+            get {
+                return ResourceManager.GetString("Offline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The internet connection has failed. See Settings page for further information..
         /// </summary>
         public static string OfflineErrorMessage {
@@ -183,6 +219,24 @@ namespace Whip.Common {
         public static string OfflineErrorMessageDetails {
             get {
                 return ResourceManager.GetString("OfflineErrorMessageDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On.
+        /// </summary>
+        public static string On {
+            get {
+                return ResourceManager.GetString("On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Online.
+        /// </summary>
+        public static string Online {
+            get {
+                return ResourceManager.GetString("Online", resourceCulture);
             }
         }
         
@@ -219,6 +273,15 @@ namespace Whip.Common {
         public static string StandardTimeSpanFormat {
             get {
                 return ResourceManager.GetString("StandardTimeSpanFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System Info.
+        /// </summary>
+        public static string TabTitleSystemInfo {
+            get {
+                return ResourceManager.GetString("TabTitleSystemInfo", resourceCulture);
             }
         }
         

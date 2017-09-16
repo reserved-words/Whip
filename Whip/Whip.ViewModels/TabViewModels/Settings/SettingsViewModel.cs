@@ -27,8 +27,8 @@ namespace Whip.ViewModels.TabViewModels.Settings
             _userSettings = userSettings;
         }
 
-        public RelayCommand SetMusicDirectoryCommand { get; private set; }
-        public RelayCommand SetArchiveDirectoryCommand { get; private set; }
+        public RelayCommand SetMusicDirectoryCommand { get; }
+        public RelayCommand SetArchiveDirectoryCommand { get; }
 
         [Display(Name = "Archive Directory")]
         public string ArchiveDirectory
@@ -72,23 +72,7 @@ namespace Whip.ViewModels.TabViewModels.Settings
             get { return _shuffleOn; }
             set { SetModified(nameof(ShuffleOn), ref _shuffleOn, value); }
         }
-
-        public string InternetStatus => _userSettings.Offline ? "Offline" : "Online";
-
-        public string InternetStatusDetails => _userSettings.Offline
-            ? OfflineErrorMessageDetails
-            : "";
-
-        public bool LastFmOn => _userSettings.LastFmStatus;
-
-        public string LastFmStatus => _userSettings.LastFmStatus ? "On" : "Off";
-
-        public string LastFmStatusDetails => _userSettings.LastFmStatus
-            ? ""
-            : LastFmOffErrorMessageDetails;
-
-        public string LastFmErrorMessage => _userSettings.LastFmErrorMessage;
-
+        
         public void Reset()
         {
             ArchiveDirectory = _userSettings.ArchiveDirectory;

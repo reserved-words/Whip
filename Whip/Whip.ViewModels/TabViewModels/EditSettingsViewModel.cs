@@ -8,13 +8,9 @@ namespace Whip.ViewModels.TabViewModels
 {
     public class EditSettingsViewModel : EditableTabViewModelBase
     {
-        private readonly IMessenger _messenger;
-
         public EditSettingsViewModel(IUserSettings userSettings, IMessenger messenger, IFolderDialogService folderDialogService)
             :base(TabType.Settings, IconType.Cog, "Settings", messenger, false) 
         {
-            _messenger = messenger;
-
             Settings = new SettingsViewModel(folderDialogService, userSettings);
 
             Reset();
@@ -26,7 +22,7 @@ namespace Whip.ViewModels.TabViewModels
             set { Settings.Modified = value; }
         }
 
-        public SettingsViewModel Settings { get; private set; }
+        public SettingsViewModel Settings { get; }
 
         protected override string ErrorMessage => Settings.Error;
 

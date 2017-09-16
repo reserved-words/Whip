@@ -1,8 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using Whip.Common;
-using Whip.Common.ExtensionMethods;
 using Whip.Common.Model;
-using Whip.Common.Utilities;
 using Whip.ViewModels.Utilities;
 
 namespace Whip.ViewModels.TabViewModels

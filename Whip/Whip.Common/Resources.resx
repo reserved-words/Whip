@@ -120,8 +120,14 @@
   <data name="AddNew" xml:space="preserve">
     <value>- Add New...</value>
   </data>
+  <data name="ApplicationPublishedFormat" xml:space="preserve">
+    <value>Published: {0:dd/MM/yyyy}</value>
+  </data>
   <data name="ApplicationTitle" xml:space="preserve">
     <value>Whip</value>
+  </data>
+  <data name="ApplicationVersionFormat" xml:space="preserve">
+    <value>Version: {0}</value>
   </data>
   <data name="BandCampUrl" xml:space="preserve">
     <value>https://{0}.bandcamp.com/</value>
@@ -153,11 +159,23 @@
   <data name="MaxLengthErrorMessage" xml:space="preserve">
     <value>{0} must not be more than {1} characters</value>
   </data>
+  <data name="Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="Offline" xml:space="preserve">
+    <value>Offline</value>
+  </data>
   <data name="OfflineErrorMessage" xml:space="preserve">
     <value>The internet connection has failed. See Settings page for further information.</value>
   </data>
   <data name="OfflineErrorMessageDetails" xml:space="preserve">
     <value>Internet connectivity has failed. The application will keep trying to connect to the internet and this status will be updated when it succeeds. If scrobbling is turned on, scrobbles will be cached and scrobbled later.</value>
+  </data>
+  <data name="On" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="Online" xml:space="preserve">
+    <value>Online</value>
   </data>
   <data name="RangeErrorMessage" xml:space="preserve">
     <value>{0} must be between {1} and {2}</value>
@@ -170,6 +188,9 @@
   </data>
   <data name="StandardTimeSpanFormat" xml:space="preserve">
     <value>mm\:ss</value>
+  </data>
+  <data name="TabTitleSystemInfo" xml:space="preserve">
+    <value>System Info</value>
   </data>
   <data name="TwitterHashTagUrlFormat" xml:space="preserve">
     <value>https://twitter.com/hashtag/{0}</value>
