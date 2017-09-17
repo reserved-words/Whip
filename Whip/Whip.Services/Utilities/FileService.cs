@@ -104,6 +104,14 @@ namespace Whip.Services
                 });
         }
 
+        public string[] GetFileContent(string directoryName, string filename)
+        {
+            var fullPath = Path.Combine(directoryName, filename);
+            return System.IO.File.Exists(fullPath) 
+                ? System.IO.File.ReadAllLines(fullPath)
+                : null;
+        }
+
         private string GetDirectoryPath(string directoryName)
         {
             return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ApplicationTitle, directoryName);

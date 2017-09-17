@@ -11,5 +11,6 @@ namespace Whip.Services.Interfaces
         List<File> GetAllFiles(string directory, List<string> extensions);
         string CopyFile(string copyFromPath, string copyToDirectoryName);
         void DeleteFiles(string directoryName, params string[] excludeFiles);
+        string[] GetFileContent(string directoryName, string filename);
     }
 }

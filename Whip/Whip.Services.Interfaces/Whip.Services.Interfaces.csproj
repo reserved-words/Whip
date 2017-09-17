@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\ILogRepository.cs" />
     <Compile Include="DataAccess\IPlaylistRepository.cs" />
     <Compile Include="IConfigSettings.cs" />
     <Compile Include="IPlayRequestHandler.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Utilities\IImageProcessingService.cs" />
     <Compile Include="Utilities\ILoggingService.cs" />
     <Compile Include="MethodInterceptors\IAsyncMethodInterceptor.cs" />
+    <Compile Include="Utilities\ILogParser.cs" />
     <Compile Include="Utilities\IRssService.cs" />
     <Compile Include="Utilities\IScrobblingRules.cs" />
     <Compile Include="Utilities\ITrackQueue.cs" />

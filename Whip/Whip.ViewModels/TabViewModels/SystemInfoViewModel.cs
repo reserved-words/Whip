@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Whip.Common;
+using Whip.Common.Model;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Utilities;
 using Whip.ViewModels.Utilities;
@@ -11,12 +14,20 @@ namespace Whip.ViewModels.TabViewModels
     {
         private readonly IUserSettings _userSettings;
         private readonly IApplicationInfoService _applicationInfoService;
+        private readonly ILogRepository _logRepository;
+        private readonly ICurrentDateTime _currentDateTime;
 
-        public SystemInfoViewModel(IUserSettings userSettings, IApplicationInfoService applicationInfoService)
+        private DateTime? _logsDate;
+        private ICollection<Log> _logs;
+
+        public SystemInfoViewModel(IUserSettings userSettings, IApplicationInfoService applicationInfoService, ICurrentDateTime currentDateTime,
+            ILogRepository logRepository)
             :base(TabType.SystemInfo, IconType.InfoCircle, TabTitleSystemInfo)
         {
             _userSettings = userSettings;
             _applicationInfoService = applicationInfoService;
+            _logRepository = logRepository;
+            _currentDateTime = currentDateTime;
         }
 
         public string InternetStatus => _userSettings.Offline ? Offline : Online;
@@ -37,5 +48,36 @@ namespace Whip.ViewModels.TabViewModels
 
         public string ApplicationVersion => string.Format(ApplicationVersionFormat, _applicationInfoService.Version);
         public string ApplicationPublishDate => string.Format(ApplicationPublishedFormat, _applicationInfoService.PublishDate);
+
+        public DateTime? LogsDate
+        {
+            get { return _logsDate; }
+            set
+            {
+                Set(ref _logsDate, value);
+                UpdateLogs();
+            }
+        }
+
+        public ICollection<Log> Logs
+        {
+            get { return _logs; }
+            private set { Set(ref _logs, value); }
+        }
+
+        public override void OnShow(Track currentTrack)
+        {
+            if (!LogsDate.HasValue)
+            {
+                LogsDate = _currentDateTime.Get();
+            }
+        }
+
+        private void UpdateLogs()
+        {
+            Logs = !LogsDate.HasValue
+                ? null
+                : _logRepository.GetLogs(LogsDate.Value).OrderByDescending(l => l.Id).ToList();
+        }
     }
 }

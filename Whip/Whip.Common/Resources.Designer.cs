@@ -178,6 +178,24 @@ namespace Whip.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to whiplogs.
+        /// </summary>
+        public static string LogFileDirectory {
+            get {
+                return ResourceManager.GetString("LogFileDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0:yyyy-MM-dd}.log.
+        /// </summary>
+        public static string LogFileNameFormat {
+            get {
+                return ResourceManager.GetString("LogFileNameFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} must not be more than {1} characters.
         /// </summary>
         public static string MaxLengthErrorMessage {

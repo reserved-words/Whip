@@ -97,11 +97,36 @@
 
         </StackPanel>
 
-        <Border Style="{StaticResource VerticalLine}" />
+        <Border Grid.Column="1"
+                Style="{StaticResource VerticalLine}" />
         
-        <StackPanel Grid.Column="1">
+        <StackPanel Grid.Column="2"
+                    HorizontalAlignment="Stretch">
+            
             <Label Style="{StaticResource TitleLabel}"
                    Content="Logs" />
+            
+            <WrapPanel>
+                <Label Content="Date:"></Label>
+                <DatePicker SelectedDate="{Binding LogsDate}"/>
+            </WrapPanel>
+
+            <DataGrid ItemsSource="{Binding Logs}"
+                      Margin="10"
+                      HeadersVisibility="Column">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Logged At" 
+                                        Width="Auto"
+                                        Binding="{Binding LoggedAt, StringFormat='dd/MM/yyyy HH:mm:ss'}" />
+                    <DataGridTextColumn Header="Type" 
+                                        Width="Auto"
+                                        Binding="{Binding Type}" />
+                    <DataGridTextColumn Header="Message" 
+                                        Width="*"
+                                        Binding="{Binding Message}" />
+                </DataGrid.Columns>
+            </DataGrid>
+
         </StackPanel>
     </Grid>
 </UserControl>

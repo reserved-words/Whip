@@ -156,6 +156,12 @@
   <data name="LastFmUrl" xml:space="preserve">
     <value>https://www.last.fm/music/{0}</value>
   </data>
+  <data name="LogFileDirectory" xml:space="preserve">
+    <value>whiplogs</value>
+  </data>
+  <data name="LogFileNameFormat" xml:space="preserve">
+    <value>{0:yyyy-MM-dd}.log</value>
+  </data>
   <data name="MaxLengthErrorMessage" xml:space="preserve">
     <value>{0} must not be more than {1} characters</value>
   </data>

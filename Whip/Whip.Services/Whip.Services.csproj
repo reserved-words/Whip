@@ -63,6 +63,8 @@
     <Compile Include="Singletons\ScrobblingPlayer.cs" />
     <Compile Include="Utilities\CurrentDateTime.cs" />
     <Compile Include="Utilities\ImageProcessingService.cs" />
+    <Compile Include="Utilities\LogParser.cs" />
+    <Compile Include="Utilities\LogRepository.cs" />
     <Compile Include="Utilities\PlayProgressTracker.cs" />
     <Compile Include="WebServices\ArtistWebInfoService.cs" />
     <Compile Include="WebServices\RssService.cs" />

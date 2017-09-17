@@ -68,6 +68,7 @@
     <Compile Include="Model\Library\Disc.cs" />
     <Compile Include="Model\Library\File.cs" />
     <Compile Include="Model\FilesWithStatus.cs" />
+    <Compile Include="Model\Log.cs" />
     <Compile Include="Model\Playlists\AllPlaylists.cs" />
     <Compile Include="Model\Playlists\CriteriaPlaylist.cs" />
     <Compile Include="Model\Playlists\Criteria\Album\AlbumArtistCriteria.cs" />
