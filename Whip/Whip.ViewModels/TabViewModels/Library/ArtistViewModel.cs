@@ -1,9 +1,8 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using GalaSoft.MvvmLight.Command;
 using Whip.Common;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
@@ -16,31 +15,37 @@ namespace Whip.ViewModels.TabViewModels.Library
     {
         private readonly IImageProcessingService _imageProcessingService;
         private readonly IMessenger _messenger;
-        private readonly ITrackFilterService _trackFilterService;
         private readonly IArtistInfoService _webArtistInfoService;
         private readonly TrackContextMenuViewModel _trackContextMenuViewModel;
         private readonly IConfigSettings _configSettings;
         private readonly IPlayRequestHandler _playRequestHandler;
 
-        public ArtistViewModel(ITrackFilterService trackFilterService, IMessenger messenger, IArtistInfoService webArtistInfoService,
-            IImageProcessingService imageProcessingService, TrackContextMenuViewModel trackContextMenuViewModel, IConfigSettings configSettings,
-            IPlayRequestHandler playRequestHandler)
+        public ArtistViewModel(IMessenger messenger, IArtistInfoService webArtistInfoService, IImageProcessingService imageProcessingService, 
+            TrackContextMenuViewModel trackContextMenuViewModel, IConfigSettings configSettings, IPlayRequestHandler playRequestHandler)
         {
             _imageProcessingService = imageProcessingService;
             _messenger = messenger;
             _trackContextMenuViewModel = trackContextMenuViewModel;
-            _trackFilterService = trackFilterService;
             _webArtistInfoService = webArtistInfoService;
             _configSettings = configSettings;
             _playRequestHandler = playRequestHandler;
+
+            TrackContextMenu = trackContextMenuViewModel;
+
+            PlayArtistCommand = new RelayCommand(OnPlayArtist);
+            PlayAlbumCommand = new RelayCommand(OnPlayAlbum);
         }
 
         private Artist _artist;
         private Track _selectedTrack;
-        private List<AlbumViewModel> _albums;
+        private Album _selectedAlbum;
 
         private BitmapImage _image;
         private bool _loadingArtistImage;
+
+        public TrackContextMenuViewModel TrackContextMenu { get; private set; }
+        public RelayCommand PlayAlbumCommand { get; private set; }
+        public RelayCommand PlayArtistCommand { get; private set; }
 
         public Artist Artist
         {
@@ -52,7 +57,6 @@ namespace Whip.ViewModels.TabViewModels.Library
 
                 Set(ref _artist, value);
                 Task.Run(PopulateLastFmInfo);
-                PopulateAlbums();
             }
         }
 
@@ -65,13 +69,17 @@ namespace Whip.ViewModels.TabViewModels.Library
         public Track SelectedTrack
         {
             get { return _selectedTrack; }
-            set { Set(ref _selectedTrack, value); }
+            set
+            {
+                Set(ref _selectedTrack, value);
+                TrackContextMenu.SetTrack(_selectedTrack);
+            }
         }
 
-        public List<AlbumViewModel> Albums
+        public Album SelectedAlbum
         {
-            get { return _albums; }
-            set { Set(ref _albums, value); }
+            get { return _selectedAlbum; }
+            set { Set(ref _selectedAlbum, value); }
         }
 
         public BitmapImage Image
@@ -87,23 +95,14 @@ namespace Whip.ViewModels.TabViewModels.Library
             _messenger.Send(new EditTrackMessage(track));
         }
 
-        public void OnPlay(Track startAt)
+        private void OnPlayAlbum()
         {
-            _playRequestHandler.PlayArtist(Artist, SortType.Ordered, startAt);
+            _playRequestHandler.PlayAlbum(SelectedAlbum, SortType.Ordered);
         }
 
-        public void OnPlayAlbum(AlbumViewModel album)
+        public void OnPlayArtist()
         {
-            _playRequestHandler.PlayAlbum(album.Album, SortType.Ordered);
-        }
-
-        private string Format(int? count, string description)
-        {
-            return !count.HasValue
-                ? string.Empty
-                : count == 1
-                ? string.Format("1 {0}", description)
-                : string.Format("{0} {1}s", count, description);
+            _playRequestHandler.PlayArtist(Artist, SortType.Ordered, SelectedTrack);
         }
 
         private async Task PopulateLastFmInfo()
@@ -118,23 +117,6 @@ namespace Whip.ViewModels.TabViewModels.Library
             Image = await _imageProcessingService.GetImageFromUrl(Artist?.WebInfo.ExtraLargeImageUrl);
             LoadingArtistImage = false;
             RaisePropertyChanged(nameof(Wiki));
-        }
-
-        private void PopulateAlbums()
-        {
-            if (Artist == null)
-            {
-                Albums = new List<AlbumViewModel>();
-                return;
-            }
-
-            var tracks = _trackFilterService.GetTracksByArtist(Artist);
-
-            Albums = tracks.Select(t => t.Disc)
-                .Select(d => d.Album)
-                .Distinct()
-                .Select(a => new AlbumViewModel(a, this, _trackContextMenuViewModel))
-                .ToList();
         }
     }
 }

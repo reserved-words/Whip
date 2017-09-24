@@ -14,7 +14,6 @@ namespace Whip.ViewModels.TabViewModels
     {
         private readonly Common.Singletons.Library _library;
         private readonly ILibrarySortingService _librarySortingService;
-        private readonly IMessenger _messenger;
         private readonly IPlayRequestHandler _playRequestHandler;
 
         private bool _artistTypeAlbum;
@@ -27,18 +26,17 @@ namespace Whip.ViewModels.TabViewModels
         private string _selectedGenre;
         private string _selectedGrouping;
 
-        public LibraryViewModel(Common.Singletons.Library library, IMessenger messenger, ITrackFilterService trackFilterService,
-            ILibrarySortingService librarySortingService, IArtistInfoService webArtistInfoService, IImageProcessingService imageProcessingService,
-            TrackContextMenuViewModel trackContextMenu, IConfigSettings configSettings, IPlayRequestHandler playRequestHandler)
+        public LibraryViewModel(Common.Singletons.Library library, IMessenger messenger, ILibrarySortingService librarySortingService, 
+            IArtistInfoService webArtistInfoService, IImageProcessingService imageProcessingService, TrackContextMenuViewModel trackContextMenu, 
+            IConfigSettings configSettings, IPlayRequestHandler playRequestHandler)
             :base(TabType.Library, IconType.Book, "Library")
         {
             Artists = new List<Artist>();
-            SelectedArtistViewModel = new Library.ArtistViewModel(trackFilterService, messenger, webArtistInfoService, 
+            SelectedArtistViewModel = new Library.ArtistViewModel(messenger, webArtistInfoService, 
                 imageProcessingService, trackContextMenu, configSettings, playRequestHandler);
 
             _library = library;
             _librarySortingService = librarySortingService;
-            _messenger = messenger;
             _playRequestHandler = playRequestHandler;
 
             _library.Updated += OnLibraryUpdated;

@@ -7,7 +7,7 @@ using Whip.Common.Validation;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Utilities;
 using Whip.ViewModels.Validation;
-using static Whip.Common.Resources;
+using Resources = Whip.Common.Resources;
 
 namespace Whip.ViewModels.TabViewModels.EditTrack
 {
@@ -63,15 +63,15 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             Modified = false;
         }
 
-        public bool ExistingArtistSelected => Artist != null && Artist.Name != AddNew;
+        public bool ExistingArtistSelected => Artist != null && Artist.Name != Resources.AddNew;
 
-        public string FacebookUrl => string.Format(FacebookUrl, Facebook);
-        public string TwitterUrl => string.Format(TwitterUrl, Twitter);
-        public string WikipediaUrl => string.Format(WikipediaUrl, Wikipedia);
-        public string LastFmUrl => string.Format(LastFmUrl, LastFm);
-        public string YouTubeUrl => string.Format(YouTubeUrl, YouTube);
-        public string BandCampUrl => string.Format(BandCampUrl, BandCamp);
-        public string BandsInTownUrl => string.Format(BandsInTownUrl, BandsInTown);
+        public string FacebookUrl => string.Format(Resources.FacebookUrl, Facebook);
+        public string TwitterUrl => string.Format(Resources.TwitterUrl, Twitter);
+        public string WikipediaUrl => string.Format(Resources.WikipediaUrl, Wikipedia);
+        public string LastFmUrl => string.Format(Resources.LastFmUrl, LastFm);
+        public string YouTubeUrl => string.Format(Resources.YouTubeUrl, YouTube);
+        public string BandCampUrl => string.Format(Resources.BandCampUrl, BandCamp);
+        public string BandsInTownUrl => string.Format(Resources.BandsInTownUrl, BandsInTown);
 
         public RelayCommand TestWebsiteCommand { get; private set; }
         public RelayCommand TestFacebookCommand { get; private set; }
@@ -141,8 +141,8 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             }
         }
 
-        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
-        [MaxLength(TrackValidation.MaxLengthGrouping, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
+        [Required(ErrorMessageResourceName = nameof(Resources.RequiredErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
+        [MaxLength(TrackValidation.MaxLengthGrouping, ErrorMessageResourceName = nameof(Resources.MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
         [Display(Name = "Grouping")]
         public string Grouping
         {
@@ -150,15 +150,15 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             set { SetModified(nameof(Grouping), ref _grouping, value); }
         }
 
-        [Required(ErrorMessageResourceName = nameof(RequiredErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
-        [MaxLength(TrackValidation.MaxLengthGenre, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
+        [Required(ErrorMessageResourceName = nameof(Resources.RequiredErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
+        [MaxLength(TrackValidation.MaxLengthGenre, ErrorMessageResourceName = nameof(Resources.MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
         public string Genre
         {
             get { return _genre; }
             set { SetModified(nameof(Genre), ref _genre, value); }
         }
 
-        [MaxLength(TrackValidation.MaxLengthCountry, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
+        [MaxLength(TrackValidation.MaxLengthCountry, ErrorMessageResourceName = nameof(Resources.MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
         public string Country
         {
             get { return _country; }
@@ -169,7 +169,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             }
         }
 
-        [MaxLength(TrackValidation.MaxLengthState, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
+        [MaxLength(TrackValidation.MaxLengthState, ErrorMessageResourceName = nameof(Resources.MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
         public string State
         {
             get { return _state; }
@@ -180,7 +180,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             }
         }
 
-        [MaxLength(TrackValidation.MaxLengthCity, ErrorMessageResourceName = nameof(MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
+        [MaxLength(TrackValidation.MaxLengthCity, ErrorMessageResourceName = nameof(Resources.MaxLengthErrorMessage), ErrorMessageResourceType = typeof(Common.Resources))]
         public string City
         {
             get { return _city; }
@@ -415,7 +415,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             // Force revalidation when value is set
             Name = string.Empty;
 
-            var artist = Artist?.Name == AddNew ? null : Artist;
+            var artist = Artist?.Name == Resources.AddNew ? null : Artist;
             
             Name = artist?.Name ?? string.Empty;
             Grouping = artist?.Grouping ?? string.Empty;

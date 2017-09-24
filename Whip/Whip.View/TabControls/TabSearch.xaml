@@ -97,12 +97,12 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <DataGrid Grid.Row="0"
-                  ItemsSource="{Binding Results}"
-                  SelectedItem="{Binding SelectedTrack}"
-                  HeadersVisibility="Column"
-                  GridLinesVisibility="All"
-                  ContextMenu="{StaticResource TrackContextMenu}"
-                  ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                      ItemsSource="{Binding Results}"
+                      SelectedItem="{Binding SelectedTrack}"
+                      HeadersVisibility="Column"
+                      GridLinesVisibility="All"
+                      ContextMenu="{StaticResource TrackContextMenu}"
+                      ScrollViewer.HorizontalScrollBarVisibility="Hidden">
                 <DataGrid.InputBindings>
                     <MouseBinding Gesture="LeftDoubleClick" 
                               Command="{Binding PlayCommand}"/>
