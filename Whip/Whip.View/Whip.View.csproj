@@ -173,6 +173,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\AlbumTracksGrid.cs" />
     <Compile Include="Controls\ArtistsListView.cs" />
     <Compile Include="Controls\ClickableProgressBar.cs" />
     <Compile Include="Controls\ColorPicker.cs" />
@@ -281,6 +282,9 @@
     </Compile>
     <Compile Include="Views\EditableButtonsView.xaml.cs">
       <DependentUpon>EditableButtonsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LibraryAlbumView.xaml.cs">
+      <DependentUpon>LibraryAlbumView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LibraryArtistView.xaml.cs">
       <DependentUpon>LibraryArtistView.xaml</DependentUpon>
@@ -448,6 +452,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\EditableButtonsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LibraryAlbumView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

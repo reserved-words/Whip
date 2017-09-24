@@ -3,104 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Whip"
-             xmlns:common="clr-namespace:Whip.Common;assembly=Whip.Common"
              xmlns:controls="clr-namespace:Whip.Controls"
-             xmlns:vm="clr-namespace:Whip.ViewModels;assembly=Whip.ViewModels"
              x:Name="LibraryTracks"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid ScrollViewer.HorizontalScrollBarVisibility="Hidden">
-        <ListView BorderThickness="0"
-                  ItemsSource="{Binding Albums}"
-                  ItemContainerStyle="{StaticResource ListViewItemNoHighlight}"
-                  ScrollViewer.CanContentScroll="False">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Border Style="{StaticResource HoriztonalLine}">
-                        <Border.InputBindings>
-                            <MouseBinding Gesture="LeftDoubleClick"
-                                          Command="{Binding PlayCommand}" />
-                        </Border.InputBindings>
-                        <Grid HorizontalAlignment="Stretch"
-                              x:Name="AlbumGrid">
-                            <Grid.Resources>
-                                <CollectionViewSource x:Key="TracksGrouped"                               
-                                                      Source="{Binding Path=Tracks}">
-                                    <CollectionViewSource.GroupDescriptions>
-                                        <PropertyGroupDescription PropertyName="Disc.DiscNo" />
-                                    </CollectionViewSource.GroupDescriptions>
-                                </CollectionViewSource>
-                            </Grid.Resources>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="170" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0"
-                                        DataContext="{Binding Album}"
-                                        Margin="10"
-                                        HorizontalAlignment="Stretch">
-                                <Image Source="{Binding Artwork}"
-                                       Grid.Column="0"
-                                       Margin="0,0,0,10"
-                                       Height="150"
-                                       Width="150"
-                                       VerticalAlignment="Top" />
-                                <TextBlock Text="{Binding Title}"
-                                           FontWeight="Bold"
-                                           TextWrapping="WrapWithOverflow"/>
-                                <TextBlock Text="{Binding Artist.Name}" />
-                                <TextBlock Text="{Binding Year}" />
-                            </StackPanel>
-                            <DataGrid Grid.Column="1"
-                                      Margin="10"
-                                      ItemsSource="{Binding Source={StaticResource TracksGrouped}}"
-                                      HeadersVisibility="None"
-                                      BorderThickness="0"
-                                      SelectionMode="Single"
-                                      ContextMenu="{StaticResource TrackContextMenu}"
-                                      SelectedItem="{Binding SelectedTrack, Mode=TwoWay}">
-                                <DataGrid.GroupStyle>
-                                    <GroupStyle>
-                                        <GroupStyle.HeaderTemplate>
-                                            <DataTemplate>
-                                                <TextBlock FontWeight="Bold" 
-                                                           Text="{Binding Name, StringFormat=Disc {0:#}}"
-                                                           Padding="5"
-                                                           Visibility="{Binding Path=DataContext.IsMultiDisc, ElementName=AlbumGrid, Converter={StaticResource BoolVisibilityConverter}}"/>
-                                            </DataTemplate>
-                                        </GroupStyle.HeaderTemplate>
-                                    </GroupStyle>
-                                </DataGrid.GroupStyle>
-                                <DataGrid.InputBindings>
-                                    <MouseBinding Gesture="LeftDoubleClick"
-                                                  Command="{Binding PlayArtistCommand}"/>
-                                </DataGrid.InputBindings>
-                                <DataGrid.Columns>
-                                    <DataGridTemplateColumn Width="45">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding TrackNo, StringFormat={}{0:00}}" />
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                    <DataGridTextColumn Width="*"
-                                                        Binding="{Binding Title}" />
-                                    <DataGridTextColumn Width="*"
-                                                        Binding="{Binding Artist.Name}" />
-                                    <DataGridTemplateColumn Width="60">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Duration, StringFormat=mm\\:ss}" />
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                </DataGrid.Columns>
-                            </DataGrid>
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </Grid>
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                  VerticalScrollBarVisibility="Auto">
+        <controls:AlbumTracksGrid Artist="{Binding Artist, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                  SelectedTrack="{Binding SelectedTrack, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                                  Margin="10">
+        </controls:AlbumTracksGrid>
+    </ScrollViewer>
 </UserControl>

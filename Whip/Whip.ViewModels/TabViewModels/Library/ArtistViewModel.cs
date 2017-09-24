@@ -36,6 +36,7 @@ namespace Whip.ViewModels.TabViewModels.Library
         }
 
         private Artist _artist;
+        private Track _selectedTrack;
         private List<AlbumViewModel> _albums;
 
         private BitmapImage _image;
@@ -59,6 +60,12 @@ namespace Whip.ViewModels.TabViewModels.Library
         {
             get { return _loadingArtistImage; }
             set { Set(ref _loadingArtistImage, value); }
+        }
+
+        public Track SelectedTrack
+        {
+            get { return _selectedTrack; }
+            set { Set(ref _selectedTrack, value); }
         }
 
         public List<AlbumViewModel> Albums
