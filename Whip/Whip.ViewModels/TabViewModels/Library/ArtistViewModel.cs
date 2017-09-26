@@ -1,4 +1,6 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System.Collections.Generic;
+using System.Linq;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
@@ -16,19 +18,19 @@ namespace Whip.ViewModels.TabViewModels.Library
         private readonly IImageProcessingService _imageProcessingService;
         private readonly IMessenger _messenger;
         private readonly IArtistInfoService _webArtistInfoService;
-        private readonly TrackContextMenuViewModel _trackContextMenuViewModel;
         private readonly IConfigSettings _configSettings;
         private readonly IPlayRequestHandler _playRequestHandler;
+        private readonly ITrackFilterService _trackFilterService;
 
         public ArtistViewModel(IMessenger messenger, IArtistInfoService webArtistInfoService, IImageProcessingService imageProcessingService, 
-            TrackContextMenuViewModel trackContextMenuViewModel, IConfigSettings configSettings, IPlayRequestHandler playRequestHandler)
+            TrackContextMenuViewModel trackContextMenuViewModel, IConfigSettings configSettings, IPlayRequestHandler playRequestHandler, ITrackFilterService trackFilterService)
         {
             _imageProcessingService = imageProcessingService;
             _messenger = messenger;
-            _trackContextMenuViewModel = trackContextMenuViewModel;
             _webArtistInfoService = webArtistInfoService;
             _configSettings = configSettings;
             _playRequestHandler = playRequestHandler;
+            _trackFilterService = trackFilterService;
 
             TrackContextMenu = trackContextMenuViewModel;
 
@@ -39,9 +41,10 @@ namespace Whip.ViewModels.TabViewModels.Library
         private Artist _artist;
         private Track _selectedTrack;
         private Album _selectedAlbum;
-
+        private IEnumerable<Track> _tracks;
         private BitmapImage _image;
         private bool _loadingArtistImage;
+        private bool _displayTracksByArtist;
 
         public TrackContextMenuViewModel TrackContextMenu { get; private set; }
         public RelayCommand PlayAlbumCommand { get; private set; }
@@ -57,6 +60,7 @@ namespace Whip.ViewModels.TabViewModels.Library
 
                 Set(ref _artist, value);
                 Task.Run(PopulateLastFmInfo);
+                UpdateTracks();
             }
         }
 
@@ -64,6 +68,12 @@ namespace Whip.ViewModels.TabViewModels.Library
         {
             get { return _loadingArtistImage; }
             set { Set(ref _loadingArtistImage, value); }
+        }
+
+        internal void UpdateDisplayTracks(bool displayTracksByArtist)
+        {
+            _displayTracksByArtist = displayTracksByArtist;
+            UpdateTracks();
         }
 
         public Track SelectedTrack
@@ -74,6 +84,12 @@ namespace Whip.ViewModels.TabViewModels.Library
                 Set(ref _selectedTrack, value);
                 TrackContextMenu.SetTrack(_selectedTrack);
             }
+        }
+
+        public IEnumerable<Track> Tracks
+        {
+            get { return _tracks; }
+            set { Set(ref _tracks, value); }
         }
 
         public Album SelectedAlbum
@@ -117,6 +133,34 @@ namespace Whip.ViewModels.TabViewModels.Library
             Image = await _imageProcessingService.GetImageFromUrl(Artist?.WebInfo.ExtraLargeImageUrl);
             LoadingArtistImage = false;
             RaisePropertyChanged(nameof(Wiki));
+        }
+
+        private void UpdateTracks()
+        {
+            Tracks = _artist == null
+                ? null
+                : (_displayTracksByArtist
+                    ? _artist.Tracks
+                    : _artist.Albums.SelectMany(a => a.Discs).SelectMany(d => d.Tracks))
+                        .OrderBy(t => t.Disc.Album.Artist.SortName)
+                        .ThenBy(t => t.Disc.Album.ReleaseType)
+                        .ThenBy(t => t.Disc.Album.Year)
+                        .ThenBy(t => t.Disc.Album.Title)
+                        .ThenBy(t => t.Disc.DiscNo)
+                        .ThenBy(t => t.TrackNo)
+                        .ToList();
+        }
+
+        public void UpdateDisplayTracks()
+        {
+            _displayTracksByArtist = false;
+            UpdateTracks();
+        }
+
+        public void DisplayArtistTracks()
+        {
+            _displayTracksByArtist = true;
+            UpdateTracks();
         }
     }
 }

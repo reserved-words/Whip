@@ -10,7 +10,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                   VerticalScrollBarVisibility="Auto">
-        <controls:AlbumTracksGrid Artist="{Binding Artist, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+        <controls:AlbumTracksGrid Tracks="{Binding Tracks, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                   SelectedTrack="{Binding SelectedTrack, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                                   SelectedAlbum="{Binding SelectedAlbum, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                                   AlbumDoubleClickCommand="{Binding PlayAlbumCommand}"

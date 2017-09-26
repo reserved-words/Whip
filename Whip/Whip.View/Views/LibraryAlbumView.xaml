@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel Margin="10"
-                HorizontalAlignment="Stretch">
+    <StackPanel Margin="5"
+                HorizontalAlignment="Left">
         <Image Source="{Binding Artwork}"
                Margin="0,0,0,10"
                Height="150"

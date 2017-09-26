@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,6 +14,7 @@ namespace Whip.Controls
     {
         private const int WidthTrackNoPixels = 40;
         private const int WidthTrackDurationPixels = 40;
+        private const int WidthAlbumSummaryPixels = 180;
         private const int MinimumAlbumRowSpan = 12;
         private const string TrackNoFormat = "#00";
         private const string TrackDurationFormat = @"mm\:ss";
@@ -30,7 +31,7 @@ namespace Whip.Controls
 
         public AlbumTracksGrid()
         {
-            ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(WidthAlbumSummaryPixels, GridUnitType.Pixel) });
             ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(WidthTrackNoPixels, GridUnitType.Pixel) });
             ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
@@ -41,14 +42,14 @@ namespace Whip.Controls
             SetHighlightBrush();
         }
 
-        public Artist Artist
+        public List<Track> Tracks
         {
-            get { return (Artist)GetValue(ArtistProperty); }
-            set { SetValue(ArtistProperty, value); }
+            get { return (List<Track>)GetValue(TracksProperty); }
+            set { SetValue(TracksProperty, value); }
         }
 
-        public static readonly DependencyProperty ArtistProperty =
-            DependencyProperty.Register(nameof(Artist), typeof(Artist), typeof(AlbumTracksGrid), new PropertyMetadata(null, OnArtistChanged));
+        public static readonly DependencyProperty TracksProperty =
+            DependencyProperty.Register(nameof(Tracks), typeof(IEnumerable<Track>), typeof(AlbumTracksGrid), new PropertyMetadata(null, OnArtistChanged));
         
         public Track SelectedTrack
         {
@@ -105,7 +106,7 @@ namespace Whip.Controls
         private static void OnArtistChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var albumTracksGrid = d as AlbumTracksGrid;
-            albumTracksGrid?.UpdateArtist();
+            albumTracksGrid?.UpdateTracks();
         }
 
         private void AlbumTracksGrid_ContextMenuOpening(object sender, ContextMenuEventArgs e)
@@ -162,44 +163,58 @@ namespace Whip.Controls
             }
         }
 
-        private void UpdateArtist()
+        private void UpdateTracks()
         {
             ResetGrid();
 
-            if (Artist == null)
+            if (Tracks == null)
                 return;
 
-            foreach (var album in Artist.Albums)
+            Album album = null;
+            Disc disc = null;
+            var currentAlbumRows = 0;
+            var albumStartRow = 0;
+
+            foreach (var track in Tracks)
             {
-                var totalRowsNeeded = TotalRowsNeeded(album);
-                var totalRowsToDisplay = Math.Max(totalRowsNeeded, MinimumAlbumRowSpan);
+                if (album != null && track.Disc.Album != album)
+                {
+                    AddAlbumData(album, albumStartRow, ref currentAlbumRows);
+                    currentAlbumRows = 0;
+                    albumStartRow = _populatingRow;
+                }
                 
-                for (var i = 0; i < totalRowsToDisplay + 1; i++)
+                if (track.Disc != disc && track.Disc.Album.Discs.Count > 1)
                 {
-                    AddRow();
+                    AddDiscData(track.Disc);
+                    currentAlbumRows++;
                 }
 
-                AddAlbumSummary(album, totalRowsToDisplay);
-                
-                foreach (var disc in album.Discs)
-                {
-                    if (DisplayDiscHeadings(album))
-                    {
-                        AddDiscData(disc);
-                    }
+                AddTrackData(track);
+                currentAlbumRows++;
 
-                    foreach (var track in disc.Tracks)
-                    {
-                        AddTrackData(track);
-                    }
-                }
+                disc = track.Disc;
+                album = track.Disc.Album;
+            }
 
-                for (var i = 0; i < totalRowsToDisplay - totalRowsNeeded; i++)
-                {
-                    AddBlankLabel();
-                }
+            AddAlbumData(album, albumStartRow, ref currentAlbumRows);
+        }
 
-                AddDividingLine();
+        private void AddAlbumData(Album album, int albumStartRow, ref int currentAlbumRows)
+        {
+            AddExtraAlbumRows(ref currentAlbumRows);
+            AddAlbumSummary(album, albumStartRow, currentAlbumRows);
+            AddRow();
+            AddDividingLine();
+        }
+
+        private void AddExtraAlbumRows(ref int currentAlbumRows)
+        {
+            while (currentAlbumRows < MinimumAlbumRowSpan)
+            {
+                AddRow();
+                AddBlankLabel();
+                currentAlbumRows++;
             }
         }
 
@@ -212,10 +227,10 @@ namespace Whip.Controls
             _justClickedTrack = false;
         }
 
-        private void AddAlbumSummary(Album album, int rowSpan)
+        private void AddAlbumSummary(Album album, int row, int rowSpan)
         {
             UIElement albumUserControl = new LibraryAlbumView { DataContext = album };
-            AddControl(albumUserControl, 0, _populatingRow, 1, rowSpan);
+            AddControl(albumUserControl, 0, row, 1, rowSpan);
         }
 
         private void AddBlankLabel()
@@ -236,24 +251,20 @@ namespace Whip.Controls
 
         private void AddDiscData(Disc disc)
         {
+            AddRow();
             AddControl(CreateLabel($"Disc {disc.DiscNo}", null, true), 1, _populatingRow++, 4);
         }
 
         private void AddTrackData(Track track)
         {
+            AddRow();
             AddControl(CreateLabel(track.TrackNo.ToString(TrackNoFormat), track), 1, _populatingRow);
             AddControl(CreateLabel(track.Title, track), 2, _populatingRow);
             AddControl(CreateLabel(track.Artist.Name, track), 3, _populatingRow);
             AddControl(CreateLabel(track.Duration.ToString(TrackDurationFormat), track), 4, _populatingRow);
             _populatingRow++;
         }
-
-        private static int TotalRowsNeeded(Album album)
-        {
-            var trackCount = album.Discs.SelectMany(d => d.Tracks).Count();
-            return trackCount + (DisplayDiscHeadings(album) ? album.Discs.Count : 0);
-        }
-
+        
         private static UIElement CreateLabel(string content, object tag = null, bool bold = false)
         {
             return new Label
@@ -264,11 +275,6 @@ namespace Whip.Controls
                 HorizontalContentAlignment = HorizontalAlignment.Stretch,
                 Tag = tag
             };
-        }
-
-        private static bool DisplayDiscHeadings(Album album)
-        {
-            return album.Discs.Count > 1;
         }
 
         private void AddRow()

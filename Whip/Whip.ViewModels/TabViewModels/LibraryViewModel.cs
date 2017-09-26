@@ -28,12 +28,12 @@ namespace Whip.ViewModels.TabViewModels
 
         public LibraryViewModel(Common.Singletons.Library library, IMessenger messenger, ILibrarySortingService librarySortingService, 
             IArtistInfoService webArtistInfoService, IImageProcessingService imageProcessingService, TrackContextMenuViewModel trackContextMenu, 
-            IConfigSettings configSettings, IPlayRequestHandler playRequestHandler)
+            IConfigSettings configSettings, IPlayRequestHandler playRequestHandler, ITrackFilterService trackFilterService)
             :base(TabType.Library, IconType.Book, "Library")
         {
             Artists = new List<Artist>();
             SelectedArtistViewModel = new Library.ArtistViewModel(messenger, webArtistInfoService, 
-                imageProcessingService, trackContextMenu, configSettings, playRequestHandler);
+                imageProcessingService, trackContextMenu, configSettings, playRequestHandler, trackFilterService);
 
             _library = library;
             _librarySortingService = librarySortingService;
@@ -60,6 +60,7 @@ namespace Whip.ViewModels.TabViewModels
             {
                 Set(ref _artistTypeAlbum, value);
                 FilterGroupings();
+                SelectedArtistViewModel.UpdateDisplayTracks(!_artistTypeAlbum);
             }
         }
 
@@ -70,6 +71,7 @@ namespace Whip.ViewModels.TabViewModels
             {
                 Set(ref _artistTypeTrack, value);
                 FilterGroupings();
+                SelectedArtistViewModel.UpdateDisplayTracks(_artistTypeTrack);
             }
         }
 
