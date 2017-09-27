@@ -195,6 +195,9 @@
   <data name="StandardTimeSpanFormat" xml:space="preserve">
     <value>mm\:ss</value>
   </data>
+  <data name="TabTitleLibrary" xml:space="preserve">
+    <value>Library</value>
+  </data>
   <data name="TabTitleSystemInfo" xml:space="preserve">
     <value>System Info</value>
   </data>

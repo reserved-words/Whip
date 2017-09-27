@@ -295,6 +295,15 @@ namespace Whip.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Library.
+        /// </summary>
+        public static string TabTitleLibrary {
+            get {
+                return ResourceManager.GetString("TabTitleLibrary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to System Info.
         /// </summary>
         public static string TabTitleSystemInfo {

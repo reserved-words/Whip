@@ -1,11 +1,12 @@
-﻿using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
+﻿using GalaSoft.MvvmLight.Messaging;
 using System.Collections.Generic;
 using System.Linq;
+using GalaSoft.MvvmLight.Command;
 using Whip.Common;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
+using Whip.ViewModels.TabViewModels.Library;
 using Whip.ViewModels.Utilities;
 
 namespace Whip.ViewModels.TabViewModels
@@ -22,29 +23,28 @@ namespace Whip.ViewModels.TabViewModels
         private List<string> _genres;
         private List<string> _groupings;
         private Artist _selectedArtist;
-        private Library.ArtistViewModel _selectedArtistViewModel;
+        private LibraryArtistViewModel _artistViewModel;
+        private LibraryTracksViewModel _tracksViewModel;
         private string _selectedGenre;
         private string _selectedGrouping;
 
         public LibraryViewModel(Common.Singletons.Library library, IMessenger messenger, ILibrarySortingService librarySortingService, 
             IArtistInfoService webArtistInfoService, IImageProcessingService imageProcessingService, TrackContextMenuViewModel trackContextMenu, 
             IConfigSettings configSettings, IPlayRequestHandler playRequestHandler, ITrackFilterService trackFilterService)
-            :base(TabType.Library, IconType.Book, "Library")
+            :base(TabType.Library, IconType.Book, Resources.TabTitleLibrary)
         {
-            Artists = new List<Artist>();
-            SelectedArtistViewModel = new Library.ArtistViewModel(messenger, webArtistInfoService, 
-                imageProcessingService, trackContextMenu, configSettings, playRequestHandler, trackFilterService);
-
             _library = library;
             _librarySortingService = librarySortingService;
             _playRequestHandler = playRequestHandler;
-
-            _library.Updated += OnLibraryUpdated;
             
-            PlayAlbumCommand = new RelayCommand<Album>(OnPlayAlbum);
+            Artists = new List<Artist>();
+            ArtistViewModel = new LibraryArtistViewModel(webArtistInfoService, imageProcessingService, configSettings);
+            TracksViewModel = new LibraryTracksViewModel(trackContextMenu, playRequestHandler, trackFilterService);
+            ArtistTypeAlbum = true;
+
             ShuffleArtistCommand = new RelayCommand<Artist>(OnShuffleArtist);
 
-            ArtistTypeAlbum = true;
+            _library.Updated += OnLibraryUpdated;
         }
 
         public List<Artist> Artists
@@ -60,7 +60,7 @@ namespace Whip.ViewModels.TabViewModels
             {
                 Set(ref _artistTypeAlbum, value);
                 FilterGroupings();
-                SelectedArtistViewModel.UpdateDisplayTracks(!_artistTypeAlbum);
+                TracksViewModel.UpdateDisplayTracks(!_artistTypeAlbum);
             }
         }
 
@@ -71,7 +71,7 @@ namespace Whip.ViewModels.TabViewModels
             {
                 Set(ref _artistTypeTrack, value);
                 FilterGroupings();
-                SelectedArtistViewModel.UpdateDisplayTracks(_artistTypeTrack);
+                TracksViewModel.UpdateDisplayTracks(_artistTypeTrack);
             }
         }
 
@@ -87,7 +87,6 @@ namespace Whip.ViewModels.TabViewModels
             set { Set(ref _groupings, value); }
         }
 
-        public RelayCommand<Album> PlayAlbumCommand { get; private set; }
         public RelayCommand<Artist> ShuffleArtistCommand { get; private set; }
 
         public Artist SelectedArtist
@@ -96,14 +95,21 @@ namespace Whip.ViewModels.TabViewModels
             set
             {
                 Set(ref _selectedArtist, value);
-                SelectedArtistViewModel.Artist = _selectedArtist;
+                ArtistViewModel.Artist = _selectedArtist;
+                TracksViewModel.Artist = _selectedArtist;
             }
         }
 
-        public Library.ArtistViewModel SelectedArtistViewModel
+        public LibraryArtistViewModel ArtistViewModel
         {
-            get { return _selectedArtistViewModel; }
-            set { Set(ref _selectedArtistViewModel, value); }
+            get { return _artistViewModel; }
+            set { Set(ref _artistViewModel, value); }
+        }
+
+        public LibraryTracksViewModel TracksViewModel
+        {
+            get { return _tracksViewModel; }
+            set { Set(ref _tracksViewModel, value); }
         }
 
         public string SelectedGrouping
@@ -212,11 +218,6 @@ namespace Whip.ViewModels.TabViewModels
                     && (!filterByGenre || string.IsNullOrEmpty(SelectedGenre) || a.Genre == SelectedGenre));
 
             return _librarySortingService.GetInDefaultOrder(artists);
-        }
-
-        private void OnPlayAlbum(Album album)
-        {
-            _playRequestHandler.PlayAlbum(album, SortType.Ordered);
         }
 
         private void OnShuffleArtist(Artist artist)

@@ -87,12 +87,12 @@
 
         <local:LibraryTracksView Grid.Column="1" 
                                  Grid.Row="0" Grid.RowSpan="2"
-                                 DataContext="{Binding SelectedArtistViewModel}"/>
+                                 DataContext="{Binding TracksViewModel}"/>
 
         <local:LibraryArtistView Grid.Column="2"
                                  Grid.Row="0"
                                  Grid.RowSpan="2"
-                                 DataContext="{Binding SelectedArtistViewModel}" />
+                                 DataContext="{Binding ArtistViewModel}" />
 
     </Grid>
 </UserControl>
