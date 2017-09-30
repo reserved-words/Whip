@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Whip.Common;
@@ -15,7 +16,7 @@ namespace Whip.ViewModels.TabViewModels.Library
         private Artist _artist;
         private Track _selectedTrack;
         private Album _selectedAlbum;
-        private IEnumerable<Track> _tracks;
+        private List<Track> _tracks;
         private bool _displayTracksByArtist;
 
         public LibraryTracksViewModel(TrackContextMenuViewModel trackContextMenuViewModel, IPlayRequestHandler playRequestHandler, ILibrarySortingService sortingService)
@@ -43,7 +44,7 @@ namespace Whip.ViewModels.TabViewModels.Library
             set { SetSelectedTrack(value); }
         }
 
-        public IEnumerable<Track> Tracks
+        public List<Track> Tracks
         {
             get { return _tracks; }
             set { Set(ref _tracks, value); }
@@ -70,13 +71,13 @@ namespace Whip.ViewModels.TabViewModels.Library
             if (artist == null || artist.Equals(_artist))
                 return;
 
-            Set(ref _artist, artist);
+            Set(nameof(Artist), ref _artist, artist);
             UpdateTracks();
         }
 
         private void SetSelectedTrack(Track track)
         {
-            Set(ref _selectedTrack, track);
+            Set(nameof(SelectedTrack), ref _selectedTrack, track);
             TrackContextMenu.SetTrack(_selectedTrack);
         }
 
@@ -87,9 +88,10 @@ namespace Whip.ViewModels.TabViewModels.Library
 
             Tracks = _artist == null
                 ? null
-                : _displayTracksByArtist
-                ? _sortingService.GetArtistTracksInDefaultOrder(_artist)
-                : _sortingService.GetAlbumTracksInDefaultOrder(_artist);
+                : (_displayTracksByArtist
+                    ? _sortingService.GetArtistTracksInDefaultOrder(_artist)
+                    : _sortingService.GetAlbumTracksInDefaultOrder(_artist)
+                    ).ToList();
         }
     }
 }

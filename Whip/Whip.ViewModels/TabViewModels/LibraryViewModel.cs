@@ -41,6 +41,9 @@ namespace Whip.ViewModels.TabViewModels
 
             _library.Updated += OnLibraryUpdated;
         }
+        public LibraryArtistViewModel ArtistViewModel { get; }
+        public LibraryTracksViewModel TracksViewModel { get; }
+        public RelayCommand<Artist> ShuffleArtistCommand { get; }
 
         public List<Artist> Artists
         {
@@ -51,23 +54,13 @@ namespace Whip.ViewModels.TabViewModels
         public bool ArtistTypeAlbum
         {
             get { return _artistTypeAlbum; }
-            set
-            {
-                Set(ref _artistTypeAlbum, value);
-                FilterGroupings();
-                TracksViewModel.UpdateTracks(!_artistTypeAlbum);
-            }
+            set { SetArtistTypeAlbum(value); }
         }
 
         public bool ArtistTypeTrack
         {
             get { return _artistTypeTrack; }
-            set
-            {
-                Set(ref _artistTypeTrack, value);
-                FilterGroupings();
-                TracksViewModel.UpdateTracks(_artistTypeTrack);
-            }
+            set { SetArtistTypeTrack(value); }
         }
 
         public List<string> Genres
@@ -81,108 +74,36 @@ namespace Whip.ViewModels.TabViewModels
             get { return _groupings; }
             set { Set(ref _groupings, value); }
         }
-
-        public RelayCommand<Artist> ShuffleArtistCommand { get; }
-
+        
         public Artist SelectedArtist
         {
             get { return _selectedArtist; }
-            set
-            {
-                Set(ref _selectedArtist, value);
-                ArtistViewModel.Artist = _selectedArtist;
-                TracksViewModel.Artist = _selectedArtist;
-            }
+            set { SetSelectedArtist(value); }
         }
-
-        public LibraryArtistViewModel ArtistViewModel { get; }
-        public LibraryTracksViewModel TracksViewModel { get; }
 
         public string SelectedGrouping
         {
             get { return _selectedGrouping; }
-            set
-            {
-                Set(ref _selectedGrouping, value);
-                FilterGenres();
-            }
+            set { SetSelectedGrouping(value); }
         }
 
         public string SelectedGenre
         {
             get { return _selectedGenre; }
-            set
-            {
-                Set(ref _selectedGenre, value);
-                FilterArtists();
-            }
+            set { SetSelectedGenre(value); }
         }
 
-        private void OnLibraryUpdated(Track track)
+        private static List<string> GetOptionList(IEnumerable<string> list)
         {
-            var returnToArtist = SelectedArtist;
-
-            SelectedArtist = null;
-
-            if (track == null)
-            {
-                SelectedGrouping = string.Empty;
-                SelectedGenre = string.Empty;
-                SelectedArtist = null;
-
-                FilterGroupings();
-            }
-            else
-            {
-                FilterArtists();
-            }
-
-            if (Artists.Contains(returnToArtist))
-            {
-                SelectedArtist = returnToArtist;
-            }
-        }
-
-        private void FilterGroupings()
-        {
-            var groupings = GetTrackOrAlbumArtists(false, false)
-                .Select(a => a.Grouping)
+            var sortedList = list
                 .Distinct()
                 .Where(g => !string.IsNullOrEmpty(g))
                 .OrderBy(g => g)
                 .ToList();
 
-            groupings.Insert(0, string.Empty);
+            sortedList.Insert(0, string.Empty);
 
-            Groupings = groupings;
-
-            if (SelectedGrouping == null)
-            {
-                SelectedGrouping = string.Empty;
-            }
-
-            FilterGenres();
-        }
-
-        private void FilterGenres()
-        {
-            var genres = GetTrackOrAlbumArtists(true, false)
-                .Select(a => a.Genre)
-                .Distinct()
-                .Where(g => !string.IsNullOrEmpty(g))
-                .OrderBy(g => g)
-                .ToList();
-
-            genres.Insert(0, string.Empty);
-
-            Genres = genres;
-
-            if (SelectedGenre == null)
-            {
-                SelectedGenre = string.Empty;
-            }
-
-            FilterArtists();
+            return sortedList;
         }
 
         private void FilterArtists()
@@ -193,6 +114,42 @@ namespace Whip.ViewModels.TabViewModels
             {
                 SelectedArtist = Artists.FirstOrDefault();
             }
+        }
+
+        private void FilterGenres()
+        {
+            Genres = GetGenres();
+
+            if (SelectedGenre == null)
+            {
+                SelectedGenre = string.Empty;
+            }
+
+            FilterArtists();
+        }
+
+        private void FilterGroupings()
+        {
+            Groupings = GetGroupings();
+
+            if (SelectedGrouping == null)
+            {
+                SelectedGrouping = string.Empty;
+            }
+
+            FilterGenres();
+        }
+
+        private List<string> GetGenres()
+        {
+            return GetOptionList(GetTrackOrAlbumArtists(true, false)
+                .Select(a => a.Genre));
+        }
+
+        private List<string> GetGroupings()
+        {
+            return GetOptionList(GetTrackOrAlbumArtists(false, false)
+                .Select(a => a.Grouping));
         }
 
         private IEnumerable<Artist> GetTrackOrAlbumArtists(bool filterByGrouping, bool filterByGenre)
@@ -206,9 +163,75 @@ namespace Whip.ViewModels.TabViewModels
             return _librarySortingService.GetInDefaultOrder(artists);
         }
 
+        private void OnLibraryUpdated(Track track)
+        {
+            var returnToArtist = SelectedArtist;
+
+            SelectedArtist = null;
+
+            if (track == null)
+            {
+                ResetSelections();
+                FilterGroupings();
+            }
+            else
+            {
+                FilterArtists();
+            }
+
+            if (Artists.Contains(returnToArtist))
+            {
+                SelectedArtist = returnToArtist;
+            }
+        }
+
         private void OnShuffleArtist(Artist artist)
         {
             _playRequestHandler.PlayArtist(artist, SortType.Random);
+        }
+
+        private void ResetSelections()
+        {
+            SelectedGrouping = string.Empty;
+            SelectedGenre = string.Empty;
+            SelectedArtist = null;
+        }
+
+        private void SetArtistTypeAlbum(bool value)
+        {
+            Set(nameof(ArtistTypeAlbum), ref _artistTypeAlbum, value);
+            UpdateArtistType();
+        }
+
+        private void SetArtistTypeTrack(bool value)
+        {
+            Set(nameof(ArtistTypeTrack), ref _artistTypeTrack, value);
+            UpdateArtistType();
+        }
+
+        private void SetSelectedArtist(Artist value)
+        {
+            Set(nameof(SelectedArtist), ref _selectedArtist, value);
+            ArtistViewModel.Artist = _selectedArtist;
+            TracksViewModel.Artist = _selectedArtist;
+        }
+
+        private void SetSelectedGenre(string value)
+        {
+            Set(nameof(SelectedGenre), ref _selectedGenre, value);
+            FilterArtists();
+        }
+
+        private void SetSelectedGrouping(string value)
+        {
+            Set(nameof(SelectedGrouping), ref _selectedGrouping, value);
+            FilterGenres();
+        }
+
+        private void UpdateArtistType()
+        {
+            FilterGroupings();
+            TracksViewModel.UpdateTracks(_artistTypeTrack);
         }
     }
 }

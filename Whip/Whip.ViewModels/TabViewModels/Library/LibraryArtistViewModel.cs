@@ -58,12 +58,12 @@ namespace Whip.ViewModels.TabViewModels.Library
             LoadingArtistImage = false;
         }
 
-        public void SetArtist(Artist artist)
+        private void SetArtist(Artist artist)
         {
             if (artist == null || artist.Equals(_artist))
                 return;
 
-            Set(ref _artist, artist);
+            Set(nameof(Artist), ref _artist, artist);
             Task.Run(UpdateArtistInfo);
         }
     }
