@@ -21,26 +21,14 @@ namespace Whip.ViewModels.TabViewModels.Library
         }
 
         private Artist _artist;
+        private string _wiki;
         private BitmapImage _image;
         private bool _loadingArtistImage;
 
         public Artist Artist
         {
             get { return _artist; }
-            set
-            {
-                if (value == null || value == _artist)
-                    return;
-
-                Set(ref _artist, value);
-                Task.Run(PopulateLastFmInfo);
-            }
-        }
-
-        public bool LoadingArtistImage
-        {
-            get { return _loadingArtistImage; }
-            set { Set(ref _loadingArtistImage, value); }
+            set { SetArtist(value); }
         }
 
         public BitmapImage Image
@@ -49,20 +37,34 @@ namespace Whip.ViewModels.TabViewModels.Library
             private set { Set(ref _image, value); }
         }
 
-        public string Wiki => Artist?.WebInfo?.Wiki;
-
-        private async Task PopulateLastFmInfo()
+        public bool LoadingArtistImage
         {
-            if (Artist == null)
+            get { return _loadingArtistImage; }
+            set { Set(ref _loadingArtistImage, value); }
+        }
+
+        public string Wiki
+        {
+            get { return _wiki; }
+            private set { Set(ref _wiki, value); }
+        }
+
+        private async Task UpdateArtistInfo()
+        {
+            LoadingArtistImage = true;
+            await _webArtistInfoService.PopulateArtistInfo(Artist, _configSettings.NumberOfSimilarArtistsToDisplay);
+            Wiki = Artist?.WebInfo?.Wiki;
+            Image = await _imageProcessingService.GetImageFromUrl(Artist?.WebInfo?.ExtraLargeImageUrl);
+            LoadingArtistImage = false;
+        }
+
+        public void SetArtist(Artist artist)
+        {
+            if (artist == null || artist.Equals(_artist))
                 return;
 
-            LoadingArtistImage = true;
-
-            await _webArtistInfoService.PopulateArtistInfo(Artist, _configSettings.NumberOfSimilarArtistsToDisplay);
-
-            Image = await _imageProcessingService.GetImageFromUrl(Artist?.WebInfo.ExtraLargeImageUrl);
-            LoadingArtistImage = false;
-            RaisePropertyChanged(nameof(Wiki));
+            Set(ref _artist, artist);
+            Task.Run(UpdateArtistInfo);
         }
     }
 }

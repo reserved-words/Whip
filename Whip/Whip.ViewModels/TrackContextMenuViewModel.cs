@@ -22,6 +22,8 @@ namespace Whip.ViewModels
         private ObservableCollection<MenuCommand> _menuCommands;
         private List<OrderedPlaylist> _playlists;
 
+        public TrackContextMenuViewModel() {}
+
         public TrackContextMenuViewModel(IMessenger messenger, IPlaylistRepository playlistRepository)
         {
             _messenger = messenger;
@@ -74,7 +76,7 @@ namespace Whip.ViewModels
             private set { _menuCommands = value; }
         }
 
-        public void SetTrack(Track track)
+        public virtual void SetTrack(Track track)
         {
             Track = track;
         }

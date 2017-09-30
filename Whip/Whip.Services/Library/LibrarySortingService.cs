@@ -28,5 +28,27 @@ namespace Whip.Services
         {
             return string.Format("{0} {1}", album.ReleaseType.GetDisplayName(), album.Year);
         }
+
+        public IEnumerable<Track> GetArtistTracksInDefaultOrder(Artist artist)
+        {
+           return DefaultSort(artist.Tracks);
+        }
+
+        public IEnumerable<Track> GetAlbumTracksInDefaultOrder(Artist artist)
+        {
+            return DefaultSort(artist.Albums
+                .SelectMany(a => a.Discs)
+                .SelectMany(d => d.Tracks));
+        }
+
+        private static IEnumerable<Track> DefaultSort(IEnumerable<Track> tracks)
+        {
+            return tracks.OrderBy(t => t.Disc.Album.Artist.SortName)
+                .ThenBy(t => t.Disc.Album.ReleaseType)
+                .ThenBy(t => t.Disc.Album.Year)
+                .ThenBy(t => t.Disc.Album.Title)
+                .ThenBy(t => t.Disc.DiscNo)
+                .ThenBy(t => t.TrackNo);
+        }
     }
 }

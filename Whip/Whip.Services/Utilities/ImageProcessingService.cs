@@ -68,6 +68,9 @@ namespace Whip.Services
 
         public async Task<BitmapImage> GetImageFromUrl(string url)
         {
+            if (string.IsNullOrEmpty(url))
+                return null;
+
             var bytes = await GetImageBytesFromUrl(url);
             return GetImageFromBytes(bytes);
         }
