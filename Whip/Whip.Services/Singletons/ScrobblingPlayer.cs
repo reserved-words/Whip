@@ -27,7 +27,7 @@ namespace Whip.Services
         public void Pause()
         {
             _player.Pause();
-            _playProgressTracker.Pause();
+            _playProgressTracker.Stop();
             _scrobbler.UpdateNowPlayingAsync(_currentTrack, _scrobblingRules.MinimumUpdateNowPlayingDuration);
         }
 
@@ -35,14 +35,12 @@ namespace Whip.Services
         {
             _player.Play(track);
 
-            var currentTime = _currentDateTime.Get();
-
-            if (_currentTrack != null && _scrobblingRules.CanScrobble(_playProgressTracker.TotalTrackDurationInSeconds,
-                    _playProgressTracker.SecondsOfTrackPlayed))
+            if (_currentTrack != null)
             {
-                _scrobbler.ScrobbleAsync(_currentTrack, currentTime);
+                _playProgressTracker.Stop();
+                ScrobbleCurrentTrack();
             }
-
+            
             if (track != null)
             {
                 _playProgressTracker.StartNewTrack((int)track.Duration.TotalSeconds);
@@ -55,7 +53,7 @@ namespace Whip.Services
 
             _currentTrack = track;
         }
-        
+
         public void Resume()
         {
             _player.Resume();
@@ -68,6 +66,15 @@ namespace Whip.Services
             _player.SkipToPercentage(newPercentage);
             _playProgressTracker.SkipToPercentage(newPercentage);
             _scrobbler.UpdateNowPlayingAsync(_currentTrack, _playProgressTracker.RemainingSeconds);
+        }
+
+        private void ScrobbleCurrentTrack()
+        {
+            if (_scrobblingRules.CanScrobble(_playProgressTracker.TotalTrackDurationInSeconds,
+                _playProgressTracker.SecondsOfTrackPlayed))
+            {
+                _scrobbler.ScrobbleAsync(_currentTrack, _currentDateTime.Get());
+            }
         }
     }
 }

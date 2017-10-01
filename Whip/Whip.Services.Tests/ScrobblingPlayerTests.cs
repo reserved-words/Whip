@@ -48,7 +48,7 @@ namespace Whip.Services.Tests
 
             // Assert
             _mockPlayer.Verify(p => p.Pause(), Times.Once);
-            _mockPlayTimer.Verify(t => t.Pause(), Times.Once);
+            _mockPlayTimer.Verify(t => t.Stop(), Times.Once);
             _mockScrobbler.Verify(s => s.UpdateNowPlayingAsync(testTrack, MinimumUpdateNowPlayingDuration));
         }
 
@@ -68,6 +68,7 @@ namespace Whip.Services.Tests
 
             // Assert
             _mockPlayer.Verify(p => p.Play(newTrack), Times.Once);
+            _mockPlayTimer.Verify(t => t.Stop(), Times.Never);
             _mockPlayTimer.Verify(t => t.StartNewTrack(trackDurationInSeconds), Times.Once);
             _mockScrobbler.Verify(s => s.UpdateNowPlayingAsync(newTrack, trackDurationInSeconds), Times.Once);
         }
@@ -89,6 +90,7 @@ namespace Whip.Services.Tests
 
             // Assert
             _mockPlayer.Verify(p => p.Play(newTrack), Times.Once);
+            _mockPlayTimer.Verify(t => t.Stop(), Times.Once);
             _mockScrobbler.Verify(s => s.ScrobbleAsync(originalTrack, _testTime));
             _mockPlayTimer.Verify(t => t.StartNewTrack(trackDurationInSeconds), Times.Once);
             _mockScrobbler.Verify(s => s.UpdateNowPlayingAsync(newTrack, trackDurationInSeconds), Times.Once);
@@ -107,6 +109,7 @@ namespace Whip.Services.Tests
 
             // Assert
             _mockPlayer.Verify(p => p.Play(null), Times.Once);
+            _mockPlayTimer.Verify(t => t.Stop(), Times.Once);
             _mockScrobbler.Verify(s => s.ScrobbleAsync(originalTrack, _testTime));
             _mockScrobbler.Verify(s => s.UpdateNowPlayingAsync(originalTrack, MinimumUpdateNowPlayingDuration), Times.Once);
         }

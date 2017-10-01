@@ -25,14 +25,14 @@ namespace Whip.Services
             TotalTrackDurationInSeconds = durationInSeconds;
         }
 
-        public void Pause()
-        {
-            SecondsOfTrackPlayed = SecondsOfTrackPlayed + (int)(_currentDateTime.Get() - _timeStartedPlaying).TotalSeconds;
-        }
-
         public void Resume()
         {
             _timeStartedPlaying = _currentDateTime.Get();
+        }
+
+        public void Stop()
+        {
+            SecondsOfTrackPlayed = SecondsOfTrackPlayed + (int)(_currentDateTime.Get() - _timeStartedPlaying).TotalSeconds;
         }
 
         public void SkipToPercentage(double percentage)

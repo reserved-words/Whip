@@ -43,7 +43,7 @@ namespace Whip.Services.Tests
 
             // Act
             sut.StartNewTrack(TotalTrackDuration);
-            sut.Pause();
+            sut.Stop();
 
             // Assert
             sut.RemainingSeconds.Should().Be(TotalTrackDuration - TotalTrackDuration);
@@ -74,9 +74,9 @@ namespace Whip.Services.Tests
 
             // Act
             sut.StartNewTrack(TotalTrackDuration);
-            sut.Pause();
+            sut.Stop();
             sut.Resume();
-            sut.Pause();
+            sut.Stop();
 
             // Assert
             sut.RemainingSeconds.Should().Be(TotalTrackDuration - firstPlayDuration - secondPlayDuration);
@@ -127,12 +127,35 @@ namespace Whip.Services.Tests
             // Act
             sut.StartNewTrack(TotalTrackDuration);
             sut.SkipToPercentage(percentageSkippedTo);
-            sut.Pause();
+            sut.Stop();
 
             // Assert
             sut.RemainingSeconds.Should().Be(TotalTrackDuration - secondsSkippedTo - secondPlayDuration);
             sut.TotalTrackDurationInSeconds.Should().Be(TotalTrackDuration);
             sut.SecondsOfTrackPlayed.Should().Be(secondsSkippedTo + secondPlayDuration);
+        }
+
+        [TestMethod]
+        public void Stop_UpdatesSecondsOfTrackPlayed()
+        {
+            // Arrange
+            var stopAt = _startTime.AddSeconds(TotalTrackDuration);
+
+            var mockCurrentDateTime = new Mock<ICurrentDateTime>();
+            mockCurrentDateTime.SetupSequence(c => c.Get())
+                .Returns(_startTime)
+                .Returns(stopAt);
+
+            var sut = new PlayProgressTracker(mockCurrentDateTime.Object);
+
+            // Act
+            sut.StartNewTrack(TotalTrackDuration);
+            sut.Stop();
+
+            // Assert
+            sut.RemainingSeconds.Should().Be(0);
+            sut.TotalTrackDurationInSeconds.Should().Be(TotalTrackDuration);
+            sut.SecondsOfTrackPlayed.Should().Be(TotalTrackDuration);
         }
     }
 }

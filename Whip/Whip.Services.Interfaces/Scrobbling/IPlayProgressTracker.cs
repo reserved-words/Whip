@@ -12,8 +12,8 @@ namespace Whip.Services.Interfaces
         int TotalTrackDurationInSeconds { get; }
         int SecondsOfTrackPlayed { get; }
         void StartNewTrack(int durationInSeconds);
-        void Pause();
         void Resume();
+        void Stop();
         void SkipToPercentage(double percentage);
     }
 }
