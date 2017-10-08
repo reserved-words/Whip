@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Xml.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Whip.Common.Model;
@@ -50,7 +51,7 @@ namespace Whip.ExternalLibraries.Tests
             var xml = new XElement(PropertyNames.Track);
             xml.Add(new XAttribute(PropertyNames.RelativeFilepath, TrackRelativeFilePath));
             xml.Add(new XAttribute(PropertyNames.FullFilepath, TrackFullFilePath));
-            xml.Add(new XAttribute(PropertyNames.DateModified, _trackDateModified.ToString(StandardDateFormat)));
+            xml.Add(new XAttribute(PropertyNames.DateModified, _trackDateModified.ToString(StandardDateFormat, CultureInfo.InvariantCulture)));
             xml.Add(new XAttribute(PropertyNames.Title, TrackTitle));
             xml.Add(new XAttribute(PropertyNames.TrackNo, TrackNo));
             xml.Add(new XAttribute(PropertyNames.Duration, _trackDuration.ToString(StandardTimeSpanFormat)));
