@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Globalization;
 using System.Xml.Linq;
+using static Whip.Common.Resources;
 
 namespace Whip.Common.ExtensionMethods
 {
@@ -37,7 +39,7 @@ namespace Whip.Common.ExtensionMethods
                 return DateTime.MinValue;
 
             DateTime result;
-            if (!DateTime.TryParse(attr.Value, out result))
+            if (!DateTime.TryParseExact(attr.Value, StandardDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out result))
                 return DateTime.MinValue;
 
             return result;
