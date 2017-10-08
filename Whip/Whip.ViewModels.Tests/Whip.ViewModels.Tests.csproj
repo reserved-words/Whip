@@ -91,12 +91,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="LibraryArtistViewModelTests.cs" />
-    <Compile Include="LibraryTracksViewModelTest.cs" />
-    <Compile Include="LibraryViewModelTests.cs" />
-    <Compile Include="PlayerControlsViewModelTests.cs" />
+    <Compile Include="EditTrack\TrackViewModelTests.cs" />
+    <Compile Include="Library\LibraryArtistViewModelTests.cs" />
+    <Compile Include="Library\LibraryTracksViewModelTest.cs" />
+    <Compile Include="Library\LibraryViewModelTests.cs" />
+    <Compile Include="Misc\PlayerControlsViewModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SystemInfoViewModelTests.cs" />
+    <Compile Include="SystemInfo\SystemInfoViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Whip.Common\Whip.Common.csproj">

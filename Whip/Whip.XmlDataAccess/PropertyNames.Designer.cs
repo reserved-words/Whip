@@ -22,7 +22,7 @@ namespace Whip.XmlDataAccess {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class PropertyNames {
+    public class PropertyNames {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Whip.XmlDataAccess {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Whip.XmlDataAccess.PropertyNames", typeof(PropertyNames).Assembly);
@@ -51,7 +51,7 @@ namespace Whip.XmlDataAccess {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to album.
         /// </summary>
-        internal static string Album {
+        public static string Album {
             get {
                 return ResourceManager.GetString("Album", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to albums.
         /// </summary>
-        internal static string Albums {
+        public static string Albums {
             get {
                 return ResourceManager.GetString("Albums", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to artist.
         /// </summary>
-        internal static string Artist {
+        public static string Artist {
             get {
                 return ResourceManager.GetString("Artist", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to artists.
         /// </summary>
-        internal static string Artists {
+        public static string Artists {
             get {
                 return ResourceManager.GetString("Artists", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to artwork.
         /// </summary>
-        internal static string Artwork {
+        public static string Artwork {
             get {
                 return ResourceManager.GetString("Artwork", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to bandcamp.
         /// </summary>
-        internal static string BandCamp {
+        public static string BandCamp {
             get {
                 return ResourceManager.GetString("BandCamp", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to bands_in_town.
         /// </summary>
-        internal static string BandsInTown {
+        public static string BandsInTown {
             get {
                 return ResourceManager.GetString("BandsInTown", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to city.
         /// </summary>
-        internal static string City {
+        public static string City {
             get {
                 return ResourceManager.GetString("City", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to country.
         /// </summary>
-        internal static string Country {
+        public static string Country {
             get {
                 return ResourceManager.GetString("Country", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to date_created.
         /// </summary>
-        internal static string DateCreated {
+        public static string DateCreated {
             get {
                 return ResourceManager.GetString("DateCreated", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to date_modified.
         /// </summary>
-        internal static string DateModified {
+        public static string DateModified {
             get {
                 return ResourceManager.GetString("DateModified", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to disc.
         /// </summary>
-        internal static string Disc {
+        public static string Disc {
             get {
                 return ResourceManager.GetString("Disc", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to disc_count.
         /// </summary>
-        internal static string DiscCount {
+        public static string DiscCount {
             get {
                 return ResourceManager.GetString("DiscCount", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to disc_no.
         /// </summary>
-        internal static string DiscNo {
+        public static string DiscNo {
             get {
                 return ResourceManager.GetString("DiscNo", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to discs.
         /// </summary>
-        internal static string Discs {
+        public static string Discs {
             get {
                 return ResourceManager.GetString("Discs", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to duration.
         /// </summary>
-        internal static string Duration {
+        public static string Duration {
             get {
                 return ResourceManager.GetString("Duration", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to event.
         /// </summary>
-        internal static string Event {
+        public static string Event {
             get {
                 return ResourceManager.GetString("Event", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to artists.
         /// </summary>
-        internal static string EventArtistList {
+        public static string EventArtistList {
             get {
                 return ResourceManager.GetString("EventArtistList", resourceCulture);
             }
@@ -225,7 +225,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to city.
         /// </summary>
-        internal static string EventCity {
+        public static string EventCity {
             get {
                 return ResourceManager.GetString("EventCity", resourceCulture);
             }
@@ -234,7 +234,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to country.
         /// </summary>
-        internal static string EventCountry {
+        public static string EventCountry {
             get {
                 return ResourceManager.GetString("EventCountry", resourceCulture);
             }
@@ -243,7 +243,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to date.
         /// </summary>
-        internal static string EventDate {
+        public static string EventDate {
             get {
                 return ResourceManager.GetString("EventDate", resourceCulture);
             }
@@ -252,7 +252,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to events.
         /// </summary>
-        internal static string Events {
+        public static string Events {
             get {
                 return ResourceManager.GetString("Events", resourceCulture);
             }
@@ -261,7 +261,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to updated.
         /// </summary>
-        internal static string EventsUpdated {
+        public static string EventsUpdated {
             get {
                 return ResourceManager.GetString("EventsUpdated", resourceCulture);
             }
@@ -270,7 +270,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to venue.
         /// </summary>
-        internal static string EventVenue {
+        public static string EventVenue {
             get {
                 return ResourceManager.GetString("EventVenue", resourceCulture);
             }
@@ -279,7 +279,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to facebook.
         /// </summary>
-        internal static string Facebook {
+        public static string Facebook {
             get {
                 return ResourceManager.GetString("Facebook", resourceCulture);
             }
@@ -288,7 +288,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to false.
         /// </summary>
-        internal static string FalseValue {
+        public static string FalseValue {
             get {
                 return ResourceManager.GetString("FalseValue", resourceCulture);
             }
@@ -297,7 +297,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to full_filepath.
         /// </summary>
-        internal static string FullFilepath {
+        public static string FullFilepath {
             get {
                 return ResourceManager.GetString("FullFilepath", resourceCulture);
             }
@@ -306,7 +306,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to genre.
         /// </summary>
-        internal static string Genre {
+        public static string Genre {
             get {
                 return ResourceManager.GetString("Genre", resourceCulture);
             }
@@ -315,7 +315,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to grouping.
         /// </summary>
-        internal static string Grouping {
+        public static string Grouping {
             get {
                 return ResourceManager.GetString("Grouping", resourceCulture);
             }
@@ -324,7 +324,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to last_fm.
         /// </summary>
-        internal static string LastFm {
+        public static string LastFm {
             get {
                 return ResourceManager.GetString("LastFm", resourceCulture);
             }
@@ -333,7 +333,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to last_updated.
         /// </summary>
-        internal static string LastUpdated {
+        public static string LastUpdated {
             get {
                 return ResourceManager.GetString("LastUpdated", resourceCulture);
             }
@@ -342,7 +342,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to lyrics.
         /// </summary>
-        internal static string Lyrics {
+        public static string Lyrics {
             get {
                 return ResourceManager.GetString("Lyrics", resourceCulture);
             }
@@ -351,7 +351,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to name.
         /// </summary>
-        internal static string Name {
+        public static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
             }
@@ -360,7 +360,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to playlist.
         /// </summary>
-        internal static string Playlist {
+        public static string Playlist {
             get {
                 return ResourceManager.GetString("Playlist", resourceCulture);
             }
@@ -369,7 +369,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to album_criteria.
         /// </summary>
-        internal static string PlaylistAlbumCriteria {
+        public static string PlaylistAlbumCriteria {
             get {
                 return ResourceManager.GetString("PlaylistAlbumCriteria", resourceCulture);
             }
@@ -378,7 +378,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to artist_criteria.
         /// </summary>
-        internal static string PlaylistArtistCriteria {
+        public static string PlaylistArtistCriteria {
             get {
                 return ResourceManager.GetString("PlaylistArtistCriteria", resourceCulture);
             }
@@ -387,7 +387,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to criteria.
         /// </summary>
-        internal static string PlaylistCriteria {
+        public static string PlaylistCriteria {
             get {
                 return ResourceManager.GetString("PlaylistCriteria", resourceCulture);
             }
@@ -396,7 +396,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to criteria_group.
         /// </summary>
-        internal static string PlaylistCriteriaGroup {
+        public static string PlaylistCriteriaGroup {
             get {
                 return ResourceManager.GetString("PlaylistCriteriaGroup", resourceCulture);
             }
@@ -405,7 +405,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to criteria_groups.
         /// </summary>
-        internal static string PlaylistCriteriaGroups {
+        public static string PlaylistCriteriaGroups {
             get {
                 return ResourceManager.GetString("PlaylistCriteriaGroups", resourceCulture);
             }
@@ -414,7 +414,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to property_name.
         /// </summary>
-        internal static string PlaylistCriteriaPropertyName {
+        public static string PlaylistCriteriaPropertyName {
             get {
                 return ResourceManager.GetString("PlaylistCriteriaPropertyName", resourceCulture);
             }
@@ -423,7 +423,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to criteria_type.
         /// </summary>
-        internal static string PlaylistCriteriaType {
+        public static string PlaylistCriteriaType {
             get {
                 return ResourceManager.GetString("PlaylistCriteriaType", resourceCulture);
             }
@@ -432,7 +432,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to value.
         /// </summary>
-        internal static string PlaylistCriteriaValue {
+        public static string PlaylistCriteriaValue {
             get {
                 return ResourceManager.GetString("PlaylistCriteriaValue", resourceCulture);
             }
@@ -441,7 +441,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to disc_criteria.
         /// </summary>
-        internal static string PlaylistDiscCriteria {
+        public static string PlaylistDiscCriteria {
             get {
                 return ResourceManager.GetString("PlaylistDiscCriteria", resourceCulture);
             }
@@ -450,7 +450,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to id.
         /// </summary>
-        internal static string PlaylistId {
+        public static string PlaylistId {
             get {
                 return ResourceManager.GetString("PlaylistId", resourceCulture);
             }
@@ -459,7 +459,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to max_tracks.
         /// </summary>
-        internal static string PlaylistMaxTracks {
+        public static string PlaylistMaxTracks {
             get {
                 return ResourceManager.GetString("PlaylistMaxTracks", resourceCulture);
             }
@@ -468,7 +468,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to order_by.
         /// </summary>
-        internal static string PlaylistOrderBy {
+        public static string PlaylistOrderBy {
             get {
                 return ResourceManager.GetString("PlaylistOrderBy", resourceCulture);
             }
@@ -477,7 +477,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to order_by_descending.
         /// </summary>
-        internal static string PlaylistOrderByDescending {
+        public static string PlaylistOrderByDescending {
             get {
                 return ResourceManager.GetString("PlaylistOrderByDescending", resourceCulture);
             }
@@ -486,7 +486,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to criteria_playlists.
         /// </summary>
-        internal static string PlaylistsCriteria {
+        public static string PlaylistsCriteria {
             get {
                 return ResourceManager.GetString("PlaylistsCriteria", resourceCulture);
             }
@@ -495,7 +495,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to ordered_playlists.
         /// </summary>
-        internal static string PlaylistsOrdered {
+        public static string PlaylistsOrdered {
             get {
                 return ResourceManager.GetString("PlaylistsOrdered", resourceCulture);
             }
@@ -504,7 +504,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to playlists.
         /// </summary>
-        internal static string PlaylistsRoot {
+        public static string PlaylistsRoot {
             get {
                 return ResourceManager.GetString("PlaylistsRoot", resourceCulture);
             }
@@ -513,7 +513,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to title.
         /// </summary>
-        internal static string PlaylistTitle {
+        public static string PlaylistTitle {
             get {
                 return ResourceManager.GetString("PlaylistTitle", resourceCulture);
             }
@@ -522,7 +522,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to track.
         /// </summary>
-        internal static string PlaylistTrack {
+        public static string PlaylistTrack {
             get {
                 return ResourceManager.GetString("PlaylistTrack", resourceCulture);
             }
@@ -531,7 +531,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to track_criteria.
         /// </summary>
-        internal static string PlaylistTrackCriteria {
+        public static string PlaylistTrackCriteria {
             get {
                 return ResourceManager.GetString("PlaylistTrackCriteria", resourceCulture);
             }
@@ -540,7 +540,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to filepath.
         /// </summary>
-        internal static string PlaylistTrackFilepath {
+        public static string PlaylistTrackFilepath {
             get {
                 return ResourceManager.GetString("PlaylistTrackFilepath", resourceCulture);
             }
@@ -549,7 +549,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to tracks.
         /// </summary>
-        internal static string PlaylistTracks {
+        public static string PlaylistTracks {
             get {
                 return ResourceManager.GetString("PlaylistTracks", resourceCulture);
             }
@@ -558,7 +558,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to relative_filepath.
         /// </summary>
-        internal static string RelativeFilepath {
+        public static string RelativeFilepath {
             get {
                 return ResourceManager.GetString("RelativeFilepath", resourceCulture);
             }
@@ -567,7 +567,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to release_type.
         /// </summary>
-        internal static string ReleaseType {
+        public static string ReleaseType {
             get {
                 return ResourceManager.GetString("ReleaseType", resourceCulture);
             }
@@ -576,7 +576,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to library.
         /// </summary>
-        internal static string Root {
+        public static string Root {
             get {
                 return ResourceManager.GetString("Root", resourceCulture);
             }
@@ -585,7 +585,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to color.
         /// </summary>
-        internal static string RssColor {
+        public static string RssColor {
             get {
                 return ResourceManager.GetString("RssColor", resourceCulture);
             }
@@ -594,7 +594,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to feed.
         /// </summary>
-        internal static string RssFeed {
+        public static string RssFeed {
             get {
                 return ResourceManager.GetString("RssFeed", resourceCulture);
             }
@@ -603,7 +603,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to feeds.
         /// </summary>
-        internal static string RssFeeds {
+        public static string RssFeeds {
             get {
                 return ResourceManager.GetString("RssFeeds", resourceCulture);
             }
@@ -612,7 +612,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to feed_url.
         /// </summary>
-        internal static string RssFeedUrl {
+        public static string RssFeedUrl {
             get {
                 return ResourceManager.GetString("RssFeedUrl", resourceCulture);
             }
@@ -621,7 +621,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to icon.
         /// </summary>
-        internal static string RssIconUrl {
+        public static string RssIconUrl {
             get {
                 return ResourceManager.GetString("RssIconUrl", resourceCulture);
             }
@@ -630,7 +630,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to rss.
         /// </summary>
-        internal static string RssRoot {
+        public static string RssRoot {
             get {
                 return ResourceManager.GetString("RssRoot", resourceCulture);
             }
@@ -639,7 +639,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to title.
         /// </summary>
-        internal static string RssTitle {
+        public static string RssTitle {
             get {
                 return ResourceManager.GetString("RssTitle", resourceCulture);
             }
@@ -648,7 +648,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to url.
         /// </summary>
-        internal static string RssUrl {
+        public static string RssUrl {
             get {
                 return ResourceManager.GetString("RssUrl", resourceCulture);
             }
@@ -657,7 +657,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to state.
         /// </summary>
-        internal static string State {
+        public static string State {
             get {
                 return ResourceManager.GetString("State", resourceCulture);
             }
@@ -666,7 +666,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to tags.
         /// </summary>
-        internal static string Tags {
+        public static string Tags {
             get {
                 return ResourceManager.GetString("Tags", resourceCulture);
             }
@@ -675,7 +675,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to title.
         /// </summary>
-        internal static string Title {
+        public static string Title {
             get {
                 return ResourceManager.GetString("Title", resourceCulture);
             }
@@ -684,7 +684,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to track.
         /// </summary>
-        internal static string Track {
+        public static string Track {
             get {
                 return ResourceManager.GetString("Track", resourceCulture);
             }
@@ -693,7 +693,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to track_count.
         /// </summary>
-        internal static string TrackCount {
+        public static string TrackCount {
             get {
                 return ResourceManager.GetString("TrackCount", resourceCulture);
             }
@@ -702,7 +702,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to track_no.
         /// </summary>
-        internal static string TrackNo {
+        public static string TrackNo {
             get {
                 return ResourceManager.GetString("TrackNo", resourceCulture);
             }
@@ -711,7 +711,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to tracks.
         /// </summary>
-        internal static string Tracks {
+        public static string Tracks {
             get {
                 return ResourceManager.GetString("Tracks", resourceCulture);
             }
@@ -720,7 +720,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to track_year.
         /// </summary>
-        internal static string TrackYear {
+        public static string TrackYear {
             get {
                 return ResourceManager.GetString("TrackYear", resourceCulture);
             }
@@ -729,7 +729,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to true.
         /// </summary>
-        internal static string TrueValue {
+        public static string TrueValue {
             get {
                 return ResourceManager.GetString("TrueValue", resourceCulture);
             }
@@ -738,7 +738,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to twitter.
         /// </summary>
-        internal static string Twitter {
+        public static string Twitter {
             get {
                 return ResourceManager.GetString("Twitter", resourceCulture);
             }
@@ -747,7 +747,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to video.
         /// </summary>
-        internal static string Video {
+        public static string Video {
             get {
                 return ResourceManager.GetString("Video", resourceCulture);
             }
@@ -756,7 +756,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to published.
         /// </summary>
-        internal static string VideoPublished {
+        public static string VideoPublished {
             get {
                 return ResourceManager.GetString("VideoPublished", resourceCulture);
             }
@@ -765,7 +765,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to title.
         /// </summary>
-        internal static string VideoTitle {
+        public static string VideoTitle {
             get {
                 return ResourceManager.GetString("VideoTitle", resourceCulture);
             }
@@ -774,7 +774,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to updated.
         /// </summary>
-        internal static string VideoUpdated {
+        public static string VideoUpdated {
             get {
                 return ResourceManager.GetString("VideoUpdated", resourceCulture);
             }
@@ -783,7 +783,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to url.
         /// </summary>
-        internal static string VideoUrl {
+        public static string VideoUrl {
             get {
                 return ResourceManager.GetString("VideoUrl", resourceCulture);
             }
@@ -792,7 +792,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to web_info.
         /// </summary>
-        internal static string WebInfo {
+        public static string WebInfo {
             get {
                 return ResourceManager.GetString("WebInfo", resourceCulture);
             }
@@ -801,7 +801,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to image_mega.
         /// </summary>
-        internal static string WebInfoImageExtraLarge {
+        public static string WebInfoImageExtraLarge {
             get {
                 return ResourceManager.GetString("WebInfoImageExtraLarge", resourceCulture);
             }
@@ -810,7 +810,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to image_large.
         /// </summary>
-        internal static string WebInfoImageLarge {
+        public static string WebInfoImageLarge {
             get {
                 return ResourceManager.GetString("WebInfoImageLarge", resourceCulture);
             }
@@ -819,7 +819,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to image_medium.
         /// </summary>
-        internal static string WebInfoImageMedium {
+        public static string WebInfoImageMedium {
             get {
                 return ResourceManager.GetString("WebInfoImageMedium", resourceCulture);
             }
@@ -828,7 +828,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to image_small.
         /// </summary>
-        internal static string WebInfoImageSmall {
+        public static string WebInfoImageSmall {
             get {
                 return ResourceManager.GetString("WebInfoImageSmall", resourceCulture);
             }
@@ -837,7 +837,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to similar_artist.
         /// </summary>
-        internal static string WebInfoSimilarArtist {
+        public static string WebInfoSimilarArtist {
             get {
                 return ResourceManager.GetString("WebInfoSimilarArtist", resourceCulture);
             }
@@ -846,7 +846,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to image.
         /// </summary>
-        internal static string WebInfoSimilarArtistImage {
+        public static string WebInfoSimilarArtistImage {
             get {
                 return ResourceManager.GetString("WebInfoSimilarArtistImage", resourceCulture);
             }
@@ -855,7 +855,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to name.
         /// </summary>
-        internal static string WebInfoSimilarArtistName {
+        public static string WebInfoSimilarArtistName {
             get {
                 return ResourceManager.GetString("WebInfoSimilarArtistName", resourceCulture);
             }
@@ -864,7 +864,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to similar_artists.
         /// </summary>
-        internal static string WebInfoSimilarArtists {
+        public static string WebInfoSimilarArtists {
             get {
                 return ResourceManager.GetString("WebInfoSimilarArtists", resourceCulture);
             }
@@ -873,7 +873,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to url.
         /// </summary>
-        internal static string WebInfoSimilarArtistUrl {
+        public static string WebInfoSimilarArtistUrl {
             get {
                 return ResourceManager.GetString("WebInfoSimilarArtistUrl", resourceCulture);
             }
@@ -882,7 +882,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to updated.
         /// </summary>
-        internal static string WebInfoUpdated {
+        public static string WebInfoUpdated {
             get {
                 return ResourceManager.GetString("WebInfoUpdated", resourceCulture);
             }
@@ -891,7 +891,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to wiki.
         /// </summary>
-        internal static string WebInfoWiki {
+        public static string WebInfoWiki {
             get {
                 return ResourceManager.GetString("WebInfoWiki", resourceCulture);
             }
@@ -900,7 +900,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to website.
         /// </summary>
-        internal static string Website {
+        public static string Website {
             get {
                 return ResourceManager.GetString("Website", resourceCulture);
             }
@@ -909,7 +909,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to wikipedia.
         /// </summary>
-        internal static string Wikipedia {
+        public static string Wikipedia {
             get {
                 return ResourceManager.GetString("Wikipedia", resourceCulture);
             }
@@ -918,7 +918,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to year.
         /// </summary>
-        internal static string Year {
+        public static string Year {
             get {
                 return ResourceManager.GetString("Year", resourceCulture);
             }
@@ -927,7 +927,7 @@ namespace Whip.XmlDataAccess {
         /// <summary>
         ///   Looks up a localized string similar to youtube.
         /// </summary>
-        internal static string YouTube {
+        public static string YouTube {
             get {
                 return ResourceManager.GetString("YouTube", resourceCulture);
             }

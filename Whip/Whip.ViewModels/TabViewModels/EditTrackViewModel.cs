@@ -96,7 +96,7 @@ namespace Whip.ViewModels.TabViewModels
 
             var tags = artists.SelectMany(a => a.Tracks).SelectMany(t => t.Tags).Distinct().OrderBy(t => t).ToList();
 
-            Track = new TrackViewModel(this, _messenger, _webAlbumInfoService, _imageProcessingService, _webBrowserService, _fileDialogService, artists, tags, track);
+            Track = new TrackViewModel(_messenger, _webAlbumInfoService, _imageProcessingService, _webBrowserService, _fileDialogService, artists, tags, track);
         }
 
         protected override bool CustomCancel()

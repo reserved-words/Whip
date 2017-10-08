@@ -26,7 +26,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
 
         private bool _syncArtistNames;
 
-        public TrackViewModel(EditTrackViewModel parent, IMessenger messenger, IAlbumInfoService albumInfoService, IImageProcessingService imageProcessingService,
+        public TrackViewModel(IMessenger messenger, IAlbumInfoService albumInfoService, IImageProcessingService imageProcessingService,
             IWebBrowserService webBrowserService, IFileDialogService fileDialogService, List<Artist> artists, List<string> tags, Track track)
         {
             Artist = new ArtistViewModel(this, artists, track.Artist, webBrowserService);
@@ -157,6 +157,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
         private void OnRemoveTag(string tag)
         {
             Tags.Remove(tag);
+            Modified = true;
         }
 
         private void Populate(Track track)
