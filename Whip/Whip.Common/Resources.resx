@@ -138,6 +138,12 @@
   <data name="CurrentPlayingDirectoryName" xml:space="preserve">
     <value>CurrentlyPlaying</value>
   </data>
+  <data name="EditTrackLyricsNotFoundText" xml:space="preserve">
+    <value>The lyrics requested could not be found</value>
+  </data>
+  <data name="EditTrackLyricsNotFoundTitle" xml:space="preserve">
+    <value>Lyrics Not Found</value>
+  </data>
   <data name="FacebookUrl" xml:space="preserve">
     <value>https://facebook.com/{0}</value>
   </data>

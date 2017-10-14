@@ -124,6 +124,24 @@ namespace Whip.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The lyrics requested could not be found.
+        /// </summary>
+        public static string EditTrackLyricsNotFoundText {
+            get {
+                return ResourceManager.GetString("EditTrackLyricsNotFoundText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lyrics Not Found.
+        /// </summary>
+        public static string EditTrackLyricsNotFoundTitle {
+            get {
+                return ResourceManager.GetString("EditTrackLyricsNotFoundTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://facebook.com/{0}.
         /// </summary>
         public static string FacebookUrl {

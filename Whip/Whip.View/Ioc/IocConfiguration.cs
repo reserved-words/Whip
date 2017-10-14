@@ -21,6 +21,7 @@ using Whip.View;
 using Whip.XmlDataAccess;
 using Whip.ViewModels;
 using Whip.TweetInvi;
+using Whip.LyricApi;
 
 namespace Whip.Ioc
 {
@@ -66,6 +67,7 @@ namespace Whip.Ioc
                 .Register<ITaggingService, TagLibService>()
                 .Register<ITwitterService, TwitterService>()
                 .Register<IVideoService, YouTubeVideoService>()
+                .Register<ILyricsService, LyricsService>()
                 .Register<IEventsService, BandsInTownArtistEventsService>()
                 .Register<IDefaultTrackSorter, DefaultTrackSorter>()
                 .Register<IRandomTrackSorter, RandomTrackSorter>()

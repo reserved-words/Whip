@@ -519,14 +519,22 @@
                     </ScrollViewer>
                 </Border>
 
-                <Button Grid.Row="2"
-                    Content="Search Web"
-                    Command="{Binding Path=DataContext.LyricsWebSearchCommand, 
-                                      RelativeSource={RelativeSource Mode=FindAncestor,  
-                                      AncestorType={x:Type UserControl}}}"
-                    Width="80"
-                    HorizontalAlignment="Center"/>
+                <WrapPanel Grid.Row="2"
+                           HorizontalAlignment="Center">
 
+                    <Button Content="Get Lyrics"
+                            Command="{Binding Path=DataContext.GetLyricsCommand, 
+                                              RelativeSource={RelativeSource Mode=FindAncestor,  
+                                              AncestorType={x:Type UserControl}}}"
+                            Width="80" />
+                    
+                    <Button Content="Search Web"
+                            Command="{Binding Path=DataContext.LyricsWebSearchCommand, 
+                                              RelativeSource={RelativeSource Mode=FindAncestor,  
+                                              AncestorType={x:Type UserControl}}}"
+                            Width="80" />
+                </WrapPanel>
+                
             </Grid>
         </Grid>
 

@@ -4,6 +4,7 @@ using System.Linq;
 using Whip.Common;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
+using Whip.ViewModels.Messages;
 using Whip.ViewModels.TabViewModels.EditTrack;
 using Whip.ViewModels.Utilities;
 using static Whip.Common.Resources;
@@ -19,6 +20,7 @@ namespace Whip.ViewModels.TabViewModels
         private readonly IAlbumInfoService _webAlbumInfoService;
         private readonly ITrackUpdateService _trackUpdateService;
         private readonly IWebBrowserService _webBrowserService;
+        private readonly ILyricsService _lyricsService;
 
         private TrackViewModel _track;
 
@@ -26,7 +28,7 @@ namespace Whip.ViewModels.TabViewModels
         
         public EditTrackViewModel(Common.Singletons.Library library, IMessenger messenger, IAlbumInfoService webAlbumInfoService,
              ITrackUpdateService trackUpdateService, IImageProcessingService imageProcessingService, IWebBrowserService webBrowserService,
-             IFileDialogService fileDialogService)
+             IFileDialogService fileDialogService, ILyricsService lyricsService)
             : base(TabType.EditTrack, IconType.Edit, "Edit Track", messenger, false)
         {
             _library = library;
@@ -37,12 +39,15 @@ namespace Whip.ViewModels.TabViewModels
             _trackUpdateService = trackUpdateService;
             _webAlbumInfoService = webAlbumInfoService;
             _webBrowserService = webBrowserService;
+            _lyricsService = lyricsService;
 
+            GetLyricsCommand = new RelayCommand(OnGetLyrics);
             LyricsWebSearchCommand = new RelayCommand(OnLyricsWebSearch);
         }
 
         public RelayCommand LyricsWebSearchCommand { get; private set; }
-        
+        public RelayCommand GetLyricsCommand { get; private set; }
+
         public override bool Modified
         {
             get { return TrackModified || ArtistModified || DiscModified || AlbumModified; }
@@ -119,6 +124,20 @@ namespace Whip.ViewModels.TabViewModels
         private void OnLyricsWebSearch()
         {
             _webBrowserService.OpenSearch(Track.Artist.Name, Track.Title, "lyrics");
+        }
+
+        private async void OnGetLyrics()
+        {
+            var foundLyrics = await _lyricsService.GetLyrics(Track.Artist.Name, Track.Title);
+
+            if (foundLyrics == null)
+            {
+                _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Info, EditTrackLyricsNotFoundTitle, EditTrackLyricsNotFoundText));
+            }
+            else
+            {
+                Track.Lyrics = foundLyrics;
+            }
         }
     }
 }
