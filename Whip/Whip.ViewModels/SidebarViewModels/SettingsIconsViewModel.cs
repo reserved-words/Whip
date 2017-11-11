@@ -5,7 +5,7 @@ using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
 using Whip.ViewModels.Utilities;
 
-namespace Whip.ViewModels.SidebarViewModels
+namespace Whip.ViewModels
 {
     public class SettingsIconsViewModel
     {

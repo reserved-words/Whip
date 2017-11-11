@@ -5,13 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Whip.View.Windows"
         mc:Ignorable="d"
-        ResizeMode="NoResize"
-        ShowInTaskbar="false" 
+        ResizeMode="CanMinimize"
+        ShowInTaskbar="True" 
         SizeToContent="WidthAndHeight"
         WindowStyle="None"
         WindowStartupLocation="Manual"
         Left="0"
         Top="0"
         Title="{Binding Title}" Height="300" Width="250">
-    <ContentControl Content="{Binding CurrentTrackMiniViewModel}" />
+    <StackPanel>
+        <ContentControl Content="{Binding CurrentTrackMiniViewModel}" />
+        <Border Style="{StaticResource ColourBorder}">
+            <ContentControl Content="{Binding PlayerControlsViewModel}" />
+        </Border>
+    </StackPanel>
 </Window>

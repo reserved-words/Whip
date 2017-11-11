@@ -8,7 +8,7 @@ using Whip.Common.Model;
 using Whip.Common.Singletons;
 using Whip.Services.Interfaces;
 
-namespace Whip.ViewModels.SidebarViewModels
+namespace Whip.ViewModels
 {
     public class PlayShortcutsViewModel : ViewModelBase
     {

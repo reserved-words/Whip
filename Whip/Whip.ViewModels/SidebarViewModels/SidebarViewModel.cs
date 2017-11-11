@@ -1,18 +1,32 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Messaging;
 using Whip.Common.Model;
-using Whip.ViewModels.SidebarViewModels;
+using Whip.ViewModels.Messages;
+using Whip.ViewModels.Windows;
 
 namespace Whip.ViewModels
 {
     public class SidebarViewModel : ViewModelBase
     {
-        public SidebarViewModel(CurrentTrackMiniViewModel currentTrackMiniViewModel, PlayerControlsViewModel playerControlsViewModel,
+        private readonly IMessenger _messenger;
+
+        public SidebarViewModel(IMessenger messenger, CurrentTrackMiniViewModel currentTrackMiniViewModel, PlayerControlsViewModel playerControlsViewModel,
             SettingsIconsViewModel settingsIconsViewModel, PlayShortcutsViewModel playShortcutsViewModel)
         {
+            _messenger = messenger;
+
             CurrentTrackMiniViewModel = currentTrackMiniViewModel;
             PlayerControlsViewModel = playerControlsViewModel;
             SettingsIconsViewModel = settingsIconsViewModel;
             PlayShortcutsViewModel = playShortcutsViewModel;
+
+            CurrentTrackMiniViewModel.OpenMiniPlayer += OnOpenMiniPlayer;
+        }
+
+        private void OnOpenMiniPlayer()
+        {
+            var miniPlayer = new MiniPlayerViewModel(CurrentTrackMiniViewModel, PlayerControlsViewModel);
+            _messenger.Send(new ShowMiniPlayerMessage(miniPlayer));
         }
 
         public CurrentTrackMiniViewModel CurrentTrackMiniViewModel { get; }

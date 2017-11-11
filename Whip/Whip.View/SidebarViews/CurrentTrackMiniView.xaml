@@ -16,11 +16,11 @@
                        Content="Currently Playing" />
                 <WrapPanel DockPanel.Dock="Right"
                            HorizontalAlignment="Right">
-                    <controls:Icon16 Icon="Undo"
+                    <controls:Icon16 Icon="WindowMaximize"
                                      Visibility="{Binding IsMiniPlayerOpen, Converter={StaticResource BoolVisibilityConverter}}"
                                      Margin="5"
                                      Cursor="Hand"
-                                     ToolTip="Close Mini Player"
+                                     ToolTip="Show Full Player"
                                      Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}">
                         <Image.InputBindings>
                             <MouseBinding Gesture="LeftClick"

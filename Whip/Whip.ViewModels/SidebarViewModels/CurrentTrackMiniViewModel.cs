@@ -1,16 +1,18 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using Whip.Common.Model;
 using Whip.Common.Singletons;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
-using Whip.ViewModels.Windows;
 
 namespace Whip.ViewModels
 {
     public class CurrentTrackMiniViewModel : ViewModelBase
     {
+        public event Action OpenMiniPlayer;
+
         private readonly IMessenger _messenger;
         private readonly ITrackLoveService _trackLoveService;
 
@@ -77,6 +79,9 @@ namespace Whip.ViewModels
 
         private async void OnLoveTrack()
         {
+            if (Track == null)
+                return;
+
             Loved = true;
 
             if (await _trackLoveService.LoveTrackAsync(Track))
@@ -89,8 +94,7 @@ namespace Whip.ViewModels
         private void OnOpenMiniPlayer()
         {
             IsMiniPlayerOpen = true;
-            var miniPlayer = new MiniPlayerViewModel(this);
-            _messenger.Send(new ShowMiniPlayerMessage(miniPlayer));
+            OpenMiniPlayer?.Invoke();
         }
 
         private void OnCloseMiniPlayer()
@@ -101,6 +105,9 @@ namespace Whip.ViewModels
 
         private async void OnUnloveTrack()
         {
+            if (Track == null)
+                return;
+
             Loved = false;
 
             if (await _trackLoveService.UnloveTrackAsync(Track))

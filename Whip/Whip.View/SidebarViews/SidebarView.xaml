@@ -14,17 +14,17 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <local:CurrentTrackMiniView DataContext="{Binding CurrentTrackMiniViewModel}"
-                                    Grid.Row="0"/>
+        <ContentControl Content="{Binding CurrentTrackMiniViewModel}"
+                        Grid.Row="0"/>
 
-        <local:PlayerControlsView DataContext="{Binding PlayerControlsViewModel}"
-                                  Grid.Row="1"/>
-        
-        <local:PlayShortcutsView DataContext="{Binding PlayShortcutsViewModel}"
-                                 Grid.Row="2"/>
+        <ContentControl Content="{Binding PlayerControlsViewModel}"
+                        Grid.Row="1"/>
 
-        <local:SettingsIconsView DataContext="{Binding SettingsIconsViewModel}"
-                                 Grid.Row="3"/>
+        <ContentControl Content="{Binding PlayShortcutsViewModel}"
+                        Grid.Row="2"/>
+
+        <ContentControl Content="{Binding SettingsIconsViewModel}"
+                        Grid.Row="3"/>
 
     </Grid>
 </UserControl>

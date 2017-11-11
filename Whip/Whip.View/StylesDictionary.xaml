@@ -72,6 +72,15 @@
     <DataTemplate DataType="{x:Type viewModel:CurrentTrackMiniViewModel}">
         <local:CurrentTrackMiniView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModel:PlayerControlsViewModel}">
+        <local:PlayerControlsView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModel:PlayShortcutsViewModel}">
+        <local:PlayShortcutsView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModel:SettingsIconsViewModel}">
+        <local:SettingsIconsView />
+    </DataTemplate>
     
     <DataTemplate DataType="{x:Type model:Tweet}">
         <local:TweetView />
