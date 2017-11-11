@@ -34,7 +34,6 @@ namespace Whip.ViewModels
             UnloveTrackCommand = new RelayCommand(OnUnloveTrack);
             SetContextMenuTrackCommand = new RelayCommand(OnSetContextMenuTrack);
             OpenMiniPlayerCommand = new RelayCommand(OnOpenMiniPlayer);
-            CloseMiniPlayerCommand = new RelayCommand(OnCloseMiniPlayer);
         }
 
         public TrackContextMenuViewModel TrackContextMenu { get; }
@@ -43,7 +42,6 @@ namespace Whip.ViewModels
         public RelayCommand LoveTrackCommand { get; }
         public RelayCommand UnloveTrackCommand { get; }
         public RelayCommand OpenMiniPlayerCommand { get; }
-        public RelayCommand CloseMiniPlayerCommand { get; }
 
         public Track Track
         {
@@ -96,13 +94,7 @@ namespace Whip.ViewModels
             IsMiniPlayerOpen = true;
             OpenMiniPlayer?.Invoke();
         }
-
-        private void OnCloseMiniPlayer()
-        {
-            IsMiniPlayerOpen = false;
-            _messenger.Send(new HideMiniPlayerMessage());
-        }
-
+        
         private async void OnUnloveTrack()
         {
             if (Track == null)

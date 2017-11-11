@@ -16,17 +16,6 @@
                        Content="Currently Playing" />
                 <WrapPanel DockPanel.Dock="Right"
                            HorizontalAlignment="Right">
-                    <controls:Icon16 Icon="WindowMaximize"
-                                     Visibility="{Binding IsMiniPlayerOpen, Converter={StaticResource BoolVisibilityConverter}}"
-                                     Margin="5"
-                                     Cursor="Hand"
-                                     ToolTip="Show Full Player"
-                                     Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}">
-                        <Image.InputBindings>
-                            <MouseBinding Gesture="LeftClick"
-                                          Command="{Binding CloseMiniPlayerCommand}" />
-                        </Image.InputBindings>
-                    </controls:Icon16>
                     <controls:Icon16 Icon="ExternalLink"
                                      Visibility="{Binding IsMiniPlayerOpen, Converter={StaticResource NegBoolVisibilityConverter}}"
                                      Margin="5"

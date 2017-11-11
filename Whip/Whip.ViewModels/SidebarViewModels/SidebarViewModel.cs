@@ -25,7 +25,7 @@ namespace Whip.ViewModels
 
         private void OnOpenMiniPlayer()
         {
-            var miniPlayer = new MiniPlayerViewModel(CurrentTrackMiniViewModel, PlayerControlsViewModel);
+            var miniPlayer = new MiniPlayerViewModel(_messenger, CurrentTrackMiniViewModel, PlayerControlsViewModel);
             _messenger.Send(new ShowMiniPlayerMessage(miniPlayer));
         }
 

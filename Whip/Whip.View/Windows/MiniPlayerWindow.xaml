@@ -5,14 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Whip.View.Windows"
         mc:Ignorable="d"
-        ResizeMode="CanMinimize"
+        ResizeMode="CanResize"
         ShowInTaskbar="True" 
         SizeToContent="WidthAndHeight"
-        WindowStyle="None"
+        WindowStyle="SingleBorderWindow"
         WindowStartupLocation="Manual"
+        Icon="pack://application:,,,/logo.ico"
         Left="0"
         Top="0"
-        Title="{Binding Title}" Height="300" Width="250">
+        Closing="OnClosing"
+        Loaded="Window_Loaded"
+        Title="Whip" Height="300" Width="250">
     <StackPanel>
         <ContentControl Content="{Binding CurrentTrackMiniViewModel}" />
         <Border Style="{StaticResource ColourBorder}">

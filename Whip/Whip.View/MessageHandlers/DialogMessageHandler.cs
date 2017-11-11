@@ -76,7 +76,7 @@ namespace Whip.MessageHandlers
             {
                 DataContext = message.MiniPlayerViewModel
             };
-            App.Current.MainWindow.Hide();
+            Application.Current.MainWindow.Hide();
             _miniPlayerWindow.ShowDialog();
         }
 
@@ -84,7 +84,7 @@ namespace Whip.MessageHandlers
         {
             _miniPlayerWindow.Close();
             _miniPlayerWindow = null;
-            App.Current.MainWindow.Show();
+            Application.Current.MainWindow.Show();
         }
     }
 }
