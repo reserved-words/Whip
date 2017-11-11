@@ -11,7 +11,7 @@ namespace Whip.ViewModels.Windows
         private readonly IMessenger _messenger;
         private readonly Action _callback;
 
-        public DialogViewModel(IMessenger messenger, string title, IconType iconType, Action callback = null)
+        public DialogViewModel(IMessenger messenger, string title, IconType iconType, Action callback = null, bool startInCenter = true)
         {
             _messenger = messenger;
             _callback = callback;
@@ -19,13 +19,13 @@ namespace Whip.ViewModels.Windows
             Title = title;
             Icon = iconType.ToString();
             Guid = Guid.NewGuid();
+            StartInCenter = startInCenter;
         }
 
-        public Guid Guid { get; private set; }
-
-        public string Title { get; private set; }
-
-        public string Icon { get; private set; }
+        public Guid Guid { get; }
+        public string Title { get; }
+        public string Icon { get; }
+        public bool StartInCenter { get; }
 
         protected virtual void Close()
         {

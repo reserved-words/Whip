@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Whip"
              xmlns:controls="clr-namespace:Whip.Controls"
+             xmlns:properties="clr-namespace:Whip.View.Properties"
              mc:Ignorable="d" 
              x:Name="CurrentTrackUserControl"
              d:DesignHeight="300" d:DesignWidth="300">
@@ -15,6 +16,28 @@
                        Content="Currently Playing" />
                 <WrapPanel DockPanel.Dock="Right"
                            HorizontalAlignment="Right">
+                    <controls:Icon16 Icon="Undo"
+                                     Visibility="{Binding IsMiniPlayerOpen, Converter={StaticResource BoolVisibilityConverter}}"
+                                     Margin="5"
+                                     Cursor="Hand"
+                                     ToolTip="Close Mini Player"
+                                     Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}">
+                        <Image.InputBindings>
+                            <MouseBinding Gesture="LeftClick"
+                                          Command="{Binding CloseMiniPlayerCommand}" />
+                        </Image.InputBindings>
+                    </controls:Icon16>
+                    <controls:Icon16 Icon="ExternalLink"
+                                     Visibility="{Binding IsMiniPlayerOpen, Converter={StaticResource NegBoolVisibilityConverter}}"
+                                     Margin="5"
+                                     Cursor="Hand"
+                                     ToolTip="Open Mini Player"
+                                     Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}">
+                        <Image.InputBindings>
+                            <MouseBinding Gesture="LeftClick"
+                                          Command="{Binding OpenMiniPlayerCommand}" />
+                        </Image.InputBindings>
+                    </controls:Icon16>
                     <controls:Icon16 Icon="Heart"
                                      Margin="5"
                                      Cursor="Hand"

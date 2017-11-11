@@ -68,9 +68,12 @@
     <Compile Include="Messages\EditCriteraPlaylistMessage.cs" />
     <Compile Include="Messages\EditSettingsMessage.cs" />
     <Compile Include="Messages\EditTrackMessage.cs" />
+    <Compile Include="Messages\HideMiniPlayerMessage.cs" />
     <Compile Include="Messages\LibraryUpdateRequest.cs" />
     <Compile Include="Messages\MoveToTrackMessage.cs" />
+    <Compile Include="Messages\ShowMiniPlayerMessage.cs" />
     <Compile Include="SidebarViewModels\CurrentTrackMiniViewModel.cs" />
+    <Compile Include="SidebarViewModels\PlayShortcutsViewModel.cs" />
     <Compile Include="SidebarViewModels\SettingsIconsViewModel.cs" />
     <Compile Include="SidebarViewModels\SidebarViewModel.cs" />
     <Compile Include="TabViewModels\CurrentPlaylistViewModel.cs" />
@@ -134,6 +137,7 @@
     <Compile Include="Windows\MessageViewModel.cs" />
     <Compile Include="Windows\ConfirmationViewModel.cs" />
     <Compile Include="Windows\Bases\DialogViewModel.cs" />
+    <Compile Include="Windows\MiniPlayerViewModel.cs" />
     <Compile Include="Windows\ProgressBarViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

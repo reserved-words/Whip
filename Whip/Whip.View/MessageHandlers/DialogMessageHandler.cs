@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Windows;
 using Whip.Common.Interfaces;
+using Whip.View.Windows;
 using Whip.ViewModels.Messages;
 
 namespace Whip.MessageHandlers
@@ -10,10 +12,10 @@ namespace Whip.MessageHandlers
     public class DialogMessageHandler : IStartable
     {
         private readonly IMessenger _messenger;
-
         private readonly SynchronizationContext _synchronizationContext = SynchronizationContext.Current;
-
         private readonly Dictionary<Guid, Dialog> _dialogs = new Dictionary<Guid, Dialog>();
+
+        private MiniPlayerWindow _miniPlayerWindow;
 
         public DialogMessageHandler(IMessenger messenger)
         {
@@ -24,12 +26,16 @@ namespace Whip.MessageHandlers
         {
             _messenger.Register<ShowDialogMessage>(this, ShowDialog);
             _messenger.Register<HideDialogMessage>(this, HideDialog);
+            _messenger.Register<ShowMiniPlayerMessage>(this, ShowMiniPlayer);
+            _messenger.Register<HideMiniPlayerMessage>(this, HideMiniPlayer);
         }
-        
+
         public void Stop()
         {
             _messenger.Unregister<ShowDialogMessage>(this, ShowDialog);
             _messenger.Unregister<HideDialogMessage>(this, HideDialog);
+            _messenger.Unregister<ShowMiniPlayerMessage>(this, ShowMiniPlayer);
+            _messenger.Unregister<HideMiniPlayerMessage>(this, HideMiniPlayer);
         }
 
         private void ShowDialog(ShowDialogMessage message)
@@ -62,6 +68,23 @@ namespace Whip.MessageHandlers
                 dialog.Close();
                 _dialogs[message.Guid] = null;
             }
+        }
+
+        private void ShowMiniPlayer(ShowMiniPlayerMessage message)
+        {
+            _miniPlayerWindow = new MiniPlayerWindow
+            {
+                DataContext = message.MiniPlayerViewModel
+            };
+            App.Current.MainWindow.Hide();
+            _miniPlayerWindow.ShowDialog();
+        }
+
+        private void HideMiniPlayer(HideMiniPlayerMessage message)
+        {
+            _miniPlayerWindow.Close();
+            _miniPlayerWindow = null;
+            App.Current.MainWindow.Show();
         }
     }
 }

@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              x:Name="playerControlsView"
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel Margin="5">
+    <StackPanel Margin="5, 0">
         <Grid Height="25"
               VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
@@ -57,23 +57,5 @@
 
         </Grid>
 
-        <Button Margin="0,5,0,5"
-                Content="Shuffle Library"
-                Command="{Binding ShuffleLibraryCommand}" />
-
-        <ListView ItemsSource="{Binding Groupings}"
-                  BorderThickness="0"
-                  Margin="0"
-                  ItemContainerStyle="{StaticResource ListViewItemNoHighlight}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Button Margin="0,5,0,0"
-                            Command="{Binding DataContext.PlayGroupingCommand, ElementName=playerControlsView}"
-                            CommandParameter="{Binding}">
-                        <TextBlock Text="{Binding StringFormat=Shuffle {0}}" />
-                    </Button>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
     </StackPanel>
 </UserControl>

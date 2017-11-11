@@ -23,6 +23,10 @@ namespace Whip
         public Dialog()
         {
             InitializeComponent();
+
+            // Only for mini player
+            Left = 0;
+            Top = 0;
         }
 
         // Code below removes the Close button from the window

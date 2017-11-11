@@ -17,7 +17,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <PublishUrl>C:\Software\Whip One-Click\</PublishUrl>
+    <PublishUrl>C:\Users\rhian\Google Drive\Whip Deployment\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Unc</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -27,8 +27,8 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>\\Software\Whip One-Click\</InstallUrl>
-    <ApplicationRevision>14</ApplicationRevision>
+    <InstallUrl>\\localhost\c%24\Users\rhian\Google Drive\Whip Deployment\</InstallUrl>
+    <ApplicationRevision>15</ApplicationRevision>
     <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -184,17 +184,24 @@
     <Compile Include="Controls\PlayerControlButton.cs" />
     <Compile Include="Controls\ReportingTabControl.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\CenterWindowConverter.cs" />
     <Compile Include="Converters\BytesToImageConverter.cs" />
     <Compile Include="Converters\EnumToStringConverter.cs" />
     <Compile Include="Converters\EqualityConverter.cs" />
     <Compile Include="Converters\NegateBoolConverter.cs" />
     <Compile Include="Converters\NullVisibilityConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
-    <Compile Include="Dialogs\EditFeedView.xaml.cs">
+    <Compile Include="SidebarViews\PlayShortcutsView.xaml.cs">
+      <DependentUpon>PlayShortcutsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\EditFeedView.xaml.cs">
       <DependentUpon>EditFeedView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\EnterStringView.xaml.cs">
+    <Compile Include="Windows\EnterStringView.xaml.cs">
       <DependentUpon>EnterStringView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\MiniPlayerView.xaml.cs">
+      <DependentUpon>MiniPlayerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ioc\IocConfiguration.cs" />
     <Compile Include="Ioc\IocKernel.cs" />
@@ -292,16 +299,19 @@
     <Compile Include="Views\LibraryTracksView.xaml.cs">
       <DependentUpon>LibraryTracksView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\ConfirmationView.xaml.cs">
+    <Compile Include="Windows\ConfirmationView.xaml.cs">
       <DependentUpon>ConfirmationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\Dialog.xaml.cs">
+    <Compile Include="Windows\Dialog.xaml.cs">
       <DependentUpon>Dialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\MessageView.xaml.cs">
+    <Compile Include="Windows\MessageView.xaml.cs">
       <DependentUpon>MessageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\ProgressBarView.xaml.cs">
+    <Compile Include="Windows\MiniPlayerWindow.xaml.cs">
+      <DependentUpon>MiniPlayerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ProgressBarView.xaml.cs">
       <DependentUpon>ProgressBarView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PlaylistsCriteriaView.xaml.cs">
@@ -331,11 +341,19 @@
     <Compile Include="Views\TweetView.xaml.cs">
       <DependentUpon>TweetView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Dialogs\EditFeedView.xaml">
+    <Page Include="SidebarViews\PlayShortcutsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\EnterStringView.xaml">
+    <Page Include="Windows\EditFeedView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\EnterStringView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MiniPlayerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -467,19 +485,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\ConfirmationView.xaml">
+    <Page Include="Windows\ConfirmationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\Dialog.xaml">
+    <Page Include="Windows\Dialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\MessageView.xaml">
+    <Page Include="Windows\MessageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\ProgressBarView.xaml">
+    <Page Include="Windows\MiniPlayerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ProgressBarView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

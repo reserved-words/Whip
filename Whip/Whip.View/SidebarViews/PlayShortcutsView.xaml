@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="Whip.PlayShortcutsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Whip"
+             mc:Ignorable="d" 
+             x:Name="playShortcutsView"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <StackPanel Margin="5, 0">
+        <Button Margin="0,5,0,5"
+                Content="Shuffle Library"
+                Command="{Binding ShuffleLibraryCommand}" />
+
+        <ListView ItemsSource="{Binding Groupings}"
+                  BorderThickness="0"
+                  Margin="0"
+                  ItemContainerStyle="{StaticResource ListViewItemNoHighlight}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Button Margin="0,5,0,0"
+                            Command="{Binding DataContext.PlayGroupingCommand, ElementName=playShortcutsView}"
+                            CommandParameter="{Binding}">
+                        <TextBlock Text="{Binding StringFormat=Shuffle {0}}" />
+                    </Button>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackPanel>
+</UserControl>

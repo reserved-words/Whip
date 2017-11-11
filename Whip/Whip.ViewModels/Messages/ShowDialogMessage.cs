@@ -9,7 +9,7 @@ namespace Whip.ViewModels.Messages
 
     public class ShowDialogMessage
     {
-        private Dictionary<MessageType, IconType> icons = new Dictionary<MessageType, IconType>
+        private readonly Dictionary<MessageType, IconType> _icons = new Dictionary<MessageType, IconType>
         {
             { MessageType.Info, IconType.InfoCircle },
             { MessageType.Warning, IconType.ExclamationTriangle },
@@ -23,7 +23,7 @@ namespace Whip.ViewModels.Messages
 
         public ShowDialogMessage(IMessenger messenger, MessageType messageType, string title, string text)
         {
-            ViewModel = new MessageViewModel(messenger, title, icons[messageType], text);
+            ViewModel = new MessageViewModel(messenger, title, _icons[messageType], text);
         }
 
         public DialogViewModel ViewModel { get; set; }

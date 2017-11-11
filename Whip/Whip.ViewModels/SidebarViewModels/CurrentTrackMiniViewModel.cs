@@ -5,6 +5,7 @@ using Whip.Common.Model;
 using Whip.Common.Singletons;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
+using Whip.ViewModels.Windows;
 
 namespace Whip.ViewModels
 {
@@ -12,7 +13,8 @@ namespace Whip.ViewModels
     {
         private readonly IMessenger _messenger;
         private readonly ITrackLoveService _trackLoveService;
-        
+
+        private bool _isMiniPlayerOpen;
         private bool _loved;
         private Track _track;
 
@@ -29,6 +31,8 @@ namespace Whip.ViewModels
             LoveTrackCommand = new RelayCommand(OnLoveTrack);
             UnloveTrackCommand = new RelayCommand(OnUnloveTrack);
             SetContextMenuTrackCommand = new RelayCommand(OnSetContextMenuTrack);
+            OpenMiniPlayerCommand = new RelayCommand(OnOpenMiniPlayer);
+            CloseMiniPlayerCommand = new RelayCommand(OnCloseMiniPlayer);
         }
 
         public TrackContextMenuViewModel TrackContextMenu { get; }
@@ -36,6 +40,8 @@ namespace Whip.ViewModels
         public RelayCommand SetContextMenuTrackCommand { get; }
         public RelayCommand LoveTrackCommand { get; }
         public RelayCommand UnloveTrackCommand { get; }
+        public RelayCommand OpenMiniPlayerCommand { get; }
+        public RelayCommand CloseMiniPlayerCommand { get; }
 
         public Track Track
         {
@@ -48,6 +54,13 @@ namespace Whip.ViewModels
             get { return _loved; }
             set { Set(ref _loved, value); }
         }
+
+        public bool IsMiniPlayerOpen
+        {
+            get { return _isMiniPlayerOpen; }
+            set { Set(ref _isMiniPlayerOpen, value); }
+        }
+
         private void OnLibraryUpdated(Track track)
         {
             if (track != null && Track == track)
@@ -71,6 +84,19 @@ namespace Whip.ViewModels
 
             _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, "Error", "There was an error setting this track as Loved"));
             Loved = false;
+        }
+
+        private void OnOpenMiniPlayer()
+        {
+            IsMiniPlayerOpen = true;
+            var miniPlayer = new MiniPlayerViewModel(this);
+            _messenger.Send(new ShowMiniPlayerMessage(miniPlayer));
+        }
+
+        private void OnCloseMiniPlayer()
+        {
+            IsMiniPlayerOpen = false;
+            _messenger.Send(new HideMiniPlayerMessage());
         }
 
         private async void OnUnloveTrack()

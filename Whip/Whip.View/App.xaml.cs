@@ -8,12 +8,12 @@ namespace Whip
 {
     public partial class App : Application
     {
-        protected async override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
             IocKernel.Initialize();
             IocKernel.StartMessageHandlers();
 
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             GetLogger().Info("Application started");
 
@@ -40,22 +40,22 @@ namespace Whip
             GetExceptionHandler().Fatal(e.Exception);
         }
 
-        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             GetExceptionHandler().Fatal(e.ExceptionObject as Exception);
         }
 
-        private ILoggingService GetLogger()
+        private static ILoggingService GetLogger()
         {
             return IocKernel.Get<ILoggingService>();
         }
 
-        private IExceptionHandlingService GetExceptionHandler()
+        private static IExceptionHandlingService GetExceptionHandler()
         {
             return IocKernel.Get<IExceptionHandlingService>();
         }
 
-        private IUserSettings GetUserSettings()
+        private static IUserSettings GetUserSettings()
         {
             return IocKernel.Get<IUserSettings>();
         }

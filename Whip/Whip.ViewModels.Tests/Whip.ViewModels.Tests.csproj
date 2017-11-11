@@ -96,6 +96,7 @@
     <Compile Include="Library\LibraryArtistViewModelTests.cs" />
     <Compile Include="Library\LibraryTracksViewModelTest.cs" />
     <Compile Include="Library\LibraryViewModelTests.cs" />
+    <Compile Include="Misc\PlayShortcutsViewModelTests.cs" />
     <Compile Include="Misc\PlayerControlsViewModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemInfo\SystemInfoViewModelTests.cs" />
