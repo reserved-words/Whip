@@ -6,7 +6,6 @@ using Whip.Common;
 using Whip.Common.Model;
 using Whip.Common.Singletons;
 using Whip.Services.Interfaces;
-using Whip.ViewModels.SidebarViewModels;
 
 namespace Whip.ViewModels.Tests
 {
