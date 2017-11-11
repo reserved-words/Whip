@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight.Messaging;
+﻿using System;
+using GalaSoft.MvvmLight.Messaging;
 using System.Collections.Generic;
 using Whip.Common;
 using Whip.Services.Interfaces;
@@ -9,6 +10,8 @@ namespace Whip.ViewModels
 {
     public class SettingsIconsViewModel
     {
+        public event Action OpenMiniPlayer; 
+
         private readonly IMessenger _messenger;
         private readonly IUserSettings _userSettings;
 
@@ -45,8 +48,14 @@ namespace Whip.ViewModels
                 new CommandIcon(IconType.VolumeDown, "Volume Down", OnVolumeDown),
                 new CommandIcon(IconType.VolumeUp, "Volume Up", OnVolumeUp),
                 new CommandIcon(IconType.Cog, "Settings", OnSettings),
-                new CommandIcon(IconType.PaintBrush, "Switch Colour", OnSwitchColour)
+                new CommandIcon(IconType.PaintBrush, "Switch Colour", OnSwitchColour),
+                new CommandIcon(IconType.ExternalLink, "Open Mini Player", OnOpenMiniPlayer)
             };
+        }
+
+        private void OnOpenMiniPlayer(CommandIcon commandIcon)
+        {
+            OpenMiniPlayer?.Invoke();
         }
 
         private void OnSwitchColour(CommandIcon commandIcon)

@@ -19,6 +19,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <local:ClickableIconView Grid.Column="0"
@@ -35,6 +36,8 @@
                                      DataContext="{Binding IconCommands[5]}" />
             <local:ClickableIconView Grid.Column="6"
                                      DataContext="{Binding IconCommands[6]}" />
+            <local:ClickableIconView Grid.Column="7"
+                                     DataContext="{Binding IconCommands[7]}" />
 
         </Grid>
     </Border>

@@ -10,8 +10,8 @@ namespace Whip.ViewModels
     {
         private readonly IMessenger _messenger;
 
-        public SidebarViewModel(IMessenger messenger, CurrentTrackMiniViewModel currentTrackMiniViewModel, PlayerControlsViewModel playerControlsViewModel,
-            SettingsIconsViewModel settingsIconsViewModel, PlayShortcutsViewModel playShortcutsViewModel)
+        public SidebarViewModel(CurrentTrackMiniViewModel currentTrackMiniViewModel, PlayerControlsViewModel playerControlsViewModel,
+            SettingsIconsViewModel settingsIconsViewModel, PlayShortcutsViewModel playShortcutsViewModel, IMessenger messenger)
         {
             _messenger = messenger;
 
@@ -20,13 +20,7 @@ namespace Whip.ViewModels
             SettingsIconsViewModel = settingsIconsViewModel;
             PlayShortcutsViewModel = playShortcutsViewModel;
 
-            CurrentTrackMiniViewModel.OpenMiniPlayer += OnOpenMiniPlayer;
-        }
-
-        private void OnOpenMiniPlayer()
-        {
-            var miniPlayer = new MiniPlayerViewModel(_messenger, CurrentTrackMiniViewModel, PlayerControlsViewModel);
-            _messenger.Send(new ShowMiniPlayerMessage(miniPlayer));
+            SettingsIconsViewModel.OpenMiniPlayer += OnOpenMiniPlayer;
         }
 
         public CurrentTrackMiniViewModel CurrentTrackMiniViewModel { get; }
@@ -38,6 +32,12 @@ namespace Whip.ViewModels
         {
             CurrentTrackMiniViewModel.OnCurrentTrackChanged(track);
             PlayerControlsViewModel.OnCurrentTrackChanged(track);
+        }
+
+        private void OnOpenMiniPlayer()
+        {
+            var miniPlayer = new MiniPlayerViewModel(_messenger, CurrentTrackMiniViewModel, PlayerControlsViewModel);
+            _messenger.Send(new ShowMiniPlayerMessage(miniPlayer));
         }
     }
 }

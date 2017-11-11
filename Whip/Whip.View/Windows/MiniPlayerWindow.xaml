@@ -15,7 +15,7 @@
         Top="0"
         Closing="OnClosing"
         Loaded="Window_Loaded"
-        Title="Whip" Height="300" Width="250">
+        Title="Whip" Height="400" Width="250">
     <StackPanel>
         <ContentControl Content="{Binding CurrentTrackMiniViewModel}" />
         <Border Style="{StaticResource ColourBorder}">

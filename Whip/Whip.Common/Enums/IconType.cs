@@ -7,6 +7,7 @@
         Cog,
         Edit,
         ExclamationTriangle,
+        ExternalLink,
         Headphones,
         Home,
         Hourglass2,

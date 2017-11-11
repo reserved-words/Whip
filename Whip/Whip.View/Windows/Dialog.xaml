@@ -32,9 +32,6 @@
         <DataTemplate DataType="{x:Type viewModels:EditFeedViewModel}">
             <local:EditFeedView />
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:MiniPlayerViewModel}">
-            <local:MiniPlayerView />
-        </DataTemplate>
     </Window.Resources>
     <Border Style="{StaticResource ColourBorder}"
             Padding="0">

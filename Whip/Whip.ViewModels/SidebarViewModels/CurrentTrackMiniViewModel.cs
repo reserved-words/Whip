@@ -11,12 +11,9 @@ namespace Whip.ViewModels
 {
     public class CurrentTrackMiniViewModel : ViewModelBase
     {
-        public event Action OpenMiniPlayer;
-
         private readonly IMessenger _messenger;
         private readonly ITrackLoveService _trackLoveService;
 
-        private bool _isMiniPlayerOpen;
         private bool _loved;
         private Track _track;
 
@@ -33,7 +30,6 @@ namespace Whip.ViewModels
             LoveTrackCommand = new RelayCommand(OnLoveTrack);
             UnloveTrackCommand = new RelayCommand(OnUnloveTrack);
             SetContextMenuTrackCommand = new RelayCommand(OnSetContextMenuTrack);
-            OpenMiniPlayerCommand = new RelayCommand(OnOpenMiniPlayer);
         }
 
         public TrackContextMenuViewModel TrackContextMenu { get; }
@@ -53,12 +49,6 @@ namespace Whip.ViewModels
         {
             get { return _loved; }
             set { Set(ref _loved, value); }
-        }
-
-        public bool IsMiniPlayerOpen
-        {
-            get { return _isMiniPlayerOpen; }
-            set { Set(ref _isMiniPlayerOpen, value); }
         }
 
         private void OnLibraryUpdated(Track track)
@@ -87,12 +77,6 @@ namespace Whip.ViewModels
 
             _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, "Error", "There was an error setting this track as Loved"));
             Loved = false;
-        }
-
-        private void OnOpenMiniPlayer()
-        {
-            IsMiniPlayerOpen = true;
-            OpenMiniPlayer?.Invoke();
         }
         
         private async void OnUnloveTrack()

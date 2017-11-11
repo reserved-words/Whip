@@ -203,9 +203,6 @@
     <Compile Include="Windows\EnterStringView.xaml.cs">
       <DependentUpon>EnterStringView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\MiniPlayerView.xaml.cs">
-      <DependentUpon>MiniPlayerView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Ioc\IocConfiguration.cs" />
     <Compile Include="Ioc\IocKernel.cs" />
     <Compile Include="Ioc\ViewModelLocator.cs" />
@@ -353,10 +350,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\EnterStringView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\MiniPlayerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

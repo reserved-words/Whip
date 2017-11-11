@@ -20,7 +20,6 @@ namespace Whip.ViewModels.Windows
 
         public void OnReturnToMainPlayer()
         {
-            CurrentTrackMiniViewModel.IsMiniPlayerOpen = false;
             _messenger.Send(new HideMiniPlayerMessage());
         }
     }
