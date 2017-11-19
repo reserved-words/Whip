@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="Whip" Language="2057" Version="1.1.0.16" Manufacturer="Reserved Words" UpgradeCode="0c5e656a-3115-426f-aa0a-2467ee342fab">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate EmbedCab="yes" />
+
+		<Feature Id="MainFeature" Title="Setup" Level="1">
+			<ComponentGroupRef Id="MainApplicationComponents" />
+		</Feature>
+
+	  <!-- Adds a simple UI with just a licence agreement and allows user to select install directory -->
+	  <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    <WixVariable Id="WixUILicenseRtf" Value="licence.rtf" />
+	  <UIRef Id="WixUI_InstallDir"/>
+    
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="ManufacturerFolder" Name="Reserved Words">
+				  <Directory Id="INSTALLFOLDER" Name="Whip" />
+        </Directory>
+			</Directory>
+		</Directory>
+	</Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="MainApplicationComponents" Directory="INSTALLFOLDER">
+      <!-- Files below manually copied from app release folder and listed - need to find a more efficient way to do this -->
+      <Component Id="MainApplication">
+        <File Source="Whip.exe" />
+      </Component>
+      <Component Id="Autofac">
+        <File Source="Autofac.dll" />
+      </Component>
+      <Component Id="FontAwesome">
+        <File Source="FontAwesome.WPF.dll" />
+      </Component>
+      <Component Id="MvvmLight">
+        <File Source="GalaSoft.MvvmLight.dll" />
+      </Component>
+      <Component Id="MvvmLight_Extras">
+        <File Source="GalaSoft.MvvmLight.Extras.dll" />
+      </Component>
+      <Component Id="MvvmLight_Platform">
+        <File Source="GalaSoft.MvvmLight.Platform.dll" />
+      </Component>
+      <Component Id="WMPLib">
+        <File Source="Interop.WMPLib.dll" />
+      </Component>
+      <Component Id="LastFm">
+        <File Source="LastFm.dll" />
+      </Component>
+      <Component Id="LastFmApi">
+        <File Source="LastFmApi.dll" />
+      </Component>
+      <Component Id="ServiceLocation">
+        <File Source="Microsoft.Practices.ServiceLocation.dll" />
+      </Component>
+      <Component Id="Tasks">
+        <File Source="Microsoft.Threading.Tasks.dll" />
+      </Component>
+      <Component Id="Tasks_Extensions">
+        <File Source="Microsoft.Threading.Tasks.Extensions.dll" />
+      </Component>
+      <Component Id="Newtonsoft">
+        <File Source="Newtonsoft.Json.dll" />
+      </Component>
+      <Component Id="Ninject">
+        <File Source="Ninject.dll" />
+      </Component>
+      <Component Id="Ninject_Conventions">
+        <File Source="Ninject.Extensions.Conventions.dll" />
+      </Component>
+      <Component Id="NLog">
+        <File Source="NLog.dll" />
+      </Component>
+      <Component Id="Ookii_Dialogs">
+        <File Source="Ookii.Dialogs.Wpf.dll" />
+      </Component>
+      <Component Id="Interactivity">
+        <File Source="System.Windows.Interactivity.dll" />
+      </Component>
+      <Component Id="Id3Tagging">
+        <File Source="TagLibSharp.dll" />
+      </Component>
+      <Component Id="TagLibSharp">
+        <File Source="taglib-sharp.dll" />
+      </Component>
+      <Component Id="Tweetinvi">
+        <File Source="TweetInvi.dll" />
+      </Component>
+      <Component Id="Common">
+        <File Source="Whip.Common.dll" />
+      </Component>
+      <Component Id="Logging">
+        <File Source="Whip.Logging.dll" />
+      </Component>
+      <Component Id="Lyrics">
+        <File Source="Whip.LyricApi.dll" />
+      </Component>
+      <Component Id="Services">
+        <File Source="Whip.Services.dll" />
+      </Component>
+      <Component Id="Interfaces">
+        <File Source="Whip.Services.Interfaces.dll" />
+      </Component>
+      <Component Id="Twitter">
+        <File Source="Whip.TweetInvi.dll" />
+      </Component>
+      <Component Id="ViewModels">
+        <File Source="Whip.ViewModels.dll" />
+      </Component>
+      <Component Id="MusicPlayer">
+        <File Source="WmpPlayer.dll" />
+      </Component>
+      <Component Id="DataAccess">
+        <File Source="Whip.XmlDataAccess.dll" />
+      </Component>
+      <Component Id="Xceed_AvalonDock">
+        <File Source="Xceed.Wpf.AvalonDock.dll" />
+      </Component>
+      <Component Id="Xceed_AvalonDock_Aero">
+        <File Source="Xceed.Wpf.AvalonDock.Themes.Aero.dll" />
+      </Component>
+      <Component Id="Xceed_AvalonDock_Metro">
+        <File Source="Xceed.Wpf.AvalonDock.Themes.Metro.dll" />
+      </Component>
+      <Component Id="Xceed_AvalonDock_VS2010">
+        <File Source="Xceed.Wpf.AvalonDock.Themes.VS2010.dll" />
+      </Component>
+      <Component Id="Xceed_DataGrid">
+        <File Source="Xceed.Wpf.DataGrid.dll" />
+      </Component>
+      <Component Id="Xceed_Toolkit">
+        <File Source="Xceed.Wpf.Toolkit.dll" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+</Wix>

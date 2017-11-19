@@ -55,10 +55,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -144,10 +140,6 @@
     <ProjectReference Include="..\Whip.Common\Whip.Common.csproj">
       <Project>{b0adacab-f30c-4f94-b72a-32bf97a37e8b}</Project>
       <Name>Whip.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Whip.LastFm\Whip.LastFm.csproj">
-      <Project>{D045C31F-E8B5-41AC-B6C9-D0C9120AA799}</Project>
-      <Name>Whip.LastFm</Name>
     </ProjectReference>
     <ProjectReference Include="..\Whip.Services.Interfaces\Whip.Services.Interfaces.csproj">
       <Project>{2107D5AB-8805-4C97-B657-46E5EAECB0E3}</Project>
