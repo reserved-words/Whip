@@ -45,7 +45,7 @@
       <!-- Files below manually copied from app release folder and listed - need to find a more efficient way to do this -->
       <Component Id="MainApplication">
         <File Id="WhipExe" 
-              Source="Whip.exe"
+              Source="..\Whip.View\bin\Release\Whip.exe"
               KeyPath="yes">
           <Shortcut Id="WhipShortcut"
                     Directory="WhipShortcuts"
@@ -59,110 +59,110 @@
                       Directory="WhipShortcuts"
                       On="uninstall"/>
       </Component>
-      <Component Id="Autofac">
-        <File Source="Autofac.dll" />
+      <Component Id="Autofac.dll">
+        <File Source="..\Whip.View\bin\Release\Autofac.dll" />
       </Component>
-      <Component Id="FontAwesome">
-        <File Source="FontAwesome.WPF.dll" />
+      <Component Id="FontAwesome.WPF.dll">
+        <File Source="..\Whip.View\bin\Release\FontAwesome.WPF.dll" />
       </Component>
-      <Component Id="MvvmLight">
-        <File Source="GalaSoft.MvvmLight.dll" />
+      <Component Id="GalaSoft.MvvmLight.dll">
+        <File Source="..\Whip.View\bin\Release\GalaSoft.MvvmLight.dll" />
       </Component>
-      <Component Id="MvvmLight_Extras">
-        <File Source="GalaSoft.MvvmLight.Extras.dll" />
+      <Component Id="GalaSoft.MvvmLight.Extras.dll">
+        <File Source="..\Whip.View\bin\Release\GalaSoft.MvvmLight.Extras.dll" />
       </Component>
-      <Component Id="MvvmLight_Platform">
-        <File Source="GalaSoft.MvvmLight.Platform.dll" />
+      <Component Id="GalaSoft.MvvmLight.Platform.dll">
+        <File Source="..\Whip.View\bin\Release\GalaSoft.MvvmLight.Platform.dll" />
       </Component>
-      <Component Id="WMPLib">
-        <File Source="Interop.WMPLib.dll" />
+      <Component Id="Interop.WMPLib.dll">
+        <File Source="..\Whip.View\bin\Release\Interop.WMPLib.dll" />
       </Component>
-      <Component Id="LastFm">
-        <File Source="LastFm.dll" />
+      <Component Id="LastFm.dll">
+        <File Source="..\Whip.View\bin\Release\LastFm.dll" />
       </Component>
-      <Component Id="LastFmApi">
-        <File Source="LastFmApi.dll" />
+      <Component Id="LastFmApi.dll">
+        <File Source="..\Whip.View\bin\Release\LastFmApi.dll" />
       </Component>
-      <Component Id="ServiceLocation">
-        <File Source="Microsoft.Practices.ServiceLocation.dll" />
+      <Component Id="Microsoft.Practices.ServiceLocation.dll">
+        <File Source="..\Whip.View\bin\Release\Microsoft.Practices.ServiceLocation.dll" />
       </Component>
-      <Component Id="Tasks">
-        <File Source="Microsoft.Threading.Tasks.dll" />
+      <Component Id="Microsoft.Threading.Tasks.dll">
+        <File Source="..\Whip.View\bin\Release\Microsoft.Threading.Tasks.dll" />
       </Component>
-      <Component Id="Tasks_Extensions">
-        <File Source="Microsoft.Threading.Tasks.Extensions.dll" />
+      <Component Id="Microsoft.Threading.Tasks.Extensions.dll">
+        <File Source="..\Whip.View\bin\Release\Microsoft.Threading.Tasks.Extensions.dll" />
       </Component>
-      <Component Id="Newtonsoft">
-        <File Source="Newtonsoft.Json.dll" />
+      <Component Id="Newtonsoft.Json.dll">
+        <File Source="..\Whip.View\bin\Release\Newtonsoft.Json.dll" />
       </Component>
-      <Component Id="Ninject">
-        <File Source="Ninject.dll" />
+      <Component Id="Ninject.dll">
+        <File Source="..\Whip.View\bin\Release\Ninject.dll" />
       </Component>
-      <Component Id="Ninject_Conventions">
-        <File Source="Ninject.Extensions.Conventions.dll" />
+      <Component Id="Ninject.Extensions.Conventions.dll">
+        <File Source="..\Whip.View\bin\Release\Ninject.Extensions.Conventions.dll" />
       </Component>
-      <Component Id="NLog">
-        <File Source="NLog.dll" />
+      <Component Id="NLog.dll">
+        <File Source="..\Whip.View\bin\Release\NLog.dll" />
       </Component>
-      <Component Id="Ookii_Dialogs">
-        <File Source="Ookii.Dialogs.Wpf.dll" />
+      <Component Id="Ookii.Dialogs.Wpf.dll">
+        <File Source="..\Whip.View\bin\Release\Ookii.Dialogs.Wpf.dll" />
       </Component>
-      <Component Id="Interactivity">
-        <File Source="System.Windows.Interactivity.dll" />
+      <Component Id="System.Windows.Interactivity.dll">
+        <File Source="..\Whip.View\bin\Release\System.Windows.Interactivity.dll" />
       </Component>
-      <Component Id="Id3Tagging">
-        <File Source="TagLibSharp.dll" />
+      <Component Id="TagLibSharp.dll">
+        <File Source="..\Whip.View\bin\Release\TagLibSharp.dll" />
       </Component>
-      <Component Id="TagLibSharp">
-        <File Source="taglib-sharp.dll" />
+      <Component Id="taglibsharp.dll">
+        <File Source="..\Whip.View\bin\Release\taglib-sharp.dll" />
       </Component>
-      <Component Id="Tweetinvi">
-        <File Source="TweetInvi.dll" />
+      <Component Id="TweetInvi.dll">
+        <File Source="..\Whip.View\bin\Release\TweetInvi.dll" />
       </Component>
-      <Component Id="Common">
-        <File Source="Whip.Common.dll" />
+      <Component Id="Whip.Common.dll">
+        <File Source="..\Whip.View\bin\Release\Whip.Common.dll" />
       </Component>
-      <Component Id="Logging">
-        <File Source="Whip.Logging.dll" />
+      <Component Id="Whip.Logging.dll">
+        <File Source="..\Whip.View\bin\Release\Whip.Logging.dll" />
       </Component>
-      <Component Id="Lyrics">
-        <File Source="Whip.LyricApi.dll" />
+      <Component Id="Whip.LyricsApi.dll">
+        <File Source="..\Whip.View\bin\Release\Whip.LyricApi.dll" />
       </Component>
-      <Component Id="Services">
-        <File Source="Whip.Services.dll" />
+      <Component Id="Whip.Services.dll">
+        <File Source="..\Whip.View\bin\Release\Whip.Services.dll" />
       </Component>
-      <Component Id="Interfaces">
-        <File Source="Whip.Services.Interfaces.dll" />
+      <Component Id="Whip.Services.Interfaces.dll">
+        <File Source="..\Whip.View\bin\Release\Whip.Services.Interfaces.dll" />
       </Component>
-      <Component Id="Twitter">
-        <File Source="Whip.TweetInvi.dll" />
+      <Component Id="Whip.TweetInvi.dll">
+        <File Source="..\Whip.View\bin\Release\Whip.TweetInvi.dll" />
       </Component>
-      <Component Id="ViewModels">
-        <File Source="Whip.ViewModels.dll" />
+      <Component Id="Whip.ViewModels.dll">
+        <File Source="..\Whip.View\bin\Release\Whip.ViewModels.dll" />
       </Component>
-      <Component Id="MusicPlayer">
-        <File Source="WmpPlayer.dll" />
+      <Component Id="WmpPlayer.dll">
+        <File Source="..\Whip.View\bin\Release\WmpPlayer.dll" />
       </Component>
-      <Component Id="DataAccess">
-        <File Source="Whip.XmlDataAccess.dll" />
+      <Component Id="Whip.XmlDataAccess.dll">
+        <File Source="..\Whip.View\bin\Release\Whip.XmlDataAccess.dll" />
       </Component>
-      <Component Id="Xceed_AvalonDock">
-        <File Source="Xceed.Wpf.AvalonDock.dll" />
+      <Component Id="Xceed.Wpf.AvalonDock.dll">
+        <File Source="..\Whip.View\bin\Release\Xceed.Wpf.AvalonDock.dll" />
       </Component>
-      <Component Id="Xceed_AvalonDock_Aero">
-        <File Source="Xceed.Wpf.AvalonDock.Themes.Aero.dll" />
+      <Component Id="Xceed.Wpf.AvalonDock.Themes.Aero.dll">
+        <File Source="..\Whip.View\bin\Release\Xceed.Wpf.AvalonDock.Themes.Aero.dll" />
       </Component>
-      <Component Id="Xceed_AvalonDock_Metro">
-        <File Source="Xceed.Wpf.AvalonDock.Themes.Metro.dll" />
+      <Component Id="Xceed.Wpf.AvalonDock.Themes.Metro.dll">
+        <File Source="..\Whip.View\bin\Release\Xceed.Wpf.AvalonDock.Themes.Metro.dll" />
       </Component>
-      <Component Id="Xceed_AvalonDock_VS2010">
-        <File Source="Xceed.Wpf.AvalonDock.Themes.VS2010.dll" />
+      <Component Id="Xceed.Wpf.AvalonDock.Themes.VS2010.dll">
+        <File Source="..\Whip.View\bin\Release\Xceed.Wpf.AvalonDock.Themes.VS2010.dll" />
       </Component>
-      <Component Id="Xceed_DataGrid">
-        <File Source="Xceed.Wpf.DataGrid.dll" />
+      <Component Id="Xceed.Wpf.DataGrid.dll">
+        <File Source="..\Whip.View\bin\Release\Xceed.Wpf.DataGrid.dll" />
       </Component>
-      <Component Id="Xceed_Toolkit">
-        <File Source="Xceed.Wpf.Toolkit.dll" />
+      <Component Id="Xceed.Wpf.Toolkit.dll">
+        <File Source="..\Whip.View\bin\Release\Xceed.Wpf.Toolkit.dll" />
       </Component>
     </ComponentGroup>
   </Fragment>
