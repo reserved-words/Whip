@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <ComponentGroup Id="MainApplicationComponents" Directory="INSTALLFOLDER">
+      <Component Id="MainApplication">
+        <File Id="WhipExe"
+              Source="$(var.Whip.View.TargetPath)"
+              KeyPath="yes">
+          <Shortcut Id="WhipShortcut"
+                    Directory="WhipShortcuts"
+                    Name="Whip"
+                    Description="The best music player ever"
+                    WorkingDirectory="INSTALLFOLDER"
+                    Advertise="yes"
+                    Icon="appicon.ico"/>
+        </File>
+        <RemoveFolder Id="DeleteWhipShortcut"
+                      Directory="WhipShortcuts"
+                      On="uninstall"/>
+      </Component>
+      <Component Id="Autofac.dll">
+        <File Source="$(var.Whip.View.TargetDir)Autofac.dll" />
+      </Component>
+      <Component Id="FontAwesome.WPF.dll">
+        <File Source="$(var.Whip.View.TargetDir)FontAwesome.WPF.dll" />
+      </Component>
+      <Component Id="GalaSoft.MvvmLight.dll">
+        <File Source="$(var.Whip.View.TargetDir)GalaSoft.MvvmLight.dll" />
+      </Component>
+      <Component Id="GalaSoft.MvvmLight.Extras.dll">
+        <File Source="$(var.Whip.View.TargetDir)GalaSoft.MvvmLight.Extras.dll" />
+      </Component>
+      <Component Id="GalaSoft.MvvmLight.Platform.dll">
+        <File Source="$(var.Whip.View.TargetDir)GalaSoft.MvvmLight.Platform.dll" />
+      </Component>
+      <Component Id="Interop.WMPLib.dll">
+        <File Source="$(var.Whip.View.TargetDir)Interop.WMPLib.dll" />
+      </Component>
+      <Component Id="LastFm.dll">
+        <File Source="$(var.Whip.View.TargetDir)LastFm.dll" />
+      </Component>
+      <Component Id="LastFmApi.dll">
+        <File Source="$(var.Whip.View.TargetDir)LastFmApi.dll" />
+      </Component>
+      <Component Id="Microsoft.Practices.ServiceLocation.dll">
+        <File Source="$(var.Whip.View.TargetDir)Microsoft.Practices.ServiceLocation.dll" />
+      </Component>
+      <Component Id="Microsoft.Threading.Tasks.dll">
+        <File Source="$(var.Whip.View.TargetDir)Microsoft.Threading.Tasks.dll" />
+      </Component>
+      <Component Id="Microsoft.Threading.Tasks.Extensions.dll">
+        <File Source="$(var.Whip.View.TargetDir)Microsoft.Threading.Tasks.Extensions.dll" />
+      </Component>
+      <Component Id="Newtonsoft.Json.dll">
+        <File Source="$(var.Whip.View.TargetDir)Newtonsoft.Json.dll" />
+      </Component>
+      <Component Id="Ninject.dll">
+        <File Source="..\Whip.View\bin\Release\Ninject.dll" />
+      </Component>
+      <Component Id="Ninject.Extensions.Conventions.dll">
+        <File Source="$(var.Whip.View.TargetDir)Ninject.Extensions.Conventions.dll" />
+      </Component>
+      <Component Id="NLog.dll">
+        <File Source="..\Whip.View\bin\Release\NLog.dll" />
+      </Component>
+      <Component Id="Ookii.Dialogs.Wpf.dll">
+        <File Source="$(var.Whip.View.TargetDir)Ookii.Dialogs.Wpf.dll" />
+      </Component>
+      <Component Id="System.Windows.Interactivity.dll">
+        <File Source="$(var.Whip.View.TargetDir)System.Windows.Interactivity.dll" />
+      </Component>
+      <Component Id="TagLibSharp.dll">
+        <File Source="$(var.Whip.View.TargetDir)TagLibSharp.dll" />
+      </Component>
+      <Component Id="taglibsharp.dll">
+        <File Source="$(var.Whip.View.TargetDir)taglib-sharp.dll" />
+      </Component>
+      <Component Id="TweetInvi.dll">
+        <File Source="$(var.Whip.View.TargetDir)TweetInvi.dll" />
+      </Component>
+      <Component Id="Whip.Common.dll">
+        <File Source="$(var.Whip.View.TargetDir)Whip.Common.dll" />
+      </Component>
+      <Component Id="Whip.Logging.dll">
+        <File Source="$(var.Whip.View.TargetDir)Whip.Logging.dll" />
+      </Component>
+      <Component Id="Whip.LyricApi.dll">
+        <File Source="$(var.Whip.View.TargetDir)Whip.LyricApi.dll" />
+      </Component>
+      <Component Id="Whip.Services.dll">
+        <File Source="$(var.Whip.View.TargetDir)Whip.Services.dll" />
+      </Component>
+      <Component Id="Whip.Services.Interfaces.dll">
+        <File Source="$(var.Whip.View.TargetDir)Whip.Services.Interfaces.dll" />
+      </Component>
+      <Component Id="Whip.TweetInvi.dll">
+        <File Source="$(var.Whip.View.TargetDir)Whip.TweetInvi.dll" />
+      </Component>
+      <Component Id="Whip.ViewModels.dll">
+        <File Source="$(var.Whip.View.TargetDir)Whip.ViewModels.dll" />
+      </Component>
+      <Component Id="WmpPlayer.dll">
+        <File Source="$(var.Whip.View.TargetDir)WmpPlayer.dll" />
+      </Component>
+      <Component Id="Whip.XmlDataAccess.dll">
+        <File Source="$(var.Whip.View.TargetDir)Whip.XmlDataAccess.dll" />
+      </Component>
+      <Component Id="Xceed.Wpf.AvalonDock.dll">
+        <File Source="$(var.Whip.View.TargetDir)Xceed.Wpf.AvalonDock.dll" />
+      </Component>
+      <Component Id="Xceed.Wpf.AvalonDock.Themes.Aero.dll">
+        <File Source="$(var.Whip.View.TargetDir)Xceed.Wpf.AvalonDock.Themes.Aero.dll" />
+      </Component>
+      <Component Id="Xceed.Wpf.AvalonDock.Themes.Metro.dll">
+        <File Source="$(var.Whip.View.TargetDir)Xceed.Wpf.AvalonDock.Themes.Metro.dll" />
+      </Component>
+      <Component Id="Xceed.Wpf.AvalonDock.Themes.VS2010.dll">
+        <File Source="$(var.Whip.View.TargetDir)Xceed.Wpf.AvalonDock.Themes.VS2010.dll" />
+      </Component>
+      <Component Id="Xceed.Wpf.DataGrid.dll">
+        <File Source="$(var.Whip.View.TargetDir)Xceed.Wpf.DataGrid.dll" />
+      </Component>
+      <Component Id="Xceed.Wpf.Toolkit.dll">
+        <File Source="$(var.Whip.View.TargetDir)Xceed.Wpf.Toolkit.dll" />
+      </Component>
+    </ComponentGroup>
+	</Fragment>
+</Wix>

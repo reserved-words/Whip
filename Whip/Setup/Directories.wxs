@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <!-- Install location in Program Files folder -->
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="ManufacturerFolder" Name="Reserved Words">
+          <Directory Id="INSTALLFOLDER" Name="Whip" />
+        </Directory>
+      </Directory>
+      <!-- Add Start menu shortcut directory -->
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="WhipShortcuts" Name="Whip" />
+      </Directory>
+    </Directory>
+	</Fragment>
+</Wix>
