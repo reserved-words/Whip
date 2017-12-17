@@ -66,7 +66,6 @@
     <Compile Include="Messages\EditTrackMessage.cs" />
     <Compile Include="Messages\HideMiniPlayerMessage.cs" />
     <Compile Include="Messages\LibraryUpdateRequest.cs" />
-    <Compile Include="Messages\MoveToTrackMessage.cs" />
     <Compile Include="Messages\ShowMiniPlayerMessage.cs" />
     <Compile Include="SidebarViewModels\CurrentTrackMiniViewModel.cs" />
     <Compile Include="SidebarViewModels\PlayShortcutsViewModel.cs" />

@@ -91,6 +91,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CurrentPlaylist\CurrentPlaylistViewModelTests.cs" />
     <Compile Include="EditTrack\EditTrackViewModelTests.cs" />
     <Compile Include="EditTrack\TrackViewModelTests.cs" />
     <Compile Include="Library\LibraryArtistViewModelTests.cs" />

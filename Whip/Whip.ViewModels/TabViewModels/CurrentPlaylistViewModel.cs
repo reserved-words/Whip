@@ -6,21 +6,23 @@ using Whip.ViewModels.Utilities;
 using GalaSoft.MvvmLight.Messaging;
 using Whip.ViewModels.Messages;
 using Whip.Services.Interfaces.Singletons;
+using Whip.Services.Interfaces;
 
 namespace Whip.ViewModels.TabViewModels
 {
     public class CurrentPlaylistViewModel : TabViewModelBase
     {
-        private readonly IMessenger _messenger;
         private readonly IPlaylist _playlist;
+        private readonly IPlayRequestHandler _playRequestHandler;
 
         private Track _selectedTrack;
 
-        public CurrentPlaylistViewModel(IPlaylist playlist, IMessenger messenger, Common.Singletons.Library library, TrackContextMenuViewModel trackContextMenu)
+        public CurrentPlaylistViewModel(IPlaylist playlist, Common.Singletons.Library library, TrackContextMenuViewModel trackContextMenu,
+            IPlayRequestHandler playRequestHandler)
             :base(TabType.CurrentPlaylist, IconType.ListOl, "Current Playlist")
         {
-            _messenger = messenger;
             _playlist = playlist;
+            _playRequestHandler = playRequestHandler;
 
             _playlist.ListUpdated += OnPlaylistUpdated;
             library.Updated += OnLibraryUpdated;
@@ -60,7 +62,7 @@ namespace Whip.ViewModels.TabViewModels
         {
             if (SelectedTrack != null)
             {
-                _messenger.Send(new MoveToTrackMessage(SelectedTrack));
+                _playRequestHandler.MoveToTrack(SelectedTrack);
             }
         }
 
