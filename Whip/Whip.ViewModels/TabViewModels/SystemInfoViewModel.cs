@@ -46,8 +46,8 @@ namespace Whip.ViewModels.TabViewModels
 
         public string LastFmErrorMessage => _userSettings.LastFmErrorMessage;
 
-        public string ApplicationVersion => string.Format(ApplicationVersionFormat, _applicationInfoService.Version);
-        public string ApplicationPublishDate => string.Format(ApplicationPublishedFormat, _applicationInfoService.PublishDate);
+        public string ApplicationVersion => _applicationInfoService.Version;
+        public string ApplicationPublishDate => _applicationInfoService.PublishDate.ToString(ApplicationPublishedFormat);
 
         public DateTime? LogsDate
         {

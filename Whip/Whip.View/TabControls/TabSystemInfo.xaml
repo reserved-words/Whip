@@ -16,9 +16,27 @@
 
             <Label Style="{StaticResource TitleLabel}"
                    Content="Application Details" />
-            
-            <Label Content="{Binding ApplicationVersion}"></Label>
-            <Label Content="{Binding ApplicationPublishDate}"></Label>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" 
+                       Content="Version"
+                       Padding="5 5 15 5"/>
+                <Label Grid.Row="0" Grid.Column="1" 
+                       Content="{Binding ApplicationVersion}" />
+                <Label Grid.Row="1" Grid.Column="0"
+                       Content="Published"
+                       Padding="5 5 15 5" />
+                <Label Grid.Row="1" Grid.Column="1"
+                       Content="{Binding ApplicationPublishDate}" />
+            </Grid>
             
             <Label Style="{StaticResource TitleLabel}"
                    Content="Web Interaction" />

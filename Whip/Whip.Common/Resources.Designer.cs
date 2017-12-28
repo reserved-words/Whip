@@ -70,7 +70,7 @@ namespace Whip.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Published: {0:dd/MM/yyyy}.
+        ///   Looks up a localized string similar to dd/MM/yyyy HH:mm:ss.
         /// </summary>
         public static string ApplicationPublishedFormat {
             get {
@@ -84,15 +84,6 @@ namespace Whip.Common {
         public static string ApplicationTitle {
             get {
                 return ResourceManager.GetString("ApplicationTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Version: {0}.
-        /// </summary>
-        public static string ApplicationVersionFormat {
-            get {
-                return ResourceManager.GetString("ApplicationVersionFormat", resourceCulture);
             }
         }
         
