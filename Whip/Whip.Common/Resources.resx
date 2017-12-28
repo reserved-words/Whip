@@ -121,13 +121,10 @@
     <value>- Add New...</value>
   </data>
   <data name="ApplicationPublishedFormat" xml:space="preserve">
-    <value>Published: {0:dd/MM/yyyy}</value>
+    <value>dd/MM/yyyy HH:mm:ss</value>
   </data>
   <data name="ApplicationTitle" xml:space="preserve">
     <value>Whip</value>
-  </data>
-  <data name="ApplicationVersionFormat" xml:space="preserve">
-    <value>Version: {0}</value>
   </data>
   <data name="BandCampUrl" xml:space="preserve">
     <value>https://{0}.bandcamp.com/</value>

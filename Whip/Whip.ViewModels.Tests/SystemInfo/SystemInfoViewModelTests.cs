@@ -105,8 +105,8 @@ namespace Whip.ViewModels.Tests
             var sut = GetSubjectUnderTest();
 
             // Assert
-            Assert.AreEqual(string.Format(ApplicationVersionFormat, TestVersionNumber), sut.ApplicationVersion);
-            Assert.AreEqual(string.Format(ApplicationPublishedFormat,_testPublishDate), sut.ApplicationPublishDate);
+            Assert.AreEqual(TestVersionNumber, sut.ApplicationVersion);
+            Assert.AreEqual(_testPublishDate.ToString(ApplicationPublishedFormat), sut.ApplicationPublishDate);
         }
 
         [TestMethod]
