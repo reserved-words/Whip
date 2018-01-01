@@ -218,6 +218,9 @@
     <Compile Include="SidebarViews\PlayShortcutsView.xaml.cs">
       <DependentUpon>PlayShortcutsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TabControls\TabPlayHistory.xaml.cs">
+      <DependentUpon>TabPlayHistory.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\EditFeedView.xaml.cs">
       <DependentUpon>EditFeedView.xaml</DependentUpon>
     </Compile>
@@ -362,6 +365,10 @@
       <DependentUpon>TweetView.xaml</DependentUpon>
     </Compile>
     <Page Include="SidebarViews\PlayShortcutsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TabControls\TabPlayHistory.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

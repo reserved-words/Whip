@@ -4,6 +4,7 @@
     {
         Archive,
         Book,
+        ClockOutline,
         Cog,
         Edit,
         ExclamationTriangle,
