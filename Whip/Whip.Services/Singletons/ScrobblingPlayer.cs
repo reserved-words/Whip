@@ -1,6 +1,7 @@
 ﻿using Whip.Common.Interfaces;
 using Whip.Services.Interfaces;
 using Whip.Common.Model;
+using System;
 
 namespace Whip.Services
 {
@@ -75,6 +76,26 @@ namespace Whip.Services
             {
                 _scrobbler.ScrobbleAsync(_currentTrack, _currentDateTime.Get());
             }
+        }
+
+        public int GetVolumePercentage()
+        {
+            return _player.GetVolumePercentage();
+        }
+
+        public void Mute()
+        {
+            _player.Mute();
+        }
+
+        public void SetVolumePercentage(int volume)
+        {
+            _player.SetVolumePercentage(volume);
+        }
+
+        public void Unmute()
+        {
+            _player.Unmute();
         }
     }
 }
