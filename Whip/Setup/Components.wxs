@@ -21,6 +21,9 @@
       <Component Id="Autofac.dll">
         <File Source="$(var.Whip.View.TargetDir)Autofac.dll" />
       </Component>
+      <Component Id="Castle.Core.dll">
+        <File Source="$(var.Whip.View.TargetDir)Castle.Core.dll" />
+      </Component>
       <Component Id="FontAwesome.WPF.dll">
         <File Source="$(var.Whip.View.TargetDir)FontAwesome.WPF.dll" />
       </Component>
@@ -42,11 +45,11 @@
       <Component Id="LastFmApi.dll">
         <File Source="$(var.Whip.View.TargetDir)LastFmApi.dll" />
       </Component>
-      <Component Id="Microsoft.Practices.ServiceLocation.dll">
-        <File Source="$(var.Whip.View.TargetDir)Microsoft.Practices.ServiceLocation.dll" />
-      </Component>
       <Component Id="Microsoft.Threading.Tasks.dll">
         <File Source="$(var.Whip.View.TargetDir)Microsoft.Threading.Tasks.dll" />
+      </Component>
+      <Component Id="Microsoft.Threading.Tasks.Extensions.Desktop.dll">
+        <File Source="$(var.Whip.View.TargetDir)Microsoft.Threading.Tasks.Extensions.Desktop.dll" />
       </Component>
       <Component Id="Microsoft.Threading.Tasks.Extensions.dll">
         <File Source="$(var.Whip.View.TargetDir)Microsoft.Threading.Tasks.Extensions.dll" />
@@ -55,16 +58,49 @@
         <File Source="$(var.Whip.View.TargetDir)Newtonsoft.Json.dll" />
       </Component>
       <Component Id="Ninject.dll">
-        <File Source="..\Whip.View\bin\Release\Ninject.dll" />
+        <File Source="$(var.Whip.View.TargetDir)Ninject.dll" />
       </Component>
       <Component Id="Ninject.Extensions.Conventions.dll">
         <File Source="$(var.Whip.View.TargetDir)Ninject.Extensions.Conventions.dll" />
       </Component>
+      <Component Id="Ninject.Extensions.Factory.dll">
+        <File Source="$(var.Whip.View.TargetDir)Ninject.Extensions.Factory.dll" />
+      </Component>
+      <Component Id="Nito.AsyncEx.Context.dll">
+        <File Source="$(var.Whip.View.TargetDir)Nito.AsyncEx.Context.dll" />
+      </Component>
+      <Component Id="Nito.AsyncEx.Tasks.dll">
+        <File Source="$(var.Whip.View.TargetDir)Nito.AsyncEx.Tasks.dll" />
+      </Component>
       <Component Id="NLog.dll">
-        <File Source="..\Whip.View\bin\Release\NLog.dll" />
+        <File Source="$(var.Whip.View.TargetDir)NLog.dll" />
       </Component>
       <Component Id="Ookii.Dialogs.Wpf.dll">
         <File Source="$(var.Whip.View.TargetDir)Ookii.Dialogs.Wpf.dll" />
+      </Component>
+      <Component Id="System.Net.Http.dll">
+        <File Source="$(var.Whip.View.TargetDir)System.Net.Http.dll" />
+      </Component>
+      <Component Id="System.Net.Http.Extensions.dll">
+        <File Source="$(var.Whip.View.TargetDir)System.Net.Http.Extensions.dll" />
+      </Component>
+      <Component Id="System.Net.Http.Primitives.dll">
+        <File Source="$(var.Whip.View.TargetDir)System.Net.Http.Primitives.dll" />
+      </Component>
+      <Component Id="System.Reflection.TypeExtensions.dll">
+        <File Source="$(var.Whip.View.TargetDir)System.Reflection.TypeExtensions.dll" />
+      </Component>
+      <Component Id="System.Security.Cryptography.Algorithms.dll">
+        <File Source="$(var.Whip.View.TargetDir)System.Security.Cryptography.Algorithms.dll" />
+      </Component>
+      <Component Id="System.Security.Cryptography.Encoding.dll">
+        <File Source="$(var.Whip.View.TargetDir)System.Security.Cryptography.Encoding.dll" />
+      </Component>
+      <Component Id="System.Security.Cryptography.Primitives.dll">
+        <File Source="$(var.Whip.View.TargetDir)System.Security.Cryptography.Primitives.dll" />
+      </Component>
+      <Component Id="System.Security.Cryptography.X509Certificates.dll">
+        <File Source="$(var.Whip.View.TargetDir)System.Security.Cryptography.X509Certificates.dll" />
       </Component>
       <Component Id="System.Windows.Interactivity.dll">
         <File Source="$(var.Whip.View.TargetDir)System.Windows.Interactivity.dll" />
@@ -75,8 +111,32 @@
       <Component Id="taglibsharp.dll">
         <File Source="$(var.Whip.View.TargetDir)taglib-sharp.dll" />
       </Component>
-      <Component Id="TweetInvi.dll">
-        <File Source="$(var.Whip.View.TargetDir)TweetInvi.dll" />
+      <Component Id="Tweetinvi.Controllers.dll">
+        <File Source="$(var.Whip.View.TargetDir)Tweetinvi.Controllers.dll" />
+      </Component>
+      <Component Id="Tweetinvi.Core.dll">
+        <File Source="$(var.Whip.View.TargetDir)Tweetinvi.Core.dll" />
+      </Component>
+      <Component Id="Tweetinvi.Credentials.dll">
+        <File Source="$(var.Whip.View.TargetDir)Tweetinvi.Credentials.dll" />
+      </Component>
+      <Component Id="Tweetinvi.dll">
+        <File Source="$(var.Whip.View.TargetDir)Tweetinvi.dll" />
+      </Component>
+      <Component Id="Tweetinvi.Factories.dll">
+        <File Source="$(var.Whip.View.TargetDir)Tweetinvi.Factories.dll" />
+      </Component>
+      <Component Id="Tweetinvi.Logic.dll">
+        <File Source="$(var.Whip.View.TargetDir)Tweetinvi.Logic.dll" />
+      </Component>
+      <Component Id="Tweetinvi.Security.dll">
+        <File Source="$(var.Whip.View.TargetDir)Tweetinvi.Security.dll" />
+      </Component>
+      <Component Id="Tweetinvi.Streams.dll">
+        <File Source="$(var.Whip.View.TargetDir)Tweetinvi.Streams.dll" />
+      </Component>
+      <Component Id="Tweetinvi.WebLogic.dll">
+        <File Source="$(var.Whip.View.TargetDir)Tweetinvi.WebLogic.dll" />
       </Component>
       <Component Id="Whip.Common.dll">
         <File Source="$(var.Whip.View.TargetDir)Whip.Common.dll" />
@@ -99,11 +159,11 @@
       <Component Id="Whip.ViewModels.dll">
         <File Source="$(var.Whip.View.TargetDir)Whip.ViewModels.dll" />
       </Component>
-      <Component Id="WmpPlayer.dll">
-        <File Source="$(var.Whip.View.TargetDir)WmpPlayer.dll" />
-      </Component>
       <Component Id="Whip.XmlDataAccess.dll">
         <File Source="$(var.Whip.View.TargetDir)Whip.XmlDataAccess.dll" />
+      </Component>
+      <Component Id="WmpPlayer.dll">
+        <File Source="$(var.Whip.View.TargetDir)WmpPlayer.dll" />
       </Component>
       <Component Id="Xceed.Wpf.AvalonDock.dll">
         <File Source="$(var.Whip.View.TargetDir)Xceed.Wpf.AvalonDock.dll" />
@@ -122,6 +182,12 @@
       </Component>
       <Component Id="Xceed.Wpf.Toolkit.dll">
         <File Source="$(var.Whip.View.TargetDir)Xceed.Wpf.Toolkit.dll" />
+      </Component>
+      <Component Id="NLog.config">
+        <File Source="$(var.Whip.View.TargetDir)NLog.config" />
+      </Component>
+      <Component Id="Whip.exe.config">
+        <File Source="$(var.Whip.View.TargetDir)Whip.exe.config" />
       </Component>
     </ComponentGroup>
 	</Fragment>

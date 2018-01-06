@@ -4,6 +4,7 @@
     {
         Archive,
         Book,
+        ClockOutline,
         Cog,
         Edit,
         ExclamationTriangle,
@@ -17,15 +18,16 @@
         ListOl,
         ListUl,
         LongArrowRight,
+        Minus,
         Music,
         PaintBrush,
+        Plus,
         QuestionCircle,
         Random,
         Rss,
         Search,
         TimesRectangle,
         Users,
-        VolumeDown,
         VolumeOff,
         VolumeUp
     }

@@ -6,17 +6,18 @@ namespace Whip.ViewModels.Utilities
     public enum TabType
     {
         Archive,
-        Library,
-        Settings,
-        Dashboard,
-        LastFm,
+        Artist,
         CurrentPlaylist,
-        Playlists,
         CurrentTrack,
-        News,
-        Search,
-        CurrentArtist,
+        Dashboard,
         EditTrack,
+        LastFm,
+        Library,
+        News,
+        PlayHistory,
+        Playlists,
+        Search,
+        Settings,
         SystemInfo
     }
 }

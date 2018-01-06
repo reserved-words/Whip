@@ -6,16 +6,17 @@
              xmlns:local="clr-namespace:Whip"
              xmlns:controls="clr-namespace:Whip.Controls"
              mc:Ignorable="d" 
+             Background="White"
+             Cursor="Hand"
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.InputBindings>
+        <MouseBinding Gesture="LeftClick" Command="{Binding Command}" />
+    </UserControl.InputBindings>
     <Border Margin="0"
             BorderBrush="Silver"
-            BorderThickness="1, 0"
-            Cursor="Hand">
+            BorderThickness="1, 0">
         <controls:Icon16 Icon="{Binding Icon}"
                          ToolTip="{Binding ToolTip}">
-            <Image.InputBindings>
-                <MouseBinding Gesture="LeftClick" Command="{Binding Command}" />
-            </Image.InputBindings>
         </controls:Icon16>
     </Border>
 </UserControl>
