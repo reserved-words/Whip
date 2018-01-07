@@ -36,7 +36,7 @@
     <DataTemplate DataType="{x:Type tabsvm:CurrentTrackViewModel}">
         <local:TabCurrentTrack />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type tabsvm:CurrentArtistViewModel}">
+    <DataTemplate DataType="{x:Type tabsvm:ArtistViewModel}">
         <local:TabArtist />
     </DataTemplate>
     <DataTemplate DataType="{x:Type tabsvm:CurrentPlaylistViewModel}">
@@ -59,6 +59,9 @@
     </DataTemplate>
     <DataTemplate DataType="{x:Type tabsvm:SystemInfoViewModel}">
         <local:TabSystemInfo />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type tabsvm:PlayHistoryViewModel}">
+        <local:TabPlayHistory />
     </DataTemplate>
     <DataTemplate DataType="{x:Type tabsvm:EditTrackViewModel}">
         <local:TabEditTrack />

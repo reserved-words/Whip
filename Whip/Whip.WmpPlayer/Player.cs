@@ -10,10 +10,12 @@ namespace Whip.WmpPlayer
         private readonly WindowsMediaPlayer _player = new WindowsMediaPlayer();
         private readonly ILoggingService _logger;
 
+        private int _volume = 50;
+
         public Player(ILoggingService logger)
         {
             _logger = logger;
-            _player.settings.volume = 50;
+            _player.settings.volume = _volume;
         }
         
         public void Pause()
@@ -61,6 +63,32 @@ namespace Whip.WmpPlayer
                 return;
 
             _player.controls.currentPosition = (newPercentage / 100) * _player.controls.currentItem.duration;
+        }
+
+        public int GetVolumePercentage()
+        {
+            return _volume;
+        }
+
+        public void SetVolumePercentage(int percentage)
+        {
+            _volume = percentage < 0
+                ? 0
+                : percentage > 100
+                ? 100
+                : percentage;
+
+            _player.settings.volume = _volume;
+        }
+
+        public void Mute()
+        {
+            _player.settings.volume = 0;
+        }
+
+        public void Unmute()
+        {
+            _player.settings.volume = _volume;
         }
     }
 }

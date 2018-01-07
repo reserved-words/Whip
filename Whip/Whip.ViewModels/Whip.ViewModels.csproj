@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Whip.ViewModels</RootNamespace>
     <AssemblyName>Whip.ViewModels</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,10 +43,6 @@
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -71,6 +68,7 @@
     <Compile Include="SidebarViewModels\PlayShortcutsViewModel.cs" />
     <Compile Include="SidebarViewModels\SettingsIconsViewModel.cs" />
     <Compile Include="SidebarViewModels\SidebarViewModel.cs" />
+    <Compile Include="TabViewModels\PlayHistoryViewModel.cs" />
     <Compile Include="TabViewModels\CurrentPlaylistViewModel.cs" />
     <Compile Include="TabViewModels\CurrentTrackViewModel.cs" />
     <Compile Include="TabViewModels\BaseClasses\EditableTabViewModelBase.cs" />
@@ -85,7 +83,7 @@
     <Compile Include="TabViewModels\EditTrack\TrackViewModel.cs" />
     <Compile Include="TabViewModels\Library\LibraryArtistViewModel.cs" />
     <Compile Include="TabViewModels\NewsViewModel.cs" />
-    <Compile Include="TabViewModels\CurrentArtistViewModel.cs" />
+    <Compile Include="TabViewModels\ArtistViewModel.cs" />
     <Compile Include="TabViewModels\Playlists\CriteriaGroupViewModel.cs" />
     <Compile Include="TabViewModels\Playlists\CriteriaPlaylistsViewModel.cs" />
     <Compile Include="TabViewModels\Playlists\CriteriaViewModel.cs" />

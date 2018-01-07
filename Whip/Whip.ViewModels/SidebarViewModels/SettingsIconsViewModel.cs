@@ -5,19 +5,25 @@ using Whip.Common;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
 using Whip.ViewModels.Utilities;
+using Whip.Common.Interfaces;
 
 namespace Whip.ViewModels
 {
     public class SettingsIconsViewModel
     {
+        private const int SoundIconIndex = 2;
+        private const int VolumeAdjustment = 10;
+
         public event Action OpenMiniPlayer; 
 
         private readonly IMessenger _messenger;
+        private readonly IPlayer _player;
         private readonly IUserSettings _userSettings;
 
-        public SettingsIconsViewModel(IMessenger messenger, IUserSettings userSettings)
+        public SettingsIconsViewModel(IMessenger messenger, IPlayer player, IUserSettings userSettings)
         {
             _messenger = messenger;
+            _player = player;
             _userSettings = userSettings;
 
             PopulateIconCommands();
@@ -44,9 +50,9 @@ namespace Whip.ViewModels
             {
                 new CommandIcon(IconType.LastFmSquare, "Scrobbling", OnToggleScrobbling, _userSettings.Scrobbling, IconType.Headphones, "Not Scrobbling"),
                 new CommandIcon(IconType.Random, "Shuffling", OnToggleShuffle, _userSettings.ShuffleOn, IconType.LongArrowRight, "Playing In Order"),
-                new CommandIcon(IconType.VolumeOff, "Mute", OnMute),
-                new CommandIcon(IconType.VolumeDown, "Volume Down", OnVolumeDown),
-                new CommandIcon(IconType.VolumeUp, "Volume Up", OnVolumeUp),
+                new CommandIcon(IconType.VolumeUp, "Mute", OnToggleSound, true, IconType.VolumeOff, "Unmute"),
+                new CommandIcon(IconType.Minus, "Decrease Volume", OnVolumeDown),
+                new CommandIcon(IconType.Plus, "Increase Volume", OnVolumeUp),
                 new CommandIcon(IconType.Cog, "Settings", OnSettings),
                 new CommandIcon(IconType.PaintBrush, "Switch Colour", OnSwitchColour),
                 new CommandIcon(IconType.ExternalLink, "Open Mini Player", OnOpenMiniPlayer)
@@ -74,17 +80,28 @@ namespace Whip.ViewModels
 
         private void OnVolumeUp(CommandIcon commandIcon)
         {
-            // throw new NotImplementedException();
+            _player.SetVolumePercentage(_player.GetVolumePercentage() + VolumeAdjustment);
+            IconCommands[SoundIconIndex].On = true;
         }
 
         private void OnVolumeDown(CommandIcon commandIcon)
         {
-            // throw new NotImplementedException();
+            _player.SetVolumePercentage(_player.GetVolumePercentage() - VolumeAdjustment);
+            IconCommands[SoundIconIndex].On = true;
         }
 
-        private void OnMute(CommandIcon commandIcon)
+        private void OnToggleSound(CommandIcon commandIcon)
         {
-            // throw new NotImplementedException();
+            if (commandIcon.On)
+            {
+                _player.Mute();
+                commandIcon.On = false;
+            }
+            else
+            {
+                _player.Unmute();
+                commandIcon.On = true;
+            }
         }
 
         private void OnToggleShuffle(CommandIcon commandIcon)

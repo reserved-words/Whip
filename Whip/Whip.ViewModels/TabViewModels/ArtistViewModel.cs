@@ -13,7 +13,7 @@ using Whip.ViewModels.Utilities;
 
 namespace Whip.ViewModels.TabViewModels
 {
-    public class CurrentArtistViewModel : TabViewModelBase
+    public class ArtistViewModel : TabViewModelBase
     {
         private readonly string[] ValidUKCountryNames = new string[] 
         {
@@ -38,9 +38,9 @@ namespace Whip.ViewModels.TabViewModels
         private bool _loadingArtistImage;
         private bool _ukEventsOnly;
 
-        public CurrentArtistViewModel(Common.Singletons.Library library, IArtistWebInfoService artistWebInfoService,
+        public ArtistViewModel(Common.Singletons.Library library, IArtistWebInfoService artistWebInfoService,
             IImageProcessingService imageProcessingService, IConfigSettings configSettings)
-            :base(TabType.CurrentArtist, IconType.Users, "Artist")
+            :base(TabType.Artist, IconType.Users, "Artist")
         {
             _imageProcessingService = imageProcessingService;
             _library = library;

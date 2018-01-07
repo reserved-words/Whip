@@ -59,5 +59,25 @@ namespace Whip.Services.Singletons
         {
             _fileService.DeleteFiles(CurrentPlayingDirectoryName, _currentlyPlayingFilepath ?? "");
         }
+
+        public int GetVolumePercentage()
+        {
+            return _basePlayer.GetVolumePercentage();
+        }
+
+        public void Mute()
+        {
+            _basePlayer.Mute();
+        }
+
+        public void SetVolumePercentage(int volume)
+        {
+            _basePlayer.SetVolumePercentage(volume);
+        }
+
+        public void Unmute()
+        {
+            _basePlayer.Unmute();
+        }
     }
 }
