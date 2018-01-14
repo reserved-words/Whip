@@ -92,7 +92,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             disc.DiscNo = Convert.ToInt16(DiscNo);
             disc.TrackCount = Convert.ToInt16(TrackCount);
 
-            Album.UpdateAlbum(track.Disc.Album);
+            Album.UpdateAlbum(disc.Album);
 
             track.Disc = disc;
         }

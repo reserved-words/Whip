@@ -27,5 +27,10 @@ namespace Whip.Common.Model
         public string TagsDescription => Tags.Any() ? string.Join(", ", Tags) : "-";
         public string TrackNoDescription => string.Format("{0} of {1}", TrackNo, Disc.TrackCount);
         public string DiscNoDescription => string.Format("{0} of {1}", Disc.DiscNo, Disc.Album.DiscCount);
+
+        public override string ToString()
+        {
+            return $"{Title} by {Artist.Name}";
+        }
     }
 }

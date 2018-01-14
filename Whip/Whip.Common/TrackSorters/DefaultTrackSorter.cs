@@ -9,7 +9,7 @@ namespace Whip.Common.TrackSorters
     {
         public IEnumerable<Track> Sort(IEnumerable<Track> tracks)
         {
-            return tracks.OrderBy(t => t.Disc.Album.Artist.Name)
+            return tracks.OrderBy(t => t.Disc.Album.Artist.Sort)
                 .ThenBy(t => t.Disc.Album.ReleaseType)
                 .ThenBy(t => t.Disc.Album.Year)
                 .ThenBy(t => t.Disc.DiscNo)

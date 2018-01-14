@@ -259,13 +259,13 @@ namespace Whip.Controls
         {
             AddRow();
             AddControl(CreateLabel(track.TrackNo.ToString(TrackNoFormat), track), 1, _populatingRow);
-            AddControl(CreateLabel(track.Title, track), 2, _populatingRow);
-            AddControl(CreateLabel(track.Artist.Name, track), 3, _populatingRow);
+            AddControl(CreateLabel(track.Title, track, false, true), 2, _populatingRow);
+            AddControl(CreateLabel(track.Artist.Name, track, false, true), 3, _populatingRow);
             AddControl(CreateLabel(track.Duration.ToString(TrackDurationFormat), track), 4, _populatingRow);
             _populatingRow++;
         }
         
-        private static UIElement CreateLabel(string content, object tag = null, bool bold = false)
+        private static UIElement CreateLabel(string content, object tag = null, bool bold = false, bool toolTip = false)
         {
             return new Label
             {
@@ -273,7 +273,8 @@ namespace Whip.Controls
                 FontWeight = bold ? FontWeights.Bold : FontWeights.Normal,
                 Padding = new Thickness(1),
                 HorizontalContentAlignment = HorizontalAlignment.Stretch,
-                Tag = tag
+                Tag = tag,
+                ToolTip = toolTip ? content : null
             };
         }
 
