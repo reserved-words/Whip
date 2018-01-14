@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Whip.Common;
 using Whip.Common.Model;
 
-namespace Whip.Services.Interfaces
+namespace Whip.Services.Interfaces.Singletons
 {
     public interface IPlayRequestHandler
     {

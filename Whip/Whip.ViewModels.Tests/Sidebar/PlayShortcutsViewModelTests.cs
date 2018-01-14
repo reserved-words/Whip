@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Whip.Common;
 using Whip.Common.Model;
 using Whip.Common.Singletons;
-using Whip.Services.Interfaces;
+using Whip.Services.Interfaces.Singletons;
 
 namespace Whip.ViewModels.Sidebar.Tests
 {
