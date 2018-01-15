@@ -15,11 +15,25 @@
         Top="0"
         Closing="OnClosing"
         Loaded="Window_Loaded"
+        Topmost="{Binding ElementName=chkAlwaysOnTop, Path=IsChecked}"
         Title="Whip" Height="400" Width="250">
-    <StackPanel>
-        <ContentControl Content="{Binding CurrentTrackMiniViewModel}" />
-        <Border Style="{StaticResource ColourBorder}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ContentControl Grid.Row="0"
+                        Content="{Binding CurrentTrackMiniViewModel}" />
+        <Border Grid.Row="1"
+                Style="{StaticResource ColourBorder}">
             <ContentControl Content="{Binding PlayerControlsViewModel}" />
         </Border>
-    </StackPanel>
+        
+        <CheckBox Grid.Row="2"
+                  x:Name="chkAlwaysOnTop"
+                  Content="Always On Top"
+                  Margin="10"
+                  HorizontalAlignment="Center"/>
+    </Grid>
 </Window>
