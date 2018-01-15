@@ -49,135 +49,42 @@
                         Command="{Binding RefreshCommand}"></Button>
             </DockPanel>
 
-            <Grid Margin="10" >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="130" />
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-
-                <WrapPanel Grid.Row="0" Grid.Column="0"
-                           VerticalAlignment="Top"
-                           Margin="0,10">
-                    <controls:Icon16 Icon="Wifi"
-                                     Margin="4"/>
-                    <TextBlock Text="Internet"
-                               Margin="4"/>
-                </WrapPanel>
-                <TextBlock Grid.Row="0" Grid.Column="1"
-                           Text="{Binding InternetStatus}"
-                           VerticalAlignment="Top"
-                           Padding="0,10"/>
-                <TextBlock Grid.Row="0" Grid.Column="2"
-                           Text="{Binding InternetStatusDetails}"
-                           Padding="0,10"/>
-
-                <WrapPanel Grid.Row="1" Grid.Column="0"
-                           VerticalAlignment="Top"
-                           Margin="0,10">
-                    <controls:Icon16 Icon="Lastfm"
-                                     Margin="4"/>
-                    <TextBlock Text="Last.FM"
-                               Margin="4"/>
-                </WrapPanel>
-                <TextBlock Grid.Row="1" Grid.Column="1"
-                           Text="{Binding LastFmStatus}"
-                           VerticalAlignment="Top"
-                           Padding="0,10"/>
-                <StackPanel Grid.Row="1" Grid.Column="2">
-                    <TextBlock Text="{Binding LastFmStatusDetails}"
-                               Padding="0,5"/>
-                    <WrapPanel Visibility="{Binding LastFmOn, Converter={StaticResource NegBoolVisibilityConverter}}">
-                        <TextBlock FontWeight="Bold"
-                                   Text="Error Message: " 
-                                   Padding="0,5,2,10"/>
-                        <TextBlock Text="{Binding LastFmErrorMessage}"
-                                   Padding="0,5,0,10"/>
-                    </WrapPanel>
-                </StackPanel>
-
-                <WrapPanel Grid.Row="2" Grid.Column="0"
-                           VerticalAlignment="Top"
-                           Margin="0,10">
-                    <controls:Icon16 Icon="Twitter"
-                                     Margin="4"/>
-                    <TextBlock Text="Twitter"
-                               Margin="4"/>
-                </WrapPanel>
-                <TextBlock Grid.Row="2" Grid.Column="1"
-                           Text="{Binding TwitterStatus}"
-                           VerticalAlignment="Top"
-                           Padding="0,10"/>
-                <StackPanel Grid.Row="2" Grid.Column="2">
-                    <TextBlock Text="{Binding TwitterStatusDetails}"
-                               Padding="0,5"/>
-                    <WrapPanel Visibility="{Binding TwitterOn, Converter={StaticResource NegBoolVisibilityConverter}}">
-                        <TextBlock FontWeight="Bold"
-                                   Text="Error Message: " 
-                                   Padding="0,5,2,10"/>
-                        <TextBlock Text="{Binding TwitterErrorMessage}"
-                                   Padding="0,5,0,10"/>
-                    </WrapPanel>
-                </StackPanel>
-
-                <WrapPanel Grid.Row="3" Grid.Column="0"
-                           VerticalAlignment="Top"
-                           Margin="0,10">
-                    <controls:Icon16 Icon="Youtube"
-                                     Margin="4"/>
-                    <TextBlock Text="YouTube"
-                               Margin="4"/>
-                </WrapPanel>
-                <TextBlock Grid.Row="3" Grid.Column="1"
-                           Text="{Binding YouTubeStatus}"
-                           VerticalAlignment="Top"
-                           Padding="0,10"/>
-                <StackPanel Grid.Row="3" Grid.Column="2">
-                    <TextBlock Text="{Binding YouTubeStatusDetails}"
-                               Padding="0,5"/>
-                    <WrapPanel Visibility="{Binding YouTubeOn, Converter={StaticResource NegBoolVisibilityConverter}}">
-                        <TextBlock FontWeight="Bold"
-                                   Text="Error Message: " 
-                                   Padding="0,5,2,10"/>
-                        <TextBlock Text="{Binding YouTubeErrorMessage}"
-                                   Padding="0,5,0,10"/>
-                    </WrapPanel>
-                </StackPanel>
-
-                <WrapPanel Grid.Row="4" Grid.Column="0"
-                           VerticalAlignment="Top"
-                           Margin="0,10">
-                    <controls:Icon16 Icon="Calendar"
-                                     Margin="4"/>
-                    <TextBlock Text="Bands In Town"
-                               Margin="4"/>
-                </WrapPanel>
-                <TextBlock Grid.Row="4" Grid.Column="1"
-                           Text="{Binding BandsInTownStatus}"
-                           VerticalAlignment="Top"
-                           Padding="0,10"/>
-                <StackPanel Grid.Row="4" Grid.Column="2">
-                    <TextBlock Text="{Binding BandsInTownStatusDetails}"
-                               Padding="0,5"/>
-                    <WrapPanel Visibility="{Binding BandsInTownOn, Converter={StaticResource NegBoolVisibilityConverter}}">
-                        <TextBlock FontWeight="Bold"
-                                   Text="Error Message: " 
-                                   Padding="0,5,2,10"/>
-                        <TextBlock Text="{Binding BandsInTownErrorMessage}"
-                                   Padding="0,5,0,10"/>
-                    </WrapPanel>
-                </StackPanel>
-
-            </Grid>
-
+            <DataGrid Margin="10"
+                      ItemsSource="{Binding Statuses}"
+                      HeadersVisibility="None"
+                      BorderThickness="0">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <WrapPanel DataContext="{Binding}" 
+                                           VerticalAlignment="Top"
+                                           Margin="0,10">
+                                    <controls:Icon16 Icon="{Binding Icon}"
+                                                     Margin="4"/>
+                                    <TextBlock Text="{Binding Title}"
+                                               Margin="4"/>
+                                </WrapPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Binding="{Binding Status}" />
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel DataContext="{Binding}">
+                                    <TextBlock Text="{Binding Details}"/>
+                                    <WrapPanel Visibility="{Binding Online, Converter={StaticResource NegBoolVisibilityConverter}}">
+                                        <TextBlock FontWeight="Bold"
+                                                   Text="Error Message: "/>
+                                        <TextBlock Text="{Binding ErrorMessage}" />
+                                    </WrapPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
         </StackPanel>
 
         <Border Grid.Column="1"

@@ -7,6 +7,7 @@ using Whip.Common.Model;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 using Whip.Services.Interfaces.Utilities;
+using Whip.ViewModels.TabViewModels.SystemInfo;
 using Whip.ViewModels.Utilities;
 using static Whip.Common.Resources;
 
@@ -14,7 +15,7 @@ namespace Whip.ViewModels.TabViewModels
 {
     public class SystemInfoViewModel : TabViewModelBase
     {
-        private readonly IWebServicesStatus _userSettings;
+        private readonly IWebServicesStatus _webServiceStatus;
         private readonly IApplicationInfoService _applicationInfoService;
         private readonly ILogRepository _logRepository;
         private readonly ICurrentDateTime _currentDateTime;
@@ -22,49 +23,23 @@ namespace Whip.ViewModels.TabViewModels
         private DateTime? _logsDate;
         private ICollection<Log> _logs;
 
-        public SystemInfoViewModel(IWebServicesStatus userSettings, IApplicationInfoService applicationInfoService, ICurrentDateTime currentDateTime,
+        public SystemInfoViewModel(IWebServicesStatus webServiceStatus, IApplicationInfoService applicationInfoService, ICurrentDateTime currentDateTime,
             ILogRepository logRepository)
             :base(TabType.SystemInfo, IconType.InfoCircle, TabTitleSystemInfo)
         {
-            _userSettings = userSettings;
+            _webServiceStatus = webServiceStatus;
             _applicationInfoService = applicationInfoService;
             _logRepository = logRepository;
             _currentDateTime = currentDateTime;
+
+            Statuses = PopulateStatuses();
 
             RefreshCommand = new RelayCommand(Refresh);
         }
 
         public RelayCommand RefreshCommand { get; }
 
-        public string InternetStatus => _userSettings.Offline ? Offline : Online;
-
-        public string InternetStatusDetails => _userSettings.Offline
-            ? OfflineErrorMessageDetails
-            : "";
-
-        public bool LastFmOn => _userSettings.LastFmStatus;
-
-        public string LastFmErrorMessage => _userSettings.LastFmErrorMessage;
-
-        public string LastFmStatus => _userSettings.LastFmStatus ? Online : Offline;
-
-        public string LastFmStatusDetails => _userSettings.LastFmStatus
-            ? ""
-            : LastFmOffErrorMessageDetails;
-
-        // TO DO
-        public bool BandsInTownOn => true;
-        public string BandsInTownErrorMessage => "";
-        public string BandsInTownStatus => Online;
-        public string BandsInTownStatusDetails => "";
-        public bool TwitterOn => true;
-        public string TwitterErrorMessage => "";
-        public string TwitterStatus => Online;
-        public string TwitterStatusDetails => "";
-        public bool YouTubeOn => true;
-        public string YouTubeErrorMessage => "";
-        public string YouTubeStatus => Online;
-        public string YouTubeStatusDetails => "";
+        public List<ServiceStatusViewModel> Statuses { get; }
 
         public string ApplicationVersion => _applicationInfoService.Version;
         public string ApplicationPublishDate => _applicationInfoService.PublishDate.ToString(ApplicationPublishedFormat);
@@ -93,13 +68,21 @@ namespace Whip.ViewModels.TabViewModels
             }
         }
 
+        private List<ServiceStatusViewModel> PopulateStatuses()
+        {
+            return new List<ServiceStatusViewModel>
+            {
+                new ServiceStatusViewModel("Internet", IconType.Wifi),
+                new ServiceStatusViewModel("Last.FM", IconType.Lastfm),
+                new ServiceStatusViewModel("Twitter", IconType.Twitter),
+                new ServiceStatusViewModel("YouTube", IconType.Youtube),
+                new ServiceStatusViewModel("Bands In Town", IconType.Music)
+            };
+        }
+
         private void Refresh()
         {
-            RaisePropertyChanged(nameof(InternetStatus));
-            RaisePropertyChanged(nameof(InternetStatusDetails));
-            RaisePropertyChanged(nameof(LastFmOn));
-            RaisePropertyChanged(nameof(LastFmStatus));
-            RaisePropertyChanged(nameof(LastFmStatusDetails));
+            
         }
 
         private void UpdateLogs()
