@@ -168,11 +168,8 @@
   <data name="Offline" xml:space="preserve">
     <value>Offline</value>
   </data>
-  <data name="OfflineErrorMessage" xml:space="preserve">
-    <value>The internet connection has failed. See Settings page for further information.</value>
-  </data>
   <data name="OfflineErrorMessageDetails" xml:space="preserve">
-    <value>Internet connectivity has failed. The application will keep trying to connect to the internet and this status will be updated when it succeeds. If scrobbling is turned on, scrobbles will be cached and scrobbled later.</value>
+    <value>Internet connectivity has failed. The application will keep trying to connect to the internet. If scrobbling is turned on, scrobbles will be cached and scrobbled later.</value>
   </data>
   <data name="Online" xml:space="preserve">
     <value>Online</value>

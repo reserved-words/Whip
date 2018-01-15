@@ -67,7 +67,7 @@ namespace Whip.LastFm
                     _errorHandler.Error(GetNewException(lastFmException, additionalInfo), GetUserFriendlyMessage(lastFmException.ErrorCode));
                     break;
                 case ErrorCode.ConnectionFailed:
-                    _servicesStatus.SetStatus(WebServiceType.LastFm, false);
+                    _servicesStatus.SetStatus(WebServiceType.Web, false);
                     _errorHandler.Warn(GetNewException(lastFmException, additionalInfo));
                     return;
                 case ErrorCode.InvalidSessionKey:

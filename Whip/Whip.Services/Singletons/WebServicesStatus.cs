@@ -43,5 +43,10 @@ namespace Whip.Services.Singletons
         {
             _statusDictionary[type] = CreateStatus(online, errorMessage);
         }
+
+        public bool IsAnyServiceOffline()
+        {
+            return _statusDictionary.Any(s => !s.Value.Item1);
+        }
     }
 }

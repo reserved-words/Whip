@@ -214,16 +214,7 @@ namespace Whip.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The internet connection has failed. See Settings page for further information..
-        /// </summary>
-        public static string OfflineErrorMessage {
-            get {
-                return ResourceManager.GetString("OfflineErrorMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Internet connectivity has failed. The application will keep trying to connect to the internet and this status will be updated when it succeeds. If scrobbling is turned on, scrobbles will be cached and scrobbled later..
+        ///   Looks up a localized string similar to Internet connectivity has failed. The application will keep trying to connect to the internet. If scrobbling is turned on, scrobbles will be cached and scrobbled later..
         /// </summary>
         public static string OfflineErrorMessageDetails {
             get {
