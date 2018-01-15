@@ -19,9 +19,7 @@ namespace Whip.View
         private bool _shuffleStatusChanged;
         private bool _libraryUpdated;
         private bool _lastFmUsernameChanged;
-
-        private string _lastFmErrorMessage;
-
+        
         public UserSettings(IMessenger messenger, ILastFmApiClientService lastFmApiClientService)
         {
             _lastFmApiClientService = lastFmApiClientService;
@@ -106,24 +104,6 @@ namespace Whip.View
             }
         }
 
-        public bool LastFmStatus
-        {
-            get { return Properties.Settings.Default.LastFmStatus; }
-            set { Properties.Settings.Default.LastFmStatus = value; }
-        }
-
-        public bool Offline
-        {
-            get { return Properties.Settings.Default.Offline; }
-            set { Properties.Settings.Default.Offline = value; }
-        }
-
-        public string LastFmErrorMessage
-        {
-            get { return _lastFmErrorMessage; }
-            private set { _lastFmErrorMessage = value; }
-        }
-
         public async Task SaveAsync()
         {
             if (_lastFmUsernameChanged)
@@ -177,34 +157,10 @@ namespace Whip.View
             }
         }
 
-        public void SetInternetStatus(bool online)
-        {
-            if (online && Offline)
-            {
-                Offline = false;
-                Properties.Settings.Default.Save();
-            }
-            else if (!online && !Offline)
-            {
-                Offline = true;
-                Properties.Settings.Default.Save();
-            }
-        }
-
         public async Task SetStartupDefaultsAsync()
         {
-            LastFmStatus = true;
-            Offline = false;
-            
             await SetLastFmClients();
 
-            Properties.Settings.Default.Save();
-        }
-
-        public void TurnOffLastFm(string errorMessage)
-        {
-            LastFmStatus = false;
-            LastFmErrorMessage = errorMessage;
             Properties.Settings.Default.Save();
         }
 

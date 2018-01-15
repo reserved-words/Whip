@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
+using Whip.Services.Interfaces.Singletons;
 using Whip.Services.Interfaces.Utilities;
 using Whip.ViewModels.TabViewModels;
 using static Whip.Common.Resources;
@@ -23,7 +24,7 @@ namespace Whip.ViewModels.Tests
 
         private SystemInfoViewModel GetSubjectUnderTest(bool offline = false, bool lastFmStatus = true)
         {
-            var mockUserSettings = new Mock<IUserSettings>();
+            var mockUserSettings = new Mock<IWebServicesStatus>();
             mockUserSettings.Setup(u => u.Offline).Returns(offline);
             mockUserSettings.Setup(u => u.LastFmStatus).Returns(lastFmStatus);
             mockUserSettings.Setup(u => u.LastFmErrorMessage).Returns(TestLastFmErrorMessage);
@@ -72,7 +73,7 @@ namespace Whip.ViewModels.Tests
 
             // Assert
             Assert.AreEqual(true, sut.LastFmOn);
-            Assert.AreEqual(On, sut.LastFmStatus);
+            Assert.AreEqual(Online, sut.LastFmStatus);
             Assert.AreEqual(string.Empty, sut.LastFmStatusDetails);
         }
 
@@ -84,7 +85,7 @@ namespace Whip.ViewModels.Tests
 
             // Assert
             Assert.AreEqual(false, sut.LastFmOn);
-            Assert.AreEqual(Off, sut.LastFmStatus);
+            Assert.AreEqual(Offline, sut.LastFmStatus);
             Assert.AreEqual(LastFmOffErrorMessageDetails, sut.LastFmStatusDetails);
         }
 

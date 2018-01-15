@@ -168,9 +168,6 @@
   <data name="MaxLengthErrorMessage" xml:space="preserve">
     <value>{0} must not be more than {1} characters</value>
   </data>
-  <data name="Off" xml:space="preserve">
-    <value>Off</value>
-  </data>
   <data name="Offline" xml:space="preserve">
     <value>Offline</value>
   </data>
@@ -179,9 +176,6 @@
   </data>
   <data name="OfflineErrorMessageDetails" xml:space="preserve">
     <value>Internet connectivity has failed. The application will keep trying to connect to the internet and this status will be updated when it succeeds. If scrobbling is turned on, scrobbles will be cached and scrobbled later.</value>
-  </data>
-  <data name="On" xml:space="preserve">
-    <value>On</value>
   </data>
   <data name="Online" xml:space="preserve">
     <value>Online</value>

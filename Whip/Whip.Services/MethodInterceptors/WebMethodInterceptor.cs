@@ -2,17 +2,18 @@
 using System.Net;
 using System.Threading.Tasks;
 using Whip.Services.Interfaces;
+using Whip.Services.Interfaces.Singletons;
 
 namespace Whip.Services
 {
     public class WebMethodInterceptor : IAsyncMethodInterceptor
     {
-        private readonly IUserSettings _userSettings;
+        private readonly IWebServicesStatus _servicesStatus;
         private readonly IExceptionHandlingService _errorHandler;
 
-        public WebMethodInterceptor(IExceptionHandlingService errorHandler, IUserSettings userSettings)
+        public WebMethodInterceptor(IExceptionHandlingService errorHandler, IWebServicesStatus servicesStatus)
         {
-            _userSettings = userSettings;
+            _servicesStatus = servicesStatus;
             _errorHandler = errorHandler;
         }
 
@@ -21,12 +22,12 @@ namespace Whip.Services
             try
             {
                 var result = await task;
-                _userSettings.SetInternetStatus(true);
+                _servicesStatus.SetInternetStatus(true);
                 return result;
             }
             catch (WebException ex)
             {
-                _userSettings.SetInternetStatus(false);
+                _servicesStatus.SetInternetStatus(false);
                 _errorHandler.Warn(new Exception(additionalErrorInfo, ex));
             }
 
@@ -38,11 +39,11 @@ namespace Whip.Services
             try
             {
                 await task;
-                _userSettings.SetInternetStatus(true);
+                _servicesStatus.SetInternetStatus(true);
             }
             catch (WebException ex)
             {
-                _userSettings.SetInternetStatus(false);
+                _servicesStatus.SetInternetStatus(false);
                 _errorHandler.Warn(new Exception(additionalErrorInfo, ex));
             }
         }

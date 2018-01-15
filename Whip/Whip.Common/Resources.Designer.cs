@@ -214,15 +214,6 @@ namespace Whip.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Off.
-        /// </summary>
-        public static string Off {
-            get {
-                return ResourceManager.GetString("Off", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Offline.
         /// </summary>
         public static string Offline {
@@ -246,15 +237,6 @@ namespace Whip.Common {
         public static string OfflineErrorMessageDetails {
             get {
                 return ResourceManager.GetString("OfflineErrorMessageDetails", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to On.
-        /// </summary>
-        public static string On {
-            get {
-                return ResourceManager.GetString("On", resourceCulture);
             }
         }
         
