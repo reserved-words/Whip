@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Whip.Common.Enums;
 using Whip.Services.Interfaces;
 
 namespace Whip.LastFm.ErrorHandlingDecorators
@@ -19,6 +20,7 @@ namespace Whip.LastFm.ErrorHandlingDecorators
             return await _interceptor.TryMethod(
                 _service.GetArtworkUrl(artistName, albumTitle),
                 string.Empty,
+                WebServiceType.LastFm,
                 "Get Artwork URL (Artist: " + artistName + ", Title: " + albumTitle + ")");
         }
     }

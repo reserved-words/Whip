@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Whip.Common.Enums;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
@@ -37,6 +38,7 @@ namespace Whip.Services
             var success = await _interceptor.TryMethod<bool>(
                 _eventsService.PopulateEventsAsync(artist),
                 false,
+                WebServiceType.LastFm,
                 GetMethodDescription(nameof(PopulateEventsAsync), artist));
 
             if (success)
@@ -58,6 +60,7 @@ namespace Whip.Services
             var success = await _interceptor.TryMethod(
                 _videoService.PopulateLatestVideoAsync(artist),
                 false,
+                WebServiceType.LastFm,
                 GetMethodDescription(nameof(PopulateLatestVideoAsync), artist));
 
             if (success)
@@ -79,6 +82,7 @@ namespace Whip.Services
             var success = await _interceptor.TryMethod(
                 _artistInfoService.PopulateArtistInfo(artist, numberOfSimilarArtists),
                 false,
+                WebServiceType.LastFm,
                 GetMethodDescription(nameof(PopulateArtistInfo), artist));
 
             if (success)
@@ -100,6 +104,7 @@ namespace Whip.Services
             var success = await _interceptor.TryMethod(
                 _twitterService.PopulateTweets(artist),
                 false,
+                WebServiceType.LastFm,
                 GetMethodDescription(nameof(PopulateTweets), artist));
 
             if (success)

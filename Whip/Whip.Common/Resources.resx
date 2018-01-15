@@ -150,11 +150,8 @@
   <data name="ImageInternetErrorText" xml:space="preserve">
     <value>The image was not loaded due to an internet connection error</value>
   </data>
-  <data name="LastFmOffErrorMessage" xml:space="preserve">
-    <value>Last.FM interaction has been turned off due to an error. See Settings page for further information.</value>
-  </data>
   <data name="LastFmOffErrorMessageDetails" xml:space="preserve">
-    <value>Last.FM interaction has been turned off due to an error and will not be turned back on until the application is next started. If scrobbling is turned on, scrobbles will be cached and scrobbled later.</value>
+    <value>There was a problem connecting to Last.FM. No further attempts will be made until the application is next started. If scrobbling is turned on, scrobbles will be cached and scrobbled later.</value>
   </data>
   <data name="LastFmUrl" xml:space="preserve">
     <value>https://www.last.fm/music/{0}</value>

@@ -160,16 +160,7 @@ namespace Whip.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Last.FM interaction has been turned off due to an error. See Settings page for further information..
-        /// </summary>
-        public static string LastFmOffErrorMessage {
-            get {
-                return ResourceManager.GetString("LastFmOffErrorMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Last.FM interaction has been turned off due to an error and will not be turned back on until the application is next started. If scrobbling is turned on, scrobbles will be cached and scrobbled later..
+        ///   Looks up a localized string similar to There was a problem connecting to Last.FM. No further attempts will be made until the application is next started. If scrobbling is turned on, scrobbles will be cached and scrobbled later..
         /// </summary>
         public static string LastFmOffErrorMessageDetails {
             get {

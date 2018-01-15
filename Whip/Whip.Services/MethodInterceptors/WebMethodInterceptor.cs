@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using Whip.Common.Enums;
+using Whip.Common.Exceptions;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 
@@ -17,34 +19,45 @@ namespace Whip.Services
             _errorHandler = errorHandler;
         }
 
-        public async Task<T> TryMethod<T>(Task<T> task, T defaultReturnValue, string additionalErrorInfo = null)
+        public async Task<T> TryMethod<T>(Task<T> task, T defaultReturnValue, WebServiceType type, string additionalErrorInfo = null)
         {
             try
             {
-                var result = await task;
-                _servicesStatus.SetInternetStatus(true);
-                return result;
+                _servicesStatus.SetStatus(WebServiceType.Web, true);
+                _servicesStatus.SetStatus(type, true);
+                return await task;
             }
             catch (WebException ex)
             {
-                _servicesStatus.SetInternetStatus(false);
+                _servicesStatus.SetStatus(WebServiceType.Web, false);
                 _errorHandler.Warn(new Exception(additionalErrorInfo, ex));
+            }
+            catch (WebServiceUnavailableException ex)
+            {
+                _servicesStatus.SetStatus(type, false, ex.Message);
+                _errorHandler.Warn(new Exception(additionalErrorInfo, ex.InnerException));
             }
 
             return defaultReturnValue;
         }
 
-        public async Task TryMethod(Task task, string additionalErrorInfo = null)
+        public async Task TryMethod(Task task, WebServiceType type, string additionalErrorInfo = null)
         {
             try
             {
+                _servicesStatus.SetStatus(WebServiceType.Web, true);
+                _servicesStatus.SetStatus(type, true);
                 await task;
-                _servicesStatus.SetInternetStatus(true);
             }
             catch (WebException ex)
             {
-                _servicesStatus.SetInternetStatus(false);
+                _servicesStatus.SetStatus(WebServiceType.Web, false);
                 _errorHandler.Warn(new Exception(additionalErrorInfo, ex));
+            }
+            catch (WebServiceUnavailableException ex)
+            {
+                _servicesStatus.SetStatus(type, false, ex.Message);
+                _errorHandler.Warn(new Exception(additionalErrorInfo, ex.InnerException));
             }
         }
     }

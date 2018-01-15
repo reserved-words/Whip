@@ -15,7 +15,6 @@ namespace Whip.ViewModels.Tests
     [TestClass]
     public class SystemInfoViewModelTests
     {
-        private const string TestLastFmErrorMessage = "There is a problem!";
         private const string TestVersionNumber = "1.2";
 
         private readonly DateTime _testCurrentDate = new DateTime(2017,1,1);
@@ -25,9 +24,6 @@ namespace Whip.ViewModels.Tests
         private SystemInfoViewModel GetSubjectUnderTest(bool offline = false, bool lastFmStatus = true)
         {
             var mockWebServicesStatus = new Mock<IWebServicesStatus>();
-            mockWebServicesStatus.Setup(u => u.InternetStatus).Returns(!offline);
-            mockWebServicesStatus.Setup(u => u.LastFmStatus).Returns(lastFmStatus);
-            mockWebServicesStatus.Setup(u => u.LastFmErrorMessage).Returns(TestLastFmErrorMessage);
 
             var mockApplicationInfoService = new Mock<IApplicationInfoService>();
             mockApplicationInfoService.Setup(s => s.Version).Returns(TestVersionNumber);

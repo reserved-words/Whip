@@ -1,9 +1,9 @@
 ﻿using LastFmApi;
 using System;
 using System.Threading.Tasks;
+using Whip.Common.Enums;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
-using static Whip.Common.Resources;
 
 namespace Whip.LastFm
 {
@@ -18,14 +18,14 @@ namespace Whip.LastFm
             _errorHandler = errorHandler;
         }
 
-        public async Task<T> TryMethod<T>(Task<T> task, T defaultReturnValue, string additionalErrorInfo = null)
+        public async Task<T> TryMethod<T>(Task<T> task, T defaultReturnValue, WebServiceType type, string additionalErrorInfo = null)
         {
-            if (_servicesStatus.LastFmStatus)
+            if (_servicesStatus.IsOnline(WebServiceType.LastFm))
             {
                 try
                 {
                     var result = await task;
-                    _servicesStatus.SetInternetStatus(true);
+                    _servicesStatus.SetStatus(WebServiceType.LastFm, true);
                     return result;
                 }
                 catch (Exception ex)
@@ -37,14 +37,14 @@ namespace Whip.LastFm
             return defaultReturnValue;
         }
 
-        public async Task TryMethod(Task task, string additionalErrorInfo = null)
+        public async Task TryMethod(Task task, WebServiceType type, string additionalErrorInfo = null)
         {
-            if (_servicesStatus.LastFmStatus)
+            if (_servicesStatus.IsOnline(WebServiceType.LastFm))
             {
                 try
                 {
                     await task;
-                    _servicesStatus.SetInternetStatus(true);
+                    _servicesStatus.SetStatus(WebServiceType.LastFm, true);
                 }
                 catch (Exception ex)
                 {
@@ -63,11 +63,11 @@ namespace Whip.LastFm
                 case ErrorCode.ServiceOffline:
                 case ErrorCode.ApiKeySuspended:
                 case ErrorCode.RateLimitExceeded:
-                    _servicesStatus.SetLastFmStatus(false, GetUserFriendlyMessage(lastFmException.ErrorCode));
-                    _errorHandler.Error(GetNewException(lastFmException, additionalInfo), LastFmOffErrorMessage);
+                    _servicesStatus.SetStatus(WebServiceType.LastFm, false, GetUserFriendlyMessage(lastFmException.ErrorCode));
+                    _errorHandler.Error(GetNewException(lastFmException, additionalInfo), GetUserFriendlyMessage(lastFmException.ErrorCode));
                     break;
                 case ErrorCode.ConnectionFailed:
-                    _servicesStatus.SetInternetStatus(false);
+                    _servicesStatus.SetStatus(WebServiceType.LastFm, false);
                     _errorHandler.Warn(GetNewException(lastFmException, additionalInfo));
                     return;
                 case ErrorCode.InvalidSessionKey:
@@ -75,8 +75,8 @@ namespace Whip.LastFm
                 case ErrorCode.AuthenticationFailed:
                 case ErrorCode.UserNotLoggedIn:
                     // Change this to add a way of resolving session issues instead
-                    _servicesStatus.SetLastFmStatus(false, GetUserFriendlyMessage(lastFmException.ErrorCode));
-                    _errorHandler.Error(GetNewException(lastFmException, additionalInfo), LastFmOffErrorMessage);
+                    _servicesStatus.SetStatus(WebServiceType.LastFm, false, GetUserFriendlyMessage(lastFmException.ErrorCode));
+                    _errorHandler.Error(GetNewException(lastFmException, additionalInfo), GetUserFriendlyMessage(lastFmException.ErrorCode));
                     break;
                 default:
                     _errorHandler.Warn(GetNewException(lastFmException, additionalInfo));

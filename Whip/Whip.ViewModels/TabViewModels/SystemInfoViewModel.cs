@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GalaSoft.MvvmLight.Command;
 using Whip.Common;
+using Whip.Common.Enums;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
@@ -74,11 +75,11 @@ namespace Whip.ViewModels.TabViewModels
         {
             return new List<ServiceStatusViewModel>
             {
-                new ServiceStatusViewModel("Internet", IconType.Wifi, OfflineErrorMessageDetails, _webServiceStatus, s => s.InternetStatus, s => ""),
-                new ServiceStatusViewModel("Last.FM", IconType.Lastfm, LastFmOffErrorMessageDetails, _webServiceStatus, s => s.LastFmStatus, s => s.LastFmErrorMessage),
-                new ServiceStatusViewModel("Twitter", IconType.Twitter, "", _webServiceStatus, s => s.TwitterStatus, s => s.TwitterErrorMessage),
-                new ServiceStatusViewModel("YouTube", IconType.Youtube, "", _webServiceStatus, s => s.YouTubeStatus, s => s.YouTubeErrorMessage),
-                new ServiceStatusViewModel("Bands In Town", IconType.Music, "", _webServiceStatus, s => s.BandsInTownStatus, s => s.BandsInTownErrorMessage)
+                new ServiceStatusViewModel(WebServiceType.Web, "Internet", IconType.Wifi, OfflineErrorMessageDetails, _webServiceStatus),
+                new ServiceStatusViewModel(WebServiceType.LastFm, "Last.FM", IconType.Lastfm, LastFmOffErrorMessageDetails, _webServiceStatus),
+                new ServiceStatusViewModel(WebServiceType.News, "Twitter", IconType.Twitter, "", _webServiceStatus),
+                new ServiceStatusViewModel(WebServiceType.Videos, "YouTube", IconType.Youtube, "", _webServiceStatus),
+                new ServiceStatusViewModel(WebServiceType.Events, "Bands In Town", IconType.Music, "", _webServiceStatus)
             };
         }
 

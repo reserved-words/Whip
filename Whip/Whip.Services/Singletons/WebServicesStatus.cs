@@ -1,55 +1,47 @@
-﻿using Whip.Services.Interfaces.Singletons;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Whip.Common.Enums;
+using Whip.Services.Interfaces.Singletons;
 
 namespace Whip.Services.Singletons
 {
     public class WebServicesStatus : IWebServicesStatus
     {
+        private readonly Dictionary<WebServiceType, Tuple<bool,string>> _statusDictionary;
+
         public WebServicesStatus()
         {
-            InternetStatus = true;
-            BandsInTownStatus = true;
-            LastFmStatus = true;
-            TwitterStatus = true;
-            YouTubeStatus = true;
+            _statusDictionary = new Dictionary<WebServiceType, Tuple<bool, string>>();
+            foreach (var type in Enum.GetValues(typeof(WebServiceType)).OfType<WebServiceType>())
+            {
+                AddDefaultStatus(type);
+            }
         }
 
-        public bool LastFmStatus { get; private set; }
-        public string LastFmErrorMessage { get; private set; }
-        public string BandsInTownErrorMessage { get; private set; }
-        public bool BandsInTownStatus { get; private set; }
-        public bool InternetStatus { get; private set; }
-        public string YouTubeErrorMessage { get; private set; }
-        public bool YouTubeStatus { get; private set; }
-        public string TwitterErrorMessage { get; private set; }
-        public bool TwitterStatus { get; private set; }
-
-        public void SetBandsInTownStatus(bool online, string errorMessage = null)
+        private void AddDefaultStatus(WebServiceType type)
         {
-            BandsInTownStatus = online;
-            BandsInTownErrorMessage = errorMessage;
+            _statusDictionary.Add(type, CreateStatus());
         }
 
-        public void SetInternetStatus(bool online)
+        private static Tuple<bool, string> CreateStatus(bool online = true, string errorMessage = null)
         {
-            InternetStatus = online;
+            return new Tuple<bool, string>(online, errorMessage);
         }
 
-        public void SetLastFmStatus(bool online, string errorMessage = null)
+        public string GetErrorMessage(WebServiceType type)
         {
-            LastFmStatus = online;
-            LastFmErrorMessage = errorMessage;
+            return _statusDictionary[type].Item2;
         }
 
-        public void SetTwitterStatus(bool online, string errorMessage = null)
+        public bool IsOnline(WebServiceType type)
         {
-            TwitterStatus = online;
-            TwitterErrorMessage = errorMessage;
+            return _statusDictionary[type].Item1;
         }
 
-        public void SetYouTubeStatus(bool online, string errorMessage = null)
+        public void SetStatus(WebServiceType type, bool online, string errorMessage)
         {
-            YouTubeStatus = online;
-            YouTubeErrorMessage = errorMessage;
+            _statusDictionary[type] = CreateStatus(online, errorMessage);
         }
     }
 }
