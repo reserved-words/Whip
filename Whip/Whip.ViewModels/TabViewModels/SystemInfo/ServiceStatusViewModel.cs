@@ -14,9 +14,7 @@ namespace Whip.ViewModels.TabViewModels.SystemInfo
         {
             Icon = iconType.ToString();
             Title = title;
-            Online = false;
-            ErrorMessage = "Testing error message";
-            Details = "Testing details";
+            Online = true;
         }
 
         public string Icon { get; }

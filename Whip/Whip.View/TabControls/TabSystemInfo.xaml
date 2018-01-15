@@ -42,43 +42,54 @@
             <DockPanel HorizontalAlignment="Stretch">
                 <Label DockPanel.Dock="Left"
                        Style="{StaticResource TitleLabel}"
-                       Content="Web Interaction" />
+                       Content="Web Services" />
                 <Button DockPanel.Dock="Right"
                         Content="Refresh"
                         HorizontalAlignment="Right"
                         Command="{Binding RefreshCommand}"></Button>
             </DockPanel>
 
-            <DataGrid Margin="10"
-                      ItemsSource="{Binding Statuses}"
+            <DataGrid ItemsSource="{Binding Statuses}"
                       HeadersVisibility="None"
                       BorderThickness="0">
+                <DataGrid.RowStyle>
+                    <Style TargetType="{x:Type DataGridRow}">
+                        <Setter Property="Height" Value="Auto" />
+                        <Setter Property="VerticalContentAlignment" Value="Top" />
+                    </Style>
+                </DataGrid.RowStyle>
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="Auto">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <WrapPanel DataContext="{Binding}" 
-                                           VerticalAlignment="Top"
-                                           Margin="0,10">
-                                    <controls:Icon16 Icon="{Binding Icon}"
-                                                     Margin="4"/>
+                                <WrapPanel Margin="0 5">
+                                    <controls:Icon16 Icon="{Binding Icon}"/>
                                     <TextBlock Text="{Binding Title}"
-                                               Margin="4"/>
+                                               Margin="10 5 20 5"/>
                                 </WrapPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Binding="{Binding Status}" />
-                    <DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="Auto">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <StackPanel DataContext="{Binding}">
-                                    <TextBlock Text="{Binding Details}"/>
-                                    <WrapPanel Visibility="{Binding Online, Converter={StaticResource NegBoolVisibilityConverter}}">
+                                <TextBlock Text="{Binding Status}"
+                                           Margin="5 10 25 10"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0 10 10 10">
+                                    <TextBlock Text="{Binding Details}"
+                                               Margin="0 0 0 5"/>
+                                    <StackPanel Visibility="{Binding Online, Converter={StaticResource NegBoolVisibilityConverter}}">
                                         <TextBlock FontWeight="Bold"
                                                    Text="Error Message: "/>
-                                        <TextBlock Text="{Binding ErrorMessage}" />
-                                    </WrapPanel>
+                                        <TextBlock Text="{Binding ErrorMessage}"
+                                                   TextWrapping="WrapWithOverflow"/>
+                                    </StackPanel>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
