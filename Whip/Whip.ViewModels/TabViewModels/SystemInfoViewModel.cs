@@ -66,23 +66,25 @@ namespace Whip.ViewModels.TabViewModels
             {
                 LogsDate = _currentDateTime.Get();
             }
+
+            Refresh();
         }
 
         private List<ServiceStatusViewModel> PopulateStatuses()
         {
             return new List<ServiceStatusViewModel>
             {
-                new ServiceStatusViewModel("Internet", IconType.Wifi),
-                new ServiceStatusViewModel("Last.FM", IconType.Lastfm),
-                new ServiceStatusViewModel("Twitter", IconType.Twitter),
-                new ServiceStatusViewModel("YouTube", IconType.Youtube),
-                new ServiceStatusViewModel("Bands In Town", IconType.Music)
+                new ServiceStatusViewModel("Internet", IconType.Wifi, OfflineErrorMessageDetails, _webServiceStatus, s => s.InternetStatus, s => ""),
+                new ServiceStatusViewModel("Last.FM", IconType.Lastfm, LastFmOffErrorMessageDetails, _webServiceStatus, s => s.LastFmStatus, s => s.LastFmErrorMessage),
+                new ServiceStatusViewModel("Twitter", IconType.Twitter, "", _webServiceStatus, s => s.TwitterStatus, s => s.TwitterErrorMessage),
+                new ServiceStatusViewModel("YouTube", IconType.Youtube, "", _webServiceStatus, s => s.YouTubeStatus, s => s.YouTubeErrorMessage),
+                new ServiceStatusViewModel("Bands In Town", IconType.Music, "", _webServiceStatus, s => s.BandsInTownStatus, s => s.BandsInTownErrorMessage)
             };
         }
 
         private void Refresh()
         {
-            
+            Statuses.ForEach(s => s.Refresh());
         }
 
         private void UpdateLogs()

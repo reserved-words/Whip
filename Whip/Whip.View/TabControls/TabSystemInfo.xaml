@@ -81,15 +81,14 @@
                     <DataGridTemplateColumn Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <StackPanel Margin="0 10 10 10">
+                                <StackPanel Visibility="{Binding Online, Converter={StaticResource NegBoolVisibilityConverter}}"
+                                            Margin="0 10 10 10">
                                     <TextBlock Text="{Binding Details}"
                                                Margin="0 0 0 5"/>
-                                    <StackPanel Visibility="{Binding Online, Converter={StaticResource NegBoolVisibilityConverter}}">
-                                        <TextBlock FontWeight="Bold"
-                                                   Text="Error Message: "/>
-                                        <TextBlock Text="{Binding ErrorMessage}"
-                                                   TextWrapping="WrapWithOverflow"/>
-                                    </StackPanel>
+                                    <TextBlock FontWeight="Bold"
+                                               Text="Error Message: "/>
+                                    <TextBlock Text="{Binding ErrorMessage}"
+                                               TextWrapping="WrapWithOverflow"/>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

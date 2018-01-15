@@ -63,7 +63,7 @@ namespace Whip.LastFm
                 case ErrorCode.ServiceOffline:
                 case ErrorCode.ApiKeySuspended:
                 case ErrorCode.RateLimitExceeded:
-                    _servicesStatus.TurnOffLastFm(GetUserFriendlyMessage(lastFmException.ErrorCode));
+                    _servicesStatus.SetLastFmStatus(false, GetUserFriendlyMessage(lastFmException.ErrorCode));
                     _errorHandler.Error(GetNewException(lastFmException, additionalInfo), LastFmOffErrorMessage);
                     break;
                 case ErrorCode.ConnectionFailed:
@@ -75,7 +75,7 @@ namespace Whip.LastFm
                 case ErrorCode.AuthenticationFailed:
                 case ErrorCode.UserNotLoggedIn:
                     // Change this to add a way of resolving session issues instead
-                    _servicesStatus.TurnOffLastFm(GetUserFriendlyMessage(lastFmException.ErrorCode));
+                    _servicesStatus.SetLastFmStatus(false, GetUserFriendlyMessage(lastFmException.ErrorCode));
                     _errorHandler.Error(GetNewException(lastFmException, additionalInfo), LastFmOffErrorMessage);
                     break;
                 default:

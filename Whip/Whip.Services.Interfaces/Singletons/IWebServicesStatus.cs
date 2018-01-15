@@ -8,11 +8,20 @@ namespace Whip.Services.Interfaces.Singletons
 {
     public interface IWebServicesStatus
     {
-        bool LastFmStatus { get; set; }
+        string BandsInTownErrorMessage { get; }
+        bool BandsInTownStatus { get; }
+        bool InternetStatus { get; }
         string LastFmErrorMessage { get; }
-        bool Offline { get; set; }
-
+        bool LastFmStatus { get; }
+        string YouTubeErrorMessage { get; }
+        bool YouTubeStatus { get; }
+        string TwitterErrorMessage { get; }
+        bool TwitterStatus { get; }
+        
         void SetInternetStatus(bool online);
-        void TurnOffLastFm(string errorMessage);
+        void SetBandsInTownStatus(bool online, string errorMessage = null);
+        void SetLastFmStatus(bool online, string errorMessage = null);
+        void SetTwitterStatus(bool online, string errorMessage = null);
+        void SetYouTubeStatus(bool online, string errorMessage = null);
     }
 }
