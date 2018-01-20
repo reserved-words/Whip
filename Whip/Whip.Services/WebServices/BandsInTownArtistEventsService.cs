@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Whip.Common.Exceptions;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
@@ -38,26 +39,38 @@ namespace Whip.Services
 
         public async Task<bool> PopulateEventsAsync(Artist artist)
         {
-            var baseUrl = string.Format(BandsInTownApiBaseUrl, _webHelperService.UrlEncode(artist.Name));
+            try
+            {
+                var baseUrl = string.Format(BandsInTownApiBaseUrl, _webHelperService.UrlEncode(artist.Name));
 
-            var jsonString = await _webHelperService.HttpGetAsync(baseUrl, GetUrlParameters());
+                var jsonString = await _webHelperService.HttpGetAsync(baseUrl, GetUrlParameters());
 
-            HandleErrors(jsonString);
+                HandleErrors(jsonString);
 
-            artist.UpcomingEvents = GetEventsList(jsonString, artist.Name).OrderBy(ev => ev.Date).ToList();
+                artist.UpcomingEvents = GetEventsList(jsonString, artist.Name).OrderBy(ev => ev.Date).ToList();
 
-            return true;
+                return true;
+            }
+            catch (ServiceException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ServiceException("Unexpected error while fetching artist event", ex);
+            }
         }
 
         private Dictionary<string, string> GetUrlParameters()
         {
-            var parameters = new Dictionary<string, string>();
-            parameters.Add(ApiVersionParameterName, ApiVersionParameterValue);
-            parameters.Add(AppIdParameterName, _apiId.Value);
-            return parameters;
+            return new Dictionary<string, string>
+            {
+                { ApiVersionParameterName, ApiVersionParameterValue },
+                { AppIdParameterName, _apiId.Value }
+            };
         }
 
-        private ICollection<ArtistEvent> GetEventsList(string jsonString, string artistName)
+        private static IEnumerable<ArtistEvent> GetEventsList(string jsonString, string artistName)
         {
             var list = new List<ArtistEvent>();
 
@@ -98,16 +111,18 @@ namespace Whip.Services
             return list;
         }
 
-        private void HandleErrors(string jsonString)
+        private static void HandleErrors(string jsonString)
         {
             try
             {
                 var error = JObject.Parse(jsonString);
 
-                if (error == null || error[JsonElementErrors] == null)
+                if (error?[JsonElementErrors] == null)
                     return;
 
-                throw new Exception(string.Join(Environment.NewLine, error[JsonElementErrors].Select(err => err.Value<string>())));
+                throw new ServiceException(
+                    string.Join(Environment.NewLine, error[JsonElementErrors].Select(err => err.Value<string>())),
+                    null);
             }
             catch (JsonReaderException)
             {

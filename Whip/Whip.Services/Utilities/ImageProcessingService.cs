@@ -5,6 +5,7 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using Whip.Common.Enums;
 using Whip.Services.Interfaces;
 
 namespace Whip.Services
@@ -42,7 +43,7 @@ namespace Whip.Services
 
             using (var webClient = new WebClient())
             {
-                return await _interceptor.TryMethod(webClient.DownloadDataTaskAsync(new Uri(url)), null, "Getting image " + url);
+                return await _interceptor.TryMethod(webClient.DownloadDataTaskAsync(new Uri(url)), null, WebServiceType.Web, "Getting image " + url);
             }
         }
 

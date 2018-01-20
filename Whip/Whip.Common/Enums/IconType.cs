@@ -4,6 +4,7 @@
     {
         Archive,
         Book,
+        Calendar,
         ClockOutline,
         Cog,
         Edit,
@@ -14,6 +15,7 @@
         Hourglass2,
         InfoCircle,
         KeyboardOutline,
+        Lastfm,
         LastFmSquare,
         ListOl,
         ListUl,
@@ -27,8 +29,11 @@
         Rss,
         Search,
         TimesRectangle,
+        Twitter,
         Users,
         VolumeOff,
-        VolumeUp
+        VolumeUp,
+        Wifi,
+        Youtube
     }
 }

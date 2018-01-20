@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi;
 using Tweetinvi.Models;
+using Whip.Common.Exceptions;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
@@ -74,7 +75,20 @@ namespace Whip.TweetInvi
 
             var tweets = Auth.ExecuteOperationWithCredentials(credentials, () =>
             {
-                return Timeline.GetUserTimeline(username, maxTweets)?.ToList();
+                var result = Timeline.GetUserTimeline(username, maxTweets)?.ToList();
+
+                if (result == null)
+                {
+                    var latestException = ExceptionHandler.GetLastException();
+                    if (latestException != null)
+                    {
+                        throw latestException.StatusCode == 401
+                            ? new ServiceAuthenticationException(latestException.TwitterDescription, latestException.WebException)
+                            : new ServiceException(latestException.TwitterDescription, latestException.WebException);
+                    }
+                }
+
+                return result;
             });
 
             return tweets;

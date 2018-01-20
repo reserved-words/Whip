@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Whip.Common.Enums;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
 
@@ -41,6 +42,7 @@ namespace Whip.Services
             var success = await _asyncMethodInterceptor.TryMethod(
                 _scrobbler.ScrobbleAsync(track, timePlayed),
                 false,
+                WebServiceType.LastFm,
                 "ScrobbleAsync (Track: " + track.Title + " by " + track.Artist.Name + ")");
 
             if (!success)
@@ -62,6 +64,7 @@ namespace Whip.Services
             return await _asyncMethodInterceptor.TryMethod(
                 _scrobbler.UpdateNowPlayingAsync(track, duration),
                 false,
+                WebServiceType.LastFm,
                 "UpdateNowPlayingAsync (Track: " + track.Title + " by " + track.Artist.Name + ")");
         }
     }

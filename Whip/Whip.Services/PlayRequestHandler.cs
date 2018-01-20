@@ -4,7 +4,7 @@ using Whip.Common.Model;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 
-namespace Whip.Services
+namespace Whip.Services.Singletons
 {
     public class PlayRequestHandler : IPlayRequestHandler
     {

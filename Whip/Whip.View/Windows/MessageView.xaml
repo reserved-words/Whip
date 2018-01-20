@@ -5,15 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Whip"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             FocusManager.FocusedElement="{Binding ElementName=btnOK}">
     <StackPanel Margin="10">
 
         <Label Content="{Binding Text}" />
 
-        <WrapPanel Grid.Row="2"
-                   Grid.Column="0" Grid.ColumnSpan="3"
-                   HorizontalAlignment="Center">
-            <Button Content="OK"
+        <WrapPanel HorizontalAlignment="Center">
+            <Button x:Name="btnOK"
+                    Content="OK"
                     Command="{Binding OKCommand}"
                     Margin="5"/>
         </WrapPanel>

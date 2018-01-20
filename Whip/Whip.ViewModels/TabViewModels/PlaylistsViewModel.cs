@@ -2,6 +2,7 @@
 using Whip.Common;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
+using Whip.Services.Interfaces.Singletons;
 using Whip.ViewModels.Messages;
 using Whip.ViewModels.TabViewModels.Playlists;
 using Whip.ViewModels.Utilities;

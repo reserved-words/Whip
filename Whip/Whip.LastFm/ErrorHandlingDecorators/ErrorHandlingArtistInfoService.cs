@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Whip.Common.Enums;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
 
@@ -19,7 +20,8 @@ namespace Whip.LastFm.ErrorHandlingDecorators
         {
             return await _interceptor.TryMethod(
                 _service.PopulateArtistInfo(artist, numberOfSimilarArtists), 
-                false, 
+                false,
+                WebServiceType.LastFm,
                 "Populate Artist Images (Artist: " + artist.Name + ")");
         }
     }

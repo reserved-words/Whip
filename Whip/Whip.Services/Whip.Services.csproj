@@ -65,6 +65,7 @@
     <Compile Include="Utilities\LogParser.cs" />
     <Compile Include="Utilities\LogRepository.cs" />
     <Compile Include="Utilities\PlayProgressTracker.cs" />
+    <Compile Include="Singletons\WebServicesStatus.cs" />
     <Compile Include="Utilities\XmlFileService.cs" />
     <Compile Include="WebServices\ArtistWebInfoService.cs" />
     <Compile Include="WebServices\RssService.cs" />

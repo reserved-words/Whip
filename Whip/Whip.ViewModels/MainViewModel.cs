@@ -165,9 +165,9 @@ namespace Whip.ViewModels
 
         private void OnChangingTab(TabViewModelBase newTab) { }
 
-        public List<TabViewModelBase> Tabs { get; private set; }
+        public List<TabViewModelBase> Tabs { get; }
 
-        public RelayCommand<TabViewModelBase> ChangeTabCommand { get; private set; }
+        public RelayCommand<TabViewModelBase> ChangeTabCommand { get; }
 
         public TabViewModelBase SelectedTab
         {

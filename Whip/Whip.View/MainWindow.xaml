@@ -5,9 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Whip"
         xmlns:common="clr-namespace:Whip.Common;assembly=Whip.Common"
-        xmlns:controls="clr-namespace:Whip.Controls"
-        xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
-        xmlns:properties="clr-namespace:Whip.View.Properties"
         mc:Ignorable="d"
         Title="{x:Static common:Resources.ApplicationTitle}" 
         Icon="pack://application:,,,/logo.ico"
@@ -20,68 +17,16 @@
             <ColumnDefinition Width="240" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-
+        
         <local:SidebarView Grid.Column="0"
-                           Grid.Row="0"
                            DataContext="{Binding SidebarViewModel}">
 
         </local:SidebarView>
         <local:MainView Grid.Column="1"
-                        Grid.Row="0"
                         DataContext="{Binding MainViewModel}">
 
         </local:MainView>
-
-        <Border Grid.Row="1"
-                Grid.Column="0" Grid.ColumnSpan="2"
-                BorderBrush="Silver"
-                BorderThickness="1">
-            <WrapPanel>
-
-                <Border BorderBrush="Silver"
-                        BorderThickness="1"
-                        Margin="2"
-                        Padding="2, 0"
-                        CornerRadius="2">
-                    <WrapPanel>
-                        <WrapPanel Visibility="{Binding Source={x:Static properties:Settings.Default}, Path=Offline, Converter={StaticResource NegBoolVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
-                            <controls:Icon16 Icon="Wifi"/>
-                            <Label Content="Online" />
-                        </WrapPanel>
-                        <WrapPanel Visibility="{Binding Source={x:Static properties:Settings.Default}, Path=Offline, Converter={StaticResource BoolVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
-                                   ToolTip="{x:Static common:Resources.OfflineErrorMessage}">
-                            <controls:Icon16 Icon="Warning" />
-                            <Label Content="Offline" />
-                        </WrapPanel>
-                    </WrapPanel>
-                </Border>
-
-                <Border BorderBrush="Silver"
-                        BorderThickness="1"
-                        Margin="2"
-                        Padding="2, 0"
-                        CornerRadius="2">
-                    <WrapPanel>
-                        <WrapPanel Visibility="{Binding Source={x:Static properties:Settings.Default}, Path=LastFmStatus, Converter={StaticResource BoolVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
-                            <controls:Icon16 Icon="Lastfm" />
-                            <Label Content="Last.FM: On" />
-                        </WrapPanel>
-                        <WrapPanel Visibility="{Binding Source={x:Static properties:Settings.Default}, Path=LastFmStatus, Converter={StaticResource NegBoolVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
-                                   ToolTip="{x:Static common:Resources.LastFmOffErrorMessage}">
-                            <controls:Icon16 Icon="Warning" />
-                            <Label Content="Last.FM: Off"/>
-                        </WrapPanel>
-                    </WrapPanel>
-                </Border>
-
-            </WrapPanel>
-        </Border>
-
+        
     </Grid>
 
 </Window>
