@@ -20,13 +20,13 @@ namespace Whip.Services
         public void Warn(Exception ex, string displayMessage = null)
         {
             LoopThroughInnerExceptions(ex, str => _loggingService.Warn(str));
-            DisplayMessage(_messenger, MessageType.Warning, "Warning", displayMessage);
+            DisplayMessage(MessageType.Warning, "Warning", displayMessage);
         }
 
         public void Error(Exception ex, string displayMessage = null)
         {
             LoopThroughInnerExceptions(ex, str => _loggingService.Error(str));
-            DisplayMessage(_messenger, MessageType.Error, "Error", displayMessage);
+            DisplayMessage(MessageType.Error, "Error", displayMessage);
         }
 
         public void Fatal(Exception ex, string displayMessage = null)
@@ -40,15 +40,15 @@ namespace Whip.Services
             Application.Current.Shutdown();
         }
 
-        private void DisplayMessage(IMessenger messenger, MessageType messageType, string title, string message)
+        private void DisplayMessage(MessageType messageType, string title, string message)
         {
             if (string.IsNullOrEmpty(message))
                 return;
 
-            messenger.Send(new ShowDialogMessage(messenger, messageType, title, message));
+            _messenger.Send(new ShowDialogMessage(_messenger, messageType, title, message));
         }
 
-        private void LoopThroughInnerExceptions(Exception ex, Action<string> action)
+        private static void LoopThroughInnerExceptions(Exception ex, Action<string> action)
         {
             while (ex != null)
             {

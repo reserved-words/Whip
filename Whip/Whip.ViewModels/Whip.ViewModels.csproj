@@ -89,6 +89,7 @@
     <Compile Include="TabViewModels\Playlists\CriteriaViewModel.cs" />
     <Compile Include="TabViewModels\Playlists\OrderedPlaylistsViewModel.cs" />
     <Compile Include="TabViewModels\Playlists\StandardPlaylistsViewModel.cs" />
+    <Compile Include="TabViewModels\SystemInfo\ServiceStatusViewModel.cs" />
     <Compile Include="TrackContextMenuViewModel.cs" />
     <Compile Include="Validation\ImageUrlAttribute.cs" />
     <Compile Include="Windows\Bases\EditableDialogViewModel.cs" />
@@ -141,6 +142,10 @@
     <ProjectReference Include="..\Whip.Services.Interfaces\Whip.Services.Interfaces.csproj">
       <Project>{2107D5AB-8805-4C97-B657-46E5EAECB0E3}</Project>
       <Name>Whip.Services.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Whip.Services\Whip.Services.csproj">
+      <Project>{6F9AAC6C-7761-423B-A4FB-9C69E81E58F1}</Project>
+      <Name>Whip.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

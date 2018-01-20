@@ -16,13 +16,8 @@ namespace Whip.Services.Interfaces
         string MainColourRgb { get; set; }
         bool Scrobbling { get; set; }
         bool ShuffleOn { get; set; }
-        bool LastFmStatus { get; set; }
-        string LastFmErrorMessage { get; }
-        bool Offline { get; set; }
-
+        
         Task SaveAsync();
-        void SetInternetStatus(bool online);
-        void TurnOffLastFm(string errorMessage);
         Task SetStartupDefaultsAsync();
 
         string DataDirectory { get; }

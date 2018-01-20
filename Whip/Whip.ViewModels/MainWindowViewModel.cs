@@ -41,8 +41,8 @@ namespace Whip.ViewModels
             MainViewModel.OnCurrentTrackChanged(track);
         }
 
-        public MainViewModel MainViewModel { get; private set; }
-        public SidebarViewModel SidebarViewModel { get; private set; }
+        public MainViewModel MainViewModel { get; }
+        public SidebarViewModel SidebarViewModel { get; }
 
         public void OnLoad()
         {

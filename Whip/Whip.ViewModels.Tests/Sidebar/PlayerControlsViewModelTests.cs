@@ -51,7 +51,7 @@ namespace Whip.ViewModels.Sidebar.Tests
         }
 
         [TestMethod]
-        public void OnCurrentTrackChanged_GivenNullTrack_DoesNotPlayNewTrack()
+        public void OnCurrentTrackChanged_GivenNullTrack_PlaysNewTrack()
         {
             // Arrange
             var sut = GetSubjectUnderTest();
@@ -60,7 +60,7 @@ namespace Whip.ViewModels.Sidebar.Tests
             sut.OnCurrentTrackChanged(null);
 
             // Assert
-            _mockPlayer.Verify(p => p.Play(It.IsAny<Track>()), Times.Never);
+            _mockPlayer.Verify(p => p.Play(It.IsAny<Track>()), Times.Once);
         }
 
         [TestMethod]

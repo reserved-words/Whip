@@ -27,7 +27,6 @@ namespace Whip.WmpPlayer
         {
             if (track == null)
             {
-                _logger.Error("Error playing file: Track is null");
                 _player.URL = string.Empty;
                 _player.controls.currentPosition = 0;
                 _player.controls.stop();

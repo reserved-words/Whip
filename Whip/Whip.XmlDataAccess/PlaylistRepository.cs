@@ -116,35 +116,24 @@ namespace Whip.XmlDataAccess
                 OrderedPlaylists = orderedPlaylists
             };
         }
-        
+
         public void Save(CriteriaPlaylist playlist)
         {
-            XDocument xml;
-
-            if (!System.IO.File.Exists(XmlFilePath))
-            {
-                xml = new XDocument();
-                xml.Add(new XElement(PlaylistsRoot));
-            }
-            else
-            {
-                xml = XDocument.Load(XmlFilePath);
-            }
+            var xml = System.IO.File.Exists(XmlFilePath)
+                ? XDocument.Load(XmlFilePath)
+                : CreateXmlDocument();
 
             var criteriaPlaylistsXml = xml.Root.Element(PlaylistsCriteria);
-
-            if (criteriaPlaylistsXml == null)
-            {
-                criteriaPlaylistsXml = new XElement(PlaylistsCriteria);
-            }
-
+            
             XElement playlistXml;
 
             if (playlist.Id == 0)
             {
-                var maxId = criteriaPlaylistsXml
-                    .Elements(Playlist)
-                    .Max(pl => Convert.ToInt16(pl.Attribute(PlaylistId).Value));
+                var playlists = criteriaPlaylistsXml.Elements(Playlist);
+
+                var maxId = playlists.Any()
+                    ? playlists.Max(pl => Convert.ToInt16(pl.Attribute(PlaylistId).Value))
+                    : 0;
 
                 playlist.Id = maxId + 1;
 
@@ -188,32 +177,22 @@ namespace Whip.XmlDataAccess
 
         public void Save(OrderedPlaylist playlist)
         {
-            XDocument xml;
-
-            if (!System.IO.File.Exists(XmlFilePath))
-            {
-                xml = new XDocument();
-                xml.Add(new XElement(PlaylistsRoot));
-            }
-            else
-            {
-                xml = XDocument.Load(XmlFilePath);
-            }
+            var xml = System.IO.File.Exists(XmlFilePath)
+                ? XDocument.Load(XmlFilePath)
+                : CreateXmlDocument();
 
             var orderedPlaylistsXml = xml.Root.Element(PlaylistsOrdered);
-
-            if (orderedPlaylistsXml == null)
-            {
-                orderedPlaylistsXml = new XElement(PlaylistsCriteria);
-            }
-
+            
             XElement playlistXml;
 
             if (playlist.Id == 0)
             {
-                var maxId = orderedPlaylistsXml
-                    .Elements(Playlist)
-                    .Max(pl => Convert.ToInt16(pl.Attribute(PlaylistId).Value));
+                var playlists = orderedPlaylistsXml
+                    .Elements(Playlist);
+
+                var maxId = playlists.Any()
+                    ? playlists.Max(pl => Convert.ToInt16(pl.Attribute(PlaylistId).Value))
+                    : 0;
 
                 playlist.Id = maxId + 1;
 
@@ -245,6 +224,16 @@ namespace Whip.XmlDataAccess
             Directory.CreateDirectory(_userSettings.DataDirectory);
 
             xml.Save(XmlFilePath);
+        }
+
+        private XDocument CreateXmlDocument()
+        {
+            var xml = new XDocument();
+            var root = new XElement(PlaylistsRoot);
+            root.Add(new XElement(PlaylistsCriteria));
+            root.Add(new XElement(PlaylistsOrdered));
+            xml.Add(root);
+            return xml;
         }
 
         private XElement GetCriteriaXml<T>(List<Criteria<T>> criteria, string criteriaType)

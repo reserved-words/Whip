@@ -41,8 +41,10 @@ namespace Whip.Ioc
         {
             kernel.RegisterSingleton<IPlaylist, Playlist>()
                 .RegisterSingleton<Library>()
+                .RegisterSingleton<IPlayRequestHandler, PlayRequestHandler>()
                 .RegisterSingleton<IMessenger, Messenger>()
                 .RegisterSingleton<IUserSettings, UserSettings>()
+                .RegisterSingleton<IWebServicesStatus, WebServicesStatus>()
                 .RegisterSingleton<IConfigSettings, ConfigSettings>()
                 .RegisterSingleton<ILastFmApiClientService, LastFmApiClientService>()
                 .RegisterSingleton<TrackContextMenuViewModel, TrackContextMenuViewModel>();

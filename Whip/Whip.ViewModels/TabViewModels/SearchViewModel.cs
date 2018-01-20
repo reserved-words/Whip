@@ -13,6 +13,7 @@ using Whip.Common.Model.Playlists.Criteria;
 using GalaSoft.MvvmLight.Messaging;
 using Whip.ViewModels.Messages;
 using Whip.ViewModels.Windows;
+using Whip.Services.Interfaces.Singletons;
 
 namespace Whip.ViewModels.TabViewModels
 {

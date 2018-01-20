@@ -66,10 +66,11 @@ namespace Whip.ViewModels
 
             TrackTimer.Reset(track);
 
+            _player.Play(track);
+
             if (track == null)
                 return;
 
-            _player.Play(track);
             TrackTimer.Start();
         }
 
