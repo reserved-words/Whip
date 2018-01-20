@@ -2,6 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using Whip.Common.Enums;
+using Whip.Common.Exceptions;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 
@@ -24,9 +25,9 @@ namespace Whip.LastFm
             {
                 try
                 {
-                    var result = await task;
+                    _servicesStatus.SetStatus(WebServiceType.Web, true);
                     _servicesStatus.SetStatus(WebServiceType.LastFm, true);
-                    return result;
+                    return await task;
                 }
                 catch (Exception ex)
                 {
@@ -43,8 +44,9 @@ namespace Whip.LastFm
             {
                 try
                 {
-                    await task;
+                    _servicesStatus.SetStatus(WebServiceType.Web, true);
                     _servicesStatus.SetStatus(WebServiceType.LastFm, true);
+                    await task;
                 }
                 catch (Exception ex)
                 {
@@ -84,17 +86,17 @@ namespace Whip.LastFm
             }
         }
 
-        private Exception GetNewException(LastFmApiException ex, string additionalInfo)
+        private static ServiceException GetNewException(LastFmApiException ex, string additionalInfo)
         {
             var message = string.Format("Last.FM {0} : {1}{2}",
                 ex.ErrorCode?.ToString() ?? string.Empty,
                 ex.Message,
                 string.IsNullOrEmpty(additionalInfo) ? string.Empty : $" ({additionalInfo})");
 
-            return new Exception(message, ex);
+            return new ServiceException(message, ex);
         }
 
-        private LastFmApiException GetLastFmException(Exception exception)
+        private static LastFmApiException GetLastFmException(Exception exception)
         {
             var ex = exception as LastFmApiException;
 
@@ -107,7 +109,7 @@ namespace Whip.LastFm
             return ex;
         }
 
-        private string GetUserFriendlyMessage(ErrorCode? code)
+        private static string GetUserFriendlyMessage(ErrorCode? code)
         {
             switch (code)
             {
