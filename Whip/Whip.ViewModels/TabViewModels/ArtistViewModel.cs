@@ -206,7 +206,7 @@ namespace Whip.ViewModels.TabViewModels
 
         private async Task PopulateVideo()
         {
-            await _artistWebInfoService.PopulateTweets(Artist);
+            await _artistWebInfoService.PopulateLatestVideoAsync(Artist);
 
             RaisePropertyChanged(nameof(Video));
             RaisePropertyChanged(nameof(DisplayLargeSimilarArtistsView));
