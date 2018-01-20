@@ -129,9 +129,6 @@
   <data name="BandCampUrl" xml:space="preserve">
     <value>https://{0}.bandcamp.com/</value>
   </data>
-  <data name="BandsInTownOffErrorMessageDetails" xml:space="preserve">
-    <value>There was a problem connecting to BandsInTown:</value>
-  </data>
   <data name="BandsInTownUrl" xml:space="preserve">
     <value>https://www.bandsintown.com/{0}</value>
   </data>
@@ -198,9 +195,6 @@
   <data name="TwitterHashTagUrlFormat" xml:space="preserve">
     <value>https://twitter.com/hashtag/{0}</value>
   </data>
-  <data name="TwitterOffErrorMessageDetails" xml:space="preserve">
-    <value>There was a problem connecting to Twitter:</value>
-  </data>
   <data name="TwitterUrl" xml:space="preserve">
     <value>https://twitter.com/{0}</value>
   </data>
@@ -215,9 +209,6 @@
   </data>
   <data name="WikipediaUrl" xml:space="preserve">
     <value>https://en.wikipedia.org/wiki/{0}</value>
-  </data>
-  <data name="YouTubeOffErrorMessageDetails" xml:space="preserve">
-    <value>There was a problem connecting to YouTube:</value>
   </data>
   <data name="YouTubeUrl" xml:space="preserve">
     <value>https://www.youtube.com/user/{0}</value>

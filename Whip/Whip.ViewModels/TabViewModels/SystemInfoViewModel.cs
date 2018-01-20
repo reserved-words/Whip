@@ -77,9 +77,9 @@ namespace Whip.ViewModels.TabViewModels
             {
                 new ServiceStatusViewModel(WebServiceType.Web, "Internet", IconType.Wifi, OfflineErrorMessageDetails, _webServiceStatus),
                 new ServiceStatusViewModel(WebServiceType.LastFm, "Last.FM", IconType.Lastfm, LastFmOffErrorMessageDetails, _webServiceStatus),
-                new ServiceStatusViewModel(WebServiceType.News, "Twitter", IconType.Twitter, TwitterOffErrorMessageDetails, _webServiceStatus),
-                new ServiceStatusViewModel(WebServiceType.Videos, "YouTube", IconType.Youtube, YouTubeOffErrorMessageDetails, _webServiceStatus),
-                new ServiceStatusViewModel(WebServiceType.Events, "Bands In Town", IconType.Music, BandsInTownOffErrorMessageDetails, _webServiceStatus)
+                new ServiceStatusViewModel(WebServiceType.News, "Twitter", IconType.Twitter, null, _webServiceStatus),
+                new ServiceStatusViewModel(WebServiceType.Videos, "YouTube", IconType.Youtube, null, _webServiceStatus),
+                new ServiceStatusViewModel(WebServiceType.Events, "Bands In Town", IconType.Music, null, _webServiceStatus)
             };
         }
 

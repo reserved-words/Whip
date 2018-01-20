@@ -9,14 +9,15 @@ namespace Whip.ViewModels.TabViewModels.SystemInfo
 {
     public class ServiceStatusViewModel : ViewModelBase
     {
+        private readonly string _details;
         private readonly WebServiceType _type;
         private readonly IWebServicesStatus _webStatusService;
-        
+
         public ServiceStatusViewModel(WebServiceType type, string title, IconType iconType, string errorDetails, IWebServicesStatus webStatusService)
         {
             Icon = iconType.ToString();
             Title = title;
-            Details = errorDetails;
+            _details = errorDetails;
 
             _type = type;
             _webStatusService = webStatusService;
@@ -27,9 +28,9 @@ namespace Whip.ViewModels.TabViewModels.SystemInfo
 
         public bool Online => _webStatusService.IsOnline(_type);
 
-        public string ErrorMessage => _webStatusService.GetErrorMessage(_type);
-
-        public string Details { get; }
+        public string ErrorMessage => string.IsNullOrEmpty(_details) 
+            ? _webStatusService.GetErrorMessage(_type)
+            : _details + Environment.NewLine + Environment.NewLine + _webStatusService.GetErrorMessage(_type);
 
         public string Status => Online ? Resources.Online : Resources.Offline;
 
