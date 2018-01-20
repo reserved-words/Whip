@@ -91,6 +91,17 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="Auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <WrapPanel Margin="0 5">
+                                    <TextBlock Text="{Binding TimeUpdated, StringFormat='Updated {0:HH:mm:ss}'}"
+                                               Margin="10 5 0 5"/>
+                                </WrapPanel>
+                               
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
@@ -98,20 +109,29 @@
         <Border Grid.Column="1"
                 Style="{StaticResource VerticalLine}" />
         
-        <StackPanel Grid.Column="2"
-                    HorizontalAlignment="Stretch">
+        <Grid Grid.Column="2"
+              HorizontalAlignment="Stretch">
             
-            <Label Style="{StaticResource TitleLabel}"
+            <Grid.RowDefinitions>
+                <RowDefinition Height ="Auto" />
+                <RowDefinition Height ="Auto" />
+                <RowDefinition Height ="*" />
+            </Grid.RowDefinitions>
+            
+            <Label Grid.Row="0"
+                   Style="{StaticResource TitleLabel}"
                    Content="Logs" />
-            
-            <WrapPanel>
+
+            <WrapPanel Grid.Row="1">
                 <Label Content="Date:"></Label>
                 <DatePicker SelectedDate="{Binding LogsDate}"/>
             </WrapPanel>
 
-            <DataGrid ItemsSource="{Binding Logs}"
+            <DataGrid Grid.Row="2"
+                      ItemsSource="{Binding Logs}"
                       Margin="10"
-                      HeadersVisibility="Column">
+                      HeadersVisibility="Column"
+                      VerticalScrollBarVisibility="Auto">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Logged At" 
                                         Width="Auto"
@@ -125,6 +145,6 @@
                 </DataGrid.Columns>
             </DataGrid>
 
-        </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

@@ -23,58 +23,44 @@ namespace Whip.TweetInvi
 
         public async Task<bool> PopulateTweets(Artist artist)
         {
-            try
+            if (string.IsNullOrEmpty(artist.Twitter))
+                return true;
+
+            var tweets = await Task.Run(() => GetTweets(artist.Twitter, 20));
+
+            foreach (var t in tweets)
             {
-                if (string.IsNullOrEmpty(artist.Twitter))
-                    return true;
+                var image = string.Empty;
 
-                var tweets = await Task.Run(() => GetTweets(artist.Twitter, 20));
+                var media = t.Media.FirstOrDefault();
 
-                foreach (var t in tweets)
+                if (media != null && media.MediaType == "photo")
                 {
-                    var image = string.Empty;
-
-                    var media = t.Media.FirstOrDefault();
-
-                    if (media != null && media.MediaType == "photo")
-                    {
-                        image = media.MediaURL;
-                    }
-
-                    var tweetForInfo = t.IsRetweet ? t.RetweetedTweet : t;
-
-                    var screenName = tweetForInfo.CreatedBy.ScreenName;
-                    var name = tweetForInfo.CreatedBy.Name;
-                    var url = tweetForInfo.Url;
-                    var userImage = tweetForInfo.CreatedBy.ProfileImageUrl;
-
-                    var tweet = new Common.Model.Tweet
-                    {
-                        Posted = t.CreatedAt,
-                        Username = $"@{screenName}",
-                        Name = name,
-                        Url = url,
-                        Content = t.FullText,
-                        UserImage = userImage,
-                        Image = image,
-                        IsRetweet = t.IsRetweet,
-                        UserUrl = string.Format(TwitterUserUrlFormat, screenName)
-                    };
-
-                    artist.Tweets.Add(tweet);
+                    image = media.MediaURL;
                 }
+
+                var tweetForInfo = t.IsRetweet ? t.RetweetedTweet : t;
+
+                var screenName = tweetForInfo.CreatedBy.ScreenName;
+                var name = tweetForInfo.CreatedBy.Name;
+                var url = tweetForInfo.Url;
+                var userImage = tweetForInfo.CreatedBy.ProfileImageUrl;
+
+                var tweet = new Common.Model.Tweet
+                {
+                    Posted = t.CreatedAt,
+                    Username = $"@{screenName}",
+                    Name = name,
+                    Url = url,
+                    Content = t.FullText,
+                    UserImage = userImage,
+                    Image = image,
+                    IsRetweet = t.IsRetweet,
+                    UserUrl = string.Format(TwitterUserUrlFormat, screenName)
+                };
+
+                artist.Tweets.Add(tweet);
             }
-            // What exceptions might this service throw? Need to differentiate between the
-            // API being down and an error with a particular account
-            catch (Exception ex)
-            {
-                var type = ex.GetType();
-                throw new WebServiceUnavailableException("There was an error trying to fetch tweets", ex);
-            }
-            //catch (Exception ex) 
-            //{
-            //    throw new WebServiceMethodCallException($"There was an error trying to fetch tweets for {artist.Name}", ex);
-            //}
 
             return true;
         }
@@ -89,7 +75,20 @@ namespace Whip.TweetInvi
 
             var tweets = Auth.ExecuteOperationWithCredentials(credentials, () =>
             {
-                return Timeline.GetUserTimeline(username, maxTweets)?.ToList();
+                var result = Timeline.GetUserTimeline(username, maxTweets)?.ToList();
+
+                if (result == null)
+                {
+                    var latestException = ExceptionHandler.GetLastException();
+                    if (latestException != null)
+                    {
+                        throw latestException.StatusCode == 401
+                            ? new ServiceAuthenticationException(latestException.TwitterDescription, latestException.WebException)
+                            : new ServiceException(latestException.TwitterDescription, latestException.WebException);
+                    }
+                }
+
+                return result;
             });
 
             return tweets;

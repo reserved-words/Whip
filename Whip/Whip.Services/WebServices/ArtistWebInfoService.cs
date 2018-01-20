@@ -38,7 +38,7 @@ namespace Whip.Services
             var success = await _interceptor.TryMethod<bool>(
                 _eventsService.PopulateEventsAsync(artist),
                 false,
-                WebServiceType.LastFm,
+                WebServiceType.Events,
                 GetMethodDescription(nameof(PopulateEventsAsync), artist));
 
             if (success)
@@ -60,7 +60,7 @@ namespace Whip.Services
             var success = await _interceptor.TryMethod(
                 _videoService.PopulateLatestVideoAsync(artist),
                 false,
-                WebServiceType.LastFm,
+                WebServiceType.Videos,
                 GetMethodDescription(nameof(PopulateLatestVideoAsync), artist));
 
             if (success)
@@ -104,7 +104,7 @@ namespace Whip.Services
             var success = await _interceptor.TryMethod(
                 _twitterService.PopulateTweets(artist),
                 false,
-                WebServiceType.LastFm,
+                WebServiceType.News,
                 GetMethodDescription(nameof(PopulateTweets), artist));
 
             if (success)

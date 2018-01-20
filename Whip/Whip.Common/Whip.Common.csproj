@@ -46,7 +46,8 @@
     <Compile Include="Enums\ReleaseType.cs" />
     <Compile Include="Enums\SortType.cs" />
     <Compile Include="Enums\WebServiceType.cs" />
-    <Compile Include="Exceptions\WebServiceMethodCallException.cs" />
+    <Compile Include="Exceptions\ServiceAuthenticationException.cs" />
+    <Compile Include="Exceptions\ServiceException.cs" />
     <Compile Include="ExtensionMethods\ArtistExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\LibraryExtensionMethods.cs" />
     <Compile Include="HyperlinkMatchers\HtmlAnchorHyperlinkPatternGroup.cs" />
@@ -134,7 +135,7 @@
     <Compile Include="Validation\SocialMediaValidation.cs" />
     <Compile Include="Validation\TrackValidation.cs" />
     <Compile Include="Validation\UrlValidation.cs" />
-    <Compile Include="Exceptions\WebServiceUnavailableException.cs" />
+    <Compile Include="Exceptions\ServiceUnavailableException.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">

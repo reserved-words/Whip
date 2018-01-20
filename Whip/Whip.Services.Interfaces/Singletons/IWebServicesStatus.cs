@@ -12,5 +12,7 @@ namespace Whip.Services.Interfaces.Singletons
         bool IsOnline(WebServiceType type);
 
         void SetStatus(WebServiceType type, bool online, string errorMessage = null);
+
+        DateTime GetTimeUpdated(WebServiceType type);
     }
 }

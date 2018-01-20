@@ -97,6 +97,15 @@ namespace Whip.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There was a problem connecting to BandsInTown:.
+        /// </summary>
+        public static string BandsInTownOffErrorMessageDetails {
+            get {
+                return ResourceManager.GetString("BandsInTownOffErrorMessageDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://www.bandsintown.com/{0}.
         /// </summary>
         public static string BandsInTownUrl {
@@ -295,6 +304,15 @@ namespace Whip.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There was a problem connecting to Twitter:.
+        /// </summary>
+        public static string TwitterOffErrorMessageDetails {
+            get {
+                return ResourceManager.GetString("TwitterOffErrorMessageDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://twitter.com/{0}.
         /// </summary>
         public static string TwitterUrl {
@@ -336,6 +354,15 @@ namespace Whip.Common {
         public static string WikipediaUrl {
             get {
                 return ResourceManager.GetString("WikipediaUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There was a problem connecting to YouTube:.
+        /// </summary>
+        public static string YouTubeOffErrorMessageDetails {
+            get {
+                return ResourceManager.GetString("YouTubeOffErrorMessageDetails", resourceCulture);
             }
         }
         

@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System;
+using GalaSoft.MvvmLight;
 using Whip.Common;
 using Whip.Common.Enums;
 using Resources = Whip.Common.Resources;
@@ -31,6 +32,8 @@ namespace Whip.ViewModels.TabViewModels.SystemInfo
         public string Details { get; }
 
         public string Status => Online ? Resources.Online : Resources.Offline;
+
+        public DateTime TimeUpdated => _webStatusService.GetTimeUpdated(_type);
 
         public void Refresh()
         {

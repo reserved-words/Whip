@@ -8,11 +8,11 @@ namespace Whip.Services.Singletons
 {
     public class WebServicesStatus : IWebServicesStatus
     {
-        private readonly Dictionary<WebServiceType, Tuple<bool,string>> _statusDictionary;
+        private readonly Dictionary<WebServiceType, Tuple<bool,string,DateTime>> _statusDictionary;
 
         public WebServicesStatus()
         {
-            _statusDictionary = new Dictionary<WebServiceType, Tuple<bool, string>>();
+            _statusDictionary = new Dictionary<WebServiceType, Tuple<bool, string, DateTime>>();
             foreach (var type in Enum.GetValues(typeof(WebServiceType)).OfType<WebServiceType>())
             {
                 AddDefaultStatus(type);
@@ -24,14 +24,19 @@ namespace Whip.Services.Singletons
             _statusDictionary.Add(type, CreateStatus());
         }
 
-        private static Tuple<bool, string> CreateStatus(bool online = true, string errorMessage = null)
+        private static Tuple<bool, string, DateTime> CreateStatus(bool online = true, string errorMessage = null)
         {
-            return new Tuple<bool, string>(online, errorMessage);
+            return new Tuple<bool, string, DateTime>(online, errorMessage, DateTime.Now);
         }
 
         public string GetErrorMessage(WebServiceType type)
         {
             return _statusDictionary[type].Item2;
+        }
+
+        public DateTime GetTimeUpdated(WebServiceType type)
+        {
+            return _statusDictionary[type].Item3;
         }
 
         public bool IsOnline(WebServiceType type)

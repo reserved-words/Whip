@@ -27,15 +27,21 @@ namespace Whip.Services
                 _servicesStatus.SetStatus(type, true);
                 return await task;
             }
+            catch (ServiceUnavailableException ex)
+            {
+                Handle(type, ex, additionalErrorInfo);
+            }
+            catch (ServiceAuthenticationException ex)
+            {
+                Handle(type, ex, additionalErrorInfo);
+            }
+            catch (ServiceException ex)
+            {
+                Handle(type, ex, additionalErrorInfo);
+            }
             catch (WebException ex)
             {
-                _servicesStatus.SetStatus(WebServiceType.Web, false);
-                _errorHandler.Warn(new Exception(additionalErrorInfo, ex));
-            }
-            catch (WebServiceUnavailableException ex)
-            {
-                _servicesStatus.SetStatus(type, false, ex.Message);
-                _errorHandler.Warn(new Exception(additionalErrorInfo, ex.InnerException));
+                Handle(ex, additionalErrorInfo);
             }
 
             return defaultReturnValue;
@@ -49,16 +55,49 @@ namespace Whip.Services
                 _servicesStatus.SetStatus(type, true);
                 await task;
             }
+            catch (ServiceUnavailableException ex)
+            {
+                Handle(type, ex, additionalErrorInfo);
+            }
+            catch (ServiceAuthenticationException ex)
+            {
+                Handle(type, ex, additionalErrorInfo);
+            }
+            catch (ServiceException ex)
+            {
+                Handle(type, ex, additionalErrorInfo);
+            }
             catch (WebException ex)
             {
-                _servicesStatus.SetStatus(WebServiceType.Web, false);
-                _errorHandler.Warn(new Exception(additionalErrorInfo, ex));
+                Handle(ex, additionalErrorInfo);
             }
-            catch (WebServiceUnavailableException ex)
-            {
-                _servicesStatus.SetStatus(type, false, ex.Message);
-                _errorHandler.Warn(new Exception(additionalErrorInfo, ex.InnerException));
-            }
+        }
+
+        private void Handle(WebServiceType type, ServiceUnavailableException ex, string additionalErrorInfo)
+        {
+            _servicesStatus.SetStatus(type, false, ex.Message);
+            _errorHandler.Warn(new Exception(additionalErrorInfo, ex.InnerException));
+        }
+
+        private void Handle(WebServiceType type, ServiceAuthenticationException ex, string additionalErrorInfo)
+        {
+            _servicesStatus.SetStatus(type, false, ex.Message);
+            _errorHandler.Error(new Exception(additionalErrorInfo, ex), $"Authentication error for {type} service:" 
+                + Environment.NewLine 
+                + Environment.NewLine 
+                + ex.Message);
+        }
+
+        private void Handle(WebServiceType type, ServiceException ex, string additionalErrorInfo)
+        {
+            _servicesStatus.SetStatus(type, true);
+            _errorHandler.Warn(new Exception(additionalErrorInfo, ex));
+        }
+
+        private void Handle(WebException ex, string additionalErrorInfo)
+        {
+            _servicesStatus.SetStatus(WebServiceType.Web, false);
+            _errorHandler.Warn(new Exception(additionalErrorInfo, ex));
         }
     }
 }
