@@ -16,7 +16,7 @@ namespace Whip.Services
         private const int AuthenticationErrorCode = 403;
         private const string UploadsPlaylistUrl = "https://www.googleapis.com/youtube/v3/channels?part={0}&forUsername={1}&key={2}";
         private const string PlaylistVideosUrl = "https://www.googleapis.com/youtube/v3/playlistItems?part={0}&maxResults={1}&playlistId={2}&key={3}&order={4}";
-        private const string UrlFormat = "https://www.youtube.com/v/{0}&hl=en";
+        private const string UrlFormat = "https://www.youtube.com/v/{0}";
 
         private readonly IConfigSettings _configSettings;
         private readonly IWebHelperService _webHelperService;
