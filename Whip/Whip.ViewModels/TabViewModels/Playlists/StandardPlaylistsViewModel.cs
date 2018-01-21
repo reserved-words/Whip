@@ -76,7 +76,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
                 return;
             }
 
-            _playRequestHandler.PlayPlaylist(string.Format("Tracks Added {0}", SelectedAddedDateOption), tracks, SortType.Random);
+            _playRequestHandler.PlayCriteriaPlaylist(string.Format("Tracks Added {0}", SelectedAddedDateOption), tracks, SortType.Random);
         }
 
         private void OnPlayTag()
@@ -85,7 +85,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
                 return;
 
             var tracks = _library.Artists.SelectMany(a => a.Tracks.Where(t => t.Tags.Contains(SelectedTag))).ToList();
-            _playRequestHandler.PlayPlaylist(SelectedTag, tracks, SortType.Random);
+            _playRequestHandler.PlayCriteriaPlaylist(SelectedTag, tracks, SortType.Random);
         }
 
         private void OnPlayCity()
@@ -94,7 +94,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
                 return;
 
             var tracks = _library.Artists.Where(a => a.City == SelectedCity).SelectMany(a => a.Tracks).ToList();
-            _playRequestHandler.PlayPlaylist(SelectedCity.Description, tracks, SortType.Random);
+            _playRequestHandler.PlayCriteriaPlaylist(SelectedCity.Description, tracks, SortType.Random);
         }
 
         private void OnPlayState()
@@ -103,7 +103,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
                 return;
 
             var tracks = _library.Artists.Where(a => a.City.State == SelectedState.Name && a.City.Country == SelectedState.Country).SelectMany(a => a.Tracks).ToList();
-            _playRequestHandler.PlayPlaylist(SelectedState.Description, tracks, SortType.Random);
+            _playRequestHandler.PlayCriteriaPlaylist(SelectedState.Description, tracks, SortType.Random);
         }
 
         private void OnPlayCountry()
@@ -112,7 +112,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
                 return;
 
             var tracks = _library.Artists.Where(a => a.City.Country == SelectedCountry).SelectMany(a => a.Tracks).ToList();
-            _playRequestHandler.PlayPlaylist(SelectedCountry, tracks, SortType.Random);
+            _playRequestHandler.PlayCriteriaPlaylist(SelectedCountry, tracks, SortType.Random);
         }
 
         private void OnPlayGenre()
@@ -121,7 +121,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
                 return;
 
             var tracks = _library.Artists.Where(a => a.Genre == SelectedGenre).SelectMany(a => a.Tracks).ToList();
-            _playRequestHandler.PlayPlaylist(SelectedGenre, tracks, SortType.Random);
+            _playRequestHandler.PlayCriteriaPlaylist(SelectedGenre, tracks, SortType.Random);
         }
 
         private void OnPlayGrouping()
@@ -131,7 +131,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
 
             var tracks = _library.Artists.Where(a => a.Grouping == SelectedGrouping).SelectMany(a => a.Tracks).ToList();
 
-            _playRequestHandler.PlayPlaylist(SelectedGrouping, tracks, SortType.Random);
+            _playRequestHandler.PlayCriteriaPlaylist(SelectedGrouping, tracks, SortType.Random);
         }
 
         public RelayCommand PlayGroupingCommand { get; private set; }
