@@ -60,8 +60,8 @@ namespace Whip.ViewModels
         }
 
         public Track Track { get; private set; }
-        public RelayCommand EditTrackCommand { get; private set; }
-        public RelayCommand<OrderedPlaylist> AddToPlaylistCommand { get; private set; }
+        public RelayCommand EditTrackCommand { get; }
+        public RelayCommand<OrderedPlaylist> AddToPlaylistCommand { get; }
 
         public ObservableCollection<MenuCommand> MenuItems
         {
@@ -97,6 +97,13 @@ namespace Whip.ViewModels
                 _messenger.Send(new ShowDialogMessage(enterTitleViewModel));
 
                 selectedPlaylist.Title = enterTitleViewModel.Result;
+            }
+
+            if (selectedPlaylist.Tracks.Contains(Track.File.FullPath))
+            {
+                _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Info, "Add to Playlist",
+                    "The selected Track already belongs to this playlist"));
+                return;
             }
 
             selectedPlaylist.Tracks.Add(Track.File.FullPath);
