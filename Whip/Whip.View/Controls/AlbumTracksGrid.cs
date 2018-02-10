@@ -2,16 +2,20 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using FontAwesome.WPF;
 using GalaSoft.MvvmLight.Command;
 using Whip.Common.Model;
+using Whip.Converters;
 using Whip.View.Views;
 
 namespace Whip.Controls
 {
     public class AlbumTracksGrid : Grid
     {
+        private const int WidthIsCurrentTrackPixels = 30;
         private const int WidthTrackNoPixels = 40;
         private const int WidthTrackDurationPixels = 40;
         private const int WidthAlbumSummaryPixels = 180;
@@ -32,6 +36,7 @@ namespace Whip.Controls
         public AlbumTracksGrid()
         {
             ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(WidthAlbumSummaryPixels, GridUnitType.Pixel) });
+            ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(WidthIsCurrentTrackPixels, GridUnitType.Pixel) });
             ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(WidthTrackNoPixels, GridUnitType.Pixel) });
             ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
@@ -258,11 +263,31 @@ namespace Whip.Controls
         private void AddTrackData(Track track)
         {
             AddRow();
-            AddControl(CreateLabel(track.TrackNo.ToString(TrackNoFormat), track), 1, _populatingRow);
-            AddControl(CreateLabel(track.Title, track, false, true), 2, _populatingRow);
-            AddControl(CreateLabel(track.Artist.Name, track, false, true), 3, _populatingRow);
-            AddControl(CreateLabel(track.Duration.ToString(TrackDurationFormat), track), 4, _populatingRow);
+            AddControl(CreatePlayingIcon(track), 1, _populatingRow);
+            AddControl(CreateLabel(track.TrackNo.ToString(TrackNoFormat), track), 2, _populatingRow);
+            AddControl(CreateLabel(track.Title, track, false, true), 3, _populatingRow);
+            AddControl(CreateLabel(track.Artist.Name, track, false, true), 4, _populatingRow);
+            AddControl(CreateLabel(track.Duration.ToString(TrackDurationFormat), track), 5, _populatingRow);
             _populatingRow++;
+        }
+
+        private static UIElement CreatePlayingIcon(Track track)
+        {
+            var binding = new Binding("IsCurrentTrack")
+            {
+                Mode = BindingMode.OneWay,
+                Converter = new BoolToVisibilityConverter(),
+                Source = track
+            };
+
+            var icon = new Icon16
+            {
+                Icon = FontAwesomeIcon.VolumeUp
+            };
+
+            icon.SetBinding(VisibilityProperty, binding);
+
+            return icon;
         }
         
         private static UIElement CreateLabel(string content, object tag = null, bool bold = false, bool toolTip = false)
