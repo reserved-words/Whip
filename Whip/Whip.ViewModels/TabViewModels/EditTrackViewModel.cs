@@ -45,8 +45,8 @@ namespace Whip.ViewModels.TabViewModels
             LyricsWebSearchCommand = new RelayCommand(OnLyricsWebSearch);
         }
 
-        public RelayCommand LyricsWebSearchCommand { get; private set; }
-        public RelayCommand GetLyricsCommand { get; private set; }
+        public RelayCommand LyricsWebSearchCommand { get; }
+        public RelayCommand GetLyricsCommand { get; }
 
         public override bool Modified
         {
