@@ -207,8 +207,8 @@ namespace Whip.Services
             }
 
             _sortingService.SortTracks(newDisc);
-
             _sortingService.SortDiscs(newDisc.Album);
+            _library.Artists = _sortingService.GetInDefaultOrder(_library.Artists).ToList();
 
             _library.OnTrackUpdated(trackChanged);
         }
