@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using Whip.Common;
 using Whip.Common.Model;
 using Whip.ViewModels.Utilities;
-using GalaSoft.MvvmLight.Messaging;
-using Whip.ViewModels.Messages;
 using Whip.Services.Interfaces.Singletons;
-using Whip.Services.Interfaces;
 
 namespace Whip.ViewModels.TabViewModels
 {
