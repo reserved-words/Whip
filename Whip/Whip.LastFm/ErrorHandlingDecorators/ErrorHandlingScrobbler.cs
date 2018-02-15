@@ -11,15 +11,18 @@ namespace Whip.Services
         private const int MinimumTrackDuration = 31;
 
         private readonly IAsyncMethodInterceptor _asyncMethodInterceptor;
+        private readonly IScrobbleCacher _scrobbleCacher;
         private readonly IScrobbler _scrobbler;
         private readonly IUserSettings _userSettings;
 
         private Track _track;
         private int _duration;
 
-        public ErrorHandlingScrobbler(IScrobbler scrobbler, IUserSettings userSettings, IAsyncMethodInterceptor asyncMethodInterceptor)
+        public ErrorHandlingScrobbler(IScrobbler scrobbler, IUserSettings userSettings, IAsyncMethodInterceptor asyncMethodInterceptor,
+            IScrobbleCacher scrobbleCacher)
         {
             _asyncMethodInterceptor = asyncMethodInterceptor;
+            _scrobbleCacher = scrobbleCacher;
             _scrobbler = scrobbler;
             _userSettings = userSettings;
 
@@ -47,7 +50,7 @@ namespace Whip.Services
 
             if (!success)
             {
-                // Cache failed scrobbles
+                _scrobbleCacher.Cache(track, timePlayed);
             }
 
             return success;
