@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Whip.Common.Enums;
 using Whip.Common.Model;
@@ -52,6 +53,10 @@ namespace Whip.Services
             {
                 _scrobbleCacher.Cache(track, timePlayed);
             }
+            else
+            {
+                await ScrobbleCachedTracks();
+            }
 
             return success;
         }
@@ -69,6 +74,36 @@ namespace Whip.Services
                 false,
                 WebServiceType.LastFm,
                 "UpdateNowPlayingAsync (Track: " + track.Title + " by " + track.Artist.Name + ")");
+        }
+
+        private async Task ScrobbleCachedTracks()
+        {
+            var scrobbles = _scrobbleCacher.GetCachedScrobbles();
+            var cache = new List<Tuple<Track, DateTime, string>>();
+            
+            foreach (var scrobble in scrobbles)
+            {
+                var errorMessage = "";
+
+                try
+                {
+                    if (!await _scrobbler.ScrobbleAsync(scrobble.Item1, scrobble.Item2))
+                    {
+                        errorMessage = "Unknown error - see log";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    errorMessage = ex.Message;
+                }
+
+                if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    cache.Add(new Tuple<Track, DateTime, string>(scrobble.Item1, scrobble.Item2, errorMessage));
+                }
+            }
+
+            _scrobbleCacher.ReplaceCache(cache);
         }
     }
 }
