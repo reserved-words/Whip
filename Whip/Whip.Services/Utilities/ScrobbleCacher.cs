@@ -38,14 +38,28 @@ namespace Whip.Services.Utilities
 
             xml.Root.Add(GetScrobbleElement(track, timePlayed, "Failed once - unknown error"));
 
-            _xmlFileService.Save(xml, XmlFilePath);
+            Save(xml);
         }
 
-        public List<Tuple<Track, DateTime>> GetCachedScrobbles()
+        public List<Tuple<Track, DateTime, string>> GetCachedScrobbles()
         {
             var xml = GetDocument();
 
             return xml.Root.Elements(ScrobbleElement).Select(GetTuple).ToList();
+        }
+
+        public void Remove(Track track, DateTime timePlayed)
+        {
+            var xml = GetDocument();
+
+            var scrobble = xml.Root.Elements(ScrobbleElement)
+                .Single(s => s.Attribute(TimePlayed).Value == timePlayed.ToString(DateFormat)
+                    && s.Attribute(Title).Value == track.Title
+                    && s.Attribute(Artist).Value == track.Artist.Name);
+
+            scrobble.Remove();
+
+            Save(xml);
         }
 
         public void ReplaceCache(List<Tuple<Track, DateTime, string>> scrobbles)
@@ -59,10 +73,10 @@ namespace Whip.Services.Utilities
                 xml.Root.Add(GetScrobbleElement(scrobble.Item1, scrobble.Item2, scrobble.Item3));
             }
 
-            _xmlFileService.Save(xml, XmlFilePath);
+            Save(xml);
         }
 
-        private static Tuple<Track, DateTime> GetTuple(XElement el)
+        private static Tuple<Track, DateTime, string> GetTuple(XElement el)
         {
             var track = new Track
             {
@@ -82,8 +96,9 @@ namespace Whip.Services.Utilities
             };
 
             var timePlayed = DateTime.ParseExact(el.Attribute(TimePlayed)?.Value, DateFormat, CultureInfo.CurrentCulture);
+            var error = el.Attribute(Error)?.Value;
 
-            return new Tuple<Track, DateTime>(track, timePlayed);
+            return new Tuple<Track, DateTime, string>(track, timePlayed, error);
         }
 
         private XDocument GetDocument()
@@ -108,6 +123,11 @@ namespace Whip.Services.Utilities
             el.Add(new XAttribute(AlbumArtist, track.Disc.Album.Artist.Name));
             el.Add(new XAttribute(Error, error));
             return el;
+        }
+
+        private void Save(XDocument xml)
+        {
+            _xmlFileService.Save(xml, XmlFilePath);
         }
     }
 }
