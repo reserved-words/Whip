@@ -1,4 +1,5 @@
-﻿using Whip.Common.Interfaces;
+﻿using System.Threading;
+using Whip.Common.Interfaces;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
 using WMPLib;
@@ -35,12 +36,11 @@ namespace Whip.WmpPlayer
 
             try
             {
-                _logger.Info("Player: Play " + track.File.FullPath);
+                // This is to avoid a weird error where tracks don't start playing unless there's some delay here
+                // - obviously this should not be the permanent solution
+                Thread.Sleep(500);
 
                 _player.URL = track.File.FullPath;
-
-                _logger.Info("Playing " + _player.URL);
-                _logger.Info("Duration " + _player.controls.currentItem.duration);
 
                 _player.controls.currentPosition = 0;
                 _player.controls.play();
