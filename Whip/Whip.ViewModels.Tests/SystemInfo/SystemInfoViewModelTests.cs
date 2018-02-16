@@ -36,7 +36,7 @@ namespace Whip.ViewModels.Tests
             mockLogRepository.Setup(r => r.GetLogs(_testLogsDate)).Returns(GetTestLogs());
 
             return new SystemInfoViewModel(mockWebServicesStatus.Object, mockApplicationInfoService.Object,
-                mockCurrentDateTime.Object, mockLogRepository.Object);
+                mockCurrentDateTime.Object, mockLogRepository.Object, new Mock<IScrobbleCacher>().Object);
         }
 
         [TestMethod]
