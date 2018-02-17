@@ -100,7 +100,8 @@ namespace Whip.ViewModels.TabViewModels
                 new ServiceStatusViewModel(WebServiceType.LastFm, "Last.FM", IconType.Lastfm, LastFmOffErrorMessageDetails, _webServiceStatus),
                 new ServiceStatusViewModel(WebServiceType.News, "Twitter", IconType.Twitter, null, _webServiceStatus),
                 new ServiceStatusViewModel(WebServiceType.Videos, "YouTube", IconType.Youtube, null, _webServiceStatus),
-                new ServiceStatusViewModel(WebServiceType.Events, "Bands In Town", IconType.Music, null, _webServiceStatus)
+                new ServiceStatusViewModel(WebServiceType.Events, "Bands In Town", IconType.Music, null, _webServiceStatus),
+                new ServiceStatusViewModel(WebServiceType.Lyrics, "Lyrics", IconType.ListUl, null, _webServiceStatus)
             };
         }
 
@@ -109,6 +110,10 @@ namespace Whip.ViewModels.TabViewModels
             if (!LogsDate.HasValue)
             {
                 LogsDate = _currentDateTime.Get();
+            }
+            else
+            {
+                UpdateLogs();
             }
         }
 

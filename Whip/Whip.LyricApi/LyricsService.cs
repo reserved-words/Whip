@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using Newtonsoft.Json;
+using Whip.Common.Enums;
 using Whip.Services.Interfaces;
 
 namespace Whip.LyricApi
@@ -9,10 +11,14 @@ namespace Whip.LyricApi
     {
         private const string LyricApiUrl = "https://lyric-api.herokuapp.com/api/find/{0}/{1}";
 
+        private readonly IAsyncMethodInterceptor _interceptor;
         private readonly IWebHelperService _webHelperService;
+        private readonly ILoggingService _loggingService;
 
-        public LyricsService(IWebHelperService webHelperService)
+        public LyricsService(IWebHelperService webHelperService, IAsyncMethodInterceptor interceptor, ILoggingService loggingService)
         {
+            _interceptor = interceptor;
+            _loggingService = loggingService;
             _webHelperService = webHelperService;
         }
 
@@ -23,12 +29,43 @@ namespace Whip.LyricApi
 
             var url = string.Format(LyricApiUrl, artist, track);
 
-            var response = await _webHelperService.HttpGetAsync(url);
-            dynamic parsed = JObject.Parse(response);
+            var response = await _interceptor.TryMethod(_webHelperService.HttpGetAsync(url), null, WebServiceType.Lyrics, "Getting lyrics from " + url);
 
-            return parsed.err != "none"
-                ? null
-                : parsed.lyric;
+            JsonReaderException exception = null;
+            
+            if (response != null)
+            {
+                try
+                {
+                    dynamic parsedResponse = JObject.Parse(response);
+
+                    if (parsedResponse.err != "none")
+                    {
+                        return parsedResponse.lyric;
+                    }
+                }
+                catch (JsonReaderException ex)
+                {
+                    exception = ex;
+                }
+            }
+
+            LogError(url, response, exception);
+            return null;
+        }
+        
+        private void LogError(string url, string response, JsonReaderException ex = null)
+        {
+            var message =  response == null
+                ? $"No response when fetching lyrics from {url}"
+                : $"Invalid response when fetching lyrics from {url}: {response}";
+
+            _loggingService.Warn(message);
+
+            if (ex != null)
+            {
+                _loggingService.Warn(ex.Message);
+            }
         }
     }
 }
