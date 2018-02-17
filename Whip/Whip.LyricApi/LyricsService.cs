@@ -24,10 +24,7 @@ namespace Whip.LyricApi
 
         public async Task<string> GetLyrics(string artistName, string trackTitle)
         {
-            var artist = HtmlEncode(artistName, true);
-            var track = HtmlEncode(trackTitle, false);
-
-            var url = string.Format(LyricApiUrl, artist, track);
+            var url = string.Format(LyricApiUrl, artistName.Replace("?", ""), trackTitle);
 
             var response = await _interceptor.TryMethod(_webHelperService.HttpGetAsync(url), null, WebServiceType.Lyrics, "Getting lyrics from " + url);
 
@@ -43,6 +40,10 @@ namespace Whip.LyricApi
                     {
                         return parsedResponse.lyric;
                     }
+                    if (parsedResponse.err == "not found")
+                    {
+                        return null;
+                    }
                 }
                 catch (JsonReaderException ex)
                 {
@@ -52,11 +53,6 @@ namespace Whip.LyricApi
 
             LogError(url, response, exception);
             return null;
-        }
-
-        private static string HtmlEncode(string str, bool removeQuestionMark)
-        {
-            return HttpUtility.HtmlEncode(removeQuestionMark ? str.Replace("?","") : str);
         }
 
         private void LogError(string url, string response, JsonReaderException ex = null)
