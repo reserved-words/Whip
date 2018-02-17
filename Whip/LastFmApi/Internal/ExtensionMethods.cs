@@ -53,7 +53,7 @@ namespace LastFmApi.Internal
 
         public static string GetQueryValue(this KeyValuePair<ParameterKey, string> kvp)
         {
-            return kvp.Value?.Replace("&", "%26") ?? string.Empty;
+            return kvp.Value ?? string.Empty;
         }
 
         public static string GetQueryString(this KeyValuePair<ParameterKey, string> kvp)
