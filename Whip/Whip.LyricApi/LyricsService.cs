@@ -24,8 +24,8 @@ namespace Whip.LyricApi
 
         public async Task<string> GetLyrics(string artistName, string trackTitle)
         {
-            var artist = HttpUtility.HtmlEncode(artistName);
-            var track = HttpUtility.HtmlEncode(trackTitle);
+            var artist = HtmlEncode(artistName, true);
+            var track = HtmlEncode(trackTitle, false);
 
             var url = string.Format(LyricApiUrl, artist, track);
 
@@ -39,7 +39,7 @@ namespace Whip.LyricApi
                 {
                     dynamic parsedResponse = JObject.Parse(response);
 
-                    if (parsedResponse.err != "none")
+                    if (parsedResponse.err == "none")
                     {
                         return parsedResponse.lyric;
                     }
@@ -53,7 +53,12 @@ namespace Whip.LyricApi
             LogError(url, response, exception);
             return null;
         }
-        
+
+        private static string HtmlEncode(string str, bool removeQuestionMark)
+        {
+            return HttpUtility.HtmlEncode(removeQuestionMark ? str.Replace("?","") : str);
+        }
+
         private void LogError(string url, string response, JsonReaderException ex = null)
         {
             var message =  response == null
