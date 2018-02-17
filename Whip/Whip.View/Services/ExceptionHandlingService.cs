@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using System;
+using System.Text;
 using System.Windows;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
@@ -10,11 +11,14 @@ namespace Whip.Services
     {
         private readonly ILoggingService _loggingService;
         private readonly IMessenger _messenger;
+        private readonly IErrorLoggingService _errorLogger;
 
-        public ExceptionHandlingService(ILoggingService loggingService, IMessenger messenger)
+        public ExceptionHandlingService(ILoggingService loggingService, IMessenger messenger,
+            IErrorLoggingService errorLogger)
         {
             _loggingService = loggingService;
             _messenger = messenger;
+            _errorLogger = errorLogger;
         }
 
         public void Warn(Exception ex, string displayMessage = null)
@@ -32,11 +36,8 @@ namespace Whip.Services
         public void Fatal(Exception ex, string displayMessage = null)
         {
             LoopThroughInnerExceptions(ex, str => _loggingService.Fatal(str));
-
             string errorMessage = displayMessage ?? "An unexpected error occurred. The application will now shut down.";
-
             MessageBox.Show(errorMessage, "Fatal Application Error");
-
             Application.Current.Shutdown();
         }
 
@@ -48,13 +49,12 @@ namespace Whip.Services
             _messenger.Send(new ShowDialogMessage(_messenger, messageType, title, message));
         }
 
-        private static void LoopThroughInnerExceptions(Exception ex, Action<string> action)
+        private void LoopThroughInnerExceptions(Exception ex, Action<string> action)
         {
             while (ex != null)
             {
-                action(ex.GetType().Name);
+                _errorLogger.Log(ex);
                 action(ex.Message);
-
                 ex = ex.InnerException;
             }
         }

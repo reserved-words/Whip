@@ -60,6 +60,7 @@
     <Compile Include="DataAccess\ITrackRepository.cs" />
     <Compile Include="Utilities\IApplicationInfoService.cs" />
     <Compile Include="Utilities\ICurrentDateTime.cs" />
+    <Compile Include="Utilities\IErrorLoggingService.cs" />
     <Compile Include="Utilities\IExceptionHandlingService.cs" />
     <Compile Include="Utilities\IFolderDialogService.cs" />
     <Compile Include="Utilities\IFileDialogService.cs" />

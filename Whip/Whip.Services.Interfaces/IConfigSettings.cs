@@ -23,5 +23,6 @@ namespace Whip.Services.Interfaces.Singletons
         int NumberOfSimilarArtistsToDisplay { get; }
         int DaysBeforeUpdatingArtistWebInfo { get; }
         int MinutesBeforeUpdatingTweets { get; }
+        string LoggingUrl { get; }
     }
 }

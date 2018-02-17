@@ -1,8 +1,5 @@
 ﻿using NLog;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using Whip.Services.Interfaces;
 
 namespace Whip.NLog
@@ -40,8 +37,7 @@ namespace Whip.NLog
         {
             logger.Fatal(RemoveNewLines(message));
         }
-
-
+        
         private static string RemoveNewLines(string str)
         {
             return str.Replace(Environment.NewLine, " ").Replace("\r", " ").Replace("\n", " ");
