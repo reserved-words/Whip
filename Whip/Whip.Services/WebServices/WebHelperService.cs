@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
 using Whip.Services.Interfaces;
@@ -31,6 +33,18 @@ namespace Whip.Services
                 return url;
 
             return url + "?" + string.Join("&", parameters.Select(p => string.Format("{0}={1}", p.Key, p.Value)));
+        }
+
+        public async Task HttpPostAsync(string url, object data)
+        {
+            using (var client = new HttpClient())
+            {
+                var content = JsonConvert.SerializeObject(data);
+                var buffer = System.Text.Encoding.UTF8.GetBytes(content);
+                var byteContent = new ByteArrayContent(buffer);
+                byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                await client.PostAsync(url, byteContent);
+            }
         }
     }
 }
