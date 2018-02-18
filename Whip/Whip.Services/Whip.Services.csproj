@@ -61,11 +61,13 @@
     <Compile Include="Singletons\Playlist.cs" />
     <Compile Include="Singletons\ScrobblingPlayer.cs" />
     <Compile Include="Utilities\CurrentDateTime.cs" />
+    <Compile Include="Utilities\ErrorLoggingService.cs" />
     <Compile Include="Utilities\ImageProcessingService.cs" />
     <Compile Include="Utilities\LogParser.cs" />
     <Compile Include="Utilities\LogRepository.cs" />
     <Compile Include="Utilities\PlayProgressTracker.cs" />
     <Compile Include="Singletons\WebServicesStatus.cs" />
+    <Compile Include="Utilities\ScrobbleCacher.cs" />
     <Compile Include="Utilities\XmlFileService.cs" />
     <Compile Include="WebServices\ArtistWebInfoService.cs" />
     <Compile Include="WebServices\RssService.cs" />

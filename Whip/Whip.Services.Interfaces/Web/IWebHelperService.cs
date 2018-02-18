@@ -7,6 +7,8 @@ namespace Whip.Services.Interfaces
     {
         Task<string> HttpGetAsync(string url, Dictionary<string, string> parameters = null);
 
+        Task HttpPostAsync(string url, object data);
+
         string UrlEncode(string str);
     }
 }

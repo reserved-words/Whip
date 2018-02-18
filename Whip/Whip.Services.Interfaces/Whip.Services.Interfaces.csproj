@@ -51,6 +51,7 @@
     <Compile Include="MethodInterceptors\IMethodInterceptor.cs" />
     <Compile Include="DataAccess\IRssFeedsRepository.cs" />
     <Compile Include="Scrobbling\IPlayProgressTracker.cs" />
+    <Compile Include="Scrobbling\IScrobbleCacher.cs" />
     <Compile Include="TrackSearch\ITrackSearchService.cs" />
     <Compile Include="Scrobbling\IScrobbler.cs" />
     <Compile Include="Scrobbling\ITrackLoveService.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="DataAccess\ITrackRepository.cs" />
     <Compile Include="Utilities\IApplicationInfoService.cs" />
     <Compile Include="Utilities\ICurrentDateTime.cs" />
+    <Compile Include="Utilities\IErrorLoggingService.cs" />
     <Compile Include="Utilities\IExceptionHandlingService.cs" />
     <Compile Include="Utilities\IFolderDialogService.cs" />
     <Compile Include="Utilities\IFileDialogService.cs" />

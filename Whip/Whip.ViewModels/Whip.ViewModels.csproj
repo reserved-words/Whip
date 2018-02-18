@@ -89,6 +89,7 @@
     <Compile Include="TabViewModels\Playlists\CriteriaViewModel.cs" />
     <Compile Include="TabViewModels\Playlists\OrderedPlaylistsViewModel.cs" />
     <Compile Include="TabViewModels\Playlists\StandardPlaylistsViewModel.cs" />
+    <Compile Include="TabViewModels\SystemInfo\FailedScrobbleViewModel.cs" />
     <Compile Include="TabViewModels\SystemInfo\ServiceStatusViewModel.cs" />
     <Compile Include="TrackContextMenuViewModel.cs" />
     <Compile Include="Validation\ImageUrlAttribute.cs" />

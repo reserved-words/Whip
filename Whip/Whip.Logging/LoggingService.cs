@@ -1,8 +1,5 @@
 ﻿using NLog;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using Whip.Services.Interfaces;
 
 namespace Whip.NLog
@@ -18,27 +15,32 @@ namespace Whip.NLog
 
         public void Debug(string message)
         {
-            logger.Debug(message);
+            logger.Debug(RemoveNewLines(message));
         }
 
         public void Info(string message)
         {
-            logger.Info(message);
+            logger.Info(RemoveNewLines(message));
         }
 
         public void Warn(string message)
         {
-            logger.Warn(message);
+            logger.Warn(RemoveNewLines(message));
         }
 
         public void Error(string message)
         {
-            logger.Error(message);
+            logger.Error(RemoveNewLines(message));
         }
 
         public void Fatal(string message)
         {
-            logger.Fatal(message);
+            logger.Fatal(RemoveNewLines(message));
+        }
+        
+        private static string RemoveNewLines(string str)
+        {
+            return str.Replace(Environment.NewLine, " ").Replace("\r", " ").Replace("\n", " ");
         }
     }
 }

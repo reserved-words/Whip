@@ -45,6 +45,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Whip.Common\Whip.Common.csproj">
+      <Project>{B0ADACAB-F30C-4F94-B72A-32BF97A37E8B}</Project>
+      <Name>Whip.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Whip.Services.Interfaces\Whip.Services.Interfaces.csproj">
       <Project>{2107D5AB-8805-4C97-B657-46E5EAECB0E3}</Project>
       <Name>Whip.Services.Interfaces</Name>

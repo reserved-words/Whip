@@ -12,6 +12,7 @@ namespace Whip.Common.Enums
         LastFm,
         News,
         Videos,
-        Events
+        Events,
+        Lyrics
     }
 }

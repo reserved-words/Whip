@@ -18,20 +18,21 @@ namespace Whip.Services.Singletons
             PopulateSettings();
         }
 
-        public string LastFmApiKey { get; set; }
-        public string LastFmApiSecret { get; set; }
-        public string BandsInTownApiKey { get; set; }
-        public string YouTubeApiKey { get; set; }
-        public List<string> FileExtensions { get; set; }
-        public int TrackChangeDelay { get; set; }
-        public int MinutesBeforeRefreshNews { get; set; }
-        public int NumberOfSimilarArtistsToDisplay { get; set; }
-        public int DaysBeforeUpdatingArtistWebInfo { get; set; }
-        public int MinutesBeforeUpdatingTweets { get; set; }
-        public string TwitterApiKey { get; set; }
-        public string TwitterApiSecret { get; set; }
-        public string TwitterApiAccessToken { get; set; }
-        public string TwitterApiAccessTokenSecret { get; set; }
+        public string LastFmApiKey { get; private set; }
+        public string LastFmApiSecret { get; private set; }
+        public string BandsInTownApiKey { get; private set; }
+        public string YouTubeApiKey { get; private set; }
+        public List<string> FileExtensions { get; private set; }
+        public int TrackChangeDelay { get; private set; }
+        public int MinutesBeforeRefreshNews { get; private set; }
+        public int NumberOfSimilarArtistsToDisplay { get; private set; }
+        public int DaysBeforeUpdatingArtistWebInfo { get; private set; }
+        public int MinutesBeforeUpdatingTweets { get; private set; }
+        public string TwitterApiKey { get; private set; }
+        public string TwitterApiSecret { get; private set; }
+        public string TwitterApiAccessToken { get; private set; }
+        public string TwitterApiAccessTokenSecret { get; private set; }
+        public string LoggingUrl { get; private set; }
 
         private void PopulateSettings()
         {
@@ -46,6 +47,7 @@ namespace Whip.Services.Singletons
             MinutesBeforeRefreshNews = Convert.ToInt16(root.Element("minutes_before_update_news").Value);
             DaysBeforeUpdatingArtistWebInfo = Convert.ToInt16(root.Element("days_before_update_web_info").Value);
             MinutesBeforeUpdatingTweets = Convert.ToInt16(root.Element("minutes_before_update_tweets").Value);
+            LoggingUrl = root.Element("logging_url").Value;
 
             FileExtensions = new List<string>();
             foreach (var fileExtension in root.Element("file_extensions").Elements("file_extension"))
