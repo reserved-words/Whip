@@ -51,6 +51,13 @@ namespace Whip.ViewModels.TabViewModels.Library
 
         private async Task UpdateArtistInfo()
         {
+            if (string.IsNullOrEmpty(Artist.Name))
+            {
+                Wiki = "";
+                Image = null;
+                return;
+            }
+
             LoadingArtistImage = true;
             await _webArtistInfoService.PopulateArtistInfo(Artist, _configSettings.NumberOfSimilarArtistsToDisplay);
             Wiki = Artist?.WebInfo?.Wiki;
