@@ -8,7 +8,7 @@
                     xmlns:tabsvm="clr-namespace:Whip.ViewModels.TabViewModels;assembly=Whip.ViewModels"
                     xmlns:viewModel="clr-namespace:Whip.ViewModels;assembly=Whip.ViewModels"
                     xmlns:model="clr-namespace:Whip.Common.Model;assembly=Whip.Common">
-    
+
     <!-- VIEW MODEL LOCATOR -->
     <ioc:ViewModelLocator x:Key="ViewModelLocator" />
     
