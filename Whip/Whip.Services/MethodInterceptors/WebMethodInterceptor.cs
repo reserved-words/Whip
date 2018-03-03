@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Whip.Common.Enums;
 using Whip.Common.Exceptions;
@@ -43,6 +44,10 @@ namespace Whip.Services
             {
                 Handle(ex, additionalErrorInfo);
             }
+            catch (HttpRequestException ex)
+            {
+                Handle(ex, additionalErrorInfo);
+            }
 
             return defaultReturnValue;
         }
@@ -68,6 +73,10 @@ namespace Whip.Services
                 Handle(type, ex, additionalErrorInfo);
             }
             catch (WebException ex)
+            {
+                Handle(ex, additionalErrorInfo);
+            }
+            catch (HttpRequestException ex)
             {
                 Handle(ex, additionalErrorInfo);
             }
@@ -98,6 +107,16 @@ namespace Whip.Services
         {
             _servicesStatus.SetStatus(WebServiceType.Web, false);
             _errorHandler.Warn(new Exception(additionalErrorInfo, ex));
+        }
+
+        private void Handle(HttpRequestException ex, string additionalErrorInfo)
+        {
+            var inner = ex.InnerException as WebException;
+
+            if (inner == null)
+                throw ex;
+
+            Handle(inner, additionalErrorInfo);
         }
     }
 }
