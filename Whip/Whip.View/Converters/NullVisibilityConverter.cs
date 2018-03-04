@@ -16,7 +16,9 @@ namespace Whip.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value == null ? FalseVisibility : Visibility.Visible;
+            return value == null || string.IsNullOrEmpty(value.ToString()) 
+                ? FalseVisibility 
+                : Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

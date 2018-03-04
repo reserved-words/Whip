@@ -6,57 +6,58 @@
              xmlns:local="clr-namespace:Whip"
              xmlns:controls="clr-namespace:Whip.Controls"
              xmlns:common="clr-namespace:Whip.Common;assembly=Whip.Common"
+             xmlns:properties="clr-namespace:Whip.View.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel>
         <WrapPanel Visibility="{Binding Converter={StaticResource NullVisibilityConverter}}">
+            <controls:HyperlinkLabel Url="{Binding Website}" 
+                                     Visibility="{Binding Website, Converter={StaticResource StringVisibilityConverter}}">
+                <controls:Icon16 Icon="Link"
+                                 Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"/>
+
+            </controls:HyperlinkLabel>
             <controls:HyperlinkLabel Username="{Binding Wikipedia}" 
                                      UrlFormat="{x:Static common:Resources.WikipediaUrl}">
-                <Image Source="/Images/wikipedia.png"
-                       Style="{StaticResource Icon32}"/>
+                <controls:Icon16 Icon="WikipediaW"
+                                 Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"/>
             </controls:HyperlinkLabel>
             <controls:HyperlinkLabel Username="{Binding LastFm}" 
                                      UrlFormat="{x:Static common:Resources.LastFmUrl}">
-                <Image Source="/Images/lastfm.ico"
-                       Style="{StaticResource Icon32}"/>
+                <controls:Icon16 Icon="LastfmSquare"
+                                 Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"/>
             </controls:HyperlinkLabel>
             <controls:HyperlinkLabel Username="{Binding Facebook}" 
                                      UrlFormat="{x:Static common:Resources.FacebookUrl}"
                                      Visibility="{Binding Facebook, Converter={StaticResource StringVisibilityConverter}}">
-                <Image Source="/Images/facebook.png"
-                       Style="{StaticResource Icon32}"/>
+                <controls:Icon16 Icon="FacebookSquare"
+                                 Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"/>
             </controls:HyperlinkLabel>
             <controls:HyperlinkLabel Username="{Binding Twitter}" 
                                      UrlFormat="{x:Static common:Resources.TwitterUrl}"
                                      Visibility="{Binding Twitter, Converter={StaticResource StringVisibilityConverter}}">
-                <Image Source="/Images/twitter.png"
-                       Style="{StaticResource Icon32}"/>
+                <controls:Icon16 Icon="TwitterSquare"
+                                 Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"/>
             </controls:HyperlinkLabel>
             <controls:HyperlinkLabel Username="{Binding YouTube}" 
                                      UrlFormat="{x:Static common:Resources.YouTubeUrl}"
                                      Visibility="{Binding YouTube, Converter={StaticResource StringVisibilityConverter}}">
-                <Image Source="/Images/youtube.png"
-                       Style="{StaticResource Icon32}"/>
+                <controls:Icon16 Icon="Youtube"
+                                 Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"/>
             </controls:HyperlinkLabel>
             <controls:HyperlinkLabel Username="{Binding BandsInTown}" 
                                      UrlFormat="{x:Static common:Resources.BandsInTownUrl}"
                                      Visibility="{Binding BandsInTown, Converter={StaticResource StringVisibilityConverter}}">
-                <Image Source="/Images/bandsintown.ico"
-                       Style="{StaticResource Icon32}"/>
+                <controls:Icon16 Icon="Calendar"
+                                 Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"/>
             </controls:HyperlinkLabel>
             <controls:HyperlinkLabel Username="{Binding BandCamp}" 
                                      UrlFormat="{x:Static common:Resources.BandCampUrl}"
                                      Visibility="{Binding BandCamp, Converter={StaticResource StringVisibilityConverter}}">
-                <Image Source="/Images/bandcamp.png"
-                       Style="{StaticResource Icon32}"/>
+                <controls:Icon16 Icon="Bandcamp"
+                                 Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"/>
             </controls:HyperlinkLabel>
 
         </WrapPanel>
-        <controls:HyperlinkLabel Url="{Binding Website}" 
-                                 Visibility="{Binding Website, Converter={StaticResource StringVisibilityConverter}}"
-                                 Padding="0,5">
-            <TextBlock Text="{Binding Website}" 
-                       Style="{StaticResource HyperlinkText}" />
-        </controls:HyperlinkLabel>
     </StackPanel>
 </UserControl>

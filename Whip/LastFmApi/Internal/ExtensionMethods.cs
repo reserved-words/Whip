@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace LastFmApi.Internal
 {
@@ -51,20 +52,24 @@ namespace LastFmApi.Internal
             return kvp.Key.GetParameterName();
         }
 
-        public static string GetQueryValue(this KeyValuePair<ParameterKey, string> kvp)
+        public static string GetQueryValue(this KeyValuePair<ParameterKey, string> kvp, bool urlEncode)
         {
-            return kvp.Value ?? string.Empty;
+            return kvp.Value == null
+                ? string.Empty
+                : urlEncode
+                ? HttpUtility.UrlEncode(kvp.Value)
+                : kvp.Value;
         }
 
         public static string GetQueryString(this KeyValuePair<ParameterKey, string> kvp)
         {
-            return string.Format("{0}={1}", kvp.GetQueryKey(), kvp.GetQueryValue());
+            return string.Format("{0}={1}", kvp.GetQueryKey(), kvp.GetQueryValue(true));
         }
 
         public static Dictionary<string, string> ToStringKeys(this Dictionary<ParameterKey, string> parameters)
         {
             var strings = parameters.OrderBy(p => p.GetQueryKey())
-                .Select(p => new KeyValuePair<string, string>(p.GetQueryKey(), p.GetQueryValue()))
+                .Select(p => new KeyValuePair<string, string>(p.GetQueryKey(), p.GetQueryValue(false)))
                 .ToList();
 
             var dictionary = new Dictionary<string, string>();

@@ -111,7 +111,7 @@
                    Content="Web" />
             <local:ArtistLinksTemplate Grid.Row="10" Grid.Column="1"
                                        DataContext="{Binding Artist}"
-                                       Margin="5,0,0,0" />
+                                       Margin="5,5,0,0" />
 
             <Border Grid.Row="11" Grid.ColumnSpan="2" Style="{StaticResource HoriztonalLine}" />
             
