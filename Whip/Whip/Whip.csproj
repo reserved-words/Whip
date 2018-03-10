@@ -224,6 +224,9 @@
     <Compile Include="TabControls\TabPlayHistory.xaml.cs">
       <DependentUpon>TabPlayHistory.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\DashboardLibraryStatsView.xaml.cs">
+      <DependentUpon>DashboardLibraryStatsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\EditFeedView.xaml.cs">
       <DependentUpon>EditFeedView.xaml</DependentUpon>
     </Compile>
@@ -376,6 +379,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TabControls\TabPlayHistory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DashboardLibraryStatsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

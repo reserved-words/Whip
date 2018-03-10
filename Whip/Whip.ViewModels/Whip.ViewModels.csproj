@@ -68,6 +68,7 @@
     <Compile Include="SidebarViewModels\PlayShortcutsViewModel.cs" />
     <Compile Include="SidebarViewModels\SettingsIconsViewModel.cs" />
     <Compile Include="SidebarViewModels\SidebarViewModel.cs" />
+    <Compile Include="TabViewModels\Dashboard\LibraryStatsViewModel.cs" />
     <Compile Include="TabViewModels\PlayHistoryViewModel.cs" />
     <Compile Include="TabViewModels\CurrentPlaylistViewModel.cs" />
     <Compile Include="TabViewModels\CurrentTrackViewModel.cs" />

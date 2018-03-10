@@ -102,6 +102,18 @@
         <Setter Property="Foreground" Value="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}" />
         <Setter Property="Margin" Value="2" />
     </Style>
+    
+    <Style TargetType="{x:Type GroupBox}">
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Label Content="{Binding}"
+                           FontWeight="Bold"
+                           Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"></Label>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <Style TargetType="{x:Type ComboBox}">
         <Setter Property="Height" Value="22" />
