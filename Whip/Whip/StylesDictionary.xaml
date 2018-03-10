@@ -7,7 +7,8 @@
                     xmlns:controls="clr-namespace:Whip.Controls"
                     xmlns:tabsvm="clr-namespace:Whip.ViewModels.TabViewModels;assembly=Whip.ViewModels"
                     xmlns:viewModel="clr-namespace:Whip.ViewModels;assembly=Whip.ViewModels"
-                    xmlns:model="clr-namespace:Whip.Common.Model;assembly=Whip.Common">
+                    xmlns:model="clr-namespace:Whip.Common.Model;assembly=Whip.Common"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <!-- VIEW MODEL LOCATOR -->
     <ioc:ViewModelLocator x:Key="ViewModelLocator" />
@@ -312,6 +313,10 @@
     <Style TargetType="{x:Type DataGridRow}">
         <Setter Property="Height" Value="20" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+
+    <Style TargetType="{x:Type DataGridRow}" x:Key="AutoHeight">
+        <Setter Property="Height" Value="{x:Static sys:Double.NaN}"/>
     </Style>
 
     <Style TargetType="DataGridCell">

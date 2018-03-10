@@ -14,6 +14,8 @@ namespace LastFmApi.Internal
         Token,
         [ParameterName("artist")]
         Artist,
+        [ParameterName("limit")]
+        Limit,
         [ParameterName("track")]
         Track,
         [ParameterName("album")]
@@ -26,6 +28,8 @@ namespace LastFmApi.Internal
         SessionKey,
         [ParameterName("timestamp")]
         Timestamp,
+        [ParameterName("user")]
+        User,
         [ParameterName("username")]
         Username
     }

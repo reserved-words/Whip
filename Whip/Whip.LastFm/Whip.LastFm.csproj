@@ -35,10 +35,12 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErrorHandlingDecorators\ErrorHandlingUserInfoService.cs" />
     <Compile Include="ErrorHandlingDecorators\ErrorHandlingAlbumInfoService.cs" />
     <Compile Include="ErrorHandlingDecorators\ErrorHandlingArtistInfoService.cs" />
     <Compile Include="ErrorHandlingDecorators\ErrorHandlingTrackLoveService.cs" />
     <Compile Include="ErrorHandlingDecorators\ErrorHandlingScrobbler.cs" />
+    <Compile Include="Information\UserInfoService.cs" />
     <Compile Include="Information\ArtistInfoService.cs" />
     <Compile Include="Information\AlbumInfoService.cs" />
     <Compile Include="LastFmApiClientService.cs" />

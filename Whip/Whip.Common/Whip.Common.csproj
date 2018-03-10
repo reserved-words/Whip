@@ -60,6 +60,7 @@
     <Compile Include="Interfaces\ITrackSorter.cs" />
     <Compile Include="Model\ArtistEvent.cs" />
     <Compile Include="Model\ArtistWebSimilarArtist.cs" />
+    <Compile Include="Model\TrackPlay.cs" />
     <Compile Include="Model\Library\Album.cs" />
     <Compile Include="Model\Library\Artist.cs" />
     <Compile Include="Model\ArtistWebInfo.cs" />

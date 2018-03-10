@@ -8,10 +8,12 @@ namespace Whip.ViewModels.TabViewModels
 {
     public class DashboardViewModel : TabViewModelBase
     {
-        public DashboardViewModel(ILibraryStatisticsService libraryStatisticsService, Common.Singletons.Library library)
-            :base(TabType.Dashboard, IconType.Home, "Dashboard")
+        public DashboardViewModel(ILibraryStatisticsService libraryStatisticsService, Common.Singletons.Library library,
+            IRecentTracksService recentTracksService, IUserSettings userSettings)
+            :base(TabType.Dashboard, IconType.Home, "Home")
         {
             LibraryStatsViewModel = new LibraryStatsViewModel(libraryStatisticsService);
+            RecentTracksViewModel = new RecentTracksViewModel(recentTracksService, userSettings);
 
             library.Updated += Library_Updated;
         }
@@ -25,10 +27,12 @@ namespace Whip.ViewModels.TabViewModels
         }
 
         public LibraryStatsViewModel LibraryStatsViewModel { get; }
+        public RecentTracksViewModel RecentTracksViewModel { get; }
 
         public override void OnShow(Track currentTrack)
         {
             LibraryStatsViewModel.Refresh();
+            RecentTracksViewModel.Refresh();
         }
     }
 }

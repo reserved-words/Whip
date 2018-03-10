@@ -110,7 +110,12 @@ namespace Whip.Ioc
                     LastFmApi.AlbumInfoService,
                     Services.Interfaces.IAlbumInfoService,
                     ErrorHandlingAlbumInfoService,
-                    LastFm.AlbumInfoService>();
+                    LastFm.AlbumInfoService>()
+                .RegisterErrorHandlingLastFmService<IUserInfoService,
+                    LastFmApi.UserInfoService,
+                    IRecentTracksService,
+                    ErrorHandlingUserInfoService,
+                    LastFm.UserInfoService>();
 
             return kernel;
         }
