@@ -42,8 +42,8 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Whip.View\Whip.View.csproj">
-      <Name>Whip.View</Name>
+    <ProjectReference Include="..\Whip\Whip.csproj">
+      <Name>Whip</Name>
       <Project>{f826888b-3bab-41b8-9ed6-5b790645d1c2}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
