@@ -113,7 +113,7 @@ namespace Whip.Ioc
                     LastFm.AlbumInfoService>()
                 .RegisterErrorHandlingLastFmService<IUserInfoService,
                     LastFmApi.UserInfoService,
-                    IRecentTracksService,
+                    IPlayHistoryService,
                     ErrorHandlingUserInfoService,
                     LastFm.UserInfoService>();
 

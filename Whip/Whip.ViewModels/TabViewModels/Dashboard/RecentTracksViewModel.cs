@@ -8,14 +8,12 @@ namespace Whip.ViewModels.TabViewModels.Dashboard
 {
     public class RecentTracksViewModel : ViewModelBase
     {
-        private readonly IRecentTracksService _service;
-        private readonly IUserSettings _userSettings;
+        private readonly IPlayHistoryService _service;
 
-        public RecentTracksViewModel(IRecentTracksService service, IUserSettings userSettings)
+        public RecentTracksViewModel(IPlayHistoryService service)
         {
             _service = service;
-            _userSettings = userSettings;
-
+            
             RecentTracks = new ObservableCollection<TrackPlay>();
         }
 
@@ -23,10 +21,8 @@ namespace Whip.ViewModels.TabViewModels.Dashboard
 
         public async void Refresh()
         {
+            var trackPlays = await _service.GetRecentTrackPlays(15);
             RecentTracks.Clear();
-
-            var trackPlays = await _service.GetRecentTrackPlays(_userSettings.LastFmUsername, 20);
-
             trackPlays.ToList().ForEach(RecentTracks.Add);
         }
     }

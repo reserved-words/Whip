@@ -40,9 +40,9 @@ namespace LastFmApi.Methods
         private void AddApiSignature()
         {
             StringBuilder apiSigBuilder = new StringBuilder();
-            foreach (var kv in Parameters.OrderBy(kv => kv.Key.GetParameterName(), StringComparer.Ordinal))
+            foreach (var kv in Parameters.OrderBy(kv => kv.Key.GetStringValue(), StringComparer.Ordinal))
             {
-                apiSigBuilder.Append(kv.Key.GetParameterName());
+                apiSigBuilder.Append(kv.Key.GetStringValue());
                 apiSigBuilder.Append(kv.Value);
             }
             apiSigBuilder.Append(_apiSecret);

@@ -6,68 +6,48 @@
              xmlns:local="clr-namespace:Whip.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <UserControl.Resources>
-        <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource StandardDataGrid}">
-            <Setter Property="ItemsSource" Value="{Binding}"></Setter>
-            <Setter Property="HeadersVisibility" Value="None"></Setter>
-            <Setter Property="Margin" Value="0"></Setter>
-            <Setter Property="Padding" Value="0"></Setter>
-            <Setter Property="BorderThickness" Value="0"></Setter>
-        </Style>
-        <DataTemplate x:Key="StatisticCell">
-            <Label Content="{Binding Data}"
-                   HorizontalAlignment="Right"
-                   HorizontalContentAlignment="Right"
-                   Margin="0"
-                   Padding="0"/>
-        </DataTemplate>
-    </UserControl.Resources>
     <StackPanel>
         <GroupBox Header="Library Statistics"
                   DataContext="{Binding GeneralStatistics}">
-            <DataGrid>
+            <DataGrid Style="{StaticResource StatisticsGrid}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Caption}"
-                                        Width="*"/>
-                    <DataGridTemplateColumn Width="100"
-                                            CellTemplate="{StaticResource StatisticCell}">
-                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="*"
+                                            CellTemplate="{StaticResource StatisticCellCaption}" />
+                    <DataGridTemplateColumn Width="75"
+                                            CellTemplate="{StaticResource StatisticCellData}" />
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
         <GroupBox Header="Artists By Grouping"
                   DataContext="{Binding ArtistsByGrouping}">
-            <DataGrid>
+            <DataGrid Style="{StaticResource StatisticsGrid}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Caption}"
-                                        Width="*"/>
-                    <DataGridTemplateColumn Width="100"
-                                            CellTemplate="{StaticResource StatisticCell}">
-                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="*"
+                                            CellTemplate="{StaticResource StatisticCellCaption}" />
+                    <DataGridTemplateColumn Width="75"
+                                            CellTemplate="{StaticResource StatisticCellData}" />
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
         <GroupBox Header="Albums By Release Type"
                   DataContext="{Binding AlbumsByReleaseType}">
-            <DataGrid>
+            <DataGrid Style="{StaticResource StatisticsGrid}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Caption}"
-                                        Width="*"/>
-                    <DataGridTemplateColumn Width="100"
-                                            CellTemplate="{StaticResource StatisticCell}">
-                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="*"
+                                            CellTemplate="{StaticResource StatisticCellCaption}" />
+                    <DataGridTemplateColumn Width="75"
+                                            CellTemplate="{StaticResource StatisticCellData}" />
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
         <GroupBox Header="Tracks By Artist (Top 10)"
                   DataContext="{Binding TracksByArtist}">
-            <DataGrid>
+            <DataGrid Style="{StaticResource StatisticsGrid}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Caption}"
-                                        Width="*"/>
-                    <DataGridTemplateColumn Width="100"
-                                            CellTemplate="{StaticResource StatisticCell}">
-                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="*"
+                                            CellTemplate="{StaticResource StatisticCellCaption}" />
+                    <DataGridTemplateColumn Width="75"
+                                            CellTemplate="{StaticResource StatisticCellData}" />
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>

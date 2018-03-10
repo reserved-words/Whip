@@ -81,7 +81,7 @@
     <Compile Include="Utilities\IWebBrowserService.cs" />
     <Compile Include="Singletons\IWebServicesStatus.cs" />
     <Compile Include="Utilities\IXmlFileService.cs" />
-    <Compile Include="Utilities\IRecentTracksService.cs" />
+    <Compile Include="Utilities\IPlayHistoryService.cs" />
     <Compile Include="Web\ILyricsService.cs" />
     <Compile Include="Web\ISyndicationFeedService.cs" />
     <Compile Include="Web\ITwitterService.cs" />

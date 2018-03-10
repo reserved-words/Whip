@@ -227,6 +227,9 @@
     <Compile Include="Views\DashboardLibraryStatsView.xaml.cs">
       <DependentUpon>DashboardLibraryStatsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\DashboardPlayHistoryView.xaml.cs">
+      <DependentUpon>DashboardPlayHistoryView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DashboardRecentTracksView.xaml.cs">
       <DependentUpon>DashboardRecentTracksView.xaml</DependentUpon>
     </Compile>
@@ -386,6 +389,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DashboardLibraryStatsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DashboardPlayHistoryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

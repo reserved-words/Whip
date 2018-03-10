@@ -8,13 +8,17 @@ namespace Whip.Common.Model
 {
     public struct Statistic
     {
-        public Statistic(string caption, object data)
+        public Statistic(string caption, object data, string url = null, string imageUrl = null)
         {
             Caption = caption;
             Data = data;
+            Url = url;
+            ImageUrl = imageUrl;
         }
 
         public string Caption { get; }
         public object Data { get; }
+        public string Url { get; }
+        public string ImageUrl { get; }
     }
 }

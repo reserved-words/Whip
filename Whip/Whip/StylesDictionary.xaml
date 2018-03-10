@@ -442,6 +442,29 @@
 
     </Style>
 
+    <Style TargetType="{x:Type DataGrid}" x:Key="StatisticsGrid" BasedOn="{StaticResource StandardDataGrid}">
+        <Setter Property="ItemsSource" Value="{Binding}"></Setter>
+        <Setter Property="HeadersVisibility" Value="None"></Setter>
+        <Setter Property="Margin" Value="0"></Setter>
+        <Setter Property="Padding" Value="0"></Setter>
+        <Setter Property="BorderThickness" Value="0"></Setter>
+    </Style>
+    <DataTemplate x:Key="StatisticCellCaption">
+        <TextBlock Text="{Binding Caption}"
+                   Margin="0"
+                   Padding="0"
+                   TextWrapping="WrapWithOverflow"/>
+    </DataTemplate>
+    <DataTemplate x:Key="StatisticCellData">
+        <Label Content="{Binding Data}"
+               HorizontalAlignment="Right"
+               HorizontalContentAlignment="Right"
+               VerticalAlignment="Top"
+               VerticalContentAlignment="Top"
+               Margin="0"
+               Padding="0"/>
+    </DataTemplate>
+
     <!-- CONTEXT MENUS -->
     <ContextMenu x:Key="TrackContextMenu" 
                  ItemsSource="{Binding PlacementTarget.DataContext.TrackContextMenu.MenuItems, RelativeSource={RelativeSource Self}}" >

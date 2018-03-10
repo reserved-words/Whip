@@ -27,5 +27,9 @@
         <views:DashboardRecentTracksView Grid.Column="2"
                                          Grid.Row="0" Grid.RowSpan="2"
                                          DataContext="{Binding RecentTracksViewModel}" />
+
+        <views:DashboardPlayHistoryView Grid.Column="4"
+                                        Grid.Row="0" Grid.RowSpan="2"
+                                        DataContext="{Binding PlayHistoryViewModel}" />
     </Grid>
 </UserControl>

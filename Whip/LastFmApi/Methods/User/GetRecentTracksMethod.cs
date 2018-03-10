@@ -26,30 +26,22 @@ namespace LastFmApi.Methods.User
 
             foreach (var trackPlayXml in recentTracksXml.Elements("track"))
             {
-                try
+                var trackPlay = new TrackPlayInfo
                 {
-                    var trackPlay = new TrackPlayInfo
-                    {
-                        TrackTitle = trackPlayXml.Element("name")?.Value,
-                        ArtistName = trackPlayXml.Element("artist")?.Value,
-                        AlbumTitle = trackPlayXml.Element("album")?.Value,
-                        Url = trackPlayXml.Element("url")?.Value,
-                        NowPlaying = trackPlayXml.Attribute("nowplaying")?.Value == "true",
-                        ImageUrl = trackPlayXml.Elements("image")
-                            .FirstOrDefault(im => im.Attribute("size").Value == "large")?.Value
-                    };
+                    TrackTitle = trackPlayXml.Element("name")?.Value,
+                    ArtistName = trackPlayXml.Element("artist")?.Value,
+                    AlbumTitle = trackPlayXml.Element("album")?.Value,
+                    Url = trackPlayXml.Element("url")?.Value,
+                    NowPlaying = trackPlayXml.Attribute("nowplaying")?.Value == "true",
+                    ImageUrl = trackPlayXml.Elements("image")
+                        .FirstOrDefault(im => im.Attribute("size").Value == "large")?.Value
+                };
 
-                    trackPlay.TimePlayed = trackPlay.NowPlaying
-                        ? (DateTime?)null
-                        : DateTime.Parse(trackPlayXml.Element("date").Value);
+                trackPlay.TimePlayed = trackPlay.NowPlaying
+                    ? (DateTime?)null
+                    : DateTime.Parse(trackPlayXml.Element("date").Value);
 
-                    list.Add(trackPlay);
-                }
-                catch (Exception ex)
-                {
-
-                    throw;
-                }
+                list.Add(trackPlay);
             }
 
             return list;

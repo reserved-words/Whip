@@ -1,46 +1,39 @@
 ﻿using System;
+using LastFmApi.Internal.Helpers;
 
 namespace LastFmApi.Internal
 {
     internal enum ParameterKey
     {
-        [ParameterName("method")]
+        [StringValue("method")]
         Method,
-        [ParameterName("api_key")]
+        [StringValue("api_key")]
         ApiKey,
-        [ParameterName("api_sig")]
+        [StringValue("api_sig")]
         ApiSig,
-        [ParameterName("token")]
+        [StringValue("token")]
         Token,
-        [ParameterName("artist")]
+        [StringValue("artist")]
         Artist,
-        [ParameterName("limit")]
+        [StringValue("limit")]
         Limit,
-        [ParameterName("track")]
+        [StringValue("track")]
         Track,
-        [ParameterName("album")]
+        [StringValue("album")]
         Album,
-        [ParameterName("albumArtist")]
+        [StringValue("albumArtist")]
         AlbumArtist,
-        [ParameterName("duration")]
+        [StringValue("duration")]
         Duration,
-        [ParameterName("sk")]
+        [StringValue("sk")]
         SessionKey,
-        [ParameterName("timestamp")]
+        [StringValue("period")]
+        Period,
+        [StringValue("timestamp")]
         Timestamp,
-        [ParameterName("user")]
+        [StringValue("user")]
         User,
-        [ParameterName("username")]
+        [StringValue("username")]
         Username
-    }
-
-    internal class ParameterNameAttribute : Attribute
-    {
-        public ParameterNameAttribute(string name)
-        {
-            Name = name;
-        }
-
-        public string Name { get; private set; }
     }
 }
