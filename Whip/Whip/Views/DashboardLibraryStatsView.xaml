@@ -6,108 +6,58 @@
              xmlns:local="clr-namespace:Whip.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource StandardDataGrid}">
+            <Setter Property="ItemsSource" Value="{Binding}"></Setter>
+            <Setter Property="HeadersVisibility" Value="None"></Setter>
+            <Setter Property="Margin" Value="0"></Setter>
+            <Setter Property="Padding" Value="0"></Setter>
+            <Setter Property="BorderThickness" Value="0"></Setter>
+        </Style>
+        <DataTemplate x:Key="StatisticCell">
+            <Label Content="{Binding Data}"
+                   HorizontalAlignment="Right"
+                   HorizontalContentAlignment="Right"
+                   Margin="0"
+                   Padding="0"/>
+        </DataTemplate>
+    </UserControl.Resources>
     <StackPanel>
         <GroupBox Header="Library Statistics"
+                  DataContext="{Binding GeneralStatistics}"
                   Padding="10">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                </Grid.RowDefinitions>
-
-                <Label Grid.Row="0" Grid.Column="0"
-                       Content="Track Artists" />
-
-                <Label Grid.Row="0" Grid.Column="1"
-                       Content="{Binding NumberOfTrackArtists}"
-                       HorizontalAlignment="Right"
-                       HorizontalContentAlignment="Right"/>
-
-                <Label Grid.Row="1" Grid.Column="0"
-                       Content="Album Artists" />
-
-                <Label Grid.Row="1" Grid.Column="1"
-                       Content="{Binding NumberOfAlbumArtists}"
-                       HorizontalAlignment="Right"
-                       HorizontalContentAlignment="Right" />
-
-                <Label Grid.Row="2" Grid.Column="0"
-                       Content="Albums" />
-
-                <Label Grid.Row="2" Grid.Column="1"
-                       Content="{Binding NumberOfAlbums}"
-                       HorizontalAlignment="Right"
-                       HorizontalContentAlignment="Right" />
-
-                <Label Grid.Row="3" Grid.Column="0"
-                       Content="Tracks" />
-
-                <Label Grid.Row="3" Grid.Column="1"
-                       Content="{Binding NumberOfTracks}"
-                       HorizontalAlignment="Right"
-                       HorizontalContentAlignment="Right" />
-
-                <Label Grid.Row="4" Grid.Column="0"
-                       Content="Total Time" />
-
-                <Label Grid.Row="4" Grid.Column="1"
-                       Content="{Binding TotalTime}"
-                       HorizontalAlignment="Right"
-                       HorizontalContentAlignment="Right" />
-
-            </Grid>
-        </GroupBox>
-        <GroupBox Header="Artists By Grouping"
-                  Padding="10">
-            <DataGrid ItemsSource="{Binding ArtistsByGrouping}"
-                      HeadersVisibility="None"
-                      Margin="0"
-                      Padding="0"
-                      BorderThickness="0">
+            <DataGrid>
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Caption}"
                                         Width="*"/>
-                    <DataGridTemplateColumn Width="Auto">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Label Content="{Binding Count}"
-                                       HorizontalAlignment="Right"
-                                       HorizontalContentAlignment="Right"
-                                       Margin="0"
-                                       Padding="0"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn Width="Auto"
+                                            CellTemplate="{StaticResource StatisticCell}">
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+        <GroupBox Header="Artists By Grouping"
+                  DataContext="{Binding ArtistsByGrouping}"
+                  Padding="10">
+            <DataGrid>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Caption}"
+                                        Width="*"/>
+                    <DataGridTemplateColumn Width="Auto"
+                                            CellTemplate="{StaticResource StatisticCell}">
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
         <GroupBox Header="Albums By Release Type"
+                  DataContext="{Binding AlbumsByReleaseType}"
                   Padding="10">
-            <DataGrid ItemsSource="{Binding AlbumsByReleaseType}"
-                      HeadersVisibility="None"
-                      Margin="0"
-                      Padding="0"
-                      BorderThickness="0">
+            <DataGrid>
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Caption}"
                                         Width="*"/>
-                    <DataGridTemplateColumn Width="Auto">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Label Content="{Binding Count}"
-                                       HorizontalAlignment="Right"
-                                       HorizontalContentAlignment="Right"
-                                       Margin="0"
-                                       Padding="0"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn Width="Auto"
+                                            CellTemplate="{StaticResource StatisticCell}">
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>

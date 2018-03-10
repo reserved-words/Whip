@@ -292,7 +292,7 @@
            BasedOn="{StaticResource ButtonStyle}">
     </Style>
 
-    <Style TargetType="DataGrid">
+    <Style TargetType="DataGrid" x:Key="StandardDataGrid">
         <Setter Property="AutoGenerateColumns" Value="False" />
         <Setter Property="CanUserAddRows" Value="False" />
         <Setter Property="CanUserDeleteRows" Value="False" />
@@ -305,6 +305,8 @@
         <Setter Property="HorizontalGridLinesBrush" Value="Silver" />
         <Setter Property="VerticalGridLinesBrush" Value="Silver" />
     </Style>
+
+    <Style TargetType="DataGrid" BasedOn="{StaticResource StandardDataGrid}" />
 
     <Style TargetType="{x:Type DataGridRow}">
         <Setter Property="Height" Value="20" />
