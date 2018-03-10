@@ -1,50 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight;
-using Whip.Common;
+using Whip.Common.Model;
+using System.Linq;
+using Whip.Common.ExtensionMethods;
+using Whip.Services.Interfaces;
 
 namespace Whip.ViewModels.TabViewModels.Dashboard
 {
     public class LibraryStatsViewModel : ViewModelBase
     {
-        public LibraryStatsViewModel()
+        private readonly ILibraryStatisticsService _service;
+
+        public LibraryStatsViewModel(ILibraryStatisticsService service)
         {
-            GeneralStatistics = new List<Statistic>
-            {
-                new Statistic("Track Artists", 150),
-                new Statistic("Album Artists", 100),
-                new Statistic("Albums", 1000),
-                new Statistic("Tracks", 10000),
-                new Statistic("Total Time", new TimeSpan(5, 5, 2, 16))
-            };
-            AlbumsByReleaseType = new List<Statistic>
-            {
-                new Statistic(ReleaseType.Album.GetReleaseTypeGroupingDisplayName(), 381),
-                new Statistic(ReleaseType.Single.GetReleaseTypeGroupingDisplayName(), 15),
-                new Statistic(ReleaseType.BestOf.GetReleaseTypeGroupingDisplayName(), 21)
-            };
-            ArtistsByGrouping = new List<Statistic>
-            {
-                new Statistic("Metal", 38),
-                new Statistic("Pop", 35),
-                new Statistic("Alternative", 21)
-            };
+            _service = service;
+
+            GeneralStatistics = new ObservableCollection<Statistic>();
+            TracksByArtist = new ObservableCollection<Statistic>();
+            AlbumsByReleaseType = new ObservableCollection<Statistic>();
+            ArtistsByGrouping = new ObservableCollection<Statistic>();
         }
 
-        public List<Statistic> GeneralStatistics { get; set; }
-        public List<Statistic> AlbumsByReleaseType { get; set; }
-        public List<Statistic> ArtistsByGrouping { get; set; }
+        public ObservableCollection<Statistic> GeneralStatistics { get; }
+        public ObservableCollection<Statistic> TracksByArtist { get; }
+        public ObservableCollection<Statistic> AlbumsByReleaseType { get; }
+        public ObservableCollection<Statistic> ArtistsByGrouping { get; }
 
-        public class Statistic
+        public void Refresh()
         {
-            public Statistic(string caption, object data)
-            {
-                Caption = caption;
-                Data = data;
-            }
+            GeneralStatistics.Clear();
+            TracksByArtist.Clear();
+            AlbumsByReleaseType.Clear();
+            ArtistsByGrouping.Clear();
 
-            public string Caption { get; }
-            public object Data { get; }
+            GeneralStatistics.Add(new Statistic("Track Artists", _service.GetNumberOfTrackArtists()));
+            GeneralStatistics.Add(new Statistic("Album Artists", _service.GetNumberOfAlbumArtists()));
+            GeneralStatistics.Add(new Statistic("Albums", _service.GetNumberOfAlbums()));
+            GeneralStatistics.Add(new Statistic("Tracks", _service.GetNumberOfTracks()));
+            GeneralStatistics.Add(new Statistic("Total Time", _service.GetTotalTime()));
+
+            _service.GetTracksByArtist(10)
+                .Select(a => new Statistic(a.Item1, a.Item2))
+                .ToList()
+                .ForEach(TracksByArtist.Add);
+
+            _service.GetAlbumsByReleaseType()
+                .Select(a => new Statistic(a.Item1.GetDisplayName(), a.Item2))
+                .ToList()
+                .ForEach(AlbumsByReleaseType.Add);
+
+            _service.GetArtistsByGrouping()
+                .Select(a => new Statistic(a.Item1, a.Item2))
+                .ToList()
+                .ForEach(ArtistsByGrouping.Add);
         }
     }
 }

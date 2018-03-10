@@ -24,39 +24,48 @@
     </UserControl.Resources>
     <StackPanel>
         <GroupBox Header="Library Statistics"
-                  DataContext="{Binding GeneralStatistics}"
-                  Padding="10">
+                  DataContext="{Binding GeneralStatistics}">
             <DataGrid>
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Caption}"
                                         Width="*"/>
-                    <DataGridTemplateColumn Width="Auto"
+                    <DataGridTemplateColumn Width="100"
                                             CellTemplate="{StaticResource StatisticCell}">
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
         <GroupBox Header="Artists By Grouping"
-                  DataContext="{Binding ArtistsByGrouping}"
-                  Padding="10">
+                  DataContext="{Binding ArtistsByGrouping}">
             <DataGrid>
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Caption}"
                                         Width="*"/>
-                    <DataGridTemplateColumn Width="Auto"
+                    <DataGridTemplateColumn Width="100"
                                             CellTemplate="{StaticResource StatisticCell}">
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
         <GroupBox Header="Albums By Release Type"
-                  DataContext="{Binding AlbumsByReleaseType}"
-                  Padding="10">
+                  DataContext="{Binding AlbumsByReleaseType}">
             <DataGrid>
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Caption}"
                                         Width="*"/>
-                    <DataGridTemplateColumn Width="Auto"
+                    <DataGridTemplateColumn Width="100"
+                                            CellTemplate="{StaticResource StatisticCell}">
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+        <GroupBox Header="Tracks By Artist (Top 10)"
+                  DataContext="{Binding TracksByArtist}">
+            <DataGrid>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Caption}"
+                                        Width="*"/>
+                    <DataGridTemplateColumn Width="100"
                                             CellTemplate="{StaticResource StatisticCell}">
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>

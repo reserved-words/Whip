@@ -46,6 +46,7 @@
     <Compile Include="Library\IArchiveService.cs" />
     <Compile Include="Library\ICommentProcessingService.cs" />
     <Compile Include="Library\ILibrarySortingService.cs" />
+    <Compile Include="Library\ILibraryStatisticsService.cs" />
     <Compile Include="Library\ITrackFilterService.cs" />
     <Compile Include="Library\ITrackUpdateService.cs" />
     <Compile Include="MethodInterceptors\IMethodInterceptor.cs" />

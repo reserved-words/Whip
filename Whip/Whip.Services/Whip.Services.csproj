@@ -52,6 +52,7 @@
     <Compile Include="Library\ArchiveService.cs" />
     <Compile Include="Library\CommentProcessingService.cs" />
     <Compile Include="Library\LibrarySortingService.cs" />
+    <Compile Include="Library\LibraryStatisticsService.cs" />
     <Compile Include="Library\TrackFilterService.cs" />
     <Compile Include="Library\TrackUpdateService.cs" />
     <Compile Include="MethodInterceptors\WebMethodInterceptor.cs" />

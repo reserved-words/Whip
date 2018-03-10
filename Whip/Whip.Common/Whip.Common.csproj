@@ -105,6 +105,7 @@
     <Compile Include="Model\Rss\Feed.cs" />
     <Compile Include="Model\Rss\Post.cs" />
     <Compile Include="Model\State.cs" />
+    <Compile Include="Model\Statistic.cs" />
     <Compile Include="Model\Tweet.cs" />
     <Compile Include="Model\Video.cs" />
     <Compile Include="Resources.Designer.cs">
