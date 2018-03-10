@@ -64,7 +64,7 @@ namespace Whip.ViewModels.TabViewModels.Library
 
         public void OnPlayArtist()
         {
-            _playRequestHandler.PlayArtist(Artist, SortType.Ordered, SelectedTrack);
+            _playRequestHandler.PlayArtist(Artist, SortType.Random, SelectedTrack);
         }
 
         private void SetArtist(Artist artist)
