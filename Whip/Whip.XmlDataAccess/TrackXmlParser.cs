@@ -29,6 +29,7 @@ namespace Whip.XmlDataAccess
             xml.AddAttribute(PropertyNames.TrackYear, track.Year);
             xml.AddAttribute(PropertyNames.Tags, string.Join(TagsDelimiter.ToString(), track.Tags));
             xml.AddAttribute(PropertyNames.Lyrics, track.Lyrics);
+            xml.AddAttribute(PropertyNames.Instrumental, track.Instrumental ? PropertyNames.TrueValue : PropertyNames.FalseValue);
 
             if (!track.Artist.Equals(track.Disc.Album.Artist))
             {
@@ -55,7 +56,8 @@ namespace Whip.XmlDataAccess
                 Duration = TimeSpan.ParseExact(xml.GetAttribute(PropertyNames.Duration), StandardTimeSpanFormat, CultureInfo.InvariantCulture),
                 Tags = xml.GetAttribute(PropertyNames.Tags).Split(TagsDelimiter).Where(t => !string.IsNullOrEmpty(t)).ToList(),
                 Year = xml.GetAttribute(PropertyNames.TrackYear),
-                Lyrics = xml.GetAttribute(PropertyNames.Lyrics)
+                Lyrics = xml.GetAttribute(PropertyNames.Lyrics),
+                Instrumental = xml.GetAttribute(PropertyNames.Instrumental) == PropertyNames.TrueValue
             };
         }
 

@@ -213,11 +213,22 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Label Grid.Row="0"
-                   Content="Lyrics"
-                   Style="{StaticResource TitleLabel}"/>
+            <DockPanel Grid.Row="0"
+                       VerticalAlignment="Center">
+                <Label DockPanel.Dock="Left"
+                       Content="Lyrics"
+                       Style="{StaticResource TitleLabel}"/>
+                <WrapPanel DockPanel.Dock="Right"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center">
+                    <Label Content="Instrumental" />
+                    <CheckBox IsChecked="{Binding Instrumental}"
+                              IsEnabled="False"/>
+                </WrapPanel>
+            </DockPanel>
 
-            <Border Grid.Row="1" Style="{StaticResource HoriztonalLine}" />
+            <Border Grid.Row="1" Style="{StaticResource HoriztonalLine}"
+                    Margin="0"/>
             
             <ScrollViewer Grid.Row="2">
                 <TextBlock Text="{Binding Lyrics}"

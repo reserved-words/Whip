@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using Whip.Common.ExtensionMethods;
@@ -24,6 +23,9 @@ namespace Whip.Services
         private const string YouTube = "youtube";
         private const string BandsInTown = "bands_in_town";
         private const string BandCamp = "bandcamp";
+        private const string Instrumental = "instrumental";
+        private const string True = "true";
+        private const string False = "false";
 
         private const char TagDelimiter = '|';
 
@@ -47,6 +49,7 @@ namespace Whip.Services
             root.Add(new XElement(YouTube, track.Artist.YouTube.Trim()));
             root.Add(new XElement(BandsInTown, track.Artist.BandsInTown.Trim()));
             root.Add(new XElement(BandCamp, track.Artist.BandCamp.Trim()));
+            root.Add(new XElement(Instrumental, track.Instrumental ? True : False));
 
             return xml.ToString();
         }
@@ -57,9 +60,10 @@ namespace Whip.Services
             if (TryParseXml(comment, out xml))
             {
                 track.Year = xml.Root.GetValue(TrackYear);
+                track.Instrumental = xml.Root.GetValue(Instrumental) == True;
                 track.Tags = xml.Root.GetValue(Tags)
-                    .Split(new char[] { TagDelimiter }, StringSplitOptions.RemoveEmptyEntries)
-                    .ToList() ?? new List<string>();
+                    .Split(new [] { TagDelimiter }, StringSplitOptions.RemoveEmptyEntries)
+                    .ToList();
             }
 
             if (string.IsNullOrEmpty(track.Year))
@@ -100,7 +104,7 @@ namespace Whip.Services
             }
         }
 
-        private bool TryParseXml(string xmlString, out XDocument xml)
+        private static bool TryParseXml(string xmlString, out XDocument xml)
         {
             try
             {
@@ -114,17 +118,17 @@ namespace Whip.Services
             }
         }
 
-        private string GetBandsInTownIdentifier(string str)
+        private static string GetBandsInTownIdentifier(string str)
         {
             return str.Replace(" ", "");
         }
 
-        private string GetLastFmIdentifier(string str)
+        private static string GetLastFmIdentifier(string str)
         {
             return str.Replace(" ", "+").Replace("'", "%27");
         }
 
-        private string GetWikipediaIdentifier(string str)
+        private static string GetWikipediaIdentifier(string str)
         {
             return str.Replace(" ", "_").Replace("&", "%26").Replace("'", "%27");
         }

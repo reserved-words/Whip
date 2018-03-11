@@ -502,20 +502,29 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <Label Grid.Row="0"
-                   Content="Lyrics"
-                   Style="{StaticResource TitleLabel}"/>
+                <DockPanel Grid.Row="0">
+                    <Label DockPanel.Dock="Left"
+                           Content="Lyrics"
+                           Style="{StaticResource TitleLabel}"/>
+                    <WrapPanel DockPanel.Dock="Right"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Center">
+                        <Label Content="Instrumental" />
+                        <CheckBox IsChecked="{Binding Instrumental}" />
+                    </WrapPanel>
+                </DockPanel>
 
                 <Border Grid.Row="1"
-                    BorderBrush="Silver"
-                    BorderThickness="1">
+                        BorderBrush="Silver"
+                        BorderThickness="1">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <TextBox Text="{Binding Lyrics, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
-                             TextWrapping="WrapWithOverflow"
-                             AcceptsReturn="True"
-                             Height="Auto"
-                             BorderThickness="0"
-                             Padding="5"/>
+                                 IsEnabled="{Binding Instrumental, Converter={StaticResource NegateBoolConverter}}"
+                                 TextWrapping="WrapWithOverflow"
+                                 AcceptsReturn="True"
+                                 Height="Auto"
+                                 BorderThickness="0"
+                                 Padding="5"/>
                     </ScrollViewer>
                 </Border>
 

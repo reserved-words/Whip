@@ -24,6 +24,7 @@ namespace Whip.Common.Model
         public List<string> Tags { get; set; }
         public string Year { get; set; }
         public string Lyrics { get; set; }
+        public bool Instrumental { get; set; }
 
         public Artist Artist { get; set; }
         public Disc Disc { get; set; }
