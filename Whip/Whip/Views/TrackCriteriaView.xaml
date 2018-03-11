@@ -112,6 +112,12 @@
                                                                  Height="25"/>
                                         </DataTemplate>
 
+                                        <DataTemplate x:Key="EmptyTemplate">
+                                            <TextBox IsEnabled="False"
+                                                     Text=""
+                                                     Height="25"/>
+                                        </DataTemplate>
+
                                         <DataTemplate x:Key="IntegerTemplate">
                                             <wpfex:IntegerUpDown Text="{Binding ValueString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                                                                  Maximum="9999"
@@ -200,6 +206,9 @@
                                                                         </DataTrigger>
                                                                         <DataTrigger Binding="{Binding PropertyType}" Value="{x:Static common:PropertyType.TimeSpan}">
                                                                             <Setter Property="ContentTemplate" Value="{StaticResource TimeSpanTemplate}" />
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding PropertyType}" Value="{x:Static common:PropertyType.Boolean}">
+                                                                            <Setter Property="ContentTemplate" Value="{StaticResource EmptyTemplate}" />
                                                                         </DataTrigger>
                                                                     </Style.Triggers>
                                                                 </Style>
