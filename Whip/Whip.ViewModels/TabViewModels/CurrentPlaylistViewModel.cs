@@ -37,9 +37,9 @@ namespace Whip.ViewModels.TabViewModels
             }
         }
 
-        public TrackContextMenuViewModel TrackContextMenu { get; private set; }
+        public TrackContextMenuViewModel TrackContextMenu { get; }
 
-        public RelayCommand PlayCommand { get; private set; }
+        public RelayCommand PlayCommand { get; }
 
         public string PlaylistName => _playlist.PlaylistName;
 

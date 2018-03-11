@@ -65,7 +65,7 @@ namespace Whip.ViewModels
                 : PlayerStatus.Playing;
 
             TrackTimer.Reset(track);
-
+            
             _player.Play(track);
 
             if (track == null)

@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Whip.Common.Interfaces;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
@@ -39,15 +40,17 @@ namespace Whip.WmpPlayer
                 // This is to avoid a weird error where tracks don't start playing unless there's some delay here
                 // - obviously this should not be the permanent solution
                 Thread.Sleep(500);
+                
+                if (string.IsNullOrEmpty(track.File?.FullPath) || !System.IO.File.Exists(track.File.FullPath))
+                    throw new ApplicationException("The requested file does not exist");
 
                 _player.URL = track.File.FullPath;
-
                 _player.controls.currentPosition = 0;
                 _player.controls.play();
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                _logger.Error("Error playing file: " + ex.Message);
+                _logger.Error("Error playing file " + (track.File?.FullPath ?? "") + ": " + ex.Message);
             }
         }
 
