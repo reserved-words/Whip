@@ -254,7 +254,7 @@ namespace Whip.XmlDataAccess
 
             criteriaXml.Add(new XAttribute(PlaylistCriteriaPropertyName, criteria.PropertyName));
             criteriaXml.Add(new XAttribute(PlaylistCriteriaType, criteria.CriteriaType));
-            criteriaXml.Add(new XAttribute(PlaylistCriteriaValue, criteria.ValueString));
+            criteriaXml.Add(new XAttribute(PlaylistCriteriaValue, criteria.ValueString ?? ""));
 
             return criteriaXml;
         }

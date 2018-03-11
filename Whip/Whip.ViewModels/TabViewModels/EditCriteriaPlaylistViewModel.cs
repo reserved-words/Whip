@@ -116,8 +116,10 @@ namespace Whip.ViewModels.TabViewModels
                         + "You must select at least one filter criteria or set a sort property and a maximum number of tracks" 
                         + Environment.NewLine;
                 }
-                else if (Criteria.Any(c => c.Criteria.Any(cr => cr.PropertyName != null
-                    && (cr.CriteriaType == null || string.IsNullOrEmpty(cr.ValueString)))))
+                else if (Criteria.Any(c => c.Criteria.Any(cr => 
+                    cr.PropertyName != null
+                        && !(cr.CriteriaType == CriteriaType.IsTrue || cr.CriteriaType == CriteriaType.IsFalse)
+                        && (cr.CriteriaType == null || string.IsNullOrEmpty(cr.ValueString)))))
                 {
                     errorMessage = errorMessage + "You must select a criteria type and value for each criterion";
                 }

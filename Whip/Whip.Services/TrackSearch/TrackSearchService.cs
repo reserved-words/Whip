@@ -155,6 +155,8 @@ namespace Whip.Services
                     return new TrackNoCriteria(valueString, criteriaType);
                 case PropertyName.TrackYear:
                     return new TrackYearCriteria(valueString, criteriaType);
+                case PropertyName.Instrumental:
+                    return new InstrumentalCriteria(criteriaType);
                 default:
                     throw new InvalidOperationException();
             }
@@ -208,6 +210,8 @@ namespace Whip.Services
                     return t => t.Disc.Album.ReleaseType;
                 case PropertyName.ReleaseYear:
                     return t => t.Disc.Album.Year;
+                case PropertyName.Instrumental:
+                    return t => t.Instrumental ? 0 : 1;
                 default:
                     throw new InvalidOperationException();
             }
