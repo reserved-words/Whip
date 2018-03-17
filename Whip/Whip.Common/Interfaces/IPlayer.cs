@@ -17,5 +17,6 @@ namespace Whip.Common.Interfaces
         void SetVolumePercentage(int volume);
         void SkipToPercentage(double newPercentage);
         void Unmute();
+        void Stop();
     }
 }

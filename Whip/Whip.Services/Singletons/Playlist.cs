@@ -32,7 +32,7 @@ namespace Whip.Services.Singletons
         public string PlaylistName { get; private set; }
 
         public List<Track> Tracks { get; private set; }
-
+        
         public void Set(string playlistName, List<Track> tracks, Track startAt, bool shuffle, bool? doNotSort = null)
         {
             PlaylistName = playlistName;

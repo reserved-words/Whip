@@ -92,5 +92,10 @@ namespace Whip.WmpPlayer
         {
             _player.settings.volume = _volume;
         }
+
+        public void Stop()
+        {
+            _player.controls.stop();
+        }
     }
 }

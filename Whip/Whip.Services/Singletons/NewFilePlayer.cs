@@ -79,5 +79,10 @@ namespace Whip.Services.Singletons
         {
             _basePlayer.Unmute();
         }
+
+        public void Stop()
+        {
+            _basePlayer.Stop();
+        }
     }
 }

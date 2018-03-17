@@ -1,7 +1,7 @@
-﻿using Whip.Common.Interfaces;
+﻿using System.Threading.Tasks;
+using Whip.Common.Interfaces;
 using Whip.Services.Interfaces;
 using Whip.Common.Model;
-using System;
 
 namespace Whip.Services
 {
@@ -69,10 +69,15 @@ namespace Whip.Services
             _scrobbler.UpdateNowPlayingAsync(_currentTrack, _playProgressTracker.RemainingSeconds);
         }
 
+        private bool CanScrobbleCurrentTrack()
+        {
+            return _scrobblingRules.CanScrobble(_playProgressTracker.TotalTrackDurationInSeconds,
+                _playProgressTracker.SecondsOfTrackPlayed);
+        }
+
         private void ScrobbleCurrentTrack()
         {
-            if (_scrobblingRules.CanScrobble(_playProgressTracker.TotalTrackDurationInSeconds,
-                _playProgressTracker.SecondsOfTrackPlayed))
+            if (CanScrobbleCurrentTrack())
             {
                 _scrobbler.ScrobbleAsync(_currentTrack, _currentDateTime.Get());
             }
@@ -96,6 +101,20 @@ namespace Whip.Services
         public void Unmute()
         {
             _player.Unmute();
+        }
+
+        public void Stop()
+        {
+            _player.Stop();
+            _playProgressTracker.Stop();
+
+            if (CanScrobbleCurrentTrack())
+            {
+                var scrobble = Task.Run(() => _scrobbler.ScrobbleAsync(_currentTrack, _currentDateTime.Get())).Result;
+            }
+
+            var updateNowPlaying = Task.Run(
+                () => _scrobbler.UpdateNowPlayingAsync(_currentTrack, _scrobblingRules.MinimumUpdateNowPlayingDuration)).Result;
         }
     }
 }
