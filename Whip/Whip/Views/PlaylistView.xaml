@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="Whip.PlaylistView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Whip"
+             xmlns:controls="clr-namespace:Whip.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type controls:PlayerControlButton}"
+               BasedOn="{StaticResource ButtonStyle}">
+            <Setter Property="Padding" Value="5 2" />
+            <Setter Property="MinWidth" Value="20" />
+            <Setter Property="MinHeight" Value="20" />
+            <Setter Property="Margin" Value="5" />
+        </Style>
+    </UserControl.Resources>
+    <Border BorderBrush="Silver"
+            Padding="0,2,2,2"
+            BorderThickness="0,0,0,1"
+            HorizontalAlignment="Stretch">
+        <Grid HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <controls:PlayerControlButton Grid.Column="0"
+                                          Type="Play"
+                                          VerticalAlignment="Center"
+                                          Command="{Binding Path=DataContext.PlayCommand, ElementName=PlaylistsGrid}"
+                                          CommandParameter="{Binding}"/>
+            
+            <Label Grid.Column="1"
+                   Content="{Binding Title}"
+                   VerticalAlignment="Center" />
+            
+            <StackPanel Grid.Column="2"
+                        VerticalAlignment="Center">
+                <controls:Icon12 Icon="Cog"
+                                 Foreground="Silver"
+                                 Margin="2"
+                                 ToolTip="Edit"
+                                 Cursor="Hand">
+                    <Image.InputBindings>
+                        <MouseBinding Gesture="LeftClick"
+                                      Command="{Binding Path=DataContext.EditCommand, ElementName=PlaylistsGrid}"
+                                      CommandParameter="{Binding}"/>
+                    </Image.InputBindings>
+                </controls:Icon12>
+                <controls:Icon12 Icon="TrashOutline"
+                                Foreground="Silver"
+                                Margin="2"
+                               ToolTip="Delete"
+                                Cursor="Hand">
+                    <Image.InputBindings>
+                        <MouseBinding Gesture="LeftClick"
+                                      Command="{Binding Path=DataContext.DeleteCommand, ElementName=PlaylistsGrid}"
+                                      CommandParameter="{Binding}"/>
+                    </Image.InputBindings>
+                </controls:Icon12>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

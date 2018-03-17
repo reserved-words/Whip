@@ -322,6 +322,15 @@ namespace Whip.XmlDataAccess {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to instrumental.
+        /// </summary>
+        public static string Instrumental {
+            get {
+                return ResourceManager.GetString("Instrumental", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to last_fm.
         /// </summary>
         public static string LastFm {

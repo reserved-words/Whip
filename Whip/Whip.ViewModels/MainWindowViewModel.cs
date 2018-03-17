@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
+using Whip.Common.Interfaces;
 using Whip.Common.Model;
 using Whip.Common.Singletons;
 using Whip.Services.Interfaces;
@@ -19,15 +20,18 @@ namespace Whip.ViewModels
         private readonly IMessenger _messenger;
 
         private readonly Library _library;
+        private readonly IPlayer _player;
 
         public MainWindowViewModel(ILibraryService libraryService, IUserSettings userSettings, Library library,
-            IMessenger messenger, IPlaylist playlist, MainViewModel mainViewModel, SidebarViewModel sidebarViewModel)
+            IMessenger messenger, IPlaylist playlist, MainViewModel mainViewModel, SidebarViewModel sidebarViewModel,
+            IPlayer player)
         {
             _libraryService = libraryService;
             _userSettings = userSettings;
             _messenger = messenger;
 
             _library = library;
+            _player = player;
 
             MainViewModel = mainViewModel;
             SidebarViewModel = sidebarViewModel;
@@ -46,15 +50,16 @@ namespace Whip.ViewModels
 
         public void OnLoad()
         {
-            OnPopulateLibrary();
+            PopulateLibrary();
         }
 
         public void OnExit()
         {
-            OnSaveLibrary();
+            _player.Stop();
+            SaveLibrary();
         }
 
-        private void OnPopulateLibrary()
+        private void PopulateLibrary()
         {
             if (!_userSettings.EssentialSettingsSet)
             {
@@ -68,7 +73,7 @@ namespace Whip.ViewModels
             _messenger.Send(new LibraryUpdateRequest());
         }
 
-        private void OnSaveLibrary()
+        private void SaveLibrary()
         {
             _libraryService.SaveLibrary(_library);
         }

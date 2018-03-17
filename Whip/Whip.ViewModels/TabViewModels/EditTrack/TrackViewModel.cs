@@ -16,14 +16,15 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
 {
     public class TrackViewModel : EditableViewModelBase
     {
-        private List<string> _allTags;
+        private const string InstrumentalLyrics = "(instrumental)";
 
+        private List<string> _allTags;
         private string _title;
         private string _year;
         private string _lyrics;
         private string _newTag;
         private string _trackNo;
-
+        private bool _instrumental;
         private bool _syncArtistNames;
 
         public TrackViewModel(IMessenger messenger, IAlbumInfoService albumInfoService, IImageProcessingService imageProcessingService,
@@ -57,11 +58,11 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             }
         }
 
-        public ArtistViewModel Artist { get; private set; }
+        public ArtistViewModel Artist { get; }
 
-        public DiscViewModel Disc { get; private set; }
+        public DiscViewModel Disc { get; }
 
-        public RelayCommand<string> RemoveTagCommand { get; private set; }
+        public RelayCommand<string> RemoveTagCommand { get; }
 
         public List<string> AllTags
         {
@@ -91,6 +92,23 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
         {
             get { return _lyrics; }
             set { SetModified(nameof(Lyrics), ref _lyrics, value); }
+        }
+
+        public bool Instrumental
+        {
+            get { return _instrumental; }
+            set
+            {
+                SetModified(nameof(Instrumental), ref _instrumental, value);
+                if (_instrumental)
+                {
+                    Lyrics = InstrumentalLyrics;
+                }
+                else if (Lyrics == InstrumentalLyrics)
+                {
+                    Lyrics = "";
+                }
+            }
         }
 
         public ObservableCollection<string> Tags { get; set; }
@@ -142,6 +160,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             track.Tags = Tags.ToList();
             track.Lyrics = Lyrics;
             track.TrackNo = Convert.ToInt16(TrackNo);
+            track.Instrumental = Instrumental;
 
             Artist.UpdateArtist(track);
             Disc.UpdateDisc(track);
@@ -166,6 +185,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
             Year = track.Year;
             Lyrics = track.Lyrics;
             TrackNo = track.TrackNo.ToString();
+            Instrumental = track.Instrumental;
 
             Tags = new ObservableCollection<string>(track.Tags);
         }

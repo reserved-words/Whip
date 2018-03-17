@@ -45,6 +45,8 @@
     <Compile Include="Interfaces\IScrobblingService.cs" />
     <Compile Include="Interfaces\ISessionService.cs" />
     <Compile Include="Interfaces\ITrackLoveService.cs" />
+    <Compile Include="Interfaces\IUserInfoService.cs" />
+    <Compile Include="Internal\Helpers\StringValueAttribute.cs" />
     <Compile Include="Internal\Model\Session.cs" />
     <Compile Include="Exceptions\LastFmApiException.cs" />
     <Compile Include="Internal\Helpers\XmlHelper.cs" />
@@ -55,6 +57,13 @@
     <Compile Include="Methods\Track\LoveTrackMethod.cs" />
     <Compile Include="Methods\Track\ScrobbleMethod.cs" />
     <Compile Include="Methods\Track\UpdateNowPlayingMethod.cs" />
+    <Compile Include="Methods\User\GetTopTracksMethod.cs" />
+    <Compile Include="Methods\User\GetTopAlbumsMethod.cs" />
+    <Compile Include="Methods\User\GetTopArtistsMethod.cs" />
+    <Compile Include="Methods\User\GetRecentTracksMethod.cs" />
+    <Compile Include="Model\UserTrackInfo.cs" />
+    <Compile Include="Model\UserAlbumInfo.cs" />
+    <Compile Include="Model\UserArtistInfo.cs" />
     <Compile Include="Model\ArtistInfo.cs" />
     <Compile Include="Model\AlbumInfo.cs" />
     <Compile Include="Clients\ApiClient.cs" />
@@ -66,8 +75,11 @@
     <Compile Include="Methods\Auth\GetSessionMethod.cs" />
     <Compile Include="Methods\Auth\GetTokenMethod.cs" />
     <Compile Include="Clients\AuthorizedApiClient.cs" />
+    <Compile Include="Model\TimePeriod.cs" />
     <Compile Include="Model\Track.cs" />
+    <Compile Include="Model\TrackPlayInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\UserInfoService.cs" />
     <Compile Include="Services\ArtistInfoService.cs" />
     <Compile Include="Services\AlbumInfoService.cs" />
     <Compile Include="Services\ScrobblingService.cs" />

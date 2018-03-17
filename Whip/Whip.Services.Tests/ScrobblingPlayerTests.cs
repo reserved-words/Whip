@@ -18,7 +18,7 @@ namespace Whip.Services.Tests
         private Mock<IScrobblingRules> _mockScrobblingRules;
         private Mock<IScrobbler> _mockScrobbler;
         private Mock<ICurrentDateTime> _mockCurrentDateTime;
-        private Mock<IPlayProgressTracker> _mockPlayTimer;
+        private Mock<IPlayProgressTracker> _mockPlayTracker;
         
         private ScrobblingPlayer GetSubjectUnderTest()
         {
@@ -26,13 +26,14 @@ namespace Whip.Services.Tests
             _mockScrobblingRules = new Mock<IScrobblingRules>();
             _mockScrobbler = new Mock<IScrobbler>();
             _mockCurrentDateTime = new Mock<ICurrentDateTime>();
-            _mockPlayTimer = new Mock<IPlayProgressTracker>();
+            _mockPlayTracker = new Mock<IPlayProgressTracker>();
 
             _mockCurrentDateTime.Setup(c => c.Get()).Returns(_testTime);
             _mockScrobblingRules.Setup(r => r.MinimumUpdateNowPlayingDuration).Returns(MinimumUpdateNowPlayingDuration);
             _mockScrobblingRules.Setup(r => r.CanScrobble(It.IsAny<double>(), It.IsAny<double>())).Returns(true);
 
-            return new ScrobblingPlayer(_mockPlayer.Object, _mockScrobblingRules.Object, _mockScrobbler.Object, _mockCurrentDateTime.Object, _mockPlayTimer.Object);
+            return new ScrobblingPlayer(_mockPlayer.Object, _mockScrobblingRules.Object, _mockScrobbler.Object, 
+                _mockCurrentDateTime.Object, _mockPlayTracker.Object);
         }
 
         [TestMethod]
@@ -48,7 +49,7 @@ namespace Whip.Services.Tests
 
             // Assert
             _mockPlayer.Verify(p => p.Pause(), Times.Once);
-            _mockPlayTimer.Verify(t => t.Stop(), Times.Once);
+            _mockPlayTracker.Verify(t => t.Stop(), Times.Once);
             _mockScrobbler.Verify(s => s.UpdateNowPlayingAsync(testTrack, MinimumUpdateNowPlayingDuration));
         }
 
@@ -60,7 +61,7 @@ namespace Whip.Services.Tests
             var trackDurationInSeconds = (int)trackDuration.TotalSeconds;
             var newTrack = new Track { Title = "Track 2", Duration = trackDuration };
             var sut = GetSubjectUnderTest();
-            _mockPlayTimer.Setup(t => t.RemainingSeconds).Returns(trackDurationInSeconds);
+            _mockPlayTracker.Setup(t => t.RemainingSeconds).Returns(trackDurationInSeconds);
 
             // Act
             sut.Play(null);
@@ -68,8 +69,8 @@ namespace Whip.Services.Tests
 
             // Assert
             _mockPlayer.Verify(p => p.Play(newTrack), Times.Once);
-            _mockPlayTimer.Verify(t => t.Stop(), Times.Never);
-            _mockPlayTimer.Verify(t => t.StartNewTrack(trackDurationInSeconds), Times.Once);
+            _mockPlayTracker.Verify(t => t.Stop(), Times.Never);
+            _mockPlayTracker.Verify(t => t.StartNewTrack(trackDurationInSeconds), Times.Once);
             _mockScrobbler.Verify(s => s.UpdateNowPlayingAsync(newTrack, trackDurationInSeconds), Times.Once);
         }
 
@@ -82,7 +83,7 @@ namespace Whip.Services.Tests
             var originalTrack = new Track { Title = "Track 1" };
             var newTrack = new Track { Title = "Track 2", Duration = trackDuration };
             var sut = GetSubjectUnderTest();
-            _mockPlayTimer.Setup(t => t.RemainingSeconds).Returns(trackDurationInSeconds);
+            _mockPlayTracker.Setup(t => t.RemainingSeconds).Returns(trackDurationInSeconds);
 
             // Act
             sut.Play(originalTrack);
@@ -90,9 +91,9 @@ namespace Whip.Services.Tests
 
             // Assert
             _mockPlayer.Verify(p => p.Play(newTrack), Times.Once);
-            _mockPlayTimer.Verify(t => t.Stop(), Times.Once);
+            _mockPlayTracker.Verify(t => t.Stop(), Times.Once);
             _mockScrobbler.Verify(s => s.ScrobbleAsync(originalTrack, _testTime));
-            _mockPlayTimer.Verify(t => t.StartNewTrack(trackDurationInSeconds), Times.Once);
+            _mockPlayTracker.Verify(t => t.StartNewTrack(trackDurationInSeconds), Times.Once);
             _mockScrobbler.Verify(s => s.UpdateNowPlayingAsync(newTrack, trackDurationInSeconds), Times.Once);
         }
 
@@ -109,7 +110,7 @@ namespace Whip.Services.Tests
 
             // Assert
             _mockPlayer.Verify(p => p.Play(null), Times.Once);
-            _mockPlayTimer.Verify(t => t.Stop(), Times.Once);
+            _mockPlayTracker.Verify(t => t.Stop(), Times.Once);
             _mockScrobbler.Verify(s => s.ScrobbleAsync(originalTrack, _testTime));
             _mockScrobbler.Verify(s => s.UpdateNowPlayingAsync(originalTrack, MinimumUpdateNowPlayingDuration), Times.Once);
         }
@@ -121,7 +122,7 @@ namespace Whip.Services.Tests
             var testTrack = new Track();
             var testRemainingSeconds = 35;
             var sut = GetSubjectUnderTest();
-            _mockPlayTimer.Setup(t => t.RemainingSeconds).Returns(testRemainingSeconds);
+            _mockPlayTracker.Setup(t => t.RemainingSeconds).Returns(testRemainingSeconds);
 
             // Act
             sut.Play(testTrack);
@@ -129,7 +130,7 @@ namespace Whip.Services.Tests
 
             // Assert
             _mockPlayer.Verify(p => p.Resume(), Times.Once);
-            _mockPlayTimer.Verify(t => t.Resume(), Times.Once);
+            _mockPlayTracker.Verify(t => t.Resume(), Times.Once);
             _mockScrobbler.Verify(s => s.UpdateNowPlayingAsync(testTrack, testRemainingSeconds));
         }
 
@@ -141,7 +142,7 @@ namespace Whip.Services.Tests
             var testPercentage = 67;
             var testRemainingSeconds = 5;
             var sut = GetSubjectUnderTest();
-            _mockPlayTimer.Setup(t => t.RemainingSeconds).Returns(testRemainingSeconds);
+            _mockPlayTracker.Setup(t => t.RemainingSeconds).Returns(testRemainingSeconds);
 
             // Act
             sut.Play(testTrack);
@@ -149,8 +150,64 @@ namespace Whip.Services.Tests
 
             // Assert
             _mockPlayer.Verify(p => p.SkipToPercentage(testPercentage), Times.Once);
-            _mockPlayTimer.Verify(t => t.SkipToPercentage(testPercentage), Times.Once);
+            _mockPlayTracker.Verify(t => t.SkipToPercentage(testPercentage), Times.Once);
             _mockScrobbler.Verify(s => s.UpdateNowPlayingAsync(testTrack, testRemainingSeconds));
+        }
+
+        [TestMethod]
+        public void Stop_GivenTrackCanScrobble_UpdatesScrobblineAndCallsBasePlayerMethod()
+        {
+            // Arrange
+            var testTrack = new Track { Title = "test", Artist = new Artist { Name = "artist" } };
+            var sut = GetSubjectUnderTest();
+            var totalTrackTime = 50;
+            var secondsPlayedWhenStopped = 30;
+            var timeRemainingWhenStopped = totalTrackTime - secondsPlayedWhenStopped;
+            _mockPlayTracker.SetupGet(t => t.TotalTrackDurationInSeconds).Returns(totalTrackTime);
+            _mockPlayTracker.Setup(t => t.SecondsOfTrackPlayed).Returns(secondsPlayedWhenStopped);
+            _mockPlayTracker.SetupSequence(t => t.RemainingSeconds)
+                .Returns(totalTrackTime)
+                .Returns(timeRemainingWhenStopped);
+            _mockScrobblingRules.Setup(s => s.CanScrobble(totalTrackTime, secondsPlayedWhenStopped)).Returns(true);
+            
+            // Act
+            sut.Play(testTrack);
+            sut.Stop();
+
+            // Assert
+            _mockPlayer.Verify(p => p.Stop(), Times.Once);
+            _mockPlayTracker.Verify(t => t.Stop(), Times.Once);
+            _mockScrobbler.Verify(s => s.ScrobbleAsync(testTrack, _testTime), Times.Once);
+            _mockScrobbler.Verify(s => s.UpdateNowPlayingAsync(testTrack, totalTrackTime), Times.Once);
+            _mockScrobbler.Verify(s => s.UpdateNowPlayingAsync(testTrack, MinimumUpdateNowPlayingDuration), Times.Once);
+        }
+
+        [TestMethod]
+        public void Stop_GivenTrackCannotScrobble_UpdatesScrobblineAndCallsBasePlayerMethod()
+        {
+            // Arrange
+            var testTrack = new Track { Title = "test", Artist = new Artist { Name = "artist" } };
+            var sut = GetSubjectUnderTest();
+            var totalTrackTime = 50;
+            var secondsPlayedWhenStopped = 30;
+            var timeRemainingWhenStopped = totalTrackTime - secondsPlayedWhenStopped;
+            _mockPlayTracker.SetupGet(t => t.TotalTrackDurationInSeconds).Returns(totalTrackTime);
+            _mockPlayTracker.Setup(t => t.SecondsOfTrackPlayed).Returns(secondsPlayedWhenStopped);
+            _mockPlayTracker.SetupSequence(t => t.RemainingSeconds)
+                .Returns(totalTrackTime)
+                .Returns(timeRemainingWhenStopped);
+            _mockScrobblingRules.Setup(s => s.CanScrobble(totalTrackTime, secondsPlayedWhenStopped)).Returns(false);
+
+            // Act
+            sut.Play(testTrack);
+            sut.Stop();
+
+            // Assert
+            _mockPlayer.Verify(p => p.Stop(), Times.Once);
+            _mockPlayTracker.Verify(t => t.Stop(), Times.Once);
+            _mockScrobbler.Verify(s => s.ScrobbleAsync(testTrack, _testTime), Times.Never);
+            _mockScrobbler.Verify(s => s.UpdateNowPlayingAsync(testTrack, totalTrackTime), Times.Once);
+            _mockScrobbler.Verify(s => s.UpdateNowPlayingAsync(testTrack, MinimumUpdateNowPlayingDuration), Times.Once);
         }
     }
 }

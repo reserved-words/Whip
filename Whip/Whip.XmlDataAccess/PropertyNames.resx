@@ -408,4 +408,7 @@
   <data name="VideoPublished" xml:space="preserve">
     <value>published</value>
   </data>
+  <data name="Instrumental" xml:space="preserve">
+    <value>instrumental</value>
+  </data>
 </root>

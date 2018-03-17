@@ -75,7 +75,7 @@ namespace Whip.ViewModels.Tests
             sut.PlayArtistCommand.Execute(null);
 
             // Assert
-            _mockPlayRequestHandler.Verify(h => h.PlayArtist(_testArtist, SortType.Ordered, _testTrack), Times.Once);
+            _mockPlayRequestHandler.Verify(h => h.PlayArtist(_testArtist, SortType.Random, _testTrack), Times.Once);
         }
 
         [TestMethod]

@@ -9,6 +9,7 @@ namespace Whip.Common
         ReleaseType,
         DateTime,
         TimeSpan,
-        Year
+        Year,
+        Boolean
     }
 }

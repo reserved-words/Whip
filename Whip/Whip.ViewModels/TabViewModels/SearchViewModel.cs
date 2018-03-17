@@ -62,23 +62,23 @@ namespace Whip.ViewModels.TabViewModels
             RemoveGroupCommand = new RelayCommand<CriteriaGroupViewModel>(OnRemoveGroup);
         }
 
-        public TrackContextMenuViewModel TrackContextMenu { get; private set; }
+        public TrackContextMenuViewModel TrackContextMenu { get; }
 
-        public RelayCommand AddNewCriteriaGroupCommand { get; private set; }
-        public RelayCommand SearchCommand { get; private set; }
-        public RelayCommand ClearCommand { get; private set; }
-        public RelayCommand SaveAsCriteriaPlaylistCommand { get; private set; }
-        public RelayCommand SaveAsOrderedPlaylistCommand { get; private set; }
-        public RelayCommand PlayCommand { get; private set; }
-        public RelayCommand EditCommand { get; private set; }
-        public RelayCommand<CriteriaGroupViewModel> RemoveGroupCommand { get; private set; }
+        public RelayCommand AddNewCriteriaGroupCommand { get; }
+        public RelayCommand SearchCommand { get; }
+        public RelayCommand ClearCommand { get; }
+        public RelayCommand SaveAsCriteriaPlaylistCommand { get; }
+        public RelayCommand SaveAsOrderedPlaylistCommand { get; }
+        public RelayCommand PlayCommand { get; }
+        public RelayCommand EditCommand { get; }
+        public RelayCommand<CriteriaGroupViewModel> RemoveGroupCommand { get; }
 
-        public ObservableCollection<CriteriaGroupViewModel> Criteria { get; private set; }
+        public ObservableCollection<CriteriaGroupViewModel> Criteria { get; }
 
         public List<Track> Results
         {
             get { return _results; }
-            private set { Set(ref (_results), value); }
+            private set { Set(ref _results, value); }
         }
 
         public Track SelectedTrack
@@ -86,7 +86,7 @@ namespace Whip.ViewModels.TabViewModels
             get { return _selectedTrack; }
             set
             {
-                Set(ref (_selectedTrack), value);
+                Set(ref _selectedTrack, value);
                 TrackContextMenu.SetTrack(_selectedTrack);
             }
         }

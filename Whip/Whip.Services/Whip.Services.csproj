@@ -52,6 +52,7 @@
     <Compile Include="Library\ArchiveService.cs" />
     <Compile Include="Library\CommentProcessingService.cs" />
     <Compile Include="Library\LibrarySortingService.cs" />
+    <Compile Include="Library\LibraryStatisticsService.cs" />
     <Compile Include="Library\TrackFilterService.cs" />
     <Compile Include="Library\TrackUpdateService.cs" />
     <Compile Include="MethodInterceptors\WebMethodInterceptor.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Utilities\PlayProgressTracker.cs" />
     <Compile Include="Singletons\WebServicesStatus.cs" />
     <Compile Include="Utilities\ScrobbleCacher.cs" />
+    <Compile Include="Utilities\TimeToString.cs" />
     <Compile Include="Utilities\XmlFileService.cs" />
     <Compile Include="WebServices\ArtistWebInfoService.cs" />
     <Compile Include="WebServices\RssService.cs" />
