@@ -21,11 +21,27 @@ namespace Whip.Services
 
         public List<Track> GetTracks(ITrackCriteria trackCriteria)
         {
+            if (!trackCriteria.CriteriaGroups.Any()
+                && !trackCriteria.OrderByProperty.HasValue
+                && !trackCriteria.MaxTracks.HasValue)
+            {
+                return new List<Track>();
+            }
+
             var tracks = new HashSet<Track>();
 
-            foreach (var criteriaGroup in trackCriteria.CriteriaGroups)
+            if (!trackCriteria.CriteriaGroups.Any())
             {
-                GetValidTracks(criteriaGroup).ForEach(t => tracks.Add(t));
+                _library.Artists.SelectMany(a => a.Tracks)
+                    .ToList()
+                    .ForEach(t => tracks.Add(t));
+            }
+            else
+            {
+                foreach (var criteriaGroup in trackCriteria.CriteriaGroups)
+                {
+                    GetValidTracks(criteriaGroup).ForEach(t => tracks.Add(t));
+                }
             }
 
             IEnumerable<Track> list = tracks;
