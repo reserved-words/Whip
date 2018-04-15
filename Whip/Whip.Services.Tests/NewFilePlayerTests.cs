@@ -6,14 +6,15 @@ using Whip.Common.Model;
 using Whip.Services.Interfaces;
 using Whip.Services.Singletons;
 using static Whip.Common.Resources;
+using System.IO;
 
 namespace Whip.Services.Tests
 {
     [TestClass]
     public class NewFilePlayerTests
     {
-        private const string TestFilePath = "testOriginalFilePath";
-        private const string TestCurrentlyPlayingFilePath = "testNewFilePath";
+        private const string TestFilePath = @"C:\Users\Username\DirectoryName\testOriginalFilePath";
+        private const string TestCurrentlyPlayingFilePath = @"C:\Users\Username\DirectoryName\testNewFilePath";
 
         private Mock<IPlayer> _mockBasePlayer;
         private Mock<IFileService> _mockFileService;
@@ -62,7 +63,7 @@ namespace Whip.Services.Tests
             // Arrange
             var trackToPlay = new Track
             {
-                File = new File(TestFilePath, "", DateTime.MinValue, DateTime.MinValue)
+                File = new Common.Model.File(TestFilePath, "", DateTime.MinValue, DateTime.MinValue)
             };
             var sut = GetSubjectUnderTest();
 
@@ -72,7 +73,7 @@ namespace Whip.Services.Tests
             // Assert
             _mockFileService.Verify(s => s.CopyFile(TestFilePath, CurrentPlayingDirectoryName));
             _mockBasePlayer.Verify(p => p.Play(It.Is<Track>(t => t.File.FullPath == TestCurrentlyPlayingFilePath)), Times.Once);
-            _mockFileService.Verify(s => s.DeleteFiles(CurrentPlayingDirectoryName, TestCurrentlyPlayingFilePath), Times.Once);
+            _mockFileService.Verify(s => s.DeleteFiles(CurrentPlayingDirectoryName, Path.GetFileName(TestCurrentlyPlayingFilePath)), Times.Once);
         }
 
         [TestMethod]

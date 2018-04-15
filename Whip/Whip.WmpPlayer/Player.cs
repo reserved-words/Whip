@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading;
-using Whip.Common.Interfaces;
+﻿using Whip.Common.Interfaces;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
 using WMPLib;
@@ -10,13 +8,11 @@ namespace Whip.WmpPlayer
     public class Player : IPlayer
     {
         private readonly WindowsMediaPlayer _player = new WindowsMediaPlayer();
-        private readonly ILoggingService _logger;
 
         private int _volume = 50;
 
-        public Player(ILoggingService logger)
+        public Player()
         {
-            _logger = logger;
             _player.settings.volume = _volume;
         }
         
@@ -35,23 +31,9 @@ namespace Whip.WmpPlayer
                 return;
             }
 
-            try
-            {
-                // This is to avoid a weird error where tracks don't start playing unless there's some delay here
-                // - obviously this should not be the permanent solution
-                Thread.Sleep(500);
-                
-                if (string.IsNullOrEmpty(track.File?.FullPath) || !System.IO.File.Exists(track.File.FullPath))
-                    throw new ApplicationException("The requested file does not exist");
-
-                _player.URL = track.File.FullPath;
-                _player.controls.currentPosition = 0;
-                _player.controls.play();
-            }
-            catch (Exception ex)
-            {
-                _logger.Error("Error playing file " + (track.File?.FullPath ?? "") + ": " + ex.Message);
-            }
+            _player.URL = track.File.FullPath;
+            _player.controls.currentPosition = 0;
+            _player.controls.play();
         }
 
         public void Resume()
