@@ -33,24 +33,29 @@ namespace Whip.ViewModels.TabViewModels.Playlists
             DeleteCommand = new RelayCommand<OrderedPlaylist>(OnDelete);
             EditCommand = new RelayCommand<OrderedPlaylist>(OnEdit);
             PlayCommand = new RelayCommand<OrderedPlaylist>(OnPlay);
+            FavouriteCommand = new RelayCommand<OrderedPlaylist>(OnFavourite);
         }
 
-        public RelayCommand AddNewPlaylistCommand { get; private set; }
-        public RelayCommand<OrderedPlaylist> DeleteCommand { get; private set; }
-        public RelayCommand<OrderedPlaylist> EditCommand { get; private set; }
-        public RelayCommand<OrderedPlaylist> PlayCommand { get; private set; }
+        public RelayCommand AddNewPlaylistCommand { get; }
+        public RelayCommand<OrderedPlaylist> DeleteCommand { get; }
+        public RelayCommand<OrderedPlaylist> EditCommand { get; }
+        public RelayCommand<OrderedPlaylist> PlayCommand { get; }
+        public RelayCommand<OrderedPlaylist> FavouriteCommand { get; }
 
         public ObservableCollection<OrderedPlaylist> Playlists { get; set; }
 
-        public void Update(List<OrderedPlaylist> playlists)
+        public void Update(List<OrderedPlaylist> playlists = null)
         {
+            if (playlists == null)
+                playlists = new List<OrderedPlaylist>(Playlists);
+
             Playlists.Clear();
             playlists.ForEach(Playlists.Add);
         }
 
         private void OnAddNewPlaylist()
         {
-            var newPlaylist = new OrderedPlaylist(0, "New Playlist");
+            var newPlaylist = new OrderedPlaylist(0, "New Playlist", false);
             _messenger.Send(new EditOrderedPlaylistMessage(newPlaylist));
         }
 
@@ -67,6 +72,13 @@ namespace Whip.ViewModels.TabViewModels.Playlists
         private void OnPlay(OrderedPlaylist playlist)
         {
             _playRequestHandler.PlayOrderedPlaylist(playlist.Title, _trackSearchService.GetTracks(playlist.Tracks), SortType.Ordered);
+        }
+
+        private void OnFavourite(OrderedPlaylist playlist)
+        {
+            playlist.Favourite = !playlist.Favourite;
+            _repository.Save(playlist);
+            Update();
         }
     }
 }

@@ -466,6 +466,15 @@ namespace Whip.XmlDataAccess {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to favourite.
+        /// </summary>
+        public static string PlaylistIsFavourite {
+            get {
+                return ResourceManager.GetString("PlaylistIsFavourite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to max_tracks.
         /// </summary>
         public static string PlaylistMaxTracks {

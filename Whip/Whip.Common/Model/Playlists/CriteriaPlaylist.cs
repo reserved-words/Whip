@@ -6,8 +6,8 @@ namespace Whip.Common.Model
 {
     public class CriteriaPlaylist : PlaylistBase, ITrackCriteria
     {
-        public CriteriaPlaylist(int id, string title)
-            :base(id, title)
+        public CriteriaPlaylist(int id, string title, bool favourite)
+            :base(id, title, favourite)
         {
             CriteriaGroups = new List<CriteriaGroup>();
         }

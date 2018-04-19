@@ -221,7 +221,7 @@ namespace Whip.ViewModels.TabViewModels
         {
             if (playlist == null)
             {
-                playlist = new CriteriaPlaylist(0, "");
+                playlist = new CriteriaPlaylist(0, "", false);
             }
 
             playlist.Title = PlaylistTitle;

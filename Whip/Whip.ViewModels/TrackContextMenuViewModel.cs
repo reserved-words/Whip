@@ -38,7 +38,7 @@ namespace Whip.ViewModels
         public void SetCommands()
         {
             _playlists = _playlistRepository.GetPlaylists().OrderedPlaylists;
-            _playlists.Add(new OrderedPlaylist(0, NewPlaylistCommandName));
+            _playlists.Add(new OrderedPlaylist(0, NewPlaylistCommandName, false));
 
             _menuCommands.Clear();
 

@@ -39,8 +39,9 @@ namespace Whip.XmlDataAccess
                 {
                     var id = int.Parse(playlistXml.Attribute(PlaylistId).Value);
                     var title = playlistXml.Attribute(PlaylistTitle).Value;
+                    var favourite = playlistXml.Attribute(PlaylistIsFavourite)?.Value == TrueValue;
 
-                    var playlist = new OrderedPlaylist(id, title);
+                    var playlist = new OrderedPlaylist(id, title, favourite);
 
                     foreach (var trackXml in playlistXml.Element(PlaylistTracks).Elements(PlaylistTrack))
                     {
@@ -54,8 +55,9 @@ namespace Whip.XmlDataAccess
                 {
                     var id = int.Parse(playlistXml.Attribute(PlaylistId).Value);
                     var title = playlistXml.Attribute(PlaylistTitle).Value;
+                    var favourite = playlistXml.Attribute(PlaylistIsFavourite)?.Value == TrueValue;
 
-                    var playlist = new CriteriaPlaylist(id, title);
+                    var playlist = new CriteriaPlaylist(id, title, favourite);
 
                     var orderByProperty = playlistXml.Attribute(PlaylistOrderBy).Value;
 
@@ -151,6 +153,7 @@ namespace Whip.XmlDataAccess
 
             playlistXml.Add(new XAttribute(PlaylistId, playlist.Id));
             playlistXml.Add(new XAttribute(PlaylistTitle, playlist.Title));
+            playlistXml.Add(new XAttribute(PlaylistIsFavourite, playlist.Favourite ? TrueValue : FalseValue));
             playlistXml.Add(new XAttribute(PlaylistOrderBy, playlist.OrderByProperty?.ToString() ?? ""));
             playlistXml.Add(new XAttribute(PlaylistOrderByDescending, playlist.OrderByDescending ? TrueValue : FalseValue));
             playlistXml.Add(new XAttribute(PlaylistMaxTracks, playlist.MaxTracks?.ToString() ?? ""));
@@ -210,6 +213,7 @@ namespace Whip.XmlDataAccess
 
             playlistXml.Add(new XAttribute(PlaylistId, playlist.Id));
             playlistXml.Add(new XAttribute(PlaylistTitle, playlist.Title));
+            playlistXml.Add(new XAttribute(PlaylistIsFavourite, playlist.Favourite ? TrueValue : FalseValue));
 
             var tracksXml = new XElement(PlaylistTracks);
             playlistXml.Add(tracksXml);

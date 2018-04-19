@@ -24,13 +24,13 @@ namespace Whip.ViewModels.TabViewModels
             _repository = repository;
 
             OrderedPlaylists = new OrderedPlaylistsViewModel(this, _messenger, trackSearchService, _repository, playRequestHandler);
-            CriteriaPlaylists = new CriteriaPlaylistsViewModel(this, messenger, trackSearchService, playRequestHandler);
+            CriteriaPlaylists = new CriteriaPlaylistsViewModel(this, messenger, trackSearchService, _repository, playRequestHandler);
             StandardPlaylists = new StandardPlaylistsViewModel(library, messenger, playRequestHandler);
         }
 
-        public StandardPlaylistsViewModel StandardPlaylists { get; private set; }
-        public OrderedPlaylistsViewModel OrderedPlaylists { get; private set; }
-        public CriteriaPlaylistsViewModel CriteriaPlaylists { get; private set; }
+        public StandardPlaylistsViewModel StandardPlaylists { get; }
+        public OrderedPlaylistsViewModel OrderedPlaylists { get; }
+        public CriteriaPlaylistsViewModel CriteriaPlaylists { get; }
 
         public override void OnShow(Track currentTrack)
         {
