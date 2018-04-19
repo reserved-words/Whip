@@ -79,6 +79,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
             playlist.Favourite = !playlist.Favourite;
             _repository.Save(playlist);
             Update();
+            _parent.OnFavouritePlaylistsUpdated();
         }
     }
 }

@@ -99,7 +99,6 @@
     <Compile Include="Library\LibraryArtistViewModelTests.cs" />
     <Compile Include="Library\LibraryTracksViewModelTest.cs" />
     <Compile Include="Library\LibraryViewModelTests.cs" />
-    <Compile Include="MainWindowViewModelTests.cs" />
     <Compile Include="Sidebar\SettingsIconsViewModelTests.cs" />
     <Compile Include="Sidebar\PlayShortcutsViewModelTests.cs" />
     <Compile Include="Sidebar\PlayerControlsViewModelTests.cs" />

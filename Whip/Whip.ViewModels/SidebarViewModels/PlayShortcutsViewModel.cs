@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Whip.Common;
@@ -48,11 +49,13 @@ namespace Whip.ViewModels
         public RelayCommand<OrderedPlaylist> PlayOrderedPlaylistCommand { get; }
         public RelayCommand ShuffleLibraryCommand { get; }
 
-        public void Load()
+        public void LoadPlaylists()
         {
             var playlists = _repository.GetPlaylists(true);
-            playlists.CriteriaPlaylists.ForEach(CriteriaPlaylists.Add);
-            playlists.OrderedPlaylists.ForEach(OrderedPlaylists.Add);
+            CriteriaPlaylists.Clear();
+            OrderedPlaylists.Clear();
+            playlists.CriteriaPlaylists.OrderBy(p => p.Title).ToList().ForEach(CriteriaPlaylists.Add);
+            playlists.OrderedPlaylists.OrderBy(p => p.Title).ToList().ForEach(OrderedPlaylists.Add);
         }
 
         private void OnPlayOrderedPlaylistCommand(OrderedPlaylist playlist)

@@ -34,9 +34,9 @@ namespace Whip.ViewModels
             PlayerControlsViewModel.OnCurrentTrackChanged(track);
         }
 
-        public void Load()
+        public void LoadPlaylists()
         {
-            PlayShortcutsViewModel.Load();
+            PlayShortcutsViewModel.LoadPlaylists();
         }
 
         private void OnOpenMiniPlayer()

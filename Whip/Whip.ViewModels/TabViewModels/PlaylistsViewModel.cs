@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight.Messaging;
+﻿using System;
+using GalaSoft.MvvmLight.Messaging;
 using Whip.Common;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
@@ -13,6 +14,8 @@ namespace Whip.ViewModels.TabViewModels
 {
     public class PlaylistsViewModel : TabViewModelBase
     {
+        public event Action FavouritePlaylistsUpdated = delegate { };
+
         private readonly IMessenger _messenger;
         private readonly IPlaylistRepository _repository;
 
@@ -45,7 +48,7 @@ namespace Whip.ViewModels.TabViewModels
         public void Remove(CriteriaPlaylist playlist)
         {
             var confirmation = new ConfirmationViewModel(_messenger, "Delete Playlist Confirmation", $"Are you sure you want to delete {playlist.Title}?", 
-                ConfirmationType.YesNo, false);
+                ConfirmationType.YesNo);
 
             _messenger.Send(new ShowDialogMessage(confirmation));
 
@@ -59,7 +62,7 @@ namespace Whip.ViewModels.TabViewModels
         public void Remove(OrderedPlaylist playlist)
         {
             var confirmation = new ConfirmationViewModel(_messenger, "Delete Playlist Confirmation", $"Are you sure you want to delete {playlist.Title}?",
-                ConfirmationType.YesNo, false);
+                ConfirmationType.YesNo);
 
             _messenger.Send(new ShowDialogMessage(confirmation));
 
@@ -68,6 +71,11 @@ namespace Whip.ViewModels.TabViewModels
 
             _repository.Delete(playlist);
             OnShow(null);
+        }
+
+        public void OnFavouritePlaylistsUpdated()
+        {
+            FavouritePlaylistsUpdated.Invoke();
         }
     }
 }
