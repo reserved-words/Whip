@@ -51,6 +51,8 @@ namespace Whip.ViewModels
         public void OnLoad()
         {
             PopulateLibrary();
+
+            SidebarViewModel.Load();
         }
 
         public void OnExit()

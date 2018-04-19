@@ -1,52 +1,68 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Whip.Common;
-using Whip.Common.ExtensionMethods;
 using Whip.Common.Model;
-using Whip.Common.Singletons;
 using Whip.Services.Interfaces.Singletons;
+using Whip.Services.Interfaces;
 
 namespace Whip.ViewModels
 {
     public class PlayShortcutsViewModel : ViewModelBase
     {
-        public enum PlayerStatus { Playing, Paused, Stopped }
-
-        private readonly Library _library;
         private readonly IPlayRequestHandler _playRequestHandler;
+        private readonly IPlaylistRepository _repository;
+        private readonly ITrackSearchService _trackSearchService;
 
-        private List<string> _groupings;
+        private ObservableCollection<CriteriaPlaylist> _criteriaPlaylists;
+        private ObservableCollection<OrderedPlaylist> _orderedPlaylists;
 
-        public PlayShortcutsViewModel(Library library, IPlayRequestHandler playRequestHandler)
+        public PlayShortcutsViewModel(IPlayRequestHandler playRequestHandler, IPlaylistRepository repository, ITrackSearchService trackSearchService)
         {
-            _library = library;
+            _repository = repository;
             _playRequestHandler = playRequestHandler;
+            _trackSearchService = trackSearchService;
 
-            _library.Updated += OnLibraryUpdated;
-
-            PlayGroupingCommand = new RelayCommand<string>(OnShuffleGrouping);
+            PlayCriteriaPlaylistCommand = new RelayCommand<CriteriaPlaylist>(OnPlayCriteriaPlaylistCommand);
+            PlayOrderedPlaylistCommand = new RelayCommand<OrderedPlaylist>(OnPlayOrderedPlaylistCommand);
             ShuffleLibraryCommand = new RelayCommand(OnShuffleLibrary);
+
+            CriteriaPlaylists = new ObservableCollection<CriteriaPlaylist>();
+            OrderedPlaylists = new ObservableCollection<OrderedPlaylist>();
         }
 
-        public List<string> Groupings
+        public ObservableCollection<CriteriaPlaylist> CriteriaPlaylists
         {
-            get { return _groupings; }
-            set { Set(ref _groupings, value); }
+            get { return _criteriaPlaylists; }
+            set { Set(ref _criteriaPlaylists, value); }
         }
 
-        public RelayCommand<string> PlayGroupingCommand { get; }
+        public ObservableCollection<OrderedPlaylist> OrderedPlaylists
+        {
+            get { return _orderedPlaylists; }
+            set { Set(ref _orderedPlaylists, value); }
+        }
+
+        public RelayCommand<CriteriaPlaylist> PlayCriteriaPlaylistCommand { get; }
+        public RelayCommand<OrderedPlaylist> PlayOrderedPlaylistCommand { get; }
         public RelayCommand ShuffleLibraryCommand { get; }
-        
-        private void OnLibraryUpdated(Track track)
+
+        public void Load()
         {
-            Groupings = _library.GetGroupings().Where(g => !string.IsNullOrEmpty(g)).ToList();
+            var playlists = _repository.GetPlaylists(true);
+            playlists.CriteriaPlaylists.ForEach(CriteriaPlaylists.Add);
+            playlists.OrderedPlaylists.ForEach(OrderedPlaylists.Add);
         }
 
-        private void OnShuffleGrouping(string grouping)
+        private void OnPlayOrderedPlaylistCommand(OrderedPlaylist playlist)
         {
-            _playRequestHandler.PlayGrouping(grouping, SortType.Random);
+            _playRequestHandler.PlayOrderedPlaylist(playlist.Title, _trackSearchService.GetTracks(playlist.Tracks));
+        }
+
+        private void OnPlayCriteriaPlaylistCommand(CriteriaPlaylist playlist)
+        {
+            _playRequestHandler.PlayCriteriaPlaylist(playlist.Title, _trackSearchService.GetTracks(playlist));
         }
 
         private void OnShuffleLibrary()

@@ -26,7 +26,7 @@ namespace Whip.XmlDataAccess
 
         private string XmlFilePath => Path.Combine(_userSettings.DataDirectory, Filename);
 
-        public AllPlaylists GetPlaylists()
+        public AllPlaylists GetPlaylists(bool favouritesOnly = false)
         {
             var criteriaPlaylists = new List<CriteriaPlaylist>();
             var orderedPlaylists = new List<OrderedPlaylist>();
@@ -37,9 +37,13 @@ namespace Whip.XmlDataAccess
 
                 foreach (var playlistXml in xml.Root.Element(PlaylistsOrdered).Elements(Playlist))
                 {
+                    var favourite = playlistXml.Attribute(PlaylistIsFavourite)?.Value == TrueValue;
+
+                    if (favouritesOnly && !favourite)
+                        continue;
+
                     var id = int.Parse(playlistXml.Attribute(PlaylistId).Value);
                     var title = playlistXml.Attribute(PlaylistTitle).Value;
-                    var favourite = playlistXml.Attribute(PlaylistIsFavourite)?.Value == TrueValue;
 
                     var playlist = new OrderedPlaylist(id, title, favourite);
 
@@ -53,9 +57,13 @@ namespace Whip.XmlDataAccess
 
                 foreach (var playlistXml in xml.Root.Element(PlaylistsCriteria).Elements(Playlist))
                 {
+                    var favourite = playlistXml.Attribute(PlaylistIsFavourite)?.Value == TrueValue;
+
+                    if (favouritesOnly && !favourite)
+                        continue;
+
                     var id = int.Parse(playlistXml.Attribute(PlaylistId).Value);
                     var title = playlistXml.Attribute(PlaylistTitle).Value;
-                    var favourite = playlistXml.Attribute(PlaylistIsFavourite)?.Value == TrueValue;
 
                     var playlist = new CriteriaPlaylist(id, title, favourite);
 

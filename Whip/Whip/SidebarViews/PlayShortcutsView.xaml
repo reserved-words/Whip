@@ -12,16 +12,31 @@
                 Content="Shuffle Library"
                 Command="{Binding ShuffleLibraryCommand}" />
 
-        <ListView ItemsSource="{Binding Groupings}"
+        <ListView ItemsSource="{Binding CriteriaPlaylists}"
                   BorderThickness="0"
                   Margin="0"
                   ItemContainerStyle="{StaticResource ListViewItemNoHighlight}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Button Margin="0,5,0,0"
-                            Command="{Binding DataContext.PlayGroupingCommand, ElementName=playShortcutsView}"
+                            Command="{Binding DataContext.PlayCriteriaPlaylistCommand, ElementName=playShortcutsView}"
                             CommandParameter="{Binding}">
-                        <TextBlock Text="{Binding StringFormat=Shuffle {0}}" />
+                        <TextBlock Text="{Binding Title}" />
+                    </Button>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <ListView ItemsSource="{Binding OrderedPlaylists}"
+                  BorderThickness="0"
+                  Margin="0"
+                  ItemContainerStyle="{StaticResource ListViewItemNoHighlight}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Button Margin="0,5,0,0"
+                            Command="{Binding DataContext.PlayOrderedPlaylistCommand, ElementName=playShortcutsView}"
+                            CommandParameter="{Binding}">
+                        <TextBlock Text="{Binding Title}" />
                     </Button>
                 </DataTemplate>
             </ListView.ItemTemplate>

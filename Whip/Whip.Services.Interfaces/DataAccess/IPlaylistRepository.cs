@@ -4,7 +4,7 @@ namespace Whip.Services.Interfaces
 {
     public interface IPlaylistRepository
     {
-        AllPlaylists GetPlaylists();
+        AllPlaylists GetPlaylists(bool favouritesOnly = false);
         void Save(OrderedPlaylist playlist);
         void Save(CriteriaPlaylist playlist);
         void Delete(CriteriaPlaylist playlist);

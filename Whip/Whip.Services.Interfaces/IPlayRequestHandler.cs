@@ -15,7 +15,7 @@ namespace Whip.Services.Interfaces.Singletons
         void PlayGrouping(string grouping, SortType? sortType, Track firstTrack = null);
         void PlayAlbum(Album album, SortType? sortType, Track firstTrack = null);
         void PlayArtist(Artist artist, SortType? sortType, Track firstTrack = null);
-        void PlayCriteriaPlaylist(string playlistName, List<Track> tracks, SortType? sortType, Track firstTrack = null);
-        void PlayOrderedPlaylist(string playlistName, List<Track> tracks, SortType? sortType, Track firstTrack = null);
+        void PlayCriteriaPlaylist(string playlistName, List<Track> tracks, Track firstTrack = null);
+        void PlayOrderedPlaylist(string playlistName, List<Track> tracks, Track firstTrack = null);
     }
 }
