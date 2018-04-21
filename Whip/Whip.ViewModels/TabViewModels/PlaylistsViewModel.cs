@@ -37,10 +37,8 @@ namespace Whip.ViewModels.TabViewModels
 
         public override void OnShow(Track currentTrack)
         {
-            StandardPlaylists.UpdateOptions();
-
             var playlists = _repository.GetPlaylists();
-
+            StandardPlaylists.Update(playlists.FavouriteQuickPlaylists);
             OrderedPlaylists.Update(playlists.OrderedPlaylists);
             CriteriaPlaylists.Update(playlists.CriteriaPlaylists);
         }

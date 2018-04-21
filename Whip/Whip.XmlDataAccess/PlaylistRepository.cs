@@ -31,26 +31,42 @@ namespace Whip.XmlDataAccess
         {
             var criteriaPlaylists = new List<CriteriaPlaylist>();
             var orderedPlaylists = new List<OrderedPlaylist>();
+            var quickPlaylists = new List<QuickPlaylist>();
             
             if (System.IO.File.Exists(XmlFilePath))
             {
                 var xml = XDocument.Load(XmlFilePath);
 
-                foreach (var playlistXml in xml.Root.Element(PlaylistsOrdered).Elements(PropertyNames.Playlist))
+                if (xml.Root.Element(PlaylistsOrdered) != null)
                 {
-                    orderedPlaylists.Add(CreateOrderedPlaylist(playlistXml));
+                    foreach (var playlistXml in xml.Root.Element(PlaylistsOrdered).Elements(PropertyNames.Playlist))
+                    {
+                        orderedPlaylists.Add(CreateOrderedPlaylist(playlistXml));
+                    } 
                 }
 
-                foreach (var playlistXml in xml.Root.Element(PlaylistsCriteria).Elements(PropertyNames.Playlist))
+                if (xml.Root.Element(PlaylistsCriteria) != null)
                 {
-                    criteriaPlaylists.Add(CreateCriteriaPlaylist(playlistXml));
+                    foreach (var playlistXml in xml.Root.Element(PlaylistsCriteria).Elements(PropertyNames.Playlist))
+                    {
+                        criteriaPlaylists.Add(CreateCriteriaPlaylist(playlistXml));
+                    } 
+                }
+
+                if (xml.Root.Element(PlaylistsFavouriteQuick) != null)
+                {
+                    foreach (var playlistXml in xml.Root.Element(PlaylistsFavouriteQuick).Elements(PropertyNames.Playlist))
+                    {
+                        quickPlaylists.Add(CreateQuickPlaylist(playlistXml));
+                    } 
                 }
             }
             
             return new AllPlaylists
             {
                 CriteriaPlaylists = criteriaPlaylists,
-                OrderedPlaylists = orderedPlaylists
+                OrderedPlaylists = orderedPlaylists,
+                FavouriteQuickPlaylists = quickPlaylists
             };
         }
 

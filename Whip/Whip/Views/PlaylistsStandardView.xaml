@@ -11,13 +11,14 @@
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type model:Playlist}">
             <WrapPanel Margin="0">
-                <controls:Icon12 Icon="Star"
-                                 Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"
-                                 Visibility="{Binding Favourite, Converter={StaticResource BoolVisibilityConverter}}">
-                </controls:Icon12>
                 <Label Content="{Binding Title}"
                        Margin="0"
                        Padding="0"/>
+                <controls:Icon12 Margin="4 0"
+                                 Icon="Star"
+                                 Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"
+                                 Visibility="{Binding Favourite, Converter={StaticResource BoolVisibilityConverter}}">
+                </controls:Icon12>
             </WrapPanel>
         </DataTemplate>
         <CollectionViewSource Source="{Binding States}" x:Key="statesView">
@@ -171,9 +172,9 @@
                    Content="Added" />
 
             <ComboBox Grid.Row="6" Grid.Column="2"
-                      ItemsSource="{Binding AddedDateOptions}"
+                      ItemsSource="{Binding DateAddedOptions}"
                       DisplayMemberPath="{Binding FilterValues[0]}"
-                      SelectedItem="{Binding SelectedAddedDateOption}" />
+                      SelectedItem="{Binding SelectedDateAddedOption}" />
 
         </Grid>
 

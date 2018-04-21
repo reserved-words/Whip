@@ -18,15 +18,16 @@ namespace Whip.ViewModels.TabViewModels.Playlists
         private readonly IMessenger _messenger;
         private readonly IPlayRequestHandler _playRequestHandler;
         private readonly ITrackSearchService _trackSearchService;
-        
+
         private QuickPlaylist _selectedGrouping;
         private QuickPlaylist _selectedGenre;
         private QuickPlaylist _selectedCountry;
         private QuickPlaylist _selectedState;
         private QuickPlaylist _selectedCity;
         private QuickPlaylist _selectedTag;
-        private QuickPlaylist _selectedAddedDateOption;
-        
+        private QuickPlaylist _selectedDateAddedOption;
+
+        private List<QuickPlaylist> _dateAddedOptions;
         private List<QuickPlaylist> _groupings;
         private List<QuickPlaylist> _genres;
         private List<QuickPlaylist> _countries;
@@ -41,8 +42,6 @@ namespace Whip.ViewModels.TabViewModels.Playlists
             _messenger = messenger;
             _playRequestHandler = playRequestHandler;
             _trackSearchService = trackSearchService;
-
-            AddedDateOptions = GetDateAddedOptions();
 
             PlayGroupingCommand = new RelayCommand(OnPlayGrouping);
             PlayGenreCommand = new RelayCommand(OnPlayGenre);
@@ -64,17 +63,17 @@ namespace Whip.ViewModels.TabViewModels.Playlists
 
         private void OnPlayRecentlyAdded()
         {
-            if (!CheckOptionSelected(SelectedAddedDateOption, "time period"))
+            if (!CheckOptionSelected(SelectedDateAddedOption, "time period"))
                 return;
-            
-            Play(SelectedAddedDateOption);
+
+            Play(SelectedDateAddedOption);
         }
 
         private void OnPlayTag()
         {
             if (!CheckOptionSelected(SelectedTag, "tag"))
                 return;
-            
+
             Play(SelectedTag);
         }
 
@@ -82,7 +81,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
         {
             if (!CheckOptionSelected(SelectedCity, "city"))
                 return;
-            
+
             Play(SelectedCity);
         }
 
@@ -90,7 +89,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
         {
             if (!CheckOptionSelected(SelectedState, "state"))
                 return;
-            
+
             Play(SelectedState);
         }
 
@@ -114,7 +113,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
         {
             if (!CheckOptionSelected(SelectedGrouping, "grouping"))
                 return;
-            
+
             Play(SelectedGrouping);
         }
 
@@ -138,6 +137,12 @@ namespace Whip.ViewModels.TabViewModels.Playlists
         public RelayCommand PlayCityCommand { get; }
         public RelayCommand PlayTagCommand { get; }
         public RelayCommand PlayRecentlyAddedCommand { get; }
+
+        public List<QuickPlaylist> DateAddedOptions
+        {
+            get { return _dateAddedOptions; }
+            set { Set(ref _dateAddedOptions, value); }
+        }
 
         public List<QuickPlaylist> Groupings
         {
@@ -174,9 +179,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
             get { return _tags; }
             set { Set(ref _tags, value); }
         }
-
-        public List<QuickPlaylist> AddedDateOptions { get; }
-
+        
         public QuickPlaylist SelectedGrouping
         {
             get { return _selectedGrouping; }
@@ -237,13 +240,13 @@ namespace Whip.ViewModels.TabViewModels.Playlists
             }
         }
 
-        public QuickPlaylist SelectedAddedDateOption
+        public QuickPlaylist SelectedDateAddedOption
         {
-            get { return _selectedAddedDateOption; }
+            get { return _selectedDateAddedOption; }
             set
             {
-                Set(ref _selectedAddedDateOption, value);
-                ClearSelections(nameof(SelectedAddedDateOption));
+                Set(ref _selectedDateAddedOption, value);
+                ClearSelections(nameof(SelectedDateAddedOption));
             }
         }
 
@@ -279,9 +282,9 @@ namespace Whip.ViewModels.TabViewModels.Playlists
                 _selectedTag = null;
             }
 
-            if (except != nameof(SelectedAddedDateOption))
+            if (except != nameof(SelectedDateAddedOption))
             {
-                _selectedAddedDateOption = null;
+                _selectedDateAddedOption = null;
             }
 
             RaisePropertyChanged(nameof(SelectedGrouping));
@@ -290,64 +293,101 @@ namespace Whip.ViewModels.TabViewModels.Playlists
             RaisePropertyChanged(nameof(SelectedState));
             RaisePropertyChanged(nameof(SelectedCity));
             RaisePropertyChanged(nameof(SelectedTag));
-            RaisePropertyChanged(nameof(SelectedAddedDateOption));
+            RaisePropertyChanged(nameof(SelectedDateAddedOption));
         }
 
-        public void UpdateOptions()
+        public void Update(List<QuickPlaylist> favourites)
         {
-            Groupings = _library.Artists.Select(a => a.Grouping).Distinct().OrderBy(g => g).Select(g => new QuickPlaylist(0, g, false, FilterType.Grouping, g)).ToList();
-            Genres = _library.Artists.Select(a => a.Genre).Distinct().OrderBy(g => g).Select(g => new QuickPlaylist(0, g, false, FilterType.Genre, g)).ToList();
-            Tags = _library.Artists.SelectMany(a => a.Tracks).SelectMany(t => t.Tags).Distinct().OrderBy(t => t).Select(t => new QuickPlaylist(0, t, false, FilterType.Tag, t)).ToList();
+            DateAddedOptions = GetDateAddedOptions(favourites);
+            Groupings = GetGroupings(_library.Artists, favourites);
+            Genres = GetGenres(_library.Artists, favourites);
+            Tags = GetTags(_library.Artists.SelectMany(a => a.Tracks), favourites);
 
             var cities = _library.Artists.Select(a => a.City).Distinct().ToList();
-            Cities = GetCities(cities);
-            States = GetStates(cities);
-            Countries = GetCountries(cities);
+            Cities = GetCities(cities, favourites);
+            States = GetStates(cities, favourites);
+            Countries = GetCountries(cities, favourites);
 
             ClearSelections(string.Empty);
         }
 
-        private static List<QuickPlaylist> GetDateAddedOptions()
+        private static List<QuickPlaylist> GetDateAddedOptions(List<QuickPlaylist> favourites)
         {
             return new List<QuickPlaylist>
             {
-                new QuickPlaylist(0, "in the last week", false, FilterType.DateAdded, "7"),
-                new QuickPlaylist(0, "in the last 2 weeks", false, FilterType.DateAdded, "14"),
-                new QuickPlaylist(0, "in the last 30 days", false, FilterType.DateAdded, "30"),
-                new QuickPlaylist(0, "in the last year", false, FilterType.DateAdded, "365")
+                CreatePlaylist(favourites, "in the last week", FilterType.DateAdded, "7"),
+                CreatePlaylist(favourites, "in the last 2 weeks", FilterType.DateAdded, "14"),
+                CreatePlaylist(favourites, "in the last 30 days", FilterType.DateAdded, "30"),
+                CreatePlaylist(favourites, "in the last year", FilterType.DateAdded, "365")
             };
         }
 
-        private static List<QuickPlaylist> GetCities(IEnumerable<City> cities)
+        private static List<QuickPlaylist> GetCities(IEnumerable<City> cities, List<QuickPlaylist> favourites)
         {
             return cities.Where(c => !string.IsNullOrEmpty(c?.Name))
                 .Distinct()
                 .OrderBy(c => c.Country)
                 .ThenBy(c => c.State)
                 .ThenBy(c => c.Name)
-                .Select(c => new QuickPlaylist(0, c.CityStateDescription, false, FilterType.City, c.Name, c.State, c.Country))
+                .Select(c => CreatePlaylist(favourites, c.CityStateDescription, FilterType.City, c.Name, c.State, c.Country))
                 .ToList();
         }
-        private static List<QuickPlaylist> GetStates(IEnumerable<City> cities)
+        private static List<QuickPlaylist> GetStates(IEnumerable<City> cities, List<QuickPlaylist> favourites)
         {
             return cities.Where(c => !string.IsNullOrEmpty(c?.State))
                 .Select(c => new State(c))
                 .Distinct()
                 .OrderBy(s => s.Country)
                 .ThenBy(s => s.Name)
-                .Select(c => new QuickPlaylist(0, c.Name, false, FilterType.State, c.Name, c.Country))
+                .Select(s => CreatePlaylist(favourites, s.Name, FilterType.State, s.Name, s.Country))
                 .ToList();
         }
 
-        private static List<QuickPlaylist> GetCountries(IEnumerable<City> cities)
+        private static List<QuickPlaylist> GetCountries(IEnumerable<City> cities, List<QuickPlaylist> favourites)
         {
             return cities.Where(c => !string.IsNullOrEmpty(c?.Country))
                 .Select(c => c.Country)
                 .Distinct()
                 .OrderBy(c => c)
-                .Select(c => new QuickPlaylist(0, c, false, FilterType.Country, c))
+                .Select(c => CreatePlaylist(favourites, c, FilterType.Country, c))
                 .ToList();
         }
 
+        private static List<QuickPlaylist> GetTags(IEnumerable<Track> tracks, List<QuickPlaylist> favourites)
+        {
+            return tracks
+                .SelectMany(t => t.Tags)
+                .Distinct()
+                .OrderBy(t => t)
+                .Select(t => CreatePlaylist(favourites, t, FilterType.Tag, t))
+                .ToList();
+        }
+
+        private static List<QuickPlaylist> GetGenres(IEnumerable<Artist> artists, List<QuickPlaylist> favourites)
+        {
+            return artists
+                .Select(a => a.Genre)
+                .Distinct()
+                .OrderBy(g => g)
+                .Select(g => CreatePlaylist(favourites, g, FilterType.Genre, g))
+                .ToList();
+        }
+
+        private static List<QuickPlaylist> GetGroupings(IEnumerable<Artist> artists, List<QuickPlaylist> favourites)
+        {
+            return artists
+                .Select(a => a.Grouping)
+                .Distinct()
+                .OrderBy(g => g)
+                .Select(g => CreatePlaylist(favourites, g, FilterType.Grouping, g))
+                .ToList();
+        }
+
+        private static QuickPlaylist CreatePlaylist(IEnumerable<QuickPlaylist> favourites, string title, FilterType filterType,
+            params string[] filterValues)
+        {
+            var isFavourite = favourites.Any(pl => pl.FilterType == filterType && pl.FilterValues.SequenceEqual(filterValues));
+            return new QuickPlaylist(0, title, isFavourite, filterType, filterValues);
+        }
     }
 }
