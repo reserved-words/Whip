@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Whip.Common.Enums;
+using Whip.Common.ExtensionMethods;
 
 namespace Whip.Common.Model
 {
@@ -18,5 +17,10 @@ namespace Whip.Common.Model
 
         public FilterType FilterType { get; set; }
         public string[] FilterValues { get; set; }
+
+        public string GetDefaultTitle()
+        {
+            return $"{FilterType.GetDisplayName()}: {string.Join(", ", FilterValues.Where(v => !string.IsNullOrEmpty(v)))}";
+        }
     }
 }

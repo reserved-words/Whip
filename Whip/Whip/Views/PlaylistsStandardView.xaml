@@ -3,24 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Whip"
              xmlns:controls="clr-namespace:Whip.Controls"
+             xmlns:model="clr-namespace:Whip.Common.Model;assembly=Whip.Common"
+             xmlns:properties="clr-namespace:Whip.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
+        <DataTemplate DataType="{x:Type model:Playlist}">
+            <WrapPanel Margin="0">
+                <controls:Icon12 Icon="Star"
+                                 Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"
+                                 Visibility="{Binding Favourite, Converter={StaticResource BoolVisibilityConverter}}">
+                </controls:Icon12>
+                <Label Content="{Binding Title}"
+                       Margin="0"
+                       Padding="0"/>
+            </WrapPanel>
+        </DataTemplate>
         <CollectionViewSource Source="{Binding States}" x:Key="statesView">
             <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription PropertyName="Country" />
+                <PropertyGroupDescription PropertyName="FilterValues[1]" />
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
         <CollectionViewSource Source="{Binding Cities}" x:Key="citiesView">
             <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription PropertyName="Country" />
+                <PropertyGroupDescription PropertyName="FilterValues[2]" />
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
         <Style TargetType="{x:Type controls:PlayerControlButton}"
                BasedOn="{StaticResource ButtonStyle}">
-            <Setter Property="Padding" Value="5 2" />
             <Setter Property="MinWidth" Value="20" />
             <Setter Property="MinHeight" Value="20" />
             <Setter Property="Margin" Value="5" />
@@ -64,6 +75,7 @@
 
             <ComboBox Grid.Row="0" Grid.Column="2"
                       ItemsSource="{Binding Groupings}"
+                      DisplayMemberPath="{Binding FilterValues[0]}"
                       SelectedItem="{Binding SelectedGrouping}" />
 
             <controls:PlayerControlButton Grid.Row="1" Grid.Column="0"
@@ -75,6 +87,7 @@
             
             <ComboBox Grid.Row="1" Grid.Column="2"
                       ItemsSource="{Binding Genres}"
+                      DisplayMemberPath="{Binding FilterValues[0]}"
                       SelectedItem="{Binding SelectedGenre}" />
 
             <controls:PlayerControlButton Grid.Row="2" Grid.Column="0"
@@ -87,6 +100,7 @@
 
             <ComboBox Grid.Row="2" Grid.Column="2"
                       ItemsSource="{Binding Countries}"
+                      DisplayMemberPath="{Binding FilterValues[0]}"
                       SelectedItem="{Binding SelectedCountry}" />
 
             <controls:PlayerControlButton Grid.Row="3" Grid.Column="0"
@@ -98,6 +112,7 @@
 
             <ComboBox Grid.Row="3" Grid.Column="2"
                       ItemsSource="{Binding Source={StaticResource statesView}}"
+                      DisplayMemberPath="{Binding FilterValues[0]}"
                       SelectedItem="{Binding SelectedState}">
                 <ComboBox.GroupStyle>
                     <GroupStyle>
@@ -121,8 +136,8 @@
 
             <ComboBox Grid.Row="4" Grid.Column="2"
                       ItemsSource="{Binding Source={StaticResource citiesView}}"
-                      SelectedItem="{Binding SelectedCity}"
-                      DisplayMemberPath="CityStateDescription">
+                      DisplayMemberPath="{Binding FilterValues[0]}"
+                      SelectedItem="{Binding SelectedCity}">
                 <ComboBox.GroupStyle>
                     <GroupStyle>
                         <GroupStyle.HeaderTemplate>
@@ -138,13 +153,14 @@
 
             <controls:PlayerControlButton Grid.Row="5" Grid.Column="0"
                                           Type="Play"
-                                          Command="{Binding PlayCityCommand}"/>
+                                          Command="{Binding PlayTagCommand}"/>
             
             <Label Grid.Row="5" Grid.Column="1"
                    Content="Tag" />
 
             <ComboBox Grid.Row="5" Grid.Column="2"
                       ItemsSource="{Binding Tags}"
+                      DisplayMemberPath="{Binding FilterValues[0]}"
                       SelectedItem="{Binding SelectedTag}" />
 
             <controls:PlayerControlButton Grid.Row="6" Grid.Column="0"
@@ -156,6 +172,7 @@
 
             <ComboBox Grid.Row="6" Grid.Column="2"
                       ItemsSource="{Binding AddedDateOptions}"
+                      DisplayMemberPath="{Binding FilterValues[0]}"
                       SelectedItem="{Binding SelectedAddedDateOption}" />
 
         </Grid>

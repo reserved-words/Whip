@@ -34,7 +34,7 @@
                              Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"
                              Visibility="{Binding Favourite, Converter={StaticResource NegBoolVisibilityConverter}}"
                              Margin="2"
-                             ToolTip="Edit"
+                             ToolTip="Add to Favourites"
                              Cursor="Hand">
                 <Image.InputBindings>
                     <MouseBinding Gesture="LeftClick"
@@ -48,7 +48,7 @@
                              Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"
                              Visibility="{Binding Favourite, Converter={StaticResource BoolVisibilityConverter}}"
                              Margin="2"
-                             ToolTip="Edit"
+                             ToolTip="Remove from Favourites"
                              Cursor="Hand">
                 <Image.InputBindings>
                     <MouseBinding Gesture="LeftClick"
