@@ -5,7 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Whip.Common;
+using Whip.Common.Enums;
 using Whip.Common.Model;
+using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 using Whip.ViewModels.Messages;
 
@@ -16,8 +18,9 @@ namespace Whip.ViewModels.TabViewModels.Playlists
         private readonly Common.Singletons.Library _library;
         private readonly IMessenger _messenger;
         private readonly IPlayRequestHandler _playRequestHandler;
+        private readonly ITrackSearchService _trackSearchService;
 
-        private Dictionary<string, Predicate<Track>> _dateAddedOptions;
+        private readonly Dictionary<string, int> _dateAddedOptions;
 
         private string _selectedGrouping;
         private string _selectedGenre;
@@ -34,11 +37,13 @@ namespace Whip.ViewModels.TabViewModels.Playlists
         private List<City> _cities;
         private List<string> _tags;
 
-        public StandardPlaylistsViewModel(Common.Singletons.Library library, IMessenger messenger, IPlayRequestHandler playRequestHandler)
+        public StandardPlaylistsViewModel(Common.Singletons.Library library, IMessenger messenger, IPlayRequestHandler playRequestHandler,
+            ITrackSearchService trackSearchService)
         {
             _library = library;
             _messenger = messenger;
             _playRequestHandler = playRequestHandler;
+            _trackSearchService = trackSearchService;
 
             _dateAddedOptions = GetDateAddedOptions();
 
@@ -53,57 +58,43 @@ namespace Whip.ViewModels.TabViewModels.Playlists
 
         private bool CheckOptionSelected(object selectedOption, string optionType)
         {
-            if (selectedOption == null)
-            {
-                _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, "Auto Playlist Error", $"No {optionType} selected"));
-                return false;
-            }
+            if (selectedOption != null)
+                return true;
 
-            return true;
+            _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, "Auto Playlist Error", $"No {optionType} selected"));
+            return false;
         }
 
         private void OnPlayRecentlyAdded()
         {
             if (!CheckOptionSelected(SelectedAddedDateOption, "time period"))
                 return;
-
-            var predicate = _dateAddedOptions[SelectedAddedDateOption];
-            var tracks = _library.Artists.SelectMany(a => a.Tracks.Where(t => predicate(t))).ToList();
-
-            if (!tracks.Any())
-            {
-                _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, "Auto Playlist Error", "No tracks meet these criteria"));
-                return;
-            }
-
-            _playRequestHandler.PlayCriteriaPlaylist(string.Format("Tracks Added {0}", SelectedAddedDateOption), tracks);
+            
+            Play($"Tracks Added {SelectedAddedDateOption}", FilterType.DateAdded, _dateAddedOptions[SelectedAddedDateOption].ToString());
         }
 
         private void OnPlayTag()
         {
             if (!CheckOptionSelected(SelectedTag, "tag"))
                 return;
-
-            var tracks = _library.Artists.SelectMany(a => a.Tracks.Where(t => t.Tags.Contains(SelectedTag))).ToList();
-            _playRequestHandler.PlayCriteriaPlaylist(SelectedTag, tracks);
+            
+            Play($"Tag: {SelectedTag}", FilterType.Tag, SelectedCity.Name, SelectedTag);
         }
 
         private void OnPlayCity()
         {
             if (!CheckOptionSelected(SelectedCity, "city"))
                 return;
-
-            var tracks = _library.Artists.Where(a => a.City == SelectedCity).SelectMany(a => a.Tracks).ToList();
-            _playRequestHandler.PlayCriteriaPlaylist(SelectedCity.Description, tracks);
+            
+            Play($"City: {SelectedCity.Description}", FilterType.City, SelectedCity.Name, SelectedCity.State, SelectedCity.Country);
         }
 
         private void OnPlayState()
         {
             if (!CheckOptionSelected(SelectedState, "state"))
                 return;
-
-            var tracks = _library.Artists.Where(a => a.City.State == SelectedState.Name && a.City.Country == SelectedState.Country).SelectMany(a => a.Tracks).ToList();
-            _playRequestHandler.PlayCriteriaPlaylist(SelectedState.Description, tracks);
+            
+            Play($"State: {SelectedState.Description}", FilterType.State, SelectedState.Name, SelectedState.Country);
         }
 
         private void OnPlayCountry()
@@ -111,8 +102,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
             if (!CheckOptionSelected(SelectedCountry, "country"))
                 return;
 
-            var tracks = _library.Artists.Where(a => a.City.Country == SelectedCountry).SelectMany(a => a.Tracks).ToList();
-            _playRequestHandler.PlayCriteriaPlaylist(SelectedCountry, tracks);
+            Play($"Country: {SelectedCountry}", FilterType.Country, SelectedCountry);
         }
 
         private void OnPlayGenre()
@@ -120,27 +110,37 @@ namespace Whip.ViewModels.TabViewModels.Playlists
             if (!CheckOptionSelected(SelectedGenre, "genre"))
                 return;
 
-            var tracks = _library.Artists.Where(a => a.Genre == SelectedGenre).SelectMany(a => a.Tracks).ToList();
-            _playRequestHandler.PlayCriteriaPlaylist(SelectedGenre, tracks);
+            Play($"Genre: {SelectedGenre}", FilterType.Genre, SelectedGenre);
         }
 
         private void OnPlayGrouping()
         {
             if (!CheckOptionSelected(SelectedGrouping, "grouping"))
                 return;
-
-            var tracks = _library.Artists.Where(a => a.Grouping == SelectedGrouping).SelectMany(a => a.Tracks).ToList();
-
-            _playRequestHandler.PlayCriteriaPlaylist(SelectedGrouping, tracks);
+            
+            Play($"Grouping: {SelectedGrouping}", FilterType.Grouping, SelectedGrouping);
         }
 
-        public RelayCommand PlayGroupingCommand { get; private set; }
-        public RelayCommand PlayGenreCommand { get; private set; }
-        public RelayCommand PlayCountryCommand { get; private set; }
-        public RelayCommand PlayStateCommand { get; private set; }
-        public RelayCommand PlayCityCommand { get; private set; }
-        public RelayCommand PlayTagCommand { get; private set; }
-        public RelayCommand PlayRecentlyAddedCommand { get; private set; }
+        private void Play(string title, FilterType type, params string[] values)
+        {
+            var tracks = _trackSearchService.GetTracks(type, values);
+
+            if (!tracks.Any())
+            {
+                _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, "Auto Playlist Error", "No tracks meet these criteria"));
+                return;
+            }
+
+            _playRequestHandler.PlayPlaylist(title, tracks, SortType.Random);
+        }
+
+        public RelayCommand PlayGroupingCommand { get; }
+        public RelayCommand PlayGenreCommand { get; }
+        public RelayCommand PlayCountryCommand { get; }
+        public RelayCommand PlayStateCommand { get; }
+        public RelayCommand PlayCityCommand { get; }
+        public RelayCommand PlayTagCommand { get; }
+        public RelayCommand PlayRecentlyAddedCommand { get; }
 
         public List<string> Groupings
         {
@@ -310,28 +310,28 @@ namespace Whip.ViewModels.TabViewModels.Playlists
             ClearSelections(string.Empty);
         }
 
-        private Dictionary<string, Predicate<Track>> GetDateAddedOptions()
+        private static Dictionary<string, int> GetDateAddedOptions()
         {
-            return new Dictionary<string, Predicate<Track>>
+            return new Dictionary<string, int>
             {
-                { "in the Last Week", t => t.File.DateCreated.AddDays(7) > DateTime.Now },
-                { "in the Last 2 Weeks", t => t.File.DateCreated.AddDays(14) > DateTime.Now },
-                { "in the Last 30 Days", t => t.File.DateCreated.AddDays(30) > DateTime.Now }
+                { "in the Last Week",7 },
+                { "in the Last 2 Weeks", 14 },
+                { "in the Last 30 Days", 30 }
             };
         }
 
-        private List<City> GetCities(List<City> cities)
+        private static List<City> GetCities(IEnumerable<City> cities)
         {
-            return cities.Where(c => c != null && !string.IsNullOrEmpty(c.Name))
+            return cities.Where(c => !string.IsNullOrEmpty(c?.Name))
                 .Distinct()
                 .OrderBy(c => c.Country)
                 .ThenBy(c => c.State)
                 .ThenBy(c => c.Name)
                 .ToList();
         }
-        private List<State> GetStates(List<City> cities)
+        private static List<State> GetStates(IEnumerable<City> cities)
         {
-            return cities.Where(c => c != null && !string.IsNullOrEmpty(c.State))
+            return cities.Where(c => !string.IsNullOrEmpty(c?.State))
                 .Select(c => new State(c))
                 .Distinct()
                 .OrderBy(s => s.Country)
@@ -339,9 +339,9 @@ namespace Whip.ViewModels.TabViewModels.Playlists
                 .ToList();
         }
 
-        private List<string> GetCountries(List<City> cities)
+        private static List<string> GetCountries(IEnumerable<City> cities)
         {
-            return cities.Where(c => c != null && !string.IsNullOrEmpty(c.Country))
+            return cities.Where(c => !string.IsNullOrEmpty(c?.Country))
                 .Select(c => c.Country)
                 .Distinct()
                 .OrderBy(c => c)

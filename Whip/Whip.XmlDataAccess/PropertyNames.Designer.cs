@@ -457,6 +457,24 @@ namespace Whip.XmlDataAccess {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to filter.
+        /// </summary>
+        public static string PlaylistFilter {
+            get {
+                return ResourceManager.GetString("PlaylistFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to value.
+        /// </summary>
+        public static string PlaylistFilterValue {
+            get {
+                return ResourceManager.GetString("PlaylistFilterValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to id.
         /// </summary>
         public static string PlaylistId {
@@ -507,6 +525,15 @@ namespace Whip.XmlDataAccess {
         public static string PlaylistsCriteria {
             get {
                 return ResourceManager.GetString("PlaylistsCriteria", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to favourite_quick_playlists.
+        /// </summary>
+        public static string PlaylistsFavouriteQuick {
+            get {
+                return ResourceManager.GetString("PlaylistsFavouriteQuick", resourceCulture);
             }
         }
         

@@ -50,14 +50,9 @@ namespace Whip.Services.Singletons
             UpdatePlaylist(sortType, artist.Name, _trackFilterService.GetTracksByArtist(artist), firstTrack);
         }
 
-        public void PlayCriteriaPlaylist(string playlistName, List<Track> tracks, Track firstTrack = null)
+        public void PlayPlaylist(string playlistName, List<Track> tracks, SortType? sortType, Track firstTrack = null)
         {
-            UpdatePlaylist(SortType.Random, playlistName, tracks, firstTrack);
-        }
-
-        public void PlayOrderedPlaylist(string playlistName, List<Track> tracks, Track firstTrack = null)
-        {
-            UpdatePlaylist(SortType.Ordered, playlistName, tracks, firstTrack, true);
+            UpdatePlaylist(sortType, playlistName, tracks, firstTrack);
         }
 
         private void UpdatePlaylist(SortType? sortType, string playlistName, List<Track> tracks, Track startAt,

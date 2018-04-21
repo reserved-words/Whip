@@ -7,6 +7,7 @@ using Whip.Common.Interfaces;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
 using Whip.Services.Singletons;
+using Playlist = Whip.Services.Singletons.Playlist;
 
 namespace Whip.Services.Tests
 {

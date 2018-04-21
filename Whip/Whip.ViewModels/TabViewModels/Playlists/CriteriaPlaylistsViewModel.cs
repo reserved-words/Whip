@@ -75,7 +75,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
 
         private void OnPlay(CriteriaPlaylist playlist)
         {
-            _playRequestHandler.PlayCriteriaPlaylist(playlist.Title, _playlistService.GetTracks(playlist));
+            _playRequestHandler.PlayPlaylist(playlist.Title, _playlistService.GetTracks(playlist), SortType.Random);
         }
 
         private void OnFavourite(CriteriaPlaylist playlist)

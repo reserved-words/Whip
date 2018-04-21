@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
+using GalaSoft.MvvmLight.Messaging;
 using Whip.Common;
 using Whip.Common.Model;
 using Whip.Common.Singletons;
@@ -23,7 +24,7 @@ namespace Whip.ViewModels.Sidebar.Tests
             _mockRepository = new Mock<IPlaylistRepository>();
             _mockTrackSearchService = new Mock<ITrackSearchService>();
 
-            return new PlayShortcutsViewModel(_mockPlayRequestHandler.Object, _mockRepository.Object, _mockTrackSearchService.Object);
+            return new PlayShortcutsViewModel(_mockPlayRequestHandler.Object, _mockRepository.Object, _mockTrackSearchService.Object, new Mock<IMessenger>().Object);
         }
         
         [TestMethod]

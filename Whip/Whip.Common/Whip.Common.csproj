@@ -38,8 +38,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\CriteriaType.cs" />
+    <Compile Include="Enums\FilterType.cs" />
     <Compile Include="Enums\IconType.cs" />
     <Compile Include="Enums\ImageType.cs" />
+    <Compile Include="Enums\PlaylistType.cs" />
     <Compile Include="Enums\PropertyName.cs" />
     <Compile Include="Enums\PropertyObject.cs" />
     <Compile Include="Enums\PropertyType.cs" />
@@ -61,6 +63,7 @@
     <Compile Include="Model\ArtistEvent.cs" />
     <Compile Include="Model\ArtistWebSimilarArtist.cs" />
     <Compile Include="Model\Playlists\Criteria\BooleanCriteria.cs" />
+    <Compile Include="Model\Playlists\QuickPlaylist.cs" />
     <Compile Include="Model\Playlists\Criteria\Track\InstrumentalCriteria.cs" />
     <Compile Include="Model\TrackPlay.cs" />
     <Compile Include="Model\Library\Album.cs" />
@@ -104,7 +107,7 @@
     <Compile Include="Model\Playlists\Criteria\Track\TrackYearCriteria.cs" />
     <Compile Include="Model\Playlists\Criteria\Track\TrackTitleCriteria.cs" />
     <Compile Include="Model\Playlists\OrderedPlaylist.cs" />
-    <Compile Include="Model\Playlists\PlaylistBase.cs" />
+    <Compile Include="Model\Playlists\Playlist.cs" />
     <Compile Include="Model\Rss\Feed.cs" />
     <Compile Include="Model\Rss\Post.cs" />
     <Compile Include="Model\State.cs" />

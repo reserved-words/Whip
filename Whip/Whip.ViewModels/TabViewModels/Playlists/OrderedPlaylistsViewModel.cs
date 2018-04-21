@@ -75,7 +75,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
 
         private void OnPlay(OrderedPlaylist playlist)
         {
-            _playRequestHandler.PlayOrderedPlaylist(playlist.Title, _trackSearchService.GetTracks(playlist.Tracks));
+            _playRequestHandler.PlayPlaylist(playlist.Title, _trackSearchService.GetTracks(playlist.Tracks), SortType.Ordered);
         }
 
         private void OnFavourite(OrderedPlaylist playlist)

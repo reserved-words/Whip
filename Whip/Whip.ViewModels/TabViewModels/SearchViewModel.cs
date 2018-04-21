@@ -174,7 +174,7 @@ namespace Whip.ViewModels.TabViewModels
 
         private void OnPlay()
         {
-            _playRequestHandler.PlayOrderedPlaylist("Search Results", Results, SelectedTrack);
+            _playRequestHandler.PlayPlaylist("Search Results", Results, SortType.Ordered, SelectedTrack);
         }
 
         private void OnSaveAsCriteriaPlaylist()

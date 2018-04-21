@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1200">
     <UserControl.Resources>
-        <DataTemplate DataType="{x:Type model:PlaylistBase}">
+        <DataTemplate DataType="{x:Type model:Playlist}">
             <local:PlaylistView />
         </DataTemplate>
     </UserControl.Resources>

@@ -1,15 +1,19 @@
 ﻿
+using Whip.Common.Enums;
+
 namespace Whip.Common.Model
 {
-    public abstract class PlaylistBase
+    public class Playlist
     {
-        public PlaylistBase(int id, string title, bool favourite)
+        public Playlist(PlaylistType type, int id, string title, bool favourite)
         {
+            Type = type;
             Id = id;
             Title = title;
             Favourite = favourite;
         }
 
+        public PlaylistType Type { get; set; }
         public int Id { get; set; }
         public string Title { get; set; }
         public bool Favourite { get; set; }

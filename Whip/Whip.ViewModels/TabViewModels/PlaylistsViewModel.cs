@@ -28,7 +28,7 @@ namespace Whip.ViewModels.TabViewModels
 
             OrderedPlaylists = new OrderedPlaylistsViewModel(this, _messenger, trackSearchService, _repository, playRequestHandler);
             CriteriaPlaylists = new CriteriaPlaylistsViewModel(this, messenger, trackSearchService, _repository, playRequestHandler);
-            StandardPlaylists = new StandardPlaylistsViewModel(library, messenger, playRequestHandler);
+            StandardPlaylists = new StandardPlaylistsViewModel(library, messenger, playRequestHandler, trackSearchService);
         }
 
         public StandardPlaylistsViewModel StandardPlaylists { get; }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Whip.Common;
 using Whip.Common.Model;
 
@@ -15,7 +11,6 @@ namespace Whip.Services.Interfaces.Singletons
         void PlayGrouping(string grouping, SortType? sortType, Track firstTrack = null);
         void PlayAlbum(Album album, SortType? sortType, Track firstTrack = null);
         void PlayArtist(Artist artist, SortType? sortType, Track firstTrack = null);
-        void PlayCriteriaPlaylist(string playlistName, List<Track> tracks, Track firstTrack = null);
-        void PlayOrderedPlaylist(string playlistName, List<Track> tracks, Track firstTrack = null);
+        void PlayPlaylist(string title, List<Track> tracks, SortType? sortType, Track firstTrack = null);
     }
 }

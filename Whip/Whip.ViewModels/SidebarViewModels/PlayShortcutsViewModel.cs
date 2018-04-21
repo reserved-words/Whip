@@ -1,78 +1,82 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using Whip.Common;
+using Whip.Common.Enums;
+using Whip.Common.Model;
 using Whip.Services.Interfaces.Singletons;
 using Whip.Services.Interfaces;
+using Whip.ViewModels.Messages;
 
 namespace Whip.ViewModels
 {
     public class PlayShortcutsViewModel : ViewModelBase
     {
-        public enum PlaylistType { Quick, Criteria, Ordered }
-
-        public class PlaylistShortcut
-        {
-            public PlaylistShortcut(int id, PlaylistType type, string title)
-            {
-                Id = id;
-                Type = type;
-                Title = title;
-            }
-
-            public int Id { get; }
-            public PlaylistType Type { get; }
-            public string Title { get; }
-        }
-
+        private readonly IMessenger _messenger;
         private readonly IPlayRequestHandler _playRequestHandler;
         private readonly IPlaylistRepository _repository;
         private readonly ITrackSearchService _trackSearchService;
 
-        public PlayShortcutsViewModel(IPlayRequestHandler playRequestHandler, IPlaylistRepository repository, ITrackSearchService trackSearchService)
+        public PlayShortcutsViewModel(IPlayRequestHandler playRequestHandler, IPlaylistRepository repository, ITrackSearchService trackSearchService,
+            IMessenger messenger)
         {
+            _messenger = messenger;
             _repository = repository;
             _playRequestHandler = playRequestHandler;
             _trackSearchService = trackSearchService;
 
-            PlayCommand = new RelayCommand<PlaylistShortcut>(OnPlay);
+            PlayCommand = new RelayCommand<Playlist>(OnPlay);
             ShuffleLibraryCommand = new RelayCommand(OnShuffleLibrary);
 
-            Playlists = new ObservableCollection<PlaylistShortcut>();
+            Playlists = new ObservableCollection<Playlist>();
         }
 
-        public ObservableCollection<PlaylistShortcut> Playlists { get; set; }
+        public ObservableCollection<Playlist> Playlists { get; set; }
 
-        public RelayCommand<PlaylistShortcut> PlayCommand { get; }
+        public RelayCommand<Playlist> PlayCommand { get; }
         public RelayCommand ShuffleLibraryCommand { get; }
 
         public void LoadPlaylists()
         {
-            var playlists = _repository.GetPlaylists(true);
+            var playlists = _repository.GetFavouritePlaylists();
             Playlists.Clear();
-            var criteriaPlaylists = playlists.CriteriaPlaylists.Select(p => new PlaylistShortcut(p.Id, PlaylistType.Criteria, p.Title));
-            var orderedPlaylists = playlists.OrderedPlaylists.Select(p => new PlaylistShortcut(p.Id, PlaylistType.Ordered, p.Title));
-            var combined = criteriaPlaylists.Concat(orderedPlaylists).OrderBy(p => p.Title).ToList();
-            combined.ForEach(Playlists.Add);
+            playlists.OrderBy(p => p.Title).ToList().ForEach(Playlists.Add);
         }
 
-        private void OnPlay(PlaylistShortcut playlist)
+        private void OnPlay(Playlist playlist)
         {
             switch (playlist.Type)
             {
                 case PlaylistType.Criteria:
                     var criteriaPlaylist = _repository.GetCriteriaPlaylist(playlist.Id);
-                    _playRequestHandler.PlayCriteriaPlaylist(criteriaPlaylist.Title, _trackSearchService.GetTracks(criteriaPlaylist));
+                    Play(criteriaPlaylist.Title, _trackSearchService.GetTracks(criteriaPlaylist), SortType.Random);
                     break;
                 case PlaylistType.Ordered:
                     var orderedPlaylist = _repository.GetOrderedPlaylist(playlist.Id);
-                    _playRequestHandler.PlayOrderedPlaylist(orderedPlaylist.Title, _trackSearchService.GetTracks(orderedPlaylist.Tracks));
+                    Play(orderedPlaylist.Title, _trackSearchService.GetTracks(orderedPlaylist.Tracks), SortType.Ordered);
                     break;
                 case PlaylistType.Quick:
-
+                    var quickPlaylist = _repository.GetQuickPlaylist(playlist.Id);
+                    Play(quickPlaylist.Title, _trackSearchService.GetTracks(quickPlaylist.FilterType, quickPlaylist.FilterValues), SortType.Random);
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(playlist.Type), playlist.Type, "Not a valid playlist type");
             }
+        }
+
+        private void Play(string title, List<Track> tracks, SortType sortType)
+        {
+            if (!tracks.Any())
+            {
+                _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Info, "Playlist", "This playlist does not contain any tracks"));
+                return;
+            }
+
+            _playRequestHandler.PlayPlaylist(title, tracks, sortType);
         }
 
         private void OnShuffleLibrary()
