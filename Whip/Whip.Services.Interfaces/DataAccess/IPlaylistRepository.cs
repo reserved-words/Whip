@@ -9,6 +9,7 @@ namespace Whip.Services.Interfaces
         List<Playlist> GetFavouritePlaylists();
         void Save(OrderedPlaylist playlist);
         void Save(CriteriaPlaylist playlist);
+        void Save(QuickPlaylist playlist);
         void Delete(CriteriaPlaylist playlist);
         void Delete(OrderedPlaylist playlist);
         bool ValidatePlaylistTitle(string title, int id);

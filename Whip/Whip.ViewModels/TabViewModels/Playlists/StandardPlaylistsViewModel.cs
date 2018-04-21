@@ -17,7 +17,9 @@ namespace Whip.ViewModels.TabViewModels.Playlists
         private readonly Common.Singletons.Library _library;
         private readonly IMessenger _messenger;
         private readonly IPlayRequestHandler _playRequestHandler;
+        private readonly IPlaylistRepository _repository;
         private readonly ITrackSearchService _trackSearchService;
+        private readonly PlaylistsViewModel _parent;
 
         private QuickPlaylist _selectedGrouping;
         private QuickPlaylist _selectedGenre;
@@ -35,108 +37,22 @@ namespace Whip.ViewModels.TabViewModels.Playlists
         private List<QuickPlaylist> _cities;
         private List<QuickPlaylist> _tags;
 
-        public StandardPlaylistsViewModel(Common.Singletons.Library library, IMessenger messenger, IPlayRequestHandler playRequestHandler,
-            ITrackSearchService trackSearchService)
+        public StandardPlaylistsViewModel(PlaylistsViewModel parent, Common.Singletons.Library library, IMessenger messenger, IPlayRequestHandler playRequestHandler,
+            ITrackSearchService trackSearchService, IPlaylistRepository repository)
         {
             _library = library;
             _messenger = messenger;
             _playRequestHandler = playRequestHandler;
             _trackSearchService = trackSearchService;
+            _repository = repository;
+            _parent = parent;
 
-            PlayGroupingCommand = new RelayCommand(OnPlayGrouping);
-            PlayGenreCommand = new RelayCommand(OnPlayGenre);
-            PlayCountryCommand = new RelayCommand(OnPlayCountry);
-            PlayStateCommand = new RelayCommand(OnPlayState);
-            PlayCityCommand = new RelayCommand(OnPlayCity);
-            PlayTagCommand = new RelayCommand(OnPlayTag);
-            PlayRecentlyAddedCommand = new RelayCommand(OnPlayRecentlyAdded);
+            PlayCommand = new RelayCommand<QuickPlaylist>(OnPlay);
+            FavouriteCommand = new RelayCommand<QuickPlaylist>(OnFavourite);
         }
 
-        private bool CheckOptionSelected(object selectedOption, string optionType)
-        {
-            if (selectedOption != null)
-                return true;
-
-            _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, "Auto Playlist Error", $"No {optionType} selected"));
-            return false;
-        }
-
-        private void OnPlayRecentlyAdded()
-        {
-            if (!CheckOptionSelected(SelectedDateAddedOption, "time period"))
-                return;
-
-            Play(SelectedDateAddedOption);
-        }
-
-        private void OnPlayTag()
-        {
-            if (!CheckOptionSelected(SelectedTag, "tag"))
-                return;
-
-            Play(SelectedTag);
-        }
-
-        private void OnPlayCity()
-        {
-            if (!CheckOptionSelected(SelectedCity, "city"))
-                return;
-
-            Play(SelectedCity);
-        }
-
-        private void OnPlayState()
-        {
-            if (!CheckOptionSelected(SelectedState, "state"))
-                return;
-
-            Play(SelectedState);
-        }
-
-        private void OnPlayCountry()
-        {
-            if (!CheckOptionSelected(SelectedCountry, "country"))
-                return;
-
-            Play(SelectedCountry);
-        }
-
-        private void OnPlayGenre()
-        {
-            if (!CheckOptionSelected(SelectedGenre, "genre"))
-                return;
-
-            Play(SelectedGenre);
-        }
-
-        private void OnPlayGrouping()
-        {
-            if (!CheckOptionSelected(SelectedGrouping, "grouping"))
-                return;
-
-            Play(SelectedGrouping);
-        }
-
-        private void Play(QuickPlaylist playlist)
-        {
-            var tracks = _trackSearchService.GetTracks(playlist.FilterType, playlist.FilterValues);
-
-            if (!tracks.Any())
-            {
-                _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, "Auto Playlist Error", "No tracks meet these criteria"));
-                return;
-            }
-
-            _playRequestHandler.PlayPlaylist(playlist.GetDefaultTitle(), tracks, SortType.Random);
-        }
-
-        public RelayCommand PlayGroupingCommand { get; }
-        public RelayCommand PlayGenreCommand { get; }
-        public RelayCommand PlayCountryCommand { get; }
-        public RelayCommand PlayStateCommand { get; }
-        public RelayCommand PlayCityCommand { get; }
-        public RelayCommand PlayTagCommand { get; }
-        public RelayCommand PlayRecentlyAddedCommand { get; }
+        public RelayCommand<QuickPlaylist> PlayCommand { get; }
+        public RelayCommand<QuickPlaylist> FavouriteCommand { get; }
 
         public List<QuickPlaylist> DateAddedOptions
         {
@@ -311,6 +227,40 @@ namespace Whip.ViewModels.TabViewModels.Playlists
             ClearSelections(string.Empty);
         }
 
+        private void OnPlay(QuickPlaylist playlist)
+        {
+            if (playlist == null)
+            {
+                _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, "Auto Playlist Error", "No option selected"));
+                return;
+            }
+
+            Play(playlist);
+        }
+
+        private void OnFavourite(QuickPlaylist playlist)
+        {
+            if (playlist == null)
+                return;
+
+            playlist.Favourite = !playlist.Favourite;
+            _repository.Save(playlist);
+            _parent.OnFavouritePlaylistsUpdated();
+        }
+
+        private void Play(QuickPlaylist playlist)
+        {
+            var tracks = _trackSearchService.GetTracks(playlist.FilterType, playlist.FilterValues);
+
+            if (!tracks.Any())
+            {
+                _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, "Auto Playlist Error", "No tracks meet these criteria"));
+                return;
+            }
+
+            _playRequestHandler.PlayPlaylist(playlist.GetDefaultTitle(), tracks, SortType.Random);
+        }
+
         private static List<QuickPlaylist> GetDateAddedOptions(List<QuickPlaylist> favourites)
         {
             return new List<QuickPlaylist>
@@ -386,8 +336,8 @@ namespace Whip.ViewModels.TabViewModels.Playlists
         private static QuickPlaylist CreatePlaylist(IEnumerable<QuickPlaylist> favourites, string title, FilterType filterType,
             params string[] filterValues)
         {
-            var isFavourite = favourites.Any(pl => pl.FilterType == filterType && pl.FilterValues.SequenceEqual(filterValues));
-            return new QuickPlaylist(0, title, isFavourite, filterType, filterValues);
+            var favourite = favourites.SingleOrDefault(pl => pl.FilterType == filterType && pl.FilterValues.SequenceEqual(filterValues));
+            return new QuickPlaylist(favourite?.Id ?? 0, title, favourite != null, filterType, filterValues);
         }
     }
 }

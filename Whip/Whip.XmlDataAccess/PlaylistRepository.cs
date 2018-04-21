@@ -15,6 +15,7 @@ namespace Whip.XmlDataAccess
     public class PlaylistRepository : IPlaylistRepository
     {
         private const string Filename = "playlists.xml";
+        private const char ValueSeparator = '|';
 
         private readonly ITrackSearchService _trackSearchService;
         private readonly IUserSettings _userSettings;
@@ -119,7 +120,7 @@ namespace Whip.XmlDataAccess
             var id = int.Parse(playlistXml.Attribute(PlaylistId).Value);
             var title = playlistXml.Attribute(PlaylistTitle).Value;
             var filterType = (FilterType)Enum.Parse(typeof(FilterType), playlistXml.Attribute(PlaylistFilter).Value);
-            var filterValues = playlistXml.Attribute(PlaylistFilterValue).Value.Split('|');
+            var filterValues = playlistXml.Attribute(PlaylistFilterValue).Value.Split(ValueSeparator);
 
             var playlist = new QuickPlaylist(id, title, true, filterType, filterValues);
 
@@ -256,6 +257,55 @@ namespace Whip.XmlDataAccess
                 criteriaGroupsXml.Add(criteriaGroupXml);
             }
 
+            Directory.CreateDirectory(_userSettings.DataDirectory);
+
+            xml.Save(XmlFilePath);
+        }
+
+        public void Save(QuickPlaylist playlist)
+        {
+            var xml = System.IO.File.Exists(XmlFilePath)
+                ? XDocument.Load(XmlFilePath)
+                : CreateXmlDocument();
+
+            var favouriteQuickPlaylistsXml = xml.Root.Element(PlaylistsFavouriteQuick);
+
+            if (favouriteQuickPlaylistsXml == null)
+            {
+                favouriteQuickPlaylistsXml = new XElement(PlaylistsFavouriteQuick);
+                xml.Root.Add(favouriteQuickPlaylistsXml);
+            }
+
+            XElement playlistXml;
+
+            if (!playlist.Favourite)
+            {
+                playlistXml = favouriteQuickPlaylistsXml
+                    .Elements(PropertyNames.Playlist)
+                    .Single(pl => pl.Attribute(PlaylistId).Value == playlist.Id.ToString());
+
+                playlistXml.Remove();
+            }
+            else
+            {
+                var playlists = favouriteQuickPlaylistsXml
+                    .Elements(PropertyNames.Playlist);
+
+                var maxId = playlists.Any()
+                    ? playlists.Max(pl => Convert.ToInt16(pl.Attribute(PlaylistId).Value))
+                    : 0;
+
+                playlist.Id = maxId + 1;
+
+                playlistXml = new XElement(PropertyNames.Playlist);
+                playlistXml.Add(new XAttribute(PlaylistId, playlist.Id));
+                playlistXml.Add(new XAttribute(PlaylistTitle, playlist.GetDefaultTitle()));
+                playlistXml.Add(new XAttribute(PlaylistFilter, playlist.FilterType.ToString()));
+                playlistXml.Add(new XAttribute(PlaylistFilterValue, string.Join(ValueSeparator.ToString(), playlist.FilterValues)));
+
+                favouriteQuickPlaylistsXml.Add(playlistXml);
+            }
+            
             Directory.CreateDirectory(_userSettings.DataDirectory);
 
             xml.Save(XmlFilePath);

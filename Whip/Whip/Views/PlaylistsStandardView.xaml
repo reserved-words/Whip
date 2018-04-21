@@ -53,6 +53,7 @@
                 <ColumnDefinition Width="35" />
                 <ColumnDefinition Width="80" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="10" />
             </Grid.ColumnDefinitions>
 
@@ -69,7 +70,8 @@
 
             <controls:PlayerControlButton Grid.Row="0" Grid.Column="0"
                                           Type="Play"
-                                          Command="{Binding PlayGroupingCommand}"/>
+                                          Command="{Binding PlayCommand}"
+                                          CommandParameter="{Binding SelectedGrouping}"/>
             
             <Label Grid.Row="0" Grid.Column="1"
                    Content="Grouping" />
@@ -79,9 +81,38 @@
                       DisplayMemberPath="{Binding FilterValues[0]}"
                       SelectedItem="{Binding SelectedGrouping}" />
 
+            <controls:Icon12 Grid.Row="0" Grid.Column="3"
+                             Icon="Star"
+                             Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"
+                             Visibility="{Binding SelectedGrouping.Favourite, Converter={StaticResource BoolVisibilityConverter}}"
+                             Margin="2"
+                             ToolTip="Remove from Favourites"
+                             Cursor="Hand">
+                <Image.InputBindings>
+                    <MouseBinding Gesture="LeftClick"
+                                  Command="{Binding FavouriteCommand}"
+                                  CommandParameter="{Binding SelectedGrouping}"/>
+                </Image.InputBindings>
+            </controls:Icon12>
+            
+            <controls:Icon12 Grid.Row="0" Grid.Column="3"
+                             Icon="StarOutline"
+                             Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"
+                             Visibility="{Binding SelectedGrouping.Favourite, Converter={StaticResource NegBoolVisibilityConverter}}"
+                             Margin="2"
+                             ToolTip="Add to Favourites"
+                             Cursor="Hand">
+                <Image.InputBindings>
+                    <MouseBinding Gesture="LeftClick"
+                                  Command="{Binding FavouriteCommand}"
+                                  CommandParameter="{Binding SelectedGrouping}"/>
+                </Image.InputBindings>
+            </controls:Icon12>
+
             <controls:PlayerControlButton Grid.Row="1" Grid.Column="0"
                                           Type="Play"
-                                          Command="{Binding PlayGenreCommand}"/>
+                                          Command="{Binding PlayCommand}"
+                                          CommandParameter="{Binding SelectedGenre}"/>
 
             <Label Grid.Row="1" Grid.Column="1"
                    Content="Genre" />
@@ -93,7 +124,8 @@
 
             <controls:PlayerControlButton Grid.Row="2" Grid.Column="0"
                                           Type="Play"
-                                          Command="{Binding PlayCountryCommand}"
+                                          Command="{Binding PlayCommand}"
+                                          CommandParameter="{Binding SelectedCountry}"
                                           Margin="5"/>
 
             <Label Grid.Row="2" Grid.Column="1"
@@ -106,7 +138,8 @@
 
             <controls:PlayerControlButton Grid.Row="3" Grid.Column="0"
                                           Type="Play"
-                                          Command="{Binding PlayStateCommand}"/>
+                                          Command="{Binding PlayCommand}"
+                                          CommandParameter="{Binding SelectedState}"/>
             
             <Label Grid.Row="3" Grid.Column="1"
                    Content="State" />
@@ -130,7 +163,8 @@
 
             <controls:PlayerControlButton Grid.Row="4" Grid.Column="0"
                                           Type="Play"
-                                          Command="{Binding PlayCityCommand}"/>
+                                          Command="{Binding PlayCommand}"
+                                          CommandParameter="{Binding SelectedCity}"/>
             
             <Label Grid.Row="4" Grid.Column="1"
                    Content="City" />
@@ -154,7 +188,8 @@
 
             <controls:PlayerControlButton Grid.Row="5" Grid.Column="0"
                                           Type="Play"
-                                          Command="{Binding PlayTagCommand}"/>
+                                          Command="{Binding PlayCommand}"
+                                          CommandParameter="{Binding SelectedTag}"/>
             
             <Label Grid.Row="5" Grid.Column="1"
                    Content="Tag" />
@@ -166,7 +201,8 @@
 
             <controls:PlayerControlButton Grid.Row="6" Grid.Column="0"
                                           Type="Play"
-                                          Command="{Binding PlayRecentlyAddedCommand}"/>
+                                          Command="{Binding PlayCommand}"
+                                          CommandParameter="{Binding SelectedDateAddedOption}"/>
             
             <Label Grid.Row="6" Grid.Column="1"
                    Content="Added" />
