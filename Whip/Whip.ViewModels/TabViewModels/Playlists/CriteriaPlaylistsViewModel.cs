@@ -62,6 +62,10 @@ namespace Whip.ViewModels.TabViewModels.Playlists
         private void OnDelete(CriteriaPlaylist playlist)
         {
             _parent.Remove(playlist);
+            if (playlist.Favourite)
+            {
+                _parent.OnFavouritePlaylistsUpdated();
+            }
         }
 
         private void OnEdit(CriteriaPlaylist playlist)

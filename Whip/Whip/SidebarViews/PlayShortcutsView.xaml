@@ -7,39 +7,31 @@
              mc:Ignorable="d" 
              x:Name="playShortcutsView"
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel Margin="5, 0">
-        <Button Margin="0,5,0,5"
+    <Grid Margin="5, 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <Button Grid.Row="0"
+                Margin="0,5,0,5"
                 Content="Shuffle Library"
                 Command="{Binding ShuffleLibraryCommand}" />
 
-        <ListView ItemsSource="{Binding CriteriaPlaylists}"
+        <ListView Grid.Row="1"
+                  ItemsSource="{Binding Playlists}"
                   BorderThickness="0"
                   Margin="0"
                   ItemContainerStyle="{StaticResource ListViewItemNoHighlight}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Button Margin="0,5,0,0"
-                            Command="{Binding DataContext.PlayCriteriaPlaylistCommand, ElementName=playShortcutsView}"
+                            Command="{Binding DataContext.PlayCommand, ElementName=playShortcutsView}"
                             CommandParameter="{Binding}">
                         <TextBlock Text="{Binding Title}" />
                     </Button>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
-        <ListView ItemsSource="{Binding OrderedPlaylists}"
-                  BorderThickness="0"
-                  Margin="0"
-                  ItemContainerStyle="{StaticResource ListViewItemNoHighlight}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Button Margin="0,5,0,0"
-                            Command="{Binding DataContext.PlayOrderedPlaylistCommand, ElementName=playShortcutsView}"
-                            CommandParameter="{Binding}">
-                        <TextBlock Text="{Binding Title}" />
-                    </Button>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </StackPanel>
+    </Grid>
 </UserControl>

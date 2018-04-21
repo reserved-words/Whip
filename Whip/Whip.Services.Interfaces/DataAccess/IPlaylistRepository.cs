@@ -10,5 +10,7 @@ namespace Whip.Services.Interfaces
         void Delete(CriteriaPlaylist playlist);
         void Delete(OrderedPlaylist playlist);
         bool ValidatePlaylistTitle(string title, int id);
+        CriteriaPlaylist GetCriteriaPlaylist(int id);
+        OrderedPlaylist GetOrderedPlaylist(int id);
     }
 }

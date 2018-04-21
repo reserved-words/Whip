@@ -41,18 +41,8 @@ namespace Whip.XmlDataAccess
 
                     if (favouritesOnly && !favourite)
                         continue;
-
-                    var id = int.Parse(playlistXml.Attribute(PlaylistId).Value);
-                    var title = playlistXml.Attribute(PlaylistTitle).Value;
-
-                    var playlist = new OrderedPlaylist(id, title, favourite);
-
-                    foreach (var trackXml in playlistXml.Element(PlaylistTracks).Elements(PlaylistTrack))
-                    {
-                        playlist.Tracks.Add(trackXml.Attribute(PlaylistTrackFilepath).Value);
-                    }
-
-                    orderedPlaylists.Add(playlist);
+                    
+                    orderedPlaylists.Add(CreateOrderedPlaylist(playlistXml));
                 }
 
                 foreach (var playlistXml in xml.Root.Element(PlaylistsCriteria).Elements(Playlist))
@@ -62,61 +52,7 @@ namespace Whip.XmlDataAccess
                     if (favouritesOnly && !favourite)
                         continue;
 
-                    var id = int.Parse(playlistXml.Attribute(PlaylistId).Value);
-                    var title = playlistXml.Attribute(PlaylistTitle).Value;
-
-                    var playlist = new CriteriaPlaylist(id, title, favourite);
-
-                    var orderByProperty = playlistXml.Attribute(PlaylistOrderBy).Value;
-
-                    playlist.OrderByProperty = string.IsNullOrEmpty(orderByProperty)
-                        ? (PropertyName?)null
-                        : (PropertyName)Enum.Parse(typeof(PropertyName), orderByProperty);
-                    
-                    playlist.OrderByDescending = playlistXml.Attribute(PlaylistOrderByDescending).Value == TrueValue;
-
-                    var maxTracks = playlistXml.Attribute(PlaylistMaxTracks).Value;
-
-                    playlist.MaxTracks = string.IsNullOrEmpty(maxTracks)
-                        ? (int?)null
-                        : int.Parse(maxTracks);
-
-                    playlist.CriteriaGroups = new List<CriteriaGroup>();
-
-                    foreach (var criteriaGroupXml in playlistXml.Element(PlaylistCriteriaGroups).Elements(PlaylistCriteriaGroup))
-                    {
-                        var criteriaGroup = new CriteriaGroup();
-
-                        foreach (var criteriaXml in criteriaGroupXml.Element(PlaylistArtistCriteria).Elements(PlaylistCriteria))
-                        {
-                            criteriaGroup.ArtistCriteria.Add(GetArtistCriteria(criteriaXml));
-                        }
-
-                        foreach (var criteriaXml in criteriaGroupXml.Element(PlaylistAlbumCriteria).Elements(PlaylistCriteria))
-                        {
-                            criteriaGroup.AlbumCriteria.Add(GetAlbumCriteria(criteriaXml));
-                        }
-
-                        foreach (var criteriaXml in criteriaGroupXml.Element(PlaylistDiscCriteria).Elements(PlaylistCriteria))
-                        {
-                            criteriaGroup.DiscCriteria.Add(GetDiscCriteria(criteriaXml));
-                        }
-
-                        foreach (var criteriaXml in criteriaGroupXml.Element(PlaylistTrackCriteria).Elements(PlaylistCriteria))
-                        {
-                            criteriaGroup.TrackCriteria.Add(GetTrackCriteria(criteriaXml));
-                        }
-
-                        if (criteriaGroup.TrackCriteria.Any()
-                            || criteriaGroup.DiscCriteria.Any()
-                            || criteriaGroup.AlbumCriteria.Any()
-                            || criteriaGroup.ArtistCriteria.Any())
-                        {
-                            playlist.CriteriaGroups.Add(criteriaGroup);
-                        }
-                    }
-
-                    criteriaPlaylists.Add(playlist);
+                    criteriaPlaylists.Add(CreateCriteriaPlaylist(playlistXml));
                 }
             }
             
@@ -125,6 +61,82 @@ namespace Whip.XmlDataAccess
                 CriteriaPlaylists = criteriaPlaylists,
                 OrderedPlaylists = orderedPlaylists
             };
+        }
+
+        private OrderedPlaylist CreateOrderedPlaylist(XElement playlistXml)
+        {
+            var id = int.Parse(playlistXml.Attribute(PlaylistId).Value);
+            var title = playlistXml.Attribute(PlaylistTitle).Value;
+            var favourite = playlistXml.Attribute(PlaylistIsFavourite)?.Value == TrueValue;
+
+            var playlist = new OrderedPlaylist(id, title, favourite);
+
+            foreach (var trackXml in playlistXml.Element(PlaylistTracks).Elements(PlaylistTrack))
+            {
+                playlist.Tracks.Add(trackXml.Attribute(PlaylistTrackFilepath).Value);
+            }
+
+            return playlist;
+        }
+
+        private CriteriaPlaylist CreateCriteriaPlaylist(XElement playlistXml)
+        {
+            var id = int.Parse(playlistXml.Attribute(PlaylistId).Value);
+            var title = playlistXml.Attribute(PlaylistTitle).Value;
+            var favourite = playlistXml.Attribute(PlaylistIsFavourite)?.Value == TrueValue;
+
+            var playlist = new CriteriaPlaylist(id, title, favourite);
+
+            var orderByProperty = playlistXml.Attribute(PlaylistOrderBy).Value;
+
+            playlist.OrderByProperty = string.IsNullOrEmpty(orderByProperty)
+                ? (PropertyName?)null
+                : (PropertyName)Enum.Parse(typeof(PropertyName), orderByProperty);
+
+            playlist.OrderByDescending = playlistXml.Attribute(PlaylistOrderByDescending).Value == TrueValue;
+
+            var maxTracks = playlistXml.Attribute(PlaylistMaxTracks).Value;
+
+            playlist.MaxTracks = string.IsNullOrEmpty(maxTracks)
+                ? (int?)null
+                : int.Parse(maxTracks);
+
+            playlist.CriteriaGroups = new List<CriteriaGroup>();
+
+            foreach (var criteriaGroupXml in playlistXml.Element(PlaylistCriteriaGroups).Elements(PlaylistCriteriaGroup))
+            {
+                var criteriaGroup = new CriteriaGroup();
+
+                foreach (var criteriaXml in criteriaGroupXml.Element(PlaylistArtistCriteria).Elements(PlaylistCriteria))
+                {
+                    criteriaGroup.ArtistCriteria.Add(GetArtistCriteria(criteriaXml));
+                }
+
+                foreach (var criteriaXml in criteriaGroupXml.Element(PlaylistAlbumCriteria).Elements(PlaylistCriteria))
+                {
+                    criteriaGroup.AlbumCriteria.Add(GetAlbumCriteria(criteriaXml));
+                }
+
+                foreach (var criteriaXml in criteriaGroupXml.Element(PlaylistDiscCriteria).Elements(PlaylistCriteria))
+                {
+                    criteriaGroup.DiscCriteria.Add(GetDiscCriteria(criteriaXml));
+                }
+
+                foreach (var criteriaXml in criteriaGroupXml.Element(PlaylistTrackCriteria).Elements(PlaylistCriteria))
+                {
+                    criteriaGroup.TrackCriteria.Add(GetTrackCriteria(criteriaXml));
+                }
+
+                if (criteriaGroup.TrackCriteria.Any()
+                    || criteriaGroup.DiscCriteria.Any()
+                    || criteriaGroup.AlbumCriteria.Any()
+                    || criteriaGroup.ArtistCriteria.Any())
+                {
+                    playlist.CriteriaGroups.Add(criteriaGroup);
+                }
+            }
+
+            return playlist;
         }
 
         public void Save(CriteriaPlaylist playlist)
@@ -347,6 +359,40 @@ namespace Whip.XmlDataAccess
             return xml.Root.Element(PlaylistsCriteria).Elements(Playlist)
                 .All(el => el.Attribute(PlaylistTitle).Value != title
                     || el.Attribute(PlaylistId).Value == id.ToString());
+        }
+
+        public CriteriaPlaylist GetCriteriaPlaylist(int id)
+        {
+            if (!System.IO.File.Exists(XmlFilePath))
+                throw new ApplicationException("No playlists created");
+
+            var xml = XDocument.Load(XmlFilePath);
+
+            var criteriaPlaylists = xml.Root.Element(PlaylistsCriteria).Elements(Playlist);
+
+            var playlistXml = criteriaPlaylists.SingleOrDefault(x => x.Attribute(PlaylistId).Value == id.ToString());
+
+            if (playlistXml == null)
+                throw new ApplicationException($"Requested criteria playlist ID {id} does not exist");
+
+            return CreateCriteriaPlaylist(playlistXml);
+        }
+
+        public OrderedPlaylist GetOrderedPlaylist(int id)
+        {
+            if (!System.IO.File.Exists(XmlFilePath))
+                throw new ApplicationException("No playlists created");
+
+            var xml = XDocument.Load(XmlFilePath);
+
+            var orderedPlaylists = xml.Root.Element(PlaylistsOrdered).Elements(Playlist);
+
+            var playlistXml = orderedPlaylists.SingleOrDefault(x => x.Attribute(PlaylistId).Value == id.ToString());
+
+            if (playlistXml == null)
+                throw new ApplicationException($"Requested ordered playlist ID {id} does not exist");
+
+            return CreateOrderedPlaylist(playlistXml);
         }
     }
 }
