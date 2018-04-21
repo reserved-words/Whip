@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Whip.Common;
 using Whip.Common.Enums;
@@ -20,23 +21,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
         private readonly IPlaylistRepository _repository;
         private readonly ITrackSearchService _trackSearchService;
         private readonly PlaylistsViewModel _parent;
-
-        private QuickPlaylist _selectedGrouping;
-        private QuickPlaylist _selectedGenre;
-        private QuickPlaylist _selectedCountry;
-        private QuickPlaylist _selectedState;
-        private QuickPlaylist _selectedCity;
-        private QuickPlaylist _selectedTag;
-        private QuickPlaylist _selectedDateAddedOption;
-
-        private List<QuickPlaylist> _dateAddedOptions;
-        private List<QuickPlaylist> _groupings;
-        private List<QuickPlaylist> _genres;
-        private List<QuickPlaylist> _countries;
-        private List<QuickPlaylist> _states;
-        private List<QuickPlaylist> _cities;
-        private List<QuickPlaylist> _tags;
-
+        
         public StandardPlaylistsViewModel(PlaylistsViewModel parent, Common.Singletons.Library library, IMessenger messenger, IPlayRequestHandler playRequestHandler,
             ITrackSearchService trackSearchService, IPlaylistRepository repository)
         {
@@ -47,204 +32,96 @@ namespace Whip.ViewModels.TabViewModels.Playlists
             _repository = repository;
             _parent = parent;
 
-            PlayCommand = new RelayCommand<QuickPlaylist>(OnPlay);
-            FavouriteCommand = new RelayCommand<QuickPlaylist>(OnFavourite);
+            PlayCommand = new RelayCommand<StandardFilterViewModel>(OnPlay);
+            FavouriteCommand = new RelayCommand<StandardFilterViewModel>(OnFavourite);
+
+            Filters = new ObservableCollection<StandardFilterViewModel>();
         }
 
-        public RelayCommand<QuickPlaylist> PlayCommand { get; }
-        public RelayCommand<QuickPlaylist> FavouriteCommand { get; }
-
-        public List<QuickPlaylist> DateAddedOptions
-        {
-            get { return _dateAddedOptions; }
-            set { Set(ref _dateAddedOptions, value); }
-        }
-
-        public List<QuickPlaylist> Groupings
-        {
-            get { return _groupings; }
-            set { Set(ref _groupings, value); }
-        }
-
-        public List<QuickPlaylist> Genres
-        {
-            get { return _genres; }
-            set { Set(ref _genres, value); }
-        }
-
-        public List<QuickPlaylist> Countries
-        {
-            get { return _countries; }
-            set { Set(ref _countries, value); }
-        }
-
-        public List<QuickPlaylist> States
-        {
-            get { return _states; }
-            set { Set(ref _states, value); }
-        }
-
-        public List<QuickPlaylist> Cities
-        {
-            get { return _cities; }
-            set { Set(ref _cities, value); }
-        }
-
-        public List<QuickPlaylist> Tags
-        {
-            get { return _tags; }
-            set { Set(ref _tags, value); }
-        }
+        public RelayCommand<StandardFilterViewModel> PlayCommand { get; }
+        public RelayCommand<StandardFilterViewModel> FavouriteCommand { get; }
         
-        public QuickPlaylist SelectedGrouping
-        {
-            get { return _selectedGrouping; }
-            set
-            {
-                Set(ref _selectedGrouping, value);
-                ClearSelections(nameof(SelectedGrouping));
-            }
-        }
+        public ObservableCollection<StandardFilterViewModel> Filters { get; }
+        
+        //private void ClearSelections(string except)
+        //{
+        //    if (except != nameof(SelectedGrouping))
+        //    {
+        //        _selectedGrouping = null;
+        //    }
 
-        public QuickPlaylist SelectedGenre
-        {
-            get { return _selectedGenre; }
-            set
-            {
-                Set(ref _selectedGenre, value);
-                ClearSelections(nameof(SelectedGenre));
-            }
-        }
+        //    if (except != nameof(SelectedGenre))
+        //    {
+        //        _selectedGenre = null;
+        //    }
 
-        public QuickPlaylist SelectedCountry
-        {
-            get { return _selectedCountry; }
-            set
-            {
-                Set(ref _selectedCountry, value);
-                ClearSelections(nameof(SelectedCountry));
-            }
-        }
+        //    if (except != nameof(SelectedCountry))
+        //    {
+        //        _selectedCountry = null;
+        //    }
 
-        public QuickPlaylist SelectedState
-        {
-            get { return _selectedState; }
-            set
-            {
-                Set(ref _selectedState, value);
-                ClearSelections(nameof(SelectedState));
-            }
-        }
+        //    if (except != nameof(SelectedState))
+        //    {
+        //        _selectedState = null;
+        //    }
 
-        public QuickPlaylist SelectedCity
-        {
-            get { return _selectedCity; }
-            set
-            {
-                Set(ref _selectedCity, value);
-                ClearSelections(nameof(SelectedCity));
-            }
-        }
+        //    if (except != nameof(SelectedCity))
+        //    {
+        //        _selectedCity = null;
+        //    }
 
-        public QuickPlaylist SelectedTag
-        {
-            get { return _selectedTag; }
-            set
-            {
-                Set(ref _selectedTag, value);
-                ClearSelections(nameof(SelectedTag));
-            }
-        }
+        //    if (except != nameof(SelectedTag))
+        //    {
+        //        _selectedTag = null;
+        //    }
 
-        public QuickPlaylist SelectedDateAddedOption
-        {
-            get { return _selectedDateAddedOption; }
-            set
-            {
-                Set(ref _selectedDateAddedOption, value);
-                ClearSelections(nameof(SelectedDateAddedOption));
-            }
-        }
+        //    if (except != nameof(SelectedDateAddedOption))
+        //    {
+        //        _selectedDateAddedOption = null;
+        //    }
 
-        private void ClearSelections(string except)
-        {
-            if (except != nameof(SelectedGrouping))
-            {
-                _selectedGrouping = null;
-            }
-
-            if (except != nameof(SelectedGenre))
-            {
-                _selectedGenre = null;
-            }
-
-            if (except != nameof(SelectedCountry))
-            {
-                _selectedCountry = null;
-            }
-
-            if (except != nameof(SelectedState))
-            {
-                _selectedState = null;
-            }
-
-            if (except != nameof(SelectedCity))
-            {
-                _selectedCity = null;
-            }
-
-            if (except != nameof(SelectedTag))
-            {
-                _selectedTag = null;
-            }
-
-            if (except != nameof(SelectedDateAddedOption))
-            {
-                _selectedDateAddedOption = null;
-            }
-
-            RaisePropertyChanged(nameof(SelectedGrouping));
-            RaisePropertyChanged(nameof(SelectedGenre));
-            RaisePropertyChanged(nameof(SelectedCountry));
-            RaisePropertyChanged(nameof(SelectedState));
-            RaisePropertyChanged(nameof(SelectedCity));
-            RaisePropertyChanged(nameof(SelectedTag));
-            RaisePropertyChanged(nameof(SelectedDateAddedOption));
-        }
+        //    RaisePropertyChanged(nameof(SelectedGrouping));
+        //    RaisePropertyChanged(nameof(SelectedGenre));
+        //    RaisePropertyChanged(nameof(SelectedCountry));
+        //    RaisePropertyChanged(nameof(SelectedState));
+        //    RaisePropertyChanged(nameof(SelectedCity));
+        //    RaisePropertyChanged(nameof(SelectedTag));
+        //    RaisePropertyChanged(nameof(SelectedDateAddedOption));
+        //}
 
         public void Update(List<QuickPlaylist> favourites)
         {
-            DateAddedOptions = GetDateAddedOptions(favourites);
-            Groupings = GetGroupings(_library.Artists, favourites);
-            Genres = GetGenres(_library.Artists, favourites);
-            Tags = GetTags(_library.Artists.SelectMany(a => a.Tracks), favourites);
-
             var cities = _library.Artists.Select(a => a.City).Distinct().ToList();
-            Cities = GetCities(cities, favourites);
-            States = GetStates(cities, favourites);
-            Countries = GetCountries(cities, favourites);
 
-            ClearSelections(string.Empty);
+            Filters.Add(new StandardFilterViewModel("Grouping:", GetGroupings(_library.Artists, favourites)));
+            Filters.Add(new StandardFilterViewModel("Genre:", GetGenres(_library.Artists, favourites)));
+            Filters.Add(new StandardFilterViewModel("Country:", GetCountries(cities, favourites)));
+            Filters.Add(new StandardFilterViewModel("State:", GetStates(cities, favourites)));
+            Filters.Add(new StandardFilterViewModel("City:", GetCities(cities, favourites)));
+            Filters.Add(new StandardFilterViewModel("Tag:", GetTags(_library.Artists.SelectMany(a => a.Tracks), favourites)));
+            Filters.Add(new StandardFilterViewModel("Added:", GetDateAddedOptions(favourites)));
+
+            //ClearSelections(string.Empty);
         }
 
-        private void OnPlay(QuickPlaylist playlist)
+        private void OnPlay(StandardFilterViewModel filter)
         {
-            if (playlist == null)
+            if (filter.SelectedPlaylist == null)
             {
                 _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, "Auto Playlist Error", "No option selected"));
                 return;
             }
 
-            Play(playlist);
+            Play(filter.SelectedPlaylist);
         }
 
-        private void OnFavourite(QuickPlaylist playlist)
+        private void OnFavourite(StandardFilterViewModel filter)
         {
-            if (playlist == null)
+            if (filter.SelectedPlaylist == null)
                 return;
 
-            playlist.Favourite = !playlist.Favourite;
-            _repository.Save(playlist);
+            filter.SelectedPlaylist.Favourite = !filter.SelectedPlaylist.Favourite;
+            _repository.Save(filter.SelectedPlaylist);
             _parent.OnFavouritePlaylistsUpdated();
         }
 

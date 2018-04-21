@@ -6,7 +6,9 @@
              xmlns:controls="clr-namespace:Whip.Controls"
              xmlns:model="clr-namespace:Whip.Common.Model;assembly=Whip.Common"
              xmlns:properties="clr-namespace:Whip.Properties"
+             xmlns:vm="clr-namespace:Whip.ViewModels.TabViewModels.Playlists;assembly=Whip.ViewModels"
              mc:Ignorable="d" 
+             x:Name="standardPlaylistsView"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type model:Playlist}">
@@ -48,171 +50,71 @@
                Style="{StaticResource TitleLabel}"
                Content="Quick Playlists" />
 
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="35" />
-                <ColumnDefinition Width="80" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="10" />
-            </Grid.ColumnDefinitions>
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <controls:PlayerControlButton Grid.Row="0" Grid.Column="0"
-                                          Type="Play"
-                                          Command="{Binding PlayCommand}"
-                                          CommandParameter="{Binding SelectedGrouping}"/>
-            
-            <Label Grid.Row="0" Grid.Column="1"
-                   Content="Grouping" />
-
-            <ComboBox Grid.Row="0" Grid.Column="2"
-                      ItemsSource="{Binding Groupings}"
-                      DisplayMemberPath="{Binding FilterValues[0]}"
-                      SelectedItem="{Binding SelectedGrouping}" />
-
-            <controls:Icon12 Grid.Row="0" Grid.Column="3"
-                             Icon="Star"
-                             Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"
-                             Visibility="{Binding SelectedGrouping.Favourite, Converter={StaticResource BoolVisibilityConverter}}"
-                             Margin="2"
-                             ToolTip="Remove from Favourites"
-                             Cursor="Hand">
-                <Image.InputBindings>
-                    <MouseBinding Gesture="LeftClick"
-                                  Command="{Binding FavouriteCommand}"
-                                  CommandParameter="{Binding SelectedGrouping}"/>
-                </Image.InputBindings>
-            </controls:Icon12>
-            
-            <controls:Icon12 Grid.Row="0" Grid.Column="3"
-                             Icon="StarOutline"
-                             Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"
-                             Visibility="{Binding SelectedGrouping.Favourite, Converter={StaticResource NegBoolVisibilityConverter}}"
-                             Margin="2"
-                             ToolTip="Add to Favourites"
-                             Cursor="Hand">
-                <Image.InputBindings>
-                    <MouseBinding Gesture="LeftClick"
-                                  Command="{Binding FavouriteCommand}"
-                                  CommandParameter="{Binding SelectedGrouping}"/>
-                </Image.InputBindings>
-            </controls:Icon12>
-
-            <controls:PlayerControlButton Grid.Row="1" Grid.Column="0"
-                                          Type="Play"
-                                          Command="{Binding PlayCommand}"
-                                          CommandParameter="{Binding SelectedGenre}"/>
-
-            <Label Grid.Row="1" Grid.Column="1"
-                   Content="Genre" />
-            
-            <ComboBox Grid.Row="1" Grid.Column="2"
-                      ItemsSource="{Binding Genres}"
-                      DisplayMemberPath="{Binding FilterValues[0]}"
-                      SelectedItem="{Binding SelectedGenre}" />
-
-            <controls:PlayerControlButton Grid.Row="2" Grid.Column="0"
-                                          Type="Play"
-                                          Command="{Binding PlayCommand}"
-                                          CommandParameter="{Binding SelectedCountry}"
-                                          Margin="5"/>
-
-            <Label Grid.Row="2" Grid.Column="1"
-                   Content="Country" />
-
-            <ComboBox Grid.Row="2" Grid.Column="2"
-                      ItemsSource="{Binding Countries}"
-                      DisplayMemberPath="{Binding FilterValues[0]}"
-                      SelectedItem="{Binding SelectedCountry}" />
-
-            <controls:PlayerControlButton Grid.Row="3" Grid.Column="0"
-                                          Type="Play"
-                                          Command="{Binding PlayCommand}"
-                                          CommandParameter="{Binding SelectedState}"/>
-            
-            <Label Grid.Row="3" Grid.Column="1"
-                   Content="State" />
-
-            <ComboBox Grid.Row="3" Grid.Column="2"
-                      ItemsSource="{Binding Source={StaticResource statesView}}"
-                      DisplayMemberPath="{Binding FilterValues[0]}"
-                      SelectedItem="{Binding SelectedState}">
-                <ComboBox.GroupStyle>
-                    <GroupStyle>
-                        <GroupStyle.HeaderTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Path=Name}"
-                                       FontWeight="Bold"
-                                       Padding="5, 2"/>
-                            </DataTemplate>
-                        </GroupStyle.HeaderTemplate>
-                    </GroupStyle>
-                </ComboBox.GroupStyle>
-            </ComboBox>
-
-            <controls:PlayerControlButton Grid.Row="4" Grid.Column="0"
-                                          Type="Play"
-                                          Command="{Binding PlayCommand}"
-                                          CommandParameter="{Binding SelectedCity}"/>
-            
-            <Label Grid.Row="4" Grid.Column="1"
-                   Content="City" />
-
-            <ComboBox Grid.Row="4" Grid.Column="2"
-                      ItemsSource="{Binding Source={StaticResource citiesView}}"
-                      DisplayMemberPath="{Binding FilterValues[0]}"
-                      SelectedItem="{Binding SelectedCity}">
-                <ComboBox.GroupStyle>
-                    <GroupStyle>
-                        <GroupStyle.HeaderTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Path=Name}"
-                                           FontWeight="Bold"
-                                           Padding="5, 2"/>
-                            </DataTemplate>
-                        </GroupStyle.HeaderTemplate>
-                    </GroupStyle>
-                </ComboBox.GroupStyle>
-            </ComboBox>
-
-            <controls:PlayerControlButton Grid.Row="5" Grid.Column="0"
-                                          Type="Play"
-                                          Command="{Binding PlayCommand}"
-                                          CommandParameter="{Binding SelectedTag}"/>
-            
-            <Label Grid.Row="5" Grid.Column="1"
-                   Content="Tag" />
-
-            <ComboBox Grid.Row="5" Grid.Column="2"
-                      ItemsSource="{Binding Tags}"
-                      DisplayMemberPath="{Binding FilterValues[0]}"
-                      SelectedItem="{Binding SelectedTag}" />
-
-            <controls:PlayerControlButton Grid.Row="6" Grid.Column="0"
-                                          Type="Play"
-                                          Command="{Binding PlayCommand}"
-                                          CommandParameter="{Binding SelectedDateAddedOption}"/>
-            
-            <Label Grid.Row="6" Grid.Column="1"
-                   Content="Added" />
-
-            <ComboBox Grid.Row="6" Grid.Column="2"
-                      ItemsSource="{Binding DateAddedOptions}"
-                      DisplayMemberPath="{Binding FilterValues[0]}"
-                      SelectedItem="{Binding SelectedDateAddedOption}" />
-
-        </Grid>
+        <DataGrid Grid.Row="1"
+                  x:Name="filtersGrid"
+                  ItemsSource="{Binding Filters}"
+                  HeadersVisibility="None">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <controls:PlayerControlButton Type="Play"
+                                                          Command="{Binding ElementName=standardPlaylistsView, Path=DataContext.PlayCommand}"
+                                                          CommandParameter="{Binding}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding Title}"
+                                   Margin="5"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding List}"
+                                      DisplayMemberPath="{Binding FilterValues[0]}"
+                                      SelectedItem="{Binding SelectedPlaylist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <controls:Icon12 Icon="Star"
+                                                 Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"
+                                                 Visibility="{Binding IsFavouriteSelected, Converter={StaticResource BoolVisibilityConverter}}"
+                                                 Margin="2"
+                                                 ToolTip="Remove from Favourites"
+                                                 Cursor="Hand">
+                                    <Image.InputBindings>
+                                        <MouseBinding Gesture="LeftClick"
+                                                      Command="{Binding ElementName=standardPlaylistsView, Path=DataContext.FavouriteCommand}"
+                                                      CommandParameter="{Binding}"/>
+                                    </Image.InputBindings>
+                                </controls:Icon12>
+                                <controls:Icon12 Icon="StarOutline"
+                                                 Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"
+                                                 Visibility="{Binding IsFavouriteSelected, Converter={StaticResource NegBoolVisibilityConverter}}"
+                                                 Margin="2"
+                                                 ToolTip="Add to Favourites"
+                                                 Cursor="Hand">
+                                    <Image.InputBindings>
+                                        <MouseBinding Gesture="LeftClick"
+                                                      Command="{Binding ElementName=standardPlaylistsView, Path=DataContext.FavouriteCommand}"
+                                                      CommandParameter="{Binding}"/>
+                                    </Image.InputBindings>
+                                </controls:Icon12>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
 
     </Grid>
 </UserControl>
