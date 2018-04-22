@@ -45,76 +45,72 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
+
         <Label Grid.Row="0" 
                Style="{StaticResource TitleLabel}"
                Content="Quick Playlists" />
 
-        <DataGrid Grid.Row="1"
+        <ListView Grid.Row="1"
                   x:Name="filtersGrid"
+                  BorderThickness="0"
                   ItemsSource="{Binding Filters}"
-                  HeadersVisibility="None">
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Width="Auto">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <controls:PlayerControlButton Type="Play"
-                                                          Command="{Binding ElementName=standardPlaylistsView, Path=DataContext.PlayCommand}"
-                                                          CommandParameter="{Binding}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="100">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Label Content="{Binding Title}"
-                                   Margin="5"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <ComboBox ItemsSource="{Binding List}"
-                                      DisplayMemberPath="{Binding FilterValues[0]}"
-                                      SelectedItem="{Binding SelectedPlaylist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="Auto">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <WrapPanel>
-                                <controls:Icon12 Icon="Star"
-                                                 Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"
-                                                 Visibility="{Binding IsFavouriteSelected, Converter={StaticResource BoolVisibilityConverter}}"
-                                                 Margin="2"
-                                                 ToolTip="Remove from Favourites"
-                                                 Cursor="Hand">
-                                    <Image.InputBindings>
-                                        <MouseBinding Gesture="LeftClick"
-                                                      Command="{Binding ElementName=standardPlaylistsView, Path=DataContext.FavouriteCommand}"
+                  ItemContainerStyle="{StaticResource ListViewItemNoHighlight}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <controls:PlayerControlButton Grid.Column="0"
+                                                      Type="Play"
+                                                      Command="{Binding ElementName=standardPlaylistsView, Path=DataContext.PlayCommand}"
                                                       CommandParameter="{Binding}"/>
-                                    </Image.InputBindings>
-                                </controls:Icon12>
-                                <controls:Icon12 Icon="StarOutline"
-                                                 Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"
-                                                 Visibility="{Binding IsFavouriteSelected, Converter={StaticResource NegBoolVisibilityConverter}}"
-                                                 Margin="2"
-                                                 ToolTip="Add to Favourites"
-                                                 Cursor="Hand">
-                                    <Image.InputBindings>
-                                        <MouseBinding Gesture="LeftClick"
-                                                      Command="{Binding ElementName=standardPlaylistsView, Path=DataContext.FavouriteCommand}"
-                                                      CommandParameter="{Binding}"/>
-                                    </Image.InputBindings>
-                                </controls:Icon12>
-                            </WrapPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+                        <Label Grid.Column="1"
+                               Width="80"
+                               Content="{Binding Title}"
+                               Margin="5"/>
+
+                        <ComboBox Grid.Column="2"
+                                  ItemsSource="{Binding List}"
+                                  DisplayMemberPath="{Binding FilterValues[0]}"
+                                  SelectedItem="{Binding SelectedPlaylist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <controls:Icon12 Grid.Column="3"
+                                         Icon="Star"
+                                         Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"
+                                         Visibility="{Binding IsFavouriteSelected, Converter={StaticResource BoolVisibilityConverter}}"
+                                         Margin="10 0 5 0"
+                                         VerticalAlignment="Center"
+                                         ToolTip="Remove from Favourites"
+                                         Cursor="Hand">
+                            <Image.InputBindings>
+                                <MouseBinding Gesture="LeftClick"
+                                              Command="{Binding ElementName=standardPlaylistsView, Path=DataContext.FavouriteCommand}"
+                                              CommandParameter="{Binding}"/>
+                            </Image.InputBindings>
+                        </controls:Icon12>
+                        <controls:Icon12 Grid.Column="4"
+                                         Icon="StarOutline"
+                                         Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"
+                                         Visibility="{Binding IsFavouriteSelected, Converter={StaticResource NegBoolVisibilityConverter}}"
+                                         Margin="10 0 5 0"
+                                         VerticalAlignment="Center"
+                                         ToolTip="Add to Favourites"
+                                         Cursor="Hand">
+                            <Image.InputBindings>
+                                <MouseBinding Gesture="LeftClick"
+                                              Command="{Binding ElementName=standardPlaylistsView, Path=DataContext.FavouriteCommand}"
+                                              CommandParameter="{Binding}"/>
+                            </Image.InputBindings>
+                        </controls:Icon12>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
     </Grid>
 </UserControl>
