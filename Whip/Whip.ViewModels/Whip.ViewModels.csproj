@@ -78,6 +78,7 @@
     <Compile Include="TabViewModels\EditOrderedPlaylistViewModel.cs" />
     <Compile Include="TabViewModels\EditCriteriaPlaylistViewModel.cs" />
     <Compile Include="TabViewModels\Library\LibraryTracksViewModel.cs" />
+    <Compile Include="TabViewModels\Playlists\QuickPlaylistViewModel.cs" />
     <Compile Include="TabViewModels\Playlists\StandardFilterViewModel.cs" />
     <Compile Include="TabViewModels\SystemInfoViewModel.cs" />
     <Compile Include="TabViewModels\EditTrackViewModel.cs" />

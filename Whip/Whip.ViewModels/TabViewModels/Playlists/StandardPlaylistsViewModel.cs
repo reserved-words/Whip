@@ -43,52 +43,6 @@ namespace Whip.ViewModels.TabViewModels.Playlists
         
         public ObservableCollection<StandardFilterViewModel> Filters { get; }
         
-        //private void ClearSelections(string except)
-        //{
-        //    if (except != nameof(SelectedGrouping))
-        //    {
-        //        _selectedGrouping = null;
-        //    }
-
-        //    if (except != nameof(SelectedGenre))
-        //    {
-        //        _selectedGenre = null;
-        //    }
-
-        //    if (except != nameof(SelectedCountry))
-        //    {
-        //        _selectedCountry = null;
-        //    }
-
-        //    if (except != nameof(SelectedState))
-        //    {
-        //        _selectedState = null;
-        //    }
-
-        //    if (except != nameof(SelectedCity))
-        //    {
-        //        _selectedCity = null;
-        //    }
-
-        //    if (except != nameof(SelectedTag))
-        //    {
-        //        _selectedTag = null;
-        //    }
-
-        //    if (except != nameof(SelectedDateAddedOption))
-        //    {
-        //        _selectedDateAddedOption = null;
-        //    }
-
-        //    RaisePropertyChanged(nameof(SelectedGrouping));
-        //    RaisePropertyChanged(nameof(SelectedGenre));
-        //    RaisePropertyChanged(nameof(SelectedCountry));
-        //    RaisePropertyChanged(nameof(SelectedState));
-        //    RaisePropertyChanged(nameof(SelectedCity));
-        //    RaisePropertyChanged(nameof(SelectedTag));
-        //    RaisePropertyChanged(nameof(SelectedDateAddedOption));
-        //}
-
         public void Update(List<QuickPlaylist> favourites)
         {
             var cities = _library.Artists.Select(a => a.City).Distinct().ToList();
@@ -100,8 +54,6 @@ namespace Whip.ViewModels.TabViewModels.Playlists
             Filters.Add(new StandardFilterViewModel("City:", GetCities(cities, favourites)));
             Filters.Add(new StandardFilterViewModel("Tag:", GetTags(_library.Artists.SelectMany(a => a.Tracks), favourites)));
             Filters.Add(new StandardFilterViewModel("Added:", GetDateAddedOptions(favourites)));
-
-            //ClearSelections(string.Empty);
         }
 
         private void OnPlay(StandardFilterViewModel filter)
@@ -112,16 +64,16 @@ namespace Whip.ViewModels.TabViewModels.Playlists
                 return;
             }
 
-            Play(filter.SelectedPlaylist);
+            Play(filter.SelectedPlaylist.Playlist);
         }
 
         private void OnFavourite(StandardFilterViewModel filter)
         {
             if (filter.SelectedPlaylist == null)
                 return;
-
-            filter.SelectedPlaylist.Favourite = !filter.SelectedPlaylist.Favourite;
-            _repository.Save(filter.SelectedPlaylist);
+            
+            filter.SetSelectedPlaylistFavourite(!filter.SelectedPlaylist.Favourite);
+            _repository.Save(filter.SelectedPlaylist.Playlist);
             _parent.OnFavouritePlaylistsUpdated();
         }
 
@@ -138,9 +90,9 @@ namespace Whip.ViewModels.TabViewModels.Playlists
             _playRequestHandler.PlayPlaylist(playlist.GetDefaultTitle(), tracks, SortType.Random);
         }
 
-        private static List<QuickPlaylist> GetDateAddedOptions(List<QuickPlaylist> favourites)
+        private static List<QuickPlaylistViewModel> GetDateAddedOptions(List<QuickPlaylist> favourites)
         {
-            return new List<QuickPlaylist>
+            return new List<QuickPlaylistViewModel>
             {
                 CreatePlaylist(favourites, "in the last week", FilterType.DateAdded, "7"),
                 CreatePlaylist(favourites, "in the last 2 weeks", FilterType.DateAdded, "14"),
@@ -149,7 +101,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
             };
         }
 
-        private static List<QuickPlaylist> GetCities(IEnumerable<City> cities, List<QuickPlaylist> favourites)
+        private static List<QuickPlaylistViewModel> GetCities(IEnumerable<City> cities, List<QuickPlaylist> favourites)
         {
             return cities.Where(c => !string.IsNullOrEmpty(c?.Name))
                 .Distinct()
@@ -159,7 +111,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
                 .Select(c => CreatePlaylist(favourites, c.CityStateDescription, FilterType.City, c.Name, c.State, c.Country))
                 .ToList();
         }
-        private static List<QuickPlaylist> GetStates(IEnumerable<City> cities, List<QuickPlaylist> favourites)
+        private static List<QuickPlaylistViewModel> GetStates(IEnumerable<City> cities, List<QuickPlaylist> favourites)
         {
             return cities.Where(c => !string.IsNullOrEmpty(c?.State))
                 .Select(c => new State(c))
@@ -170,7 +122,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
                 .ToList();
         }
 
-        private static List<QuickPlaylist> GetCountries(IEnumerable<City> cities, List<QuickPlaylist> favourites)
+        private static List<QuickPlaylistViewModel> GetCountries(IEnumerable<City> cities, List<QuickPlaylist> favourites)
         {
             return cities.Where(c => !string.IsNullOrEmpty(c?.Country))
                 .Select(c => c.Country)
@@ -180,7 +132,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
                 .ToList();
         }
 
-        private static List<QuickPlaylist> GetTags(IEnumerable<Track> tracks, List<QuickPlaylist> favourites)
+        private static List<QuickPlaylistViewModel> GetTags(IEnumerable<Track> tracks, List<QuickPlaylist> favourites)
         {
             return tracks
                 .SelectMany(t => t.Tags)
@@ -190,7 +142,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
                 .ToList();
         }
 
-        private static List<QuickPlaylist> GetGenres(IEnumerable<Artist> artists, List<QuickPlaylist> favourites)
+        private static List<QuickPlaylistViewModel> GetGenres(IEnumerable<Artist> artists, List<QuickPlaylist> favourites)
         {
             return artists
                 .Select(a => a.Genre)
@@ -200,7 +152,7 @@ namespace Whip.ViewModels.TabViewModels.Playlists
                 .ToList();
         }
 
-        private static List<QuickPlaylist> GetGroupings(IEnumerable<Artist> artists, List<QuickPlaylist> favourites)
+        private static List<QuickPlaylistViewModel> GetGroupings(IEnumerable<Artist> artists, List<QuickPlaylist> favourites)
         {
             return artists
                 .Select(a => a.Grouping)
@@ -210,11 +162,11 @@ namespace Whip.ViewModels.TabViewModels.Playlists
                 .ToList();
         }
 
-        private static QuickPlaylist CreatePlaylist(IEnumerable<QuickPlaylist> favourites, string title, FilterType filterType,
+        private static QuickPlaylistViewModel CreatePlaylist(IEnumerable<QuickPlaylist> favourites, string title, FilterType filterType,
             params string[] filterValues)
         {
             var favourite = favourites.SingleOrDefault(pl => pl.FilterType == filterType && pl.FilterValues.SequenceEqual(filterValues));
-            return new QuickPlaylist(favourite?.Id ?? 0, title, favourite != null, filterType, filterValues);
+            return new QuickPlaylistViewModel(new QuickPlaylist(favourite?.Id ?? 0, title, favourite != null, filterType, filterValues));
         }
     }
 }

@@ -4,14 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:controls="clr-namespace:Whip.Controls"
-             xmlns:model="clr-namespace:Whip.Common.Model;assembly=Whip.Common"
              xmlns:properties="clr-namespace:Whip.Properties"
              xmlns:vm="clr-namespace:Whip.ViewModels.TabViewModels.Playlists;assembly=Whip.ViewModels"
              mc:Ignorable="d" 
-             x:Name="standardPlaylistsView"
+             x:Name="StandardPlaylistsView"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <DataTemplate DataType="{x:Type model:Playlist}">
+        <DataTemplate DataType="{x:Type vm:QuickPlaylistViewModel}">
             <WrapPanel Margin="0">
                 <Label Content="{Binding Title}"
                        Margin="0"
@@ -23,7 +22,7 @@
                 </controls:Icon12>
             </WrapPanel>
         </DataTemplate>
-        <CollectionViewSource Source="{Binding States}" x:Key="statesView">
+        <!--<CollectionViewSource Source="{Binding States}" x:Key="statesView">
             <CollectionViewSource.GroupDescriptions>
                 <PropertyGroupDescription PropertyName="FilterValues[1]" />
             </CollectionViewSource.GroupDescriptions>
@@ -32,7 +31,7 @@
             <CollectionViewSource.GroupDescriptions>
                 <PropertyGroupDescription PropertyName="FilterValues[2]" />
             </CollectionViewSource.GroupDescriptions>
-        </CollectionViewSource>
+        </CollectionViewSource>-->
         <Style TargetType="{x:Type controls:PlayerControlButton}"
                BasedOn="{StaticResource ButtonStyle}">
             <Setter Property="MinWidth" Value="20" />
@@ -51,7 +50,7 @@
                Content="Quick Playlists" />
 
         <ListView Grid.Row="1"
-                  x:Name="filtersGrid"
+                  x:Name="FiltersGrid"
                   BorderThickness="0"
                   ItemsSource="{Binding Filters}"
                   ItemContainerStyle="{StaticResource ListViewItemNoHighlight}">
@@ -67,7 +66,7 @@
                         </Grid.ColumnDefinitions>
                         <controls:PlayerControlButton Grid.Column="0"
                                                       Type="Play"
-                                                      Command="{Binding ElementName=standardPlaylistsView, Path=DataContext.PlayCommand}"
+                                                      Command="{Binding ElementName=StandardPlaylistsView, Path=DataContext.PlayCommand}"
                                                       CommandParameter="{Binding}"/>
                         <Label Grid.Column="1"
                                Width="80"
@@ -76,7 +75,6 @@
 
                         <ComboBox Grid.Column="2"
                                   ItemsSource="{Binding List}"
-                                  DisplayMemberPath="{Binding FilterValues[0]}"
                                   SelectedItem="{Binding SelectedPlaylist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                         <controls:Icon12 Grid.Column="3"
@@ -89,7 +87,7 @@
                                          Cursor="Hand">
                             <Image.InputBindings>
                                 <MouseBinding Gesture="LeftClick"
-                                              Command="{Binding ElementName=standardPlaylistsView, Path=DataContext.FavouriteCommand}"
+                                              Command="{Binding ElementName=StandardPlaylistsView, Path=DataContext.FavouriteCommand}"
                                               CommandParameter="{Binding}"/>
                             </Image.InputBindings>
                         </controls:Icon12>
@@ -103,7 +101,7 @@
                                          Cursor="Hand">
                             <Image.InputBindings>
                                 <MouseBinding Gesture="LeftClick"
-                                              Command="{Binding ElementName=standardPlaylistsView, Path=DataContext.FavouriteCommand}"
+                                              Command="{Binding ElementName=StandardPlaylistsView, Path=DataContext.FavouriteCommand}"
                                               CommandParameter="{Binding}"/>
                             </Image.InputBindings>
                         </controls:Icon12>

@@ -1,18 +1,13 @@
 ﻿using GalaSoft.MvvmLight;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Whip.Common.Model;
 
 namespace Whip.ViewModels.TabViewModels.Playlists
 {
     public class StandardFilterViewModel : ViewModelBase
     {
-        private QuickPlaylist _selectedPlaylist;
+        private QuickPlaylistViewModel _selectedPlaylist;
 
-        public StandardFilterViewModel(string title, List<QuickPlaylist> list)
+        public StandardFilterViewModel(string title, List<QuickPlaylistViewModel> list)
         {
             Title = title;
             List = list;
@@ -20,10 +15,10 @@ namespace Whip.ViewModels.TabViewModels.Playlists
         }
 
         public string Title { get; }
-        public List<QuickPlaylist> List { get; }
+        public List<QuickPlaylistViewModel> List { get; }
         public bool IsFavouriteSelected => SelectedPlaylist?.Favourite == true;
 
-        public QuickPlaylist SelectedPlaylist
+        public QuickPlaylistViewModel SelectedPlaylist
         {
             get { return _selectedPlaylist; }
             set
@@ -31,6 +26,12 @@ namespace Whip.ViewModels.TabViewModels.Playlists
                 Set(ref _selectedPlaylist, value);
                 RaisePropertyChanged(nameof(IsFavouriteSelected));
             }
+        }
+
+        public void SetSelectedPlaylistFavourite(bool favourite)
+        {
+            SelectedPlaylist.Favourite = favourite;
+            RaisePropertyChanged(nameof(IsFavouriteSelected));
         }
     }
 }
