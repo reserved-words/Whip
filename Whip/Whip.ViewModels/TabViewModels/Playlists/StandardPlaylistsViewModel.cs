@@ -56,22 +56,24 @@ namespace Whip.ViewModels.TabViewModels.Playlists
             Filters.Add(new StandardFilterViewModel("Added:", GetDateAddedOptions(favourites)));
         }
 
+        private bool IsPlaylistSelected(StandardFilterViewModel filter)
+        {
+            if (filter.SelectedPlaylist != null)
+                return true;
+
+            _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, "Quick Playlist Error", "No option selected"));
+            return false;
+        }
+
         private void OnPlay(StandardFilterViewModel filter)
         {
-            if (filter.SelectedPlaylist == null)
-            {
-                _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, "Auto Playlist Error", "No option selected"));
-                return;
-            }
-
+            if (!IsPlaylistSelected(filter)) return;
             Play(filter.SelectedPlaylist.Playlist);
         }
 
         private void OnFavourite(StandardFilterViewModel filter)
         {
-            if (filter.SelectedPlaylist == null)
-                return;
-            
+            if (!IsPlaylistSelected(filter)) return;
             filter.SetSelectedPlaylistFavourite(!filter.SelectedPlaylist.Favourite);
             _repository.Save(filter.SelectedPlaylist.Playlist);
             _parent.OnFavouritePlaylistsUpdated();

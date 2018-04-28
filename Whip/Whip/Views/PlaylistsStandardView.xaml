@@ -22,16 +22,16 @@
                 </controls:Icon12>
             </WrapPanel>
         </DataTemplate>
-        <!--<CollectionViewSource Source="{Binding States}" x:Key="statesView">
+        <CollectionViewSource Source="{Binding Filters[3].List}" x:Key="StatesView">
             <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription PropertyName="FilterValues[1]" />
+                <PropertyGroupDescription PropertyName="Playlist.FilterValues[1]" />
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
-        <CollectionViewSource Source="{Binding Cities}" x:Key="citiesView">
+        <CollectionViewSource Source="{Binding Filters[4].List}" x:Key="CitiesView">
             <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription PropertyName="FilterValues[2]" />
+                <PropertyGroupDescription PropertyName="Playlist.FilterValues[2]" />
             </CollectionViewSource.GroupDescriptions>
-        </CollectionViewSource>-->
+        </CollectionViewSource>
         <Style TargetType="{x:Type controls:PlayerControlButton}"
                BasedOn="{StaticResource ButtonStyle}">
             <Setter Property="MinWidth" Value="20" />
@@ -74,8 +74,34 @@
                                Margin="5"/>
 
                         <ComboBox Grid.Column="2"
-                                  ItemsSource="{Binding List}"
-                                  SelectedItem="{Binding SelectedPlaylist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                  SelectedItem="{Binding SelectedPlaylist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <ComboBox.GroupStyle>
+                                <GroupStyle>
+                                    <GroupStyle.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}"
+                                                       FontWeight="Bold"
+                                                       Padding="5, 2"/>
+                                        </DataTemplate>
+                                    </GroupStyle.HeaderTemplate>
+                                </GroupStyle>
+                            </ComboBox.GroupStyle>
+                            <ComboBox.Style>
+                                <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">
+                                    <Setter Property="ItemsSource" Value="{Binding List}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Title}" Value="State:">
+                                            <Setter Property="ItemsSource" Value="{Binding Source={StaticResource StatesView}}" />
+                                            <Setter Property="IsSynchronizedWithCurrentItem" Value="False"></Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Title}" Value="City:">
+                                            <Setter Property="ItemsSource" Value="{Binding Source={StaticResource CitiesView}}" />
+                                            <Setter Property="IsSynchronizedWithCurrentItem" Value="False"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ComboBox.Style>
+                        </ComboBox>
 
                         <controls:Icon12 Grid.Column="3"
                                          Icon="Star"

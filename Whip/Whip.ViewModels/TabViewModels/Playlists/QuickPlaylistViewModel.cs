@@ -1,5 +1,4 @@
 ﻿using GalaSoft.MvvmLight;
-using Whip.Common.Enums;
 using Whip.Common.Model;
 
 namespace Whip.ViewModels.TabViewModels.Playlists
