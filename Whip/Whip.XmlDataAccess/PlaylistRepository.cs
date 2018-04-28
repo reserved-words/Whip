@@ -81,7 +81,8 @@ namespace Whip.XmlDataAccess
 
                 if (xml.Root.Element(PlaylistsOrdered) != null)
                 {
-                    foreach (var playlistXml in xml.Root.Element(PlaylistsOrdered).Elements(PropertyNames.Playlist))
+                    foreach (var playlistXml in xml.Root.Element(PlaylistsOrdered).Elements(PropertyNames.Playlist)
+                        .Where(pl => pl.Attribute(PlaylistIsFavourite)?.Value == TrueValue))
                     {
                         playlists.Add(CreatePlaylist(playlistXml, PlaylistType.Ordered));
                     }
@@ -89,7 +90,8 @@ namespace Whip.XmlDataAccess
 
                 if (xml.Root.Element(PlaylistsCriteria) != null)
                 {
-                    foreach (var playlistXml in xml.Root.Element(PlaylistsCriteria).Elements(PropertyNames.Playlist))
+                    foreach (var playlistXml in xml.Root.Element(PlaylistsCriteria).Elements(PropertyNames.Playlist)
+                        .Where(pl => pl.Attribute(PlaylistIsFavourite)?.Value == TrueValue))
                     {
                         playlists.Add(CreatePlaylist(playlistXml, PlaylistType.Criteria));
                     }
@@ -107,7 +109,7 @@ namespace Whip.XmlDataAccess
             return playlists;
         }
 
-        private Playlist CreatePlaylist(XElement playlistXml, PlaylistType type)
+        private static Playlist CreatePlaylist(XElement playlistXml, PlaylistType type)
         {
             var id = int.Parse(playlistXml.Attribute(PlaylistId).Value);
             var title = playlistXml.Attribute(PlaylistTitle).Value;
