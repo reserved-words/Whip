@@ -34,7 +34,6 @@ namespace Whip.ViewModels.TabViewModels.Playlists
 
             PlayCommand = new RelayCommand<StandardFilterViewModel>(OnPlay);
             FavouriteCommand = new RelayCommand<StandardFilterViewModel>(OnFavourite);
-
             Filters = new ObservableCollection<StandardFilterViewModel>();
         }
 
@@ -45,6 +44,8 @@ namespace Whip.ViewModels.TabViewModels.Playlists
         
         public void Update(List<QuickPlaylist> favourites)
         {
+            Filters.Clear();
+
             var cities = _library.Artists.Select(a => a.City).Distinct().ToList();
 
             Filters.Add(new StandardFilterViewModel("Grouping:", GetGroupings(_library.Artists, favourites)));
