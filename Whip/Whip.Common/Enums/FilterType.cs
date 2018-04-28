@@ -14,7 +14,7 @@ namespace Whip.Common.Enums
         City,
         [MetaData("Country")]
         Country,
-        [MetaData("Date Added")]
+        [MetaData("Added")]
         DateAdded,
         [MetaData("Genre")]
         Genre,

@@ -20,7 +20,14 @@ namespace Whip.Common.Model
 
         public string GetDefaultTitle()
         {
-            return $"{FilterType.GetDisplayName()}: {string.Join(", ", FilterValues.Where(v => !string.IsNullOrEmpty(v)))}";
+            return $"{FilterType.GetDisplayName()}: {GetFilterDescription()}";
+        }
+
+        private string GetFilterDescription()
+        {
+            return FilterType == FilterType.DateAdded
+                ? $"In the last {FilterValues[0]} days"
+                : string.Join(", ", FilterValues.Where(v => !string.IsNullOrEmpty(v)));
         }
     }
 }
