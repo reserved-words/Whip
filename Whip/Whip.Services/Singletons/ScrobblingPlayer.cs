@@ -108,6 +108,9 @@ namespace Whip.Services
             _player.Stop();
             _playProgressTracker.Stop();
 
+            if (_currentTrack == null)
+                return;
+
             if (CanScrobbleCurrentTrack())
             {
                 var scrobble = Task.Run(() => _scrobbler.ScrobbleAsync(_currentTrack, _currentDateTime.Get())).Result;
