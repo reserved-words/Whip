@@ -37,6 +37,12 @@ namespace Whip.ViewModels
             SidebarViewModel = sidebarViewModel;
 
             playlist.CurrentTrackChanged += OnCurrentTrackChanged;
+            MainViewModel.FavouritePlaylistsUpdated += OnFavouritePlaylistsUpdated;
+        }
+
+        private void OnFavouritePlaylistsUpdated()
+        {
+            SidebarViewModel.LoadPlaylists();
         }
 
         private void OnCurrentTrackChanged(Track track)
@@ -51,6 +57,8 @@ namespace Whip.ViewModels
         public void OnLoad()
         {
             PopulateLibrary();
+
+            SidebarViewModel.LoadPlaylists();
         }
 
         public void OnExit()

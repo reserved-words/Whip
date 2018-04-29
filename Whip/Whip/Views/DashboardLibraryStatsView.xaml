@@ -13,7 +13,7 @@
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Width="*"
                                             CellTemplate="{StaticResource StatisticCellCaption}" />
-                    <DataGridTemplateColumn Width="75"
+                    <DataGridTemplateColumn Width="100"
                                             CellTemplate="{StaticResource StatisticCellData}" />
                 </DataGrid.Columns>
             </DataGrid>
@@ -24,7 +24,7 @@
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Width="*"
                                             CellTemplate="{StaticResource StatisticCellCaption}" />
-                    <DataGridTemplateColumn Width="75"
+                    <DataGridTemplateColumn Width="100"
                                             CellTemplate="{StaticResource StatisticCellData}" />
                 </DataGrid.Columns>
             </DataGrid>
@@ -35,7 +35,7 @@
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Width="*"
                                             CellTemplate="{StaticResource StatisticCellCaption}" />
-                    <DataGridTemplateColumn Width="75"
+                    <DataGridTemplateColumn Width="100"
                                             CellTemplate="{StaticResource StatisticCellData}" />
                 </DataGrid.Columns>
             </DataGrid>
@@ -46,7 +46,7 @@
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Width="*"
                                             CellTemplate="{StaticResource StatisticCellCaption}" />
-                    <DataGridTemplateColumn Width="75"
+                    <DataGridTemplateColumn Width="100"
                                             CellTemplate="{StaticResource StatisticCellData}" />
                 </DataGrid.Columns>
             </DataGrid>

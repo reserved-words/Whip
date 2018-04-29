@@ -57,7 +57,11 @@ namespace Whip.Services.Singletons
 
         private void DeletePlayedFiles()
         {
-            _fileService.DeleteFiles(CurrentPlayingDirectoryName, _currentlyPlayingFilepath ?? "");
+            var fileToKeep = _currentlyPlayingFilepath != null
+                ? System.IO.Path.GetFileName(_currentlyPlayingFilepath)
+                : "";
+
+            _fileService.DeleteFiles(CurrentPlayingDirectoryName, fileToKeep);
         }
 
         public int GetVolumePercentage()

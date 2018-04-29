@@ -174,7 +174,7 @@ namespace Whip.ViewModels.TabViewModels
 
         private void OnPlay()
         {
-            _playRequestHandler.PlayOrderedPlaylist("Search Results", Results, SortType.Random, SelectedTrack);
+            _playRequestHandler.PlayPlaylist("Search Results", Results, SortType.Ordered, SelectedTrack);
         }
 
         private void OnSaveAsCriteriaPlaylist()
@@ -197,7 +197,7 @@ namespace Whip.ViewModels.TabViewModels
 
         private CriteriaPlaylist GetCriteriaPlaylist(string title)
         {
-            var playlist = new CriteriaPlaylist(0, title)
+            var playlist = new CriteriaPlaylist(0, title, false)
             {
                 OrderByProperty = OrderByProperty,
                 OrderByDescending = OrderByDescending,
@@ -237,7 +237,7 @@ namespace Whip.ViewModels.TabViewModels
 
         private OrderedPlaylist GetOrderedPlaylist(string title)
         {
-            return new OrderedPlaylist(0, title)
+            return new OrderedPlaylist(0, title, false)
             {
                 Tracks = Results.Select(t => t.File.FullPath).ToList()
             };

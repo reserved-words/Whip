@@ -3,14 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Whip"
              xmlns:controls="clr-namespace:Whip.Controls"
+             xmlns:properties="clr-namespace:Whip.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <Style TargetType="{x:Type controls:PlayerControlButton}"
                BasedOn="{StaticResource ButtonStyle}">
-            <Setter Property="Padding" Value="5 2" />
             <Setter Property="MinWidth" Value="20" />
             <Setter Property="MinHeight" Value="20" />
             <Setter Property="Margin" Value="5" />
@@ -26,6 +25,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
+            
             <controls:PlayerControlButton Grid.Column="0"
                                           Type="Play"
                                           VerticalAlignment="Center"
@@ -34,29 +34,49 @@
             
             <Label Grid.Column="1"
                    Content="{Binding Title}"
-                   VerticalAlignment="Center" />
+                   Tag="{Binding ElementName=PlaylistsGrid}"
+                   VerticalAlignment="Center">
+                <Label.ContextMenu>
+                    <ContextMenu>
+                        <ContextMenu.Items>
+                            <MenuItem Header="Edit"
+                                      Command="{Binding 
+                                        PlacementTarget.Tag.DataContext.EditCommand, 
+                                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}"
+                                      CommandParameter="{Binding}" />
+                            <MenuItem Header="Delete"
+                                      Command="{Binding 
+                                        PlacementTarget.Tag.DataContext.DeleteCommand, 
+                                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}"
+                                      CommandParameter="{Binding}" />
+                        </ContextMenu.Items>
+                    </ContextMenu>
+                </Label.ContextMenu>
+            </Label>
             
             <StackPanel Grid.Column="2"
                         VerticalAlignment="Center">
-                <controls:Icon12 Icon="Cog"
-                                 Foreground="Silver"
+                <controls:Icon12 Icon="StarOutline"
+                                 Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"
+                                 Visibility="{Binding Favourite, Converter={StaticResource NegBoolVisibilityConverter}}"
                                  Margin="2"
-                                 ToolTip="Edit"
+                                 ToolTip="Add to Favourites"
                                  Cursor="Hand">
                     <Image.InputBindings>
                         <MouseBinding Gesture="LeftClick"
-                                      Command="{Binding Path=DataContext.EditCommand, ElementName=PlaylistsGrid}"
+                                      Command="{Binding Path=DataContext.FavouriteCommand, ElementName=PlaylistsGrid}"
                                       CommandParameter="{Binding}"/>
                     </Image.InputBindings>
                 </controls:Icon12>
-                <controls:Icon12 Icon="TrashOutline"
-                                Foreground="Silver"
-                                Margin="2"
-                               ToolTip="Delete"
-                                Cursor="Hand">
+                <controls:Icon12 Icon="Star"
+                                 Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"
+                                 Visibility="{Binding Favourite, Converter={StaticResource BoolVisibilityConverter}}"
+                                 Margin="2"
+                                 ToolTip="Remove from Favourites"
+                                 Cursor="Hand">
                     <Image.InputBindings>
                         <MouseBinding Gesture="LeftClick"
-                                      Command="{Binding Path=DataContext.DeleteCommand, ElementName=PlaylistsGrid}"
+                                      Command="{Binding Path=DataContext.FavouriteCommand, ElementName=PlaylistsGrid}"
                                       CommandParameter="{Binding}"/>
                     </Image.InputBindings>
                 </controls:Icon12>

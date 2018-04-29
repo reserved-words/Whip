@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight.Messaging;
+﻿using System;
+using GalaSoft.MvvmLight.Messaging;
 using Whip.Common;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
@@ -13,6 +14,8 @@ namespace Whip.ViewModels.TabViewModels
 {
     public class PlaylistsViewModel : TabViewModelBase
     {
+        public event Action FavouritePlaylistsUpdated = delegate { };
+
         private readonly IMessenger _messenger;
         private readonly IPlaylistRepository _repository;
 
@@ -24,20 +27,18 @@ namespace Whip.ViewModels.TabViewModels
             _repository = repository;
 
             OrderedPlaylists = new OrderedPlaylistsViewModel(this, _messenger, trackSearchService, _repository, playRequestHandler);
-            CriteriaPlaylists = new CriteriaPlaylistsViewModel(this, messenger, trackSearchService, playRequestHandler);
-            StandardPlaylists = new StandardPlaylistsViewModel(library, messenger, playRequestHandler);
+            CriteriaPlaylists = new CriteriaPlaylistsViewModel(this, messenger, trackSearchService, _repository, playRequestHandler);
+            StandardPlaylists = new StandardPlaylistsViewModel(this, library, messenger, playRequestHandler, trackSearchService, _repository);
         }
 
-        public StandardPlaylistsViewModel StandardPlaylists { get; private set; }
-        public OrderedPlaylistsViewModel OrderedPlaylists { get; private set; }
-        public CriteriaPlaylistsViewModel CriteriaPlaylists { get; private set; }
+        public StandardPlaylistsViewModel StandardPlaylists { get; }
+        public OrderedPlaylistsViewModel OrderedPlaylists { get; }
+        public CriteriaPlaylistsViewModel CriteriaPlaylists { get; }
 
         public override void OnShow(Track currentTrack)
         {
-            StandardPlaylists.UpdateOptions();
-
             var playlists = _repository.GetPlaylists();
-
+            StandardPlaylists.Update(playlists.FavouriteQuickPlaylists);
             OrderedPlaylists.Update(playlists.OrderedPlaylists);
             CriteriaPlaylists.Update(playlists.CriteriaPlaylists);
         }
@@ -45,7 +46,7 @@ namespace Whip.ViewModels.TabViewModels
         public void Remove(CriteriaPlaylist playlist)
         {
             var confirmation = new ConfirmationViewModel(_messenger, "Delete Playlist Confirmation", $"Are you sure you want to delete {playlist.Title}?", 
-                ConfirmationType.YesNo, false);
+                ConfirmationType.YesNo);
 
             _messenger.Send(new ShowDialogMessage(confirmation));
 
@@ -59,7 +60,7 @@ namespace Whip.ViewModels.TabViewModels
         public void Remove(OrderedPlaylist playlist)
         {
             var confirmation = new ConfirmationViewModel(_messenger, "Delete Playlist Confirmation", $"Are you sure you want to delete {playlist.Title}?",
-                ConfirmationType.YesNo, false);
+                ConfirmationType.YesNo);
 
             _messenger.Send(new ShowDialogMessage(confirmation));
 
@@ -68,6 +69,11 @@ namespace Whip.ViewModels.TabViewModels
 
             _repository.Delete(playlist);
             OnShow(null);
+        }
+
+        public void OnFavouritePlaylistsUpdated()
+        {
+            FavouritePlaylistsUpdated.Invoke();
         }
     }
 }

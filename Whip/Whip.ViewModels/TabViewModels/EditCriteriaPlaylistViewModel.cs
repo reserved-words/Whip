@@ -199,7 +199,7 @@ namespace Whip.ViewModels.TabViewModels
 
         private void OnPreviewResults(bool showMessageIfNoResults)
         {
-            Tracks = _trackSearchService.GetTracks(CreatePlaylist());
+            Tracks = _trackSearchService.GetTracks(CreatePlaylist(_playlist));
 
             if (showMessageIfNoResults && !Tracks.Any())
             {
@@ -221,7 +221,7 @@ namespace Whip.ViewModels.TabViewModels
         {
             if (playlist == null)
             {
-                playlist = new CriteriaPlaylist(0, "");
+                playlist = new CriteriaPlaylist(0, "", false);
             }
 
             playlist.Title = PlaylistTitle;

@@ -411,4 +411,16 @@
   <data name="Instrumental" xml:space="preserve">
     <value>instrumental</value>
   </data>
+  <data name="PlaylistIsFavourite" xml:space="preserve">
+    <value>favourite</value>
+  </data>
+  <data name="PlaylistFilter" xml:space="preserve">
+    <value>filter</value>
+  </data>
+  <data name="PlaylistFilterValue" xml:space="preserve">
+    <value>value</value>
+  </data>
+  <data name="PlaylistsFavouriteQuick" xml:space="preserve">
+    <value>favourite_quick_playlists</value>
+  </data>
 </root>

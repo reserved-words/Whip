@@ -1,11 +1,13 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
-using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Whip.Common;
+using Whip.Common.Enums;
 using Whip.Common.Model;
+using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 using Whip.ViewModels.Messages;
 
@@ -16,59 +18,71 @@ namespace Whip.ViewModels.TabViewModels.Playlists
         private readonly Common.Singletons.Library _library;
         private readonly IMessenger _messenger;
         private readonly IPlayRequestHandler _playRequestHandler;
-
-        private Dictionary<string, Predicate<Track>> _dateAddedOptions;
-
-        private string _selectedGrouping;
-        private string _selectedGenre;
-        private string _selectedCountry;
-        private State _selectedState;
-        private City _selectedCity;
-        private string _selectedTag;
-        private string _selectedAddedDateOption;
-
-        private List<string> _groupings;
-        private List<string> _genres;
-        private List<string> _countries;
-        private List<State> _states;
-        private List<City> _cities;
-        private List<string> _tags;
-
-        public StandardPlaylistsViewModel(Common.Singletons.Library library, IMessenger messenger, IPlayRequestHandler playRequestHandler)
+        private readonly IPlaylistRepository _repository;
+        private readonly ITrackSearchService _trackSearchService;
+        private readonly PlaylistsViewModel _parent;
+        
+        public StandardPlaylistsViewModel(PlaylistsViewModel parent, Common.Singletons.Library library, IMessenger messenger, IPlayRequestHandler playRequestHandler,
+            ITrackSearchService trackSearchService, IPlaylistRepository repository)
         {
             _library = library;
             _messenger = messenger;
             _playRequestHandler = playRequestHandler;
+            _trackSearchService = trackSearchService;
+            _repository = repository;
+            _parent = parent;
 
-            _dateAddedOptions = GetDateAddedOptions();
-
-            PlayGroupingCommand = new RelayCommand(OnPlayGrouping);
-            PlayGenreCommand = new RelayCommand(OnPlayGenre);
-            PlayCountryCommand = new RelayCommand(OnPlayCountry);
-            PlayStateCommand = new RelayCommand(OnPlayState);
-            PlayCityCommand = new RelayCommand(OnPlayCity);
-            PlayTagCommand = new RelayCommand(OnPlayTag);
-            PlayRecentlyAddedCommand = new RelayCommand(OnPlayRecentlyAdded);
+            PlayCommand = new RelayCommand<StandardFilterViewModel>(OnPlay);
+            FavouriteCommand = new RelayCommand<StandardFilterViewModel>(OnFavourite);
+            Filters = new ObservableCollection<StandardFilterViewModel>();
         }
 
-        private bool CheckOptionSelected(object selectedOption, string optionType)
+        public RelayCommand<StandardFilterViewModel> PlayCommand { get; }
+        public RelayCommand<StandardFilterViewModel> FavouriteCommand { get; }
+        
+        public ObservableCollection<StandardFilterViewModel> Filters { get; }
+        
+        public void Update(List<QuickPlaylist> favourites)
         {
-            if (selectedOption == null)
-            {
-                _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, "Auto Playlist Error", $"No {optionType} selected"));
-                return false;
-            }
+            Filters.Clear();
 
-            return true;
+            var cities = _library.Artists.Select(a => a.City).Distinct().ToList();
+
+            Filters.Add(new StandardFilterViewModel("Grouping:", GetGroupings(_library.Artists, favourites)));
+            Filters.Add(new StandardFilterViewModel("Genre:", GetGenres(_library.Artists, favourites)));
+            Filters.Add(new StandardFilterViewModel("Country:", GetCountries(cities, favourites)));
+            Filters.Add(new StandardFilterViewModel("State:", GetStates(cities, favourites)));
+            Filters.Add(new StandardFilterViewModel("City:", GetCities(cities, favourites)));
+            Filters.Add(new StandardFilterViewModel("Tag:", GetTags(_library.Artists.SelectMany(a => a.Tracks), favourites)));
+            Filters.Add(new StandardFilterViewModel("Added:", GetDateAddedOptions(favourites)));
         }
 
-        private void OnPlayRecentlyAdded()
+        private bool IsPlaylistSelected(StandardFilterViewModel filter)
         {
-            if (!CheckOptionSelected(SelectedAddedDateOption, "time period"))
-                return;
+            if (filter.SelectedPlaylist != null)
+                return true;
 
-            var predicate = _dateAddedOptions[SelectedAddedDateOption];
-            var tracks = _library.Artists.SelectMany(a => a.Tracks.Where(t => predicate(t))).ToList();
+            _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, "Quick Playlist Error", "No option selected"));
+            return false;
+        }
+
+        private void OnPlay(StandardFilterViewModel filter)
+        {
+            if (!IsPlaylistSelected(filter)) return;
+            Play(filter.SelectedPlaylist.Playlist);
+        }
+
+        private void OnFavourite(StandardFilterViewModel filter)
+        {
+            if (!IsPlaylistSelected(filter)) return;
+            filter.SetSelectedPlaylistFavourite(!filter.SelectedPlaylist.Favourite);
+            _repository.Save(filter.SelectedPlaylist.Playlist);
+            _parent.OnFavouritePlaylistsUpdated();
+        }
+
+        private void Play(QuickPlaylist playlist)
+        {
+            var tracks = _trackSearchService.GetTracks(playlist.FilterType, playlist.FilterValues);
 
             if (!tracks.Any())
             {
@@ -76,277 +90,86 @@ namespace Whip.ViewModels.TabViewModels.Playlists
                 return;
             }
 
-            _playRequestHandler.PlayCriteriaPlaylist(string.Format("Tracks Added {0}", SelectedAddedDateOption), tracks, SortType.Random);
+            _playRequestHandler.PlayPlaylist(playlist.GetDefaultTitle(), tracks, SortType.Random);
         }
 
-        private void OnPlayTag()
+        private static List<QuickPlaylistViewModel> GetDateAddedOptions(List<QuickPlaylist> favourites)
         {
-            if (!CheckOptionSelected(SelectedTag, "tag"))
-                return;
-
-            var tracks = _library.Artists.SelectMany(a => a.Tracks.Where(t => t.Tags.Contains(SelectedTag))).ToList();
-            _playRequestHandler.PlayCriteriaPlaylist(SelectedTag, tracks, SortType.Random);
-        }
-
-        private void OnPlayCity()
-        {
-            if (!CheckOptionSelected(SelectedCity, "city"))
-                return;
-
-            var tracks = _library.Artists.Where(a => a.City == SelectedCity).SelectMany(a => a.Tracks).ToList();
-            _playRequestHandler.PlayCriteriaPlaylist(SelectedCity.Description, tracks, SortType.Random);
-        }
-
-        private void OnPlayState()
-        {
-            if (!CheckOptionSelected(SelectedState, "state"))
-                return;
-
-            var tracks = _library.Artists.Where(a => a.City.State == SelectedState.Name && a.City.Country == SelectedState.Country).SelectMany(a => a.Tracks).ToList();
-            _playRequestHandler.PlayCriteriaPlaylist(SelectedState.Description, tracks, SortType.Random);
-        }
-
-        private void OnPlayCountry()
-        {
-            if (!CheckOptionSelected(SelectedCountry, "country"))
-                return;
-
-            var tracks = _library.Artists.Where(a => a.City.Country == SelectedCountry).SelectMany(a => a.Tracks).ToList();
-            _playRequestHandler.PlayCriteriaPlaylist(SelectedCountry, tracks, SortType.Random);
-        }
-
-        private void OnPlayGenre()
-        {
-            if (!CheckOptionSelected(SelectedGenre, "genre"))
-                return;
-
-            var tracks = _library.Artists.Where(a => a.Genre == SelectedGenre).SelectMany(a => a.Tracks).ToList();
-            _playRequestHandler.PlayCriteriaPlaylist(SelectedGenre, tracks, SortType.Random);
-        }
-
-        private void OnPlayGrouping()
-        {
-            if (!CheckOptionSelected(SelectedGrouping, "grouping"))
-                return;
-
-            var tracks = _library.Artists.Where(a => a.Grouping == SelectedGrouping).SelectMany(a => a.Tracks).ToList();
-
-            _playRequestHandler.PlayCriteriaPlaylist(SelectedGrouping, tracks, SortType.Random);
-        }
-
-        public RelayCommand PlayGroupingCommand { get; private set; }
-        public RelayCommand PlayGenreCommand { get; private set; }
-        public RelayCommand PlayCountryCommand { get; private set; }
-        public RelayCommand PlayStateCommand { get; private set; }
-        public RelayCommand PlayCityCommand { get; private set; }
-        public RelayCommand PlayTagCommand { get; private set; }
-        public RelayCommand PlayRecentlyAddedCommand { get; private set; }
-
-        public List<string> Groupings
-        {
-            get { return _groupings; }
-            set { Set(ref _groupings, value); }
-        }
-
-        public List<string> Genres
-        {
-            get { return _genres; }
-            set { Set(ref _genres, value); }
-        }
-
-        public List<string> Countries
-        {
-            get { return _countries; }
-            set { Set(ref _countries, value); }
-        }
-
-        public List<State> States
-        {
-            get { return _states; }
-            set { Set(ref _states, value); }
-        }
-
-        public List<City> Cities
-        {
-            get { return _cities; }
-            set { Set(ref _cities, value); }
-        }
-
-        public List<string> Tags
-        {
-            get { return _tags; }
-            set { Set(ref _tags, value); }
-        }
-
-        public List<string> AddedDateOptions => _dateAddedOptions.Keys.ToList();
-
-        public string SelectedGrouping
-        {
-            get { return _selectedGrouping; }
-            set
+            return new List<QuickPlaylistViewModel>
             {
-                Set(ref _selectedGrouping, value);
-                ClearSelections(nameof(SelectedGrouping));
-            }
-        }
-
-        public string SelectedGenre
-        {
-            get { return _selectedGenre; }
-            set
-            {
-                Set(ref _selectedGenre, value);
-                ClearSelections(nameof(SelectedGenre));
-            }
-        }
-
-        public string SelectedCountry
-        {
-            get { return _selectedCountry; }
-            set
-            {
-                Set(ref _selectedCountry, value);
-                ClearSelections(nameof(SelectedCountry));
-            }
-        }
-
-        public State SelectedState
-        {
-            get { return _selectedState; }
-            set
-            {
-                Set(ref _selectedState, value);
-                ClearSelections(nameof(SelectedState));
-            }
-        }
-
-        public City SelectedCity
-        {
-            get { return _selectedCity; }
-            set
-            {
-                Set(ref _selectedCity, value);
-                ClearSelections(nameof(SelectedCity));
-            }
-        }
-
-        public string SelectedTag
-        {
-            get { return _selectedTag; }
-            set
-            {
-                Set(ref _selectedTag, value);
-                ClearSelections(nameof(SelectedTag));
-            }
-        }
-
-        public string SelectedAddedDateOption
-        {
-            get { return _selectedAddedDateOption; }
-            set
-            {
-                Set(ref _selectedAddedDateOption, value);
-                ClearSelections(nameof(SelectedAddedDateOption));
-            }
-        }
-
-        private void ClearSelections(string except)
-        {
-            if (except != nameof(SelectedGrouping))
-            {
-                _selectedGrouping = null;
-            }
-
-            if (except != nameof(SelectedGenre))
-            {
-                _selectedGenre = null;
-            }
-
-            if (except != nameof(SelectedCountry))
-            {
-                _selectedCountry = null;
-            }
-
-            if (except != nameof(SelectedState))
-            {
-                _selectedState = null;
-            }
-
-            if (except != nameof(SelectedCity))
-            {
-                _selectedCity = null;
-            }
-
-            if (except != nameof(SelectedTag))
-            {
-                _selectedTag = null;
-            }
-
-            if (except != nameof(SelectedAddedDateOption))
-            {
-                _selectedAddedDateOption = null;
-            }
-
-            RaisePropertyChanged(nameof(SelectedGrouping));
-            RaisePropertyChanged(nameof(SelectedGenre));
-            RaisePropertyChanged(nameof(SelectedCountry));
-            RaisePropertyChanged(nameof(SelectedState));
-            RaisePropertyChanged(nameof(SelectedCity));
-            RaisePropertyChanged(nameof(SelectedTag));
-            RaisePropertyChanged(nameof(SelectedAddedDateOption));
-        }
-
-        public void UpdateOptions()
-        {
-            Groupings = _library.Artists.Select(a => a.Grouping).Distinct().OrderBy(g => g).ToList();
-            Genres = _library.Artists.Select(a => a.Genre).Distinct().OrderBy(g => g).ToList();
-            Tags = _library.Artists.SelectMany(a => a.Tracks).SelectMany(t => t.Tags).Distinct().OrderBy(t => t).ToList();
-
-            var cities = _library.Artists.Select(a => a.City).Distinct().ToList();
-            Cities = GetCities(cities);
-            States = GetStates(cities);
-            Countries = GetCountries(cities);
-
-            ClearSelections(string.Empty);
-        }
-
-        private Dictionary<string, Predicate<Track>> GetDateAddedOptions()
-        {
-            return new Dictionary<string, Predicate<Track>>
-            {
-                { "in the Last Week", t => t.File.DateCreated.AddDays(7) > DateTime.Now },
-                { "in the Last 2 Weeks", t => t.File.DateCreated.AddDays(14) > DateTime.Now },
-                { "in the Last 30 Days", t => t.File.DateCreated.AddDays(30) > DateTime.Now }
+                CreatePlaylist(favourites, "in the last week", FilterType.DateAdded, "7"),
+                CreatePlaylist(favourites, "in the last 2 weeks", FilterType.DateAdded, "14"),
+                CreatePlaylist(favourites, "in the last 30 days", FilterType.DateAdded, "30"),
+                CreatePlaylist(favourites, "in the last year", FilterType.DateAdded, "365")
             };
         }
 
-        private List<City> GetCities(List<City> cities)
+        private static List<QuickPlaylistViewModel> GetCities(IEnumerable<City> cities, List<QuickPlaylist> favourites)
         {
-            return cities.Where(c => c != null && !string.IsNullOrEmpty(c.Name))
+            return cities.Where(c => !string.IsNullOrEmpty(c?.Name))
                 .Distinct()
                 .OrderBy(c => c.Country)
                 .ThenBy(c => c.State)
                 .ThenBy(c => c.Name)
+                .Select(c => CreatePlaylist(favourites, c.CityStateDescription, FilterType.City, c.Name, c.State, c.Country))
                 .ToList();
         }
-        private List<State> GetStates(List<City> cities)
+        private static List<QuickPlaylistViewModel> GetStates(IEnumerable<City> cities, List<QuickPlaylist> favourites)
         {
-            return cities.Where(c => c != null && !string.IsNullOrEmpty(c.State))
+            return cities.Where(c => !string.IsNullOrEmpty(c?.State))
                 .Select(c => new State(c))
                 .Distinct()
                 .OrderBy(s => s.Country)
                 .ThenBy(s => s.Name)
+                .Select(s => CreatePlaylist(favourites, s.Name, FilterType.State, s.Name, s.Country))
                 .ToList();
         }
 
-        private List<string> GetCountries(List<City> cities)
+        private static List<QuickPlaylistViewModel> GetCountries(IEnumerable<City> cities, List<QuickPlaylist> favourites)
         {
-            return cities.Where(c => c != null && !string.IsNullOrEmpty(c.Country))
+            return cities.Where(c => !string.IsNullOrEmpty(c?.Country))
                 .Select(c => c.Country)
                 .Distinct()
                 .OrderBy(c => c)
+                .Select(c => CreatePlaylist(favourites, c, FilterType.Country, c))
                 .ToList();
         }
 
+        private static List<QuickPlaylistViewModel> GetTags(IEnumerable<Track> tracks, List<QuickPlaylist> favourites)
+        {
+            return tracks
+                .SelectMany(t => t.Tags)
+                .Distinct()
+                .OrderBy(t => t)
+                .Select(t => CreatePlaylist(favourites, t, FilterType.Tag, t))
+                .ToList();
+        }
+
+        private static List<QuickPlaylistViewModel> GetGenres(IEnumerable<Artist> artists, List<QuickPlaylist> favourites)
+        {
+            return artists
+                .Select(a => a.Genre)
+                .Distinct()
+                .OrderBy(g => g)
+                .Select(g => CreatePlaylist(favourites, g, FilterType.Genre, g))
+                .ToList();
+        }
+
+        private static List<QuickPlaylistViewModel> GetGroupings(IEnumerable<Artist> artists, List<QuickPlaylist> favourites)
+        {
+            return artists
+                .Select(a => a.Grouping)
+                .Distinct()
+                .OrderBy(g => g)
+                .Select(g => CreatePlaylist(favourites, g, FilterType.Grouping, g))
+                .ToList();
+        }
+
+        private static QuickPlaylistViewModel CreatePlaylist(IEnumerable<QuickPlaylist> favourites, string title, FilterType filterType,
+            params string[] filterValues)
+        {
+            var favourite = favourites.SingleOrDefault(pl => pl.FilterType == filterType && pl.FilterValues.SequenceEqual(filterValues));
+            return new QuickPlaylistViewModel(new QuickPlaylist(favourite?.Id ?? 0, title, favourite != null, filterType, filterValues));
+        }
     }
 }

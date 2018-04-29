@@ -150,7 +150,7 @@ namespace Whip.ViewModels.TabViewModels
         {
             if (playlist == null)
             {
-                playlist = new OrderedPlaylist(0, "");
+                playlist = new OrderedPlaylist(0, "", false);
             }
 
             playlist.Title = PlaylistTitle;

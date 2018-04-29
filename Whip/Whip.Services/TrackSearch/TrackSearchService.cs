@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Whip.Common;
+using Whip.Common.Enums;
 using Whip.Common.Interfaces;
 using Whip.Common.Model;
 using Whip.Common.Model.Playlists.Criteria;
@@ -21,11 +22,27 @@ namespace Whip.Services
 
         public List<Track> GetTracks(ITrackCriteria trackCriteria)
         {
+            if (!trackCriteria.CriteriaGroups.Any()
+                && !trackCriteria.OrderByProperty.HasValue
+                && !trackCriteria.MaxTracks.HasValue)
+            {
+                return new List<Track>();
+            }
+
             var tracks = new HashSet<Track>();
 
-            foreach (var criteriaGroup in trackCriteria.CriteriaGroups)
+            if (!trackCriteria.CriteriaGroups.Any())
             {
-                GetValidTracks(criteriaGroup).ForEach(t => tracks.Add(t));
+                _library.Artists.SelectMany(a => a.Tracks)
+                    .ToList()
+                    .ForEach(t => tracks.Add(t));
+            }
+            else
+            {
+                foreach (var criteriaGroup in trackCriteria.CriteriaGroups)
+                {
+                    GetValidTracks(criteriaGroup).ForEach(t => tracks.Add(t));
+                }
             }
 
             IEnumerable<Track> list = tracks;
@@ -214,6 +231,50 @@ namespace Whip.Services
                     return t => t.Instrumental ? 0 : 1;
                 default:
                     throw new InvalidOperationException();
+            }
+        }
+
+        public List<Track> GetTracks(FilterType filterType, params string[] filterValues)
+        {
+            switch (filterType)
+            {
+                case FilterType.City:
+                    return _library.Artists.Where(a => a.City.Name == filterValues[0]
+                            && a.City.State == filterValues[1]
+                            && a.City.Country == filterValues[2])
+                        .SelectMany(a => a.Tracks)
+                        .ToList();
+                case FilterType.Country:
+                    return _library.Artists.Where(a => a.City.Country == filterValues[0])
+                        .SelectMany(a => a.Tracks)
+                        .ToList();
+                case FilterType.DateAdded:
+                    var days = int.Parse(filterValues[0]);
+                    var minimumDate = DateTime.Now.AddDays(-1 * days);
+                    return _library.Artists
+                        .SelectMany(a => a.Tracks)
+                        .Where(t => t.File.DateCreated >= minimumDate)
+                        .ToList();
+                case FilterType.Genre:
+                    return _library.Artists.Where(a => a.Genre == filterValues[0])
+                        .SelectMany(a => a.Tracks)
+                        .ToList();
+                case FilterType.Grouping:
+                    return _library.Artists.Where(a => a.Grouping == filterValues[0])
+                        .SelectMany(a => a.Tracks)
+                        .ToList();
+                case FilterType.State:
+                    return _library.Artists.Where(a => a.City.State == filterValues[0]
+                                                       && a.City.Country == filterValues[1])
+                        .SelectMany(a => a.Tracks)
+                        .ToList();
+                case FilterType.Tag:
+                    return _library.Artists
+                        .SelectMany(a => a.Tracks)
+                        .Where(t => t.Tags.Contains(filterValues[0]))
+                        .ToList();
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(filterType), filterType, null);
             }
         }
 

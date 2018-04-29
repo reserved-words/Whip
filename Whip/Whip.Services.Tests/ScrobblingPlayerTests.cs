@@ -183,7 +183,7 @@ namespace Whip.Services.Tests
         }
 
         [TestMethod]
-        public void Stop_GivenTrackCannotScrobble_UpdatesScrobblineAndCallsBasePlayerMethod()
+        public void Stop_GivenTrackCannotScrobble_UpdatesScrobblingAndCallsBasePlayerMethod()
         {
             // Arrange
             var testTrack = new Track { Title = "test", Artist = new Artist { Name = "artist" } };
@@ -208,6 +208,28 @@ namespace Whip.Services.Tests
             _mockScrobbler.Verify(s => s.ScrobbleAsync(testTrack, _testTime), Times.Never);
             _mockScrobbler.Verify(s => s.UpdateNowPlayingAsync(testTrack, totalTrackTime), Times.Once);
             _mockScrobbler.Verify(s => s.UpdateNowPlayingAsync(testTrack, MinimumUpdateNowPlayingDuration), Times.Once);
+        }
+
+        [TestMethod]
+        public void Stop_GivenNotPlaying_DoesNotScrobble()
+        {
+            // Arrange
+            var sut = GetSubjectUnderTest();
+            _mockPlayTracker.SetupGet(t => t.TotalTrackDurationInSeconds).Returns(0);
+            _mockPlayTracker.Setup(t => t.SecondsOfTrackPlayed).Returns(0);
+            _mockPlayTracker.SetupSequence(t => t.RemainingSeconds)
+                .Returns(0)
+                .Returns(0);
+            _mockScrobblingRules.Setup(s => s.CanScrobble(0, 0)).Returns(false);
+
+            // Act
+            sut.Stop();
+
+            // Assert
+            _mockPlayer.Verify(p => p.Stop(), Times.Once);
+            _mockPlayTracker.Verify(t => t.Stop(), Times.Once);
+            _mockScrobbler.Verify(s => s.ScrobbleAsync(It.IsAny<Track>(), It.IsAny<DateTime>()), Times.Never);
+            _mockScrobbler.Verify(s => s.UpdateNowPlayingAsync(It.IsAny<Track>(), It.IsAny<int>()), Times.Never);
         }
     }
 }
