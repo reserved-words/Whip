@@ -13,12 +13,6 @@
                   CanUserSortColumns="False"
                   SelectedItem="{Binding SelectedTrack, Mode=TwoWay}"
                   ScrollViewer.HorizontalScrollBarVisibility="Hidden">
-            <DataGrid.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Reinstate Track"
-                              Command="{Binding ReinstateTrackCommand}" />
-                </ContextMenu>
-            </DataGrid.ContextMenu>
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Track No"
                                         Width="60">

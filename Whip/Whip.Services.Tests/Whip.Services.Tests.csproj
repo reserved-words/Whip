@@ -93,6 +93,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ArchiveServiceTests.cs" />
     <Compile Include="LogParserTests.cs" />
     <Compile Include="LogRepositoryTests.cs" />
     <Compile Include="NewFilePlayerTests.cs" />

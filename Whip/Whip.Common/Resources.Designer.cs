@@ -133,6 +133,15 @@ namespace Whip.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No archive directory has been set.
+        /// </summary>
+        public static string ErrorNoArchiveDirectorySet {
+            get {
+                return ResourceManager.GetString("ErrorNoArchiveDirectorySet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://facebook.com/{0}.
         /// </summary>
         public static string FacebookUrl {

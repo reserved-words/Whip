@@ -116,5 +116,15 @@ namespace Whip.Services
         {
             return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ApplicationTitle, directoryName);
         }
+
+        public string CreateDirectory(string directory, params string[] subdirectories)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteFile(string filePath, bool deleteParentDirIfEmpty = false, bool deleteGranparentDirIfEmpty = false)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
