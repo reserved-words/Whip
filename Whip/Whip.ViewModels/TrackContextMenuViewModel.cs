@@ -16,6 +16,7 @@ namespace Whip.ViewModels
     {
         private const string NewPlaylistCommandName = "New Playlist...";
 
+        private readonly IArchiveService _archiveService;
         private readonly IMessenger _messenger;
         private readonly IPlaylistRepository _playlistRepository;
 
@@ -24,11 +25,13 @@ namespace Whip.ViewModels
 
         public TrackContextMenuViewModel() {}
 
-        public TrackContextMenuViewModel(IMessenger messenger, IPlaylistRepository playlistRepository)
+        public TrackContextMenuViewModel(IArchiveService archiveService, IMessenger messenger, IPlaylistRepository playlistRepository)
         {
+            _archiveService = archiveService;
             _messenger = messenger;
             _playlistRepository = playlistRepository;
 
+            ArchiveTrackCommand = new RelayCommand(OnArchiveTrack);
             EditTrackCommand = new RelayCommand(OnEditTrack);
             AddToPlaylistCommand = new RelayCommand<OrderedPlaylist>(OnAddToPlaylist);
 
@@ -56,10 +59,13 @@ namespace Whip.ViewModels
                         }).ToList()
             });
 
+            _menuCommands.Add(new MenuCommand { Header = "Archive Track", Command = ArchiveTrackCommand });
+
             RaisePropertyChanged(nameof(MenuItems));
         }
 
         public Track Track { get; private set; }
+        public RelayCommand ArchiveTrackCommand { get; }
         public RelayCommand EditTrackCommand { get; }
         public RelayCommand<OrderedPlaylist> AddToPlaylistCommand { get; }
 
@@ -111,6 +117,16 @@ namespace Whip.ViewModels
             _playlistRepository.Save(selectedPlaylist);
 
             SetCommands();
+        }
+
+        private void OnArchiveTrack()
+        {
+            string errorMessage;
+
+            if (!_archiveService.ArchiveTracks(new List<Track> {Track}, out errorMessage))
+            {
+                _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, "Archive Track", errorMessage));
+            }
         }
 
         private void OnEditTrack()
