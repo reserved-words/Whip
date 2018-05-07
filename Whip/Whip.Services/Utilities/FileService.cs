@@ -128,11 +128,11 @@ namespace Whip.Services
             if (deleteParentDirIfEmpty)
             {
                 DeleteDirectoryIfEmpty(fileInfo.Directory);
-            }
 
-            if (deleteGranparentDirIfEmpty)
-            {
-                DeleteDirectoryIfEmpty(fileInfo.Directory?.Parent);
+                if (deleteGranparentDirIfEmpty)
+                {
+                    DeleteDirectoryIfEmpty(fileInfo.Directory?.Parent);
+                }
             }
         }
 
@@ -141,7 +141,7 @@ namespace Whip.Services
             if (directory == null)
                 return;
 
-            if (directory.EnumerateFiles().Any())
+            if (directory.EnumerateFiles("*", SearchOption.AllDirectories).Any())
                 return;
 
             directory.Delete();

@@ -3,6 +3,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using Whip.Common.Model;
+using Whip.Common.Singletons;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 using static Whip.Common.Resources;
@@ -16,12 +17,16 @@ namespace Whip.Services.Tests
         private const string AlbumTitle1 = "asgsag";
         private const string ArtistName1 = "weywye";
         private const string FullPath1 = "asfasasfa";
+        private const string FullPath2 = "asfasasfa2";
         private const string RelativePath1 = "asfasaadadsdssfa";
+        private const string RelativePath2 = "asfasaadadsdssfa2";
 
         private Mock<IFileService> _fileService;
         private Mock<ITaggingService> _taggingService;
         private Mock<IConfigSettings> _configSettings;
         private Mock<IUserSettings> _userSettings;
+        private Mock<ILibraryService> _libraryService;
+        private Library _library;
 
         private ArchiveService GetSubjectUnderTest()
         {
@@ -29,12 +34,16 @@ namespace Whip.Services.Tests
             _taggingService = new Mock<ITaggingService>();
             _configSettings = new Mock<IConfigSettings>();
             _userSettings = new Mock<IUserSettings>();
+            _libraryService = new Mock<ILibraryService>();
+            _library = new Library();
 
             return new ArchiveService(
                 _userSettings.Object, 
                 _fileService.Object, 
                 _taggingService.Object,
-                _configSettings.Object);
+                _configSettings.Object,
+                _libraryService.Object,
+                _library);
         }
         
         [TestMethod]
@@ -59,10 +68,10 @@ namespace Whip.Services.Tests
             Assert.IsTrue(result);
             foreach (var track in tracks)
             {
-                _fileService.Verify(s => s.CreateDirectory(ArchiveDirectory, ArtistName1, AlbumTitle1), Times.Once);
+                _fileService.Verify(s => s.CreateDirectory(ArchiveDirectory, ArtistName1, AlbumTitle1), Times.Exactly(tracks.Count));
                 _fileService.Verify(s => s.CopyFile(track.File.FullPath, dir1, null), Times.Once);
-                _fileService.Verify(s => s.DeleteFile(track.File.FullPath, true, true), Times.Once);
             }
+            _libraryService.Verify(s => s.RemoveTracks(_library, tracks), Times.Once);
         }
 
         [TestMethod]
@@ -82,10 +91,10 @@ namespace Whip.Services.Tests
             Assert.IsFalse(result);
             _fileService.Verify(s => s.CreateDirectory(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
             _fileService.Verify(s => s.CopyFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
-            _fileService.Verify(s => s.DeleteFile(It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>()), Times.Never);
+            _libraryService.Verify(s => s.RemoveTracks(It.IsAny<Library>(), It.IsAny<List<Track>>()), Times.Never);
         }
 
-        private List<Track> GetTracks()
+        private static List<Track> GetTracks()
         {
             return new List<Track>
             {
@@ -104,6 +113,22 @@ namespace Whip.Services.Tests
                         }
                     },
                     File = new File(FullPath1, RelativePath1, DateTime.MinValue, DateTime.MinValue)
+                },
+                new Track
+                {
+                    Disc = new Disc
+                    {
+                        DiscNo = 1,
+                        Album = new Album
+                        {
+                            Title = AlbumTitle1,
+                            Artist = new Artist
+                            {
+                                Name = ArtistName1
+                            }
+                        }
+                    },
+                    File = new File(FullPath2, RelativePath2, DateTime.MinValue, DateTime.MinValue)
                 }
             };
         }
