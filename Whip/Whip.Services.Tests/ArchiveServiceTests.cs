@@ -60,7 +60,7 @@ namespace Whip.Services.Tests
             foreach (var track in tracks)
             {
                 _fileService.Verify(s => s.CreateDirectory(ArchiveDirectory, ArtistName1, AlbumTitle1), Times.Once);
-                _fileService.Verify(s => s.CopyFile(track.File.FullPath, dir1), Times.Once);
+                _fileService.Verify(s => s.CopyFile(track.File.FullPath, dir1, null), Times.Once);
                 _fileService.Verify(s => s.DeleteFile(track.File.FullPath, true, true), Times.Once);
             }
         }
@@ -81,7 +81,7 @@ namespace Whip.Services.Tests
             Assert.AreEqual(ErrorNoArchiveDirectorySet, errorMessage);
             Assert.IsFalse(result);
             _fileService.Verify(s => s.CreateDirectory(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
-            _fileService.Verify(s => s.CopyFile(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            _fileService.Verify(s => s.CopyFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
             _fileService.Verify(s => s.DeleteFile(It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>()), Times.Never);
         }
 

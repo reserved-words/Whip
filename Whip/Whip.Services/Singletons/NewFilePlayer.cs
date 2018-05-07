@@ -8,13 +8,15 @@ namespace Whip.Services.Singletons
 {
     public class NewFilePlayer : IPlayer
     {
+        private readonly ICurrentDateTime _currentDateTime;
         private readonly IPlayer _basePlayer;
         private readonly IFileService _fileService;
 
         private string _currentlyPlayingFilepath;
         
-        public NewFilePlayer(IPlayer basePlayer, IFileService fileService)
+        public NewFilePlayer(ICurrentDateTime currentDateTime, IPlayer basePlayer, IFileService fileService)
         {
+            _currentDateTime = currentDateTime;
             _basePlayer = basePlayer;
             _fileService = fileService;
         }
@@ -52,7 +54,7 @@ namespace Whip.Services.Singletons
 
         private void CopyFile(Track track)
         {
-            _currentlyPlayingFilepath = _fileService.CopyFile(track.File.FullPath, CurrentPlayingDirectoryName);
+            _currentlyPlayingFilepath = _fileService.CopyFile(track.File.FullPath, CurrentPlayingDirectoryName, $"copy_{_currentDateTime.Get().Ticks}");
         }
 
         private void DeletePlayedFiles()
