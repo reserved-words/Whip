@@ -11,6 +11,13 @@ namespace Whip.Services
 {
     public class FileService : IFileService
     {
+        private readonly ICurrentDateTime _currentDateTime;
+
+        public FileService(ICurrentDateTime currentDateTime)
+        {
+            _currentDateTime = currentDateTime;
+        }
+
         public FilesWithStatus GetFiles(string directory, List<string> extensions, DateTime lastUpdated)
         {
             var files = new FilesWithStatus();
@@ -64,7 +71,7 @@ namespace Whip.Services
             return files;
         }
         
-        public string CopyFile(string copyFromPath, string copyToDirectoryName, string copyFileName = null)
+        public string CopyFile(string copyFromPath, string copyToDirectoryName)
         {
             var copyToDirectory = GetDirectoryPath(copyToDirectoryName);
 
@@ -73,14 +80,8 @@ namespace Whip.Services
                 Directory.CreateDirectory(copyToDirectory);
             }
 
-            var filename = copyFileName == null 
-                ? Path.GetFileName(copyFromPath)
-                : $"{copyFileName}{Path.GetExtension(copyFromPath)}";
-
-            if (filename == null)
-                throw new ApplicationException("Filename is null");
-            
-            var copyToPath = Path.Combine(copyToDirectory, filename);
+            var copyFileName = string.Format("copy_{0}{1}", _currentDateTime.Get().Ticks, Path.GetExtension(copyFromPath));
+            var copyToPath = Path.Combine(copyToDirectory, copyFileName);
 
             System.IO.File.Copy(copyFromPath, copyToPath);
             System.IO.File.SetAttributes(copyToPath, FileAttributes.Normal);
@@ -111,43 +112,7 @@ namespace Whip.Services
                 : null;
         }
 
-        public string CreateDirectory(string directory, params string[] subdirectories)
-        {
-            directory = subdirectories.Aggregate(directory, (current, sub) => Path.Combine(current, sub));
-
-            Directory.CreateDirectory(directory);
-
-            return directory;
-        }
-
-        public void DeleteFile(string filePath, bool deleteParentDirIfEmpty = false, bool deleteGranparentDirIfEmpty = false)
-        {
-            var fileInfo = new FileInfo(filePath);
-            fileInfo.Delete();
-
-            if (deleteParentDirIfEmpty)
-            {
-                DeleteDirectoryIfEmpty(fileInfo.Directory);
-
-                if (deleteGranparentDirIfEmpty)
-                {
-                    DeleteDirectoryIfEmpty(fileInfo.Directory?.Parent);
-                }
-            }
-        }
-
-        private static void DeleteDirectoryIfEmpty(DirectoryInfo directory)
-        {
-            if (directory == null)
-                return;
-
-            if (directory.EnumerateFiles("*", SearchOption.AllDirectories).Any())
-                return;
-
-            directory.Delete();
-        }
-
-        private static string GetDirectoryPath(string directoryName)
+        private string GetDirectoryPath(string directoryName)
         {
             return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ApplicationTitle, directoryName);
         }

@@ -9,10 +9,8 @@ namespace Whip.Services.Interfaces
     {
         FilesWithStatus GetFiles(string directory, List<string> extensions, DateTime lastUpdated);
         List<File> GetAllFiles(string directory, List<string> extensions);
-        string CopyFile(string copyFromPath, string copyToDirectoryName, string copyFileName = null);
+        string CopyFile(string copyFromPath, string copyToDirectoryName);
         void DeleteFiles(string directoryName, params string[] excludeFiles);
         string[] GetFileContent(string directoryName, string filename);
-        string CreateDirectory(string directory, params string[] subdirectories);
-        void DeleteFile(string filePath, bool deleteParentDirIfEmpty = false, bool deleteGranparentDirIfEmpty = false);
     }
 }

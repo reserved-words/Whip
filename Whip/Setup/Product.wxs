@@ -3,7 +3,7 @@
 	<Product Id="*" 
            Name="Whip" 
            Language="2057" 
-           Version="1.2.0.0" 
+           Version="1.1.9.0" 
            Manufacturer="Reserved Words" 
            UpgradeCode="0c5e656a-3115-426f-aa0a-2467ee342fab">
 		

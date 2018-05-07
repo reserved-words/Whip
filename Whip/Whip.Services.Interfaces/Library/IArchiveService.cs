@@ -10,7 +10,7 @@ namespace Whip.Services.Interfaces
     public interface IArchiveService
     {
         Task<List<BasicTrackId3Data>> GetArchivedTracksAsync(IProgress<ProgressArgs> progressHandler);
-        bool ArchiveTracks(List<Track> tracks, out string errorMessage);
-        bool ReinstateTracks(List<BasicTrackId3Data> tracks, out string errorMessage);
+        void ArchiveTrack(Track track);
+        void ReinstateTrack(BasicTrackId3Data track);
     }
 }

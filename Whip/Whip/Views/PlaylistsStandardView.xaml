@@ -51,94 +51,87 @@
 
         <ListView Grid.Row="1"
                   x:Name="FiltersGrid"
-                  BorderThickness="0,1,0,0"
+                  BorderThickness="0"
                   ItemsSource="{Binding Filters}"
                   ItemContainerStyle="{StaticResource ListViewItemNoHighlight}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="Silver"
-                            Padding="0,2,2,2"
-                            BorderThickness="0,0,0,1"
-                            HorizontalAlignment="Stretch">
-                        <Grid HorizontalAlignment="Stretch">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <controls:PlayerControlButton Grid.Column="0"
-                                                          Type="Play"
-                                                          VerticalAlignment="Center"
-                                                          Command="{Binding ElementName=StandardPlaylistsView, Path=DataContext.PlayCommand}"
-                                                          CommandParameter="{Binding}"/>
-                            <Label Grid.Column="1"
-                                   Width="80"
-                                   Content="{Binding Title}"
-                                   Margin="5,0"/>
-
-                            <ComboBox Grid.Column="2"
-                                      SelectedItem="{Binding SelectedPlaylist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                      Margin="0">
-                                <ComboBox.GroupStyle>
-                                    <GroupStyle>
-                                        <GroupStyle.HeaderTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Name}"
-                                                           FontWeight="Bold"
-                                                           Padding="5, 2"/>
-                                            </DataTemplate>
-                                        </GroupStyle.HeaderTemplate>
-                                    </GroupStyle>
-                                </ComboBox.GroupStyle>
-                                <ComboBox.Style>
-                                    <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">
-                                        <Setter Property="ItemsSource" Value="{Binding List}" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Title}" Value="State:">
-                                                <Setter Property="ItemsSource" Value="{Binding Source={StaticResource StatesView}}" />
-                                                <Setter Property="IsSynchronizedWithCurrentItem" Value="False"></Setter>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Title}" Value="City:">
-                                                <Setter Property="ItemsSource" Value="{Binding Source={StaticResource CitiesView}}" />
-                                                <Setter Property="IsSynchronizedWithCurrentItem" Value="False"></Setter>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </ComboBox.Style>
-                            </ComboBox>
-
-                            <StackPanel Grid.Column="3"
-                                        VerticalAlignment="Center">
-                                <controls:Icon12 Icon="Star"
-                                                 Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"
-                                                 Visibility="{Binding IsFavouriteSelected, Converter={StaticResource BoolVisibilityConverter}}"
-                                                 Margin="10 0 5 0"
-                                                 VerticalAlignment="Center"
-                                                 ToolTip="Remove from Favourites"
-                                                 Cursor="Hand">
-                                    <Image.InputBindings>
-                                        <MouseBinding Gesture="LeftClick"
-                                                      Command="{Binding ElementName=StandardPlaylistsView, Path=DataContext.FavouriteCommand}"
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <controls:PlayerControlButton Grid.Column="0"
+                                                      Type="Play"
+                                                      Command="{Binding ElementName=StandardPlaylistsView, Path=DataContext.PlayCommand}"
                                                       CommandParameter="{Binding}"/>
-                                    </Image.InputBindings>
-                                </controls:Icon12>
-                                <controls:Icon12 Icon="StarOutline"
-                                                 Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"
-                                                 Visibility="{Binding IsFavouriteSelected, Converter={StaticResource NegBoolVisibilityConverter}}"
-                                                 Margin="10 0 5 0"
-                                                 VerticalAlignment="Center"
-                                                 ToolTip="Add to Favourites"
-                                                 Cursor="Hand">
-                                    <Image.InputBindings>
-                                        <MouseBinding Gesture="LeftClick"
-                                                      Command="{Binding ElementName=StandardPlaylistsView, Path=DataContext.FavouriteCommand}"
-                                                      CommandParameter="{Binding}"/>
-                                    </Image.InputBindings>
-                                </controls:Icon12>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
+                        <Label Grid.Column="1"
+                               Width="80"
+                               Content="{Binding Title}"
+                               Margin="5"/>
+
+                        <ComboBox Grid.Column="2"
+                                  SelectedItem="{Binding SelectedPlaylist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <ComboBox.GroupStyle>
+                                <GroupStyle>
+                                    <GroupStyle.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}"
+                                                       FontWeight="Bold"
+                                                       Padding="5, 2"/>
+                                        </DataTemplate>
+                                    </GroupStyle.HeaderTemplate>
+                                </GroupStyle>
+                            </ComboBox.GroupStyle>
+                            <ComboBox.Style>
+                                <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">
+                                    <Setter Property="ItemsSource" Value="{Binding List}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Title}" Value="State:">
+                                            <Setter Property="ItemsSource" Value="{Binding Source={StaticResource StatesView}}" />
+                                            <Setter Property="IsSynchronizedWithCurrentItem" Value="False"></Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Title}" Value="City:">
+                                            <Setter Property="ItemsSource" Value="{Binding Source={StaticResource CitiesView}}" />
+                                            <Setter Property="IsSynchronizedWithCurrentItem" Value="False"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ComboBox.Style>
+                        </ComboBox>
+
+                        <controls:Icon12 Grid.Column="3"
+                                         Icon="Star"
+                                         Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"
+                                         Visibility="{Binding IsFavouriteSelected, Converter={StaticResource BoolVisibilityConverter}}"
+                                         Margin="10 0 5 0"
+                                         VerticalAlignment="Center"
+                                         ToolTip="Remove from Favourites"
+                                         Cursor="Hand">
+                            <Image.InputBindings>
+                                <MouseBinding Gesture="LeftClick"
+                                              Command="{Binding ElementName=StandardPlaylistsView, Path=DataContext.FavouriteCommand}"
+                                              CommandParameter="{Binding}"/>
+                            </Image.InputBindings>
+                        </controls:Icon12>
+                        <controls:Icon12 Grid.Column="4"
+                                         Icon="StarOutline"
+                                         Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=MainColourRgb}"
+                                         Visibility="{Binding IsFavouriteSelected, Converter={StaticResource NegBoolVisibilityConverter}}"
+                                         Margin="10 0 5 0"
+                                         VerticalAlignment="Center"
+                                         ToolTip="Add to Favourites"
+                                         Cursor="Hand">
+                            <Image.InputBindings>
+                                <MouseBinding Gesture="LeftClick"
+                                              Command="{Binding ElementName=StandardPlaylistsView, Path=DataContext.FavouriteCommand}"
+                                              CommandParameter="{Binding}"/>
+                            </Image.InputBindings>
+                        </controls:Icon12>
+                    </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

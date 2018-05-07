@@ -16,24 +16,18 @@ namespace Whip.Services.Tests
         private const string TestFilePath = @"C:\Users\Username\DirectoryName\testOriginalFilePath";
         private const string TestCurrentlyPlayingFilePath = @"C:\Users\Username\DirectoryName\testNewFilePath";
 
-        private readonly DateTime _currentTime = new DateTime(2017,1,2,15,30,16);
-
-        private Mock<ICurrentDateTime> _mockCurrentDateTime;
         private Mock<IPlayer> _mockBasePlayer;
         private Mock<IFileService> _mockFileService;
         
         private NewFilePlayer GetSubjectUnderTest()
         {
-            _mockCurrentDateTime = new Mock<ICurrentDateTime>();
             _mockBasePlayer = new Mock<IPlayer>();
             _mockFileService = new Mock<IFileService>();
 
-            _mockFileService.Setup(f => f.CopyFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            _mockFileService.Setup(f => f.CopyFile(It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(TestCurrentlyPlayingFilePath);
 
-            _mockCurrentDateTime.Setup(c => c.Get()).Returns(_currentTime);
-
-            return new NewFilePlayer(_mockCurrentDateTime.Object, _mockBasePlayer.Object, _mockFileService.Object);
+            return new NewFilePlayer(_mockBasePlayer.Object, _mockFileService.Object);
         }
 
         [TestMethod]
@@ -77,7 +71,7 @@ namespace Whip.Services.Tests
             sut.Play(trackToPlay);
 
             // Assert
-            _mockFileService.Verify(s => s.CopyFile(TestFilePath, CurrentPlayingDirectoryName, $"copy_{_currentTime.Ticks}"));
+            _mockFileService.Verify(s => s.CopyFile(TestFilePath, CurrentPlayingDirectoryName));
             _mockBasePlayer.Verify(p => p.Play(It.Is<Track>(t => t.File.FullPath == TestCurrentlyPlayingFilePath)), Times.Once);
             _mockFileService.Verify(s => s.DeleteFiles(CurrentPlayingDirectoryName, Path.GetFileName(TestCurrentlyPlayingFilePath)), Times.Once);
         }

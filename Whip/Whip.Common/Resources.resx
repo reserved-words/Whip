@@ -141,9 +141,6 @@
   <data name="EditTrackLyricsNotFoundTitle" xml:space="preserve">
     <value>Lyrics Not Found</value>
   </data>
-  <data name="ErrorNoArchiveDirectorySet" xml:space="preserve">
-    <value>No archive directory has been set</value>
-  </data>
   <data name="FacebookUrl" xml:space="preserve">
     <value>https://facebook.com/{0}</value>
   </data>
