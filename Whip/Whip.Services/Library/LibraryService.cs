@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Whip.Common;
-using Whip.Common.Model;
 using Whip.Common.Singletons;
 using Whip.Common.Utilities;
 using Whip.Services.Interfaces;
@@ -99,18 +97,6 @@ namespace Whip.Services
         public void SaveLibrary(Library library)
         {
             _dataPersistenceService.Save(library);
-        }
-
-        public void RemoveTracks(Library library, List<Track> tracks)
-        {
-            foreach (var track in tracks)
-            {
-                _fileService.DeleteFile(track.File.FullPath, true, true);
-                _libraryDataOrganiserService.RemoveTrack(track);
-            }
-            
-            _dataPersistenceService.Save(library);
-            library.Update();
         }
     }
 }

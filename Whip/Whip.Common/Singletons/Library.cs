@@ -16,13 +16,10 @@ namespace Whip.Common.Singletons
         public List<Artist> Artists { get; set; }
         public DateTime LastUpdated { get; set; }
 
-        public void Update(Library library = null)
+        public void Update(Library library)
         {
-            if (library != null)
-            {
-                LastUpdated = library.LastUpdated;
-                Artists = library.Artists;
-            }
+            LastUpdated = library.LastUpdated;
+            Artists = library.Artists;
             Updated?.Invoke(null);
         }
 
