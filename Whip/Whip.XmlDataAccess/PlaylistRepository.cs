@@ -218,11 +218,7 @@ namespace Whip.XmlDataAccess
             if (playlist.Id == 0)
             {
                 var playlists = criteriaPlaylistsXml.Elements(PropertyNames.Playlist);
-
-                var maxId = playlists.Any()
-                    ? playlists.Max(pl => Convert.ToInt16(pl.Attribute(PlaylistId).Value))
-                    : 0;
-
+                
                 var maxId = playlists.Any()
                     ? playlists.Max(pl => Convert.ToInt16(pl.Attribute(PlaylistId).Value))
                     : 0;
@@ -538,57 +534,6 @@ namespace Whip.XmlDataAccess
             }
 
             return orderedPlaylists;
-        }
-
-        public CriteriaPlaylist GetCriteriaPlaylist(int id)
-        {
-            if (!System.IO.File.Exists(XmlFilePath))
-                throw new ApplicationException("No playlists created");
-
-            var xml = XDocument.Load(XmlFilePath);
-
-            var criteriaPlaylists = xml.Root.Element(PlaylistsCriteria).Elements(PropertyNames.Playlist);
-
-            var playlistXml = criteriaPlaylists.SingleOrDefault(x => x.Attribute(PlaylistId).Value == id.ToString());
-
-            if (playlistXml == null)
-                throw new ApplicationException($"Requested criteria playlist ID {id} does not exist");
-
-            return CreateCriteriaPlaylist(playlistXml);
-        }
-
-        public OrderedPlaylist GetOrderedPlaylist(int id)
-        {
-            if (!System.IO.File.Exists(XmlFilePath))
-                throw new ApplicationException("No playlists created");
-
-            var xml = XDocument.Load(XmlFilePath);
-
-            var orderedPlaylists = xml.Root.Element(PlaylistsOrdered).Elements(PropertyNames.Playlist);
-
-            var playlistXml = orderedPlaylists.SingleOrDefault(x => x.Attribute(PlaylistId).Value == id.ToString());
-
-            if (playlistXml == null)
-                throw new ApplicationException($"Requested ordered playlist ID {id} does not exist");
-
-            return CreateOrderedPlaylist(playlistXml);
-        }
-
-        public QuickPlaylist GetQuickPlaylist(int id)
-        {
-            if (!System.IO.File.Exists(XmlFilePath))
-                throw new ApplicationException("No playlists created");
-
-            var xml = XDocument.Load(XmlFilePath);
-
-            var quickPlaylists = xml.Root.Element(PlaylistsFavouriteQuick).Elements(PropertyNames.Playlist);
-
-            var playlistXml = quickPlaylists.SingleOrDefault(x => x.Attribute(PlaylistId).Value == id.ToString());
-
-            if (playlistXml == null)
-                throw new ApplicationException($"Requested quick playlist ID {id} does not exist");
-
-            return CreateQuickPlaylist(playlistXml);
         }
     }
 }

@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="Whip.TabArchive"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Whip"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1200">
+    <Grid>
+        <DataGrid ItemsSource="{Binding ArchivedTracks}"
+                  HeadersVisibility="Column"
+                  GridLinesVisibility="All"
+                  CanUserSortColumns="False"
+                  SelectedItem="{Binding SelectedTrack, Mode=TwoWay}"
+                  ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Track No"
+                                        Width="60">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding TrackNo, StringFormat={}{0:00}}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Title"
+                                    Binding="{Binding Title}"
+                                    Width="*"/>
+                <DataGridTemplateColumn Header="Duration"
+                                        Width="60">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Duration, StringFormat=mm\\:ss}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Artist"
+                                    Binding="{Binding ArtistName}"
+                                    Width="*"/>
+                <DataGridTextColumn Header="Album Title"
+                                    Binding="{Binding AlbumTitle}"
+                                    Width="*"/>
+                <DataGridTemplateColumn Width="60"
+                                        Header="Disc No">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding DiscNo}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Album Artist"
+                                    Binding="{Binding AlbumArtistName}"
+                                    Width="*"/>
+                <DataGridTextColumn Header="Year"
+                                    Binding="{Binding Year}"
+                                    Width="60"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
