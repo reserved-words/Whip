@@ -207,10 +207,36 @@ namespace Whip.Services
             }
 
             _sortingService.SortTracks(newDisc);
-
             _sortingService.SortDiscs(newDisc.Album);
+            _library.Artists = _sortingService.GetInDefaultOrder(_library.Artists).ToList();
 
             _library.OnTrackUpdated(trackChanged);
+        }
+
+        public void RemoveTrack(Track track)
+        {
+            track.Disc.Tracks.Remove(track);
+            track.Artist.Tracks.Remove(track);
+
+            if (!track.Disc.Tracks.Any())
+            {
+                track.Disc.Album.Discs.Remove(track.Disc);
+
+                if (!track.Disc.Album.Discs.Any())
+                {
+                    track.Disc.Album.Artist.Albums.Remove(track.Disc.Album);
+
+                    if (!track.Disc.Album.Artist.Albums.Any() && !track.Disc.Album.Artist.Tracks.Any())
+                    {
+                        _library.Artists.Remove(track.Disc.Album.Artist);
+                    }
+                }
+            }
+
+            if (!track.Artist.Albums.Any() && !track.Artist.Tracks.Any())
+            {
+                _library.Artists.Remove(track.Artist);
+            }
         }
     }
 }

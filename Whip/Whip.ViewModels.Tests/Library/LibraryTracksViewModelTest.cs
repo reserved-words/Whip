@@ -75,7 +75,7 @@ namespace Whip.ViewModels.Tests
             sut.PlayArtistCommand.Execute(null);
 
             // Assert
-            _mockPlayRequestHandler.Verify(h => h.PlayArtist(_testArtist, SortType.Ordered, _testTrack), Times.Once);
+            _mockPlayRequestHandler.Verify(h => h.PlayArtist(_testArtist, SortType.Random, _testTrack), Times.Once);
         }
 
         [TestMethod]
@@ -88,7 +88,7 @@ namespace Whip.ViewModels.Tests
             sut.Artist = _testArtist;
 
             // Assert
-            sut.Tracks.ShouldBeEquivalentTo(_testAlbumTracks);
+            sut.Tracks.Should().BeEquivalentTo(_testAlbumTracks);
         }
 
         [TestMethod]
@@ -115,7 +115,7 @@ namespace Whip.ViewModels.Tests
             sut.UpdateTracks(true);
 
             // Assert
-            sut.Tracks.ShouldBeEquivalentTo(_testArtistTracks);
+            sut.Tracks.Should().BeEquivalentTo(_testArtistTracks);
         }
 
         [TestMethod]
@@ -129,7 +129,7 @@ namespace Whip.ViewModels.Tests
             sut.UpdateTracks(false);
 
             // Assert
-            sut.Tracks.ShouldBeEquivalentTo(_testAlbumTracks);
+            sut.Tracks.Should().BeEquivalentTo(_testAlbumTracks);
         }
     }
 }

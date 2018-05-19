@@ -4,6 +4,8 @@
     {
         Archive,
         Book,
+        Calendar,
+        ClockOutline,
         Cog,
         Edit,
         ExclamationTriangle,
@@ -13,20 +15,25 @@
         Hourglass2,
         InfoCircle,
         KeyboardOutline,
+        Lastfm,
         LastFmSquare,
         ListOl,
         ListUl,
         LongArrowRight,
+        Minus,
         Music,
         PaintBrush,
+        Plus,
         QuestionCircle,
         Random,
         Rss,
         Search,
         TimesRectangle,
+        Twitter,
         Users,
-        VolumeDown,
         VolumeOff,
-        VolumeUp
+        VolumeUp,
+        Wifi,
+        Youtube
     }
 }

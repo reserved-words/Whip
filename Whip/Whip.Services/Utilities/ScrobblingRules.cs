@@ -11,7 +11,7 @@ namespace Whip.Services
     {
         private const double MaxSecondsBeforeScrobbling = 240;
 
-        public int MinimumUpdateNowPlayingDuration => 30;
+        public int MinimumUpdateNowPlayingDuration => 31;
 
         public bool CanScrobble(double totalSeconds, double playedSeconds)
         {

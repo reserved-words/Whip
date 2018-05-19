@@ -13,7 +13,7 @@ namespace Whip.ViewModels.TabViewModels
     public class EditOrderedPlaylistViewModel : EditableTabViewModelBase
     {
         private readonly IMessenger _messenger;
-        private readonly IPlaylistRepository _repository;
+        private readonly IPlaylistsService _repository;
         private readonly ITrackSearchService _trackSearchService;
 
         private OrderedPlaylist _playlist;
@@ -22,7 +22,7 @@ namespace Whip.ViewModels.TabViewModels
         private string _playlistTitle;
         private Track _selectedTrack;
         
-        public EditOrderedPlaylistViewModel(IMessenger messenger, IPlaylistRepository repository, ITrackSearchService trackSearchService)
+        public EditOrderedPlaylistViewModel(IMessenger messenger, IPlaylistsService repository, ITrackSearchService trackSearchService)
             :base(TabType.Playlists, IconType.Cog, "Edit Playlist", messenger, false)
         {
             _trackSearchService = trackSearchService;
@@ -150,7 +150,7 @@ namespace Whip.ViewModels.TabViewModels
         {
             if (playlist == null)
             {
-                playlist = new OrderedPlaylist(0, "");
+                playlist = new OrderedPlaylist(0, "", false);
             }
 
             playlist.Title = PlaylistTitle;

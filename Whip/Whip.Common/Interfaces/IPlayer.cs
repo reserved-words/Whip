@@ -9,9 +9,14 @@ namespace Whip.Common.Interfaces
 {
     public interface IPlayer
     {
+        int GetVolumePercentage();
+        void Mute();
         void Play(Track track);
         void Pause();
         void Resume();
+        void SetVolumePercentage(int volume);
         void SkipToPercentage(double newPercentage);
+        void Unmute();
+        void Stop();
     }
 }

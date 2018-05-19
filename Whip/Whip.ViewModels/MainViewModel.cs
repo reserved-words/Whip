@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ namespace Whip.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
+        public event Action FavouritePlaylistsUpdated = delegate { };
+
         private readonly IMessenger _messenger;
         private readonly EditTrackViewModel _editTrackViewModel;
         private readonly EditCriteriaPlaylistViewModel _editCriteriaPlaylistViewModel;
@@ -33,11 +36,12 @@ namespace Whip.ViewModels
             PlaylistsViewModel playlistsViewModel, 
             CurrentPlaylistViewModel currentPlaylistViewModel,
             CurrentTrackViewModel currentTrackViewModel,
-            CurrentArtistViewModel currentArtistViewModel,
+            ArtistViewModel artistViewModel,
             LastFmViewModel lastFmViewModel,
             NewsViewModel newsViewModel,
             SearchViewModel searchViewModel,
             ArchiveViewModel archiveViewModel,
+            PlayHistoryViewModel playHistoryViewModel,
             SystemInfoViewModel systemInfoViewModel,
             EditSettingsViewModel settingsViewModel,
             EditTrackViewModel editTrackViewModel,
@@ -51,13 +55,14 @@ namespace Whip.ViewModels
                 dashboardViewModel,
                 libraryViewModel,
                 playlistsViewModel,
-                currentTrackViewModel,
-                currentArtistViewModel,
                 currentPlaylistViewModel,
+                currentTrackViewModel,
+                artistViewModel,
                 lastFmViewModel,
                 newsViewModel,
                 searchViewModel,
                 archiveViewModel,
+                playHistoryViewModel,
                 systemInfoViewModel,
                 settingsViewModel,
                 editTrackViewModel,
@@ -69,6 +74,7 @@ namespace Whip.ViewModels
             _editOrderedPlaylistViewModel = editOrderedPlaylistViewModel;
             _editTrackViewModel = editTrackViewModel;
             _settingsViewModel = settingsViewModel;
+            
             _messenger = messenger;
 
             _returnToTab = dashboardViewModel;
@@ -86,6 +92,13 @@ namespace Whip.ViewModels
             _settingsViewModel.FinishedEditing += OnFinishedEditing;
             _editCriteriaPlaylistViewModel.FinishedEditing += OnFinishedEditing;
             _editOrderedPlaylistViewModel.FinishedEditing += OnFinishedEditing;
+
+            playlistsViewModel.FavouritePlaylistsUpdated += OnFavouritePlaylistsUpdated;
+        }
+
+        private void OnFavouritePlaylistsUpdated()
+        {
+            FavouritePlaylistsUpdated.Invoke();
         }
 
         private void OnFinishedEditing(EditableTabViewModelBase sender)
@@ -163,9 +176,9 @@ namespace Whip.ViewModels
 
         private void OnChangingTab(TabViewModelBase newTab) { }
 
-        public List<TabViewModelBase> Tabs { get; private set; }
+        public List<TabViewModelBase> Tabs { get; }
 
-        public RelayCommand<TabViewModelBase> ChangeTabCommand { get; private set; }
+        public RelayCommand<TabViewModelBase> ChangeTabCommand { get; }
 
         public TabViewModelBase SelectedTab
         {

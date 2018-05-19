@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Moq;
+﻿using Moq;
 using Whip.Common.Singletons;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.TabViewModels;
 using Whip.ViewModels.TabViewModels.Library;
+using Whip.Services.Interfaces.Singletons;
 
 namespace Whip.ViewModels.Tests
 {

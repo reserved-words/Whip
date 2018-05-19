@@ -199,7 +199,7 @@ namespace Whip.ViewModels.TabViewModels.EditTrack
                     .OrderBy(a => a.Title)
                     .ToList();
 
-            Albums.Insert(0, new Album { Title = AddNew });
+            Albums.Insert(0, new Album { Title = AddNew, Artist = albumArtist });
 
             if (Albums.Count == 1)
             {

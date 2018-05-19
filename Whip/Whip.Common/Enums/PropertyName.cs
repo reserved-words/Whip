@@ -1,6 +1,4 @@
-﻿using System;
-using Whip.Common.Model;
-using Whip.Common.Utilities;
+﻿using Whip.Common.Utilities;
 
 namespace Whip.Common
 {
@@ -34,6 +32,8 @@ namespace Whip.Common
         Genre,
         [CriteriaProperty("Grouping", PropertyType.StringFromOptions, PropertyOwner.Artist, CriteriaType.IsEqualTo)]
         Grouping,
+        [CriteriaProperty("Instrumental", PropertyType.Boolean, PropertyOwner.Track, CriteriaType.IsTrue, CriteriaType.IsFalse)]
+        Instrumental,
         [CriteriaProperty("Lyrics", PropertyType.FreeText, PropertyOwner.Track, CriteriaType.Contains)]
         Lyrics,
         [CriteriaProperty("Release Type", PropertyType.ReleaseType, PropertyOwner.Album, CriteriaType.IsEqualTo)]
@@ -49,7 +49,7 @@ namespace Whip.Common
         [CriteriaProperty("Track Title", PropertyType.FreeText, PropertyOwner.Track, CriteriaType.IsEqualTo, CriteriaType.Contains)]
         TrackTitle,
         [CriteriaProperty("Track Year", PropertyType.Year, PropertyOwner.Track, CriteriaType.IsEqualTo, CriteriaType.IsBefore, CriteriaType.IsAfter)]
-        TrackYear,
+        TrackYear
     }
 
     public class CriteriaPropertyAttribute : MetaDataAttribute
@@ -62,10 +62,10 @@ namespace Whip.Common
             CriteriaTypes = criteriaTypes;
         }
 
-        public CriteriaType[] CriteriaTypes { get; private set; }
+        public CriteriaType[] CriteriaTypes { get; }
 
-        public PropertyType PropertyType { get; private set; }
+        public PropertyType PropertyType { get; }
 
-        public PropertyOwner PropertyOwner { get; private set; }
+        public PropertyOwner PropertyOwner { get; }
     }
 }

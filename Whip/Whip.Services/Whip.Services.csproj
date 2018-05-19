@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Whip.Services</RootNamespace>
     <AssemblyName>Whip.Services</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,9 +30,27 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
@@ -51,6 +70,8 @@
     <Compile Include="Library\ArchiveService.cs" />
     <Compile Include="Library\CommentProcessingService.cs" />
     <Compile Include="Library\LibrarySortingService.cs" />
+    <Compile Include="Library\LibraryStatisticsService.cs" />
+    <Compile Include="Library\PlaylistsService.cs" />
     <Compile Include="Library\TrackFilterService.cs" />
     <Compile Include="Library\TrackUpdateService.cs" />
     <Compile Include="MethodInterceptors\WebMethodInterceptor.cs" />
@@ -59,11 +80,16 @@
     <Compile Include="Singletons\NewFilePlayer.cs" />
     <Compile Include="Singletons\Playlist.cs" />
     <Compile Include="Singletons\ScrobblingPlayer.cs" />
+    <Compile Include="Utilities\DirectoryNamer.cs" />
     <Compile Include="Utilities\CurrentDateTime.cs" />
+    <Compile Include="Utilities\ErrorLoggingService.cs" />
     <Compile Include="Utilities\ImageProcessingService.cs" />
     <Compile Include="Utilities\LogParser.cs" />
     <Compile Include="Utilities\LogRepository.cs" />
     <Compile Include="Utilities\PlayProgressTracker.cs" />
+    <Compile Include="Singletons\WebServicesStatus.cs" />
+    <Compile Include="Utilities\ScrobbleCacher.cs" />
+    <Compile Include="Utilities\TimeToString.cs" />
     <Compile Include="Utilities\XmlFileService.cs" />
     <Compile Include="WebServices\ArtistWebInfoService.cs" />
     <Compile Include="WebServices\RssService.cs" />

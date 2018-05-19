@@ -42,7 +42,7 @@ namespace Whip.Services.Tests
             var result = sut.GetLogs(_testDate);
 
             // Assert
-            result.ShouldBeEquivalentTo(_testLogs);
+            result.Should().BeEquivalentTo(_testLogs);
         }
 
         [TestMethod]

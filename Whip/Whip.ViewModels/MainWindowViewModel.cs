@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
+using Whip.Common.Interfaces;
 using Whip.Common.Model;
 using Whip.Common.Singletons;
 using Whip.Services.Interfaces;
@@ -19,20 +20,29 @@ namespace Whip.ViewModels
         private readonly IMessenger _messenger;
 
         private readonly Library _library;
+        private readonly IPlayer _player;
 
         public MainWindowViewModel(ILibraryService libraryService, IUserSettings userSettings, Library library,
-            IMessenger messenger, IPlaylist playlist, MainViewModel mainViewModel, SidebarViewModel sidebarViewModel)
+            IMessenger messenger, IPlaylist playlist, MainViewModel mainViewModel, SidebarViewModel sidebarViewModel,
+            IPlayer player)
         {
             _libraryService = libraryService;
             _userSettings = userSettings;
             _messenger = messenger;
 
             _library = library;
+            _player = player;
 
             MainViewModel = mainViewModel;
             SidebarViewModel = sidebarViewModel;
 
             playlist.CurrentTrackChanged += OnCurrentTrackChanged;
+            MainViewModel.FavouritePlaylistsUpdated += OnFavouritePlaylistsUpdated;
+        }
+
+        private void OnFavouritePlaylistsUpdated()
+        {
+            SidebarViewModel.LoadPlaylists();
         }
 
         private void OnCurrentTrackChanged(Track track)
@@ -41,20 +51,23 @@ namespace Whip.ViewModels
             MainViewModel.OnCurrentTrackChanged(track);
         }
 
-        public MainViewModel MainViewModel { get; private set; }
-        public SidebarViewModel SidebarViewModel { get; private set; }
+        public MainViewModel MainViewModel { get; }
+        public SidebarViewModel SidebarViewModel { get; }
 
         public void OnLoad()
         {
-            OnPopulateLibrary();
+            PopulateLibrary();
+
+            SidebarViewModel.LoadPlaylists();
         }
 
         public void OnExit()
         {
-            OnSaveLibrary();
+            _player.Stop();
+            SaveLibrary();
         }
 
-        private void OnPopulateLibrary()
+        private void PopulateLibrary()
         {
             if (!_userSettings.EssentialSettingsSet)
             {
@@ -68,7 +81,7 @@ namespace Whip.ViewModels
             _messenger.Send(new LibraryUpdateRequest());
         }
 
-        private void OnSaveLibrary()
+        private void SaveLibrary()
         {
             _libraryService.SaveLibrary(_library);
         }

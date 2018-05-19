@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using Newtonsoft.Json;
+using Whip.Common.Enums;
 using Whip.Services.Interfaces;
 
 namespace Whip.LyricApi
@@ -9,26 +11,62 @@ namespace Whip.LyricApi
     {
         private const string LyricApiUrl = "https://lyric-api.herokuapp.com/api/find/{0}/{1}";
 
+        private readonly IAsyncMethodInterceptor _interceptor;
         private readonly IWebHelperService _webHelperService;
+        private readonly ILoggingService _loggingService;
 
-        public LyricsService(IWebHelperService webHelperService)
+        public LyricsService(IWebHelperService webHelperService, IAsyncMethodInterceptor interceptor, ILoggingService loggingService)
         {
+            _interceptor = interceptor;
+            _loggingService = loggingService;
             _webHelperService = webHelperService;
         }
 
         public async Task<string> GetLyrics(string artistName, string trackTitle)
         {
-            var artist = HttpUtility.HtmlEncode(artistName);
-            var track = HttpUtility.HtmlEncode(trackTitle);
+            var url = string.Format(LyricApiUrl, artistName.Replace("?", ""), trackTitle);
 
-            var url = string.Format(LyricApiUrl, artist, track);
+            var response = await _interceptor.TryMethod(_webHelperService.HttpGetAsync(url), null, WebServiceType.Lyrics, "Getting lyrics from " + url);
 
-            var response = await _webHelperService.HttpGetAsync(url);
-            dynamic parsed = JObject.Parse(response);
+            JsonReaderException exception = null;
+            
+            if (response != null)
+            {
+                try
+                {
+                    dynamic parsedResponse = JObject.Parse(response);
 
-            return parsed.err != "none"
-                ? null
-                : parsed.lyric;
+                    if (parsedResponse.err == "none")
+                    {
+                        return parsedResponse.lyric;
+                    }
+                    if (parsedResponse.err == "not found")
+                    {
+                        return null;
+                    }
+                }
+                catch (JsonReaderException ex)
+                {
+                    exception = ex;
+                }
+            }
+
+            LogError(url, response, exception);
+            return null;
+        }
+
+        private void LogError(string url, string response, JsonReaderException ex = null)
+        {
+            var message =  response == null
+                ? $"No response when fetching lyrics from {url}"
+                : $"Invalid response when fetching lyrics from {url}: {response}";
+
+            _loggingService.Warn(message);
+
+            if (ex != null)
+            {
+                _loggingService.Warn(ex.Message);
+            }
         }
     }
 }

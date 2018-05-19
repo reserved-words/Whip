@@ -4,7 +4,7 @@ using Whip.Common.Model;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 
-namespace Whip.Services
+namespace Whip.Services.Singletons
 {
     public class PlayRequestHandler : IPlayRequestHandler
     {
@@ -55,10 +55,11 @@ namespace Whip.Services
             UpdatePlaylist(sortType, playlistName, tracks, firstTrack);
         }
 
-        private void UpdatePlaylist(SortType? sortType, string playlistName, List<Track> tracks, Track startAt)
+        private void UpdatePlaylist(SortType? sortType, string playlistName, List<Track> tracks, Track startAt,
+            bool isAnOrderedPlaylist = false)
         {
             UpdateSortType(sortType);
-            _playlist.Set(playlistName, tracks, startAt, _userSettings.ShuffleOn);
+            _playlist.Set(playlistName, tracks, startAt, _userSettings.ShuffleOn, isAnOrderedPlaylist);
         }
 
         private void UpdateSortType(SortType? sortType)

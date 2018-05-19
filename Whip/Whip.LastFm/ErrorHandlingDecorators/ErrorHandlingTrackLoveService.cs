@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Whip.Common.Enums;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
 
@@ -24,6 +21,7 @@ namespace Whip.LastFm.ErrorHandlingDecorators
             return await _interceptor.TryMethod(
                 _service.IsLovedAsync(track),
                 false,
+                WebServiceType.LastFm,
                 "IsLoved(Track: " + track.Title + " by " + track.Artist.Name + ")");
         }
 
@@ -32,6 +30,7 @@ namespace Whip.LastFm.ErrorHandlingDecorators
             return await _interceptor.TryMethod(
                 _service.LoveTrackAsync(track),
                 false,
+                WebServiceType.LastFm,
                 "LoveTrackAsync(Track: " + track.Title + " by " + track.Artist.Name + ")");
         }
 
@@ -40,6 +39,7 @@ namespace Whip.LastFm.ErrorHandlingDecorators
             return await _interceptor.TryMethod(
                 _service.UnloveTrackAsync(track),
                 false,
+                WebServiceType.LastFm,
                 "UnloveTrackAsync(Track: " + track.Title + " by " + track.Artist.Name + ")");
         }
     }

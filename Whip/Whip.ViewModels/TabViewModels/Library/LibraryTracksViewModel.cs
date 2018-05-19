@@ -5,6 +5,7 @@ using GalaSoft.MvvmLight.Command;
 using Whip.Common;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
+using Whip.Services.Interfaces.Singletons;
 
 namespace Whip.ViewModels.TabViewModels.Library
 {
@@ -63,13 +64,16 @@ namespace Whip.ViewModels.TabViewModels.Library
 
         public void OnPlayArtist()
         {
-            _playRequestHandler.PlayArtist(Artist, SortType.Ordered, SelectedTrack);
+            _playRequestHandler.PlayArtist(Artist, SortType.Random, SelectedTrack);
         }
 
         private void SetArtist(Artist artist)
         {
             if (artist == null || artist.Equals(_artist))
+            {
+                _artist = artist;
                 return;
+            }
 
             Set(nameof(Artist), ref _artist, artist);
             UpdateTracks();

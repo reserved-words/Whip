@@ -18,7 +18,7 @@ namespace Whip.ViewModels.TabViewModels
     {
         private readonly IMessenger _messenger;
         private readonly ITrackSearchService _trackSearchService;
-        private readonly IPlaylistRepository _repository;
+        private readonly IPlaylistsService _repository;
         private readonly Common.Singletons.Library _library;
 
         private CriteriaPlaylist _playlist;
@@ -36,7 +36,7 @@ namespace Whip.ViewModels.TabViewModels
         private Lazy<List<string>> _states;
         private Lazy<List<string>> _cities;
 
-        public EditCriteriaPlaylistViewModel(IMessenger messenger, IPlaylistRepository repository, ITrackSearchService trackSearchService,
+        public EditCriteriaPlaylistViewModel(IMessenger messenger, IPlaylistsService repository, ITrackSearchService trackSearchService,
             Common.Singletons.Library library)
             :base(TabType.Playlists, IconType.Cog, "Edit Playlist", messenger, false)
         {
@@ -116,8 +116,10 @@ namespace Whip.ViewModels.TabViewModels
                         + "You must select at least one filter criteria or set a sort property and a maximum number of tracks" 
                         + Environment.NewLine;
                 }
-                else if (Criteria.Any(c => c.Criteria.Any(cr => cr.PropertyName != null
-                    && (cr.CriteriaType == null || string.IsNullOrEmpty(cr.ValueString)))))
+                else if (Criteria.Any(c => c.Criteria.Any(cr => 
+                    cr.PropertyName != null
+                        && !(cr.CriteriaType == CriteriaType.IsTrue || cr.CriteriaType == CriteriaType.IsFalse)
+                        && (cr.CriteriaType == null || string.IsNullOrEmpty(cr.ValueString)))))
                 {
                     errorMessage = errorMessage + "You must select a criteria type and value for each criterion";
                 }
@@ -197,7 +199,7 @@ namespace Whip.ViewModels.TabViewModels
 
         private void OnPreviewResults(bool showMessageIfNoResults)
         {
-            Tracks = _trackSearchService.GetTracks(CreatePlaylist());
+            Tracks = _trackSearchService.GetTracks(CreatePlaylist(_playlist));
 
             if (showMessageIfNoResults && !Tracks.Any())
             {
@@ -219,7 +221,7 @@ namespace Whip.ViewModels.TabViewModels
         {
             if (playlist == null)
             {
-                playlist = new CriteriaPlaylist(0, "");
+                playlist = new CriteriaPlaylist(0, "", false);
             }
 
             playlist.Title = PlaylistTitle;

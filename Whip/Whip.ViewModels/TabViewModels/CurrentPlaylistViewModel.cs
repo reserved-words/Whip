@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using Whip.Common;
 using Whip.Common.Model;
 using Whip.ViewModels.Utilities;
-using GalaSoft.MvvmLight.Messaging;
-using Whip.ViewModels.Messages;
 using Whip.Services.Interfaces.Singletons;
-using Whip.Services.Interfaces;
 
 namespace Whip.ViewModels.TabViewModels
 {
@@ -16,6 +13,7 @@ namespace Whip.ViewModels.TabViewModels
         private readonly IPlayRequestHandler _playRequestHandler;
 
         private Track _selectedTrack;
+        private List<Track> _tracks;
 
         public CurrentPlaylistViewModel(IPlaylist playlist, Common.Singletons.Library library, TrackContextMenuViewModel trackContextMenu,
             IPlayRequestHandler playRequestHandler)
@@ -36,13 +34,13 @@ namespace Whip.ViewModels.TabViewModels
         {
             if (track != null)
             {
-                RaisePropertyChanged(nameof(Tracks));
+                OnPlaylistUpdated();
             }
         }
 
-        public TrackContextMenuViewModel TrackContextMenu { get; private set; }
+        public TrackContextMenuViewModel TrackContextMenu { get; }
 
-        public RelayCommand PlayCommand { get; private set; }
+        public RelayCommand PlayCommand { get; }
 
         public string PlaylistName => _playlist.PlaylistName;
 
@@ -56,7 +54,11 @@ namespace Whip.ViewModels.TabViewModels
             }
         }
 
-        public List<Track> Tracks => _playlist.Tracks;
+        public List<Track> Tracks
+        {
+            get { return _tracks; }
+            set { Set(ref _tracks, value); }
+        }
 
         private void OnPlay()
         {
@@ -69,7 +71,8 @@ namespace Whip.ViewModels.TabViewModels
         private void OnPlaylistUpdated()
         {
             RaisePropertyChanged(nameof(PlaylistName));
-            RaisePropertyChanged(nameof(Tracks));
+            Tracks = null;
+            Tracks = _playlist.Tracks;
         }
     }
 }

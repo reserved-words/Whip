@@ -6,6 +6,7 @@ using Whip.Common.Model;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.TabViewModels.Library;
 using Whip.ViewModels.Utilities;
+using Whip.Services.Interfaces.Singletons;
 
 namespace Whip.ViewModels.TabViewModels
 {

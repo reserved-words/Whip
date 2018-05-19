@@ -22,7 +22,7 @@ namespace Whip.Services.Tests
             var result = sut.Parse(GetTestLogsContent());
 
             // Assert
-            result.ShouldBeEquivalentTo(GetLogs());
+            result.Should().BeEquivalentTo(GetLogs());
         }
 
         private string[] GetTestLogsContent()

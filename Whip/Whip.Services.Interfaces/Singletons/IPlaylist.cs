@@ -15,12 +15,19 @@ namespace Whip.Services.Interfaces.Singletons
 
         List<Track> Tracks { get; }
 
-        void Set(string playlistName, List<Track> tracks, Track startAt, bool shuffle);
+        void Set(
+            string playlistName, 
+            List<Track> tracks, 
+            Track startAt, 
+            bool shuffle, 
+            bool? doNotSort = null);
 
-        void Reorder(bool shuffle);
+        void Reorder(
+            bool shuffle);
 
         void MoveNext();
 
         void MovePrevious();
+        void RemoveTracks(List<Track> tracks);
     }
 }

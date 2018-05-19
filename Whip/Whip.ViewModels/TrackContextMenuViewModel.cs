@@ -15,20 +15,24 @@ namespace Whip.ViewModels
     public class TrackContextMenuViewModel : ViewModelBase
     {
         private const string NewPlaylistCommandName = "New Playlist...";
+        private const string ArchiveTrackMessageTitle = "Archive Track";
 
+        private readonly IArchiveService _archiveService;
         private readonly IMessenger _messenger;
-        private readonly IPlaylistRepository _playlistRepository;
+        private readonly IPlaylistsService _playlistsService;
 
         private ObservableCollection<MenuCommand> _menuCommands;
         private List<OrderedPlaylist> _playlists;
 
-        public TrackContextMenuViewModel() {}
+        public TrackContextMenuViewModel() { }
 
-        public TrackContextMenuViewModel(IMessenger messenger, IPlaylistRepository playlistRepository)
+        public TrackContextMenuViewModel(IArchiveService archiveService, IMessenger messenger, IPlaylistsService playlistsService)
         {
+            _archiveService = archiveService;
             _messenger = messenger;
-            _playlistRepository = playlistRepository;
+            _playlistsService = playlistsService;
 
+            ArchiveTrackCommand = new RelayCommand(OnArchiveTrack);
             EditTrackCommand = new RelayCommand(OnEditTrack);
             AddToPlaylistCommand = new RelayCommand<OrderedPlaylist>(OnAddToPlaylist);
 
@@ -37,8 +41,8 @@ namespace Whip.ViewModels
 
         public void SetCommands()
         {
-            _playlists = _playlistRepository.GetPlaylists().OrderedPlaylists;
-            _playlists.Add(new OrderedPlaylist(0, NewPlaylistCommandName));
+            _playlists = _playlistsService.GetPlaylists().OrderedPlaylists;
+            _playlists.Add(new OrderedPlaylist(0, NewPlaylistCommandName, false));
 
             _menuCommands.Clear();
 
@@ -56,12 +60,15 @@ namespace Whip.ViewModels
                         }).ToList()
             });
 
+            _menuCommands.Add(new MenuCommand { Header = "Archive Track", Command = ArchiveTrackCommand });
+
             RaisePropertyChanged(nameof(MenuItems));
         }
 
         public Track Track { get; private set; }
-        public RelayCommand EditTrackCommand { get; private set; }
-        public RelayCommand<OrderedPlaylist> AddToPlaylistCommand { get; private set; }
+        public RelayCommand ArchiveTrackCommand { get; }
+        public RelayCommand EditTrackCommand { get; }
+        public RelayCommand<OrderedPlaylist> AddToPlaylistCommand { get; }
 
         public ObservableCollection<MenuCommand> MenuItems
         {
@@ -99,16 +106,49 @@ namespace Whip.ViewModels
                 selectedPlaylist.Title = enterTitleViewModel.Result;
             }
 
+            if (selectedPlaylist.Tracks.Contains(Track.File.FullPath))
+            {
+                _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Info, "Add to Playlist",
+                    "The selected Track already belongs to this playlist"));
+                return;
+            }
+
             selectedPlaylist.Tracks.Add(Track.File.FullPath);
 
-            _playlistRepository.Save(selectedPlaylist);
+            _playlistsService.Save(selectedPlaylist);
 
             SetCommands();
+        }
+
+        private void OnArchiveTrack()
+        {
+            if (Track.IsCurrentTrack)
+            {
+                _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, ArchiveTrackMessageTitle, "You cannot archive a track which is currently playing"));
+                return;
+            }
+
+            if (!Confirm(ArchiveTrackMessageTitle, "Are you sure you want to archive the selected track? The track will be removed from any saved playlists") )
+                return;
+
+            string errorMessage;
+
+            if (!_archiveService.ArchiveTracks(new List<Track> { Track }, out errorMessage))
+            {
+                _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Error, ArchiveTrackMessageTitle, errorMessage));
+            }
         }
 
         private void OnEditTrack()
         {
             _messenger.Send(new EditTrackMessage(Track));
+        }
+
+        private bool Confirm(string title, string message)
+        {
+            var confirmationViewModel = new ConfirmationViewModel(_messenger, title, message, ConfirmationViewModel.ConfirmationType.YesNo);
+            _messenger.Send(new ShowDialogMessage(confirmationViewModel));
+            return confirmationViewModel.Result;
         }
     }
 

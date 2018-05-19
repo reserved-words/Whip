@@ -15,6 +15,10 @@ namespace Whip.Common
         [MetaData("is before")]
         IsBefore,
         [MetaData("is after")]
-        IsAfter
+        IsAfter,
+        [MetaData("is true")]
+        IsTrue,
+        [MetaData("is false")]
+        IsFalse
     }
 }

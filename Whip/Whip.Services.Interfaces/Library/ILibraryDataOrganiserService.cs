@@ -11,5 +11,6 @@ namespace Whip.Services.Interfaces
         void SyncTracks(ICollection<Artist> artists, ICollection<string> filepathsToKeep);
 
         void UpdateLibrary(Track trackChanged, Artist originalArtist, Disc originalDisc);
+        void RemoveTrack(Track track);
     }
 }

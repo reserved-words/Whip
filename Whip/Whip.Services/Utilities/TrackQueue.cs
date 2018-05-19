@@ -10,7 +10,22 @@ namespace Whip.Services
         private readonly Stack<Track> _toPlay = new Stack<Track>();
         private readonly Stack<Track> _played = new Stack<Track>();
 
-        public Track CurrentTrack { get; private set; }
+        private Track _currentTrack;
+
+        public Track CurrentTrack
+        {
+            get { return _currentTrack; }
+            private set
+            {
+                if (_currentTrack != null)
+                    _currentTrack.IsCurrentTrack = false;
+
+                _currentTrack = value;
+
+                if (_currentTrack != null)
+                    _currentTrack.IsCurrentTrack = true;
+            }
+        }
 
         public void Set(List<Track> tracks, int startAt, bool clearCurrentTrack)
         {
@@ -60,6 +75,24 @@ namespace Whip.Services
             }
 
             CurrentTrack = _played.Peek();
+        }
+
+        public void Remove(List<Track> tracks)
+        {
+            var toPlay = _toPlay.Reverse().ToList();
+            var played = _played.Reverse().ToList();
+
+            foreach (var track in tracks)
+            {
+                toPlay.Remove(track);
+                played.Remove(track);
+            }
+            
+            _toPlay.Clear();
+            _played.Clear();
+
+            toPlay.ForEach(_toPlay.Push);
+            played.ForEach(_played.Push);
         }
     }
 }

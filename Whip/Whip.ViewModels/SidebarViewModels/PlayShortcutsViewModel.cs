@@ -1,52 +1,82 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using Whip.Common;
-using Whip.Common.ExtensionMethods;
+using Whip.Common.Enums;
 using Whip.Common.Model;
-using Whip.Common.Singletons;
+using Whip.Services.Interfaces.Singletons;
 using Whip.Services.Interfaces;
+using Whip.ViewModels.Messages;
 
 namespace Whip.ViewModels
 {
     public class PlayShortcutsViewModel : ViewModelBase
     {
-        public enum PlayerStatus { Playing, Paused, Stopped }
-
-        private readonly Library _library;
+        private readonly IMessenger _messenger;
         private readonly IPlayRequestHandler _playRequestHandler;
+        private readonly IPlaylistsService _repository;
+        private readonly ITrackSearchService _trackSearchService;
 
-        private List<string> _groupings;
-
-        public PlayShortcutsViewModel(Library library, IPlayRequestHandler playRequestHandler)
+        public PlayShortcutsViewModel(IPlayRequestHandler playRequestHandler, IPlaylistsService repository, ITrackSearchService trackSearchService,
+            IMessenger messenger)
         {
-            _library = library;
+            _messenger = messenger;
+            _repository = repository;
             _playRequestHandler = playRequestHandler;
+            _trackSearchService = trackSearchService;
 
-            _library.Updated += OnLibraryUpdated;
-
-            PlayGroupingCommand = new RelayCommand<string>(OnShuffleGrouping);
+            PlayCommand = new RelayCommand<Playlist>(OnPlay);
             ShuffleLibraryCommand = new RelayCommand(OnShuffleLibrary);
+
+            Playlists = new ObservableCollection<Playlist>();
         }
 
-        public List<string> Groupings
-        {
-            get { return _groupings; }
-            set { Set(ref _groupings, value); }
-        }
+        public ObservableCollection<Playlist> Playlists { get; set; }
 
-        public RelayCommand<string> PlayGroupingCommand { get; }
+        public RelayCommand<Playlist> PlayCommand { get; }
         public RelayCommand ShuffleLibraryCommand { get; }
-        
-        private void OnLibraryUpdated(Track track)
+
+        public void LoadPlaylists()
         {
-            Groupings = _library.GetGroupings().Where(g => !string.IsNullOrEmpty(g)).ToList();
+            var playlists = _repository.GetFavouritePlaylists();
+            Playlists.Clear();
+            playlists.OrderBy(p => p.Title).ToList().ForEach(Playlists.Add);
         }
 
-        private void OnShuffleGrouping(string grouping)
+        private void OnPlay(Playlist playlist)
         {
-            _playRequestHandler.PlayGrouping(grouping, SortType.Random);
+            switch (playlist.Type)
+            {
+                case PlaylistType.Criteria:
+                    var criteriaPlaylist = _repository.GetCriteriaPlaylist(playlist.Id);
+                    Play(criteriaPlaylist.Title, _trackSearchService.GetTracks(criteriaPlaylist), SortType.Random);
+                    break;
+                case PlaylistType.Ordered:
+                    var orderedPlaylist = _repository.GetOrderedPlaylist(playlist.Id);
+                    Play(orderedPlaylist.Title, _trackSearchService.GetTracks(orderedPlaylist.Tracks), SortType.Ordered);
+                    break;
+                case PlaylistType.Quick:
+                    var quickPlaylist = _repository.GetQuickPlaylist(playlist.Id);
+                    Play(quickPlaylist.Title, _trackSearchService.GetTracks(quickPlaylist.FilterType, quickPlaylist.FilterValues), SortType.Random);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(playlist.Type), playlist.Type, "Not a valid playlist type");
+            }
+        }
+
+        private void Play(string title, List<Track> tracks, SortType sortType)
+        {
+            if (!tracks.Any())
+            {
+                _messenger.Send(new ShowDialogMessage(_messenger, MessageType.Info, "Playlist", "This playlist does not contain any tracks"));
+                return;
+            }
+
+            _playRequestHandler.PlayPlaylist(title, tracks, sortType);
         }
 
         private void OnShuffleLibrary()

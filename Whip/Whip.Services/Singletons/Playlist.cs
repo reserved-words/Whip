@@ -15,6 +15,8 @@ namespace Whip.Services.Singletons
         private readonly IRandomTrackSorter _randomTrackSorter;
         private readonly IDefaultTrackSorter _defaultTrackSorter;
 
+        private bool _doNotSort;
+
         public Playlist(ITrackQueue trackQueue, IDefaultTrackSorter defaultTrackSorter, IRandomTrackSorter randomTrackSorter)
         {
             _trackQueue = trackQueue;
@@ -30,11 +32,16 @@ namespace Whip.Services.Singletons
         public string PlaylistName { get; private set; }
 
         public List<Track> Tracks { get; private set; }
-
-        public void Set(string playlistName, List<Track> tracks, Track startAt, bool shuffle)
+        
+        public void Set(string playlistName, List<Track> tracks, Track startAt, bool shuffle, bool? doNotSort = null)
         {
             PlaylistName = playlistName;
             Tracks = tracks;
+            
+            if (doNotSort.HasValue)
+            {
+                _doNotSort = doNotSort.Value;
+            }
 
             var sortedTracks = Sort(tracks, shuffle);
 
@@ -55,8 +62,21 @@ namespace Whip.Services.Singletons
             CurrentTrackChanged?.Invoke(_trackQueue.CurrentTrack);
         }
 
+        public void RemoveTracks(List<Track> tracks)
+        {
+            if (Tracks == null)
+                return;
+
+            tracks.ForEach(t => Tracks.Remove(t));
+            _trackQueue.Remove(tracks);
+            OnListUpdated();
+        }
+
         private List<Track> Sort(List<Track> tracks, bool shuffle)
         {
+            if (_doNotSort && !shuffle)
+                return tracks;
+
             var sorter = shuffle
                 ? (ITrackSorter)_randomTrackSorter
                 : _defaultTrackSorter;

@@ -141,6 +141,9 @@
   <data name="EditTrackLyricsNotFoundTitle" xml:space="preserve">
     <value>Lyrics Not Found</value>
   </data>
+  <data name="ErrorNoArchiveDirectorySet" xml:space="preserve">
+    <value>No archive directory has been set</value>
+  </data>
   <data name="FacebookUrl" xml:space="preserve">
     <value>https://facebook.com/{0}</value>
   </data>
@@ -150,11 +153,8 @@
   <data name="ImageInternetErrorText" xml:space="preserve">
     <value>The image was not loaded due to an internet connection error</value>
   </data>
-  <data name="LastFmOffErrorMessage" xml:space="preserve">
-    <value>Last.FM interaction has been turned off due to an error. See Settings page for further information.</value>
-  </data>
   <data name="LastFmOffErrorMessageDetails" xml:space="preserve">
-    <value>Last.FM interaction has been turned off due to an error and will not be turned back on until the application is next started. If scrobbling is turned on, scrobbles will be cached and scrobbled later.</value>
+    <value>There was a problem connecting to Last.FM. No further attempts will be made until the application is next started. If scrobbling is turned on, scrobbles will be cached and scrobbled later.</value>
   </data>
   <data name="LastFmUrl" xml:space="preserve">
     <value>https://www.last.fm/music/{0}</value>
@@ -168,20 +168,11 @@
   <data name="MaxLengthErrorMessage" xml:space="preserve">
     <value>{0} must not be more than {1} characters</value>
   </data>
-  <data name="Off" xml:space="preserve">
-    <value>Off</value>
-  </data>
   <data name="Offline" xml:space="preserve">
     <value>Offline</value>
   </data>
-  <data name="OfflineErrorMessage" xml:space="preserve">
-    <value>The internet connection has failed. See Settings page for further information.</value>
-  </data>
   <data name="OfflineErrorMessageDetails" xml:space="preserve">
-    <value>Internet connectivity has failed. The application will keep trying to connect to the internet and this status will be updated when it succeeds. If scrobbling is turned on, scrobbles will be cached and scrobbled later.</value>
-  </data>
-  <data name="On" xml:space="preserve">
-    <value>On</value>
+    <value>Internet connectivity has failed. The application will keep trying to connect to the internet. If scrobbling is turned on, scrobbles will be cached and scrobbled later.</value>
   </data>
   <data name="Online" xml:space="preserve">
     <value>Online</value>

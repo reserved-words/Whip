@@ -13,6 +13,7 @@ using Whip.Common.Model.Playlists.Criteria;
 using GalaSoft.MvvmLight.Messaging;
 using Whip.ViewModels.Messages;
 using Whip.ViewModels.Windows;
+using Whip.Services.Interfaces.Singletons;
 
 namespace Whip.ViewModels.TabViewModels
 {
@@ -21,7 +22,7 @@ namespace Whip.ViewModels.TabViewModels
         private readonly Common.Singletons.Library _library;
         private readonly IMessenger _messenger;
         private readonly ITrackSearchService _trackSearchService;
-        private readonly IPlaylistRepository _repository;
+        private readonly IPlaylistsService _repository;
         private readonly IPlayRequestHandler _playRequestHandler;
 
         private List<Track> _results;
@@ -38,7 +39,7 @@ namespace Whip.ViewModels.TabViewModels
         private Lazy<List<string>> _cities;
 
         public SearchViewModel(Common.Singletons.Library library, IMessenger messenger, ITrackSearchService trackSearchService,
-            IPlaylistRepository repository, TrackContextMenuViewModel trackContextMenu, IPlayRequestHandler playRequestHandler)
+            IPlaylistsService repository, TrackContextMenuViewModel trackContextMenu, IPlayRequestHandler playRequestHandler)
             :base(TabType.Search, IconType.Search, "Library Search")
         {
             _library = library;
@@ -59,25 +60,35 @@ namespace Whip.ViewModels.TabViewModels
             PlayCommand = new RelayCommand(OnPlay);
             EditCommand = new RelayCommand(OnEdit);
             RemoveGroupCommand = new RelayCommand<CriteriaGroupViewModel>(OnRemoveGroup);
+
+            _library.Updated += OnLibraryUpdated;
         }
 
-        public TrackContextMenuViewModel TrackContextMenu { get; private set; }
+        private void OnLibraryUpdated(Track track)
+        {
+            if (Results != null && Results.Any())
+            {
+                OnSearch();
+            }
+        }
 
-        public RelayCommand AddNewCriteriaGroupCommand { get; private set; }
-        public RelayCommand SearchCommand { get; private set; }
-        public RelayCommand ClearCommand { get; private set; }
-        public RelayCommand SaveAsCriteriaPlaylistCommand { get; private set; }
-        public RelayCommand SaveAsOrderedPlaylistCommand { get; private set; }
-        public RelayCommand PlayCommand { get; private set; }
-        public RelayCommand EditCommand { get; private set; }
-        public RelayCommand<CriteriaGroupViewModel> RemoveGroupCommand { get; private set; }
+        public TrackContextMenuViewModel TrackContextMenu { get; }
 
-        public ObservableCollection<CriteriaGroupViewModel> Criteria { get; private set; }
+        public RelayCommand AddNewCriteriaGroupCommand { get; }
+        public RelayCommand SearchCommand { get; }
+        public RelayCommand ClearCommand { get; }
+        public RelayCommand SaveAsCriteriaPlaylistCommand { get; }
+        public RelayCommand SaveAsOrderedPlaylistCommand { get; }
+        public RelayCommand PlayCommand { get; }
+        public RelayCommand EditCommand { get; }
+        public RelayCommand<CriteriaGroupViewModel> RemoveGroupCommand { get; }
+
+        public ObservableCollection<CriteriaGroupViewModel> Criteria { get; }
 
         public List<Track> Results
         {
             get { return _results; }
-            private set { Set(ref (_results), value); }
+            private set { Set(ref _results, value); }
         }
 
         public Track SelectedTrack
@@ -85,7 +96,7 @@ namespace Whip.ViewModels.TabViewModels
             get { return _selectedTrack; }
             set
             {
-                Set(ref (_selectedTrack), value);
+                Set(ref _selectedTrack, value);
                 TrackContextMenu.SetTrack(_selectedTrack);
             }
         }
@@ -173,7 +184,7 @@ namespace Whip.ViewModels.TabViewModels
 
         private void OnPlay()
         {
-            _playRequestHandler.PlayPlaylist("Search Results", Results, SortType.Random, SelectedTrack);
+            _playRequestHandler.PlayPlaylist("Search Results", Results, SortType.Ordered, SelectedTrack);
         }
 
         private void OnSaveAsCriteriaPlaylist()
@@ -196,7 +207,7 @@ namespace Whip.ViewModels.TabViewModels
 
         private CriteriaPlaylist GetCriteriaPlaylist(string title)
         {
-            var playlist = new CriteriaPlaylist(0, title)
+            var playlist = new CriteriaPlaylist(0, title, false)
             {
                 OrderByProperty = OrderByProperty,
                 OrderByDescending = OrderByDescending,
@@ -236,7 +247,7 @@ namespace Whip.ViewModels.TabViewModels
 
         private OrderedPlaylist GetOrderedPlaylist(string title)
         {
-            return new OrderedPlaylist(0, title)
+            return new OrderedPlaylist(0, title, false)
             {
                 Tracks = Results.Select(t => t.File.FullPath).ToList()
             };

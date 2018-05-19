@@ -13,5 +13,6 @@ namespace Whip.Services.Interfaces
         void Set(List<Track> tracks, int startAt, bool clearCurrentTrack);
         void MoveNext();
         void MovePrevious();
+        void Remove(List<Track> tracks);
     }
 }

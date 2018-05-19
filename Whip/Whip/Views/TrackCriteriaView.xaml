@@ -1,0 +1,274 @@
+﻿<UserControl x:Class="Whip.TrackCriteriaView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Whip"
+             xmlns:common="clr-namespace:Whip.Common;assembly=Whip.Common" 
+             xmlns:controls="clr-namespace:Whip.Controls"
+             xmlns:wpfex="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid x:Name="CriteriaGrid">
+        <ListView Grid.Row="2"
+                  ItemsSource="{Binding Criteria}"
+                  ItemContainerStyle="{StaticResource ListViewItemNoHighlight}"
+                  HorizontalContentAlignment="Stretch"
+                  BorderThickness="0"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid x:Name="CriteriaListGrid">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0"
+                                Style="{StaticResource ColourBorder}">
+                            <StackPanel>
+                                <DataGrid ItemsSource="{Binding Criteria}"
+                                          HeadersVisibility="None"
+                                          BorderThickness="0">
+                                    <DataGrid.RowStyle>
+                                        <Style TargetType="{x:Type DataGridRow}">
+                                            <Setter Property="Height" Value="27" />
+                                        </Style>
+                                    </DataGrid.RowStyle>
+                                    <DataGrid.CellStyle>
+                                        <Style TargetType="{x:Type DataGridCell}">
+                                            <Setter Property="Padding" Value="0" />
+                                            <Style.Triggers>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter Property="Background" Value="Transparent" />
+                                                    <Setter Property="BorderBrush" Value="Transparent" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGrid.CellStyle>
+                                    <DataGrid.Resources>
+
+                                        <DataTemplate x:Key="FreeTextTemplate">
+                                            <TextBox Text="{Binding ValueString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                     Height="25"/>
+                                        </DataTemplate>
+                                        
+                                        <DataTemplate x:Key="DateTemplate">
+                                            <DatePicker Text="{Binding ValueString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                        VerticalContentAlignment="Center"
+                                                        Padding="0"
+                                                        Margin="0"
+                                                        Height="25"/>
+                                        </DataTemplate>
+
+                                        <DataTemplate x:Key="TagsTemplate">
+                                            <ComboBox IsEditable="True"
+                                                      ItemsSource="{Binding Path=DataContext.Tags, ElementName=CriteriaGrid}"
+                                                      Text="{Binding ValueString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      Height="25"/>
+                                        </DataTemplate>
+
+                                        <DataTemplate x:Key="CitiesTemplate">
+                                            <ComboBox IsEditable="True"
+                                                      ItemsSource="{Binding Path=DataContext.Cities, ElementName=CriteriaGrid}"
+                                                      Text="{Binding ValueString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      Height="25"/>
+                                        </DataTemplate>
+
+                                        <DataTemplate x:Key="StatesTemplate">
+                                            <ComboBox IsEditable="True"
+                                                      ItemsSource="{Binding Path=DataContext.States, ElementName=CriteriaGrid}"
+                                                      Text="{Binding ValueString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      Height="25"/>
+                                        </DataTemplate>
+
+                                        <DataTemplate x:Key="CountriesTemplate">
+                                            <ComboBox IsEditable="True"
+                                                      ItemsSource="{Binding Path=DataContext.Countries, ElementName=CriteriaGrid}"
+                                                      Text="{Binding ValueString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      Height="25"/>
+                                        </DataTemplate>
+
+                                        <DataTemplate x:Key="GroupingsTemplate">
+                                            <ComboBox IsEditable="True"
+                                                      ItemsSource="{Binding Path=DataContext.Groupings, ElementName=CriteriaGrid}"
+                                                      Text="{Binding ValueString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      Height="25"/>
+                                        </DataTemplate>
+
+                                        <DataTemplate x:Key="ReleaseTypeTemplate">
+                                            <ComboBox IsEditable="False"
+                                                      ItemsSource="{Binding Source={local:Enumeration {x:Type common:ReleaseType}}}"
+                                                      DisplayMemberPath="Description" 
+                                                      SelectedValue="{Binding ValueString, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"  
+                                                      SelectedValuePath="ValueString"
+                                                      Height="25"/>
+                                        </DataTemplate>
+
+                                        <DataTemplate x:Key="TimeSpanTemplate">
+                                            <wpfex:MaskedTextBox Text="{Binding ValueString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                                                                 Mask="00:00:00"
+                                                                 Height="25"/>
+                                        </DataTemplate>
+
+                                        <DataTemplate x:Key="EmptyTemplate">
+                                            <TextBox IsEnabled="False"
+                                                     Text=""
+                                                     Height="25"/>
+                                        </DataTemplate>
+
+                                        <DataTemplate x:Key="IntegerTemplate">
+                                            <wpfex:IntegerUpDown Text="{Binding ValueString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                                                                 Maximum="9999"
+                                                                 Minimum="0"
+                                                                 TextAlignment="Left"
+                                                                 Height="25"/>
+                                        </DataTemplate>
+
+                                        <DataTemplate x:Key="YearTemplate">
+                                            <wpfex:MaskedTextBox Text="{Binding ValueString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                                                                 Mask="0000"
+                                                                 Height="25"/>
+                                        </DataTemplate>
+
+                                    </DataGrid.Resources>
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn Width="150">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <ComboBox IsEditable="False"
+                                                              ItemsSource="{Binding Source={local:Enumeration {x:Type common:PropertyName}}}"
+                                                              DisplayMemberPath="Description" 
+                                                              SelectedValue="{Binding PropertyName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"  
+                                                              SelectedValuePath="Value"
+                                                              Height="25"
+                                                              Margin="0" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Width="100">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <ComboBox IsEditable="False"
+                                                              ItemsSource="{Binding CriteriaTypes}"
+                                                              SelectedItem="{Binding CriteriaType, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                                                              Height="25"  
+                                                              Margin="0">
+                                                        <ComboBox.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <ContentPresenter Content="{Binding Converter={StaticResource EnumToStringConverter}}"/>
+                                                            </DataTemplate>
+                                                        </ComboBox.ItemTemplate>
+                                                    </ComboBox>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Width="Auto">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Width="200">
+                                                        <ContentControl Content="{Binding}">
+                                                            <ContentControl.Style>
+                                                                <Style TargetType="{x:Type ContentControl}">
+                                                                    <Setter Property="ContentTemplate" Value="{StaticResource FreeTextTemplate}" />
+
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding PropertyName}" Value="{x:Static common:PropertyName.Tags}">
+                                                                            <Setter Property="ContentTemplate" Value="{StaticResource TagsTemplate}" />
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding PropertyName}" Value="{x:Static common:PropertyName.Grouping}">
+                                                                            <Setter Property="ContentTemplate" Value="{StaticResource GroupingsTemplate}" />
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding PropertyName}" Value="{x:Static common:PropertyName.Country}">
+                                                                            <Setter Property="ContentTemplate" Value="{StaticResource CountriesTemplate}" />
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding PropertyName}" Value="{x:Static common:PropertyName.State}">
+                                                                            <Setter Property="ContentTemplate" Value="{StaticResource StatesTemplate}" />
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding PropertyName}" Value="{x:Static common:PropertyName.City}">
+                                                                            <Setter Property="ContentTemplate" Value="{StaticResource CitiesTemplate}" />
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding PropertyType}" Value="{x:Static common:PropertyType.DateTime}">
+                                                                            <Setter Property="ContentTemplate" Value="{StaticResource DateTemplate}" />
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding PropertyType}" Value="{x:Static common:PropertyType.TimeSpan}">
+                                                                            <Setter Property="ContentTemplate" Value="{StaticResource FreeTextTemplate}" />
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding PropertyType}" Value="{x:Static common:PropertyType.ReleaseType}">
+                                                                            <Setter Property="ContentTemplate" Value="{StaticResource ReleaseTypeTemplate}" />
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding PropertyType}" Value="{x:Static common:PropertyType.Int}">
+                                                                            <Setter Property="ContentTemplate" Value="{StaticResource IntegerTemplate}" />
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding PropertyType}" Value="{x:Static common:PropertyType.Year}">
+                                                                            <Setter Property="ContentTemplate" Value="{StaticResource YearTemplate}" />
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding PropertyType}" Value="{x:Static common:PropertyType.TimeSpan}">
+                                                                            <Setter Property="ContentTemplate" Value="{StaticResource TimeSpanTemplate}" />
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding PropertyType}" Value="{x:Static common:PropertyType.Boolean}">
+                                                                            <Setter Property="ContentTemplate" Value="{StaticResource EmptyTemplate}" />
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </ContentControl.Style>
+                                                        </ContentControl>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Width="Auto">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <controls:Icon12 Icon="TrashOutline"
+                                                                     Cursor="Hand"
+                                                                     ToolTip="Delete Clause"
+                                                                     Foreground="Silver">
+                                                        <Image.InputBindings>
+                                                            <MouseBinding Gesture="LeftClick"
+                                                                          Command="{Binding Path=DataContext.RemoveClauseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
+                                                                          CommandParameter="{Binding}" />
+                                                        </Image.InputBindings>
+                                                    </controls:Icon12>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <WrapPanel>
+                                    <controls:Icon12 Icon="Plus"
+                                                     Cursor="Hand"
+                                                     ToolTip="Add New Clause"
+                                                     Margin="0,5,5,0"
+                                                     Foreground="Silver"
+                                                     HorizontalAlignment="Left">
+                                        <Image.InputBindings>
+                                            <MouseBinding Gesture="LeftClick"
+                                                          Command="{Binding AddNewClauseCommand}"/>
+                                        </Image.InputBindings>
+                                    </controls:Icon12>
+                                    <controls:Icon12 Icon="TrashOutline"
+                                                     Cursor="Hand"
+                                                     ToolTip="RemoveTracks Group"
+                                                     Margin="0,5,5,0"
+                                                     Foreground="Silver"
+                                                     HorizontalAlignment="Left">
+                                        <Image.InputBindings>
+                                            <MouseBinding Gesture="LeftClick"
+                                                          Command="{Binding Path=DataContext.RemoveGroupCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"
+                                                          CommandParameter="{Binding}"/>
+                                        </Image.InputBindings>
+                                    </controls:Icon12>
+                                </WrapPanel>
+                            </StackPanel>
+                        </Border>
+                        <Label Grid.Row="1"
+                                   Content="OR"
+                                   Visibility="{Binding IsLastGroup, Converter={StaticResource NegBoolVisibilityConverter}}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>    
+    </Grid>
+</UserControl>

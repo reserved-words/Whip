@@ -133,6 +133,15 @@ namespace Whip.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No archive directory has been set.
+        /// </summary>
+        public static string ErrorNoArchiveDirectorySet {
+            get {
+                return ResourceManager.GetString("ErrorNoArchiveDirectorySet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://facebook.com/{0}.
         /// </summary>
         public static string FacebookUrl {
@@ -160,16 +169,7 @@ namespace Whip.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Last.FM interaction has been turned off due to an error. See Settings page for further information..
-        /// </summary>
-        public static string LastFmOffErrorMessage {
-            get {
-                return ResourceManager.GetString("LastFmOffErrorMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Last.FM interaction has been turned off due to an error and will not be turned back on until the application is next started. If scrobbling is turned on, scrobbles will be cached and scrobbled later..
+        ///   Looks up a localized string similar to There was a problem connecting to Last.FM. No further attempts will be made until the application is next started. If scrobbling is turned on, scrobbles will be cached and scrobbled later..
         /// </summary>
         public static string LastFmOffErrorMessageDetails {
             get {
@@ -214,15 +214,6 @@ namespace Whip.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Off.
-        /// </summary>
-        public static string Off {
-            get {
-                return ResourceManager.GetString("Off", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Offline.
         /// </summary>
         public static string Offline {
@@ -232,29 +223,11 @@ namespace Whip.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The internet connection has failed. See Settings page for further information..
-        /// </summary>
-        public static string OfflineErrorMessage {
-            get {
-                return ResourceManager.GetString("OfflineErrorMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Internet connectivity has failed. The application will keep trying to connect to the internet and this status will be updated when it succeeds. If scrobbling is turned on, scrobbles will be cached and scrobbled later..
+        ///   Looks up a localized string similar to Internet connectivity has failed. The application will keep trying to connect to the internet. If scrobbling is turned on, scrobbles will be cached and scrobbled later..
         /// </summary>
         public static string OfflineErrorMessageDetails {
             get {
                 return ResourceManager.GetString("OfflineErrorMessageDetails", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to On.
-        /// </summary>
-        public static string On {
-            get {
-                return ResourceManager.GetString("On", resourceCulture);
             }
         }
         
