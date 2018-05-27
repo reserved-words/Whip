@@ -14,19 +14,16 @@ namespace Whip.CloudSync
         private readonly IErrorLoggingService _logger;
         private readonly ITrackRepository _repository;
         private readonly ICloudService _cloudService;
-        private readonly ILibrarySettings _settings;
         private readonly ITaggingService _taggingService;
         private readonly SyncData _syncData;
 
         private int _consecutiveFailures;
 
-        public Service(ITrackRepository repository, ICloudService cloudService, IErrorLoggingService logger, ILibrarySettings settings,
-            SyncData syncData, ITaggingService taggingService)
+        public Service(ITrackRepository repository, ICloudService cloudService, IErrorLoggingService logger, SyncData syncData, ITaggingService taggingService)
         {
             _cloudService = cloudService;
             _logger = logger;
             _repository = repository;
-            _settings = settings;
             _syncData = syncData;
             _taggingService = taggingService;
         }
@@ -38,8 +35,8 @@ namespace Whip.CloudSync
             
             var tracksToUpload = GetTracksToUpload(timeLastUpdated);
 
-            _cloudService.UploadFile(Path.Combine(_settings.DataDirectory, "library.xml"));
-            _cloudService.UploadFile(Path.Combine(_settings.DataDirectory, "playlists.xml"));
+            _cloudService.UploadFile(Path.Combine(_syncData.DataDirectory, "library.xml"));
+            _cloudService.UploadFile(Path.Combine(_syncData.DataDirectory, "playlists.xml"));
 
             _consecutiveFailures = 0;
 

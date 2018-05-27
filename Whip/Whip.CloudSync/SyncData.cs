@@ -1,20 +1,15 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Xml.Linq;
+using Whip.Azure;
 using Whip.Services.Interfaces;
 
 namespace Whip.CloudSync
 {
-    public class SyncData
+    public class SyncData : ILibrarySettings, IAzureStorageConfig
     {
         private const string DateTimeFormat = "yyyy-MM-dd HH:mm:ss";
-
-        private readonly ILibrarySettings _settings;
-
-        public SyncData(ILibrarySettings settings)
-        {
-            _settings = settings;
-        }
 
         public DateTime GetTimeLastSynced()
         {
@@ -32,36 +27,42 @@ namespace Whip.CloudSync
             lastSynced.SetValue(time.ToString(DateTimeFormat));
             doc.Save(GetSyncDataPath());
         }
+        
+        public string AccountName => GetAttributeValue("cloud_service", "account_name");
+        public string ConnectionString => GetAttributeValue("cloud_service", "connection_string");
+        public string ContainerName => GetAttributeValue("cloud_service", "container_name");
+        public string DataDirectory => ConfigurationManager.AppSettings["DataDirectory"];
 
         private XDocument GetSyncData()
         {
-            XDocument doc;
             var syncDataPath = GetSyncDataPath();
-            if (!File.Exists(syncDataPath))
-            {
-                doc = CreateSyncDataDocument();
-                doc.Save(syncDataPath);
-            }
-            else
-            {
-                doc = XDocument.Load(syncDataPath);
-            }
-            return doc;
-        }
-
-        private static XDocument CreateSyncDataDocument()
-        {
-            var doc = new XDocument();
-            var root = new XElement("syncdata");
-            var lastSynced = new XElement("last_synced", DateTime.MinValue.ToString(DateTimeFormat));
-            root.Add(lastSynced);
-            doc.Add(root);
-            return doc;
+            return XDocument.Load(syncDataPath);
         }
 
         private string GetSyncDataPath()
         {
-            return Path.Combine(_settings.DataDirectory, "syncdata.xml");
+            return Path.Combine(DataDirectory, "syncdata.xml");
         }
+
+        private string GetAttributeValue(string key, string attr)
+        {
+            var doc = GetSyncData();
+            var root = doc.Element("syncdata");
+            var element = root.Element(key);
+            return element.Attribute(attr).Value;
+        }
+
+        private string GetValue(string key)
+        {
+            var doc = GetSyncData();
+            var root = doc.Element("syncdata");
+            var element = root.Element(key);
+            return element.Value;
+        }
+
+        #region Not Implemented
+        public string MusicDirectory { get; set; }
+        public string ArchiveDirectory { get; set; }
+        #endregion
     }
 }
