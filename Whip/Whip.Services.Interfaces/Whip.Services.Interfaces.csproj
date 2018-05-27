@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cloud\ICloudService.cs" />
     <Compile Include="DataAccess\ILogRepository.cs" />
     <Compile Include="DataAccess\IPlaylistRepository.cs" />
     <Compile Include="IConfigSettings.cs" />
@@ -113,6 +114,10 @@
     <Compile Include="Web\IWebHelperService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LastFmApi\LastFmApi.csproj">
+      <Project>{5143B7CD-60E1-4EE1-AC8A-91D1847D7C7B}</Project>
+      <Name>LastFmApi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Whip.Common\Whip.Common.csproj">
       <Project>{B0ADACAB-F30C-4F94-B72A-32BF97A37E8B}</Project>
       <Name>Whip.Common</Name>
