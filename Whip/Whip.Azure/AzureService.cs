@@ -1,8 +1,8 @@
 ﻿using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
-using System;
 using System.IO;
 using System.Threading.Tasks;
+using Whip.Azure;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
 
@@ -12,18 +12,40 @@ namespace Whip.AzureSync
     {
         private const string UrlFormat = "https://{0}.blob.core.windows.net/{1}/{2}";
 
-        private readonly Lazy<CloudBlobContainer> _container = new Lazy<CloudBlobContainer>(GetContainerReference);
+        private CloudBlobContainer _container;
 
-        public void Upload(Track track)
+        private readonly IAzureStorageConfig _config;
+
+        public AzureService(IAzureStorageConfig config)
         {
-            var cloudBlockBlob = _container.Value.GetBlockBlobReference(GetBlobPath(track));
-            var task = Task.Run(async () => await cloudBlockBlob.UploadFromFileAsync(track.File.FullPath));
-            task.Wait();
+            _config = config;
         }
 
-        public string GetUrl(Track track)
+        public void UploadFile(string path)
         {
-            return string.Format(UrlFormat, GetAccountName(), GetContainerName(), GetBlobPath(track));
+            UploadFile(Path.GetFileName(path), path);
+        }
+
+        public void UploadTrack(Track track)
+        {
+            UploadFile(GetBlobPath(track), track.File.FullPath);
+        }
+
+        public string GetFileUrl(string filename)
+        {
+            return string.Format(UrlFormat, _config.AccountName, _config.ContainerName, filename);
+        }
+
+        public string GetTrackUrl(Track track)
+        {
+            return string.Format(UrlFormat, _config.AccountName, _config.ContainerName, GetBlobPath(track));
+        }
+
+        private void UploadFile(string blobPath, string filePath)
+        {
+            var cloudBlockBlob = Container.GetBlockBlobReference(blobPath);
+            var task = Task.Run(async () => await cloudBlockBlob.UploadFromFileAsync(filePath));
+            task.Wait();
         }
 
         private static string GetBlobPath(Track track)
@@ -34,36 +56,29 @@ namespace Whip.AzureSync
             return $"{parentFolder}/{childFolder}/{filename}";
         }
 
-        private static string GetAccountName()
+        private CloudBlobContainer Container
         {
-            throw new NotImplementedException();
-        }
-
-        private static string GetContainerName()
-        {
-            throw new NotImplementedException();
-        }
-
-        private static string GetConnectionString()
-        {
-            throw new NotImplementedException();
-        }
-
-        private static CloudBlobContainer GetContainerReference()
-        {
-            var connectionString = GetConnectionString();
-            var containerName = GetContainerName();
-
-            CloudStorageAccount storageAccount;
-
-            if (CloudStorageAccount.TryParse(connectionString, out storageAccount))
+            get
             {
-                var client = storageAccount.CreateCloudBlobClient();
-                return client.GetContainerReference(containerName);
-            }
-            else
-            {
-                return null;
+                if (_container != null)
+                    return _container;
+
+                var connectionString = _config.ConnectionString;
+                var containerName = _config.ContainerName;
+
+                CloudStorageAccount storageAccount;
+
+                if (CloudStorageAccount.TryParse(connectionString, out storageAccount))
+                {
+                    var client = storageAccount.CreateCloudBlobClient();
+                    _container = client.GetContainerReference(containerName);
+                }
+                else
+                {
+                    return null;
+                }
+
+                return _container;
             }
         }
     }

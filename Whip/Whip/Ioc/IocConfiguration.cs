@@ -47,7 +47,9 @@ namespace Whip.Ioc
                 .RegisterSingleton<IConfigSettings, ConfigSettings>()
                 .RegisterSingleton<ILastFmApiClientService, LastFmApiClientService>()
                 .RegisterSingleton<TrackContextMenuViewModel, TrackContextMenuViewModel>();
-            
+
+            kernel.Bind<ILibrarySettings>().ToMethod(ctx => ctx.Kernel.Get<IUserSettings>());
+
             return kernel;
         }
 

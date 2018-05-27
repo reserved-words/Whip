@@ -4,7 +4,9 @@ namespace Whip.Services.Interfaces
 {
     public interface ICloudService
     {
-        void Upload(Track track);
-        string GetUrl(Track track);
+        string GetFileUrl(string filename);
+        string GetTrackUrl(Track track);
+        void UploadFile(string path);
+        void UploadTrack(Track track);
     }
 }

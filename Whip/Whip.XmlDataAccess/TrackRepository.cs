@@ -13,17 +13,17 @@ namespace Whip.XmlDataAccess
     public class TrackRepository : ITrackRepository
     {
         private readonly IXmlFileService _xmlFileService;
-        private readonly IUserSettings _userSettings;
+        private readonly ILibrarySettings _settings;
         private readonly ITrackXmlParser _trackXmlParser;
 
-        public TrackRepository(IUserSettings userSettings, IXmlFileService xmlFileService, ITrackXmlParser trackXmlParser)
+        public TrackRepository(ILibrarySettings settings, IXmlFileService xmlFileService, ITrackXmlParser trackXmlParser)
         {
-            _userSettings = userSettings;
+            _settings = settings;
             _xmlFileService = xmlFileService;
             _trackXmlParser = trackXmlParser;
         }
 
-        private string XmlFilePath => Path.Combine(_userSettings.DataDirectory, "library.xml");
+        private string XmlFilePath => Path.Combine(_settings.DataDirectory, "library.xml");
 
         public Library GetLibrary()
         {

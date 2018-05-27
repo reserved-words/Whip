@@ -1,6 +1,7 @@
-﻿using Whip.AzureSync;
-using Whip.NLog;
+﻿using System;
+using Whip.AzureSync;
 using Whip.Services;
+using Whip.Services.Singletons;
 using Whip.XmlDataAccess;
 
 namespace Whip.CloudSync
@@ -9,16 +10,28 @@ namespace Whip.CloudSync
     {
         static void Main(string[] args)
         {
-            var cloudService = new AzureService();
+            var webHelper = new WebHelperService();
+            var configSettings = new ConfigSettings();
+            var logger = new ErrorLoggingService(webHelper, configSettings);
 
-            var xmlFileService = new XmlFileService();
-            var trackXmlParser = new TrackXmlParser();
-            var trackRepository = new TrackRepository(null, xmlFileService, trackXmlParser);
+            try
+            {
+                var xmlFileService = new XmlFileService();
+                var trackXmlParser = new TrackXmlParser();
+                var settings = new Settings();
 
-            var logger = new LoggingService();
+                var trackRepository = new TrackRepository(settings, xmlFileService, trackXmlParser);
+                var cloudService = new AzureService(settings);
+                var syncData = new SyncData(settings);
+                
+                var service = new Service(trackRepository, cloudService, logger, settings, syncData);
 
-            var service = new Service(trackRepository, cloudService, logger);
-            service.Run();
+                service.Run();
+            }
+            catch (Exception ex)
+            {
+                logger.Log(ex);
+            }
         }
     }
 }
