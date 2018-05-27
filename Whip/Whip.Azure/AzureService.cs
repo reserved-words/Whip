@@ -31,6 +31,16 @@ namespace Whip.AzureSync
             UploadFile(GetBlobPath(track), track.File.FullPath);
         }
 
+        public void UploadArtwork(Album album)
+        {
+            UploadBytes(GetImageBlobPath(album), album.Artwork);
+        }
+
+        public string GetArtworkUrl(Album album)
+        {
+            return string.Format(UrlFormat, _config.AccountName, _config.ContainerName, GetImageBlobPath(album));
+        }
+
         public string GetFileUrl(string filename)
         {
             return string.Format(UrlFormat, _config.AccountName, _config.ContainerName, filename);
@@ -39,6 +49,16 @@ namespace Whip.AzureSync
         public string GetTrackUrl(Track track)
         {
             return string.Format(UrlFormat, _config.AccountName, _config.ContainerName, GetBlobPath(track));
+        }
+
+        private void UploadBytes(string blobPath, byte[] bytes)
+        {
+            if (bytes == null || bytes.Length == 0)
+                return;
+
+            var cloudBlockBlob = Container.GetBlockBlobReference(blobPath);
+            var task = Task.Run(async () => await cloudBlockBlob.UploadFromByteArrayAsync(bytes, 0, bytes.Length));
+            task.Wait();
         }
 
         private void UploadFile(string blobPath, string filePath)
@@ -50,10 +70,20 @@ namespace Whip.AzureSync
 
         private static string GetBlobPath(Track track)
         {
-            var parentFolder = track.Disc.Album.Artist.Name.ToLowerInvariant();
-            var childFolder = track.Disc.Album.Title.ToLowerInvariant();
             var filename = Path.GetFileName(track.File.FullPath);
-            return $"{parentFolder}/{childFolder}/{filename}";
+            return $"{GetBlobFolder(track.Disc.Album)}/{filename}";
+        }
+
+        private static string GetImageBlobPath(Album album)
+        {
+            return $"{GetBlobFolder(album)}/artwork.jpg";
+        }
+
+        private static string GetBlobFolder(Album album)
+        {
+            var parentFolder = album.Artist.Name.ToLowerInvariant();
+            var childFolder = album.Title.ToLowerInvariant();
+            return $"{parentFolder}/{childFolder}";
         }
 
         private CloudBlobContainer Container

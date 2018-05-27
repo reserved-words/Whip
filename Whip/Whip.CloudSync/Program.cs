@@ -2,6 +2,7 @@
 using Whip.AzureSync;
 using Whip.Services;
 using Whip.Services.Singletons;
+using Whip.TagLibSharp;
 using Whip.XmlDataAccess;
 
 namespace Whip.CloudSync
@@ -23,8 +24,9 @@ namespace Whip.CloudSync
                 var trackRepository = new TrackRepository(settings, xmlFileService, trackXmlParser);
                 var cloudService = new AzureService(settings);
                 var syncData = new SyncData(settings);
+                var taggingService = new TagLibService();
                 
-                var service = new Service(trackRepository, cloudService, logger, settings, syncData);
+                var service = new Service(trackRepository, cloudService, logger, settings, syncData, taggingService);
 
                 service.Run();
             }

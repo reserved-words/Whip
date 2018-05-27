@@ -15,25 +15,27 @@ namespace Whip.CloudSync
         private readonly ITrackRepository _repository;
         private readonly ICloudService _cloudService;
         private readonly ILibrarySettings _settings;
+        private readonly ITaggingService _taggingService;
         private readonly SyncData _syncData;
 
         private int _consecutiveFailures;
 
         public Service(ITrackRepository repository, ICloudService cloudService, IErrorLoggingService logger, ILibrarySettings settings,
-            SyncData syncData)
+            SyncData syncData, ITaggingService taggingService)
         {
             _cloudService = cloudService;
             _logger = logger;
             _repository = repository;
             _settings = settings;
             _syncData = syncData;
+            _taggingService = taggingService;
         }
 
         public void Run()
         {
             var timeLastUpdated = _syncData.GetTimeLastSynced();
-            _syncData.SetTimeLastSynced(DateTime.Now);
-
+            var newSyncTime = DateTime.Now;
+            
             var tracksToUpload = GetTracksToUpload(timeLastUpdated);
 
             _cloudService.UploadFile(Path.Combine(_settings.DataDirectory, "library.xml"));
@@ -51,6 +53,20 @@ namespace Whip.CloudSync
                     return;
                 }
             }
+
+            var albumsSynced = tracksToUpload.Select(t => t.Disc).Select(d => d.Album).Distinct();
+            foreach (var album in albumsSynced)
+            {
+                UploadArtwork(album);
+
+                if (_consecutiveFailures > MaxConsecutiveErrorsAllowed)
+                {
+                    LogTooManyFailures();
+                    return;
+                }
+            }
+
+            _syncData.SetTimeLastSynced(newSyncTime);
         }
 
         private List<Track> GetTracksToUpload(DateTime timeLastUpdated)
@@ -64,7 +80,22 @@ namespace Whip.CloudSync
                 .Where(t => t.File.DateModified >= timeLastUpdated)
                 .ToList();
         }
-        
+
+        private void UploadArtwork(Album album)
+        {
+            try
+            {
+                album.Artwork = _taggingService.GetArtworkBytes(album.Discs.First().Tracks.First().File.FullPath);
+                _cloudService.UploadArtwork(album);
+                _consecutiveFailures = 0;
+            }
+            catch (Exception ex)
+            {
+                LogError(ex, album);
+                _consecutiveFailures++;
+            }
+        }
+
         private void UploadTrack(Track track)
         {
             try
@@ -86,8 +117,17 @@ namespace Whip.CloudSync
 
         private void LogError(Exception ex, Track track)
         {
+            ex.Data.Add("Message", "Failed to upload track");
             ex.Data.Add("Title", track.Title);
             ex.Data.Add("Artist", track.Artist.Name);
+            _logger.Log(ex);
+        }
+
+        private void LogError(Exception ex, Album album)
+        {
+            ex.Data.Add("Message", "Failed to upload artwork");
+            ex.Data.Add("Title", album.Title);
+            ex.Data.Add("Artist", album.Artist.Name);
             _logger.Log(ex);
         }
     }

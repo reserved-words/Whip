@@ -75,6 +75,10 @@
       <Project>{6f9aac6c-7761-423b-a4fb-9c69e81e58f1}</Project>
       <Name>Whip.Services</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Whip.TagLibSharp\Whip.TagLibSharp.csproj">
+      <Project>{cfbc7910-b952-4227-9294-810f4d6c17cb}</Project>
+      <Name>Whip.TagLibSharp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Whip.XmlDataAccess\Whip.XmlDataAccess.csproj">
       <Project>{fd47ad0a-3499-440a-85b3-786b86e69e3d}</Project>
       <Name>Whip.XmlDataAccess</Name>
