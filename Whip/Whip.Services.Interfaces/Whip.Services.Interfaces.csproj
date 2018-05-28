@@ -73,6 +73,7 @@
     <Compile Include="DataAccess\IRssFeedsRepository.cs" />
     <Compile Include="Scrobbling\IPlayProgressTracker.cs" />
     <Compile Include="Scrobbling\IScrobbleCacher.cs" />
+    <Compile Include="TrackSearch\ITrackCriteriaService.cs" />
     <Compile Include="TrackSearch\ITrackSearchService.cs" />
     <Compile Include="Scrobbling\IScrobbler.cs" />
     <Compile Include="Scrobbling\ITrackLoveService.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Singletons\IWebServicesStatus.cs" />
     <Compile Include="Utilities\IXmlFileService.cs" />
     <Compile Include="Utilities\IPlayHistoryService.cs" />
+    <Compile Include="Utilities\IXmlProvider.cs" />
     <Compile Include="Web\ILyricsService.cs" />
     <Compile Include="Web\ISyndicationFeedService.cs" />
     <Compile Include="Web\ITwitterService.cs" />

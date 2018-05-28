@@ -21,6 +21,7 @@ using Whip.XmlDataAccess;
 using Whip.ViewModels;
 using Whip.TweetInvi;
 using Whip.LyricApi;
+using Whip.XmlDataAccess.Interfaces;
 
 namespace Whip.Ioc
 {
@@ -81,10 +82,22 @@ namespace Whip.Ioc
 
         private static IKernel RegisterRepositories(this IKernel kernel)
         {
-            kernel.Bind(x => x.FromAssemblyContaining<TrackRepository>()
-                .SelectAllClasses()
-                .InNamespaceOf<TrackRepository>()
-                .BindDefaultInterface());
+            kernel.Register<ITrackXmlParser, TrackXmlParser>();
+
+            kernel.Bind<IPlaylistRepository>()
+                .To<PlaylistRepository>()
+                .InTransientScope()
+                .WithConstructorArgument(typeof(IXmlProvider), ctx => ctx.Kernel.Get<PlaylistXmlProvider>());
+
+            kernel.Bind<ITrackRepository>()
+                .To<TrackRepository>()
+                .InTransientScope()
+                .WithConstructorArgument(typeof(IXmlProvider), ctx => ctx.Kernel.Get<TrackXmlProvider>());
+
+            kernel.Bind<IRssFeedsRepository>()
+                .To<RssFeedsRepository>()
+                .InTransientScope()
+                .WithConstructorArgument(typeof(IXmlProvider), ctx => ctx.Kernel.Get<RssFeedsXmlProvider>());
 
             return kernel;
         }

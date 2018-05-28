@@ -16,9 +16,9 @@ namespace Whip.AzureSync
 
         private readonly IAzureStorageConfig _config;
 
-        public AzureService(IAzureStorageConfig config)
+        public AzureService()
         {
-            _config = config;
+            _config = new AzureConfig();
         }
 
         public void UploadFile(string path)

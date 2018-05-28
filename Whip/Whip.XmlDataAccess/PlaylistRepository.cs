@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Whip.Common;
@@ -14,55 +13,49 @@ namespace Whip.XmlDataAccess
 {
     public class PlaylistRepository : IPlaylistRepository
     {
-        private const string Filename = "playlists.xml";
         private const char ValueSeparator = '|';
 
-        private readonly ITrackSearchService _trackSearchService;
-        private readonly IUserSettings _userSettings;
+        private readonly ITrackCriteriaService _trackCriteriaService;
+        private readonly IXmlProvider _xmlProvider;
 
-        public PlaylistRepository(IUserSettings userSettings, ITrackSearchService trackSearchService)
+        public PlaylistRepository(ITrackCriteriaService trackCriteriaService, IXmlProvider xmlProvider)
         {
-            _trackSearchService = trackSearchService;
-            _userSettings = userSettings;
+            _trackCriteriaService = trackCriteriaService;
+            _xmlProvider = xmlProvider;
         }
-
-        private string XmlFilePath => Path.Combine(_userSettings.DataDirectory, Filename);
 
         public AllPlaylists GetPlaylists()
         {
             var criteriaPlaylists = new List<CriteriaPlaylist>();
             var orderedPlaylists = new List<OrderedPlaylist>();
             var quickPlaylists = new List<QuickPlaylist>();
-            
-            if (System.IO.File.Exists(XmlFilePath))
+
+            var xml = _xmlProvider.Get();
+
+            if (xml?.Root?.Element(PlaylistsOrdered) != null)
             {
-                var xml = XDocument.Load(XmlFilePath);
-
-                if (xml.Root.Element(PlaylistsOrdered) != null)
+                foreach (var playlistXml in xml.Root.Element(PlaylistsOrdered).Elements(PropertyNames.Playlist))
                 {
-                    foreach (var playlistXml in xml.Root.Element(PlaylistsOrdered).Elements(PropertyNames.Playlist))
-                    {
-                        orderedPlaylists.Add(CreateOrderedPlaylist(playlistXml));
-                    } 
-                }
-
-                if (xml.Root.Element(PlaylistsCriteria) != null)
-                {
-                    foreach (var playlistXml in xml.Root.Element(PlaylistsCriteria).Elements(PropertyNames.Playlist))
-                    {
-                        criteriaPlaylists.Add(CreateCriteriaPlaylist(playlistXml));
-                    } 
-                }
-
-                if (xml.Root.Element(PlaylistsFavouriteQuick) != null)
-                {
-                    foreach (var playlistXml in xml.Root.Element(PlaylistsFavouriteQuick).Elements(PropertyNames.Playlist))
-                    {
-                        quickPlaylists.Add(CreateQuickPlaylist(playlistXml));
-                    } 
+                    orderedPlaylists.Add(CreateOrderedPlaylist(playlistXml));
                 }
             }
-            
+
+            if (xml?.Root?.Element(PlaylistsCriteria) != null)
+            {
+                foreach (var playlistXml in xml.Root.Element(PlaylistsCriteria).Elements(PropertyNames.Playlist))
+                {
+                    criteriaPlaylists.Add(CreateCriteriaPlaylist(playlistXml));
+                }
+            }
+
+            if (xml?.Root?.Element(PlaylistsFavouriteQuick) != null)
+            {
+                foreach (var playlistXml in xml.Root.Element(PlaylistsFavouriteQuick).Elements(PropertyNames.Playlist))
+                {
+                    quickPlaylists.Add(CreateQuickPlaylist(playlistXml));
+                }
+            }
+
             return new AllPlaylists
             {
                 CriteriaPlaylists = criteriaPlaylists,
@@ -75,34 +68,34 @@ namespace Whip.XmlDataAccess
         {
             var playlists = new List<Playlist>();
 
-            if (System.IO.File.Exists(XmlFilePath))
+            var xml = _xmlProvider.Get();
+
+            if (xml == null)
+                return playlists;
+
+            if (xml.Root?.Element(PlaylistsOrdered) != null)
             {
-                var xml = XDocument.Load(XmlFilePath);
-
-                if (xml.Root.Element(PlaylistsOrdered) != null)
+                foreach (var playlistXml in xml.Root.Element(PlaylistsOrdered).Elements(PropertyNames.Playlist)
+                    .Where(pl => pl.Attribute(PlaylistIsFavourite)?.Value == TrueValue))
                 {
-                    foreach (var playlistXml in xml.Root.Element(PlaylistsOrdered).Elements(PropertyNames.Playlist)
-                        .Where(pl => pl.Attribute(PlaylistIsFavourite)?.Value == TrueValue))
-                    {
-                        playlists.Add(CreatePlaylist(playlistXml, PlaylistType.Ordered));
-                    }
+                    playlists.Add(CreatePlaylist(playlistXml, PlaylistType.Ordered));
                 }
+            }
 
-                if (xml.Root.Element(PlaylistsCriteria) != null)
+            if (xml.Root?.Element(PlaylistsCriteria) != null)
+            {
+                foreach (var playlistXml in xml.Root.Element(PlaylistsCriteria).Elements(PropertyNames.Playlist)
+                    .Where(pl => pl.Attribute(PlaylistIsFavourite)?.Value == TrueValue))
                 {
-                    foreach (var playlistXml in xml.Root.Element(PlaylistsCriteria).Elements(PropertyNames.Playlist)
-                        .Where(pl => pl.Attribute(PlaylistIsFavourite)?.Value == TrueValue))
-                    {
-                        playlists.Add(CreatePlaylist(playlistXml, PlaylistType.Criteria));
-                    }
+                    playlists.Add(CreatePlaylist(playlistXml, PlaylistType.Criteria));
                 }
+            }
 
-                if (xml.Root.Element(PlaylistsFavouriteQuick) != null)
+            if (xml.Root?.Element(PlaylistsFavouriteQuick) != null)
+            {
+                foreach (var playlistXml in xml.Root.Element(PlaylistsFavouriteQuick).Elements(PropertyNames.Playlist))
                 {
-                    foreach (var playlistXml in xml.Root.Element(PlaylistsFavouriteQuick).Elements(PropertyNames.Playlist))
-                    {
-                        playlists.Add(CreatePlaylist(playlistXml, PlaylistType.Quick));
-                    }
+                    playlists.Add(CreatePlaylist(playlistXml, PlaylistType.Quick));
                 }
             }
 
@@ -207,9 +200,7 @@ namespace Whip.XmlDataAccess
 
         public void Save(CriteriaPlaylist playlist)
         {
-            var xml = System.IO.File.Exists(XmlFilePath)
-                ? XDocument.Load(XmlFilePath)
-                : CreateXmlDocument();
+            var xml = _xmlProvider.Get() ?? CreateXmlDocument();
 
             var criteriaPlaylistsXml = xml.Root.Element(PlaylistsCriteria);
             
@@ -259,16 +250,12 @@ namespace Whip.XmlDataAccess
                 criteriaGroupsXml.Add(criteriaGroupXml);
             }
 
-            Directory.CreateDirectory(_userSettings.DataDirectory);
-
-            xml.Save(XmlFilePath);
+            _xmlProvider.Save(xml);
         }
 
         public void Save(QuickPlaylist playlist)
         {
-            var xml = System.IO.File.Exists(XmlFilePath)
-                ? XDocument.Load(XmlFilePath)
-                : CreateXmlDocument();
+            var xml = _xmlProvider.Get() ?? CreateXmlDocument();
 
             var favouriteQuickPlaylistsXml = xml.Root.Element(PlaylistsFavouriteQuick);
 
@@ -307,17 +294,13 @@ namespace Whip.XmlDataAccess
 
                 favouriteQuickPlaylistsXml.Add(playlistXml);
             }
-            
-            Directory.CreateDirectory(_userSettings.DataDirectory);
 
-            xml.Save(XmlFilePath);
+            _xmlProvider.Save(xml);
         }
 
         public void Save(OrderedPlaylist playlist)
         {
-            var xml = System.IO.File.Exists(XmlFilePath)
-                ? XDocument.Load(XmlFilePath)
-                : CreateXmlDocument();
+            var xml = _xmlProvider.Get() ?? CreateXmlDocument();
 
             var orderedPlaylistsXml = xml.Root.Element(PlaylistsOrdered);
             
@@ -359,10 +342,8 @@ namespace Whip.XmlDataAccess
                 trackXml.Add(new XAttribute(PlaylistTrackFilepath, track));
                 tracksXml.Add(trackXml);
             }
-            
-            Directory.CreateDirectory(_userSettings.DataDirectory);
 
-            xml.Save(XmlFilePath);
+            _xmlProvider.Save(xml);
         }
 
         private XDocument CreateXmlDocument()
@@ -405,7 +386,7 @@ namespace Whip.XmlDataAccess
             var criteriaType = (CriteriaType)Enum.Parse(typeof(CriteriaType), xml.Attribute(PlaylistCriteriaType).Value);
             var valueString = xml.Attribute(PlaylistCriteriaValue).Value;
 
-            return _trackSearchService.GetArtistCriteria(propertyName, criteriaType, valueString);
+            return _trackCriteriaService.GetArtistCriteria(propertyName, criteriaType, valueString);
         }
 
         private Criteria<Track> GetTrackCriteria(XElement xml)
@@ -414,7 +395,7 @@ namespace Whip.XmlDataAccess
             var criteriaType = (CriteriaType)Enum.Parse(typeof(CriteriaType), xml.Attribute(PlaylistCriteriaType).Value);
             var valueString = xml.Attribute(PlaylistCriteriaValue).Value;
 
-            return _trackSearchService.GetTrackCriteria(propertyName, criteriaType, valueString);
+            return _trackCriteriaService.GetTrackCriteria(propertyName, criteriaType, valueString);
         }
 
         private Criteria<Disc> GetDiscCriteria(XElement xml)
@@ -423,7 +404,7 @@ namespace Whip.XmlDataAccess
             var criteriaType = (CriteriaType)Enum.Parse(typeof(CriteriaType), xml.Attribute(PlaylistCriteriaType).Value);
             var valueString = xml.Attribute(PlaylistCriteriaValue).Value;
 
-            return _trackSearchService.GetDiscCriteria(propertyName, criteriaType, valueString);
+            return _trackCriteriaService.GetDiscCriteria(propertyName, criteriaType, valueString);
         }
 
         private Criteria<Album> GetAlbumCriteria(XElement xml)
@@ -432,12 +413,12 @@ namespace Whip.XmlDataAccess
             var criteriaType = (CriteriaType)Enum.Parse(typeof(CriteriaType), xml.Attribute(PlaylistCriteriaType).Value);
             var valueString = xml.Attribute(PlaylistCriteriaValue).Value;
 
-            return _trackSearchService.GetAlbumCriteria(propertyName, criteriaType, valueString);
+            return _trackCriteriaService.GetAlbumCriteria(propertyName, criteriaType, valueString);
         }
 
         public void Delete(CriteriaPlaylist playlist)
         {
-            var xml = XDocument.Load(XmlFilePath);
+            var xml = _xmlProvider.Get();
 
             var criteriaPlaylistsXml = xml.Root.Element(PlaylistsCriteria);
 
@@ -447,12 +428,12 @@ namespace Whip.XmlDataAccess
 
             playlistXml.Remove();
 
-            xml.Save(XmlFilePath);
+            _xmlProvider.Save(xml);
         }
 
         public void Delete(OrderedPlaylist playlist)
         {
-            var xml = XDocument.Load(XmlFilePath);
+            var xml = _xmlProvider.Get();
 
             var orderedPlaylistsXml = xml.Root.Element(PlaylistsOrdered);
 
@@ -462,15 +443,15 @@ namespace Whip.XmlDataAccess
 
             playlistXml.Remove();
 
-            xml.Save(XmlFilePath);
+            _xmlProvider.Save(xml);
         }
 
         public CriteriaPlaylist GetCriteriaPlaylist(int id)
         {
-            if (!System.IO.File.Exists(XmlFilePath))
-                throw new ApplicationException("No playlists created");
+            var xml = _xmlProvider.Get();
 
-            var xml = XDocument.Load(XmlFilePath);
+            if (xml == null)
+                throw new ApplicationException("No playlists created");
 
             var criteriaPlaylists = xml.Root.Element(PlaylistsCriteria).Elements(PropertyNames.Playlist);
 
@@ -484,10 +465,10 @@ namespace Whip.XmlDataAccess
 
         public OrderedPlaylist GetOrderedPlaylist(int id)
         {
-            if (!System.IO.File.Exists(XmlFilePath))
-                throw new ApplicationException("No playlists created");
+            var xml = _xmlProvider.Get();
 
-            var xml = XDocument.Load(XmlFilePath);
+            if (xml == null)
+                throw new ApplicationException("No playlists created");
 
             var orderedPlaylists = xml.Root.Element(PlaylistsOrdered).Elements(PropertyNames.Playlist);
 
@@ -501,10 +482,10 @@ namespace Whip.XmlDataAccess
 
         public QuickPlaylist GetQuickPlaylist(int id)
         {
-            if (!System.IO.File.Exists(XmlFilePath))
-                throw new ApplicationException("No playlists created");
+            var xml = _xmlProvider.Get();
 
-            var xml = XDocument.Load(XmlFilePath);
+            if (xml == null)
+                throw new ApplicationException("No playlists created");
 
             var quickPlaylists = xml.Root.Element(PlaylistsFavouriteQuick).Elements(PropertyNames.Playlist);
 
@@ -519,17 +500,14 @@ namespace Whip.XmlDataAccess
         public List<OrderedPlaylist> GetOrderedPlaylists()
         {
             var orderedPlaylists = new List<OrderedPlaylist>();
-            
-            if (System.IO.File.Exists(XmlFilePath))
-            {
-                var xml = XDocument.Load(XmlFilePath);
 
-                if (xml.Root.Element(PlaylistsOrdered) != null)
+            var xml = _xmlProvider.Get();
+
+            if (xml?.Root?.Element(PlaylistsOrdered) != null)
+            {
+                foreach (var playlistXml in xml.Root.Element(PlaylistsOrdered).Elements(PropertyNames.Playlist))
                 {
-                    foreach (var playlistXml in xml.Root.Element(PlaylistsOrdered).Elements(PropertyNames.Playlist))
-                    {
-                        orderedPlaylists.Add(CreateOrderedPlaylist(playlistXml));
-                    }
+                    orderedPlaylists.Add(CreateOrderedPlaylist(playlistXml));
                 }
             }
 

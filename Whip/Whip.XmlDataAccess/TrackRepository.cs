@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Whip.Common.ExtensionMethods;
@@ -12,22 +11,18 @@ namespace Whip.XmlDataAccess
 {
     public class TrackRepository : ITrackRepository
     {
-        private readonly IXmlFileService _xmlFileService;
-        private readonly ILibrarySettings _settings;
         private readonly ITrackXmlParser _trackXmlParser;
+        private readonly IXmlProvider _xmlProvider;
 
-        public TrackRepository(ILibrarySettings settings, IXmlFileService xmlFileService, ITrackXmlParser trackXmlParser)
+        public TrackRepository(ITrackXmlParser trackXmlParser, IXmlProvider xmlProvider)
         {
-            _settings = settings;
-            _xmlFileService = xmlFileService;
             _trackXmlParser = trackXmlParser;
+            _xmlProvider = xmlProvider;
         }
-
-        private string XmlFilePath => Path.Combine(_settings.DataDirectory, "library.xml");
 
         public Library GetLibrary()
         {
-            var xml = _xmlFileService.Get(XmlFilePath);
+            var xml = _xmlProvider.Get();
 
             if (xml == null)
             {
@@ -146,7 +141,7 @@ namespace Whip.XmlDataAccess
                 artistsXml.Add(artistXml);
             }
             
-            _xmlFileService.Save(xml, XmlFilePath);
+            _xmlProvider.Save(xml);
         }
     }
 }

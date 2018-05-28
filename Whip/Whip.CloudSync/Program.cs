@@ -17,12 +17,12 @@ namespace Whip.CloudSync
 
             try
             {
-                var xmlFileService = new XmlFileService();
                 var trackXmlParser = new TrackXmlParser();
                 var syncData = new SyncData();
+                var trackXmlProvider = new TrackXmlProvider(syncData);
 
-                var trackRepository = new TrackRepository(syncData, xmlFileService, trackXmlParser);
-                var cloudService = new AzureService(syncData);
+                var trackRepository = new TrackRepository(trackXmlParser, trackXmlProvider);
+                var cloudService = new AzureService();
                 var taggingService = new TagLibService();
                 
                 var service = new Service(trackRepository, cloudService, logger, syncData, taggingService);
