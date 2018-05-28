@@ -4,25 +4,34 @@
 
 @if (Model.Tracks.Any())
 {
-    <div class="row">
-        <div class="col-sm-12">
+    <div id="player">
+        <div id="artwork" class="col-sm-12">
             <img src="@Model.Tracks[0].ArtworkUrl" width="200" height="200"/>
         </div>
-    </div>
 
-    <div class="row">
         <div class="col-sm-12">
-            <audio controls>
-                <source src="@Model.Tracks[0].Url" type="audio/mpeg">
+            <audio id="controls" controls>
+                <source id="mpeg_src" src="@Model.Tracks[0].Url" type="audio/mpeg">
                 Your browser does not support the audio element.
             </audio>
         </div>
+
+        <div id="description" class="col-sm-12">
+            @Html.DisplayFor(m => m.Tracks[0].Track.Title) by @Html.DisplayFor(m => m.Tracks[0].Track.Artist.Name)
+        </div>
+        
+        <button id="previous" type="button">Previous</button>
+        <button id="play" type="button">Play</button>
+        <button id="pause" type="button" class="hidden">Pause</button>
+        <button id="next" type="button">Next</button>
     </div>
 
     <ul>
         @foreach (var track in Model.Tracks)
         {
-            <li>@Html.DisplayFor(m => track.Track.Title) by @Html.DisplayFor(m => track.Track.Artist.Name)</li>
+            <li>
+                @Html.DisplayFor(m => track.Track.Title) by @Html.DisplayFor(m => track.Track.Artist.Name)
+            </li>
         }
     </ul>
 }
