@@ -73,6 +73,7 @@
     <Compile Include="HyperlinkMatchers\HtmlAnchorHyperlinkPatternGroup.cs" />
     <Compile Include="HyperlinkMatchers\IHyperlinkPatternGroup.cs" />
     <Compile Include="HyperlinkMatchers\TweetHyperlinkPatternGroup.cs" />
+    <Compile Include="Interfaces\IPlayerVolume.cs" />
     <Compile Include="Interfaces\ITrackCriteria.cs" />
     <Compile Include="Interfaces\ShowTabRequestHandler.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />

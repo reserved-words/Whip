@@ -164,6 +164,9 @@ namespace Whip.Ioc
 
         private static IKernel RegisterPlayer(this IKernel kernel)
         {
+            kernel.Bind<Player>().ToSelf()
+                .InSingletonScope();
+
             kernel.Bind<NewFilePlayer>().ToSelf()
                 .InSingletonScope()
                 .WithConstructorArgument(typeof(IPlayer), ctx => ctx.Kernel.Get<Player>());
@@ -171,6 +174,8 @@ namespace Whip.Ioc
             kernel.Bind<IPlayer>().To<ScrobblingPlayer>()
                 .InSingletonScope()
                 .WithConstructorArgument(typeof(IPlayer), ctx => ctx.Kernel.Get<NewFilePlayer>());
+
+            kernel.Bind<IPlayerVolume>().ToMethod(ctx => ctx.Kernel.Get<Player>());
 
             return kernel;
         }

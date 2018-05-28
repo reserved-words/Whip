@@ -17,10 +17,10 @@ namespace Whip.ViewModels
         public event Action OpenMiniPlayer; 
 
         private readonly IMessenger _messenger;
-        private readonly IPlayer _player;
+        private readonly IPlayerVolume _player;
         private readonly IUserSettings _userSettings;
 
-        public SettingsIconsViewModel(IMessenger messenger, IPlayer player, IUserSettings userSettings)
+        public SettingsIconsViewModel(IMessenger messenger, IPlayerVolume player, IUserSettings userSettings)
         {
             _messenger = messenger;
             _player = player;

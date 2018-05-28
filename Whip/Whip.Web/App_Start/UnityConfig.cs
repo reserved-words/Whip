@@ -1,9 +1,12 @@
+using LastFmApi;
+using LastFmApi.Interfaces;
 using System;
 using Unity;
 using Unity.Injection;
 using Whip.Azure;
 using Whip.Common.Interfaces;
 using Whip.Common.TrackSorters;
+using Whip.LastFm;
 using Whip.Services;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
@@ -54,6 +57,25 @@ namespace Whip.Web
             container.RegisterType<ICloudService, AzureService>();
             container.RegisterType<ITrackXmlParser, TrackXmlParser>();
             container.RegisterType<IPlaylistService, PlaylistService>();
+            container.RegisterType<IScrobblingRules, ScrobblingRules>();
+            container.RegisterType<ISessionService, SessionService>();
+
+            // container.RegisterType<IConfigSettings, ConfigSettings>(); - will need a new implementations
+
+            container.RegisterType<IScrobblingService, ScrobblingService>();
+            container.RegisterType<ILastFmApiClientService, LastFmApiClientService>();
+            container.RegisterType<IScrobbler, Scrobbler>();
+            container.RegisterType<ICurrentDateTime, CurrentDateTime>();
+            container.RegisterType<IPlayProgressTracker, PlayProgressTracker>();
+
+            container.RegisterType<IPlayer, ScrobblingPlayer>(
+                new InjectionConstructor(
+                    new Player(),
+                    container.Resolve<IScrobblingRules>(),
+                    container.Resolve<IScrobbler>(),
+                    container.Resolve<ICurrentDateTime>(),
+                    container.Resolve<IPlayProgressTracker>()
+                ));
 
             var cloudService = container.Resolve<ICloudService>();
             var playlistXmlProvider = new Services.PlaylistXmlProvider(cloudService);

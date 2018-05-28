@@ -20,13 +20,13 @@ namespace Whip.ViewModels.Sidebar.Tests
         private const int VolumeDownIcon = 3;
         private const int VolumeUpIcon = 4;
 
-        private Mock<IPlayer> _mockPlayer;
+        private Mock<IPlayerVolume> _mockPlayer;
         private Mock<IMessenger> _mockMessenger;
         private Mock<IUserSettings> _mockUserSettings;
 
         private SettingsIconsViewModel GetSubjectUnderTest()
         {
-            _mockPlayer = new Mock<IPlayer>();
+            _mockPlayer = new Mock<IPlayerVolume>();
             _mockMessenger = new Mock<IMessenger>();
             _mockUserSettings = new Mock<IUserSettings>();
 

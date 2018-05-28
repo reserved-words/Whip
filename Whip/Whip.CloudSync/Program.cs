@@ -1,5 +1,5 @@
 ﻿using System;
-using Whip.AzureSync;
+using Whip.Azure;
 using Whip.Services;
 using Whip.Services.Singletons;
 using Whip.TagLibSharp;

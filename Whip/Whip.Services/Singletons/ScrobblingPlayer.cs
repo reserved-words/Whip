@@ -83,26 +83,6 @@ namespace Whip.Services
             }
         }
 
-        public int GetVolumePercentage()
-        {
-            return _player.GetVolumePercentage();
-        }
-
-        public void Mute()
-        {
-            _player.Mute();
-        }
-
-        public void SetVolumePercentage(int volume)
-        {
-            _player.SetVolumePercentage(volume);
-        }
-
-        public void Unmute()
-        {
-            _player.Unmute();
-        }
-
         public void Stop()
         {
             _player.Stop();
