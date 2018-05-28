@@ -2,11 +2,10 @@
 using Microsoft.WindowsAzure.Storage.Blob;
 using System.IO;
 using System.Threading.Tasks;
-using Whip.Azure;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
 
-namespace Whip.AzureSync
+namespace Whip.Azure
 {
     public class AzureService : ICloudService
     {
