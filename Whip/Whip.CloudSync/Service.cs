@@ -35,9 +35,9 @@ namespace Whip.CloudSync
             
             var tracksToUpload = GetTracksToUpload(timeLastUpdated);
 
-            _cloudService.UploadFile(Path.Combine(_syncData.DataDirectory, "library.xml"));
-            _cloudService.UploadFile(Path.Combine(_syncData.DataDirectory, "playlists.xml"));
-
+            _cloudService.UploadFile(_syncData.GetPath("library.xml"));
+            _cloudService.UploadFile(_syncData.GetPath("playlists.xml"));
+            
             _consecutiveFailures = 0;
 
             foreach (var track in tracksToUpload)

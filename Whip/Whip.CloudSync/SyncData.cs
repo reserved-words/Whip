@@ -6,7 +6,7 @@ using Whip.Services.Interfaces;
 
 namespace Whip.CloudSync
 {
-    public class SyncData : ILibrarySettings
+    public class SyncData : IDataLocations
     {
         private const string DateTimeFormat = "yyyy-MM-dd HH:mm:ss";
 
@@ -26,7 +26,8 @@ namespace Whip.CloudSync
             lastSynced.SetValue(time.ToString(DateTimeFormat));
             doc.Save(GetSyncDataPath());
         }
-        public string DataDirectory => ConfigurationManager.AppSettings["DataDirectory"];
+
+        private string DataDirectory => ConfigurationManager.AppSettings["DataDirectory"];
 
         private XDocument GetSyncData()
         {
@@ -39,9 +40,9 @@ namespace Whip.CloudSync
             return Path.Combine(DataDirectory, "syncdata.xml");
         }
 
-        #region Not Implemented
-        public string MusicDirectory { get; set; }
-        public string ArchiveDirectory { get; set; }
-        #endregion
+        public string GetPath(string filename)
+        {
+            return Path.Combine(DataDirectory, filename);
+        }
     }
 }

@@ -85,6 +85,7 @@
     <Compile Include="Utilities\ICurrentDateTime.cs" />
     <Compile Include="Utilities\IErrorLoggingService.cs" />
     <Compile Include="Utilities\IExceptionHandlingService.cs" />
+    <Compile Include="Utilities\IDataLocations.cs" />
     <Compile Include="Utilities\IFolderDialogService.cs" />
     <Compile Include="Utilities\IFileDialogService.cs" />
     <Compile Include="Utilities\IFileService.cs" />
@@ -98,7 +99,6 @@
     <Compile Include="Utilities\IScrobblingRules.cs" />
     <Compile Include="Utilities\ITimeToString.cs" />
     <Compile Include="Utilities\ITrackQueue.cs" />
-    <Compile Include="Utilities\ILibrarySettings.cs" />
     <Compile Include="Utilities\IUserSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\IWebBrowserService.cs" />

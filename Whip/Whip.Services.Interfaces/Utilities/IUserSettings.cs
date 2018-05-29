@@ -3,12 +3,14 @@ using System.Threading.Tasks;
 
 namespace Whip.Services.Interfaces
 {
-    public interface IUserSettings : ILibrarySettings
+    public interface IUserSettings
     {
         event Action ScrobblingStatusChanged;
         event Action ShufflingStatusChanged;
 
         bool EssentialSettingsSet { get; }
+        string MusicDirectory { get; set; }
+        string ArchiveDirectory { get; set; }
         string LastFmApiSessionKey { get; set; }
         string LastFmUsername { get; set; }
         string MainColourRgb { get; set; }

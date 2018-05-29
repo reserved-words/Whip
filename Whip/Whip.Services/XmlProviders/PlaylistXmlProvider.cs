@@ -6,16 +6,14 @@ namespace Whip.Services
 {
     public class PlaylistXmlProvider : IXmlProvider
     {
-        private const string Filename = "playlists.xml";
+        private readonly IDataLocations _settings;
 
-        private readonly IUserSettings _userSettings;
-
-        public PlaylistXmlProvider(IUserSettings userSettings)
+        public PlaylistXmlProvider(IDataLocations settings)
         {
-            _userSettings = userSettings;
+            _settings = settings;
         }
 
-        private string XmlFilePath => Path.Combine(_userSettings.DataDirectory, Filename);
+        private string XmlFilePath => _settings.GetPath("playlists.xml");
 
         public XDocument Get()
         {

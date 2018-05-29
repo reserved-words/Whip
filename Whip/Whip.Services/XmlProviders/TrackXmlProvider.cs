@@ -6,16 +6,14 @@ namespace Whip.Services
 {
     public class TrackXmlProvider : IXmlProvider
     {
-        private const string Filename = "library.xml";
+        private readonly IDataLocations _settings;
 
-        private readonly ILibrarySettings _settings;
-
-        public TrackXmlProvider(ILibrarySettings settings)
+        public TrackXmlProvider(IDataLocations settings)
         {
             _settings = settings;
         }
 
-        private string XmlFilePath => Path.Combine(_settings.DataDirectory, Filename);
+        private string XmlFilePath => _settings.GetPath("library.xml");
 
         public XDocument Get()
         {

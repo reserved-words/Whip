@@ -11,14 +11,15 @@ namespace Whip.CloudSync
     {
         static void Main(string[] args)
         {
+            var syncData = new SyncData();
+            var configXmlProvider = new ConfigXmlProvider(syncData);
             var webHelper = new WebHelperService();
-            var configSettings = new ConfigSettings();
+            var configSettings = new ConfigSettings(configXmlProvider);
             var logger = new ErrorLoggingService(webHelper, configSettings);
 
             try
             {
                 var trackXmlParser = new TrackXmlParser();
-                var syncData = new SyncData();
                 var trackXmlProvider = new TrackXmlProvider(syncData);
 
                 var trackRepository = new TrackRepository(trackXmlParser, trackXmlProvider);

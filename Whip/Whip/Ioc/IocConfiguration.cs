@@ -45,11 +45,8 @@ namespace Whip.Ioc
                 .RegisterSingleton<IMessenger, Messenger>()
                 .RegisterSingleton<IUserSettings, UserSettings>()
                 .RegisterSingleton<IWebServicesStatus, WebServicesStatus>()
-                .RegisterSingleton<IConfigSettings, ConfigSettings>()
                 .RegisterSingleton<ILastFmApiClientService, LastFmApiClientService>()
                 .RegisterSingleton<TrackContextMenuViewModel, TrackContextMenuViewModel>();
-
-            kernel.Bind<ILibrarySettings>().ToMethod(ctx => ctx.Kernel.Get<IUserSettings>());
 
             return kernel;
         }
@@ -64,7 +61,7 @@ namespace Whip.Ioc
             kernel.Bind(x => x.FromAssemblyContaining<FileService>()
                 .SelectAllClasses()
                 .InNamespaceOf<FileService>()
-                .NotInNamespaceOf<ConfigSettings>()
+                .NotInNamespaceOf<Playlist>()
                 .BindDefaultInterface());
 
             kernel.Register<ILoggingService, LoggingService>()
@@ -98,6 +95,11 @@ namespace Whip.Ioc
                 .To<RssFeedsRepository>()
                 .InTransientScope()
                 .WithConstructorArgument(typeof(IXmlProvider), ctx => ctx.Kernel.Get<RssFeedsXmlProvider>());
+
+            kernel.Bind<IConfigSettings>()
+                .To<ConfigSettings>()
+                .InSingletonScope()
+                .WithConstructorArgument(typeof(IXmlProvider), ctx => ctx.Kernel.Get<ConfigXmlProvider>());
 
             return kernel;
         }

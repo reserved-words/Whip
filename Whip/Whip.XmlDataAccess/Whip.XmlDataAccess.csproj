@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigSettings.cs" />
     <Compile Include="Interfaces\ITrackXmlParser.cs" />
     <Compile Include="PlaylistRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

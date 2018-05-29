@@ -22,15 +22,15 @@ namespace Whip.Services.Utilities
         private const string DateFormat = "dd/MM/yyyy HH:mm:ss";
 
         private readonly IXmlFileService _xmlFileService;
-        private readonly IUserSettings _userSettings;
+        private readonly IDataLocations _userSettings;
 
-        public ScrobbleCacher(IUserSettings userSettings, IXmlFileService xmlFileService)
+        public ScrobbleCacher(IDataLocations userSettings, IXmlFileService xmlFileService)
         {
             _userSettings = userSettings;
             _xmlFileService = xmlFileService;
         }
 
-        private string XmlFilePath => Path.Combine(_userSettings.DataDirectory, "scrobble-cache.xml");
+        private string XmlFilePath => _userSettings.GetPath("scrobble-cache.xml");
 
         public void Cache(Track track, DateTime timePlayed)
         {

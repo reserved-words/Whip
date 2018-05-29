@@ -163,7 +163,5 @@ namespace Whip
 
             Properties.Settings.Default.Save();
         }
-
-        public string DataDirectory => Path.Combine(MusicDirectory, string.Format("_{0}", ApplicationTitle));
     }
 }

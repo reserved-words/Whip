@@ -4,16 +4,16 @@ using Whip.Services.Interfaces;
 
 namespace Whip.Services
 {
-    public class RssFeedsXmlProvider : IXmlProvider
+    public class ConfigXmlProvider : IXmlProvider
     {
         private readonly IDataLocations _settings;
 
-        public RssFeedsXmlProvider(IDataLocations settings)
+        public ConfigXmlProvider(IDataLocations settings)
         {
             _settings = settings;
         }
 
-        private string XmlFilePath => _settings.GetPath("rss.xml");
+        private string XmlFilePath => _settings.GetPath("config.xml");
 
         public XDocument Get()
         {

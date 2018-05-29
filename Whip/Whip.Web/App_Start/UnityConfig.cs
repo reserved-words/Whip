@@ -59,9 +59,7 @@ namespace Whip.Web
             container.RegisterType<IPlaylistService, PlaylistService>();
             container.RegisterType<IScrobblingRules, ScrobblingRules>();
             container.RegisterType<ISessionService, SessionService>();
-
-            // container.RegisterType<IConfigSettings, ConfigSettings>(); - will need a new implementations
-
+            container.RegisterType<IConfigSettings, Services.ConfigSettings>();
             container.RegisterType<IScrobblingService, ScrobblingService>();
             container.RegisterType<ILastFmApiClientService, LastFmApiClientService>();
             container.RegisterType<IScrobbler, Scrobbler>();
