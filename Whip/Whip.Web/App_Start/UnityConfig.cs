@@ -18,9 +18,6 @@ using Whip.XmlDataAccess.Interfaces;
 
 namespace Whip.Web
 {
-    /// <summary>
-    /// Specifies the Unity configuration for the main container.
-    /// </summary>
     public static class UnityConfig
     {
         #region Unity Container
@@ -29,25 +26,13 @@ namespace Whip.Web
           {
               var container = new UnityContainer();
               RegisterTypes(container);
+              RegisterSingletons(container);
               return container;
           });
 
-        /// <summary>
-        /// Configured Unity Container.
-        /// </summary>
         public static IUnityContainer Container => container.Value;
         #endregion
 
-        /// <summary>
-        /// Registers the type mappings with the Unity container.
-        /// </summary>
-        /// <param name="container">The unity container to configure.</param>
-        /// <remarks>
-        /// There is no need to register concrete types such as controllers or
-        /// API controllers (unless you want to change the defaults), as Unity
-        /// allows resolving a concrete type even if it was not previously
-        /// registered.
-        /// </remarks>
         public static void RegisterTypes(IUnityContainer container)
         {
             container.RegisterType<ITrackQueue, TrackQueue>();
@@ -61,19 +46,9 @@ namespace Whip.Web
             container.RegisterType<ISessionService, SessionService>();
             container.RegisterType<IConfigSettings, Services.ConfigSettings>();
             container.RegisterType<IScrobblingService, ScrobblingService>();
-            container.RegisterType<ILastFmApiClientService, LastFmApiClientService>();
             container.RegisterType<IScrobbler, Scrobbler>();
             container.RegisterType<ICurrentDateTime, CurrentDateTime>();
             container.RegisterType<IPlayProgressTracker, PlayProgressTracker>();
-
-            container.RegisterType<IPlayer, ScrobblingPlayer>(
-                new InjectionConstructor(
-                    new Player(),
-                    container.Resolve<IScrobblingRules>(),
-                    container.Resolve<IScrobbler>(),
-                    container.Resolve<ICurrentDateTime>(),
-                    container.Resolve<IPlayProgressTracker>()
-                ));
 
             var cloudService = container.Resolve<ICloudService>();
             var playlistXmlProvider = new Services.PlaylistXmlProvider(cloudService);
@@ -84,8 +59,21 @@ namespace Whip.Web
 
             container.RegisterType<ITrackRepository, TrackRepository>(
                 new InjectionConstructor(container.Resolve<ITrackXmlParser>(), trackXmlProvider));
+        }
 
+        private static void RegisterSingletons(IUnityContainer container)
+        {
             container.RegisterSingleton<IPlaylist, Playlist>();
+            container.RegisterSingleton<ILastFmApiClientService, LastFmApiClientService>();
+
+            container.RegisterSingleton<IPlayer, ScrobblingPlayer>(
+                new InjectionConstructor(
+                    new Player(),
+                    container.Resolve<IScrobblingRules>(),
+                    container.Resolve<IScrobbler>(),
+                    container.Resolve<ICurrentDateTime>(),
+                    container.Resolve<IPlayProgressTracker>()
+                ));
         }
     }
 }

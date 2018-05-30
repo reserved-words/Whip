@@ -1,15 +1,9 @@
 ﻿$("#play").click(function () {
 
-    if (player().paused) {
-        play();
+    if (player().paused && player().currentTime > 0) {
+        resume();
     } else {
-        $.ajax({
-            url: "/Home/GetCurrentTrack",
-            method: "POST"
-        })
-        .done(function (data) {
-            updateTrack(data, false);
-        });
+        play();
     }
 
 });
@@ -50,17 +44,51 @@ var pause = function () {
     $("#play").removeClass("hidden");
     $("#pause").addClass("hidden");
     player().pause();
+    $.ajax({
+        url: "/Home/Pause",
+        method: "POST"
+    })
+    .done(function (data) {
+        alert("paused");
+    });
 }
 
 var play = function() {
     $("#play").addClass("hidden");
     $("#pause").removeClass("hidden");
     player().play();
+    $.ajax({
+        url: "/Home/Play",
+        method: "POST"
+    })
+    .done(function (data) {
+        alert("playing");
+    });
+}
+
+var resume = function () {
+    $("#play").addClass("hidden");
+    $("#pause").removeClass("hidden");
+    player().play();
+    $.ajax({
+        url: "/Home/Resume",
+        method: "POST"
+    })
+    .done(function (data) {
+        alert("resumed");
+    });
 }
 
 var stop = function() {
     updateTrackData("", "", "");
     player().stop();
+    $.ajax({
+        url: "/Home/Stop",
+        method: "POST"
+    })
+    .done(function (data) {
+        alert("stopped");
+    });
 }
 
 var updateTrack = function (data, paused) {

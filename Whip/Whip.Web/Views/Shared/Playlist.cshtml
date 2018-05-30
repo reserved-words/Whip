@@ -6,18 +6,18 @@
 {
     <div id="player">
         <div id="artwork" class="col-sm-12">
-            <img src="@Model.Tracks[0].ArtworkUrl" width="200" height="200"/>
+            <img src="@Model.FirstTrack.ArtworkUrl" width="200" height="200"/>
         </div>
 
         <div class="col-sm-12">
             <audio id="controls" controls>
-                <source id="mpeg_src" src="@Model.Tracks[0].Url" type="audio/mpeg">
+                <source id="mpeg_src" src="@Model.FirstTrack.Url" type="audio/mpeg">
                 Your browser does not support the audio element.
             </audio>
         </div>
 
         <div id="description" class="col-sm-12">
-            @Html.DisplayFor(m => m.Tracks[0].Track.Title) by @Html.DisplayFor(m => m.Tracks[0].Track.Artist.Name)
+            @Html.DisplayFor(m => m.FirstTrack.Track.Title) by @Html.DisplayFor(m => m.FirstTrack.Track.Artist.Name)
         </div>
         
         <button id="previous" type="button">Previous</button>

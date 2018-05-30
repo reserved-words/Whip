@@ -14,5 +14,6 @@ namespace Whip.Web.Models
 
         public string Title { get; set; }
         public List<TrackViewModel> Tracks { get; set; }
+        public TrackViewModel FirstTrack { get; set; }
     }
 }
