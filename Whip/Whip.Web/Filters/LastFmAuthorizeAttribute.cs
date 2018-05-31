@@ -1,7 +1,5 @@
 ﻿using System.Configuration;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Web.Http.Controllers;
 using System.Web.Mvc;
 using Whip.LastFm;
 
@@ -14,7 +12,8 @@ namespace Whip.Web.Filters
             var lastFmClientService = DependencyResolver.Current.GetService<ILastFmApiClientService>();
             if (lastFmClientService.AuthorizedApiClient == null)
             {
-                lastFmClientService.SetClients(ConfigurationManager.AppSettings["LastFmUsername"], null).ConfigureAwait(false);
+                var task = Task.Run(async () => { await lastFmClientService.SetClients(ConfigurationManager.AppSettings["LastFmUsername"], null); });
+                task.Wait();
             }
 
             base.OnActionExecuting(filterContext);

@@ -12,19 +12,16 @@ namespace Whip.Web.Controllers
 {
     public class BaseController : Controller
     {
-        protected static readonly IPlaylist Playlist;
-        protected static Library Library;
+        protected readonly Library Library;
+        protected readonly IPlaylist Playlist;
 
         private readonly ITrackRepository _trackRepository;
         private readonly ICloudService _cloudService;
         
-        static BaseController()
+        public BaseController(ITrackRepository trackRepository, ICloudService cloudService, 
+            IPlaylist playlist, Library library)
         {
-            Playlist = DependencyResolver.Current.GetService<IPlaylist>();
-        }
-
-        public BaseController(ITrackRepository trackRepository, ICloudService cloudService)
-        {
+            Playlist = playlist;
             _cloudService = cloudService;
             _trackRepository = trackRepository;
 

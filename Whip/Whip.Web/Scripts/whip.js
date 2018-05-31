@@ -45,11 +45,8 @@ var pause = function () {
     $("#pause").addClass("hidden");
     player().pause();
     $.ajax({
-        url: "/Home/Pause",
+        url: "/Player/Pause",
         method: "POST"
-    })
-    .done(function (data) {
-        alert("paused");
     });
 }
 
@@ -58,11 +55,8 @@ var play = function() {
     $("#pause").removeClass("hidden");
     player().play();
     $.ajax({
-        url: "/Home/Play",
+        url: "/Player/Play",
         method: "POST"
-    })
-    .done(function (data) {
-        alert("playing");
     });
 }
 
@@ -73,9 +67,19 @@ var resume = function () {
     $.ajax({
         url: "/Home/Resume",
         method: "POST"
-    })
-    .done(function (data) {
-        alert("resumed");
+    });
+}
+
+var skipToPercentage = function () {
+    var currentTime = player().currentTime;
+    var totalTime = player().duration;
+    if (totalTime === 0)
+        return;
+
+    $.ajax({
+        url: "/Player/SkipToPercentage",
+        method: "POST",
+        data: { percentage: 100 * currentTime / totalTime }
     });
 }
 
@@ -83,11 +87,8 @@ var stop = function() {
     updateTrackData("", "", "");
     player().stop();
     $.ajax({
-        url: "/Home/Stop",
+        url: "/Player/Stop",
         method: "POST"
-    })
-    .done(function (data) {
-        alert("stopped");
     });
 }
 
@@ -122,5 +123,8 @@ var player = function() {
 $(function () {
     document.getElementById("controls").onended = function () {
         getNextTrack();
+    }
+    document.getElementById("controls").onseeking = function () {
+        skipToPercentage();
     }
 });

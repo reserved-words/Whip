@@ -1,10 +1,8 @@
-﻿using System.Configuration;
-using System.Net;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Whip.Common.Interfaces;
-using Whip.LastFm;
+using Whip.Common.Singletons;
 using Whip.Services.Interfaces;
+using Whip.Services.Interfaces.Singletons;
 using Whip.Web.Interfaces;
 using Whip.Web.Models;
 
@@ -15,15 +13,14 @@ namespace Whip.Web.Controllers
         private readonly ITrackRepository _trackRepository;
         private readonly IPlaylistService _playlistsService;
         private readonly ICloudService _cloudService;
-        private readonly IPlayer _player;
 
-        public HomeController(IPlayer player, IPlaylistService playlistsService, ICloudService cloudService, ITrackRepository trackRepository)
-            :base(trackRepository, cloudService)
+        public HomeController(IPlaylist playlist, Library library, IPlaylistService playlistsService, 
+            ICloudService cloudService, ITrackRepository trackRepository)
+            :base(trackRepository, cloudService, playlist, library)
         {
             _cloudService = cloudService;
             _playlistsService = playlistsService;
             _trackRepository = trackRepository;
-            _player = player;
         }
 
         public ActionResult Index()
@@ -72,11 +69,6 @@ namespace Whip.Web.Controllers
         {
             var track = Playlist.CurrentTrack;
 
-            if (track != null)
-            {
-                _player.Play(track);
-            }
-
             return new JsonResult
             {
                 Data = track == null
@@ -102,41 +94,6 @@ namespace Whip.Web.Controllers
         {
             Playlist.MoveNext();
             return GetCurrentTrack();
-        }
-
-        [HttpPost]
-        public HttpStatusCodeResult Play()
-        {
-            _player.Play(Playlist.CurrentTrack);
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
-        }
-
-        [HttpPost]
-        public HttpStatusCodeResult Pause()
-        {
-            _player.Pause();
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
-        }
-
-        [HttpPost]
-        public HttpStatusCodeResult Resume()
-        {
-            _player.Resume();
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
-        }
-
-        [HttpPost]
-        public HttpStatusCodeResult SkipToPercentage(double percentage)
-        {
-            _player.SkipToPercentage(percentage);
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
-        }
-
-        [HttpPost]
-        public HttpStatusCodeResult Stop()
-        {
-            _player.Stop();
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
     }
 }

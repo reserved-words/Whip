@@ -5,6 +5,7 @@ using Unity;
 using Unity.Injection;
 using Whip.Azure;
 using Whip.Common.Interfaces;
+using Whip.Common.Singletons;
 using Whip.Common.TrackSorters;
 using Whip.LastFm;
 using Whip.Services;
@@ -65,6 +66,7 @@ namespace Whip.Web
         {
             container.RegisterSingleton<IPlaylist, Playlist>();
             container.RegisterSingleton<ILastFmApiClientService, LastFmApiClientService>();
+            container.RegisterSingleton<Library>();
 
             container.RegisterSingleton<IPlayer, ScrobblingPlayer>(
                 new InjectionConstructor(
