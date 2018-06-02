@@ -18,6 +18,7 @@ namespace Whip.XmlDataAccess
             PopulateSettings();
         }
 
+        public string ApplicationName { get; private set; }
         public string LastFmApiKey { get; private set; }
         public string LastFmApiSecret { get; private set; }
         public string BandsInTownApiKey { get; private set; }
@@ -42,6 +43,7 @@ namespace Whip.XmlDataAccess
             var config = _xmlProvider.Get();
             var root = config.Element("config");
 
+            ApplicationName = root.Element("application_name").Value;
             TrackChangeDelay = Convert.ToInt16(root.Element("track_change_delay").Value);
             NumberOfSimilarArtistsToDisplay = Convert.ToInt16(root.Element("num_similar_artists").Value);
             MinutesBeforeRefreshNews = Convert.ToInt16(root.Element("minutes_before_update_news").Value);

@@ -8,6 +8,7 @@ namespace Whip.Services.Interfaces.Singletons
 {
     public interface IConfigSettings
     {
+        string ApplicationName { get; }
         string LastFmApiKey { get; }
         string LastFmApiSecret { get; }
         string BandsInTownApiKey { get; }

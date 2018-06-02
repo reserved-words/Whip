@@ -9,9 +9,9 @@ namespace Whip.Web.Controllers
 {
     public class LibraryController : BaseController
     {
-        public LibraryController(IPlaylist playlist, Library library, IPlaylistService playlistsService,
+        public LibraryController(IPlaylist playlist, IErrorLoggingService logger, IPlaylistService playlistsService,
             ICloudService cloudService, ITrackRepository trackRepository)
-            : base(trackRepository, cloudService, playlist, library)
+            : base(trackRepository, cloudService, playlist, logger)
         {
         }
 

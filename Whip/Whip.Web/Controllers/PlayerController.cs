@@ -12,8 +12,8 @@ namespace Whip.Web.Controllers
         private readonly IPlayer _player;
 
         public PlayerController(IPlayer player, ICloudService cloudService, ITrackRepository trackRepository,
-            IPlaylist playlist, Library library)
-            :base(trackRepository, cloudService, playlist, library)
+            IPlaylist playlist, IErrorLoggingService logger)
+            :base(trackRepository, cloudService, playlist, logger)
         {
             _player = player;
         }

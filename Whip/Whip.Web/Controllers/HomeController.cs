@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using Whip.Common.Singletons;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
@@ -8,9 +9,9 @@ namespace Whip.Web.Controllers
 {
     public class HomeController : BaseController
     {
-        public HomeController(IPlaylist playlist, Library library, IPlaylistService playlistsService, 
+        public HomeController(IPlaylist playlist, IErrorLoggingService error, IPlaylistService playlistsService, 
             ICloudService cloudService, ITrackRepository trackRepository)
-            :base(trackRepository, cloudService, playlist, library)
+            :base(trackRepository, cloudService, playlist, error)
         {
         }
 

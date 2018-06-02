@@ -51,6 +51,8 @@ namespace Whip.Web
             container.RegisterType<IScrobbler, Scrobbler>();
             container.RegisterType<ICurrentDateTime, CurrentDateTime>();
             container.RegisterType<IPlayProgressTracker, PlayProgressTracker>();
+            container.RegisterType<IErrorLoggingService, ErrorLoggingService>();
+            container.RegisterType<IWebHelperService, WebHelperService>();
 
             var cloudService = container.Resolve<ICloudService>();
             var playlistXmlProvider = new Services.PlaylistXmlProvider(cloudService);
