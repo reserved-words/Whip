@@ -92,7 +92,7 @@
     <Compile Include="Methods\ApiMethodBase.cs" />
     <Compile Include="Methods\Auth\GetSessionMethod.cs" />
     <Compile Include="Methods\Auth\GetTokenMethod.cs" />
-    <Compile Include="Clients\AuthorizedApiClient.cs" />
+    <Compile Include="Clients\UserApiClient.cs" />
     <Compile Include="Model\TimePeriod.cs" />
     <Compile Include="Model\Track.cs" />
     <Compile Include="Model\TrackPlayInfo.cs" />

@@ -8,7 +8,7 @@ namespace LastFmApi.Methods.Auth
     {
         private readonly string _username;
 
-        public GetSessionMethod(AuthorizedApiClient client, string token)
+        public GetSessionMethod(UserApiClient client, string token)
             : base(client, "auth.getSession")
         {
             _username = client.Username;
