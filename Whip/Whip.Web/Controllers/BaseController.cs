@@ -14,8 +14,7 @@ namespace Whip.Web.Controllers
     {
         protected readonly Library Library;
         protected readonly IPlaylist Playlist;
-
-        private readonly ITrackRepository _trackRepository;
+        
         private readonly ICloudService _cloudService;
         
         public BaseController(ITrackRepository trackRepository, ICloudService cloudService, 
@@ -23,32 +22,40 @@ namespace Whip.Web.Controllers
         {
             Playlist = playlist;
             _cloudService = cloudService;
-            _trackRepository = trackRepository;
-
+            
             if (Library == null)
             {
-                Library = _trackRepository.GetLibrary();
+                Library = trackRepository.GetLibrary();
             }
         }
 
-        protected ActionResult Play(string title, List<Track> tracks, Track firstTrack = null, bool shuffle = true)
+        protected JsonResult Play(string title, List<Track> tracks, Track firstTrack = null, bool shuffle = true, bool doNotSort = false)
         {
-            Playlist.Set(title, tracks, firstTrack, shuffle);
-            return View("Playlist", GetViewModel(title, tracks));
+            Playlist.Set(title, tracks, firstTrack, shuffle, doNotSort);
+            var currentTrack = Playlist.CurrentTrack;
+            return new JsonResult
+            {
+                Data = new
+                {
+                    Url = _cloudService.GetTrackUrl(currentTrack),
+                    ArtworkUrl = _cloudService.GetArtworkUrl(currentTrack.Disc.Album),
+                    Description = $"{currentTrack.Title} by {currentTrack.Artist.Name}"
+                }
+            };
         }
-        
-        private PlayViewModel GetViewModel(string title, List<Track> tracks)
-        {
-            var track = Playlist.CurrentTrack;
 
-            return new PlayViewModel
+        protected ActionResult GetPlaylist(string title, List<Track> tracks, string playUrl)
+        {
+            var model = new PlayViewModel
             {
                 Title = title,
                 Tracks = tracks
                     .Select(t => new TrackViewModel(t, _cloudService.GetTrackUrl(t), _cloudService.GetArtworkUrl(t.Disc.Album)))
                     .ToList(),
-                FirstTrack = new TrackViewModel(track, _cloudService.GetTrackUrl(track), _cloudService.GetArtworkUrl(track.Disc.Album))
+                PlayUrl = playUrl
             };
+
+            return PartialView("_Playlist", model);
         }
     }
 }

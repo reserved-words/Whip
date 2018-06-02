@@ -17,7 +17,7 @@ namespace Whip.Web.Controllers
         {
             _player = player;
         }
-        
+
         [HttpPost]
         public HttpStatusCodeResult Play()
         {

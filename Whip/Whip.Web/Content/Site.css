@@ -7,6 +7,7 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    padding-top: 50px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -27,6 +28,10 @@ audio::-webkit-media-controls-play-button {
     display: none;
 }
 
-audio::-internal-media-controls-download-button {
-    display: none;
+audio {
+    width: 100%;
+}
+
+a {
+    cursor: pointer;
 }

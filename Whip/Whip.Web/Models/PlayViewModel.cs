@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace Whip.Web.Models
 {
@@ -14,6 +11,6 @@ namespace Whip.Web.Models
 
         public string Title { get; set; }
         public List<TrackViewModel> Tracks { get; set; }
-        public TrackViewModel FirstTrack { get; set; }
+        public string PlayUrl { get; set; }
     }
 }

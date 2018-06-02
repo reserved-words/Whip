@@ -9,29 +9,45 @@
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+        <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Cloudwhip", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li><a data-whip-url="/Home/Index">Home</a></li>
+                    <li><a data-whip-url="/Library/Index">Library</a></li>
+                    <li><a data-whip-url="/Playlists/Index">Playlists</a></li>
+                    <li><a data-whip-url="/CurrentPlaylist/Index">Current Playlist</a></li>
+                    <li><a data-whip-url="/CurrentTrack/Index">Current Track</a></li>
+                    <li><a data-whip-url="/Artist/Index">Artist</a></li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+<div class="container-fluid body-content">
+    
+    <div class="row">
+        <div class="col-sm-12 col-md-3">
+            <div class="col-sm-12">
+                @Html.Partial("_Player")
+            </div>
+            <div class="col-sm-12">
+                @Html.Partial("_FavouritePlaylists")
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-9">
+            <div id="main">
+                @RenderBody()
+            </div>
+        </div>
     </div>
+</div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

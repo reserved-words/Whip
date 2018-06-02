@@ -1,4 +1,12 @@
-﻿$("#play").click(function () {
+﻿$("body").on("click", "a[data-whip-url]", function () {
+    updateMainContent($(this).attr("data-whip-url"));
+});
+
+$("body").on("click", "button[data-whip-play-url]", function () {
+    updateCurrentPlaylist($(this).attr("data-whip-play-url"));
+});
+
+$("#play").click(function () {
 
     if (player().paused && player().currentTime > 0) {
         resume();
@@ -22,7 +30,7 @@ $("#previous").click(function () {
 
 var getNextTrack = function (paused) {
     $.ajax({
-        url: "/Home/GetNextTrack",
+        url: "/CurrentPlaylist/GetNextTrack",
         method: "POST"
     })
     .done(function (data) {
@@ -32,7 +40,7 @@ var getNextTrack = function (paused) {
 
 var getPreviousTrack = function (paused) {
     $.ajax({
-        url: "/Home/GetPreviousTrack",
+        url: "/CurrentPlaylist/GetPreviousTrack",
         method: "POST"
     })
     .done(function (data) {
@@ -50,7 +58,7 @@ var pause = function () {
     });
 }
 
-var play = function() {
+var play = function () {
     $("#play").addClass("hidden");
     $("#pause").removeClass("hidden");
     player().play();
@@ -65,7 +73,7 @@ var resume = function () {
     $("#pause").removeClass("hidden");
     player().play();
     $.ajax({
-        url: "/Home/Resume",
+        url: "/Player/Resume",
         method: "POST"
     });
 }
@@ -83,12 +91,32 @@ var skipToPercentage = function () {
     });
 }
 
-var stop = function() {
+var stop = function () {
     updateTrackData("", "", "");
     player().stop();
     $.ajax({
         url: "/Player/Stop",
         method: "POST"
+    });
+}
+
+var updateMainContent = function (url) {
+    $.ajax({
+        url: url,
+        method: "GET"
+    })
+    .done(function (data) {
+        $("#main").html(data);
+    });
+}
+
+var updateCurrentPlaylist = function (url) {
+    $.ajax({
+        url: url,
+        method: "POST"
+    })
+    .done(function (data) {
+        updateTrack(data, false);
     });
 }
 
@@ -109,14 +137,13 @@ var updateTrack = function (data, paused) {
     }
 }
 
-var updateTrackData = function(url, artworkUrl, description)
-{
+var updateTrackData = function (url, artworkUrl, description) {
     $("#mpeg_src").attr("src", url);
     $("#artwork>img").attr("src", artworkUrl);
     $("#description").text(description);
 }
 
-var player = function() {
+var player = function () {
     return document.getElementById("controls");
 }
 

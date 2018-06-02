@@ -151,6 +151,8 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\CurrentPlaylistController.cs" />
+    <Compile Include="Controllers\PlaylistsController.cs" />
     <Compile Include="Filters\LastFmAuthorizeAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -200,11 +202,15 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\Playlist.cshtml" />
+    <Content Include="Views\Home\_Index.cshtml" />
+    <Content Include="Views\Shared\_Playlist.cshtml" />
+    <Content Include="Views\Shared\_Player.cshtml" />
+    <Content Include="Views\Shared\_FavouritePlaylists.cshtml" />
+    <Content Include="Views\Playlists\_Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Playlist\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
