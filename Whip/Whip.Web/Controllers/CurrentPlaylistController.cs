@@ -11,8 +11,8 @@ namespace Whip.Web.Controllers
         private readonly ICloudService _cloudService;
 
         public CurrentPlaylistController(IPlayer player, ICloudService cloudService, ITrackRepository trackRepository,
-            IPlaylist playlist, Library library)
-            : base(trackRepository, cloudService, playlist, library)
+            IPlaylist playlist, IErrorLoggingService logger)
+            : base(trackRepository, cloudService, playlist, logger)
         {
             _cloudService = cloudService;
         }

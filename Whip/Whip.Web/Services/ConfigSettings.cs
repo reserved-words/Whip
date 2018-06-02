@@ -8,6 +8,7 @@ namespace Whip.Web.Services
 {
     public class ConfigSettings : IConfigSettings, ICloudStorageConfig
     {
+        public string ApplicationName => ConfigurationManager.AppSettings["ApplicationName"];
         public string AccountName => ConfigurationManager.AppSettings["CloudAccountName"];
         public string ConnectionString => ConfigurationManager.AppSettings["CloudConnectionString"];
         public string ContainerName => ConfigurationManager.AppSettings["CloudContainerName"];

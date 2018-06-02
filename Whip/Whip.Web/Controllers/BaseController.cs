@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Whip.Common.Interfaces;
 using Whip.Common.Model;
 using Whip.Common.Singletons;
 using Whip.Services.Interfaces;
@@ -12,17 +11,20 @@ namespace Whip.Web.Controllers
 {
     public class BaseController : Controller
     {
-        protected readonly Library Library;
+        protected static Library Library;
         protected readonly IPlaylist Playlist;
         
         private readonly ICloudService _cloudService;
+        private readonly IErrorLoggingService _logger;
         
         public BaseController(ITrackRepository trackRepository, ICloudService cloudService, 
-            IPlaylist playlist, Library library)
+            IPlaylist playlist, IErrorLoggingService logger)
         {
             Playlist = playlist;
+
             _cloudService = cloudService;
-            
+            _logger = logger;
+
             if (Library == null)
             {
                 Library = trackRepository.GetLibrary();
@@ -56,6 +58,20 @@ namespace Whip.Web.Controllers
             };
 
             return PartialView("_Playlist", model);
+        }
+
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            _logger.Log(filterContext.Exception);
+
+            if (filterContext.RequestContext.HttpContext.Request.IsAjaxRequest())
+            {
+                filterContext.Result = PartialView("Error");
+            }
+            else
+            {
+                filterContext.Result = View("Error");
+            }
         }
     }
 }

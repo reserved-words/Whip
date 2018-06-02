@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Whip.Web.Filters;
 
 namespace Whip.Web
@@ -8,8 +7,8 @@ namespace Whip.Web
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new HandleErrorAttribute());
             filters.Add(new LastFmAuthorizeAttribute());
+            filters.Add(new RequireHttpsRemotelyAttribute());
         }
     }
 }

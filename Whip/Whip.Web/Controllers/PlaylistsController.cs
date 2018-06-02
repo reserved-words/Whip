@@ -13,9 +13,9 @@ namespace Whip.Web.Controllers
     {
         private readonly IPlaylistService _playlistsService;
 
-        public PlaylistsController(IPlaylist playlist, Library library, IPlaylistService playlistsService,
+        public PlaylistsController(IPlaylist playlist, IErrorLoggingService logger, IPlaylistService playlistsService,
             ICloudService cloudService, ITrackRepository trackRepository)
-            : base(trackRepository, cloudService, playlist, library)
+            : base(trackRepository, cloudService, playlist, logger)
         {
             _playlistsService = playlistsService;
         }
