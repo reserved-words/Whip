@@ -1,9 +1,4 @@
-﻿using System;
-using System.Configuration;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using Whip.LastFm;
+﻿using System.Web.Mvc;
 
 namespace Whip.Web.Filters
 {
