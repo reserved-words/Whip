@@ -23,14 +23,18 @@ namespace Whip.Web.Filters
                 task.Wait();
                 SetSessionKeyCookie(filterContext);
             }
-
-            base.OnActionExecuting(filterContext);
         }
 
         private void SetSessionKeyCookie(ActionExecutingContext filterContext)
         {
             var sessionKey = _lastFmApiClientService.AuthorizedApiClient.SessionKey;
-            filterContext.HttpContext.Response.SetCookie(new HttpCookie("SK", sessionKey) { Expires = DateTime.Now.AddDays(30) });
+            filterContext.HttpContext.Response.SetCookie(
+                new HttpCookie("SK", sessionKey)
+                {
+                    Expires = DateTime.Now.AddDays(30),
+                    HttpOnly = true,
+                    Secure = true
+                });
         }
 
         private string GetSessionKeyCookie(ActionExecutingContext filterContext)
