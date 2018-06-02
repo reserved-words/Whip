@@ -13,11 +13,11 @@ namespace Whip.Azure
 
         private CloudBlobContainer _container;
 
-        private readonly IAzureStorageConfig _config;
+        private readonly ICloudStorageConfig _config;
 
-        public AzureService()
+        public AzureService(ICloudStorageConfig config)
         {
-            _config = new AzureConfig();
+            _config = config;
         }
 
         public void UploadFile(string path)

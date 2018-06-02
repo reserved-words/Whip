@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 
 namespace Whip.Web.Services
 {
-    public class ConfigSettings : IConfigSettings
+    public class ConfigSettings : IConfigSettings, ICloudStorageConfig
     {
+        public string AccountName => ConfigurationManager.AppSettings["CloudAccountName"];
+        public string ConnectionString => ConfigurationManager.AppSettings["CloudConnectionString"];
+        public string ContainerName => ConfigurationManager.AppSettings["CloudContainerName"];
         public string BandsInTownApiKey => ConfigurationManager.AppSettings["BandsInTownApiKey"];
         public string TwitterApiAccessToken => ConfigurationManager.AppSettings["TwitterApiAccessToken"];
         public string TwitterApiAccessTokenSecret => ConfigurationManager.AppSettings["TwitterApiAccessTokenSecret"];

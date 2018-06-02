@@ -6,7 +6,7 @@ using Whip.Services.Interfaces;
 
 namespace Whip.CloudSync
 {
-    public class SyncData : IDataLocations
+    public class SyncData : IDataLocations, ICloudStorageConfig
     {
         private const string DateTimeFormat = "yyyy-MM-dd HH:mm:ss";
 
@@ -28,6 +28,9 @@ namespace Whip.CloudSync
         }
 
         private string DataDirectory => ConfigurationManager.AppSettings["DataDirectory"];
+        public string AccountName => ConfigurationManager.AppSettings["CloudAccountName"];
+        public string ConnectionString => ConfigurationManager.AppSettings["CloudConnectionString"];
+        public string ContainerName => ConfigurationManager.AppSettings["CoudContainerName"];
 
         private XDocument GetSyncData()
         {
