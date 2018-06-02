@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cloud\ICloudService.cs" />
+    <Compile Include="Cloud\ICloudStorageConfig.cs" />
     <Compile Include="DataAccess\ILogRepository.cs" />
     <Compile Include="DataAccess\IPlaylistRepository.cs" />
     <Compile Include="IConfigSettings.cs" />

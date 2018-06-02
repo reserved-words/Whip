@@ -36,6 +36,7 @@ namespace Whip.Web
 
         public static void RegisterTypes(IUnityContainer container)
         {
+            container.RegisterType<ICloudStorageConfig, Services.ConfigSettings>();
             container.RegisterType<ITrackQueue, TrackQueue>();
             container.RegisterType<IDefaultTrackSorter, DefaultTrackSorter>();
             container.RegisterType<IRandomTrackSorter, RandomTrackSorter>();

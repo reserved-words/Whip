@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Whip.Azure
+namespace Whip.Services.Interfaces
 {
-    public interface IAzureStorageConfig
+    public interface ICloudStorageConfig
     {
         string AccountName { get; }
         string ConnectionString { get; }
