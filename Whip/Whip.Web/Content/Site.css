@@ -22,3 +22,11 @@ select,
 textarea {
     max-width: 280px;
 }
+
+audio::-webkit-media-controls-play-button {
+    display: none;
+}
+
+audio::-internal-media-controls-download-button {
+    display: none;
+}
