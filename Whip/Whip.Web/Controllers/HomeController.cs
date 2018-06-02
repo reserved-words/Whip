@@ -1,6 +1,4 @@
-﻿using System;
-using System.Web.Mvc;
-using Whip.Common.Singletons;
+﻿using System.Web.Mvc;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 using Whip.Web.Interfaces;
