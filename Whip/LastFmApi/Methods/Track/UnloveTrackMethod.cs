@@ -5,7 +5,7 @@ namespace LastFmApi.Methods.Track
 {
     internal class UnloveTrackMethod : ApiMethodBase
     {
-        public UnloveTrackMethod(AuthorizedApiClient client, LastFmApi.Track track)
+        public UnloveTrackMethod(UserApiClient client, LastFmApi.Track track)
             : base(client, "track.unlove")
         {
             SetParameters(new Dictionary<ParameterKey, string>

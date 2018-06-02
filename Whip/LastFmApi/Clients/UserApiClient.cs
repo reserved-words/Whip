@@ -1,16 +1,17 @@
 ﻿using LastFmApi.Internal;
 using LastFmApi.Methods.Auth;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace LastFmApi
 {
-    public class AuthorizedApiClient : ApiClient
+    public class UserApiClient : ApiClient
     {
-        private const string AuthUrl = "http://www.last.fm/api/auth/?api_key={0}&token={1}";
+        private const string AuthUrlFormat = "http://www.last.fm/api/auth/?api_key={0}&token={1}";
 
-        internal AuthorizedApiClient(string apiKey, string secret, string username, string sessionKey)
+        private string _authToken;
+
+        internal UserApiClient(string apiKey, string secret, string username, string sessionKey)
             :base(apiKey, secret)
         {
             SessionKey = sessionKey;
@@ -19,28 +20,30 @@ namespace LastFmApi
 
         public string Username { get; private set; }
         public string SessionKey { get; private set; }
+        public bool Authorized => !string.IsNullOrEmpty(SessionKey);
 
-        internal async Task GenerateSessionKeyAsync()
+        internal async Task GetToken()
         {
-            if (!string.IsNullOrEmpty(SessionKey))
+            var getTokenMethod = new GetTokenMethod(this);
+            _authToken = await getTokenMethod.GetResultAsync();
+        }
+
+        internal async Task Authorize()
+        {
+            if (Authorized)
                 return;
 
-            var getTokenMethod = new GetTokenMethod(this);
-            var token = await getTokenMethod.GetResultAsync();
-
-            RequestAuthorisation(token);
-
             var maxAttempts = 5;
-
             var attempts = 0;
+
+            Thread.Sleep(10000);
 
             while (attempts < maxAttempts)
             {
                 attempts++;
-
                 Thread.Sleep(2000);
 
-                var getSessionMethod = new GetSessionMethod(this, token);
+                var getSessionMethod = new GetSessionMethod(this, _authToken);
 
                 try
                 {
@@ -53,6 +56,7 @@ namespace LastFmApi
 
                     SessionKey = session.Key;
                     Username = session.Username;
+                    _authToken = null;
                     break;
                 }
                 catch (LastFmApiException ex)
@@ -69,10 +73,6 @@ namespace LastFmApi
             }
         }
 
-        internal void RequestAuthorisation(string token)
-        {
-            string url = string.Format(AuthUrl, ApiKey, token);
-            System.Diagnostics.Process.Start(url);
-        }
+        public string AuthUrl => string.Format(AuthUrlFormat, ApiKey, _authToken);
     }
 }

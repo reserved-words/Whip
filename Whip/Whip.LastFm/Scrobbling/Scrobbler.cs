@@ -18,13 +18,13 @@ namespace Whip.LastFm
 
         public async Task<bool> ScrobbleAsync(Track track, DateTime timePlayed)
         {
-            await _service.ScrobbleAsync(_clientService.AuthorizedApiClient, GetTrack(track), timePlayed);
+            await _service.ScrobbleAsync(_clientService.UserApiClient, GetTrack(track), timePlayed);
             return true;
         }
 
         public async Task<bool> UpdateNowPlayingAsync(Track track, int duration)
         {
-            await _service.UpdateNowPlayingAsync(_clientService.AuthorizedApiClient, GetTrack(track), duration);
+            await _service.UpdateNowPlayingAsync(_clientService.UserApiClient, GetTrack(track), duration);
             return true;
         }
 

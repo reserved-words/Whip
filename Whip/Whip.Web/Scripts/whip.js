@@ -147,7 +147,24 @@ var player = function () {
     return document.getElementById("controls");
 }
 
+var authorizeLastFm = function () {
+    $.ajax({
+        url: "/Home/GetAuthUrl",
+        method: "POST"
+    })
+    .done(function (data) {
+        if (data.Url) {
+            window.open(data.Url);
+            $.ajax({
+                url: "/Home/Authorize",
+                method: "POST"
+            });
+        }
+    });
+}
+
 $(function () {
+    authorizeLastFm();
     $.ajax({
         url: "/Playlists/Favourites",
         method: "GET"

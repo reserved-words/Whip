@@ -10,7 +10,7 @@ namespace Whip.LastFm
         private readonly ISessionService _sessionService;
         private readonly IConfigSettings _configSettings;
 
-        private AuthorizedApiClient _authorizedApiClient;
+        private UserApiClient _userApiClient;
         private ApiClient _apiClient;
 
         public LastFmApiClientService(ISessionService sessionService, IConfigSettings configSettings)
@@ -20,12 +20,20 @@ namespace Whip.LastFm
         }
 
         public ApiClient ApiClient => _apiClient;
-        public AuthorizedApiClient AuthorizedApiClient => _authorizedApiClient;
+        public UserApiClient UserApiClient => _userApiClient;
 
         public async Task SetClients(string username, string sessionKey)
         {
             _apiClient = _sessionService.GetApiClient(_configSettings.LastFmApiKey, _configSettings.LastFmApiSecret);
-            _authorizedApiClient = await _sessionService.GetAuthorizedApiClientAsync(_configSettings.LastFmApiKey, _configSettings.LastFmApiSecret, username, sessionKey);
+            _userApiClient = await _sessionService.GetAuthorizedApiClientAsync(_configSettings.LastFmApiKey, _configSettings.LastFmApiSecret, username, sessionKey);
+        }
+
+        public async Task AuthorizeUserClient()
+        {
+            if (_userApiClient.Authorized)
+                return;
+
+            await _sessionService.Authorize(_userApiClient);
         }
     }
 }

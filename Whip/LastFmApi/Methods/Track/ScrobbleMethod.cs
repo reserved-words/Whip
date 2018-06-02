@@ -6,7 +6,7 @@ namespace LastFmApi.Methods.Track
 {
     internal class ScrobbleMethod : ApiMethodBase
     {
-        public ScrobbleMethod(AuthorizedApiClient client, LastFmApi.Track track, DateTime timePlayed)
+        public ScrobbleMethod(UserApiClient client, LastFmApi.Track track, DateTime timePlayed)
             : base(client, "track.scrobble")
         {
             var scrobbleTime = timePlayed.ToUniversalTime();

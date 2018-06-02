@@ -23,7 +23,7 @@ namespace LastFmApi.Methods
             _authorized = false;
         }
 
-        public ApiMethodBase(AuthorizedApiClient client, string methodName)
+        public ApiMethodBase(UserApiClient client, string methodName)
         {
             _apiSecret = client.ApiSecret;
 
@@ -74,7 +74,7 @@ namespace LastFmApi.Methods
         {
         }
 
-        public ApiMethodBase(AuthorizedApiClient client, string methodName)
+        public ApiMethodBase(UserApiClient client, string methodName)
             : base(client, methodName)
         {
         }

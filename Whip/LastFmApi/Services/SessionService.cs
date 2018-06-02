@@ -10,11 +10,21 @@ namespace LastFmApi
             return new ApiClient(apiKey, secret);
         }
 
-        public async Task<AuthorizedApiClient> GetAuthorizedApiClientAsync(string apiKey, string secret, string username, string sessionKey)
+        public async Task<UserApiClient> GetAuthorizedApiClientAsync(string apiKey, string secret, string username, string sessionKey)
         {
-            var client = new AuthorizedApiClient(apiKey, secret, username, sessionKey);
-            await client.GenerateSessionKeyAsync();
+            var client = new UserApiClient(apiKey, secret, username, sessionKey);
+
+            if (!client.Authorized)
+            {
+                await client.GetToken();
+            }
+
             return client;
+        }
+
+        public async Task Authorize(UserApiClient client)
+        {
+            await client.Authorize();
         }
     }
 }

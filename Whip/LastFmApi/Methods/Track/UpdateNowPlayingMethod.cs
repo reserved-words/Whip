@@ -5,7 +5,7 @@ namespace LastFmApi.Methods.Track
 {
     internal class UpdateNowPlayingMethod : ApiMethodBase
     {
-        public UpdateNowPlayingMethod(AuthorizedApiClient client, LastFmApi.Track track, int duration)
+        public UpdateNowPlayingMethod(UserApiClient client, LastFmApi.Track track, int duration)
             : base(client, "track.updateNowPlaying")
         {
             SetParameters(new Dictionary<ParameterKey, string>

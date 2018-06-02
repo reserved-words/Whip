@@ -4,7 +4,7 @@ namespace LastFmApi.Methods.Auth
 {
     internal class GetTokenMethod : ApiMethodBase<string>
     {
-        public GetTokenMethod(AuthorizedApiClient client)
+        public GetTokenMethod(UserApiClient client)
             : base(client, "auth.getToken")
         {
             SetParameters();
