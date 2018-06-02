@@ -5,10 +5,12 @@ using Whip.Common.Model;
 using Whip.Common.Singletons;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
+using Whip.Web.Filters;
 using Whip.Web.Models;
 
 namespace Whip.Web.Controllers
 {
+    [LastFmAuthorize]
     public class BaseController : Controller
     {
         protected static Library Library;
