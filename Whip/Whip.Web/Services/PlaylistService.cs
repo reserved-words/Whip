@@ -11,15 +11,12 @@ namespace Whip.Web.Services
     public class PlaylistService : IPlaylistService
     {
         private readonly IPlaylistRepository _playlistRepository;
-        private readonly ITrackRepository _trackRepository;
         private readonly ITrackCriteriaService _trackCriteriaService;
 
-        public PlaylistService(ITrackCriteriaService trackCriteriaService,
-            IPlaylistRepository playlistRepository, ITrackRepository trackRepository)
+        public PlaylistService(ITrackCriteriaService trackCriteriaService, IPlaylistRepository playlistRepository)
         {
             _trackCriteriaService = trackCriteriaService;
             _playlistRepository = playlistRepository;
-            _trackRepository = trackRepository;
         }
 
         public AllPlaylists GetAll()
@@ -49,6 +46,11 @@ namespace Whip.Web.Services
             var trackSearchService = GetTrackSearchService(library);
             var tracks = trackSearchService.GetTracks(playlist.FilterType, playlist.FilterValues);
             return new Tuple<Playlist, List<Track>>(playlist, tracks);
+        }
+
+        public List<Playlist> GetFavourites()
+        {
+            return _playlistRepository.GetFavouritePlaylists();
         }
 
         private ITrackSearchService GetTrackSearchService(Library library)

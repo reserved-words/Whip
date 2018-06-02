@@ -149,6 +149,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\LibraryController.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\CurrentPlaylistController.cs" />
@@ -207,6 +208,7 @@
     <Content Include="Views\Shared\_Player.cshtml" />
     <Content Include="Views\Shared\_FavouritePlaylists.cshtml" />
     <Content Include="Views\Playlists\_Index.cshtml" />
+    <Content Include="Views\Library\_Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

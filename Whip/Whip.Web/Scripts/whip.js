@@ -148,6 +148,13 @@ var player = function () {
 }
 
 $(function () {
+    $.ajax({
+        url: "/Playlists/Favourites",
+        method: "GET"
+    })
+    .done(function (data) {
+        $("#favourite-playlists").html(data);
+    });
     document.getElementById("controls").onended = function () {
         getNextTrack();
     }

@@ -2,20 +2,23 @@
 
 <h1>@Html.DisplayFor(m => m.Title)</h1>
 
-<button type="button" data-whip-play-url="@Html.DisplayFor(m => m.PlayUrl)">Play</button>
+<button type="button" data-whip-play-url="@Html.DisplayFor(m => m.PlayUrl)" class="btn btn-default">Play</button>
 
-@if (Model.Tracks.Any())
-{
-    <ul>
-        @foreach (var track in Model.Tracks)
-        {
-            <li>
-                @Html.DisplayFor(m => track.Track.Title) by @Html.DisplayFor(m => track.Track.Artist.Name)
-            </li>
-        }
-    </ul>
-}
-else
-{
-    <p>This playlist has no tracks</p>
-}
+<div class="section">
+    @if (Model.Tracks.Any())
+    {
+        <ul class="list-unstyled">
+            @foreach (var track in Model.Tracks)
+            {
+                <li>
+                    @Html.DisplayFor(m => track.Track.Title) by @Html.DisplayFor(m => track.Track.Artist.Name)
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>This playlist has no tracks</p>
+    }
+
+</div>

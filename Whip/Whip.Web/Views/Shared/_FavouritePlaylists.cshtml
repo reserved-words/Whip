@@ -1,1 +1,17 @@
-﻿
+﻿@using Whip.Web.Models
+@model List<PlaylistViewModel>
+
+<div class="section">
+    <button type="button" data-whip-play-url="@Url.Action("ShuffleAll", "Library")" class="btn btn-default btn-block">Shuffle Library</button>
+</div>
+
+<div class="section">
+    <ul class="list-unstyled">
+        @foreach (var playlist in Model)
+        {
+            <li>
+                <button type="button" data-whip-play-url="@Html.DisplayFor(m => playlist.PlayUrl)" class="btn btn-default btn-block">@Html.DisplayFor(m => playlist.Title)</button>
+            </li>
+        }
+    </ul>
+</div>

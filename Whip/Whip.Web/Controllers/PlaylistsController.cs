@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
+using Whip.Common.Enums;
 using Whip.Common.Singletons;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
@@ -26,26 +28,50 @@ namespace Whip.Web.Controllers
 
             foreach (var playlist in playlists.CriteriaPlaylists)
             {
-                model.CriteriaPlaylists.Add(new PlaylistViewModel { Id = playlist.Id, Title = playlist.Title });
+                model.CriteriaPlaylists.Add(new PlaylistViewModel { Id = playlist.Id, Title = playlist.Title, PlayUrl = Url.Action(nameof(PlayCriteriaPlaylist), new { id = playlist.Id })});
             }
 
             foreach (var playlist in playlists.OrderedPlaylists)
             {
-                model.OrderedPlaylists.Add(new PlaylistViewModel { Id = playlist.Id, Title = playlist.Title });
+                model.OrderedPlaylists.Add(new PlaylistViewModel { Id = playlist.Id, Title = playlist.Title, PlayUrl = Url.Action(nameof(PlayOrderedPlaylist), new { id = playlist.Id }) });
             }
 
             foreach (var playlist in playlists.FavouriteQuickPlaylists)
             {
-                model.StandardPlaylists.Add(new PlaylistViewModel { Id = playlist.Id, Title = playlist.Title });
+                model.StandardPlaylists.Add(new PlaylistViewModel { Id = playlist.Id, Title = playlist.Title, PlayUrl = Url.Action(nameof(PlayStandardPlaylist), new { id = playlist.Id }) });
             }
 
             return PartialView("_Index", model);
         }
 
+        public ActionResult Favourites()
+        {
+            var playlists = _playlistsService.GetFavourites();
+            var model = new List<PlaylistViewModel>();
+
+            foreach (var playlist in playlists)
+            {
+                var playAction = playlist.Type == PlaylistType.Quick
+                    ? nameof(PlayStandardPlaylist)
+                    : playlist.Type == PlaylistType.Criteria
+                        ? nameof(PlayCriteriaPlaylist)
+                        : nameof(PlayOrderedPlaylist);
+
+                model.Add(new PlaylistViewModel
+                {
+                    Id = playlist.Id,
+                    Title = playlist.Title,
+                    PlayUrl = Url.Action(playAction, new { id = playlist.Id })
+                });
+            }
+
+            return PartialView("_FavouritePlaylists", model);
+        }
+
         public ActionResult StandardPlaylist(int id)
         {
             var playlist = _playlistsService.GetQuickPlaylist(id, Library);
-            return GetPlaylist(playlist.Item1.Title, playlist.Item2, Url.Action("PlayStandardPlaylist", new { id }));
+            return GetPlaylist(playlist.Item1.Title, playlist.Item2, Url.Action(nameof(PlayStandardPlaylist), new { id }));
         }
 
         public JsonResult PlayStandardPlaylist(int id)

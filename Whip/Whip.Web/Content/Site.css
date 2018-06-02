@@ -7,7 +7,7 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
-    padding-top: 50px;
+    padding-top: 10px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -34,4 +34,16 @@ audio {
 
 a {
     cursor: pointer;
+}
+
+div.section {
+    margin: 10px 0;
+}
+
+.btn-group.block {
+    display: flex;
+}
+
+.block .btn {
+    flex: 1
 }
