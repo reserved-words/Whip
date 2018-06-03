@@ -26,16 +26,7 @@ namespace Whip.Web.Controllers
         protected JsonResult Play(string title, List<Track> tracks, Track firstTrack = null, bool shuffle = true, bool doNotSort = false)
         {
             Playlist.Set(title, tracks, firstTrack, shuffle, doNotSort);
-            var currentTrack = Playlist.CurrentTrack;
-            return new JsonResult
-            {
-                Data = new
-                {
-                    Url = _cloudService.GetTrackUrl(currentTrack),
-                    ArtworkUrl = _cloudService.GetArtworkUrl(currentTrack.Disc.Album),
-                    Description = $"{currentTrack.Title} by {currentTrack.Artist.Name}"
-                }
-            };
+            return GetCurrentTrack();
         }
 
         protected ActionResult GetPlaylist(string title, List<Track> tracks, string playUrl)
@@ -56,6 +47,26 @@ namespace Whip.Web.Controllers
         {
             _logger.Log(filterContext.Exception);
             filterContext.Result = RedirectToAction("Index", "Error");
+        }
+
+        protected JsonResult GetCurrentTrack()
+        {
+            var track = Playlist.CurrentTrack;
+
+            return new JsonResult
+            {
+                Data = track == null
+                    ? null
+                    : new
+                    {
+                        Title = track.Title,
+                        Artist = track.Artist.Name,
+                        Album = track.Disc.Album.Title,
+                        Year = track.Disc.Album.Year,
+                        Url = _cloudService.GetTrackUrl(track),
+                        ArtworkUrl = _cloudService.GetArtworkUrl(track.Disc.Album)
+                    }
+            };
         }
     }
 }

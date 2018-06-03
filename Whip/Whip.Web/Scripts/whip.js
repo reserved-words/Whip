@@ -94,7 +94,8 @@ var skipToPercentage = function () {
 }
 
 var stop = function () {
-    updateTrackData("", "", "");
+    updateTrackData(null);
+    disableControls();
     player().stop();
     $.ajax({
         url: "/Player/Stop",
@@ -129,7 +130,8 @@ var updateTrack = function (data, paused) {
         return;
     }
 
-    updateTrackData(data.Url, data.ArtworkUrl, data.Description);
+    disableControls(false);
+    updateTrackData(data);
 
     player().load();
     if (paused) {
@@ -153,10 +155,13 @@ var updateTrack = function (data, paused) {
     });
 }
 
-var updateTrackData = function (url, artworkUrl, description) {
-    $("#mpeg_src").attr("src", url);
-    $("#artwork").attr("src", artworkUrl);
-    $("#description").text(description);
+var updateTrackData = function (trackData) {
+    $("#mpeg_src").attr("src", trackData.Url);
+    $("#artwork").attr("src", trackData.ArtworkUrl);
+    $("#title").text(trackData.Title);
+    $("#artist").text(trackData.Artist);
+    $("#album").text(trackData.Album);
+    $("#year").text(trackData.Year);
 }
 
 var player = function () {
@@ -200,6 +205,13 @@ var showModal = function(content) {
     $("#modal").modal({ show: true, backdrop: 'static' });
 }
 
+var disableControls = function(disable) {
+    $("#play").prop("disabled", disable);
+    $("#pause").prop("disabled", disable);
+    $("#next").prop("disabled", disable);
+    $("#previous").prop("disabled", disable);
+}
+
 $(function () {
     checkLastFmAuthorized();
     $.ajax({
@@ -215,4 +227,5 @@ $(function () {
     document.getElementById("controls").onseeking = function () {
         skipToPercentage();
     }
+    disableControls(true);
 });

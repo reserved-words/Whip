@@ -149,6 +149,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ArtistController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CurrentTrackController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -184,6 +185,9 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Views\Home\_LastFmAuth.cshtml" />
+    <Content Include="Views\Artist\_Index.cshtml" />
+    <Content Include="Views\CurrentPlaylist\_Index.cshtml" />
+    <Content Include="Views\CurrentTrack\_Index.cshtml" />
     <Resource Include="favicon.ico" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

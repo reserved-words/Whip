@@ -14,6 +14,11 @@ namespace Whip.Web.Controllers
             _library = library;
         }
 
+        public ActionResult Index()
+        {
+            return PartialView("_Index");
+        }
+
         public JsonResult ShuffleAll()
         {
             return Play("Library", _library.Tracks);

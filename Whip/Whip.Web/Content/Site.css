@@ -28,6 +28,10 @@ audio::-webkit-media-controls-play-button {
     display: none;
 }
 
+audio::-webkit-media-controls-current-time-display {
+    margin-left: 10px;
+}
+
 audio {
     width: 100%;
 }

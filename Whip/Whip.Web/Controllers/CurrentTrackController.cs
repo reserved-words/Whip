@@ -15,6 +15,11 @@ namespace Whip.Web.Controllers
             _trackLoveService = trackLoveService;
         }
 
+        public ActionResult Index()
+        {
+            return PartialView("_Index");
+        }
+
         [HttpPost]
         public async Task<JsonResult> IsLoved()
         {

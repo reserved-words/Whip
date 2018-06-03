@@ -14,22 +14,15 @@ namespace Whip.Web.Controllers
             _cloudService = cloudService;
         }
 
-        [HttpPost]
-        public JsonResult GetCurrentTrack()
+        public ActionResult Index()
         {
-            var track = Playlist.CurrentTrack;
+            return PartialView("_Index");
+        }
 
-            return new JsonResult
-            {
-                Data = track == null
-                    ? null
-                    : new
-                    {
-                        Description = track.Title + " by " + track.Artist.Name,
-                        Url = _cloudService.GetTrackUrl(track),
-                        ArtworkUrl = _cloudService.GetArtworkUrl(track.Disc.Album)
-                    }
-            };
+        [HttpPost]
+        public new JsonResult GetCurrentTrack()
+        {
+            return base.GetCurrentTrack();
         }
 
         [HttpPost]
