@@ -6,12 +6,10 @@
 </div>
 
 <div class="section">
-    <ul class="list-unstyled">
+    <div class="btn-group-vertical block">
         @foreach (var playlist in Model)
         {
-            <li>
-                <button type="button" data-whip-play-url="@Html.DisplayFor(m => playlist.PlayUrl)" class="btn btn-default btn-block">@Html.DisplayFor(m => playlist.Title)</button>
-            </li>
+            <button type="button" data-whip-play-url="@Html.DisplayFor(m => playlist.PlayUrl)" class="btn btn-default block">@Html.DisplayFor(m => playlist.Title)</button>
         }
-    </ul>
+    </div>
 </div>
