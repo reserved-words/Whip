@@ -1,0 +1,20 @@
+﻿@using Whip.Common;
+@using Whip.Web.HtmlHelpers;
+
+@model Whip.Common.Model.Artist
+
+@Html.DisplayLinkFor(m => m.Website, "{0}", "link")
+
+@Html.DisplayLinkFor(m => m.Wikipedia, Resources.WikipediaUrl, "wikipedia-w")
+
+@Html.DisplayLinkFor(m => m.LastFm, Resources.LastFmUrl, "lastfm-square")
+
+@Html.DisplayLinkFor(m => m.Facebook, Resources.FacebookUrl, "facebook-square")
+
+@Html.DisplayLinkFor(m => m.Twitter, Resources.TwitterUrl, "twitter-square")
+
+@Html.DisplayLinkFor(m => m.YouTube, Resources.YouTubeUrl, "youtube")
+
+@Html.DisplayLinkFor(m => m.BandsInTown, Resources.BandsInTownUrl, "calendar")
+
+@Html.DisplayLinkFor(m => m.BandCamp, Resources.BandCampUrl, "bandcamp")

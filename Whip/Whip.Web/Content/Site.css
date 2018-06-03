@@ -66,3 +66,7 @@ div.section {
 .track table tr td:first-of-type {
     width: 6em;
 }
+
+i {
+    font-size:1.5em;
+}

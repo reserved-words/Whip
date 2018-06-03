@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Whip.Web.HtmlHelpers
@@ -18,6 +15,26 @@ namespace Whip.Web.HtmlHelpers
                 return MvcHtmlString.Empty;
 
             return MvcHtmlString.Create(model);
+        }
+
+        public static MvcHtmlString DisplayLinkFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, string urlFormat, string icon)
+        {
+            var metadata = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
+            var model = html.Encode(metadata.Model);
+
+            if (string.IsNullOrEmpty(model))
+                return MvcHtmlString.Empty;
+
+            var tagBuilder = new TagBuilder("a");
+            tagBuilder.Attributes.Add("href", string.Format(urlFormat, model));
+            tagBuilder.Attributes.Add("target", "_blank");
+            
+            var linkIcon = new TagBuilder("i");
+            linkIcon.AddCssClass($"fa fa-{icon}");
+
+            tagBuilder.InnerHtml = linkIcon.ToString();
+            
+            return MvcHtmlString.Create(tagBuilder.ToString());
         }
     }
 }
