@@ -7,7 +7,17 @@
         UTIL.post("/CurrentPlaylist/GetPreviousTrack", done);
     }
 
+    updateTab() {
+        if (UTIL.isCurrentTab("current-playlist")) {
+            UTIL.updateContent("/CurrentPlaylist", "#main");
+        }
+    }
+
     update(url, done) {
-        UTIL.post(url, done);
+        var self = this;
+        UTIL.post(url, function(data) {
+            done(data);
+            self.updateTab();
+        });
     }
 }

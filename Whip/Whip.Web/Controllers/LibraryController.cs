@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using System.Web.UI;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 
@@ -14,6 +15,7 @@ namespace Whip.Web.Controllers
             _library = library;
         }
 
+        [OutputCache(Duration = 3600, VaryByParam = "none", Location = OutputCacheLocation.Server)]
         public ActionResult Index()
         {
             return PartialView("_Index");

@@ -56,3 +56,7 @@ div.section {
 .glyphicon-heart-empty {
     color: firebrick
 }
+
+.track table tr td:first-of-type {
+    width: 6em;
+}
