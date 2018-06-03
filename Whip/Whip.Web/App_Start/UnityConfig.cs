@@ -53,6 +53,8 @@ namespace Whip.Web
             container.RegisterType<IPlayProgressTracker, PlayProgressTracker>();
             container.RegisterType<IErrorLoggingService, ErrorLoggingService>();
             container.RegisterType<IWebHelperService, WebHelperService>();
+            container.RegisterType<Whip.Services.Interfaces.ITrackLoveService, LastFm.TrackLoveService>();
+            container.RegisterType<LastFmApi.Interfaces.ITrackLoveService, LastFmApi.TrackLoveService>();
 
             var cloudService = container.Resolve<ICloudService>();
             var playlistXmlProvider = new Services.PlaylistXmlProvider(cloudService);
@@ -69,7 +71,7 @@ namespace Whip.Web
         {
             container.RegisterSingleton<IPlaylist, Playlist>();
             container.RegisterSingleton<ILastFmApiClientService, LastFmApiClientService>();
-            container.RegisterSingleton<Library>();
+            container.RegisterSingleton<Interfaces.ILibraryService, Services.LibraryService>();
 
             container.RegisterSingleton<IPlayer, ScrobblingPlayer>(
                 new InjectionConstructor(

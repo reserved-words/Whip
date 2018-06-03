@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using Whip.Common.Interfaces;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 
@@ -9,29 +8,21 @@ namespace Whip.Web.Controllers
     {
         private readonly ICloudService _cloudService;
 
-        public CurrentPlaylistController(IPlayer player, ICloudService cloudService, ITrackRepository trackRepository,
-            IPlaylist playlist, IErrorLoggingService logger)
-            : base(trackRepository, cloudService, playlist, logger)
+        public CurrentPlaylistController(ICloudService cloudService, IPlaylist playlist, IErrorLoggingService logger)
+            : base(cloudService, playlist, logger)
         {
             _cloudService = cloudService;
         }
 
-        [HttpPost]
-        public JsonResult GetCurrentTrack()
+        public ActionResult Index()
         {
-            var track = Playlist.CurrentTrack;
+            return PartialView("_Index");
+        }
 
-            return new JsonResult
-            {
-                Data = track == null
-                    ? null
-                    : new
-                    {
-                        Description = track.Title + " by " + track.Artist.Name,
-                        Url = _cloudService.GetTrackUrl(track),
-                        ArtworkUrl = _cloudService.GetArtworkUrl(track.Disc.Album)
-                    }
-            };
+        [HttpPost]
+        public new JsonResult GetCurrentTrack()
+        {
+            return base.GetCurrentTrack();
         }
 
         [HttpPost]
@@ -44,7 +35,7 @@ namespace Whip.Web.Controllers
         [HttpPost]
         public JsonResult GetPreviousTrack()
         {
-            Playlist.MoveNext();
+            Playlist.MovePrevious();
             return GetCurrentTrack();
         }
     }

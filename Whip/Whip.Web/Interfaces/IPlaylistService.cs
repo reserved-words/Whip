@@ -8,9 +8,9 @@ namespace Whip.Web.Interfaces
     public interface IPlaylistService
     {
         AllPlaylists GetAll();
-        Tuple<Playlist, List<Track>> GetCriteriaPlaylist(int id, Library library);
-        Tuple<Playlist, List<Track>> GetOrderedPlaylist(int id, Library library);
-        Tuple<Playlist, List<Track>> GetQuickPlaylist(int id, Library library);
+        Tuple<Playlist, List<Track>> GetCriteriaPlaylist(int id);
+        Tuple<Playlist, List<Track>> GetOrderedPlaylist(int id);
+        Tuple<Playlist, List<Track>> GetQuickPlaylist(int id);
         List<Playlist> GetFavourites();
     }
 }

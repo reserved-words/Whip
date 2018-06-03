@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
@@ -7,6 +8,7 @@ using Whip.LastFm;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 using Whip.Web.Interfaces;
+using Whip.Web.Models;
 
 namespace Whip.Web.Controllers
 {
@@ -15,8 +17,8 @@ namespace Whip.Web.Controllers
         private readonly ILastFmApiClientService _lastFm;
 
         public HomeController(IPlaylist playlist, IErrorLoggingService error, IPlaylistService playlistsService, 
-            ICloudService cloudService, ITrackRepository trackRepository, ILastFmApiClientService lastFm)
-            :base(trackRepository, cloudService, playlist, error)
+            ICloudService cloudService, ILastFmApiClientService lastFm)
+            :base(cloudService, playlist, error)
         {
             _lastFm = lastFm;
         }
@@ -32,23 +34,28 @@ namespace Whip.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetAuthUrl()
+        public async Task<ActionResult> CheckLastFmAuthorized()
         {
-            return new JsonResult
+            var lastFmUsername = ConfigurationManager.AppSettings["LastFmUsername"];
+            var sessionKey = Request.Cookies["SK"]?.Value;
+            if (_lastFm.UserApiClient == null)
             {
-                Data = new
-                {
-                    Url = _lastFm.UserApiClient.Authorized
-                        ? null
-                        : _lastFm.UserApiClient.AuthUrl
-                }
-            };
+                await _lastFm.SetClients(lastFmUsername, sessionKey);
+            }
+
+            return _lastFm.UserApiClient.Authorized
+                ? new HttpStatusCodeResult(HttpStatusCode.OK)
+                : (ActionResult)PartialView("_LastFmAuth", new LastFmAuthViewModel(_lastFm.UserApiClient.AuthUrl));
         }
 
         [HttpPost]
-        public async Task<HttpStatusCodeResult> Authorize()
+        public async Task<ActionResult> Authorize()
         {
-            await _lastFm.AuthorizeUserClient();
+            await _lastFm.AuthorizeUserClient(1);
+
+            if (!_lastFm.UserApiClient.Authorized)
+                return PartialView("_LastFmAuth", new LastFmAuthViewModel(_lastFm.UserApiClient.AuthUrl, true));
+
             var sessionKey = _lastFm.UserApiClient.SessionKey;
             Response.SetCookie(
                 new HttpCookie("SK", sessionKey)

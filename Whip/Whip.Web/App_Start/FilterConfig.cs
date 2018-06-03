@@ -8,6 +8,7 @@ namespace Whip.Web
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new RequireHttpsRemotelyAttribute());
+            filters.Add(new ResetLibraryAttribute());
         }
     }
 }

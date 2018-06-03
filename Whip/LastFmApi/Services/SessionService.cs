@@ -22,9 +22,9 @@ namespace LastFmApi
             return client;
         }
 
-        public async Task Authorize(UserApiClient client)
+        public async Task Authorize(UserApiClient client, int maxAttempts)
         {
-            await client.Authorize();
+            await client.Authorize(maxAttempts);
         }
     }
 }

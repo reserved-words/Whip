@@ -240,3 +240,7 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+
+# Config Files
+**/Whip.Web/*.config
+**/Whip.CloudSync/*.config

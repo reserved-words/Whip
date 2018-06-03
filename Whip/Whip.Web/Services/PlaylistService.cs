@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Whip.Common.Model;
-using Whip.Common.Singletons;
 using Whip.Services;
 using Whip.Services.Interfaces;
 using Whip.Web.Interfaces;
@@ -12,11 +11,14 @@ namespace Whip.Web.Services
     {
         private readonly IPlaylistRepository _playlistRepository;
         private readonly ITrackCriteriaService _trackCriteriaService;
+        private readonly Interfaces.ILibraryService _libraryService;
 
-        public PlaylistService(ITrackCriteriaService trackCriteriaService, IPlaylistRepository playlistRepository)
+        public PlaylistService(ITrackCriteriaService trackCriteriaService, IPlaylistRepository playlistRepository,
+            Interfaces.ILibraryService libraryService)
         {
             _trackCriteriaService = trackCriteriaService;
             _playlistRepository = playlistRepository;
+            _libraryService = libraryService;
         }
 
         public AllPlaylists GetAll()
@@ -24,26 +26,26 @@ namespace Whip.Web.Services
             return _playlistRepository.GetPlaylists();
         }
 
-        public Tuple<Playlist,List<Track>> GetCriteriaPlaylist(int id, Library library)
+        public Tuple<Playlist,List<Track>> GetCriteriaPlaylist(int id)
         {
             var playlist = _playlistRepository.GetCriteriaPlaylist(id);
-            var trackSearchService = GetTrackSearchService(library);
+            var trackSearchService = GetTrackSearchService();
             var tracks = trackSearchService.GetTracks(playlist);
             return new Tuple<Playlist, List<Track>>(playlist, tracks);
         }
 
-        public Tuple<Playlist, List<Track>> GetOrderedPlaylist(int id, Library library)
+        public Tuple<Playlist, List<Track>> GetOrderedPlaylist(int id)
         {
             var playlist = _playlistRepository.GetOrderedPlaylist(id);
-            var trackSearchService = GetTrackSearchService(library);
+            var trackSearchService = GetTrackSearchService();
             var tracks = trackSearchService.GetTracks(playlist.Tracks);
             return new Tuple<Playlist, List<Track>>(playlist, tracks);
         }
 
-        public Tuple<Playlist, List<Track>> GetQuickPlaylist(int id, Library library)
+        public Tuple<Playlist, List<Track>> GetQuickPlaylist(int id)
         {
             var playlist = _playlistRepository.GetQuickPlaylist(id);
-            var trackSearchService = GetTrackSearchService(library);
+            var trackSearchService = GetTrackSearchService();
             var tracks = trackSearchService.GetTracks(playlist.FilterType, playlist.FilterValues);
             return new Tuple<Playlist, List<Track>>(playlist, tracks);
         }
@@ -53,9 +55,9 @@ namespace Whip.Web.Services
             return _playlistRepository.GetFavouritePlaylists();
         }
 
-        private ITrackSearchService GetTrackSearchService(Library library)
+        private ITrackSearchService GetTrackSearchService()
         {
-            return new TrackSearchService(library, _trackCriteriaService);
+            return new TrackSearchService(_libraryService.Library, _trackCriteriaService);
         }
     }
 }

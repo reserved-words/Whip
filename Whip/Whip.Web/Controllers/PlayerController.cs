@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using System.Web.Mvc;
 using Whip.Common.Interfaces;
-using Whip.Common.Singletons;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 
@@ -11,9 +10,8 @@ namespace Whip.Web.Controllers
     {
         private readonly IPlayer _player;
 
-        public PlayerController(IPlayer player, ICloudService cloudService, ITrackRepository trackRepository,
-            IPlaylist playlist, IErrorLoggingService logger)
-            :base(trackRepository, cloudService, playlist, logger)
+        public PlayerController(IPlayer player, ICloudService cloudService, IPlaylist playlist, IErrorLoggingService logger)
+            :base(cloudService, playlist, logger)
         {
             _player = player;
         }
