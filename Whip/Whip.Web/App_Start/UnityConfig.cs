@@ -71,7 +71,7 @@ namespace Whip.Web
         {
             container.RegisterSingleton<IPlaylist, Playlist>();
             container.RegisterSingleton<ILastFmApiClientService, LastFmApiClientService>();
-            container.RegisterSingleton<Library>();
+            container.RegisterSingleton<Interfaces.ILibraryService, Services.LibraryService>();
 
             container.RegisterSingleton<IPlayer, ScrobblingPlayer>(
                 new InjectionConstructor(

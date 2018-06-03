@@ -11,24 +11,16 @@ namespace Whip.Web.Controllers
 {
     public class BaseController : Controller
     {
-        protected static Library Library;
         protected readonly IPlaylist Playlist;
         
         private readonly ICloudService _cloudService;
         private readonly IErrorLoggingService _logger;
         
-        public BaseController(ITrackRepository trackRepository, ICloudService cloudService, 
-            IPlaylist playlist, IErrorLoggingService logger)
+        public BaseController(ICloudService cloudService, IPlaylist playlist, IErrorLoggingService logger)
         {
             Playlist = playlist;
-
             _cloudService = cloudService;
             _logger = logger;
-
-            if (Library == null)
-            {
-                Library = trackRepository.GetLibrary();
-            }
         }
 
         protected JsonResult Play(string title, List<Track> tracks, Track firstTrack = null, bool shuffle = true, bool doNotSort = false)
@@ -63,15 +55,7 @@ namespace Whip.Web.Controllers
         protected override void OnException(ExceptionContext filterContext)
         {
             _logger.Log(filterContext.Exception);
-
-            if (filterContext.RequestContext.HttpContext.Request.IsAjaxRequest())
-            {
-                filterContext.Result = PartialView("Error");
-            }
-            else
-            {
-                filterContext.Result = View("Error");
-            }
+            filterContext.Result = RedirectToAction("Index", "Error");
         }
     }
 }

@@ -9,9 +9,8 @@ namespace Whip.Web.Controllers
     {
         private readonly ITrackLoveService _trackLoveService;
 
-        public CurrentTrackController(ITrackLoveService trackLoveService, ICloudService cloudService, ITrackRepository trackRepository,
-            IPlaylist playlist, IErrorLoggingService logger)
-            : base(trackRepository, cloudService, playlist, logger)
+        public CurrentTrackController(ITrackLoveService trackLoveService, ICloudService cloudService, IPlaylist playlist, IErrorLoggingService logger)
+            : base(cloudService, playlist, logger)
         {
             _trackLoveService = trackLoveService;
         }

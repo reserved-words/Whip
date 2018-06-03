@@ -17,8 +17,8 @@ namespace Whip.Web.Controllers
         private readonly ILastFmApiClientService _lastFm;
 
         public HomeController(IPlaylist playlist, IErrorLoggingService error, IPlaylistService playlistsService, 
-            ICloudService cloudService, ITrackRepository trackRepository, ILastFmApiClientService lastFm)
-            :base(trackRepository, cloudService, playlist, error)
+            ICloudService cloudService, ILastFmApiClientService lastFm)
+            :base(cloudService, playlist, error)
         {
             _lastFm = lastFm;
         }

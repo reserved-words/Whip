@@ -14,10 +14,8 @@ namespace Whip.Web.Controllers
             {
                 return View("Index");
             }
-            else
-            {
-                return PartialView("_Index");
-            }
+
+            return PartialView("_Index");
         }
     }
 }

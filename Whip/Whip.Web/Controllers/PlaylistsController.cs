@@ -13,8 +13,8 @@ namespace Whip.Web.Controllers
         private readonly IPlaylistService _playlistsService;
 
         public PlaylistsController(IPlaylist playlist, IErrorLoggingService logger, IPlaylistService playlistsService,
-            ICloudService cloudService, ITrackRepository trackRepository)
-            : base(trackRepository, cloudService, playlist, logger)
+            ICloudService cloudService)
+            : base(cloudService, playlist, logger)
         {
             _playlistsService = playlistsService;
         }
@@ -69,37 +69,37 @@ namespace Whip.Web.Controllers
 
         public ActionResult StandardPlaylist(int id)
         {
-            var playlist = _playlistsService.GetQuickPlaylist(id, Library);
+            var playlist = _playlistsService.GetQuickPlaylist(id);
             return GetPlaylist(playlist.Item1.Title, playlist.Item2, Url.Action(nameof(PlayStandardPlaylist), new { id }));
         }
 
         public JsonResult PlayStandardPlaylist(int id)
         {
-            var playlist = _playlistsService.GetQuickPlaylist(id, Library);
+            var playlist = _playlistsService.GetQuickPlaylist(id);
             return Play(playlist.Item1.Title, playlist.Item2);
         }
 
         public ActionResult OrderedPlaylist(int id)
         {
-            var playlist = _playlistsService.GetOrderedPlaylist(id, Library);
+            var playlist = _playlistsService.GetOrderedPlaylist(id);
             return GetPlaylist(playlist.Item1.Title, playlist.Item2, Url.Action("PlayOrderedPlaylist", new { id }));
         }
 
         public JsonResult PlayOrderedPlaylist(int id)
         {
-            var playlist = _playlistsService.GetOrderedPlaylist(id, Library);
+            var playlist = _playlistsService.GetOrderedPlaylist(id);
             return Play(playlist.Item1.Title, playlist.Item2, null, false, true);
         }
 
         public ActionResult CriteriaPlaylist(int id)
         {
-            var playlist = _playlistsService.GetCriteriaPlaylist(id, Library);
+            var playlist = _playlistsService.GetCriteriaPlaylist(id);
             return GetPlaylist(playlist.Item1.Title, playlist.Item2, Url.Action("PlayCriteriaPlaylist", new { id }));
         }
 
         public JsonResult PlayCriteriaPlaylist(int id)
         {
-            var playlist = _playlistsService.GetCriteriaPlaylist(id, Library);
+            var playlist = _playlistsService.GetCriteriaPlaylist(id);
             return Play(playlist.Item1.Title, playlist.Item2);
         }
     }

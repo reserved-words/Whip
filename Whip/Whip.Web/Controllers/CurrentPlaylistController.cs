@@ -8,9 +8,8 @@ namespace Whip.Web.Controllers
     {
         private readonly ICloudService _cloudService;
 
-        public CurrentPlaylistController(ICloudService cloudService, ITrackRepository trackRepository,
-            IPlaylist playlist, IErrorLoggingService logger)
-            : base(trackRepository, cloudService, playlist, logger)
+        public CurrentPlaylistController(ICloudService cloudService, IPlaylist playlist, IErrorLoggingService logger)
+            : base(cloudService, playlist, logger)
         {
             _cloudService = cloudService;
         }

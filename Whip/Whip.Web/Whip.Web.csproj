@@ -157,10 +157,12 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\CurrentPlaylistController.cs" />
     <Compile Include="Controllers\PlaylistsController.cs" />
+    <Compile Include="Filters\ResetLibraryAttribute.cs" />
     <Compile Include="Filters\RequireHttpsRemotelyAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\ILibraryService.cs" />
     <Compile Include="Interfaces\IPlaylistService.cs" />
     <Compile Include="Models\LastFmAuthViewModel.cs" />
     <Compile Include="Models\PlaylistsViewModel.cs" />
@@ -169,6 +171,7 @@
     <Compile Include="Models\TrackViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ConfigSettings.cs" />
+    <Compile Include="Services\LibraryService.cs" />
     <Compile Include="Services\Player.cs" />
     <Compile Include="Services\PlaylistService.cs" />
     <Compile Include="Services\TrackXmlProvider.cs" />
