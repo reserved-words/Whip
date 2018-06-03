@@ -47,3 +47,8 @@ div.section {
 .block .btn {
     flex: 1
 }
+
+.glyphicon-heart,
+.glyphicon-heart-empty {
+    color: firebrick
+}

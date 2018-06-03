@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using Whip.Common.Interfaces;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 
@@ -9,7 +8,7 @@ namespace Whip.Web.Controllers
     {
         private readonly ICloudService _cloudService;
 
-        public CurrentPlaylistController(IPlayer player, ICloudService cloudService, ITrackRepository trackRepository,
+        public CurrentPlaylistController(ICloudService cloudService, ITrackRepository trackRepository,
             IPlaylist playlist, IErrorLoggingService logger)
             : base(trackRepository, cloudService, playlist, logger)
         {

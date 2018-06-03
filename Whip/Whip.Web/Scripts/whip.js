@@ -135,11 +135,25 @@ var updateTrack = function (data, paused) {
     } else {
         play();
     }
+
+    $.ajax({
+        url: "/CurrentTrack/IsLoved",
+        method: "POST"
+    })
+    .done(function (data) {
+        if (data.IsLoved) {
+            $("#loved").removeClass("hidden");
+            $("#notloved").addClass("hidden");
+        } else {
+            $("#loved").addClass("hidden");
+            $("#notloved").removeClass("hidden");
+        }
+    });
 }
 
 var updateTrackData = function (url, artworkUrl, description) {
     $("#mpeg_src").attr("src", url);
-    $("#artwork>img").attr("src", artworkUrl);
+    $("#artwork").attr("src", artworkUrl);
     $("#description").text(description);
 }
 

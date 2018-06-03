@@ -1,25 +1,33 @@
 ﻿<div id="player" class="section">
     
-    <div id="artwork" class="col-sm-12">
-        <img src="" class="img-responsive"/>
-    </div>
+    <div class="panel panel-default">
+        
+        <div class="panel-heading">
+            <div class="panel-title">
+                Currently Playing
+                <span id="loved" class="glyphicon glyphicon-heart hidden pull-right"></span>
+                <span id="notloved" class="glyphicon glyphicon-heart-empty pull-right"></span>
+            </div>
+        </div>
 
-    <div class="col-sm-12">
-        <audio id="controls" controls controlsList="nodownload">
-            <source id="mpeg_src" src="" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
-    </div>
+        <div class="panel-body">
+            
+            <img id="artwork" src="" class="img-responsive" />
 
-    <div class="col-sm-12">
-        <p id="description"></p>
-    </div>
+            <audio id="controls" controls controlsList="nodownload">
+                <source id="mpeg_src" src="" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
 
-    <div class="btn-group block" role="group">
-        <button id="previous" type="button" class="btn btn-default">Previous</button>
-        <button id="play" type="button" class="btn btn-default">Play</button>
-        <button id="pause" type="button" class="hidden btn btn-default">Pause</button>
-        <button id="next" type="button" class="btn btn-default">Next</button>
+            <p id="description"></p>
+
+            <div class="btn-group block" role="group">
+                <button id="previous" type="button" class="btn btn-default"><span class="glyphicon glyphicon-step-backward"></span></button>
+                <button id="play" type="button" class="btn btn-default"><span class="glyphicon glyphicon-play"></span></button>
+                <button id="pause" type="button" class="hidden btn btn-default"><span class="glyphicon glyphicon-pause"></span></button>
+                <button id="next" type="button" class="btn btn-default"><span class="glyphicon glyphicon-step-forward"></span></button>
+            </div>
+        </div>
     </div>
 
 </div>
