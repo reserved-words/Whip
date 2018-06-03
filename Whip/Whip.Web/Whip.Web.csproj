@@ -184,6 +184,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\Whip\current-playlist.js" />
+    <Content Include="Scripts\Whip\current-track.js" />
+    <Content Include="Scripts\Whip\util.js" />
+    <Content Include="Scripts\Whip\player-controls.js" />
+    <Content Include="Scripts\Whip\player.js" />
     <Content Include="Views\Home\_LastFmAuth.cshtml" />
     <Content Include="Views\Artist\_Index.cshtml" />
     <Content Include="Views\CurrentPlaylist\_Index.cshtml" />
@@ -202,7 +207,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\whip.js" />
+    <Content Include="Scripts\Whip\main.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
