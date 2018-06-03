@@ -35,7 +35,7 @@ namespace Whip.Web.Controllers
         [HttpPost]
         public JsonResult GetPreviousTrack()
         {
-            Playlist.MoveNext();
+            Playlist.MovePrevious();
             return GetCurrentTrack();
         }
     }

@@ -24,7 +24,13 @@ namespace Whip.Web
                       "~/Scripts/respond.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/whip").Include(
-                "~/Scripts/whip.js"));
+                "~/Scripts/Whip/util.js",
+                "~/Scripts/Whip/auth.js",
+                "~/Scripts/Whip/current-track.js",
+                "~/Scripts/Whip/current-playlist.js",
+                "~/Scripts/Whip/player-controls.js",
+                "~/Scripts/Whip/player.js",
+                "~/Scripts/Whip/main.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

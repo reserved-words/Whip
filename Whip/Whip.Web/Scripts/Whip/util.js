@@ -1,15 +1,17 @@
-﻿
-var Util = {
-    hideModal: function () {
+﻿var UTIL = {
+    
+    hideModal() {
         $("#modal").modal('hide');
         $('body').removeClass('modal-open');
         $('.modal-backdrop').remove();
     },
-    showModal: function (content) {
+    
+    showModal(content) {
         $("#modal .modal-content").html(content);
         $("#modal").modal({ show: true, backdrop: 'static' });
     },
-    post: function (url, done, data) {
+
+    post(url, done, data) {
         $.ajax({
             url: url,
             method: "POST",
@@ -21,7 +23,8 @@ var Util = {
             }
         });
     },
-    get: function (url, done) {
+
+    get(url, done) {
         $.ajax({
             url: url,
             method: "GET"
@@ -32,8 +35,9 @@ var Util = {
            }
         });
     },
-    updateMainContent: function (url) {
-        get(url, function (data) {
+
+    updateMainContent(url) {
+        UTIL.get(url, function (data) {
             $("#main").html(data);
         });
     }

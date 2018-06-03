@@ -1,11 +1,13 @@
-﻿var CurrentPlaylist = {
-    getNextTrack: function (done) {
-        util.post("/CurrentPlaylist/GetNextTrack", done);
-    },
-    getPreviousTrack: function (done) {
-        util.post("/CurrentPlaylist/GetPreviousTrack", done);
-    },
-    update: function (url, done) {
-        util.post(url, done);
+﻿class CurrentPlaylist {
+    getNextTrack(done) {
+        UTIL.post("/CurrentPlaylist/GetNextTrack", done);
     }
-};
+
+    getPreviousTrack(done) {
+        UTIL.post("/CurrentPlaylist/GetPreviousTrack", done);
+    }
+
+    update(url, done) {
+        UTIL.post(url, done);
+    }
+}
