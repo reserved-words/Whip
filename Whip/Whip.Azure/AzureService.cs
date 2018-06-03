@@ -1,6 +1,7 @@
 ﻿using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
@@ -80,9 +81,17 @@ namespace Whip.Azure
 
         private static string GetBlobFolder(Album album)
         {
-            var parentFolder = album.Artist.Name.ToLowerInvariant();
-            var childFolder = album.Title.ToLowerInvariant();
+            var parentFolder = ValidBlobName(album.Artist.Name, true);
+            var childFolder = ValidBlobName(album.Title, true);
             return $"{parentFolder}/{childFolder}";
+        }
+
+        private static string ValidBlobName(string name, bool lowerCase)
+        {
+            var urlEncoded = WebUtility.UrlEncode(name);
+            return lowerCase
+                ? urlEncoded?.ToLowerInvariant()
+                : urlEncoded;
         }
 
         private CloudBlobContainer Container

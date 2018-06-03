@@ -30,7 +30,7 @@ namespace Whip.CloudSync
         private string DataDirectory => ConfigurationManager.AppSettings["DataDirectory"];
         public string AccountName => ConfigurationManager.AppSettings["CloudAccountName"];
         public string ConnectionString => ConfigurationManager.AppSettings["CloudConnectionString"];
-        public string ContainerName => ConfigurationManager.AppSettings["CoudContainerName"];
+        public string ContainerName => ConfigurationManager.AppSettings["CloudContainerName"];
 
         private XDocument GetSyncData()
         {
