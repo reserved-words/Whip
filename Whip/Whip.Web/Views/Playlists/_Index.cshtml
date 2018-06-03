@@ -1,55 +1,57 @@
 ﻿@model Whip.Web.Models.PlaylistsViewModel
 
-<h1>Playlists</h1>
+<div id="tab-playlists">
+    <h1>Playlists</h1>
 
-<div class="row">
-    
-    <div class="col-sm-12 col-md-4">
-        <h2>Standard Playlists</h2>
+    <div class="row">
 
-        <ul class="list-unstyled">
-            @foreach (var playlist in Model.StandardPlaylists)
+        <div class="col-sm-12 col-md-4">
+            <h2>Standard Playlists</h2>
+
+            <ul class="list-unstyled">
+                @foreach (var playlist in Model.StandardPlaylists)
             {
-                <li>
-                    <button type="button" data-whip-play-url="@playlist.PlayUrl" class="btn btn-default">
-                        <span class="glyphicon glyphicon-play"></span>
-                    </button>
-                    <a data-whip-url="@Url.Action("StandardPlaylist", "Playlists", new {id = playlist.Id})">@Html.DisplayFor(m => playlist.Title)</a>
-                </li>
-            }
-        </ul>
-    </div>
-    
-    <div class="col-sm-12 col-md-4">
-        <h2>Criteria Playlists</h2>
+                    <li>
+                        <button type="button" data-whip-play-url="@playlist.PlayUrl" class="btn btn-default">
+                            <span class="glyphicon glyphicon-play"></span>
+                        </button>
+                        <a data-whip-url="@Url.Action("StandardPlaylist", "Playlists", new {id = playlist.Id})">@Html.DisplayFor(m => playlist.Title)</a>
+                    </li>
+                }
+            </ul>
+        </div>
 
-        <ul class="list-unstyled">
-            @foreach (var playlist in Model.CriteriaPlaylists)
+        <div class="col-sm-12 col-md-4">
+            <h2>Criteria Playlists</h2>
+
+            <ul class="list-unstyled">
+                @foreach (var playlist in Model.CriteriaPlaylists)
             {
-                <li>
-                    <button type="button" data-whip-play-url="@playlist.PlayUrl" class="btn btn-default">
-                        <span class="glyphicon glyphicon-play"></span>
-                    </button>
-                    <a data-whip-url="@Url.Action("CriteriaPlaylist", "Playlists", new {id = playlist.Id})">@Html.DisplayFor(m => playlist.Title)</a>
-                </li>
-            }
-        </ul>
-    </div>
-    
-    <div class="col-sm-12 col-md-4">
-        <h2>Ordered Playlists</h2>
+                    <li>
+                        <button type="button" data-whip-play-url="@playlist.PlayUrl" class="btn btn-default">
+                            <span class="glyphicon glyphicon-play"></span>
+                        </button>
+                        <a data-whip-url="@Url.Action("CriteriaPlaylist", "Playlists", new {id = playlist.Id})">@Html.DisplayFor(m => playlist.Title)</a>
+                    </li>
+                }
+            </ul>
+        </div>
 
-        <ul class="list-unstyled">
-            @foreach (var playlist in Model.OrderedPlaylists)
+        <div class="col-sm-12 col-md-4">
+            <h2>Ordered Playlists</h2>
+
+            <ul class="list-unstyled">
+                @foreach (var playlist in Model.OrderedPlaylists)
             {
-                <li>
-                    <button type="button" data-whip-play-url="@playlist.PlayUrl" class="btn btn-default">
-                        <span class="glyphicon glyphicon-play"></span>
-                    </button>
-                    <a data-whip-url="@Url.Action("OrderedPlaylist", "Playlists", new {id = playlist.Id})">@Html.DisplayFor(m => playlist.Title)</a>
-                </li>
-            }
-        </ul>
-    </div>
+                    <li>
+                        <button type="button" data-whip-play-url="@playlist.PlayUrl" class="btn btn-default">
+                            <span class="glyphicon glyphicon-play"></span>
+                        </button>
+                        <a data-whip-url="@Url.Action("OrderedPlaylist", "Playlists", new {id = playlist.Id})">@Html.DisplayFor(m => playlist.Title)</a>
+                    </li>
+                }
+            </ul>
+        </div>
 
+    </div>
 </div>

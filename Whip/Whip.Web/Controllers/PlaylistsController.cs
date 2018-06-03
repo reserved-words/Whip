@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using System.Web.UI;
 using Whip.Common.Enums;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
@@ -19,6 +20,7 @@ namespace Whip.Web.Controllers
             _playlistsService = playlistsService;
         }
 
+        [OutputCache(Duration = 3600, VaryByParam = "none", Location = OutputCacheLocation.Server)]
         public ActionResult Index()
         {
             var playlists = _playlistsService.GetAll();

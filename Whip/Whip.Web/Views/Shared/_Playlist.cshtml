@@ -5,20 +5,7 @@
 <button type="button" data-whip-play-url="@Html.DisplayFor(m => m.PlayUrl)" class="btn btn-default">Play</button>
 
 <div class="section">
-    @if (Model.Tracks.Any())
-    {
-        <ul class="list-unstyled">
-            @foreach (var track in Model.Tracks)
-            {
-                <li>
-                    @Html.DisplayFor(m => track.Track.Title) by @Html.DisplayFor(m => track.Track.Artist.Name)
-                </li>
-            }
-        </ul>
-    }
-    else
-    {
-        <p>This playlist has no tracks</p>
-    }
+
+    @Html.Partial("_TrackList", Model.Tracks)
 
 </div>

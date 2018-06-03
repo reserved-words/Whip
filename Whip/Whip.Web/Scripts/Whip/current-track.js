@@ -11,8 +11,15 @@
         });
     }
 
+    updateTab() {
+        if (UTIL.isCurrentTab("current-track")) {
+            UTIL.updateContent("/CurrentTrack", "#main");
+        }
+    }
+
     updateTrackData(trackData) {
         this.updateLovedStatus();
+        this.updateTab();
         $("#mpeg_src").attr("src", trackData.Url);
         $("#artwork").attr("src", trackData.ArtworkUrl);
         $("#title").text(trackData.Title);

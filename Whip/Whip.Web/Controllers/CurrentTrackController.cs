@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.UI;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 
@@ -15,9 +16,11 @@ namespace Whip.Web.Controllers
             _trackLoveService = trackLoveService;
         }
 
+        [OutputCache(Duration = 300, VaryByParam = "none", Location = OutputCacheLocation.Server)]
         public ActionResult Index()
         {
-            return PartialView("_Index");
+            var model = GetViewModel(Playlist.CurrentTrack);
+            return PartialView("_Index", model);
         }
 
         [HttpPost]

@@ -36,9 +36,13 @@
         });
     },
 
-    updateMainContent(url) {
+    updateContent(url, selector) {
         UTIL.get(url, function (data) {
-            $("#main").html(data);
+            $(selector).html(data);
         });
+    },
+
+    isCurrentTab(tabName){
+        return $("#tab-" + tabName).length > 0;
     }
 }
