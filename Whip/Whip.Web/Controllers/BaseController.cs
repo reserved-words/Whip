@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Web.Mvc;
 using Whip.Common.Model;
-using Whip.Common.Singletons;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 using Whip.Web.Models;
@@ -23,9 +22,20 @@ namespace Whip.Web.Controllers
             _logger = logger;
         }
 
+        protected TrackViewModel GetViewModel(Track track)
+        {
+            return track == null
+                ? null
+                : new TrackViewModel(track,
+                    _cloudService.GetTrackUrl(track),
+                    _cloudService.GetArtworkUrl(track.Disc.Album));
+        }
+
         protected JsonResult Play(string title, List<Track> tracks, Track firstTrack = null, bool shuffle = true, bool doNotSort = false)
         {
             Playlist.Set(title, tracks, firstTrack, shuffle, doNotSort);
+            ClearPlaylistCache();
+            ClearTrackCache();
             return GetCurrentTrack();
         }
 
@@ -35,7 +45,7 @@ namespace Whip.Web.Controllers
             {
                 Title = title,
                 Tracks = tracks
-                    .Select(t => new TrackViewModel(t, _cloudService.GetTrackUrl(t), _cloudService.GetArtworkUrl(t.Disc.Album)))
+                    .Select(GetViewModel)
                     .ToList(),
                 PlayUrl = playUrl
             };
@@ -67,6 +77,18 @@ namespace Whip.Web.Controllers
                         ArtworkUrl = _cloudService.GetArtworkUrl(track.Disc.Album)
                     }
             };
+        }
+
+        protected void ClearPlaylistCache()
+        {
+            Response.RemoveOutputCacheItem("/CurrentPlaylist");
+            Response.RemoveOutputCacheItem("/CurrentPlaylist/Index");
+        }
+
+        protected void ClearTrackCache()
+        {
+            Response.RemoveOutputCacheItem("/CurrentTrack");
+            Response.RemoveOutputCacheItem("/CurrentTrack/Index");
         }
     }
 }

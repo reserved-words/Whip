@@ -163,6 +163,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HtmlHelpers\DisplayHelpers.cs" />
     <Compile Include="Interfaces\ILibraryService.cs" />
     <Compile Include="Interfaces\IPlaylistService.cs" />
     <Compile Include="Models\LastFmAuthViewModel.cs" />
@@ -186,6 +187,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\Whip\current-playlist.js" />
     <Content Include="Scripts\Whip\current-track.js" />
+    <Content Include="Scripts\Whip\auth.js" />
     <Content Include="Scripts\Whip\util.js" />
     <Content Include="Scripts\Whip\player-controls.js" />
     <Content Include="Scripts\Whip\player.js" />
@@ -193,6 +195,7 @@
     <Content Include="Views\Artist\_Index.cshtml" />
     <Content Include="Views\CurrentPlaylist\_Index.cshtml" />
     <Content Include="Views\CurrentTrack\_Index.cshtml" />
+    <Content Include="Views\Shared\_TrackList.cshtml" />
     <Resource Include="favicon.ico" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -215,6 +218,7 @@
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -230,7 +234,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Playlist\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

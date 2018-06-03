@@ -1,81 +1,91 @@
-﻿
-var Player = {
-    play: function () {
-        if (playerControls.isPaused()) {
-            util.post("/Player/Resume");
-        } else {
-            util.post("/Player/Play");
+﻿class Player {
+    
+    constructor() {
+        this.playerControls = new PlayerControls();
+        this.currentTrack = new CurrentTrack();
+        this.currentPlaylist = new CurrentPlaylist();
+        this.playerControls.disableControls(true);
+
+        var self = this;
+
+        document.getElementById("controls").onended = function () {
+            self.getNextTrack();
         }
-        playerControls.play();
-    },
-    pause: function () {
-        playerControls.pause();
-        util.post("/Player/Pause");
-    },
-    skipToPercentage: function () {
-        var percentage = playerControls.skipToPercentage();
+        document.getElementById("controls").onseeking = function () {
+            self.skipToPercentage();
+        }
+        $("#play").click(function () {
+            self.play();
+        });
+
+        $("#pause").click(function () {
+            self.pause();
+        });
+
+        $("#next").click(function () {
+            self.getNextTrack();
+        });
+
+        $("#previous").click(function () {
+            self.getPreviousTrack();
+        });
+    }
+
+    play() {
+        if (this.playerControls.isPaused()) {
+            UTIL.post("/Player/Resume");
+        } else {
+            UTIL.post("/Player/Play");
+        }
+        this.playerControls.play();
+    }
+
+    pause() {
+        this.playerControls.pause();
+        UTIL.post("/Player/Pause");
+    }
+
+    skipToPercentage() {
+        var percentage = this.playerControls.skipToPercentage();
         if (percentage === 0)
             return;
-        util.post("/Player/SkipToPercentage", null, { percentage });
-    },
-    stop: function () {
-        currentTrack.updateTrackData(null);
-        playerControls.stop();
-        util.post("/Player/Stop");
-    },
-    updateTrack: function (data) {
-        currentTrack.updateTrackData(data);
-        playerControls.updateTrack(data);
-        if (playerControls.isPaused()) {
-            pause();
+        UTIL.post("/Player/SkipToPercentage", null, { percentage });
+    }
+
+    stop () {
+        this.currentTrack.updateTrackData(null);
+        this.playerControls.stop();
+        UTIL.post("/Player/Stop");
+    }
+    
+    updateTrack(data) {
+        this.currentTrack.updateTrackData(data);
+        this.playerControls.updateTrack(data);
+        if (this.playerControls.isPaused()) {
+            this.pause();
         } else {
-            play();
+            this.play();
         }
-    },
-    disableControls: function (disable) {
-        playerControls.disableControls(disable);
-    },
-    getNextTrack: function() {
-        currentPlaylist.getNextTrack(function (data) {
-            updateTrack(data);
-        });
-    },
-    getPreviousTrack: function () {
-        currentPlaylist.getPreviousTrack(function (data) {
-            updateTrack(data);
-        });
-    },
-    updatePlaylist: function(url) {
-        currentPlaylist.update(url, function (data) {
-            updateTrack(data);
+    }
+
+    getNextTrack() {
+        var self = this;
+        self.currentPlaylist.getNextTrack(function (data) {
+            self.updateTrack(data);
         });
     }
-}
 
-function Player() {
-    this.util = new Util();
-    this.playerControls = new PlayerControls();
-    this.currentTrack = new CurrentTrack();
-    this.currentPlaylist = new CurrentPlaylist();
-    document.getElementById("controls").onended = function () {
-        getNextTrack();
+    getPreviousTrack() {
+        var self = this;
+        self.currentPlaylist.getPreviousTrack(function (data) {
+            self.updateTrack(data);
+        });
     }
-    document.getElementById("controls").onseeking = function () {
-        skipToPercentage();
+
+    updatePlaylist(url) {
+        var self = this;
+        self.currentPlaylist.update(url, function (data) {
+            self.updateTrack(data);
+        });
     }
-    $("#play").click(function () {
-        play();
-    });
-
-    $("#pause").click(function () {
-        pause();
-    });
-
-    $("#next").click(function () {
-        getNextTrack();
-    });
-
-    $("#previous").click(function () {
-        getPreviousTrack();
-    });
 }

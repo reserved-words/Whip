@@ -1,42 +1,49 @@
-﻿var PlayerControls = {
+﻿class PlayerControls {
     
-    play: function () {
+    play() {
         $("#play").addClass("hidden");
         $("#pause").removeClass("hidden");
-        player().play();
-    },
-    pause: function () {
+        this.player().play();
+    }
+
+    pause() {
         $("#play").removeClass("hidden");
         $("#pause").addClass("hidden");
-        player().pause();
-    },
-    skipToPercentage: function () {
-        var currentTime = player().currentTime;
-        var totalTime = player().duration;
+        this.player().pause();
+    }
+
+    skipToPercentage() {
+        var currentTime = this.player().currentTime;
+        var totalTime = this.player().duration;
         return (totalTime === 0) ? 0 : 100 * currentTime / totalTime;
-    },
-    stop: function () {
-        updateTrack(null);
-    },
-    updateTrack: function (data) {
+    }
+
+    stop() {
+        this.updateTrack(null);
+    }
+
+    updateTrack(data) {
         if (!data) {
-            player().stop();
-            disableControls(true);
+            this.player().stop();
+            this.disableControls(true);
             return;
         }
-        disableControls(false);
-        player().load();
-    },
-    disableControls: function (disable) {
+        this.disableControls(false);
+        this.player().load();
+    }
+
+    disableControls(disable) {
         $("#play").prop("disabled", disable);
         $("#pause").prop("disabled", disable);
         $("#next").prop("disabled", disable);
         $("#previous").prop("disabled", disable);
-    },
-    player: function () {
-        return document.getElementById("controls");
-    },
-    isPaused: function() {
-        return player().paused && player().currentTime > 0;
     }
-};
+
+    player() {
+        return document.getElementById("controls");
+    }
+
+    isPaused() {
+        return this.player().paused && this.player().currentTime > 0;
+    }
+}

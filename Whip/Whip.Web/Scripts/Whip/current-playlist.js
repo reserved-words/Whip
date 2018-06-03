@@ -1,11 +1,23 @@
-﻿var CurrentPlaylist = {
-    getNextTrack: function (done) {
-        util.post("/CurrentPlaylist/GetNextTrack", done);
-    },
-    getPreviousTrack: function (done) {
-        util.post("/CurrentPlaylist/GetPreviousTrack", done);
-    },
-    update: function (url, done) {
-        util.post(url, done);
+﻿class CurrentPlaylist {
+    getNextTrack(done) {
+        UTIL.post("/CurrentPlaylist/GetNextTrack", done);
     }
-};
+
+    getPreviousTrack(done) {
+        UTIL.post("/CurrentPlaylist/GetPreviousTrack", done);
+    }
+
+    updateTab() {
+        if (UTIL.isCurrentTab("current-playlist")) {
+            UTIL.updateContent("/CurrentPlaylist", "#main");
+        }
+    }
+
+    update(url, done) {
+        var self = this;
+        UTIL.post(url, function(data) {
+            done(data);
+            self.updateTab();
+        });
+    }
+}

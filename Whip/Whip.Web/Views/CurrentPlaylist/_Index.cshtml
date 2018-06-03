@@ -1,2 +1,16 @@
-﻿
-<h1>Current Playlist</h1>
+﻿@model Whip.Web.Models.PlayViewModel
+
+<div id="tab-current-playlist">
+    <h1>Current Playlist</h1>
+
+    @if (!string.IsNullOrEmpty(Model.Title))
+    {
+        <h2>Playing: @Html.DisplayFor(m => m.Title)</h2>
+    }
+
+    <div class="section">
+
+        @Html.Partial("_TrackList", Model.Tracks)
+
+    </div>
+</div>

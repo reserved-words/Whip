@@ -1,6 +1,6 @@
-﻿var CurrentTrack = {
-    updateLovedStatus: function () {
-        util.post("/CurrentTrack/IsLoved", function (data) {
+﻿class CurrentTrack {
+    updateLovedStatus() {
+        UTIL.post("/CurrentTrack/IsLoved", function (data) {
             if (data.IsLoved) {
                 $("#loved").removeClass("hidden");
                 $("#notloved").addClass("hidden");
@@ -9,9 +9,17 @@
                 $("#notloved").removeClass("hidden");
             }
         });
-    },
-    updateTrackData: function (trackData) {
-        updateLovedStatus();
+    }
+
+    updateTab() {
+        if (UTIL.isCurrentTab("current-track")) {
+            UTIL.updateContent("/CurrentTrack", "#main");
+        }
+    }
+
+    updateTrackData(trackData) {
+        this.updateLovedStatus();
+        this.updateTab();
         $("#mpeg_src").attr("src", trackData.Url);
         $("#artwork").attr("src", trackData.ArtworkUrl);
         $("#title").text(trackData.Title);
@@ -19,4 +27,4 @@
         $("#album").text(trackData.Album);
         $("#year").text(trackData.Year);
     }
-};
+}

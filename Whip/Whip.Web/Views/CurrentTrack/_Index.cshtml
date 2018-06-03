@@ -1,2 +1,139 @@
-﻿
-<h1>Current Track</h1>
+﻿@using Whip.Web.HtmlHelpers
+
+@model Whip.Web.Models.TrackViewModel
+
+<div id="tab-current-track">
+    <h1>Current Track</h1>
+
+    @if (Model == null)
+    {
+        <p>No track playing</p>
+    }
+    else
+    {
+        <h2>Playing: @Html.DisplayFor(m => m.Track.Title) by @Html.DisplayFor(m => m.Track.Artist.Name)</h2>
+
+        <div class="section track">
+            <div class="row">
+
+                <div class="col-md-4">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Track</h3>
+                        </div>
+                        <table class="table table-striped table-condensed table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td>@Html.Label("Title", new { @class = "control-label" })</td>
+                                    <td>@Html.DisplayFor(m => Model.Track.Title)</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.Label("Year", new { @class = "control-label" })</td>
+                                    <td>@Html.DisplayFor(m => Model.Track.Year)</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.Label("Duration", new { @class = "control-label" })</td>
+                                    <td>@Html.DisplayFor(m => Model.Track.Duration)</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.Label("Tags", new { @class = "control-label" })</td>
+                                    <td>@Html.DisplayFor(m => Model.Track.TagsDescription)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Artist</h3>
+                        </div>
+                        <table class="table table-striped table-condensed table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td>@Html.Label("Name", new { @class = "control-label" })</td>
+                                    <td>@Html.DisplayFor(m => Model.Track.Artist.Name)</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.Label("Grouping", new { @class = "control-label" })</td>
+                                    <td>@Html.DisplayFor(m => Model.Track.Artist.Grouping)</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.Label("Genre", new { @class = "control-label" })</td>
+                                    <td>@Html.DisplayFor(m => Model.Track.Artist.Genre)</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.Label("Origin", new { @class = "control-label" })</td>
+                                    <td>@Html.DisplayFor(m => Model.Track.Artist.City.Description)</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.Label("Web", new { @class = "control-label" })</td>
+                                    <td>TO DO</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Album</h3>
+                        </div>
+                        <table class="table table-striped table-condensed table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td>@Html.Label("Title", new { @class = "control-label" })</td>
+                                    <td>@Html.DisplayFor(m => Model.Track.Disc.Album.Title)</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.Label("Artist", new { @class = "control-label" })</td>
+                                    <td>@Html.DisplayFor(m => Model.Track.Disc.Album.Artist.Name)</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.Label("Type", new { @class = "control-label" })</td>
+                                    <td>@Html.DisplayFor(m => Model.Track.Disc.Album.ReleaseType)</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.Label("Year", new { @class = "control-label" })</td>
+                                    <td>@Html.DisplayFor(m => Model.Track.Disc.Album.Year)</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.Label("Track No", new { @class = "control-label" })</td>
+                                    <td>@Html.DisplayFor(m => Model.Track.TrackNoDescription)</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.Label("Disc No", new { @class = "control-label" })</td>
+                                    <td>@Html.DisplayFor(m => Model.Track.DiscNoDescription)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <img src="@Model.ArtworkUrl" class="img-responsive" />
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Lyrics</h3>
+                        </div>
+                        <div class="panel-body">
+                            @Html.DisplayWithBreaksFor(m => m.Track.Lyrics)
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    }
+</div>

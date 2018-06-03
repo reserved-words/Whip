@@ -1,6 +1,9 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
+using System.Web.UI;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
+using Whip.Web.Models;
 
 namespace Whip.Web.Controllers
 {
@@ -14,9 +17,18 @@ namespace Whip.Web.Controllers
             _cloudService = cloudService;
         }
 
+        [OutputCache(Duration = 1800, VaryByParam = "none", Location = OutputCacheLocation.Server)]
         public ActionResult Index()
         {
-            return PartialView("_Index");
+            var model = new PlayViewModel
+            {
+                Title = Playlist.PlaylistName,
+                Tracks = Playlist.Tracks?
+                    .Take(30) // TODO: Add paging
+                    .Select(GetViewModel)
+                    .ToList()
+            };
+            return PartialView("_Index", model);
         }
 
         [HttpPost]
@@ -29,13 +41,15 @@ namespace Whip.Web.Controllers
         public JsonResult GetNextTrack()
         {
             Playlist.MoveNext();
+            ClearTrackCache();
             return GetCurrentTrack();
         }
 
         [HttpPost]
         public JsonResult GetPreviousTrack()
         {
-            Playlist.MoveNext();
+            Playlist.MovePrevious();
+            ClearTrackCache();
             return GetCurrentTrack();
         }
     }
