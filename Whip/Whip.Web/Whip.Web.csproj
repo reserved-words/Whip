@@ -158,11 +158,11 @@
     <Compile Include="Controllers\CurrentPlaylistController.cs" />
     <Compile Include="Controllers\PlaylistsController.cs" />
     <Compile Include="Filters\RequireHttpsRemotelyAttribute.cs" />
-    <Compile Include="Filters\LastFmAuthorizeAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IPlaylistService.cs" />
+    <Compile Include="Models\LastFmAuthViewModel.cs" />
     <Compile Include="Models\PlaylistsViewModel.cs" />
     <Compile Include="Models\PlayViewModel.cs" />
     <Compile Include="Models\PlaylistViewModel.cs" />
@@ -180,6 +180,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Views\Home\_LastFmAuth.cshtml" />
     <Resource Include="favicon.ico" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

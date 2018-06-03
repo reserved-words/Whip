@@ -9,6 +9,6 @@ namespace Whip.LastFm
         UserApiClient UserApiClient { get; }
 
         Task SetClients(string username, string sessionKey);
-        Task AuthorizeUserClient();
+        Task AuthorizeUserClient(int maxAttempts = 5);
     }
 }

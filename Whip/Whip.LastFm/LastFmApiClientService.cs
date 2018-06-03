@@ -28,12 +28,12 @@ namespace Whip.LastFm
             _userApiClient = await _sessionService.GetAuthorizedApiClientAsync(_configSettings.LastFmApiKey, _configSettings.LastFmApiSecret, username, sessionKey);
         }
 
-        public async Task AuthorizeUserClient()
+        public async Task AuthorizeUserClient(int maxAttempts = 5)
         {
             if (_userApiClient.Authorized)
                 return;
 
-            await _sessionService.Authorize(_userApiClient);
+            await _sessionService.Authorize(_userApiClient, maxAttempts);
         }
     }
 }

@@ -6,14 +6,16 @@ $("body").on("click", "button[data-whip-play-url]", function () {
     updateCurrentPlaylist($(this).attr("data-whip-play-url"));
 });
 
-$("#play").click(function () {
+$("body").on("click", "#authorizeLastFm", function () {
+    authorizeLastFm();
+});
 
+$("#play").click(function () {
     if (player().paused && player().currentTime > 0) {
         resume();
     } else {
         play();
     }
-
 });
 
 $("#pause").click(function () {
@@ -161,24 +163,45 @@ var player = function () {
     return document.getElementById("controls");
 }
 
-var authorizeLastFm = function () {
+var checkLastFmAuthorized = function () {
     $.ajax({
-        url: "/Home/GetAuthUrl",
+        url: "/Home/CheckLastFmAuthorized",
         method: "POST"
     })
     .done(function (data) {
-        if (data.Url) {
-            window.open(data.Url);
-            $.ajax({
-                url: "/Home/Authorize",
-                method: "POST"
-            });
+        if (data) {
+            showModal(data);
         }
     });
 }
 
+var authorizeLastFm = function () {
+    $.ajax({
+        url: "/Home/Authorize",
+        method: "POST"
+    })
+    .done(function (data) {
+        if (data) {
+            showModal(data);
+        } else {
+            hideModal();
+        }
+    });
+}
+
+var hideModal = function() {
+    $("#modal").modal('hide');
+    $('body').removeClass('modal-open');
+    $('.modal-backdrop').remove();
+}
+
+var showModal = function(content) {
+    $("#modal .modal-content").html(content);
+    $("#modal").modal({ show: true, backdrop: 'static' });
+}
+
 $(function () {
-    authorizeLastFm();
+    checkLastFmAuthorized();
     $.ajax({
         url: "/Playlists/Favourites",
         method: "GET"

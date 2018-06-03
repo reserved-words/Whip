@@ -28,15 +28,14 @@ namespace LastFmApi
             _authToken = await getTokenMethod.GetResultAsync();
         }
 
-        internal async Task Authorize()
+        internal async Task Authorize(int maxAttempts)
         {
             if (Authorized)
                 return;
-
-            var maxAttempts = 5;
+            
             var attempts = 0;
 
-            Thread.Sleep(10000);
+            Thread.Sleep(2000);
 
             while (attempts < maxAttempts)
             {
