@@ -13,7 +13,17 @@
 
     updateTab() {
         if (UTIL.isCurrentTab("current-track")) {
-            UTIL.updateContent("/CurrentTrack", "#main");
+            UTIL.updateMainContent("/CurrentTrack");
+        }
+    }
+
+    updateHeader(title, artist) {
+        if (title) {
+            $("#current-track-content").text(title + " by " + artist);
+            $("#current-track-header div").removeClass("hidden");
+        } else {
+            $("#current-track-content").text("");
+            $("#current-track-header div").addClass("hidden");
         }
     }
 
@@ -26,5 +36,6 @@
         $("#artist").text(trackData.Artist);
         $("#album").text(trackData.Album);
         $("#year").text(trackData.Year);
+        this.updateHeader(trackData.Title, trackData.Artist);
     }
 }

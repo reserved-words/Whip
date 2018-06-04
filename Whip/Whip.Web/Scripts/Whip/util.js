@@ -42,6 +42,23 @@
         });
     },
 
+    toggleClass(selector, className, add) {
+        if (add) {
+            $(selector).addClass(className);
+        } else {
+            $(selector).removeClass(className);
+        }
+    },
+
+    updateMainContent(url) {
+        var self = this;
+        UTIL.get(url, function (data) {
+            $("#main").html(data);
+            $('.navbar-collapse').collapse("hide");
+            self.toggleClass("#sidebar", "hidden-xs", !self.isCurrentTab("home"));
+        });
+    },
+
     isCurrentTab(tabName){
         return $("#tab-" + tabName).length > 0;
     }
