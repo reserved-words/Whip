@@ -49,14 +49,24 @@ div.section {
 }
 
 .block .btn {
-    flex: 1
+    flex: 1;
 }
+
+.btn-group-vertical.block {
+    width: 100%;
+}
+
+/*.btn-group-vertical.bl*/
 
 .glyphicon-heart,
 .glyphicon-heart-empty {
-    color: firebrick
+    color: firebrick;
 }
 
 .track table tr td:first-of-type {
     width: 6em;
+}
+
+i {
+    font-size:1.5em;
 }
