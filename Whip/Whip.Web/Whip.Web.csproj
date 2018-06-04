@@ -227,6 +227,7 @@
     <Content Include="Views\CurrentTrack\_Index.cshtml" />
     <Content Include="Views\Shared\_TrackList.cshtml" />
     <Content Include="Views\CurrentTrack\_ArtistLinks.cshtml" />
+    <Content Include="Views\Home\_Content.cshtml" />
     <Resource Include="favicon.ico" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

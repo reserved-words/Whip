@@ -9,7 +9,7 @@
 
     updateTab() {
         if (UTIL.isCurrentTab("current-playlist")) {
-            UTIL.updateContent("/CurrentPlaylist", "#main");
+            UTIL.updateMainContent("/CurrentPlaylist");
         }
     }
 

@@ -2,7 +2,7 @@
 var player = new Player();
 
 $("body").on("click", "a[data-whip-url]", function () {
-    UTIL.updateContent($(this).attr("data-whip-url"), "#main");
+    UTIL.updateMainContent($(this).attr("data-whip-url"));
 });
 
 $("body").on("click", "button[data-whip-play-url]", function () {
