@@ -4,10 +4,12 @@ using System.Web.Mvc;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
+using Whip.Web.Filters;
 using Whip.Web.Models;
 
 namespace Whip.Web.Controllers
 {
+    [GoogleAuthorize]
     public class BaseController : Controller
     {
         protected readonly IPlaylist Playlist;
