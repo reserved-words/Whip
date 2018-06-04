@@ -1,7 +1,6 @@
 ﻿using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using System.IO;
-using System.Net;
 using System.Threading.Tasks;
 using Whip.Common.Model;
 using Whip.Services.Interfaces;
@@ -10,6 +9,8 @@ namespace Whip.Azure
 {
     public class AzureService : ICloudService
     {
+        private const string NoArtistName = "UnknownArtist";
+        private const string NoAlbumTitle = "UnknownAlbum";
         private const string UrlFormat = "https://{0}.blob.core.windows.net/{1}/{2}";
 
         private CloudBlobContainer _container;
@@ -81,17 +82,19 @@ namespace Whip.Azure
 
         private static string GetBlobFolder(Album album)
         {
-            var parentFolder = ValidBlobName(album.Artist.Name, true);
-            var childFolder = ValidBlobName(album.Title, true);
+            var parentFolder = ValidBlobName(album.Artist.Name, NoArtistName);
+            var childFolder = ValidBlobName(album.Title, NoAlbumTitle);
             return $"{parentFolder}/{childFolder}";
         }
 
-        private static string ValidBlobName(string name, bool lowerCase)
+        private static string ValidBlobName(string name, string defaultIfEmpty)
         {
-            var urlEncoded = WebUtility.UrlEncode(name);
-            return lowerCase
-                ? urlEncoded?.ToLowerInvariant()
-                : urlEncoded;
+            if (string.IsNullOrEmpty(name))
+            {
+                name = defaultIfEmpty;
+            }
+            
+            return name?.ToLowerInvariant();
         }
 
         private CloudBlobContainer Container

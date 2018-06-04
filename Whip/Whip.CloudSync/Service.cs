@@ -34,14 +34,19 @@ namespace Whip.CloudSync
             var newSyncTime = DateTime.Now;
             
             var tracksToUpload = GetTracksToUpload(timeLastUpdated);
+            Console.WriteLine("Tracks to upload: {0}", tracksToUpload.Count);
 
+            Console.WriteLine("Uploading library");
             _cloudService.UploadFile(_syncData.GetPath("library.xml"));
+
+            Console.WriteLine("Uploading playlists");
             _cloudService.UploadFile(_syncData.GetPath("playlists.xml"));
             
             _consecutiveFailures = 0;
 
             foreach (var track in tracksToUpload)
             {
+                Console.WriteLine("Uploading {0} by {1}", track.Title, track.Artist.Name);
                 UploadTrack(track);
 
                 if (_consecutiveFailures > MaxConsecutiveErrorsAllowed)
@@ -54,6 +59,7 @@ namespace Whip.CloudSync
             var albumsSynced = tracksToUpload.Select(t => t.Disc).Select(d => d.Album).Distinct();
             foreach (var album in albumsSynced)
             {
+                Console.WriteLine("Uploading artwork for {0} by {1}", album.Title, album.Artist.Name);
                 UploadArtwork(album);
 
                 if (_consecutiveFailures > MaxConsecutiveErrorsAllowed)
@@ -63,7 +69,10 @@ namespace Whip.CloudSync
                 }
             }
 
+            Console.WriteLine("Updating last sync time");
             _syncData.SetTimeLastSynced(newSyncTime);
+
+            Console.WriteLine("Done");
         }
 
         private List<Track> GetTracksToUpload(DateTime timeLastUpdated)
