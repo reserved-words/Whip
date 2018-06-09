@@ -1,0 +1,17 @@
+﻿@model Whip.Web.Models.LibraryArtistViewModel
+
+<h2>@Html.DisplayFor(m => m.Name)</h2>
+
+@foreach (var album in Model.Albums)
+{
+    <h3>@Html.DisplayFor(m => album.Title)</h3>
+
+    <img src="@album.ArtworkUrl" class="img-responsive" />
+
+    <ul class="list-unstyled">
+        @foreach (var track in album.Tracks)
+        {
+            <li>@Html.DisplayFor(m => track)</li>
+        }
+    </ul>
+}
