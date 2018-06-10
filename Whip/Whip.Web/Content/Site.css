@@ -11,6 +11,8 @@ h1 {
 h2 {
     font-size: 1.4em;
     font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .anchor {
@@ -151,11 +153,11 @@ table.playlists>tbody>tr>th:first-of-type {
     padding-right: 5px;
 }
 
-div.btn-group-playlists {
+div.btn-group-square {
     width: 100%;
 }
 
-div.btn-group-playlists button[data-whip-play-url] {
+div.btn-group-square button {
     overflow-x: hidden;
 }
 

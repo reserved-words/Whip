@@ -1,22 +1,31 @@
 ﻿@model Whip.Web.Models.LibraryArtistViewModel
 
-<div class="col-xs-9">
-    
-    @foreach (var album in Model.Albums)
-    {
-        <div class="row">
-        
-            <div class="col-xs-3">
-                <img src="@album.ArtworkUrl" class="img-responsive" />
-                <h3>@Html.DisplayFor(m => album.Title)</h3>
-                @Html.DisplayFor(m => album.Artist)<br />
-                @Html.DisplayFor(m => album.Year)
-            </div>
-        
-            <div class="col-xs-9">
+<div class="row">
+    <div class="col-sm-9">
+        <h2>@Html.DisplayFor(m => m.Name)</h2>
+    </div>
+    <div class="col-sm-3 text-right">
+        @Html.Partial("_ArtistLinks", Model.Artist)
+    </div>
+</div>
 
-                <table class="table table-condensed tracklist">
-                    <tbody>
+<hr />
+
+@foreach (var album in Model.Albums)
+{
+    <div class="row">
+
+        <div class="col-xs-3">
+            <img src="@album.ArtworkUrl" class="img-responsive" />
+            <h3>@Html.DisplayFor(m => album.Title)</h3>
+            @Html.DisplayFor(m => album.Artist)<br />
+            @Html.DisplayFor(m => album.Year)
+        </div>
+
+        <div class="col-xs-9">
+
+            <table class="table table-condensed tracklist">
+                <tbody>
                     @foreach (var disc in album.Discs)
                     {
                         if (!string.IsNullOrEmpty(disc.Title))
@@ -39,23 +48,12 @@
                         }
 
                     }
-                    </tbody>
+                </tbody>
 
-                </table>
-            </div>
-
+            </table>
         </div>
 
-        <hr />
-    }
-</div>
+    </div>
 
-<div class="col-xs-3">
-    
-    <h2>@Html.DisplayFor(m => m.Name)</h2>
-    
-    <p>@Html.DisplayFor(m => m.Origin)</p>
-    
-    @Html.Partial("_ArtistLinks", Model.Artist)
-
-</div>
+    <hr />
+}
