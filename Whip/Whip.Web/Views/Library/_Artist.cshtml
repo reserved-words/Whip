@@ -1,17 +1,61 @@
 ﻿@model Whip.Web.Models.LibraryArtistViewModel
 
-<h2>@Html.DisplayFor(m => m.Name)</h2>
+<div class="col-xs-9">
+    
+    @foreach (var album in Model.Albums)
+    {
+        <div class="row">
+        
+            <div class="col-xs-3">
+                <img src="@album.ArtworkUrl" class="img-responsive" />
+                <h3>@Html.DisplayFor(m => album.Title)</h3>
+                @Html.DisplayFor(m => album.Artist)<br />
+                @Html.DisplayFor(m => album.Year)
+            </div>
+        
+            <div class="col-xs-9">
 
-@foreach (var album in Model.Albums)
-{
-    <h3>@Html.DisplayFor(m => album.Title)</h3>
+                <table class="table table-condensed tracklist">
+                    <tbody>
+                    @foreach (var disc in album.Discs)
+                    {
+                        if (!string.IsNullOrEmpty(disc.Title))
+                        {
+                            <tr>
+                                <th colspan="4">
+                                    <h4>@Html.DisplayFor(m => disc.Title)</h4>
+                                </th>
+                            </tr>
+                        }
 
-    <img src="@album.ArtworkUrl" class="img-responsive" />
+                        foreach (var track in disc.Tracks)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(m => track.TrackNo)</td>
+                                <td>@Html.DisplayFor(m => track.Title)</td>
+                                <td>@Html.DisplayFor(m => track.Artist)</td>
+                                <td>@Html.DisplayFor(m => track.Duration)</td>
+                            </tr>
+                        }
 
-    <ul class="list-unstyled">
-        @foreach (var track in album.Tracks)
-        {
-            <li>@Html.DisplayFor(m => track)</li>
-        }
-    </ul>
-}
+                    }
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+
+        <hr />
+    }
+</div>
+
+<div class="col-xs-3">
+    
+    <h2>@Html.DisplayFor(m => m.Name)</h2>
+    
+    <p>@Html.DisplayFor(m => m.Origin)</p>
+    
+    @Html.Partial("_ArtistLinks", Model.Artist)
+
+</div>

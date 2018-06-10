@@ -70,6 +70,7 @@
     <Compile Include="Exceptions\ServiceException.cs" />
     <Compile Include="ExtensionMethods\ArtistExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\LibraryExtensionMethods.cs" />
+    <Compile Include="ExtensionMethods\StringExtensionMethods.cs" />
     <Compile Include="HyperlinkMatchers\HtmlAnchorHyperlinkPatternGroup.cs" />
     <Compile Include="HyperlinkMatchers\IHyperlinkPatternGroup.cs" />
     <Compile Include="HyperlinkMatchers\TweetHyperlinkPatternGroup.cs" />

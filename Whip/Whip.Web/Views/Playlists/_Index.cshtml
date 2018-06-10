@@ -7,50 +7,51 @@
 
         <div class="col-sm-12 col-md-4">
             <h2>Standard Playlists</h2>
-
-            <ul class="list-unstyled">
+            
+            <div class="btn-group-vertical btn-group-playlists">
                 @foreach (var playlist in Model.StandardPlaylists)
-            {
-                    <li>
-                        <button type="button" data-whip-play-url="@playlist.PlayUrl" class="btn btn-default">
-                            <span class="glyphicon glyphicon-play"></span>
+                {
+                    <div class="btn-group block">
+                        <button type="button" data-whip-play-url="@Html.DisplayFor(m => playlist.PlayUrl)" class="btn btn-default">@Html.DisplayFor(m => playlist.Title)</button>
+                        <button type="button" data-whip-url="@Url.Action("StandardPlaylist", "Playlists", new {id = playlist.Id})" class="btn btn-default">
+                            <span class="glyphicon glyphicon-th-list"></span>
                         </button>
-                        <a data-whip-url="@Url.Action("StandardPlaylist", "Playlists", new {id = playlist.Id})">@Html.DisplayFor(m => playlist.Title)</a>
-                    </li>
+                    </div>
                 }
-            </ul>
+            </div>
+
         </div>
 
         <div class="col-sm-12 col-md-4">
             <h2>Criteria Playlists</h2>
 
-            <ul class="list-unstyled">
+            <div class="btn-group-vertical btn-group-playlists">
                 @foreach (var playlist in Model.CriteriaPlaylists)
-            {
-                    <li>
-                        <button type="button" data-whip-play-url="@playlist.PlayUrl" class="btn btn-default">
-                            <span class="glyphicon glyphicon-play"></span>
+                {
+                    <div class="btn-group block">
+                        <button type="button" data-whip-play-url="@Html.DisplayFor(m => playlist.PlayUrl)" class="btn btn-default">@Html.DisplayFor(m => playlist.Title)</button>
+                        <button type="button" data-whip-url="@Url.Action("CriteriaPlaylist", "Playlists", new {id = playlist.Id})" class="btn btn-default">
+                            <span class="glyphicon glyphicon-th-list"></span>
                         </button>
-                        <a data-whip-url="@Url.Action("CriteriaPlaylist", "Playlists", new {id = playlist.Id})">@Html.DisplayFor(m => playlist.Title)</a>
-                    </li>
+                    </div>
                 }
-            </ul>
+            </div>
         </div>
 
         <div class="col-sm-12 col-md-4">
             <h2>Ordered Playlists</h2>
 
-            <ul class="list-unstyled">
+            <div class="btn-group-vertical btn-group-playlists">
                 @foreach (var playlist in Model.OrderedPlaylists)
-            {
-                    <li>
-                        <button type="button" data-whip-play-url="@playlist.PlayUrl" class="btn btn-default">
-                            <span class="glyphicon glyphicon-play"></span>
+                {
+                    <div class="btn-group block">
+                        <button type="button" data-whip-play-url="@Html.DisplayFor(m => playlist.PlayUrl)" class="btn btn-default">@Html.DisplayFor(m => playlist.Title)</button>
+                        <button type="button" data-whip-url="@Url.Action("OrderedPlaylist", "Playlists", new {id = playlist.Id})" class="btn btn-default">
+                            <span class="glyphicon glyphicon-th-list"></span>
                         </button>
-                        <a data-whip-url="@Url.Action("OrderedPlaylist", "Playlists", new {id = playlist.Id})">@Html.DisplayFor(m => playlist.Title)</a>
-                    </li>
+                    </div>
                 }
-            </ul>
+            </div>
         </div>
 
     </div>

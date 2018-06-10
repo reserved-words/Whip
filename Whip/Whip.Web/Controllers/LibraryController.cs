@@ -22,37 +22,16 @@ namespace Whip.Web.Controllers
         [OutputCache(Duration = 3600, VaryByParam = "none", Location = OutputCacheLocation.Server)]
         public ActionResult Index()
         {
-            var model = new LibraryViewModel
-            {
-                Artists = _library.Library.Artists
-                    .Where(a => a.Albums.Any())
-                    .Select(a => new ArtistViewModel
-                    {
-                        Name = a.Name,
-                        PlayUrl = Url.Action("PlayArtist", new { name = a.Name })
-                    })
-                    .ToList()
-            };
-
+            var model = new LibraryViewModel(
+                _library.Library.Artists.Where(a => a.Albums.Any()),
+                a => Url.Action("PlayArtist", new { name = a.Name }));
             return PartialView("_Index", model);
         }
 
         public ActionResult Artist(string name)
         {
             var artist = _library.Library.Artists.Single(a => a.Name == name);
-            var model = new LibraryArtistViewModel
-            {
-                Name = artist.Name,
-                Albums = artist.Albums
-                    .Select(a => new LibraryAlbumViewModel
-                    {
-                        Title = a.Title,
-                        ArtworkUrl = _cloudService.GetArtworkUrl(a),
-                        Tracks = a.Discs.SelectMany(d => d.Tracks).Select(t => t.Title).ToList()
-                    })
-                    .ToList()
-            };
-
+            var model = new LibraryArtistViewModel(artist, a => _cloudService.GetArtworkUrl(a));
             return PartialView("_Artist", model);
         }
 

@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Web.Mvc;
 
-namespace Whip.Web.HtmlHelpers
+namespace Whip.Web.ExtensionMethods
 {
     public static class DisplayHelpers
     {
@@ -35,6 +35,15 @@ namespace Whip.Web.HtmlHelpers
             tagBuilder.InnerHtml = linkIcon.ToString();
             
             return MvcHtmlString.Create(tagBuilder.ToString());
+        }
+
+        public static string GetCategoryID(this string categoryKey)
+        {
+            return categoryKey == "#" 
+                ? "ArtistNumber" 
+                : categoryKey == "" 
+                ? "ArtistBlank"
+                : $"Artist{categoryKey}";
         }
     }
 }
