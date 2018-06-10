@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using System.Web.UI;
+using Whip.Common;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 using Whip.Web.Models;
@@ -31,7 +32,10 @@ namespace Whip.Web.Controllers
         public ActionResult Artist(string name)
         {
             var artist = _library.Library.Artists.Single(a => a.Name == name);
-            var model = new LibraryArtistViewModel(artist, a => _cloudService.GetArtworkUrl(a));
+            var model = new LibraryArtistViewModel(
+                artist, 
+                a => Url.Action("PlayAlbum", new { artist = artist.Name, title = a.Title, releaseType = a.ReleaseType }), 
+                a => _cloudService.GetArtworkUrl(a));
             return PartialView("_Artist", model);
         }
 
@@ -44,6 +48,18 @@ namespace Whip.Web.Controllers
         {
             var artist = _library.Library.Artists.Single(a => a.Name == name);
             return Play(artist.Name, artist.Albums.SelectMany(a => a.Discs.SelectMany(d => d.Tracks)).ToList());
+        }
+
+        public JsonResult PlayAlbum(string artist, string title, ReleaseType releaseType)
+        {
+            var album = _library.Library.Artists.Single(a => a.Name == artist)
+                .Albums.Single(a => a.ReleaseType == releaseType
+                    && a.Title == title);
+            return Play(
+                $"{title} by {artist}", 
+                album.Discs.SelectMany(d => d.Tracks).ToList(), 
+                null, 
+                true);
         }
     }
 }

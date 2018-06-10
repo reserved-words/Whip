@@ -7,10 +7,14 @@ namespace Whip.Web.Models
 {
     public class LibraryArtistViewModel
     {
-        public LibraryArtistViewModel(Artist artist, Func<Album, string> getArtworkUrl)
+        public LibraryArtistViewModel(Artist artist, Func<Album, string> getAlbumPlayUrl, Func<Album, string> getArtworkUrl)
         {
             Artist = artist;
-            Albums = artist.Albums.Select(a => new LibraryAlbumViewModel(a, getArtworkUrl(a))).ToList();
+            Albums = artist.Albums
+                .OrderBy(a => a.ReleaseType)
+                .ThenBy(a => a.Year)
+                .Select(a => new LibraryAlbumViewModel(a, getAlbumPlayUrl(a), getArtworkUrl(a)))
+                .ToList();
         }
 
         public Artist Artist { get; set; }

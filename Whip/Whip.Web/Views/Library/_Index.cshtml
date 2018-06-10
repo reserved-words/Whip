@@ -44,10 +44,7 @@
                         row++;
                     }
                 </div>
-
-
             </div>
-
         </div>
     </div>
 
@@ -74,7 +71,10 @@
                     {
                         <div class="btn-group block">
                             <button type="button" data-whip-play-url="@Html.DisplayFor(m => artist.PlayUrl)" class="btn btn-default">@Html.DisplayFor(m => artist.Name)</button>
-                            <button type="button" data-whip-artist-url="@Url.Action("Artist", "Library", new { name = artist.Name })" class="btn btn-default">
+                            <button type="button" data-whip-url="@Url.Action("Artist", "Library", new { name = artist.Name })" class="btn btn-default visible-xs">
+                                <span class="glyphicon glyphicon-th-list"></span>
+                            </button>
+                            <button type="button" data-whip-artist-url="@Url.Action("Artist", "Library", new { name = artist.Name })" class="btn btn-default hidden-xs">
                                 <span class="glyphicon glyphicon-th-list"></span>
                             </button>
                         </div>

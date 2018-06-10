@@ -15,10 +15,10 @@ h2 {
     margin-bottom: 0;
 }
 
-.anchor {
+/*.anchor {
     padding-top: 60px; 
     margin-top: -50px;
-}
+}*/
 
 h3 {
     font-size: 1.2em;
@@ -28,10 +28,7 @@ h3 {
 h4 {
     font-size: 1em;
     font-weight: bold;
-}
-
-a {
-    font-size: 14px;
+    margin-bottom: 0;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -100,6 +97,11 @@ div.section {
     float: left;
 }
 
+#main {
+    position: relative;
+    top: 10px;
+}
+
 .subheader {
     background: #EEEEEE;
     margin-top: -10px;
@@ -117,6 +119,9 @@ div.section {
 #current-track-header {
     line-height: 1.5em;
     white-space: nowrap;
+    position: relative;
+    top: 10px;
+    width: 100%;
 }
 
 table.tracklist>tbody>tr>td,
@@ -127,19 +132,19 @@ table.playlists>tbody>tr>th {
     padding-bottom: 0;
 }
 
-table.tracklist tr td:nth-last-of-type(1) {
+table.tracklist tr td:nth-of-type(1) {
     width: 1%;
 }
 
-table.tracklist tr td:nth-last-of-type(2) {
-    width: 49%;
+table.tracklist tr td:nth-of-type(2) {
+    width: 65%;
 }
 
-table.tracklist tr td:nth-last-of-type(3) {
-    width: 49%;
+table.tracklist tr td:nth-of-type(3) {
+    width: 33%;
 }
 
-table.tracklist tr td:nth-last-of-type(4) {
+table.tracklist tr td:nth-of-type(4) {
     width: 1%;
 }
 
@@ -165,4 +170,9 @@ div.btn-group-playlists button[data-whip-url],
 div.btn-group-playlists button[data-whip-artist-url] {
     max-width: 3em;
     min-width: 3em;
+}
+
+.bold-label {
+    margin-top: 10px;
+    font-weight: bold;
 }

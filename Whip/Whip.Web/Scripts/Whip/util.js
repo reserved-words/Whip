@@ -36,9 +36,12 @@
         });
     },
 
-    updateContent(url, selector) {
+    updateContent(url, selector, scrollToTop) {
         UTIL.get(url, function (data) {
             $(selector).html(data);
+            if (scrollToTop) {
+                window.scrollTo(0, 0);
+            }
         });
     },
 
@@ -56,6 +59,7 @@
             $("#main").html(data);
             $('.navbar-collapse').collapse("hide");
             self.toggleClass("#sidebar", "hidden-xs", !self.isCurrentTab("home"));
+            window.scrollTo(0, 0);
         });
     },
 

@@ -11,10 +11,12 @@ namespace Whip.Web.Models
         public LibraryDiscViewModel(Disc disc)
         {
             _disc = disc;
-            Tracks = disc.Tracks.Select(t => new LibraryTrackViewModel(t)).ToList();
+            Tracks = disc.Tracks
+                .OrderBy(t => t.TrackNo)
+                .Select(t => new LibraryTrackViewModel(t)).ToList();
         }
 
-        public string Title => _disc.Album.DiscCount == 1
+        public string Title => _disc.Album.Discs.Count() == 1
             ? ""
             : $"Disc {_disc.DiscNo}";
 
