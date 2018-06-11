@@ -20,7 +20,7 @@ namespace Whip.Web.Controllers
             _library = library;
         }
 
-        [OutputCache(Duration = 3600, VaryByParam = "none", Location = OutputCacheLocation.Server)]
+        [OutputCache(Duration = 3600, VaryByParam = "none", Location = OutputCacheLocation.ServerAndClient)]
         public ActionResult Index()
         {
             var model = new LibraryViewModel(
@@ -57,9 +57,13 @@ namespace Whip.Web.Controllers
                     && a.Title == title);
             return Play(
                 $"{title} by {artist}", 
-                album.Discs.SelectMany(d => d.Tracks).ToList(), 
+                album.Discs
+                    .OrderBy(d => d.DiscNo)
+                    .SelectMany(d => d.Tracks)
+                    .OrderBy(t => t.TrackNo)
+                    .ToList(), 
                 null, 
-                true);
+                false);
         }
     }
 }

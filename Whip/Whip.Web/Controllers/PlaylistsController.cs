@@ -20,7 +20,7 @@ namespace Whip.Web.Controllers
             _playlistsService = playlistsService;
         }
 
-        [OutputCache(Duration = 3600, VaryByParam = "none", Location = OutputCacheLocation.Server)]
+        [OutputCache(Duration = 3600, VaryByParam = "none", Location = OutputCacheLocation.ServerAndClient)]
         public ActionResult Index()
         {
             var playlists = _playlistsService.GetAll();

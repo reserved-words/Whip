@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using Whip.LastFm;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;

@@ -17,7 +17,7 @@ namespace Whip.Web.Controllers
             _cloudService = cloudService;
         }
 
-        [OutputCache(Duration = 1800, VaryByParam = "none", Location = OutputCacheLocation.Server)]
+        [OutputCache(Duration = 1800, VaryByParam = "none", Location = OutputCacheLocation.ServerAndClient)]
         public ActionResult Index()
         {
             var model = new PlayViewModel

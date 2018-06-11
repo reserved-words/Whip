@@ -1,14 +1,14 @@
 ﻿class PlayerControls {
     
     play() {
-        $("#play").addClass("hidden");
-        $("#pause").removeClass("hidden");
+        $(".play").addClass("hidden");
+        $(".pause").removeClass("hidden");
         this.player().play();
     }
 
     pause() {
-        $("#play").removeClass("hidden");
-        $("#pause").addClass("hidden");
+        $(".play").removeClass("hidden");
+        $(".pause").addClass("hidden");
         this.player().pause();
     }
 
@@ -33,10 +33,10 @@
     }
 
     disableControls(disable) {
-        $("#play").prop("disabled", disable);
-        $("#pause").prop("disabled", disable);
-        $("#next").prop("disabled", disable);
-        $("#previous").prop("disabled", disable);
+        $(".play").prop("disabled", disable);
+        $(".pause").prop("disabled", disable);
+        $(".next").prop("disabled", disable);
+        $(".previous").prop("disabled", disable);
     }
 
     player() {

@@ -14,19 +14,19 @@
         document.getElementById("controls").onseeking = function () {
             self.skipToPercentage();
         }
-        $("#play").click(function () {
+        $(".play").click(function () {
             self.play();
         });
 
-        $("#pause").click(function () {
+        $(".pause").click(function () {
             self.pause();
         });
 
-        $("#next").click(function () {
+        $(".next").click(function () {
             self.getNextTrack();
         });
 
-        $("#previous").click(function () {
+        $(".previous").click(function () {
             self.getPreviousTrack();
         });
     }
