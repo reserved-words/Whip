@@ -11,8 +11,6 @@ h1 {
 h2 {
     font-size: 1.4em;
     font-weight: bold;
-    margin-top: 0;
-    margin-bottom: 0;
 }
 
 /*.anchor {
@@ -103,11 +101,15 @@ div.section {
 }
 
 .subheader {
+    position: relative;
     background: #EEEEEE;
-    margin-top: -10px;
     padding: 0.5em;
     min-height: 2.5em;
     max-height: 2.5em;
+    margin-top: 5px;
+    margin-left: -10px;
+    margin-right: -20px;
+    overflow-x: hidden;
 }
 
 #current-track-label {
@@ -120,7 +122,8 @@ div.section {
     line-height: 1.5em;
     white-space: nowrap;
     position: relative;
-    top: 10px;
+    top: 0px;
+    margin: 0;
     width: 100%;
 }
 

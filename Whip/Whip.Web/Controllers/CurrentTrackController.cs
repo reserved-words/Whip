@@ -16,7 +16,7 @@ namespace Whip.Web.Controllers
             _trackLoveService = trackLoveService;
         }
 
-        [OutputCache(Duration = 300, VaryByParam = "none", Location = OutputCacheLocation.Server)]
+        [OutputCache(Duration = 300, VaryByParam = "none", Location = OutputCacheLocation.ServerAndClient)]
         public ActionResult Index()
         {
             var model = GetViewModel(Playlist.CurrentTrack);
