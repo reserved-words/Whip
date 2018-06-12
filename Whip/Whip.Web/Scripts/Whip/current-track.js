@@ -19,7 +19,7 @@
 
     updateHeader(title, artist) {
         if (title) {
-            $("#current-track-content").text(title + " by " + artist);
+            $("#current-track-content").text(artist + " - " + title);
             $("#current-track-header div").removeClass("hidden");
         } else {
             $("#current-track-content").text("");

@@ -31,9 +31,9 @@ h4 {
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -100,31 +100,20 @@ div.section {
     top: 10px;
 }
 
-.subheader {
-    position: relative;
-    background: #EEEEEE;
-    padding: 0.5em;
-    min-height: 2.5em;
-    max-height: 2.5em;
-    margin-top: 5px;
-    margin-left: -10px;
-    margin-right: -20px;
+#current-track-label {
+    color: #ddd;
+    font-weight: bold;
+}
+
+#current-track-content {
+    max-height: 1.5em;
+    overflow-y: hidden;
     overflow-x: hidden;
 }
 
-#current-track-label {
-    font-weight: bold;
-    float: left;
-    padding-right: 0.5em;
-}
-
 #current-track-header {
-    line-height: 1.5em;
-    white-space: nowrap;
-    position: relative;
-    top: 0px;
-    margin: 0;
-    width: 100%;
+    color: #ddd;
+    overflow-x: hidden;
 }
 
 table.tracklist>tbody>tr>td,
@@ -178,4 +167,14 @@ div.btn-group-playlists button[data-whip-artist-url] {
 .bold-label {
     margin-top: 10px;
     font-weight: bold;
+}
+
+#mobile-controls {
+    width: 122px;
+    margin-right:5px;
+}
+
+table.mobile-nav {
+    width: 100%;
+    margin-left: 5px;
 }

@@ -3,26 +3,46 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
     <title>Cloudwhip</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link rel="manifest" href="/manifest.json">
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <div class="btn-group visible-xs navbar-brand" role="group">
-                    <button type="button" class="previous btn btn-default"><span class="glyphicon glyphicon-step-backward"></span></button>
-                    <button type="button" class="play btn btn-default"><span class="glyphicon glyphicon-play"></span></button>
-                    <button type="button" class="pause hidden btn btn-default"><span class="glyphicon glyphicon-pause"></span></button>
-                    <button type="button" class="next btn btn-default"><span class="glyphicon glyphicon-step-forward"></span></button>
-                </div>
                 <a data-whip-url="/Home/Index" class="navbar-brand hidden-xs">Cloudwhip</a>
+                <table class="mobile-nav visible-xs">
+                    <tbody>
+                        <tr>
+                            <td style="width: 1%;">
+                                <button type="button" class="pull-left navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                            </td>
+                            <td>
+                                <div id="current-track-header">
+                                    <div class="hidden">
+                                        <div id="current-track-label">Now Playing:</div>
+                                        <div id="current-track-content"></div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div id="mobile-controls" class="btn-group block pull-right" role="group">
+                                    <button type="button" class="previous btn btn-default"><span class="glyphicon glyphicon-step-backward"></span></button>
+                                    <button type="button" class="play btn btn-default"><span class="glyphicon glyphicon-play"></span></button>
+                                    <button type="button" class="pause hidden btn btn-default"><span class="glyphicon glyphicon-pause"></span></button>
+                                    <button type="button" class="next btn btn-default"><span class="glyphicon glyphicon-step-forward"></span></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -37,19 +57,9 @@
         </div>
     </div>
     <div class="container-fluid body-content">
-
-        <div id="current-track-header" class="visible-xs">
-            <div class="hidden">
-                <div class="subheader">
-                    <span id="current-track-label">Now Playing: </span>
-                    <span id="current-track-content"></span>
-                </div>
-            </div>
-        </div>
-
         <div class="row">
-            <div id="sidebar">
-                <div class="col-sm-5 col-md-3">
+            <div class="col-sm-5 col-md-3">
+                <div id="sidebar">
                     <div class="col-sm-12">
                         @Html.Partial("_Player")
                     </div>
