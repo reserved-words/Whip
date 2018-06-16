@@ -127,19 +127,15 @@ div.section {
     float: left;
 }
 
-#current-track-label {
+#current-track-artist {
     color: #ddd;
     font-weight: bold;
 }
 
-#current-track-content {
+#current-track-title {
+    color: #ddd;
     max-height: 1.5em;
     overflow-y: hidden;
-    overflow-x: hidden;
-}
-
-#current-track-header {
-    color: #ddd;
     overflow-x: hidden;
 }
 
@@ -255,6 +251,60 @@ a[data-whip-url] {
     text-decoration: underline;
 }
 
+div.tab-content {
+    overflow-y: visible;
+}
+
 div.tab-content > div.tab-pane > div.panel > table {
     margin-top: -2px;
+}
+
+table.table td.inner {
+    padding: 0;
+}
+
+table.table td.inner table {
+    margin: 0; 
+}
+
+table.table td.inner table,
+table.table td.inner table tr,
+table.table td.inner table tr td {
+    background-color: transparent;
+}
+
+table.table td.inner table tr td {
+    vertical-align: middle;
+    border: none;
+}
+
+table.table td.inner table tr td:first-of-type {
+    width: 1%;
+}
+
+.table-curved {
+    border-collapse: unset;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin: 10px;
+    width: calc(100% - 20px);
+    overflow: hidden;
+}
+
+.panel-curved {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin: 10px;
+    width: calc(100% - 20px);
+    padding: 10px;
+}
+
+#track img.img-responsive {
+    margin: 15px 15px 15px 15px;
+    position: relative;
+    width: calc(100% - 30px);
+}
+
+#tab-current-track div.panel-body {
+    padding: 0;
 }
