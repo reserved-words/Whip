@@ -1,59 +1,65 @@
 ﻿@model Whip.Web.Models.LibraryArtistViewModel
 
-<h1>@Html.DisplayFor(m => m.Name)</h1>
-
-@foreach (var album in Model.Albums)
-{
-    <div class="row">
-
-        <div class="col-sm-3">
-            <div class="section">
-                <img src="@album.ArtworkUrl" class="img-responsive" />
-                <div class="section">
-                    <button type="button" data-whip-play-url="@Html.DisplayFor(m => album.PlayUrl)" class="btn btn-default btn-block">
-                        Play
-                    </button>
-                </div>
-                <h4>@Html.DisplayFor(m => album.Title)</h4>
-                @Html.DisplayFor(m => album.Artist)<br />
-                @Html.DisplayFor(m => album.Year)
-            </div>
-        </div>
-
-        <div class="col-sm-9 hidden-xs">
-
-            <div class="section">
-                <table class="table table-condensed tracklist">
-                    <tbody>
-                        @foreach (var disc in album.Discs)
-                        {
-                            if (!string.IsNullOrEmpty(disc.Title))
-                            {
-                                <tr>
-                                    <th colspan="4">
-                                        <h4>@Html.DisplayFor(m => disc.Title)</h4>
-                                    </th>
-                                </tr>
-                            }
-
-                            foreach (var track in disc.Tracks)
-                            {
-                                <tr>
-                                    <td>@Html.DisplayFor(m => track.TrackNo)</td>
-                                    <td>@Html.DisplayFor(m => track.Title)</td>
-                                    <td>@Html.DisplayFor(m => track.Artist)</td>
-                                    <td>@Html.DisplayFor(m => track.Duration)</td>
-                                </tr>
-                            }
-
-                        }
-                    </tbody>
-
-                </table>
-            </div>
-        </div>
-
+<div class="screen-panel panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title"><a data-whip-url="@Url.Action("Index", "Library")">Library</a> / <a data-whip-url="@Url.Action("Artists", "Library", new { category = Model.Category })">@Html.DisplayFor(m => m.Category)</a> / @Html.DisplayFor(m => m.Artist.Name)</div>
     </div>
+    <div class="panel-body">
+        @foreach (var album in Model.Albums)
+        {
+            <div class="row">
 
-    <hr class="hidden-xs" />
-}
+                <div class="col-sm-3">
+                    <div class="section">
+                        <img src="@album.ArtworkUrl" class="img-responsive" />
+                        <div class="section">
+                            <button type="button" data-whip-play-url="@Html.DisplayFor(m => album.PlayUrl)" class="btn btn-default btn-block">
+                                Play
+                            </button>
+                        </div>
+                        <h4>@Html.DisplayFor(m => album.Title)</h4>
+                        @Html.DisplayFor(m => album.Artist)<br />
+                        @Html.DisplayFor(m => album.Year)
+                    </div>
+                </div>
+
+                <div class="col-sm-9 hidden-xs">
+
+                    <div class="section">
+                        <table class="table table-condensed tracklist">
+                            <tbody>
+                            @foreach (var disc in album.Discs)
+                            {
+                                if (!string.IsNullOrEmpty(disc.Title))
+                                {
+                                    <tr>
+                                        <th colspan="4">
+                                            <h4>@Html.DisplayFor(m => disc.Title)</h4>
+                                        </th>
+                                    </tr>
+                                }
+
+                                foreach (var track in disc.Tracks)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(m => track.TrackNo)</td>
+                                        <td>@Html.DisplayFor(m => track.Title)</td>
+                                        <td>@Html.DisplayFor(m => track.Artist)</td>
+                                        <td>@Html.DisplayFor(m => track.Duration)</td>
+                                    </tr>
+                                }
+
+                            }
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        }
+    </div>
+    <div class="panel-footer">
+        <button type="button" data-whip-play-url="@Html.DisplayFor(m => m.PlayUrl)" class="btn btn-default btn-block">Play</button>
+    </div>
+</div>

@@ -4,6 +4,7 @@ using System.Web.UI;
 using Whip.Common;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
+using Whip.Web.ExtensionMethods;
 using Whip.Web.Models;
 
 namespace Whip.Web.Controllers
@@ -23,10 +24,20 @@ namespace Whip.Web.Controllers
         [OutputCache(Duration = 3600, VaryByParam = "none", Location = OutputCacheLocation.ServerAndClient)]
         public ActionResult Index()
         {
-            var model = new LibraryViewModel(
-                _library.Library.Artists.Where(a => a.Albums.Any()),
-                a => Url.Action("PlayArtist", new { name = a.Name }));
+            var model = new LibraryViewModel();
             return PartialView("_Index", model);
+        }
+
+        [OutputCache(Duration = 3600, VaryByParam = "category", Location = OutputCacheLocation.ServerAndClient)]
+        public ActionResult Artists(string category)
+        {
+            var artists = _library.Library.Artists
+                .Where(a => a.Category() == category && a.Albums.Any())
+                .OrderBy(a => a.Sort)
+                .Select(a => new ArtistViewModel(a, Url.Action("PlayArtist", new { name = a.Name }), Url.Action("Artist", new { name = a.Name })))
+                .ToList();
+
+            return PartialView("_Artists", new LibraryArtistListViewModel(category, artists));
         }
 
         public ActionResult Artist(string name)
@@ -34,6 +45,7 @@ namespace Whip.Web.Controllers
             var artist = _library.Library.Artists.Single(a => a.Name == name);
             var model = new LibraryArtistViewModel(
                 artist, 
+                Url.Action("PlayArtist", new { name = artist.Name }),
                 a => Url.Action("PlayAlbum", new { artist = artist.Name, title = a.Title, releaseType = a.ReleaseType }), 
                 a => _cloudService.GetArtworkUrl(a));
             return PartialView("_Artist", model);

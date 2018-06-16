@@ -2,10 +2,11 @@
 
 namespace Whip.Web.Models
 {
-    public class PlaylistViewModel
+    public class PlaylistViewModel : PlayItemViewModel
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string PlayUrl { get; set; }
+        public PlaylistViewModel(string title, string playUrl, string infoUrl)
+            : base(title, playUrl, infoUrl)
+        {
+        }
     }
 }

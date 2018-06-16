@@ -1,0 +1,15 @@
+﻿@model Whip.Web.Models.LibraryArtistListViewModel
+
+<div id="tab-library">
+    
+    <div class="screen-panel panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title"><a data-whip-url="/Library/">Library</a> / @Html.DisplayFor(m => m.Category)</div>
+        </div>
+        <div class="panel-body panel-body-no-footer">
+            <div class="btn-group-vertical btn-group-square btn-group-playlists">
+                @Html.Partial("_PlayItemList", Model.Artists)
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+﻿@model IEnumerable<Whip.Web.Models.PlayItemViewModel>
+    
+@foreach (var item in Model)
+{
+    <div class="btn-group block">
+        <button type="button" data-whip-play-url="@Html.DisplayFor(m => item.PlayUrl)" class="btn btn-default">@Html.DisplayFor(m => item.Title)</button>
+        <button type="button" data-whip-url="@item.InfoUrl" class="btn btn-default">
+            <span class="glyphicon glyphicon-th-list"></span>
+        </button>
+    </div>
+}

@@ -1,13 +1,21 @@
-﻿@model Whip.Web.Models.PlayViewModel
+﻿@using Whip.Web.Models
+@model Whip.Web.Models.PlayViewModel
 
 <div id="tab-current-playlist">
-    <h1>Current Playlist</h1>
+    <div class="screen-panel panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title">
+                @if (!string.IsNullOrEmpty(Model.Title))
+                {
+                    <span>Playing @Model.Title</span>
+                }
+                else
+                {
+                    @Html.Display("Current Playlist")
+                }
+            </div>
+        </div>
 
-    <h2>@Html.DisplayFor(m => m.Title)</h2>
-
-    <div class="section">
-
-        @Html.Partial("_TrackList", Model.Tracks)
-
+        @Html.Partial("_TrackList", new Tuple<List<TrackViewModel>, bool>(Model.Tracks, false))
     </div>
 </div>
