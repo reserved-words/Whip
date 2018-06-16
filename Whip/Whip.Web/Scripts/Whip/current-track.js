@@ -19,11 +19,11 @@
 
     updateHeader(title, artist) {
         if (title) {
-            $("#current-track-content").text(artist + " - " + title);
-            $("#current-track-header div").removeClass("hidden");
+            $("#current-track-artist").text(artist);
+            $("#current-track-title").text(title);
         } else {
-            $("#current-track-content").text("");
-            $("#current-track-header div").addClass("hidden");
+            $("#current-track-artist").text("");
+            $("#current-track-title").text("");
         }
     }
 
