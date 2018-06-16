@@ -1,22 +1,51 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    padding-top: 45px;
+    padding-bottom: 45px;
     font-size: 12px;
+    height: 100%;
+    overflow-y: hidden;
 }
+
+header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: black;
+    padding: 5px;
+    height: 45px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: black;
+    text-align: center;
+    padding: 5px;
+    height: 45px;
+}
+
+footer button.btn-default {
+    background-color: black;
+    border-color: black;
+    color: white;
+    font-size: 1.2em;
+}
+
+
 
 h1 {
     font-size: 1.8em;
+    margin-top: 0;
 }
 
 h2 {
+    margin-top: 0;
     font-size: 1.4em;
     font-weight: bold;
 }
-
-/*.anchor {
-    padding-top: 60px; 
-    margin-top: -50px;
-}*/
 
 h3 {
     font-size: 1.2em;
@@ -29,11 +58,14 @@ h4 {
     margin-bottom: 0;
 }
 
-/* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 5px;
+    height: 100%;
+    overflow-y: hidden;
+}
+
+#main, #sidebar {
+    height: 100%;
+    overflow-y: hidden;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -93,11 +125,6 @@ div.section {
 
 .float-left {
     float: left;
-}
-
-#main {
-    position: relative;
-    top: 10px;
 }
 
 #current-track-label {
@@ -164,17 +191,70 @@ div.btn-group-playlists button[data-whip-artist-url] {
     min-width: 3em;
 }
 
+div.btn-group-playlists {
+    margin-bottom: 1.5em;
+}
+
 .bold-label {
     margin-top: 10px;
     font-weight: bold;
 }
 
-#mobile-controls {
-    width: 122px;
-    margin-right:5px;
+/* MOBILE ONLY */
+
+.body-content {
+    padding: 0;
 }
 
-table.mobile-nav {
+.screen-panel {
+    border-radius: 0;
+    height: calc(100vh - 86px);
+    overflow-y: hidden;
+}
+
+.screen-panel .panel-heading {
+    height: 35px;
+    padding: 0.6em;
+}
+
+.screen-panel .panel-body {
+    height: calc(100vh - 135px); /* Full height - header - footer - panel footer */
+    overflow-y: scroll;
+    margin: 0;
+}
+
+.screen-panel .panel-heading~.panel-body {
+    height: calc(100vh - 180px); /* Full height - header - footer - panel header - panel footer */
+}
+
+.screen-panel .panel-body.panel-table {
+    padding: 0;
+}
+
+.screen-panel .panel-body.panel-body-no-footer {
+    height: calc(100vh - 125px); /* Full height - header - footer - panel header */
+}
+
+.screen-panel .panel-footer {
+    position: absolute;
+    bottom: 45px;
+    height: 45px;
+    padding: 5px;
     width: 100%;
-    margin-left: 5px;
+}
+
+#player .panel-footer {
+    height: 85px;
+}
+
+#player-buttons {
+    margin-bottom: 5px;
+}
+
+a[data-whip-url] {
+    text-decoration: underline;
+}
+
+div.tab-content > div.tab-pane > div.panel > table {
+    margin-top: -2px;
 }

@@ -1,11 +1,18 @@
-﻿@model List<Whip.Web.Models.TrackViewModel>
+﻿@model Tuple<List<Whip.Web.Models.TrackViewModel>, bool>
 
-@if (Model != null && Model.Any())
+@{
+    var panelClass = Model.Item2
+        ? "panel-body"
+        : "panel-body panel-body-no-footer";
+}
+
+@if (Model.Item1 != null && Model.Item1.Any())
 {
-    <table class="table table-striped table-condensed table-bordered">
-        <tbody>
-            @foreach (var track in Model)
-                {
+    <div class="@panelClass panel-table">
+        <table class="table table-striped table-condensed">
+            <tbody>
+            @foreach (var track in Model.Item1)
+            {
                 <tr>
                     <td>@Html.DisplayFor(m => track.Track.Title)</td>
                     <td>@Html.DisplayFor(m => track.Track.Artist.Name)</td>
@@ -14,10 +21,13 @@
                 </tr>
             }
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 }
 else
 {
-    <p>No tracks to display</p>
+    <div class="@panelClass">
+        <p>No tracks to display</p>
+    </div>
 }
