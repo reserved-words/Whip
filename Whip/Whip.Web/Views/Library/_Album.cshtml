@@ -1,0 +1,46 @@
+﻿@using Whip.Web.ExtensionMethods
+@using Whip.Web.Models
+@model LibraryAlbumViewModel
+
+<div class="screen-panel panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">
+            <a data-whip-url="@Url.Action("Index", "Library")">Library</a> /
+            <a data-whip-url="@Url.Action("Artists", "Library", new { category = Model.Category })">@Html.DisplayFor(m => m.Category)</a> /
+            <a data-whip-url="@Url.Action("Artist", "Library", new { name = Model.Artist })">@Html.DisplayFor(m => m.Artist)</a> /
+            @Html.DisplayFor(m => m.Title)
+        </div>
+    </div>
+    <div class="panel-body">
+        @foreach (var disc in Model.Discs)
+        {
+            if (!string.IsNullOrEmpty(disc.Title))
+            {
+                <h3>@Html.DisplayFor(m => disc.Title)</h3>
+            }
+
+            <table class="table table-condensed">
+                <tbody>
+                @foreach (var track in disc.Tracks)
+                {
+                    <tr>
+                        <td>@track.Track.TrackNo.ToString("00")</td>
+                        <td>
+                            @Html.DisplayFor(m => track.Track.Title)
+                            @if (!track.Track.IsByAlbumArtist())
+                            {
+                                <br />@Html.DisplayFor(m => track.Track.Artist.Name)
+                            }
+                        </td>
+                        <td>@track.Track.Duration.ToString(@"mm\:ss")</td>
+                    </tr>
+                }
+
+                </tbody>
+            </table>
+        }
+    </div>
+    <div class="panel-footer">
+        <button type="button" data-whip-play-url="@Html.DisplayFor(m => m.PlayUrl)" class="btn btn-default btn-block">Play</button>
+    </div>
+</div>

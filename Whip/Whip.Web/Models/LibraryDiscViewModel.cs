@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Whip.Common.Model;
 
@@ -8,18 +9,18 @@ namespace Whip.Web.Models
     {
         private readonly Disc _disc;
 
-        public LibraryDiscViewModel(Disc disc)
+        public LibraryDiscViewModel(Disc disc, Func<Track, string> getTrackUrl, Func<Album, string> getArtWorkUrl)
         {
             _disc = disc;
             Tracks = disc.Tracks
                 .OrderBy(t => t.TrackNo)
-                .Select(t => new LibraryTrackViewModel(t)).ToList();
+                .Select(t => new TrackViewModel(t, getTrackUrl(t), getArtWorkUrl(t.Disc.Album))).ToList();
         }
 
         public string Title => _disc.Album.Discs.Count() == 1
             ? ""
             : $"Disc {_disc.DiscNo}";
 
-        public List<LibraryTrackViewModel> Tracks { get; set; }
+        public List<TrackViewModel> Tracks { get; set; }
     }
 }

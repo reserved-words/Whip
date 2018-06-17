@@ -1,11 +1,11 @@
 ﻿@using Whip.Web.Models
-@model Whip.Web.Models.PlayViewModel
+@model PlayViewModel
 
 <div class="screen-panel panel panel-default">
     <div class="panel-heading">
         <div class="panel-title"><a data-whip-url="/Playlists/">Playlists</a>  / @Html.DisplayFor(m => m.Title)</div>
     </div>
-    @Html.Partial("_TrackList", new Tuple<List<TrackViewModel>, bool>(Model.Tracks, true))
+    @Html.Partial("_TrackList", new TrackListViewModel(Model.Tracks, true))
     <div class="panel-footer">
         <button type="button" data-whip-play-url="@Html.DisplayFor(m => m.PlayUrl)" class="btn btn-default btn-block">Play</button>
     </div>

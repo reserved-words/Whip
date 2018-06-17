@@ -183,6 +183,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\CurrentPlaylistController.cs" />
     <Compile Include="Controllers\PlaylistsController.cs" />
+    <Compile Include="ExtensionMethods\TrackExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\ArtistExtensionMethods.cs" />
     <Compile Include="Filters\GoogleAuthorizeAttribute.cs" />
     <Compile Include="Filters\ResetLibraryAttribute.cs" />
@@ -193,6 +194,7 @@
     <Compile Include="ExtensionMethods\DisplayHelpers.cs" />
     <Compile Include="Interfaces\ILibraryService.cs" />
     <Compile Include="Interfaces\IPlaylistService.cs" />
+    <Compile Include="Models\AlbumViewModel.cs" />
     <Compile Include="Models\ArtistViewModel.cs" />
     <Compile Include="Models\LastFmAuthViewModel.cs" />
     <Compile Include="Models\LibraryArtistListViewModel.cs" />
@@ -205,6 +207,7 @@
     <Compile Include="Models\PlaylistsViewModel.cs" />
     <Compile Include="Models\PlayViewModel.cs" />
     <Compile Include="Models\PlaylistViewModel.cs" />
+    <Compile Include="Models\TrackListViewModel.cs" />
     <Compile Include="Models\TrackViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ConfigSettings.cs" />
@@ -240,6 +243,7 @@
     <Content Include="Views\Shared\_ArtistLinks.cshtml" />
     <Content Include="Views\Library\_Artists.cshtml" />
     <Content Include="Views\Shared\_PlayItemList.cshtml" />
+    <Content Include="Views\Library\_Album.cshtml" />
     <Resource Include="favicon.ico" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

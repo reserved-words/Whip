@@ -16,6 +16,6 @@
             </div>
         </div>
 
-        @Html.Partial("_TrackList", new Tuple<List<TrackViewModel>, bool>(Model.Tracks, false))
+        @Html.Partial("_TrackList", new TrackListViewModel(Model.Tracks, false))
     </div>
 </div>
