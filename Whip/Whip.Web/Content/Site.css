@@ -31,7 +31,8 @@ footer button.btn-default {
     background-color: black;
     border-color: black;
     color: white;
-    font-size: 1.2em;
+    padding: 5px 10px;
+    font-size: 18px;
 }
 
 h1 {
@@ -245,9 +246,9 @@ div.btn-group-playlists {
     margin-bottom: 5px;
 }
 
-a[data-whip-url] {
+/*a[data-whip-url] {
     text-decoration: underline;
-}
+}*/
 
 div.tab-content {
     overflow-y: visible;

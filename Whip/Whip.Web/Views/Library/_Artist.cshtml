@@ -9,7 +9,7 @@
             @foreach (var album in Model.Albums)
             {
                 <div class="col-md-4">
-                    <h2>@Html.DisplayFor(m => album.Key)</h2>
+                    <h3>@Html.DisplayFor(m => album.Key)</h3>
 
                     <div class="btn-group-vertical btn-group-square btn-group-playlists">
                         @Html.Partial("_PlayItemList", album.Value)
