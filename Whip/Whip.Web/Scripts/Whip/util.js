@@ -1,11 +1,11 @@
 ﻿var UTIL = {
-    
+
     hideModal() {
         $("#modal").modal('hide');
         $('body').removeClass('modal-open');
         $('.modal-backdrop').remove();
     },
-    
+
     showModal(content) {
         $("#modal .modal-content").html(content);
         $("#modal").modal({ show: true, backdrop: 'static' });
@@ -21,6 +21,9 @@
             if (done) {
                 done(data);
             }
+        })
+        .fail(function (jqXHR, textStatus) {
+            alert("Request failed: " + textStatus);
         });
     },
 
@@ -30,9 +33,9 @@
             method: "GET"
         })
         .done(function (data) {
-           if (done) {
-               done(data);
-           }
+            if (done) {
+                done(data);
+            }
         });
     },
 
@@ -63,7 +66,7 @@
         });
     },
 
-    isCurrentTab(tabName){
+    isCurrentTab(tabName) {
         return $("#tab-" + tabName).length > 0;
     }
 }

@@ -169,6 +169,15 @@ namespace Whip.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to yyyy-MM-dd HH\:mm\:ss.
+        /// </summary>
+        public static string InvariantDateTimeFormat {
+            get {
+                return ResourceManager.GetString("InvariantDateTimeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There was a problem connecting to Last.FM. No further attempts will be made until the application is next started. If scrobbling is turned on, scrobbles will be cached and scrobbled later..
         /// </summary>
         public static string LastFmOffErrorMessageDetails {

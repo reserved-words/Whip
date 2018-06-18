@@ -31,10 +31,9 @@ footer button.btn-default {
     background-color: black;
     border-color: black;
     color: white;
-    font-size: 1.2em;
+    padding: 5px 10px;
+    font-size: 18px;
 }
-
-
 
 h1 {
     font-size: 1.8em;
@@ -50,6 +49,7 @@ h2 {
 h3 {
     font-size: 1.2em;
     font-weight: bold;
+    margin-top: 0;
 }
 
 h4 {
@@ -136,7 +136,6 @@ div.section {
     color: #ddd;
     max-height: 1.5em;
     overflow-y: hidden;
-    overflow-x: hidden;
 }
 
 table.tracklist>tbody>tr>td,
@@ -148,19 +147,15 @@ table.playlists>tbody>tr>th {
 }
 
 table.tracklist tr td:nth-of-type(1) {
-    width: 1%;
+    width: 33%;
 }
 
 table.tracklist tr td:nth-of-type(2) {
-    width: 65%;
+    width: 33%;
 }
 
 table.tracklist tr td:nth-of-type(3) {
     width: 33%;
-}
-
-table.tracklist tr td:nth-of-type(4) {
-    width: 1%;
 }
 
 table.playlists>tbody>tr>td,
@@ -196,8 +191,6 @@ div.btn-group-playlists {
     font-weight: bold;
 }
 
-/* MOBILE ONLY */
-
 .body-content {
     padding: 0;
 }
@@ -209,8 +202,14 @@ div.btn-group-playlists {
 }
 
 .screen-panel .panel-heading {
-    height: 35px;
-    padding: 0.6em;
+    height: 30px;
+    padding: 6px;
+    overflow-x: hidden;
+    line-height: 15px;
+}
+
+.screen-panel .panel-heading .panel-title {
+    font-size: 12px;
 }
 
 .screen-panel .panel-body {
@@ -220,7 +219,7 @@ div.btn-group-playlists {
 }
 
 .screen-panel .panel-heading~.panel-body {
-    height: calc(100vh - 180px); /* Full height - header - footer - panel header - panel footer */
+    height: calc(100vh - 175px); /* Full height - header - footer - panel header - panel footer */
 }
 
 .screen-panel .panel-body.panel-table {
@@ -228,7 +227,7 @@ div.btn-group-playlists {
 }
 
 .screen-panel .panel-body.panel-body-no-footer {
-    height: calc(100vh - 125px); /* Full height - header - footer - panel header */
+    height: calc(100vh - 120px); /* Full height - header - footer - panel header */
 }
 
 .screen-panel .panel-footer {
@@ -247,9 +246,9 @@ div.btn-group-playlists {
     margin-bottom: 5px;
 }
 
-a[data-whip-url] {
+/*a[data-whip-url] {
     text-decoration: underline;
-}
+}*/
 
 div.tab-content {
     overflow-y: visible;
@@ -300,9 +299,9 @@ table.table td.inner table tr td:first-of-type {
 }
 
 #track img.img-responsive {
-    margin: 15px 15px 15px 15px;
+    margin: 10px;
     position: relative;
-    width: calc(100% - 30px);
+    width: calc(100% - 20px);
 }
 
 #tab-current-track div.panel-body {

@@ -106,7 +106,7 @@ namespace Whip.XmlDataAccess
             var rootXml = new XElement(PropertyNames.Root);
             xml.Add(rootXml);
 
-            var dateUpdatedXml = new XElement(PropertyNames.LastUpdated, library.LastUpdated.ToString(StandardDateFormat));
+            var dateUpdatedXml = new XElement(PropertyNames.LastUpdated, library.LastUpdated.ToString(InvariantDateTimeFormat));
             rootXml.Add(dateUpdatedXml);
 
             var artistsXml = new XElement(PropertyNames.Artists);

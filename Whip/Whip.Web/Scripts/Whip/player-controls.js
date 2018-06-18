@@ -46,4 +46,13 @@
     isPaused() {
         return this.player().paused && this.player().currentTime > 0;
     }
+
+    secondsPlayed() {
+        return Math.floor(this.player().currentTime);
+    }
+
+    totalDuration() {
+        var duration = this.player().duration;
+        return isNaN(duration) ? 0 : Math.floor(duration);
+    }
 }

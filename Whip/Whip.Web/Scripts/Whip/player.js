@@ -15,7 +15,7 @@
             self.skipToPercentage();
         }
         $(".play").click(function () {
-            self.play();
+            self.resume();
         });
 
         $(".pause").click(function () {
@@ -31,18 +31,19 @@
         });
     }
 
-    play() {
-        if (this.playerControls.isPaused()) {
-            UTIL.post("/Player/Resume");
-        } else {
-            UTIL.post("/Player/Play");
-        }
+    play(secondsPlayed) {
         this.playerControls.play();
+        UTIL.post("/Player/Play", null, { secondsPlayed });
+    }
+
+    resume() {
+        this.playerControls.play();
+        UTIL.post("/Player/Resume");
     }
 
     pause() {
         this.playerControls.pause();
-        UTIL.post("/Player/Pause");
+        UTIL.post("/Player/Pause", null, { secondsPlayed: this.playerControls.secondsPlayed() });
     }
 
     skipToPercentage() {
@@ -52,40 +53,42 @@
         UTIL.post("/Player/SkipToPercentage", null, { percentage });
     }
 
-    stop () {
+    stop(secondsPlayed) {
+        UTIL.postSync("/Player/Stop", null, { secondsPlayed });
         this.currentTrack.updateTrackData(null);
         this.playerControls.stop();
-        UTIL.post("/Player/Stop");
     }
     
-    updateTrack(data) {
+    updateTrack(secondsPlayed, data) {
         this.currentTrack.updateTrackData(data);
         this.playerControls.updateTrack(data);
-        if (this.playerControls.isPaused()) {
-            this.pause();
-        } else {
-            this.play();
-        }
+        this.play(secondsPlayed);
     }
 
     getNextTrack() {
         var self = this;
+        var secondsPlayed = self.playerControls.secondsPlayed();
         self.currentPlaylist.getNextTrack(function (data) {
-            self.updateTrack(data);
+            if (!data) {
+                self.stop(secondsPlayed);
+            }
+            self.updateTrack(secondsPlayed, data);
         });
     }
 
     getPreviousTrack() {
         var self = this;
+        var secondsPlayed = self.playerControls.secondsPlayed();
         self.currentPlaylist.getPreviousTrack(function (data) {
-            self.updateTrack(data);
+            self.updateTrack(secondsPlayed, data);
         });
     }
 
     updatePlaylist(url) {
         var self = this;
+        var secondsPlayed = self.playerControls.secondsPlayed();
         self.currentPlaylist.update(url, function (data) {
-            self.updateTrack(data);
+            self.updateTrack(secondsPlayed, data);
         });
     }
 }

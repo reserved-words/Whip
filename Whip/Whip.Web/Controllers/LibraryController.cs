@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.UI;
 using Whip.Common;
@@ -45,10 +46,22 @@ namespace Whip.Web.Controllers
             var artist = _library.Library.Artists.Single(a => a.Name == name);
             var model = new LibraryArtistViewModel(
                 artist, 
-                Url.Action("PlayArtist", new { name = artist.Name }),
-                a => Url.Action("PlayAlbum", new { artist = artist.Name, title = a.Title, releaseType = a.ReleaseType }), 
-                a => _cloudService.GetArtworkUrl(a));
+                Url.Action(nameof(PlayArtist), new { name = artist.Name }),
+                a => Url.Action(nameof(PlayAlbum), new { artist = artist.Name, title = a.Title, releaseType = a.ReleaseType }), 
+                a => Url.Action(nameof(Album), new { artist = artist.Name, title = a.Title, releaseType = a.ReleaseType }));
             return PartialView("_Artist", model);
+        }
+
+        public ActionResult Album(string artist, string title, ReleaseType releaseType)
+        {
+            var albumArtist = _library.Library.Artists.Single(a => a.Name == artist);
+            var album = albumArtist.Albums.Single(a => a.Title == title && a.ReleaseType == releaseType);
+            var model = new LibraryAlbumViewModel(album,
+                Url.Action(nameof(PlayAlbum), new {artist, title, releaseType}),
+                _cloudService.GetArtworkUrl(album),
+                _cloudService.GetTrackUrl,
+                _cloudService.GetArtworkUrl);
+            return PartialView("_Album", model);
         }
 
         public JsonResult ShuffleAll()

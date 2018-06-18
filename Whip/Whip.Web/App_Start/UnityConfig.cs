@@ -5,7 +5,6 @@ using Unity;
 using Unity.Injection;
 using Whip.Azure;
 using Whip.Common.Interfaces;
-using Whip.Common.Singletons;
 using Whip.Common.TrackSorters;
 using Whip.LastFm;
 using Whip.Services;
@@ -73,14 +72,18 @@ namespace Whip.Web
             container.RegisterSingleton<ILastFmApiClientService, LastFmApiClientService>();
             container.RegisterSingleton<Interfaces.ILibraryService, Services.LibraryService>();
 
-            container.RegisterSingleton<IPlayer, ScrobblingPlayer>(
+            var playProgress = new PlayProgress();
+            container.RegisterInstance<IPlayProgress>(playProgress);
+            container.RegisterInstance<IUpdatePlayProgress>(playProgress);
+
+            container.RegisterSingleton<IPlayer, WebScrobblingPlayer>(
                 new InjectionConstructor(
-                    new Player(),
+                    container.Resolve<ICurrentDateTime>(),
                     container.Resolve<IScrobblingRules>(),
                     container.Resolve<IScrobbler>(),
-                    container.Resolve<ICurrentDateTime>(),
-                    container.Resolve<IPlayProgressTracker>()
+                    container.Resolve<IPlayProgress>()
                 ));
+
         }
     }
 }
