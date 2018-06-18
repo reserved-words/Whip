@@ -73,6 +73,7 @@ namespace Whip.CloudSync
             _syncData.SetTimeLastSynced(newSyncTime);
 
             Console.WriteLine("Done");
+            Console.ReadKey();
         }
 
         private List<Track> GetTracksToUpload(DateTime timeLastUpdated)
