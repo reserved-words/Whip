@@ -27,6 +27,18 @@
         }
     }
 
+    clearTrackData() {
+        $("#loved").addClass("hidden");
+        $("#notloved").removeClass("hidden");
+        $("#mpeg_src").attr("src", "");
+        $("#artwork").attr("src", "");
+        $("#title").text("");
+        $("#artist").text("");
+        $("#album").text("");
+        $("#year").text("");
+        this.updateHeader("", "");
+    }
+
     updateTrackData(trackData) {
         this.updateLovedStatus();
         this.updateTab();

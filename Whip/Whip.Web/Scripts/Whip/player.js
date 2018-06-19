@@ -58,6 +58,11 @@
         this.currentTrack.updateTrackData(null);
         this.playerControls.stop();
     }
+
+    clearTrack() {
+        this.currentTrack.clearTrackData();
+        this.playerControls.updateTrack(null);
+    }
     
     updateTrack(secondsPlayed, data) {
         this.currentTrack.updateTrackData(data);
@@ -68,6 +73,7 @@
     getNextTrack() {
         var self = this;
         var secondsPlayed = self.playerControls.secondsPlayed();
+        self.clearTrack();
         self.currentPlaylist.getNextTrack(function (data) {
             if (!data) {
                 self.stop(secondsPlayed);
@@ -79,6 +85,7 @@
     getPreviousTrack() {
         var self = this;
         var secondsPlayed = self.playerControls.secondsPlayed();
+        self.clearTrack();
         self.currentPlaylist.getPreviousTrack(function (data) {
             self.updateTrack(secondsPlayed, data);
         });
@@ -87,6 +94,7 @@
     updatePlaylist(url) {
         var self = this;
         var secondsPlayed = self.playerControls.secondsPlayed();
+        self.clearTrack();
         self.currentPlaylist.update(url, function (data) {
             self.updateTrack(secondsPlayed, data);
         });
