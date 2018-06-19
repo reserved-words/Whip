@@ -6,6 +6,24 @@
     overflow-y: hidden;
 }
 
+#loading {
+    background-color: white;
+    opacity: 0.5;
+    position: absolute;
+    left: 0;
+    top: 45px;
+    width: 100%;
+    height: calc(100% - 45px);
+}
+
+#loading-image {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -50px;
+    margin-top: -50px;
+}
+
 header {
     position: absolute;
     top: 0;

@@ -48,6 +48,7 @@
             </div>
         </div>
     </div>
+
     <div class="container-fluid body-content">
         <div id="sidebar">
             @Html.Partial("_Player")
@@ -59,6 +60,10 @@
         
         <div id="main">
             @RenderBody()
+        </div>
+
+        <div id="loading" class="hidden">
+            <img id="loading-image" src="~/Images/loading.gif" />
         </div>
     </div>
 
