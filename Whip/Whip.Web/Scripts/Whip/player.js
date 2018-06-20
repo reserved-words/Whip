@@ -54,8 +54,8 @@
     }
 
     stop(secondsPlayed) {
-        UTIL.postSync("/Player/Stop", null, { secondsPlayed });
-        this.currentTrack.updateTrackData(null);
+        UTIL.post("/Player/Stop", null, { secondsPlayed });
+        this.currentTrack.clearTrackData();
         this.playerControls.stop();
     }
 
@@ -75,10 +75,12 @@
         var secondsPlayed = self.playerControls.secondsPlayed();
         self.clearTrack();
         self.currentPlaylist.getNextTrack(function (data) {
-            if (!data) {
+            if (!data.Url) {
                 self.stop(secondsPlayed);
             }
-            self.updateTrack(secondsPlayed, data);
+            else {
+                self.updateTrack(secondsPlayed, data);
+            }
         });
     }
 

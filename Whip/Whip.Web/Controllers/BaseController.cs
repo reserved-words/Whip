@@ -65,19 +65,16 @@ namespace Whip.Web.Controllers
         {
             var track = Playlist.CurrentTrack;
 
-            return new JsonResult
-            {
-                Data = track == null
-                    ? null
-                    : new
-                    {
-                        Title = track.Title,
-                        Artist = track.Artist.Name,
-                        Album = track.Disc.Album.Title,
-                        Year = track.Disc.Album.Year,
-                        Url = _cloudService.GetTrackUrl(track),
-                        ArtworkUrl = _cloudService.GetArtworkUrl(track.Disc.Album)
-                    }
+            return track == null
+                ? new JsonResult { Data = new { } }
+                : new JsonResult { Data = new {
+                    Title = track.Title,
+                    Artist = track.Artist.Name,
+                    Album = track.Disc.Album.Title,
+                    Year = track.Disc.Album.Year,
+                    Url = _cloudService.GetTrackUrl(track),
+                    ArtworkUrl = _cloudService.GetArtworkUrl(track.Disc.Album)
+                }
             };
         }
 

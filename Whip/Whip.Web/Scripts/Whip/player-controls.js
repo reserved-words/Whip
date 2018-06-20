@@ -25,6 +25,8 @@
     updateTrack(data) {
         if (!data) {
             this.disableControls(true);
+            this.pause();
+            this.player().load();
             return;
         }
         this.disableControls(false);
