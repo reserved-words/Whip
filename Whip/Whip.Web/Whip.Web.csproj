@@ -194,6 +194,7 @@
     <Compile Include="ExtensionMethods\DisplayHelpers.cs" />
     <Compile Include="Interfaces\ILibraryService.cs" />
     <Compile Include="Interfaces\IPlaylistService.cs" />
+    <Compile Include="Interfaces\IPlaySettings.cs" />
     <Compile Include="Interfaces\IUpdatePlayProgress.cs" />
     <Compile Include="Interfaces\IPlayProgress.cs" />
     <Compile Include="Models\AlbumViewModel.cs" />
@@ -216,6 +217,7 @@
     <Compile Include="Services\LibraryService.cs" />
     <Compile Include="Services\PlaylistService.cs" />
     <Compile Include="Services\PlayProgress.cs" />
+    <Compile Include="Services\PlaySettings.cs" />
     <Compile Include="Services\TrackXmlProvider.cs" />
     <Compile Include="Services\PlaylistXmlProvider.cs" />
     <Compile Include="Services\WebScrobblingPlayer.cs" />

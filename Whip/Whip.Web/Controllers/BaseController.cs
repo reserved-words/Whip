@@ -5,6 +5,7 @@ using Whip.Common.Model;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 using Whip.Web.Filters;
+using Whip.Web.Interfaces;
 using Whip.Web.Models;
 
 namespace Whip.Web.Controllers
@@ -13,15 +14,17 @@ namespace Whip.Web.Controllers
     public class BaseController : Controller
     {
         protected readonly IPlaylist Playlist;
-        
+
+        private readonly IPlaySettings _playSettings;
         private readonly ICloudService _cloudService;
         private readonly IErrorLoggingService _logger;
         
-        public BaseController(ICloudService cloudService, IPlaylist playlist, IErrorLoggingService logger)
+        public BaseController(ICloudService cloudService, IPlaylist playlist, IErrorLoggingService logger, IPlaySettings playSettings)
         {
             Playlist = playlist;
             _cloudService = cloudService;
             _logger = logger;
+            _playSettings = playSettings;
         }
 
         protected TrackViewModel GetViewModel(Track track)
@@ -36,8 +39,16 @@ namespace Whip.Web.Controllers
         protected JsonResult Play(string title, List<Track> tracks, Track firstTrack = null, bool shuffle = true, bool doNotSort = false)
         {
             Playlist.Set(title, tracks, firstTrack, shuffle, doNotSort);
+            _playSettings.Shuffle = shuffle;
             ClearPlaylistCache();
             ClearTrackCache();
+            return GetCurrentTrack();
+        }
+
+        protected JsonResult Play()
+        {
+            Playlist.Set(Playlist.PlaylistName, Playlist.Tracks, null, _playSettings.Shuffle);
+            ClearPlaylistCache();
             return GetCurrentTrack();
         }
 

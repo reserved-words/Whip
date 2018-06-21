@@ -12,8 +12,8 @@ namespace Whip.Web.Controllers
         private readonly IPlayer _player;
         private readonly IUpdatePlayProgress _playProgress;
 
-        public PlayerController(IPlayer player, ICloudService cloudService, IPlaylist playlist, IErrorLoggingService logger, IUpdatePlayProgress playProgress)
-            :base(cloudService, playlist, logger)
+        public PlayerController(IPlayer player, ICloudService cloudService, IPlaylist playlist, IErrorLoggingService logger, IUpdatePlayProgress playProgress, IPlaySettings playSettings)
+            :base(cloudService, playlist, logger, playSettings)
         {
             _player = player;
             _playProgress = playProgress;

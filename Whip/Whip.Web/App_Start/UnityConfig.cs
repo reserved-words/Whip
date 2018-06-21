@@ -69,6 +69,7 @@ namespace Whip.Web
         private static void RegisterSingletons(IUnityContainer container)
         {
             container.RegisterSingleton<IPlaylist, Playlist>();
+            container.RegisterSingleton<IPlaySettings, PlaySettings>();
             container.RegisterSingleton<ILastFmApiClientService, LastFmApiClientService>();
             container.RegisterSingleton<Interfaces.ILibraryService, Services.LibraryService>();
 

@@ -4,17 +4,15 @@ using System.Web.UI;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 using Whip.Web.Models;
+using Whip.Web.Interfaces;
 
 namespace Whip.Web.Controllers
 {
     public class CurrentPlaylistController : BaseController
     {
-        private readonly ICloudService _cloudService;
-
-        public CurrentPlaylistController(ICloudService cloudService, IPlaylist playlist, IErrorLoggingService logger)
-            : base(cloudService, playlist, logger)
+        public CurrentPlaylistController(ICloudService cloudService, IPlaylist playlist, IErrorLoggingService logger, IPlaySettings playSettings)
+            : base(cloudService, playlist, logger, playSettings)
         {
-            _cloudService = cloudService;
         }
 
         [OutputCache(Duration = 1800, VaryByParam = "none", Location = OutputCacheLocation.ServerAndClient)]
@@ -51,6 +49,12 @@ namespace Whip.Web.Controllers
             Playlist.MovePrevious();
             ClearTrackCache();
             return GetCurrentTrack();
+        }
+
+        [HttpPost]
+        public JsonResult Restart()
+        {
+            return Play();
         }
     }
 }
