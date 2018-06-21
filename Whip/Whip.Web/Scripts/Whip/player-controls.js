@@ -19,16 +19,17 @@
     }
 
     stop() {
-        this.updateTrack(null);
+        this.reset();
+        $(".play").prop("disabled", false);
     }
 
-    updateTrack(data) {
-        if (!data) {
-            this.disableControls(true);
-            this.pause();
-            this.player().load();
-            return;
-        }
+    reset() {
+        this.disableControls(true);
+        this.pause();
+        this.player().load();
+    }
+
+    updateTrack() {
         this.disableControls(false);
         this.player().load();
     }

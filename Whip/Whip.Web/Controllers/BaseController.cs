@@ -48,7 +48,7 @@ namespace Whip.Web.Controllers
         protected JsonResult Play()
         {
             Playlist.Set(Playlist.PlaylistName, Playlist.Tracks, null, _playSettings.Shuffle);
-            ClearPlaylistCache();
+            ClearTrackCache();
             return GetCurrentTrack();
         }
 

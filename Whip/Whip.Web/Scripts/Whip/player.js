@@ -15,7 +15,11 @@
             self.skipToPercentage();
         }
         $(".play").click(function () {
-            self.resume();
+            if (self.playerControls.isPaused()) {
+                self.resume();
+            } else {
+                self.replay();
+            }
         });
 
         $(".pause").click(function () {
@@ -34,6 +38,13 @@
     play(secondsPlayed) {
         this.playerControls.play();
         UTIL.post("/Player/Play", null, { secondsPlayed });
+    }
+
+    replay() {
+        var self = this;
+        UTIL.post("/CurrentPlaylist/Restart", function (data) {
+            self.updateTrack(0, data);
+        });
     }
 
     resume() {
@@ -61,12 +72,12 @@
 
     clearTrack() {
         this.currentTrack.clearTrackData();
-        this.playerControls.updateTrack(null);
+        this.playerControls.reset();
     }
     
     updateTrack(secondsPlayed, data) {
         this.currentTrack.updateTrackData(data);
-        this.playerControls.updateTrack(data);
+        this.playerControls.updateTrack();
         this.play(secondsPlayed);
     }
 
