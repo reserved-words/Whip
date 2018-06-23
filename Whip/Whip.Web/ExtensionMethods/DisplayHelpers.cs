@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
+using System.Text;
 using System.Web.Mvc;
+using Whip.Web.Models;
 
 namespace Whip.Web.ExtensionMethods
 {
@@ -62,6 +64,34 @@ namespace Whip.Web.ExtensionMethods
             rowTag.InnerHtml = cellTag1.ToString() + cellTag2.ToString();
 
             return MvcHtmlString.Create(rowTag.ToString());
+        }
+
+        public static MvcHtmlString DisplayPageLinkFor<TrackListViewModel>(this HtmlHelper<TrackListViewModel> html, Expression<Func<TrackListViewModel, string>> expression, string icon, int times)
+        {
+            var metadata = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
+            var model = html.Encode(metadata.Model);
+
+            var spanTags = new StringBuilder();
+            for (var i = 0; i < times; i++)
+            {
+                var spanTag = new TagBuilder("span");
+                spanTag.AddCssClass("glyphicon");
+                spanTag.AddCssClass("glyphicon-" + icon);
+                spanTags.Append(spanTag.ToString());
+            }
+
+            var anchorTag = new TagBuilder("a");
+            anchorTag.AddCssClass("paging");
+            anchorTag.Attributes.Add("data-whip-url", model);
+            anchorTag.InnerHtml = spanTags.ToString();
+
+            if (string.IsNullOrEmpty(model))
+            {
+                anchorTag.Attributes.Add("disabled", "disabled");
+                anchorTag.AddCssClass("disabled");
+            }
+
+            return MvcHtmlString.Create(anchorTag.ToString());
         }
 
         public static string GetCategoryID(this string categoryKey)

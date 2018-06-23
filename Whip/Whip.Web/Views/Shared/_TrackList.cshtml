@@ -1,4 +1,5 @@
-﻿@model Whip.Web.Models.TrackListViewModel
+﻿@using Whip.Web.ExtensionMethods
+@model Whip.Web.Models.TrackListViewModel
 
 @if (Model.Tracks != null && Model.Tracks.Any())
 {
@@ -14,6 +15,22 @@
         }
         </tbody>
     </table>
+
+    <div class="section">
+        <div class="row">
+            <div class="col-xs-4">
+                @Html.DisplayPageLinkFor(m => m.FirstPageUrl, "chevron-left", 2)
+                @Html.DisplayPageLinkFor(m => m.PreviousPageUrl, "chevron-left", 1)
+            </div>
+            <div class="col-xs-4 text-center">
+                Page @Model.Page of @Model.TotalPages
+            </div>
+            <div class="col-xs-4 text-right">
+                @Html.DisplayPageLinkFor(m => m.NextPageUrl, "chevron-right", 1)
+                @Html.DisplayPageLinkFor(m => m.LastPageUrl, "chevron-right", 2)
+            </div>
+        </div>
+    </div>
 }
 else
 {

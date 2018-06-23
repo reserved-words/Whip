@@ -325,3 +325,12 @@ table.table td.inner table tr td:first-of-type {
 #tab-current-track div.panel-body {
     padding: 0;
 }
+
+a.paging {
+    margin: 0.2em;
+}
+
+a.disabled {
+    cursor: default;
+    color: #ddd;
+}

@@ -17,10 +17,11 @@ namespace Whip.Web.Controllers
             _cloudService = cloudService;
         }
 
-        [OutputCache(Duration = 1800, VaryByParam = "none", Location = OutputCacheLocation.ServerAndClient)]
-        public ActionResult Index()
+        [OutputCache(Duration = 1800, VaryByParam = "page", Location = OutputCacheLocation.ServerAndClient)]
+        public ActionResult Index(int page = 1)
         {
-            var tracklist = new TrackListViewModel(Playlist.Tracks, 1, 30, GetViewModel);
+            var tracklist = new TrackListViewModel(Playlist.Tracks, page, 30, GetViewModel, 
+                p => Url.Action(nameof(Index), new { page = p }));
 
             var model = new PlayViewModel(Playlist.PlaylistName, tracklist);
 

@@ -52,15 +52,6 @@ namespace Whip.Web.Controllers
             return GetCurrentTrack();
         }
 
-        protected ActionResult GetPlaylist(string title, List<Track> tracks, string playUrl)
-        {
-            var trackList = new TrackListViewModel(tracks, 1, 30, GetViewModel);
-
-            var model = new PlayViewModel(title, trackList, playUrl);
-
-            return PartialView("_Playlist", model);
-        }
-
         protected override void OnException(ExceptionContext filterContext)
         {
             _logger.Log(filterContext.Exception);

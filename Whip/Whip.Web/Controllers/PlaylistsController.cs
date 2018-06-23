@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.UI;
 using Whip.Common.Enums;
+using Whip.Common.Model;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 using Whip.Web.Interfaces;
@@ -70,10 +72,15 @@ namespace Whip.Web.Controllers
             return PartialView("_FavouritePlaylists", model);
         }
 
-        public ActionResult StandardPlaylist(int id)
+        public ActionResult StandardPlaylist(int id, int page = 1)
         {
             var playlist = _playlistsService.GetQuickPlaylist(id);
-            return GetPlaylist(playlist.Item1.Title, playlist.Item2, Url.Action(nameof(PlayStandardPlaylist), new { id }));
+            return GetPlaylist(
+                playlist.Item1.Title, 
+                Url.Action(nameof(PlayStandardPlaylist), new { id }), 
+                playlist.Item2,
+                p => Url.Action(nameof(StandardPlaylist), new { id = id, page = p }),
+                page);
         }
 
         public JsonResult PlayStandardPlaylist(int id)
@@ -82,10 +89,15 @@ namespace Whip.Web.Controllers
             return Play(playlist.Item1.Title, playlist.Item2);
         }
 
-        public ActionResult OrderedPlaylist(int id)
+        public ActionResult OrderedPlaylist(int id, int page = 1)
         {
             var playlist = _playlistsService.GetOrderedPlaylist(id);
-            return GetPlaylist(playlist.Item1.Title, playlist.Item2, Url.Action("PlayOrderedPlaylist", new { id }));
+            return GetPlaylist(
+                playlist.Item1.Title, 
+                Url.Action("PlayOrderedPlaylist", new { id }), 
+                playlist.Item2,
+                p => Url.Action(nameof(OrderedPlaylist), new { id = id, page = p }),
+                page);
         }
 
         public JsonResult PlayOrderedPlaylist(int id)
@@ -94,10 +106,24 @@ namespace Whip.Web.Controllers
             return Play(playlist.Item1.Title, playlist.Item2, null, false, true);
         }
 
-        public ActionResult CriteriaPlaylist(int id)
+        public ActionResult CriteriaPlaylist(int id, int page = 1)
         {
             var playlist = _playlistsService.GetCriteriaPlaylist(id);
-            return GetPlaylist(playlist.Item1.Title, playlist.Item2, Url.Action("PlayCriteriaPlaylist", new { id }));
+            return GetPlaylist(
+                playlist.Item1.Title, 
+                Url.Action("PlayCriteriaPlaylist", new { id }), 
+                playlist.Item2,
+                p => Url.Action(nameof(CriteriaPlaylist), new { id = id, page = p }),
+                page);
+        }
+
+        private ActionResult GetPlaylist(string title, string playUrl, List<Track> tracks, Func<int, string> getPageUrl, int page)
+        {
+            var trackList = new TrackListViewModel(tracks, page, 30, GetViewModel, getPageUrl);
+
+            var model = new PlayViewModel(title, trackList, playUrl);
+
+            return PartialView("_Playlist", model);
         }
 
         public JsonResult PlayCriteriaPlaylist(int id)
