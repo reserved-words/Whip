@@ -54,14 +54,9 @@ namespace Whip.Web.Controllers
 
         protected ActionResult GetPlaylist(string title, List<Track> tracks, string playUrl)
         {
-            var model = new PlayViewModel
-            {
-                Title = title,
-                Tracks = tracks
-                    .Select(GetViewModel)
-                    .ToList(),
-                PlayUrl = playUrl
-            };
+            var trackList = new TrackListViewModel(tracks, 1, 30, GetViewModel);
+
+            var model = new PlayViewModel(title, trackList, playUrl);
 
             return PartialView("_Playlist", model);
         }

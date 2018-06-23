@@ -5,7 +5,11 @@
     <div class="panel-heading">
         <div class="panel-title"><a data-whip-url="/Playlists/">Playlists</a>  / @Html.DisplayFor(m => m.Title)</div>
     </div>
-    @Html.Partial("_TrackList", new TrackListViewModel(Model.Tracks, true))
+    
+    <div class="panel-body no-padding">
+        @Html.Partial("_TrackList", Model.Tracks)
+    </div>
+
     <div class="panel-footer">
         <button type="button" data-whip-play-url="@Html.DisplayFor(m => m.PlayUrl)" class="btn btn-default btn-block">Play</button>
     </div>

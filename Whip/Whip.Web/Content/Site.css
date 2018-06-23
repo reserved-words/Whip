@@ -240,7 +240,7 @@ div.btn-group-playlists {
     height: calc(100vh - 175px); /* Full height - header - footer - panel header - panel footer */
 }
 
-.screen-panel .panel-body.panel-table {
+.no-padding {
     padding: 0;
 }
 

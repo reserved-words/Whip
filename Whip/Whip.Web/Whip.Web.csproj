@@ -232,6 +232,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Views\Shared\_TrackList.cshtml" />
     <Resource Include="Images\loading.gif" />
     <Content Include="Scripts\Whip\current-playlist.js" />
     <Content Include="Scripts\Whip\current-track.js" />
@@ -243,7 +244,6 @@
     <Content Include="Views\Artist\_Index.cshtml" />
     <Content Include="Views\CurrentPlaylist\_Index.cshtml" />
     <Content Include="Views\CurrentTrack\_Index.cshtml" />
-    <Content Include="Views\Shared\_TrackList.cshtml" />
     <Content Include="Views\Home\_Content.cshtml" />
     <Content Include="Views\Library\_Artist.cshtml" />
     <Content Include="Views\Shared\_ArtistLinks.cshtml" />

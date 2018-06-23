@@ -4,13 +4,15 @@ namespace Whip.Web.Models
 {
     public class PlayViewModel
     {
-        public PlayViewModel()
+        public PlayViewModel(string title, TrackListViewModel trackList, string playUrl = null)
         {
-            Tracks = new List<TrackViewModel>();
+            Title = title;
+            Tracks = trackList;
+            PlayUrl = playUrl;
         }
 
-        public string Title { get; set; }
-        public List<TrackViewModel> Tracks { get; set; }
-        public string PlayUrl { get; set; }
+        public string Title { get; }
+        public TrackListViewModel Tracks { get; }
+        public string PlayUrl { get; }
     }
 }
