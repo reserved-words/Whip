@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Configuration;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
+using Whip.Web.Interfaces;
 
 namespace Whip.Web.Services
 {
-    public class ConfigSettings : IConfigSettings, ICloudStorageConfig
+    public class ConfigSettings : IConfigSettings, ICloudStorageConfig, IAppSettings
     {
         public string ApplicationName => ConfigurationManager.AppSettings["ApplicationName"];
         public string AccountName => ConfigurationManager.AppSettings["CloudAccountName"];
@@ -24,6 +25,7 @@ namespace Whip.Web.Services
         public int MinutesBeforeRefreshNews => int.Parse(ConfigurationManager.AppSettings["MinutesBeforeRefreshNews"]);
         public int MinutesBeforeUpdatingTweets => int.Parse(ConfigurationManager.AppSettings["MinutesBeforeUpdatingTweets"]);
         public int NumberOfSimilarArtistsToDisplay => int.Parse(ConfigurationManager.AppSettings["NumberOfSimilarArtistsToDisplay"]);
+        public int TracksPerPage => int.Parse(ConfigurationManager.AppSettings["TracksPerPage"]);
 
         public int DaysBeforeUpdatingArtistWebInfo
         {

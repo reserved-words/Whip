@@ -1,33 +1,31 @@
-﻿using System.Linq;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.UI;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 using Whip.Web.Models;
+using Whip.Web.Interfaces;
 
 namespace Whip.Web.Controllers
 {
     public class CurrentPlaylistController : BaseController
     {
-        private readonly ICloudService _cloudService;
+        private readonly IAppSettings _appSettings;
 
-        public CurrentPlaylistController(ICloudService cloudService, IPlaylist playlist, IErrorLoggingService logger)
-            : base(cloudService, playlist, logger)
+        public CurrentPlaylistController(ICloudService cloudService, IPlaylist playlist, IErrorLoggingService logger, IPlaySettings playSettings,
+            IAppSettings appSettings)
+            : base(cloudService, playlist, logger, playSettings)
         {
-            _cloudService = cloudService;
+            _appSettings = appSettings;
         }
 
-        [OutputCache(Duration = 1800, VaryByParam = "none", Location = OutputCacheLocation.ServerAndClient)]
-        public ActionResult Index()
+        [OutputCache(Duration = 1800, VaryByParam = "page", Location = OutputCacheLocation.ServerAndClient)]
+        public ActionResult Index(int page = 1)
         {
-            var model = new PlayViewModel
-            {
-                Title = Playlist.PlaylistName,
-                Tracks = Playlist.Tracks?
-                    .Take(30) // TODO: Add paging
-                    .Select(GetViewModel)
-                    .ToList()
-            };
+            var tracklist = new TrackListViewModel(Playlist.Tracks, page, _appSettings.TracksPerPage, GetViewModel, 
+                p => Url.Action(nameof(Index), new { page = p }), Url.Action(nameof(Restart)));
+
+            var model = new PlayViewModel(Playlist.PlaylistName, tracklist);
+
             return PartialView("_Index", model);
         }
 
@@ -51,6 +49,12 @@ namespace Whip.Web.Controllers
             Playlist.MovePrevious();
             ClearTrackCache();
             return GetCurrentTrack();
+        }
+
+        [HttpPost]
+        public JsonResult Restart()
+        {
+            return Play();
         }
     }
 }

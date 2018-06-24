@@ -1,5 +1,5 @@
 ﻿@using Whip.Web.Models
-@model Whip.Web.Models.PlayViewModel
+@model PlayViewModel
 
 <div id="tab-current-playlist">
     <div class="screen-panel panel panel-default">
@@ -15,7 +15,8 @@
                 }
             </div>
         </div>
-
-        @Html.Partial("_TrackList", new TrackListViewModel(Model.Tracks, false))
+        
+        @Html.Partial("_TrackList", Model.Tracks)
+       
     </div>
 </div>

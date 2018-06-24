@@ -6,6 +6,7 @@ using Whip.Common;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 using Whip.Web.ExtensionMethods;
+using Whip.Web.Interfaces;
 using Whip.Web.Models;
 
 namespace Whip.Web.Controllers
@@ -15,8 +16,8 @@ namespace Whip.Web.Controllers
         private readonly ICloudService _cloudService;
         private readonly Interfaces.ILibraryService _library;
 
-        public LibraryController(IPlaylist playlist, IErrorLoggingService logger, ICloudService cloudService, Interfaces.ILibraryService library)
-            : base(cloudService, playlist, logger)
+        public LibraryController(IPlaylist playlist, IErrorLoggingService logger, ICloudService cloudService, Interfaces.ILibraryService library, IPlaySettings playSettings)
+            : base(cloudService, playlist, logger, playSettings)
         {
             _cloudService = cloudService;
             _library = library;

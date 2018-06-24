@@ -12,30 +12,39 @@
     },
 
     post(url, done, data) {
+        $("#loading").removeClass("hidden");
         $.ajax({
             url: url,
             method: "POST",
             data: data
         })
         .done(function (data) {
+            $("#loading").addClass("hidden");
             if (done) {
                 done(data);
             }
         })
         .fail(function (jqXHR, textStatus) {
+            $("#loading").addClass("hidden");
             alert("Request failed: " + textStatus);
         });
     },
 
     get(url, done) {
+        $("#loading").removeClass("hidden");
         $.ajax({
             url: url,
             method: "GET"
         })
         .done(function (data) {
+            $("#loading").addClass("hidden");
             if (done) {
                 done(data);
             }
+        })
+        .fail(function (jqXHR, textStatus) {
+            $("#loading").addClass("hidden");
+            alert("Request failed: " + textStatus);
         });
     },
 

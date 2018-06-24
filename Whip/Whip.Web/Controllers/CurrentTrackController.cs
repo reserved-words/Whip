@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using System.Web.UI;
 using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
+using Whip.Web.Interfaces;
 
 namespace Whip.Web.Controllers
 {
@@ -10,8 +11,8 @@ namespace Whip.Web.Controllers
     {
         private readonly ITrackLoveService _trackLoveService;
 
-        public CurrentTrackController(ITrackLoveService trackLoveService, ICloudService cloudService, IPlaylist playlist, IErrorLoggingService logger)
-            : base(cloudService, playlist, logger)
+        public CurrentTrackController(ITrackLoveService trackLoveService, ICloudService cloudService, IPlaylist playlist, IErrorLoggingService logger, IPlaySettings playSettings)
+            : base(cloudService, playlist, logger, playSettings)
         {
             _trackLoveService = trackLoveService;
         }

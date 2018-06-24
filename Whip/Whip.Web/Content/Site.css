@@ -6,6 +6,24 @@
     overflow-y: hidden;
 }
 
+#loading {
+    background-color: white;
+    opacity: 0.5;
+    position: absolute;
+    left: 0;
+    top: 45px;
+    width: 100%;
+    height: calc(100% - 45px);
+}
+
+#loading-image {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -50px;
+    margin-top: -50px;
+}
+
 header {
     position: absolute;
     top: 0;
@@ -222,7 +240,7 @@ div.btn-group-playlists {
     height: calc(100vh - 175px); /* Full height - header - footer - panel header - panel footer */
 }
 
-.screen-panel .panel-body.panel-table {
+.no-padding {
     padding: 0;
 }
 
@@ -245,10 +263,6 @@ div.btn-group-playlists {
 #player-buttons {
     margin-bottom: 5px;
 }
-
-/*a[data-whip-url] {
-    text-decoration: underline;
-}*/
 
 div.tab-content {
     overflow-y: visible;
@@ -306,4 +320,38 @@ table.table td.inner table tr td:first-of-type {
 
 #tab-current-track div.panel-body {
     padding: 0;
+}
+
+a.paging {
+    margin: 0.2em;
+}
+
+a.disabled {
+    cursor: default;
+    color: #ddd;
+}
+
+ul.pagination {
+    margin: 0;
+    width: 100%;
+}
+
+ul.pagination li a {
+    width: 35px;
+    height: 32px;
+    color: #777;
+}
+
+ul.pagination li.center a {
+    width: calc(100% - 137px);
+}
+
+table.table-condensed tr td {
+    padding: 2px 5px;
+    line-height: 17px;
+    height: 36px;
+}
+
+table.table-condensed {
+    margin: 0;
 }

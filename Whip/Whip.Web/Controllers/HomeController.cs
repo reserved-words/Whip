@@ -18,8 +18,8 @@ namespace Whip.Web.Controllers
         private readonly ILastFmApiClientService _lastFm;
 
         public HomeController(IPlaylist playlist, IErrorLoggingService error, IPlaylistService playlistsService, 
-            ICloudService cloudService, ILastFmApiClientService lastFm)
-            :base(cloudService, playlist, error)
+            ICloudService cloudService, ILastFmApiClientService lastFm, IPlaySettings playSettings)
+            :base(cloudService, playlist, error, playSettings)
         {
             _lastFm = lastFm;
         }
@@ -37,6 +37,10 @@ namespace Whip.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> CheckLastFmAuthorized()
         {
+#if DEBUG
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+#endif
+
             var lastFmUsername = ConfigurationManager.AppSettings["LastFmUsername"];
             var sessionKey = Request.Cookies["SK"]?.Value;
             if (_lastFm.UserApiClient == null)

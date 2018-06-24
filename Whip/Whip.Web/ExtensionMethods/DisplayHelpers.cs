@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
+using System.Text;
 using System.Web.Mvc;
+using Whip.Web.Models;
 
 namespace Whip.Web.ExtensionMethods
 {
@@ -62,6 +64,35 @@ namespace Whip.Web.ExtensionMethods
             rowTag.InnerHtml = cellTag1.ToString() + cellTag2.ToString();
 
             return MvcHtmlString.Create(rowTag.ToString());
+        }
+
+        public static MvcHtmlString DisplayPageLinkFor<T>(this HtmlHelper<T> html, Expression<Func<T, string>> expression, string caption)
+        {
+            var metadata = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
+            var model = html.Encode(metadata.Model);
+
+            var listItemTag = new TagBuilder("li");
+            if (string.IsNullOrEmpty(model))
+            {
+                listItemTag.AddCssClass("disabled");
+            }
+
+            var anchorTag = new TagBuilder("a");
+            anchorTag.Attributes.Add("data-whip-url", model);
+            if (string.IsNullOrEmpty(model))
+            {
+                anchorTag.AddCssClass("disabled");
+            }
+
+            var spanTag = new TagBuilder("span")
+            {
+                InnerHtml = caption
+            };
+            
+            anchorTag.InnerHtml = spanTag.ToString();
+            listItemTag.InnerHtml = anchorTag.ToString();
+
+            return MvcHtmlString.Create(listItemTag.ToString());
         }
 
         public static string GetCategoryID(this string categoryKey)

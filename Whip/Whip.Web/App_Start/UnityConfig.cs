@@ -46,6 +46,7 @@ namespace Whip.Web
             container.RegisterType<IScrobblingRules, ScrobblingRules>();
             container.RegisterType<ISessionService, SessionService>();
             container.RegisterType<IConfigSettings, Services.ConfigSettings>();
+            container.RegisterType<IAppSettings, Services.ConfigSettings>();
             container.RegisterType<IScrobblingService, ScrobblingService>();
             container.RegisterType<IScrobbler, Scrobbler>();
             container.RegisterType<ICurrentDateTime, CurrentDateTime>();
@@ -69,6 +70,7 @@ namespace Whip.Web
         private static void RegisterSingletons(IUnityContainer container)
         {
             container.RegisterSingleton<IPlaylist, Playlist>();
+            container.RegisterSingleton<IPlaySettings, PlaySettings>();
             container.RegisterSingleton<ILastFmApiClientService, LastFmApiClientService>();
             container.RegisterSingleton<Interfaces.ILibraryService, Services.LibraryService>();
 
@@ -76,6 +78,9 @@ namespace Whip.Web
             container.RegisterInstance<IPlayProgress>(playProgress);
             container.RegisterInstance<IUpdatePlayProgress>(playProgress);
 
+#if DEBUG
+            container.RegisterSingleton<IPlayer, DebugPlayer>();
+#else
             container.RegisterSingleton<IPlayer, WebScrobblingPlayer>(
                 new InjectionConstructor(
                     container.Resolve<ICurrentDateTime>(),
@@ -83,7 +88,7 @@ namespace Whip.Web
                     container.Resolve<IScrobbler>(),
                     container.Resolve<IPlayProgress>()
                 ));
-
+#endif
         }
     }
 }
