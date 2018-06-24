@@ -9,19 +9,20 @@ namespace Whip.Web.Controllers
 {
     public class CurrentPlaylistController : BaseController
     {
-        private readonly ICloudService _cloudService;
+        private readonly IAppSettings _appSettings;
 
-        public CurrentPlaylistController(ICloudService cloudService, IPlaylist playlist, IErrorLoggingService logger, IPlaySettings playSettings)
+        public CurrentPlaylistController(ICloudService cloudService, IPlaylist playlist, IErrorLoggingService logger, IPlaySettings playSettings,
+            IAppSettings appSettings)
             : base(cloudService, playlist, logger, playSettings)
         {
-            _cloudService = cloudService;
+            _appSettings = appSettings;
         }
 
         [OutputCache(Duration = 1800, VaryByParam = "page", Location = OutputCacheLocation.ServerAndClient)]
         public ActionResult Index(int page = 1)
         {
-            var tracklist = new TrackListViewModel(Playlist.Tracks, page, 30, GetViewModel, 
-                p => Url.Action(nameof(Index), new { page = p }));
+            var tracklist = new TrackListViewModel(Playlist.Tracks, page, _appSettings.TracksPerPage, GetViewModel, 
+                p => Url.Action(nameof(Index), new { page = p }), Url.Action(nameof(Restart)));
 
             var model = new PlayViewModel(Playlist.PlaylistName, tracklist);
 

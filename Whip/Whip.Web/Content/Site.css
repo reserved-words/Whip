@@ -264,10 +264,6 @@ div.btn-group-playlists {
     margin-bottom: 5px;
 }
 
-/*a[data-whip-url] {
-    text-decoration: underline;
-}*/
-
 div.tab-content {
     overflow-y: visible;
 }
@@ -333,4 +329,28 @@ a.paging {
 a.disabled {
     cursor: default;
     color: #ddd;
+}
+
+ul.pagination {
+    margin: 0;
+    width: 100%;
+}
+
+ul.pagination li a {
+    width: 35px;
+    height: 32px;
+    color: #777;
+}
+
+ul.pagination li.center a {
+    width: calc(100% - 137px);
+}
+
+table.table-condensed tr td {
+    padding: 2px 5px;
+    line-height: 17px;
+}
+
+table.table-condensed {
+    margin: 0;
 }

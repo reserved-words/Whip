@@ -13,12 +13,14 @@ namespace Whip.Web.Controllers
 {
     public class PlaylistsController : BaseController
     {
+        private readonly IAppSettings _appSettings;
         private readonly IPlaylistService _playlistsService;
 
         public PlaylistsController(IPlaylist playlist, IErrorLoggingService logger, IPlaylistService playlistsService,
-            ICloudService cloudService, IPlaySettings playSettings)
+            ICloudService cloudService, IPlaySettings playSettings, IAppSettings appSettings)
             : base(cloudService, playlist, logger, playSettings)
         {
+            _appSettings = appSettings;
             _playlistsService = playlistsService;
         }
 
@@ -119,7 +121,7 @@ namespace Whip.Web.Controllers
 
         private ActionResult GetPlaylist(string title, string playUrl, List<Track> tracks, Func<int, string> getPageUrl, int page)
         {
-            var trackList = new TrackListViewModel(tracks, page, 30, GetViewModel, getPageUrl);
+            var trackList = new TrackListViewModel(tracks, page, _appSettings.TracksPerPage, GetViewModel, getPageUrl, playUrl);
 
             var model = new PlayViewModel(title, trackList, playUrl);
 

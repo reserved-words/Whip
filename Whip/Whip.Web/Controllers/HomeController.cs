@@ -37,6 +37,10 @@ namespace Whip.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> CheckLastFmAuthorized()
         {
+#if DEBUG
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+#endif
+
             var lastFmUsername = ConfigurationManager.AppSettings["LastFmUsername"];
             var sessionKey = Request.Cookies["SK"]?.Value;
             if (_lastFm.UserApiClient == null)

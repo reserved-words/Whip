@@ -1,38 +1,49 @@
-﻿@using Whip.Web.ExtensionMethods
-@model Whip.Web.Models.TrackListViewModel
+﻿@model Whip.Web.Models.TrackListViewModel
+@using Whip.Web.ExtensionMethods
 
-@if (Model.Tracks != null && Model.Tracks.Any())
-{
-    <table class="table table-striped table-condensed">
-        <tbody>
-        @foreach (var track in Model.Tracks)
-        {
-            <tr>
-                <td>@Html.DisplayFor(m => track.Track.Title)</td>
-                <td>@Html.DisplayFor(m => track.Track.Artist.Name)</td>
-                <td>@Html.DisplayFor(m => track.Track.Disc.Album.Title)</td>
-            </tr>
-        }
-        </tbody>
-    </table>
-
-    <div class="section">
-        <div class="row">
-            <div class="col-xs-4">
-                @Html.DisplayPageLinkFor(m => m.FirstPageUrl, "chevron-left", 2)
-                @Html.DisplayPageLinkFor(m => m.PreviousPageUrl, "chevron-left", 1)
-            </div>
-            <div class="col-xs-4 text-center">
-                Page @Model.Page of @Model.TotalPages
-            </div>
-            <div class="col-xs-4 text-right">
-                @Html.DisplayPageLinkFor(m => m.NextPageUrl, "chevron-right", 1)
-                @Html.DisplayPageLinkFor(m => m.LastPageUrl, "chevron-right", 2)
-            </div>
+<div class="panel-body no-padding">
+    
+    @if (Model.Tracks != null && Model.Tracks.Any())
+    {
+        <table class="table table-striped table-condensed">
+            <tbody>
+            @foreach (var track in Model.Tracks)
+            {
+                <tr class="hidden-xs">
+                    <td>@Html.DisplayFor(m => track.Track.Title)</td>
+                    <td>@Html.DisplayFor(m => track.Track.Artist.Name)</td>
+                    <td>@Html.DisplayFor(m => track.Track.Disc.Album.Title)</td>
+                </tr>
+                <tr class="visible-xs">
+                    <td>
+                        @Html.DisplayFor(m => track.Track.Artist.Name)<br />
+                        @Html.DisplayFor(m => track.Track.Title)
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="section">
+            <p>No tracks to display</p>
         </div>
-    </div>
-}
-else
-{
-    <p>No tracks to display</p>
-}
+    }        
+
+</div>
+        
+<div class="panel-footer">
+        
+    <nav aria-label="..." class="text-center">
+        <ul class="pagination">
+            @Html.DisplayPageLinkFor(m => m.FirstPageUrl, "&laquo;")
+            @Html.DisplayPageLinkFor(m => m.PreviousPageUrl, "&lsaquo;")
+            <li class="center">
+                <a data-whip-play-url="@Html.DisplayFor(m => m.PlayUrl)"><span class="glyphicon glyphicon-play"></span></a>
+            </li>
+            @Html.DisplayPageLinkFor(m => m.NextPageUrl, "&rsaquo;")
+            @Html.DisplayPageLinkFor(m => m.LastPageUrl, "&raquo;")
+        </ul>
+    </nav>
+</div>

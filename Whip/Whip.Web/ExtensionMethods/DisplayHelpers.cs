@@ -66,32 +66,33 @@ namespace Whip.Web.ExtensionMethods
             return MvcHtmlString.Create(rowTag.ToString());
         }
 
-        public static MvcHtmlString DisplayPageLinkFor<TrackListViewModel>(this HtmlHelper<TrackListViewModel> html, Expression<Func<TrackListViewModel, string>> expression, string icon, int times)
+        public static MvcHtmlString DisplayPageLinkFor<T>(this HtmlHelper<T> html, Expression<Func<T, string>> expression, string caption)
         {
             var metadata = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
             var model = html.Encode(metadata.Model);
 
-            var spanTags = new StringBuilder();
-            for (var i = 0; i < times; i++)
+            var listItemTag = new TagBuilder("li");
+            if (string.IsNullOrEmpty(model))
             {
-                var spanTag = new TagBuilder("span");
-                spanTag.AddCssClass("glyphicon");
-                spanTag.AddCssClass("glyphicon-" + icon);
-                spanTags.Append(spanTag.ToString());
+                listItemTag.AddCssClass("disabled");
             }
 
             var anchorTag = new TagBuilder("a");
-            anchorTag.AddCssClass("paging");
             anchorTag.Attributes.Add("data-whip-url", model);
-            anchorTag.InnerHtml = spanTags.ToString();
-
             if (string.IsNullOrEmpty(model))
             {
-                anchorTag.Attributes.Add("disabled", "disabled");
                 anchorTag.AddCssClass("disabled");
             }
 
-            return MvcHtmlString.Create(anchorTag.ToString());
+            var spanTag = new TagBuilder("span")
+            {
+                InnerHtml = caption
+            };
+            
+            anchorTag.InnerHtml = spanTag.ToString();
+            listItemTag.InnerHtml = anchorTag.ToString();
+
+            return MvcHtmlString.Create(listItemTag.ToString());
         }
 
         public static string GetCategoryID(this string categoryKey)

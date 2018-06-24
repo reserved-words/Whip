@@ -13,7 +13,7 @@ $("body").on("click", "[data-whip-artist-url]", function () {
     UTIL.updateContent($(this).attr("data-whip-artist-url"), "#library-artist", true);
 });
 
-$("body").on("click", "button[data-whip-play-url]", function () {
+$("body").on("click", "[data-whip-play-url]", function () {
     if ($(this).hasClass("disabled"))
         return;
     player.updatePlaylist($(this).attr("data-whip-play-url"));

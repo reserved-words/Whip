@@ -10,9 +10,10 @@ namespace Whip.Web.Models
         private readonly Func<int, string> _getPageUrl;
 
         public TrackListViewModel(List<Track> tracks, int page, int tracksPerPage, 
-            Func<Track, TrackViewModel> getViewModel, Func<int, string> getPageUrl)
+            Func<Track, TrackViewModel> getViewModel, Func<int, string> getPageUrl, string playUrl)
         {
             Page = page;
+            PlayUrl = playUrl;
             _getPageUrl = getPageUrl;
 
             if (tracks == null)
@@ -34,6 +35,7 @@ namespace Whip.Web.Models
         public int Page { get; }
         public int TotalPages { get; }
         public List<TrackViewModel> Tracks { get; }
+        public string PlayUrl { get; }
 
         public string FirstPageUrl => GetPageUrl(1);
         public string PreviousPageUrl => GetPageUrl(Page - 1);
