@@ -349,6 +349,7 @@ ul.pagination li.center a {
 table.table-condensed tr td {
     padding: 2px 5px;
     line-height: 17px;
+    height: 36px;
 }
 
 table.table-condensed {
