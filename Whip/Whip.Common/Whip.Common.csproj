@@ -70,9 +70,11 @@
     <Compile Include="Exceptions\ServiceException.cs" />
     <Compile Include="ExtensionMethods\ArtistExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\LibraryExtensionMethods.cs" />
+    <Compile Include="ExtensionMethods\StringExtensionMethods.cs" />
     <Compile Include="HyperlinkMatchers\HtmlAnchorHyperlinkPatternGroup.cs" />
     <Compile Include="HyperlinkMatchers\IHyperlinkPatternGroup.cs" />
     <Compile Include="HyperlinkMatchers\TweetHyperlinkPatternGroup.cs" />
+    <Compile Include="Interfaces\IPlayerVolume.cs" />
     <Compile Include="Interfaces\ITrackCriteria.cs" />
     <Compile Include="Interfaces\ShowTabRequestHandler.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />

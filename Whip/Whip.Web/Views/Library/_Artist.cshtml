@@ -1,0 +1,25 @@
+﻿@model Whip.Web.Models.LibraryArtistViewModel
+
+<div class="screen-panel panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title"><a data-whip-url="@Url.Action("Index", "Library")">Library</a> / <a data-whip-url="@Url.Action("Artists", "Library", new { category = Model.Category })">@Html.DisplayFor(m => m.Category)</a> / @Html.DisplayFor(m => m.Artist.Name)</div>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            @foreach (var album in Model.Albums)
+            {
+                <div class="col-md-4">
+                    <h3>@Html.DisplayFor(m => album.Key)</h3>
+
+                    <div class="btn-group-vertical btn-group-square btn-group-playlists">
+                        @Html.Partial("_PlayItemList", album.Value)
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+    <div class="panel-footer">
+        <button type="button" data-whip-play-url="@Html.DisplayFor(m => m.PlayUrl)" class="btn btn-default btn-block">Play</button>
+    </div>
+</div>

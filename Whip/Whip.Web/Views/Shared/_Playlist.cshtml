@@ -1,0 +1,13 @@
+﻿@using Whip.Web.Models
+@model PlayViewModel
+
+<div class="screen-panel panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title"><a data-whip-url="/Playlists/">Playlists</a>  / @Html.DisplayFor(m => m.Title)</div>
+    </div>
+
+    <div class="panel-body no-padding">
+        @Html.Partial("_TrackList", Model.Tracks)
+    </div>
+
+</div>

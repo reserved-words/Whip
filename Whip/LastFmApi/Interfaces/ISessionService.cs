@@ -5,6 +5,7 @@ namespace LastFmApi.Interfaces
     public interface ISessionService
     {
         ApiClient GetApiClient(string apiKey, string secret);
-        Task<AuthorizedApiClient> GetAuthorizedApiClientAsync(string apiKey, string secret, string username, string sessionKey);
+        Task<UserApiClient> GetAuthorizedApiClientAsync(string apiKey, string secret, string username, string sessionKey);
+        Task Authorize(UserApiClient client, int maxAttempts);
     }
 }

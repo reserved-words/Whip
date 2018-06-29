@@ -9,7 +9,7 @@ namespace LastFmApi.Interfaces
 {
     public interface IScrobblingService
     {
-        Task ScrobbleAsync(AuthorizedApiClient client, Track track, DateTime timePlayed);
-        Task UpdateNowPlayingAsync(AuthorizedApiClient client, Track track, int duration);
+        Task ScrobbleAsync(UserApiClient client, Track track, DateTime timePlayed);
+        Task UpdateNowPlayingAsync(UserApiClient client, Track track, int duration);
     }
 }

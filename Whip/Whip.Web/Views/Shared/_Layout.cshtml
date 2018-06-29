@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Cloudwhip</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="manifest" href="/manifest.json">
+</head>
+<body>
+    <header class="visible-xs">
+        <table class="mobile-nav visible-xs">
+            <tbody>
+                <tr>
+                    <td>
+                        <div id="current-track-artist"></div>
+                        <div id="current-track-title"></div>
+                    </td>
+                    <td style="width: 1%;">
+                        <div id="mobile-controls" class="btn-group block pull-right" role="group">
+                            <button type="button" class="previous btn btn-default"><span class="glyphicon glyphicon-step-backward"></span></button>
+                            <button type="button" class="play btn btn-default"><span class="glyphicon glyphicon-play"></span></button>
+                            <button type="button" class="pause hidden btn btn-default"><span class="glyphicon glyphicon-pause"></span></button>
+                            <button type="button" class="next btn btn-default"><span class="glyphicon glyphicon-step-forward"></span></button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </header>
+    <div class="navbar navbar-inverse navbar-fixed-top hidden-xs">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a data-whip-url="/Home/Index" class="navbar-brand">Cloudwhip</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a data-whip-url="/Home/Index">Home</a></li>
+                    <li><a data-whip-url="/Playlists/Favourites">Favourite Playlists</a></li>
+                    <li><a data-whip-url="/Library/Index">Library</a></li>
+                    <li><a data-whip-url="/Playlists/Index">Playlists</a></li>
+                    <li><a data-whip-url="/CurrentPlaylist/Index">Current Playlist</a></li>
+                    <li><a data-whip-url="/CurrentTrack/Index">Current Track</a></li>
+                    <li><a data-whip-url="/Artist/Index">Artist</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid body-content">
+        <div id="sidebar">
+            @Html.Partial("_Player")
+
+            <div class="hidden-xs">
+                <div id="favourite-playlists"></div>
+            </div>
+        </div>
+        
+        <div id="main">
+            @RenderBody()
+        </div>
+
+        <div id="loading" class="hidden">
+            <img id="loading-image" src="~/Images/loading.gif" />
+        </div>
+    </div>
+
+    <div id="modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <button type="button" class="btn btn-default" data-whip-url="/Home/Index">
+            <span class="glyphicon glyphicon-home" title="Home"></span>
+        </button>
+        <button type="button" class="btn btn-default" data-whip-url="/Playlists/Favourites">
+            <span class="glyphicon glyphicon-star" title="Favourite Playlists"></span>
+        </button>
+        <button type="button" class="btn btn-default" data-whip-url="/Library/Index">
+            <span class="glyphicon glyphicon-book" title="Library"></span>
+        </button>
+        <button type="button" class="btn btn-default" data-whip-url="/Playlists/Index">
+            <span class="glyphicon glyphicon-folder-open" title="Playlists"></span>
+        </button>
+        <button type="button" class="btn btn-default" data-whip-url="/CurrentPlaylist/Index">
+            <span class="glyphicon glyphicon-th-list" title="Current Playlist"></span>
+        </button>
+        <button type="button" class="btn btn-default" data-whip-url="/CurrentTrack/Index">
+            <span class="glyphicon glyphicon-music" title="Current Track"></span>
+        </button>
+        <button type="button" class="btn btn-default" data-whip-url="">
+            <span class="glyphicon glyphicon-search" title="Search"></span>
+        </button>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/whip")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

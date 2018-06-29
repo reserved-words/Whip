@@ -1,0 +1,38 @@
+﻿@model Whip.Web.Models.LibraryViewModel
+
+<div id="tab-library">
+    <div class="screen-panel panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title">
+                Library
+            </div>
+        </div>
+        <div class="panel-body panel-body-no-footer">
+            @{
+                var row = 0;
+                var maxPerRow = 9;
+                var keys = Model.Artists.Keys.Where(k => !string.IsNullOrEmpty(k)).ToArray();
+            }
+
+            <div class="btn-group-vertical btn-group-square">
+                @while (row < keys.Count() / maxPerRow + 1)
+                {
+                    <div class="btn-group block">
+                        @for (var i = 0; i < maxPerRow; i++)
+                        {
+                            var index = row * maxPerRow + i;
+
+                            if (index < keys.Count())
+                            {
+                                <button type="button" data-whip-url="@Url.Action("Artists", new {category = keys[index]})" class="btn btn-default">
+                                    @keys[index]
+                                </button>
+                            }
+                        }
+                    </div>
+                    row++;
+                }
+            </div>
+        </div>
+    </div>
+</div>

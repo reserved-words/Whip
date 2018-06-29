@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Xml.Linq;
+using Whip.Services.Interfaces;
 using Whip.Services.Interfaces.Singletons;
 
-namespace Whip.Services.Singletons
+namespace Whip.XmlDataAccess
 {
     public class ConfigSettings : IConfigSettings
     {
-        private const string configDirectoryName = "Whip";
-        private const string configFileName = "config.xml";
+        private readonly IXmlProvider _xmlProvider;
 
         private bool _populated;
 
-        public ConfigSettings()
+        public ConfigSettings(IXmlProvider xmlProvider)
         {
+            _xmlProvider = xmlProvider;
+
             PopulateSettings();
         }
 
+        public string ApplicationName { get; private set; }
         public string LastFmApiKey { get; private set; }
         public string LastFmApiSecret { get; private set; }
         public string BandsInTownApiKey { get; private set; }
@@ -39,9 +40,10 @@ namespace Whip.Services.Singletons
             if (_populated)
                 return;
 
-            var config = XDocument.Load(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), configDirectoryName, configFileName));
+            var config = _xmlProvider.Get();
             var root = config.Element("config");
 
+            ApplicationName = root.Element("application_name").Value;
             TrackChangeDelay = Convert.ToInt16(root.Element("track_change_delay").Value);
             NumberOfSimilarArtistsToDisplay = Convert.ToInt16(root.Element("num_similar_artists").Value);
             MinutesBeforeRefreshNews = Convert.ToInt16(root.Element("minutes_before_update_news").Value);

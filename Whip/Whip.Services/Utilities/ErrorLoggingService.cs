@@ -23,7 +23,7 @@ namespace Whip.Services
         {
             var log = new
             {
-                ApplicationName = "Whip",
+                ApplicationName = _configSettings.ApplicationName,
                 Data = GetData(ex),
                 Message = ex.Message,
                 StackTrace = ex.StackTrace

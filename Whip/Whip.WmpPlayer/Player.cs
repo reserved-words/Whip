@@ -1,11 +1,10 @@
 ﻿using Whip.Common.Interfaces;
 using Whip.Common.Model;
-using Whip.Services.Interfaces;
 using WMPLib;
 
 namespace Whip.WmpPlayer
 {
-    public class Player : IPlayer
+    public class Player : IPlayer, IPlayerVolume
     {
         private readonly WindowsMediaPlayer _player = new WindowsMediaPlayer();
 

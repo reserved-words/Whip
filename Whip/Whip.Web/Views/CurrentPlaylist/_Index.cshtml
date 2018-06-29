@@ -1,0 +1,22 @@
+﻿@using Whip.Web.Models
+@model PlayViewModel
+
+<div id="tab-current-playlist">
+    <div class="screen-panel panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title">
+                @if (!string.IsNullOrEmpty(Model.Title))
+                {
+                    <span>Playing @Model.Title</span>
+                }
+                else
+                {
+                    @Html.Display("Current Playlist")
+                }
+            </div>
+        </div>
+        
+        @Html.Partial("_TrackList", Model.Tracks)
+       
+    </div>
+</div>

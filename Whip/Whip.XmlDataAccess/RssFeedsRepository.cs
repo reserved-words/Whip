@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Xml.Linq;
 using Whip.Common.ExtensionMethods;
 using Whip.Common.Model;
@@ -10,28 +9,24 @@ namespace Whip.XmlDataAccess
 {
     public class RssFeedsRepository : IRssFeedsRepository
     {
-        private const string Filename = "rss.xml";
+        private readonly IXmlProvider _xmlProvider;
 
-        private readonly IUserSettings _userSettings;
-
-        public RssFeedsRepository(IUserSettings userSettings)
+        public RssFeedsRepository(IXmlProvider xmlProvider)
         {
-            _userSettings = userSettings;
+            _xmlProvider = xmlProvider;
         }
-
-        private string XmlFilePath => Path.Combine(_userSettings.DataDirectory, Filename);
 
         public List<Feed> GetFeeds()
         {
             var feeds = new List<Feed>();
 
-            if (!System.IO.File.Exists(XmlFilePath))
+            var xml = _xmlProvider.Get();
+
+            if (xml == null)
             {
                 return feeds;
             }
 
-            var xml = XDocument.Load(XmlFilePath);
-            
             var feedsXml = xml.Root.Element(RssFeeds);
 
             foreach (var feed in feedsXml.Elements(RssFeed))
@@ -50,7 +45,7 @@ namespace Whip.XmlDataAccess
 
         public void SaveFeeds(List<Feed> feeds)
         {
-            var xml = new XDocument();
+            var xml = _xmlProvider.Get();
 
             var rootXml = new XElement(RssRoot);
             xml.Add(rootXml);
@@ -69,9 +64,7 @@ namespace Whip.XmlDataAccess
                 feedsXml.Add(feedXml);
             }
 
-            Directory.CreateDirectory(_userSettings.DataDirectory);
-
-            xml.Save(XmlFilePath);
+            _xmlProvider.Save(xml);
         }
 
     }

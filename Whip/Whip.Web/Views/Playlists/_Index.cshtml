@@ -1,0 +1,39 @@
+﻿@model Whip.Web.Models.PlaylistsViewModel
+
+<div id="tab-playlists">
+    <div class="screen-panel panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title">Playlists</div>
+        </div>
+        <div class="panel-body panel-body-no-footer">
+            <div class="row">
+
+                <div class="col-md-4">
+                    <h3>Standard Playlists</h3>
+
+                    <div class="btn-group-vertical btn-group-square btn-group-playlists">
+                        @Html.Partial("_PlayItemList", Model.StandardPlaylists)
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+                    <h3>Criteria Playlists</h3>
+
+                    <div class="btn-group-vertical btn-group-square btn-group-playlists">
+                        @Html.Partial("_PlayItemList", Model.CriteriaPlaylists)
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <h3>Ordered Playlists</h3>
+
+                    <div class="btn-group-vertical btn-group-square btn-group-playlists">
+                        @Html.Partial("_PlayItemList", Model.OrderedPlaylists)
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

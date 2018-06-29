@@ -1,0 +1,49 @@
+﻿@model Whip.Web.Models.TrackListViewModel
+@using Whip.Web.ExtensionMethods
+
+<div class="panel-body no-padding">
+    
+    @if (Model.Tracks != null && Model.Tracks.Any())
+    {
+        <table class="table table-striped table-condensed">
+            <tbody>
+            @foreach (var track in Model.Tracks)
+            {
+                <tr class="hidden-xs">
+                    <td>@Html.DisplayFor(m => track.Track.Title)</td>
+                    <td>@Html.DisplayFor(m => track.Track.Artist.Name)</td>
+                    <td>@Html.DisplayFor(m => track.Track.Disc.Album.Title)</td>
+                </tr>
+                <tr class="visible-xs">
+                    <td>
+                        @Html.DisplayFor(m => track.Track.Artist.Name)<br />
+                        @Html.DisplayFor(m => track.Track.Title)
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="section">
+            <p>No tracks to display</p>
+        </div>
+    }        
+
+</div>
+        
+<div class="panel-footer">
+        
+    <nav aria-label="..." class="text-center">
+        <ul class="pagination">
+            @Html.DisplayPageLinkFor(m => m.FirstPageUrl, "&laquo;")
+            @Html.DisplayPageLinkFor(m => m.PreviousPageUrl, "&lsaquo;")
+            <li class="center">
+                <a data-whip-play-url="@Html.DisplayFor(m => m.PlayUrl)"><span class="glyphicon glyphicon-play"></span></a>
+            </li>
+            @Html.DisplayPageLinkFor(m => m.NextPageUrl, "&rsaquo;")
+            @Html.DisplayPageLinkFor(m => m.LastPageUrl, "&raquo;")
+        </ul>
+    </nav>
+</div>

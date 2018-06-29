@@ -66,7 +66,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigSettings.cs" />
     <Compile Include="Library\ArchiveService.cs" />
     <Compile Include="Library\CommentProcessingService.cs" />
     <Compile Include="Library\LibrarySortingService.cs" />
@@ -76,6 +75,7 @@
     <Compile Include="Library\TrackUpdateService.cs" />
     <Compile Include="MethodInterceptors\WebMethodInterceptor.cs" />
     <Compile Include="PlayRequestHandler.cs" />
+    <Compile Include="TrackSearch\TrackCriteriaService.cs" />
     <Compile Include="TrackSearch\TrackSearchService.cs" />
     <Compile Include="Singletons\NewFilePlayer.cs" />
     <Compile Include="Singletons\Playlist.cs" />
@@ -104,6 +104,10 @@
     <Compile Include="WebServices\YouTubeVideoService.cs" />
     <Compile Include="WebServices\WebBrowserService.cs" />
     <Compile Include="WebServices\WebHelperService.cs" />
+    <Compile Include="XmlProviders\ConfigXmlProvider.cs" />
+    <Compile Include="XmlProviders\PlaylistXmlProvider.cs" />
+    <Compile Include="XmlProviders\RssFeedsXmlProvider.cs" />
+    <Compile Include="XmlProviders\TrackXmlProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Whip.Common\Whip.Common.csproj">
@@ -118,6 +122,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

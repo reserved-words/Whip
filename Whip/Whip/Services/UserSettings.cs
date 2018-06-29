@@ -1,12 +1,10 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using LastFmApi;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 using Whip.LastFm;
 using Whip.Services.Interfaces;
 using Whip.ViewModels.Messages;
-using static Whip.Common.Resources;
 
 namespace Whip
 {
@@ -14,14 +12,16 @@ namespace Whip
     {
         private readonly ILastFmApiClientService _lastFmApiClientService;
         private readonly IMessenger _messenger;
+        private readonly IWebBrowserService _browserService;
 
         private bool _scrobblingStatusChanged;
         private bool _shuffleStatusChanged;
         private bool _libraryUpdated;
         private bool _lastFmUsernameChanged;
         
-        public UserSettings(IMessenger messenger, ILastFmApiClientService lastFmApiClientService)
+        public UserSettings(IMessenger messenger, ILastFmApiClientService lastFmApiClientService, IWebBrowserService browserService)
         {
+            _browserService = browserService;
             _lastFmApiClientService = lastFmApiClientService;
             _messenger = messenger;
         }
@@ -141,7 +141,13 @@ namespace Whip
             try
             {
                 await _lastFmApiClientService.SetClients(LastFmUsername, LastFmApiSessionKey);
-                LastFmApiSessionKey = _lastFmApiClientService.AuthorizedApiClient.SessionKey;
+                if (!_lastFmApiClientService.UserApiClient.Authorized)
+                {
+                    var url = _lastFmApiClientService.UserApiClient.AuthUrl;
+                    _browserService.Open(url);
+                    await _lastFmApiClientService.AuthorizeUserClient();
+                }
+                LastFmApiSessionKey = _lastFmApiClientService.UserApiClient.SessionKey;
             }
             catch (LastFmApiException ex)
             {
@@ -163,7 +169,5 @@ namespace Whip
 
             Properties.Settings.Default.Save();
         }
-
-        public string DataDirectory => Path.Combine(MusicDirectory, string.Format("_{0}", ApplicationTitle));
     }
 }

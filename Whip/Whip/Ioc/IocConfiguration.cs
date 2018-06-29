@@ -21,6 +21,7 @@ using Whip.XmlDataAccess;
 using Whip.ViewModels;
 using Whip.TweetInvi;
 using Whip.LyricApi;
+using Whip.XmlDataAccess.Interfaces;
 
 namespace Whip.Ioc
 {
@@ -44,10 +45,9 @@ namespace Whip.Ioc
                 .RegisterSingleton<IMessenger, Messenger>()
                 .RegisterSingleton<IUserSettings, UserSettings>()
                 .RegisterSingleton<IWebServicesStatus, WebServicesStatus>()
-                .RegisterSingleton<IConfigSettings, ConfigSettings>()
                 .RegisterSingleton<ILastFmApiClientService, LastFmApiClientService>()
                 .RegisterSingleton<TrackContextMenuViewModel, TrackContextMenuViewModel>();
-            
+
             return kernel;
         }
 
@@ -61,7 +61,7 @@ namespace Whip.Ioc
             kernel.Bind(x => x.FromAssemblyContaining<FileService>()
                 .SelectAllClasses()
                 .InNamespaceOf<FileService>()
-                .NotInNamespaceOf<ConfigSettings>()
+                .NotInNamespaceOf<Playlist>()
                 .BindDefaultInterface());
 
             kernel.Register<ILoggingService, LoggingService>()
@@ -79,10 +79,27 @@ namespace Whip.Ioc
 
         private static IKernel RegisterRepositories(this IKernel kernel)
         {
-            kernel.Bind(x => x.FromAssemblyContaining<TrackRepository>()
-                .SelectAllClasses()
-                .InNamespaceOf<TrackRepository>()
-                .BindDefaultInterface());
+            kernel.Register<ITrackXmlParser, TrackXmlParser>();
+
+            kernel.Bind<IPlaylistRepository>()
+                .To<PlaylistRepository>()
+                .InTransientScope()
+                .WithConstructorArgument(typeof(IXmlProvider), ctx => ctx.Kernel.Get<PlaylistXmlProvider>());
+
+            kernel.Bind<ITrackRepository>()
+                .To<TrackRepository>()
+                .InTransientScope()
+                .WithConstructorArgument(typeof(IXmlProvider), ctx => ctx.Kernel.Get<TrackXmlProvider>());
+
+            kernel.Bind<IRssFeedsRepository>()
+                .To<RssFeedsRepository>()
+                .InTransientScope()
+                .WithConstructorArgument(typeof(IXmlProvider), ctx => ctx.Kernel.Get<RssFeedsXmlProvider>());
+
+            kernel.Bind<IConfigSettings>()
+                .To<ConfigSettings>()
+                .InSingletonScope()
+                .WithConstructorArgument(typeof(IXmlProvider), ctx => ctx.Kernel.Get<ConfigXmlProvider>());
 
             return kernel;
         }
@@ -149,6 +166,9 @@ namespace Whip.Ioc
 
         private static IKernel RegisterPlayer(this IKernel kernel)
         {
+            kernel.Bind<Player>().ToSelf()
+                .InSingletonScope();
+
             kernel.Bind<NewFilePlayer>().ToSelf()
                 .InSingletonScope()
                 .WithConstructorArgument(typeof(IPlayer), ctx => ctx.Kernel.Get<Player>());
@@ -156,6 +176,8 @@ namespace Whip.Ioc
             kernel.Bind<IPlayer>().To<ScrobblingPlayer>()
                 .InSingletonScope()
                 .WithConstructorArgument(typeof(IPlayer), ctx => ctx.Kernel.Get<NewFilePlayer>());
+
+            kernel.Bind<IPlayerVolume>().ToMethod(ctx => ctx.Kernel.Get<Player>());
 
             return kernel;
         }

@@ -16,18 +16,18 @@ namespace Whip.LastFm
 
         public async Task<bool> IsLovedAsync(Track track)
         {
-            return await _service.IsLovedAsync(_clientService.AuthorizedApiClient, GetTrack(track));
+            return await _service.IsLovedAsync(_clientService.UserApiClient, GetTrack(track));
         }
 
         public async Task<bool> LoveTrackAsync(Track track)
         {
-            await _service.LoveTrackAsync(_clientService.AuthorizedApiClient, GetTrack(track));
+            await _service.LoveTrackAsync(_clientService.UserApiClient, GetTrack(track));
             return true;
         }
 
         public async Task<bool> UnloveTrackAsync(Track track)
         {
-            await _service.UnloveTrackAsync(_clientService.AuthorizedApiClient, GetTrack(track));
+            await _service.UnloveTrackAsync(_clientService.UserApiClient, GetTrack(track));
             return true;
         }
 

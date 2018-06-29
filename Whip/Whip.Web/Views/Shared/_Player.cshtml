@@ -1,0 +1,25 @@
+﻿<div id="player">
+    <div class="screen-panel panel panel-default">
+
+        <div class="panel-body">
+
+            <img src="" id="artwork" class="img-responsive" />
+
+            <div class="section">
+                <audio id="controls" controls controlsList="nodownload">
+                    <source id="mpeg_src" src="" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div id="player-buttons" class="btn-group block" role="group">
+                <button type="button" class="previous btn btn-default"><span class="glyphicon glyphicon-step-backward"></span></button>
+                <button type="button" class="play btn btn-default"><span class="glyphicon glyphicon-play"></span></button>
+                <button type="button" class="pause hidden btn btn-default"><span class="glyphicon glyphicon-pause"></span></button>
+                <button type="button" class="next btn btn-default"><span class="glyphicon glyphicon-step-forward"></span></button>
+            </div>
+            <button type="button" data-whip-play-url="@Url.Action("ShuffleAll", "Library")" class="btn btn-default btn-block">Shuffle Library</button>
+        </div>
+    </div>
+</div>

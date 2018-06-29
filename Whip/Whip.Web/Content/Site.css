@@ -1,0 +1,357 @@
+﻿body {
+    padding-top: 45px;
+    padding-bottom: 45px;
+    font-size: 12px;
+    height: 100%;
+    overflow-y: hidden;
+}
+
+#loading {
+    background-color: white;
+    opacity: 0.5;
+    position: absolute;
+    left: 0;
+    top: 45px;
+    width: 100%;
+    height: calc(100% - 45px);
+}
+
+#loading-image {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -50px;
+    margin-top: -50px;
+}
+
+header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: black;
+    padding: 5px;
+    height: 45px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: black;
+    text-align: center;
+    padding: 5px;
+    height: 45px;
+}
+
+footer button.btn-default {
+    background-color: black;
+    border-color: black;
+    color: white;
+    padding: 5px 10px;
+    font-size: 18px;
+}
+
+h1 {
+    font-size: 1.8em;
+    margin-top: 0;
+}
+
+h2 {
+    margin-top: 0;
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 0;
+}
+
+h4 {
+    font-size: 1em;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.body-content {
+    height: 100%;
+    overflow-y: hidden;
+}
+
+#main, #sidebar {
+    height: 100%;
+    overflow-y: hidden;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+audio::-webkit-media-controls-play-button {
+    display: none;
+}
+
+audio::-webkit-media-controls-current-time-display {
+    margin-left: 10px;
+}
+
+audio {
+    width: 100%;
+}
+
+a {
+    cursor: pointer;
+}
+
+div.section {
+    margin: 10px 0;
+}
+
+.btn-group.block {
+    display: flex;
+}
+
+.block .btn {
+    flex: 1;
+}
+
+.btn-group-vertical.block {
+    width: 100%;
+}
+
+.glyphicon-heart,
+.glyphicon-heart-empty {
+    color: firebrick;
+}
+
+.track table tr td:first-of-type {
+    width: 6em;
+}
+
+.float-left {
+    float: left;
+}
+
+#current-track-artist {
+    color: #ddd;
+    font-weight: bold;
+}
+
+#current-track-title {
+    color: #ddd;
+    max-height: 1.5em;
+    overflow-y: hidden;
+}
+
+table.tracklist>tbody>tr>td,
+table.tracklist>tbody>tr>th,
+table.playlists>tbody>tr>td,
+table.playlists>tbody>tr>th {
+    border-top: none;
+    padding-bottom: 0;
+}
+
+table.tracklist tr td:nth-of-type(1) {
+    width: 33%;
+}
+
+table.tracklist tr td:nth-of-type(2) {
+    width: 33%;
+}
+
+table.tracklist tr td:nth-of-type(3) {
+    width: 33%;
+}
+
+table.playlists>tbody>tr>td,
+table.playlists>tbody>tr>th {
+    padding: 0;
+}
+
+table.playlists>tbody>tr>td:first-of-type,
+table.playlists>tbody>tr>th:first-of-type {
+    padding-right: 5px;
+}
+
+div.btn-group-square {
+    width: 100%;
+}
+
+div.btn-group-square button {
+    overflow-x: hidden;
+}
+
+div.btn-group-playlists button[data-whip-url],
+div.btn-group-playlists button[data-whip-artist-url] {
+    max-width: 3em;
+    min-width: 3em;
+}
+
+div.btn-group-playlists {
+    margin-bottom: 1.5em;
+}
+
+.bold-label {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.body-content {
+    padding: 0;
+}
+
+.screen-panel {
+    border-radius: 0;
+    height: calc(100vh - 86px);
+    overflow-y: hidden;
+}
+
+.screen-panel .panel-heading {
+    height: 30px;
+    padding: 6px;
+    overflow-x: hidden;
+    line-height: 15px;
+}
+
+.screen-panel .panel-heading .panel-title {
+    font-size: 12px;
+}
+
+.screen-panel .panel-body {
+    height: calc(100vh - 135px); /* Full height - header - footer - panel footer */
+    overflow-y: scroll;
+    margin: 0;
+}
+
+.screen-panel .panel-heading~.panel-body {
+    height: calc(100vh - 175px); /* Full height - header - footer - panel header - panel footer */
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.screen-panel .panel-body.panel-body-no-footer {
+    height: calc(100vh - 120px); /* Full height - header - footer - panel header */
+}
+
+.screen-panel .panel-footer {
+    position: absolute;
+    bottom: 45px;
+    height: 45px;
+    padding: 5px;
+    width: 100%;
+}
+
+#player .panel-footer {
+    height: 85px;
+}
+
+#player-buttons {
+    margin-bottom: 5px;
+}
+
+div.tab-content {
+    overflow-y: visible;
+}
+
+div.tab-content > div.tab-pane > div.panel > table {
+    margin-top: -2px;
+}
+
+table.table td.inner {
+    padding: 0;
+}
+
+table.table td.inner table {
+    margin: 0; 
+}
+
+table.table td.inner table,
+table.table td.inner table tr,
+table.table td.inner table tr td {
+    background-color: transparent;
+}
+
+table.table td.inner table tr td {
+    vertical-align: middle;
+    border: none;
+}
+
+table.table td.inner table tr td:first-of-type {
+    width: 1%;
+}
+
+.table-curved {
+    border-collapse: unset;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin: 10px;
+    width: calc(100% - 20px);
+    overflow: hidden;
+}
+
+.panel-curved {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin: 10px;
+    width: calc(100% - 20px);
+    padding: 10px;
+}
+
+#track img.img-responsive {
+    margin: 10px;
+    position: relative;
+    width: calc(100% - 20px);
+}
+
+#tab-current-track div.panel-body {
+    padding: 0;
+}
+
+a.paging {
+    margin: 0.2em;
+}
+
+a.disabled {
+    cursor: default;
+    color: #ddd;
+}
+
+ul.pagination {
+    margin: 0;
+    width: 100%;
+}
+
+ul.pagination li a {
+    width: 35px;
+    height: 32px;
+    color: #777;
+}
+
+ul.pagination li.center a {
+    width: calc(100% - 137px);
+}
+
+table.table-condensed tr td {
+    padding: 2px 5px;
+    line-height: 17px;
+    height: 36px;
+}
+
+table.table-condensed {
+    margin: 0;
+}

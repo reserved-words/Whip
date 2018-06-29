@@ -1,0 +1,18 @@
+﻿@model Whip.Web.Models.LastFmAuthViewModel
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">Last.FM Authorization</h4>
+</div>
+<div class="modal-body">
+    @if (Model.Failed)
+    {
+        <p class="text-danger">Authorization failed.</p>
+    }
+
+    <p>Click <a href="@Model.Url" target="_blank">here</a> to authorize with Last.FM and click below when done.</p>
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" id="authorizeLastFm">Done</button>
+</div>

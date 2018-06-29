@@ -1,0 +1,18 @@
+﻿@using Whip.Web.Models
+@model List<PlaylistViewModel>
+
+<div class="screen-panel panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">
+            Favourite Playlists
+        </div>
+    </div>
+    <div class="panel-body panel-body-no-footer">
+        <div class="btn-group-vertical block">
+            @foreach (var playlist in Model)
+            {
+                <button type="button" data-whip-play-url="@Html.DisplayFor(m => playlist.PlayUrl)" class="btn btn-default block">@Html.DisplayFor(m => playlist.Title)</button>
+            }
+        </div>
+    </div>
+</div>

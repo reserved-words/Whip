@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Whip.Common.ExtensionMethods;
@@ -12,22 +11,18 @@ namespace Whip.XmlDataAccess
 {
     public class TrackRepository : ITrackRepository
     {
-        private readonly IXmlFileService _xmlFileService;
-        private readonly IUserSettings _userSettings;
         private readonly ITrackXmlParser _trackXmlParser;
+        private readonly IXmlProvider _xmlProvider;
 
-        public TrackRepository(IUserSettings userSettings, IXmlFileService xmlFileService, ITrackXmlParser trackXmlParser)
+        public TrackRepository(ITrackXmlParser trackXmlParser, IXmlProvider xmlProvider)
         {
-            _userSettings = userSettings;
-            _xmlFileService = xmlFileService;
             _trackXmlParser = trackXmlParser;
+            _xmlProvider = xmlProvider;
         }
-
-        private string XmlFilePath => Path.Combine(_userSettings.DataDirectory, "library.xml");
 
         public Library GetLibrary()
         {
-            var xml = _xmlFileService.Get(XmlFilePath);
+            var xml = _xmlProvider.Get();
 
             if (xml == null)
             {
@@ -111,7 +106,7 @@ namespace Whip.XmlDataAccess
             var rootXml = new XElement(PropertyNames.Root);
             xml.Add(rootXml);
 
-            var dateUpdatedXml = new XElement(PropertyNames.LastUpdated, library.LastUpdated.ToString(StandardDateFormat));
+            var dateUpdatedXml = new XElement(PropertyNames.LastUpdated, library.LastUpdated.ToString(InvariantDateTimeFormat));
             rootXml.Add(dateUpdatedXml);
 
             var artistsXml = new XElement(PropertyNames.Artists);
@@ -146,7 +141,7 @@ namespace Whip.XmlDataAccess
                 artistsXml.Add(artistXml);
             }
             
-            _xmlFileService.Save(xml, XmlFilePath);
+            _xmlProvider.Save(xml);
         }
     }
 }
